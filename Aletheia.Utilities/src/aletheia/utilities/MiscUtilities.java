@@ -1,0 +1,492 @@
+/*******************************************************************************
+ * Copyright (c) 2014 Quim Testar.
+ * 
+ * This file is part of the Aletheia Proof Assistant.
+ * 
+ * The Aletheia Proof Assistant is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ * 
+ * The Aletheia Proof Assistant is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with the Aletheia Proof Assistant. If not, see
+ * <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+package aletheia.utilities;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.nio.channels.SocketChannel;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.AbstractCollection;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Scanner;
+import java.util.UUID;
+
+import aletheia.utilities.collections.CloseableIterable;
+import aletheia.utilities.collections.CloseableIterator;
+
+/**
+ * Miscellaneous utilities implemented as static methods.
+ * 
+ */
+public class MiscUtilities
+{
+
+	/**
+	 * Wrap a text with a number of columns.
+	 * 
+	 * Copied from
+	 * 
+	 * <a href=
+	 * "http://progcookbook.blogspot.com/2006/02/text-wrapping-function-for-java.html"
+	 * >http://progcookbook.blogspot.com/2006/02/text-wrapping-function-for-java
+	 * .html</a>.
+	 * 
+	 * 
+	 * @param text
+	 *            Text to be wrapped.
+	 * @param len
+	 *            Column width.
+	 * @return Wrapped text.
+	 */
+	public static String wrapText(String text, int len)
+	{
+		// return empty array for null text
+		if (text == null)
+			return null;
+
+		// return text if len is zero or less
+		if (len <= 0)
+			return text;
+
+		// return text if less than length
+		if (text.length() <= len)
+			return text;
+
+		char[] chars = text.toCharArray();
+		StringBuffer lines = new StringBuffer();
+		StringBuffer line = new StringBuffer();
+		StringBuffer word = new StringBuffer();
+
+		for (int i = 0; i < chars.length; i++)
+		{
+			word.append(chars[i]);
+
+			if (chars[i] == ' ')
+			{
+				if ((line.length() + word.length()) > len)
+				{
+					lines.append(line).append("\n");
+					line.delete(0, line.length());
+				}
+
+				line.append(word);
+				word.delete(0, word.length());
+			}
+		}
+
+		// handle any extra chars in current word
+		if (word.length() > 0)
+		{
+			if ((line.length() + word.length()) > len)
+			{
+				lines.append(line).append("\n");
+				line.delete(0, line.length());
+			}
+			line.append(word);
+		}
+
+		// handle extra line
+		if (line.length() > 0)
+		{
+			lines.append(line).append("\n");
+		}
+
+		return lines.toString();
+	}
+
+	public static String toHexString(byte[] a)
+	{
+		StringBuffer buffer = new StringBuffer();
+		boolean first = true;
+		for (byte b : a)
+		{
+			if (!first)
+				buffer.append(":");
+			else
+				first = false;
+			buffer.append(String.format("%02x", b));
+		}
+		return buffer.toString();
+	}
+
+	public static class ParseHexStringException extends RuntimeException
+	{
+
+		private static final long serialVersionUID = 6806512770857680317L;
+
+		public ParseHexStringException()
+		{
+			super("Parse error");
+		}
+
+	}
+
+	public static byte[] parseHexString(String s)
+	{
+		ByteArrayOutputStream baos = new ByteArrayOutputStream(s.length() / 3 + 10);
+		Scanner scanner = new Scanner(s);
+		try
+		{
+			scanner.useDelimiter(":");
+			while (scanner.hasNextInt(16))
+				baos.write(scanner.nextInt(16));
+			if (scanner.hasNext())
+				throw new ParseHexStringException();
+			return baos.toByteArray();
+		}
+		finally
+		{
+			scanner.close();
+		}
+	}
+
+	public static Class<?> resolvePrimitiveTypeWrapperClass(String type)
+	{
+		switch (type)
+		{
+		case "int":
+			return Integer.class;
+		case "long":
+			return Long.class;
+		case "double":
+			return Double.class;
+		case "boolean":
+			return Boolean.class;
+		case "char":
+			return Character.class;
+		case "byte":
+			return Byte.class;
+		case "short":
+			return Short.class;
+		default:
+			return null;
+		}
+	}
+
+	public static Class<?> resolvePrimitiveTypeClass(String type)
+	{
+		switch (type)
+		{
+		case "int":
+			return int.class;
+		case "long":
+			return long.class;
+		case "double":
+			return double.class;
+		case "boolean":
+			return boolean.class;
+		case "char":
+			return char.class;
+		case "byte":
+			return byte.class;
+		case "short":
+			return short.class;
+		default:
+			return null;
+		}
+	}
+
+	public static Class<?> resolvePrimitiveTypeWrapperClass(Class<?> primitiveType)
+	{
+		return resolvePrimitiveTypeWrapperClass(primitiveType.getName());
+	}
+
+	/**
+	 * Code copied from {@link AbstractCollection#toString()}
+	 */
+	public static <E> String toString(Iterable<E> iterable)
+	{
+		Iterator<E> it = iterable.iterator();
+		if (!it.hasNext())
+			return "[]";
+
+		StringBuilder sb = new StringBuilder();
+		sb.append('[');
+		for (;;)
+		{
+			E e = it.next();
+			sb.append(e == iterable ? "(this Iterable)" : e);
+			if (!it.hasNext())
+				return sb.append(']').toString();
+			sb.append(',').append(' ');
+		}
+	}
+
+	/**
+	 * Code copied from {@link AbstractMap#toString()}
+	 */
+	public static <K, V> String toString(Map<K, V> map)
+	{
+		Iterator<Entry<K, V>> i = map.entrySet().iterator();
+		if (!i.hasNext())
+			return "{}";
+
+		StringBuilder sb = new StringBuilder();
+		sb.append('{');
+		for (;;)
+		{
+			Entry<K, V> e = i.next();
+			K key = e.getKey();
+			V value = e.getValue();
+			sb.append(key == map ? "(this Map)" : key);
+			sb.append('=');
+			sb.append(value == map ? "(this Map)" : value);
+			if (!i.hasNext())
+				return sb.append('}').toString();
+			sb.append(',').append(' ');
+		}
+	}
+
+	private static boolean bitAt(long x, int i)
+	{
+		return ((x >> (Long.SIZE - i - 1)) & 0x01l) != 0;
+	}
+
+	public static boolean bitAt(UUID uuid, int i)
+	{
+		if (i < 0)
+			throw new IndexOutOfBoundsException();
+		if (i > uuidBitLength)
+			throw new IndexOutOfBoundsException();
+		if (i < Long.SIZE)
+			return bitAt(uuid.getMostSignificantBits(), i);
+		else
+			return bitAt(uuid.getLeastSignificantBits(), i - Long.SIZE);
+	}
+
+	public static int firstDifferentBit(UUID uuid1, UUID uuid2)
+	{
+		if (uuid1.equals(uuid2))
+			throw new IllegalArgumentException();
+		for (int i = 0;; i++)
+			if (bitAt(uuid1, i) != bitAt(uuid2, i))
+				return i;
+	}
+
+	public static int closestUUIDIndex(UUID uuid, List<UUID> list)
+	{
+		class Distance implements Comparable<Distance>
+		{
+			private final long mostSigBits;
+			private final long leastSigBits;
+
+			private Distance(UUID uuid1, UUID uuid2)
+			{
+				long l = uuid1.getLeastSignificantBits() - uuid2.getLeastSignificantBits();
+				long m = uuid1.getMostSignificantBits() - uuid2.getMostSignificantBits()
+						- (uuid2.getLeastSignificantBits() > uuid1.getLeastSignificantBits() ? 1 : 0);
+				if (m < 0)
+				{
+					m = ~m;
+					l = (~l) + 1;
+					if (l == 0)
+						m++;
+				}
+				mostSigBits = m;
+				leastSigBits = l;
+			}
+
+			@Override
+			public int compareTo(Distance o)
+			{
+				int c = 0;
+				c = Long.compare(mostSigBits, o.mostSigBits);
+				if (c != 0)
+					return c;
+				c = Long.compare(leastSigBits, o.leastSigBits);
+				if (c != 0)
+					return c;
+				return c;
+			}
+		}
+
+		Distance minDistance = null;
+		int minIndex = -1;
+		int i = 0;
+		for (UUID uuid_ : list)
+		{
+			Distance d = new Distance(uuid, uuid_);
+			if (minDistance == null || d.compareTo(minDistance) < 0)
+			{
+				minDistance = d;
+				minIndex = i;
+			}
+			i++;
+		}
+		return minIndex;
+	}
+
+	public static int uuidBitLength = 2 * Long.SIZE;
+
+	public static String byteSizeToString(int size)
+	{
+		NumberFormat nf = new DecimalFormat("###0.##");
+		String[] units = new String[]
+		{ "B", "KiB", "MiB", "GiB" };
+		float value = size;
+		int m = (int) (Math.log(value) / Math.log(1 << 10));
+		if (m >= units.length)
+			m = units.length - 1;
+		value /= 1 << (10 * m);
+		return nf.format(value) + " " + units[m];
+	}
+
+	private static <E> E nextFromIterator(Iterator<E> iterator)
+	{
+		if (iterator.hasNext())
+			return iterator.next();
+		else
+			return null;
+	}
+
+	public static <E> E firstFromIterable(Iterable<E> iterable)
+	{
+		Iterator<E> iterator = iterable.iterator();
+		return nextFromIterator(iterator);
+	}
+
+	public static <E> E firstFromCloseableIterable(CloseableIterable<E> iterable)
+	{
+		CloseableIterator<E> iterator = iterable.iterator();
+		try
+		{
+			return nextFromIterator(iterator);
+		}
+		finally
+		{
+			iterator.close();
+		}
+	}
+
+	public static Object[] arrayAppend(Object... elements)
+	{
+		return arrayAppend(new Object[0], elements);
+	}
+
+	@SafeVarargs
+	public static <T> T[] arrayAppend(T[] array, T... elements)
+	{
+		Array.newInstance(array.getClass().getComponentType(), array.length + elements.length);
+		T[] result = Arrays.copyOf(array, array.length + elements.length);
+		for (int i = 0; i < elements.length; i++)
+			result[array.length + i] = elements[i];
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <C> Constructor<C> matchingConstructor(Class<C> clazz, Object... initargs)
+	{
+		for (Constructor<?> constructor : clazz.getDeclaredConstructors())
+		{
+			if (constructor.getParameterTypes().length == initargs.length)
+			{
+				boolean match = true;
+				for (int i = 0; i < initargs.length; i++)
+				{
+					Class<?> parameterClass = constructor.getParameterTypes()[i];
+					if (parameterClass.isPrimitive())
+					{
+						Class<?> primitiveTypeWrapperClass = MiscUtilities.resolvePrimitiveTypeWrapperClass(parameterClass);
+						if (!primitiveTypeWrapperClass.isInstance(initargs[i]))
+						{
+							match = false;
+							break;
+						}
+					}
+					else
+					{
+						if (initargs[i] != null && !parameterClass.isInstance(initargs[i]))
+						{
+							match = false;
+							break;
+						}
+					}
+				}
+				if (match)
+					return (Constructor<C>) constructor;
+			}
+		}
+		return null;
+	}
+
+	public static class NoConstructorException extends Exception
+	{
+
+		private static final long serialVersionUID = 8394614511945086194L;
+
+	}
+
+	public static <C> C construct(Class<C> clazz, Object... initArgs) throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, NoConstructorException
+	{
+		Constructor<C> constructor = matchingConstructor(clazz, initArgs);
+		if (constructor == null)
+			throw new NoConstructorException();
+		constructor.setAccessible(true);
+		return constructor.newInstance(initArgs);
+	}
+
+	public static UUID complementUuid(UUID uuid)
+	{
+		return new UUID(~uuid.getMostSignificantBits(), ~uuid.getLeastSignificantBits());
+	}
+
+	public static List<StackTraceElement> stackTraceList(int depth)
+	{
+		List<StackTraceElement> list = Arrays.asList(Thread.currentThread().getStackTrace());
+		return list.subList(depth + 2, list.size());
+	}
+
+	public static StackTraceElement stackTraceElement(int depth)
+	{
+		return stackTraceList(depth + 1).get(0);
+	}
+
+	public static <E> E[] iterableToArray(Iterable<? extends E> iterable, E[] a)
+	{
+		ArrayList<E> arrayList = new ArrayList<E>();
+		for (E e : iterable)
+			arrayList.add(e);
+		return arrayList.toArray(a);
+	}
+
+	public static Object[] iterableToArray(Iterable<?> iterable)
+	{
+		return iterableToArray(iterable, new Object[0]);
+	}
+
+	public static InetAddress socketChannelRemoteInetAddress(SocketChannel socketChannel) throws IOException
+	{
+		return ((InetSocketAddress) socketChannel.getRemoteAddress()).getAddress();
+	}
+
+}
