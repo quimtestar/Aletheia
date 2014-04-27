@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project default="javadoc">
-    <target name="javadoc">
-        <javadoc access="public" author="true" classpath="../Aletheia.Utilities/bin" destdir="doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" sourcepath="src" splitindex="true" use="true" version="true"  encoding="UTF-8" docencoding="UTF-8" charset="UTF-8">
+	<import file="../Aletheia.Base/javadoc_properties.xml"/>
+    <target name="javadoc-subprojects">
+        <ant antfile="javadoc.xml" dir="${Aletheia.Utilities.location}" inheritAll="false" target="javadoc"/>
+    </target>
+    <target name="javadoc" depends="javadoc-subprojects">
+        <javadoc 
+        	access="${access}" 
+        	author="${author}" 
+        	classpath="${classpath}" 
+        	destdir="${destdir}" 
+        	nodeprecated="${nodeprecated}" 
+        	nodeprecatedlist="${nodeprecatedlist}" 
+        	noindex="${noindex}" 
+        	nonavbar="${nonavbar}" 
+        	notree="${notree}"  
+        	sourcepath="${sourcepath}" 
+        	splitindex="${splitindex}" 
+        	use="${use}" 
+        	version="${version}" 
+        	encoding="${encoding}" 
+        	docencoding="${docencoding}" 
+        	charset="${charset}"
+        >
             <link href="http://docs.oracle.com/javase/7/docs/api/"/>
-            <link href="../../Aletheia.Utilities/doc/"/>
-    	</javadoc>
+            <link href="../${Aletheia.Utilities.location}/doc/"/>
+        </javadoc>
     </target>
 </project>
