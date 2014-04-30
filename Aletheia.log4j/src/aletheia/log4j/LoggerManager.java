@@ -30,6 +30,15 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+/**
+ * Statically configures the Log4J library with a properties file named
+ * "aletheia.log4j.properties" on the working directory.
+ * 
+ * @see <a
+ *      href="http://logging.apache.org/log4j/1.2/manual.html">http://logging.apache.org/log4j/1.2/manual.html</a>
+ * 
+ * @author Quim Testar
+ */
 public class LoggerManager
 {
 	private final static String propertiesFileName = "aletheia/log4j/configurator.properties";
@@ -90,6 +99,11 @@ public class LoggerManager
 		}
 	}
 
+	/**
+	 * Creates a new {@link Logger} object named after the class from which this
+	 * method is called. Meant to be called statically once for each class where
+	 * logging is needed.
+	 */
 	public static Logger logger()
 	{
 		String className = Thread.currentThread().getStackTrace()[2].getClassName();
@@ -98,6 +112,15 @@ public class LoggerManager
 
 	private final static Logger logger = logger();
 
+	/**
+	 * Configures an {@link UncaughtExceptionHandler} that logs a fatal error
+	 * with the exception and then prints the stack trace to the standard error.
+	 * 
+	 * Meant to be used once at the application level.
+	 * 
+	 * @see Logger#fatal(Object, Throwable)
+	 * @see Exception#printStackTrace(java.io.PrintStream)
+	 */
 	public static void setUncaughtExceptionHandler()
 	{
 		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler()
