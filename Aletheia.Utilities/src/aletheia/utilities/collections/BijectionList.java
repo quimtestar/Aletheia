@@ -30,6 +30,8 @@ import java.util.ListIterator;
  *            The input type.
  * @param <O>
  *            The output type.
+ * 
+ * @author Quim Testar
  */
 public class BijectionList<I, O> extends BijectionCollection<I, O> implements List<O>
 {

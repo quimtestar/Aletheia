@@ -19,6 +19,11 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * An {@link AdaptedCollection} for {@link CloseableCollection}s.
+ * 
+ * @author Quim Testar
+ */
 public class AdaptedCloseableCollection<E> extends AdaptedCollection<E> implements CloseableCollection<E>
 {
 

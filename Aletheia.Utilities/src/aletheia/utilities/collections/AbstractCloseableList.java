@@ -20,6 +20,15 @@
 package aletheia.utilities.collections;
 
 import java.util.AbstractList;
+import java.util.Iterator;
+import java.util.List;
+
+/**
+ * An abstract implementation of a {@link List} whose {@link Iterator}s are
+ * {@link CloseableIterator}s.
+ * 
+ * @author Quim Testar
+ */
 
 public abstract class AbstractCloseableList<E> extends AbstractList<E> implements CloseableList<E>
 {

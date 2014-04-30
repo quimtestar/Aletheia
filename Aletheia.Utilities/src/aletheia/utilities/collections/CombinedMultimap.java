@@ -32,6 +32,8 @@ import java.util.Set;
  *            The keys type.
  * @param <V>
  *            The values type.
+ * 
+ * @author Quim Testar
  */
 public class CombinedMultimap<K, V> extends CombinedMap<K, Set<V>>
 {

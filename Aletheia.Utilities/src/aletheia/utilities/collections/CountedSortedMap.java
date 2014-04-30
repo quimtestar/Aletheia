@@ -23,12 +23,34 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.SortedMap;
 
+/**
+ * A {@link SortedMap} whose entries can be addressed by its position according
+ * to the Map's order.
+ * 
+ * @author Quim Testar
+ */
 public interface CountedSortedMap<K, V> extends SortedMap<K, V>
 {
+	/**
+	 * Return the map's entry corresponding to a given ordinal.
+	 * 
+	 * @param ordinal
+	 *            The ordinal position.
+	 */
 	Entry<K, V> get(int ordinal);
 
+	/**
+	 * Remove and return the map's entry corresponding to a given ordinal.
+	 * 
+	 * @param ordinal
+	 *            The ordinal position.
+	 */
 	Entry<K, V> remove(int ordinal);
 
+	/**
+	 * Returns the ordinal corresponding to a given key or the smallest greater
+	 * element if the key is not present.
+	 */
 	int ordinalOfKey(Object o);
 
 	@Override

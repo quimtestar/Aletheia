@@ -20,11 +20,20 @@
 package aletheia.utilities.collections;
 
 import java.util.AbstractCollection;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import aletheia.utilities.MiscUtilities;
+
+/**
+ * An implementation of a {@link Collection} that filters out the elements of a
+ * given {@link Collection}.
+ * 
+ * @see Filter
+ * 
+ * @author Quim Testar
+ */
 public class FilteredCollection<E> extends AbstractCollection<E>
 {
 	private final Filter<E> filter;
@@ -135,24 +144,16 @@ public class FilteredCollection<E> extends AbstractCollection<E>
 		return !iterator().hasNext();
 	}
 
-	protected ArrayList<E> toArrayList()
-	{
-		ArrayList<E> list = new ArrayList<E>();
-		for (E e : this)
-			list.add(e);
-		return list;
-	}
-
 	@Override
 	public Object[] toArray()
 	{
-		return toArrayList().toArray();
+		return MiscUtilities.iterableToArray(this);
 	}
 
 	@Override
 	public <T> T[] toArray(T[] a)
 	{
-		return toArrayList().toArray(a);
+		return MiscUtilities.iterableToArray(this, a);
 	}
 
 }

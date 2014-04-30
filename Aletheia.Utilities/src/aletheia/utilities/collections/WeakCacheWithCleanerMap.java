@@ -23,14 +23,9 @@ import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 
 /**
- * A cache map that uses {@linkplain WeakReference weak references}.
+ * A {@link CacheWithCleanerMap} that uses {@link WeakReference}s.
  * 
- * @param <K>
- *            The map keys' type.
- * @param <V>
- *            The map value's type.
- * 
- * @see WeakReference
+ * @author Quim Testar
  */
 public class WeakCacheWithCleanerMap<K, V> extends AbstractCacheWithCleanerMap<K, V, WeakReference<V>>
 {

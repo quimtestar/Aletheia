@@ -28,6 +28,8 @@ import java.util.Set;
  *            The input type.
  * @param <O>
  *            The output type.
+ * 
+ * @author Quim Testar
  */
 public class BijectionSet<I, O> extends BijectionCollection<I, O> implements Set<O>
 {

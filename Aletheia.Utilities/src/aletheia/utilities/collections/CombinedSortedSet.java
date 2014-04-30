@@ -29,6 +29,8 @@ import java.util.SortedSet;
  * 
  * @param <E>
  *            The elements' type.
+ * 
+ * @author Quim Testar
  */
 public class CombinedSortedSet<E> extends CombinedSetSortedIterator<E> implements SortedSet<E>
 {

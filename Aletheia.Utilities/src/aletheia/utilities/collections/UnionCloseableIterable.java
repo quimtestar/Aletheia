@@ -19,6 +19,12 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * A {@link UnionIterable} of {@link CloseableIterable}s that is a
+ * {@link CloseableIterable}.
+ * 
+ * @author Quim Testar
+ */
 public class UnionCloseableIterable<E> extends UnionIterable<E> implements CloseableIterable<E>
 {
 

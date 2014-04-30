@@ -19,6 +19,12 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * A {@link UnionCollection} of {@link CloseableCollection}s that is a
+ * {@link CloseableCollection}.
+ * 
+ * @author Quim Testar
+ */
 public class UnionCloseableCollection<E> extends UnionCollection<E> implements CloseableCollection<E>
 {
 

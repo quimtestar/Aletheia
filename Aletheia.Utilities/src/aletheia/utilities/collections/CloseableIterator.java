@@ -27,6 +27,8 @@ import java.util.Iterator;
  * 
  * @param <E>
  *            The elements' type.
+ * 
+ * @author Quim Testar
  */
 public interface CloseableIterator<E> extends Iterator<E>
 {

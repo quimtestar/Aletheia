@@ -22,6 +22,13 @@ package aletheia.utilities.io;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * An {@link OutputStream} that will bypass the written data through the method
+ * {@link #segment(byte[], int, int)} every time a buffer of the given size is
+ * filled, which must be implemented by a subclass.
+ * 
+ * @author Quim Testar
+ */
 public abstract class SegmentedOutputStream extends OutputStream
 {
 	private final int segmentSize;
@@ -36,6 +43,16 @@ public abstract class SegmentedOutputStream extends OutputStream
 		this.pos = 0;
 	}
 
+	/**
+	 * Process a segment of written data.
+	 * 
+	 * @param b
+	 *            byte array containing the data.
+	 * @param off
+	 *            offset where actually the written data is found on b
+	 * @param len
+	 *            length of the written data.
+	 */
 	protected abstract void segment(byte[] b, int off, int len) throws IOException;
 
 	@Override

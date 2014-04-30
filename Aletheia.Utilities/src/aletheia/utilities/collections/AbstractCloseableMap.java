@@ -19,9 +19,19 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
-import java.lang.reflect.Array;
 import java.util.AbstractMap;
 import java.util.Collection;
+import java.util.Map;
+
+import aletheia.utilities.MiscUtilities;
+
+/**
+ * An abstract implementation of a {@link Map} whose {@link Map#entrySet()},
+ * {@link Map#keySet()} and {@link Map#values()} are {@link CloseableCollection}
+ * s
+ * 
+ * @author Quim Testar
+ */
 
 public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> implements CloseableMap<K, V>
 {
@@ -90,33 +100,13 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 			@Override
 			public Object[] toArray()
 			{
-				return toArray(new Object[0]);
+				return MiscUtilities.iterableToArray(this);
 			}
 
-			@SuppressWarnings("unchecked")
 			@Override
 			public <T> T[] toArray(T[] a)
 			{
-				int n = size();
-				if (a.length < n)
-					a = (T[]) Array.newInstance(a.getClass().getComponentType(), n);
-				CloseableIterator<K> iterator = iterator();
-				try
-				{
-					int i = 0;
-					while (iterator.hasNext())
-					{
-						a[i] = (T) iterator.next();
-						i++;
-					}
-					for (; i < n; i++)
-						a[i] = null;
-				}
-				finally
-				{
-					iterator.close();
-				}
-				return a;
+				return MiscUtilities.iterableToArray(this, a);
 			}
 
 			@Override
@@ -250,33 +240,13 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 			@Override
 			public Object[] toArray()
 			{
-				return toArray(new Object[0]);
+				return MiscUtilities.iterableToArray(this);
 			}
 
-			@SuppressWarnings("unchecked")
 			@Override
 			public <T> T[] toArray(T[] a)
 			{
-				int n = size();
-				if (a.length < n)
-					a = (T[]) Array.newInstance(a.getClass().getComponentType(), n);
-				CloseableIterator<V> iterator = iterator();
-				try
-				{
-					int i = 0;
-					while (iterator.hasNext())
-					{
-						a[i] = (T) iterator.next();
-						i++;
-					}
-					for (; i < n; i++)
-						a[i] = null;
-				}
-				finally
-				{
-					iterator.close();
-				}
-				return a;
+				return MiscUtilities.iterableToArray(this, a);
 			}
 
 			@Override

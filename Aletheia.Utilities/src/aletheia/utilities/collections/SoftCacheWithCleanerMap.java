@@ -23,14 +23,9 @@ import java.lang.ref.ReferenceQueue;
 import java.lang.ref.SoftReference;
 
 /**
- * A cache map that uses {@linkplain SoftReference soft references}.
+ * A {@link CacheWithCleanerMap} that uses {@link SoftReference}s.
  * 
- * @param <K>
- *            The map keys' type.
- * @param <V>
- *            The map value's type.
- * 
- * @see SoftReference
+ * @author Quim Testar
  */
 public class SoftCacheWithCleanerMap<K, V> extends AbstractCacheWithCleanerMap<K, V, SoftReference<V>>
 {

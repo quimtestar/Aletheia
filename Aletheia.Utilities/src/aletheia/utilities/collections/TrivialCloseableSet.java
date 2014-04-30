@@ -23,6 +23,12 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
+/**
+ * A {@link CloseableSet} on the top of a regular {@link Set} and whose
+ * {@link CloseableIterator#close()} method does nothing.
+ * 
+ * @author Quim Testar
+ */
 public class TrivialCloseableSet<E> extends AbstractCloseableSet<E>
 {
 	private final Set<E> inner;

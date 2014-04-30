@@ -19,6 +19,11 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * A view of a {@link CountedIterator} defined by a {@link Bijection}.
+ * 
+ * @author Quim Testar
+ */
 public class BijectionCountedIterator<I, O> extends BijectionIterator<I, O> implements CountedIterator<O>
 {
 	public BijectionCountedIterator(Bijection<I, O> bijection, CountedIterator<I> inner)

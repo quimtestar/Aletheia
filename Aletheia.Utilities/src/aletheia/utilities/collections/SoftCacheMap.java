@@ -21,6 +21,11 @@ package aletheia.utilities.collections;
 
 import java.lang.ref.SoftReference;
 
+/**
+ * A {@link CacheMap} that uses {@link SoftReference}s.
+ * 
+ * @author Quim Testar
+ */
 public class SoftCacheMap<K, V> extends AbstractCacheMap<K, V, SoftReference<V>>
 {
 

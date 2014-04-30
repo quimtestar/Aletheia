@@ -28,6 +28,8 @@ import java.util.Iterator;
  *            The input type.
  * @param <O>
  *            The output type.
+ * 
+ * @author Quim Testar
  */
 public class BijectionIterable<I, O> implements Iterable<O>
 {

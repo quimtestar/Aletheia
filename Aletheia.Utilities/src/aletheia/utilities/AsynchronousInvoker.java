@@ -26,22 +26,58 @@ import org.apache.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 
+/**
+ * Singleton class that keeps a queue of tasks to be executed sequentially on
+ * several threads.
+ * 
+ * Designed basically to avoid dead-lock problems when the result of a
+ * potentially locking task is not needed to keep going.
+ * 
+ * The tasks to be executed are objects implementing the {@link Invokable}
+ * interface.
+ * 
+ * The amount of {@link #maxRunningThreads} tasks will be executed on one each
+ * parallel thread (hard-coded, non-configurable). Those threads will be kept
+ * alive as long there are pending tasks to execute.
+ * 
+ * @author Quim Testar
+ * 
+ */
 public class AsynchronousInvoker
 {
 	private final static Logger logger = LoggerManager.logger();
 
+	/**
+	 * Number of parallel tasks that might be executed in parallel.
+	 */
 	private final static int maxRunningThreads = 7;
 
+	/**
+	 * The singleton instance.
+	 */
 	public static AsynchronousInvoker instance = new AsynchronousInvoker();
 
+	/**
+	 * Tasks to be executed must implement this interface.
+	 */
 	public interface Invokable
 	{
 		public void invoke();
 	}
 
+	/**
+	 * The queue.
+	 */
 	private final Queue<Invokable> queue;
+
+	/**
+	 * Maximum size the queue have reached so far. Only for debugging purposes.
+	 */
 	private int maxQueueSize;
 
+	/**
+	 * Task-executing {@link Thread} class.
+	 */
 	private class MyThread extends Thread
 	{
 		public MyThread()
@@ -66,6 +102,9 @@ public class AsynchronousInvoker
 
 	}
 
+	/**
+	 * Number of running threads.
+	 */
 	private int runningThreads;
 
 	private AsynchronousInvoker()
@@ -81,6 +120,9 @@ public class AsynchronousInvoker
 			maxQueueSize = queue.size();
 	}
 
+	/**
+	 * Adds a new task to the queue.
+	 */
 	public synchronized void invoke(Invokable invokable)
 	{
 		queue.add(invokable);
@@ -95,6 +137,9 @@ public class AsynchronousInvoker
 		logger.trace("Queue size (+): " + queue.size() + "  (max: " + maxQueueSize + ")");
 	}
 
+	/**
+	 * Polls a task from the queue.
+	 */
 	private synchronized Invokable poll()
 	{
 		notifyAll();
@@ -108,6 +153,13 @@ public class AsynchronousInvoker
 			return queue.poll();
 	}
 
+	/**
+	 * Puts the invoker in a wait state until the number of pending tasks is
+	 * lower than <b>n</b>.
+	 * 
+	 * @param n
+	 *            Minimum size that will keep the method waiting.
+	 */
 	public synchronized void waitForQueueSizeLesserThan(int n) throws InterruptedException
 	{
 		if (n <= 0)

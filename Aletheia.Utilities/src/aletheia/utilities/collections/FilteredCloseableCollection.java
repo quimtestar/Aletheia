@@ -19,8 +19,11 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
-import java.util.ArrayList;
-
+/**
+ * A {@link FilteredCollection} that is also a {@link CloseableCollection}.
+ * 
+ * @author Quim Testar
+ */
 public class FilteredCloseableCollection<E> extends FilteredCollection<E> implements CloseableCollection<E>
 {
 	public FilteredCloseableCollection(Filter<E> filter, CloseableCollection<E> inner)
@@ -73,23 +76,6 @@ public class FilteredCloseableCollection<E> extends FilteredCollection<E> implem
 		{
 			iterator.close();
 		}
-	}
-
-	@Override
-	protected ArrayList<E> toArrayList()
-	{
-		ArrayList<E> list = new ArrayList<E>();
-		CloseableIterator<E> iterator = iterator();
-		try
-		{
-			while (iterator.hasNext())
-				list.add(iterator.next());
-		}
-		finally
-		{
-			iterator.close();
-		}
-		return list;
 	}
 
 }

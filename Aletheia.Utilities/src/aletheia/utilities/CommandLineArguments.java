@@ -25,6 +25,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Parses the value of an args[] parameter of a main method to a list of
+ * parameters and a set of switches.
+ * 
+ * @author Quim Testar
+ */
 public class CommandLineArguments
 {
 	public abstract class CommandLineArgumentsException extends Exception

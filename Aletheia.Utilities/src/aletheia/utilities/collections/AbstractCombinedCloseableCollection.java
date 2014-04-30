@@ -19,6 +19,11 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * An {@link AbstractCombinedCollection} for {@link CloseableCollection}s.
+ * 
+ * @author Quim Testar
+ */
 public abstract class AbstractCombinedCloseableCollection<E> extends AbstractCombinedCollection<E> implements CloseableCollection<E>
 {
 	private static final long serialVersionUID = -6251719920758330387L;

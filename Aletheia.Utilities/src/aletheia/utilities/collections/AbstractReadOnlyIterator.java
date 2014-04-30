@@ -28,6 +28,8 @@ import java.util.Iterator;
  * 
  * @param <E>
  *            The elements' type.
+ * 
+ * @author Quim Testar
  */
 public abstract class AbstractReadOnlyIterator<E> implements Iterator<E>
 {

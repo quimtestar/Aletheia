@@ -22,11 +22,13 @@ package aletheia.utilities.collections;
 import java.util.Iterator;
 
 /**
- * Gives a read-only view of a iterable as an iterable with a type parameter
- * that is a superclass of the original's.
+ * Gives a read-only view of an {@link Iterable} as an {@link Iterable} with a
+ * type parameter that is a superclass of the original's.
  * 
  * @param <E>
- *            The type of the resulting iterable view.
+ *            The type of the resulting {@link Iterable} view.
+ * 
+ * @author Quim Testar
  */
 public class AdaptedIterable<E> implements Iterable<E>
 {

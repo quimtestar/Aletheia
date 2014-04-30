@@ -22,6 +22,12 @@ package aletheia.utilities.collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * An {@link Iterable} on the top of another {@link Iterable} skipping the
+ * consecutive duplicates
+ * 
+ * @author Quim Testar
+ */
 public class UniqueIterable<E> implements Iterable<E>
 {
 	private final Iterable<E> inner;

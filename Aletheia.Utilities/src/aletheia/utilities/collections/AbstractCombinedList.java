@@ -24,13 +24,15 @@ import java.util.List;
 import java.util.ListIterator;
 
 /**
- * Abstract implementation of a combined list. Essentially the same
+ * Abstract implementation of a combined {@link List}. Essentially the same
  * implementation as {@link AbstractCombinedCollection} adding the specific
  * method for lists. The management of the back list is kept abstract.
  * 
  * @param <E>
  * 
  * @see AbstractCombinedCollection
+ * 
+ * @author Quim Testar
  */
 public abstract class AbstractCombinedList<E> extends AbstractCombinedCollection<E> implements List<E>
 {

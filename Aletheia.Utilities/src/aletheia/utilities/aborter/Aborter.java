@@ -19,8 +19,20 @@
  ******************************************************************************/
 package aletheia.utilities.aborter;
 
+/**
+ * Abort processes with a polling mechanism.
+ * 
+ * The abortable process should receive an instance of an object implementing
+ * this interface and periodically call the {@link #checkAbort()} method, which
+ * will throw an {@link AbortException} if the process needs to be aborted.
+ * 
+ * @author Quim Testar
+ */
 public interface Aborter
 {
+	/**
+	 * Thrown when the process is to be aborted.
+	 */
 	public class AbortException extends Exception
 	{
 		private static final long serialVersionUID = 8886504954466363575L;
@@ -47,6 +59,9 @@ public interface Aborter
 
 	}
 
+	/**
+	 * An aborter that never aborts.
+	 */
 	public static Aborter nullAborter = new Aborter()
 	{
 
@@ -57,6 +72,12 @@ public interface Aborter
 
 	};
 
+	/**
+	 * Check if the process must be aborted.
+	 * 
+	 * @throws AbortException
+	 *             The process must be aborted.
+	 */
 	public void checkAbort() throws AbortException;
 
 }

@@ -22,6 +22,16 @@ package aletheia.utilities.collections;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Abstract implementation of a {@link List} that keeps every read-only method
+ * unimplemented and throws an {@link UnsupportedOperationException} on every
+ * altering method.
+ * 
+ * @param <E>
+ *            The elements' type.
+ * 
+ * @author Quim Testar
+ */
 public abstract class AbstractReadOnlyList<E> extends AbstractReadOnlyCollection<E> implements List<E>
 {
 

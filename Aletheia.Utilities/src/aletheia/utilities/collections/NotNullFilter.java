@@ -19,6 +19,11 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * A {@link Filter} that filters out the null values.
+ * 
+ * @author Quim Testar
+ */
 public class NotNullFilter<E> implements Filter<E>
 {
 

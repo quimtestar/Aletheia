@@ -29,6 +29,14 @@ import java.util.SortedSet;
 import aletheia.utilities.NaturalComparator;
 import aletheia.utilities.SuperComparator;
 
+/**
+ * A {@link SortedSet} with a single entry.
+ * 
+ * @param <E>
+ *            The elements type.
+ * 
+ * @author Quim Testar
+ */
 public class SingletonSortedSet<E> implements SortedSet<E>
 {
 	private final E element;

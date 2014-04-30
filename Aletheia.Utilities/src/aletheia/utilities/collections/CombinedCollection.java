@@ -23,11 +23,17 @@ import java.io.Serializable;
 import java.util.Collection;
 
 /**
- * A combined collection of any other two collections. This class is read-only,
- * to alter the collection we need to alter their front and back components.
+ * A combined {@link Collection} consists of two {@link Collection}s: the front
+ * {@link Collection} and the back {@link Collection}. The resulting
+ * {@link Collection} has both the front's elements and the back's elements.
+ * When iterating across the elements of this {@link Collection} we first
+ * iterate across the front {@link Collection} and the across the back
+ * {@link Collection}.
  * 
  * @param <E>
  *            The elements' type.
+ * 
+ * @author Quim Testar
  */
 public class CombinedCollection<E> extends AbstractCombinedCollection<E> implements Serializable
 {

@@ -21,6 +21,11 @@ package aletheia.utilities.collections;
 
 import java.util.Map;
 
+/**
+ * A read-only view of a {@link CloseableMap}.
+ * 
+ * @author Quim Testar
+ */
 public class UnmodifiableCloseableMap<K, V> implements CloseableMap<K, V>
 {
 	private final CloseableMap<K, V> inner;

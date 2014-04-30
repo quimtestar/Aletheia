@@ -22,12 +22,14 @@ package aletheia.utilities.collections;
 import java.util.ListIterator;
 
 /**
- * A view of a list iterator defined by a {@link Bijection}
+ * A view of a {@link ListIterator} defined by a {@link Bijection}.
  * 
  * @param <I>
  *            The input type.
  * @param <O>
  *            The output type.
+ * 
+ * @author Quim Testar
  */
 public class BijectionListIterator<I, O> extends BijectionIterator<I, O> implements ListIterator<O>
 {

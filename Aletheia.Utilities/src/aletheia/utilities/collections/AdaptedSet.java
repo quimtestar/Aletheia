@@ -22,11 +22,13 @@ package aletheia.utilities.collections;
 import java.util.Set;
 
 /**
- * Gives a read-only view of a set as a set with a type parameter that is a
- * superclass of the original's.
+ * Gives a read-only view of a {@link Set} as a {@link Set} with a type
+ * parameter that is a superclass of the original's.
  * 
  * @param <E>
- *            The type of the resulting collection view.
+ *            The type of the resulting {@link Set} view.
+ * 
+ * @author Quim Testar
  */
 public class AdaptedSet<E> extends AdaptedCollection<E> implements Set<E>
 {

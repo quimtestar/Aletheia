@@ -28,6 +28,8 @@ import java.util.Collection;
  * 
  * @param <E>
  *            The elements' type.
+ * 
+ * @author Quim Testar
  */
 public abstract class AbstractReadOnlyCollection<E> implements Collection<E>
 {

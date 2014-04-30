@@ -19,6 +19,11 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * A read-only view of a {@link CloseableIterator}.
+ * 
+ * @author Quim Testar
+ */
 public class UnmodifiableCloseableIterator<E> implements CloseableIterator<E>
 {
 	private final CloseableIterator<E> inner;

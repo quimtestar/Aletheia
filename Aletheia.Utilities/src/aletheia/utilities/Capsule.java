@@ -19,6 +19,14 @@
  ******************************************************************************/
 package aletheia.utilities;
 
+/**
+ * Generic embedding class.
+ * 
+ * @param <T>
+ *            embedded type.
+ * 
+ * @author Quim Testar
+ */
 public class Capsule<T>
 {
 	private final T object;

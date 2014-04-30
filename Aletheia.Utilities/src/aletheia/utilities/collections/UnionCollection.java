@@ -19,9 +19,10 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+
+import aletheia.utilities.MiscUtilities;
 
 /**
  * A collection that is the result of the union operation on a collection of
@@ -30,6 +31,8 @@ import java.util.Iterator;
  * 
  * @param <E>
  *            The elements' type.
+ * 
+ * @author Quim Testar
  */
 public class UnionCollection<E> extends AbstractReadOnlyCollection<E>
 {
@@ -109,17 +112,13 @@ public class UnionCollection<E> extends AbstractReadOnlyCollection<E>
 	@Override
 	public Object[] toArray()
 	{
-		return toArray(new Object[0]);
+		return MiscUtilities.iterableToArray(this);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T[] toArray(T[] a)
 	{
-		ArrayList<T> list = new ArrayList<T>();
-		for (E e : this)
-			list.add((T) e);
-		return list.toArray(a);
+		return MiscUtilities.iterableToArray(this, a);
 	}
 
 }

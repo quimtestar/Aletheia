@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * A view of a map defined by a bijection between the values.
+ * A view of a {@link Map} defined by a {@link Bijection} between the values.
  * 
  * @param <K>
  *            The keys type.
@@ -33,6 +33,8 @@ import java.util.Set;
  *            The input values type.
  * @param <O>
  *            The output values type.
+ * 
+ * @author Quim Testar
  */
 public class BijectionMap<K, I, O> extends AbstractMap<K, O>
 {

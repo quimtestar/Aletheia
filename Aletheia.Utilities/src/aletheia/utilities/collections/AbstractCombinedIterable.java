@@ -20,9 +20,27 @@
 package aletheia.utilities.collections;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * Abstract implementation of a combined {@link Iterable}. A combined
+ * {@link Iterable} consists of two {@link Iterable}s: the front
+ * {@link Iterable} and the back {@link Iterable}. The resulting
+ * {@link Iterable} has both the front's elements and the back's elements. When
+ * iterating across the elements of this {@link Iterable} we first iterate
+ * across the front {@link Iterable} and then the across the back
+ * {@link Iterable}. The management of the back {@link Iterable} is kept
+ * abstract.
+ * 
+ * @param <E>
+ *            The elements' type.
+ * 
+ * @see Collection
+ * 
+ * @author Quim Testar
+ */
 public abstract class AbstractCombinedIterable<E> implements Serializable, Iterable<E>
 {
 	private static final long serialVersionUID = -3737647852678501284L;

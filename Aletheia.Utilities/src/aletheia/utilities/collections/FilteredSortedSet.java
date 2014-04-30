@@ -23,6 +23,14 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.SortedSet;
 
+/**
+ * An implementation of a {@link SortedSet} that filters out the elements of a
+ * given {@link SortedSet}.
+ * 
+ * @see Filter
+ * 
+ * @author Quim Testar
+ */
 public class FilteredSortedSet<E> extends FilteredSet<E> implements SortedSet<E>
 {
 

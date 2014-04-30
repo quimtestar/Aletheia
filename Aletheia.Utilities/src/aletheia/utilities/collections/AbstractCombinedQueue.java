@@ -21,6 +21,12 @@ package aletheia.utilities.collections;
 
 import java.util.Queue;
 
+/**
+ * Abstract implementation of a combined {@link Queue}. When polling, the front
+ * {@link Queue} elements are returned first.
+ * 
+ * @author Quim Testar
+ */
 public abstract class AbstractCombinedQueue<E> extends AbstractCombinedCollection<E> implements Queue<E>
 {
 

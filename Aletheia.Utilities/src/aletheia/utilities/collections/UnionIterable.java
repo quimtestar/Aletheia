@@ -22,6 +22,16 @@ package aletheia.utilities.collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * An {@link Iterable} that is the result of the union operation on a
+ * {@link Iterable} of {@link Iterable}s. The union operation is the collection
+ * of the elements of the elements of the {@link Iterable} that we are uniting.
+ * 
+ * @param <E>
+ *            The elements' type.
+ * 
+ * @author Quim Testar
+ */
 public class UnionIterable<E> implements Iterable<E>
 {
 	private final Iterable<? extends Iterable<E>> inner;

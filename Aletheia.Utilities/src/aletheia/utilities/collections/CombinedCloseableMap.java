@@ -19,6 +19,11 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * A {@link CombinedMap} that is also a {@link CloseableMap}.
+ * 
+ * @author Quim Testar
+ */
 public class CombinedCloseableMap<K, V> extends AbstractCombinedCloseableMap<K, V>
 {
 	private static final long serialVersionUID = 558821798610737716L;

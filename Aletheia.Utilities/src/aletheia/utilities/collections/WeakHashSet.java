@@ -19,13 +19,21 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+import java.util.Set;
 import java.util.WeakHashMap;
 
-public class WeakHashSet<E> extends SetFromVoidMap<E>
+/**
+ * A {@link Set} of weak keys.
+ * 
+ * @see WeakHashMap
+ * 
+ * @author Quim Testar
+ */
+public class WeakHashSet<E> extends DummyMapSet<E>
 {
 	public WeakHashSet()
 	{
-		super(new WeakHashMap<E, Void>());
+		super(new WeakHashMap<E, Dummy>());
 	}
 
 }

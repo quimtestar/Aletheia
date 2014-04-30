@@ -33,6 +33,8 @@ import java.util.SortedMap;
  *            The keys type.
  * @param <V>
  *            The values type.
+ * 
+ * @author Quim Testar
  */
 public class SingletonSortedMap<K, V> implements SortedMap<K, V>
 {

@@ -25,6 +25,11 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.SortedSet;
 
+/**
+ * A view of a {@link SortedSet} that inverts its order.
+ * 
+ * @author Quim Testar
+ */
 public class ReverseSortedSet<E> implements SortedSet<E>
 {
 	private final SortedSet<E> inner;

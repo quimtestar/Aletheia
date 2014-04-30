@@ -21,6 +21,16 @@ package aletheia.utilities;
 
 import java.util.Comparator;
 
+/**
+ * Compares casted objects using another comparator.
+ * 
+ * @param <T>
+ *            Comparing type
+ * @param <I>
+ *            Inner comparator type.
+ * 
+ * @author Quim Testar
+ */
 public class CastComparator<T, I> implements Comparator<T>
 {
 	private final Comparator<? super I> inner;

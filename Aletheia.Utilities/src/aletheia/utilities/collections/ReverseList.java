@@ -26,6 +26,8 @@ import java.util.List;
  * A view of a {@link List} that reverts it.
  * 
  * @param <E>
+ * 
+ * @author Quim Testar
  */
 public class ReverseList<E> extends AbstractList<E>
 {

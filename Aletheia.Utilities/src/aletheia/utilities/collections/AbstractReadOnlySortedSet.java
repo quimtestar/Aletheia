@@ -28,6 +28,8 @@ import java.util.SortedSet;
  * 
  * @param <E>
  *            The elements' type.
+ * 
+ * @author Quim Testar
  */
 public abstract class AbstractReadOnlySortedSet<E> extends AbstractReadOnlySet<E> implements SortedSet<E>
 {

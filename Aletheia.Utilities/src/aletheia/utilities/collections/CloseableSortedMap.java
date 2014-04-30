@@ -21,6 +21,11 @@ package aletheia.utilities.collections;
 
 import java.util.SortedMap;
 
+/**
+ * A {@link CloseableMap} that is also a {@link SortedMap}.
+ * 
+ * @author Quim Testar
+ */
 public interface CloseableSortedMap<K, V> extends CloseableMap<K, V>, SortedMap<K, V>
 {
 	@Override

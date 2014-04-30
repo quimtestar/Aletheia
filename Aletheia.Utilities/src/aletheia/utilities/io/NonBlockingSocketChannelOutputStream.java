@@ -26,6 +26,11 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
 
+/**
+ * A {@link NonBlockingSocketChannelStream} {@link OutputStream}.
+ * 
+ * @author Quim Testar
+ */
 public class NonBlockingSocketChannelOutputStream extends OutputStream implements NonBlockingSocketChannelStream
 {
 	private final SocketChannel socketChannel;

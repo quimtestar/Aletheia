@@ -19,25 +19,13 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
-import java.lang.ref.Reference;
-import java.lang.ref.ReferenceQueue;
-
 /**
- * A cache map is a map implemented where the values are kept in memory with
- * references (weak or soft). This interface defines the extra services a
- * generic cache map will have to offer to its callers, namely an observer
- * mechanism to inform the registered listeners when an entry's memory space has
- * been claimed (and so it has been cleaned) and a shutdown method to be called
- * when the map is not needed anymore (the thread managing the reference queues
- * must be shut down).
+ * A {@link CacheMap} with a "key cleaned" listen mechanism. When an entry of
+ * the map is removed to save memory space, the method
+ * {@link CacheWithCleanerMap.Listener#keyCleaned(Object)} of the listeners will
+ * be called.
  * 
- * @param <K>
- *            The map keys' type.
- * @param <V>
- *            The map value's type.
- * 
- * @see Reference
- * @see ReferenceQueue
+ * @author Quim Testar
  */
 public interface CacheWithCleanerMap<K, V> extends CacheMap<K, V>
 {

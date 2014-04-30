@@ -21,6 +21,12 @@ package aletheia.utilities.collections;
 
 import java.util.Map;
 
+/**
+ * A view of a {@link CloseableSortedMap} defined by a {@link Bijection} on the
+ * values.
+ * 
+ * @author Quim Testar
+ */
 public class BijectionCloseableSortedMap<K, I, O> extends BijectionSortedMap<K, I, O> implements CloseableSortedMap<K, O>
 {
 

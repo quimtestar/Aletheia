@@ -21,6 +21,11 @@ package aletheia.utilities.collections;
 
 import java.lang.ref.WeakReference;
 
+/**
+ * A {@link CacheMap} that uses {@link WeakReference}s.
+ * 
+ * @author Quim Testar
+ */
 public class WeakCacheMap<K, V> extends AbstractCacheMap<K, V, WeakReference<V>>
 {
 

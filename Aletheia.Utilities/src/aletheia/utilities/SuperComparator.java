@@ -21,6 +21,9 @@ package aletheia.utilities;
 
 import java.util.Comparator;
 
+/**
+ * A {@link CastComparator} for subclasses.
+ */
 public class SuperComparator<T> extends CastComparator<T, T>
 {
 

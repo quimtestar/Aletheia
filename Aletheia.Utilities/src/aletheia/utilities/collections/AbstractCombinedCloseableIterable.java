@@ -19,6 +19,11 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * An {@link AbstractCombinedIterable} for {@link CloseableIterable}s.
+ * 
+ * @author Quim Testar
+ */
 public abstract class AbstractCombinedCloseableIterable<E> extends AbstractCombinedIterable<E> implements CloseableIterable<E>
 {
 

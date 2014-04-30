@@ -29,6 +29,8 @@ package aletheia.utilities.collections;
  * @param <O>
  *            The output type of the inverted bijection (so, the input type of
  *            the original bijection).
+ * 
+ * @author Quim Testar
  */
 public class InverseBijection<I, O> implements Bijection<I, O>
 {

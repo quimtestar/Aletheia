@@ -26,6 +26,11 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedMap;
 
+/**
+ * A {@link SortedMap} that has no entries.
+ * 
+ * @author Quim Testar
+ */
 public class EmptySortedMap<K, V> extends AbstractReadOnlySortedMap<K, V> implements SortedMap<K, V>
 {
 	private final Comparator<? super K> comparator;

@@ -19,6 +19,15 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * A combined {@link Iterable} consists of two {@link Iterable}s: the front
+ * {@link Iterable} and the back {@link Iterable}. The resulting
+ * {@link Iterable} has both the front's elements and the back's elements. When
+ * iterating across the elements of this {@link Iterable} we first iterate
+ * across the front {@link Iterable} and the across the back {@link Iterable}.
+ * 
+ * @author Quim Testar
+ */
 public class CombinedIterable<E> extends AbstractCombinedIterable<E>
 {
 	private static final long serialVersionUID = 15322847256592071L;

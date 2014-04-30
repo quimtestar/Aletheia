@@ -19,6 +19,11 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * A {@link CombinedIterable} that is also a {@link CloseableIterable}.
+ * 
+ * @author Quim Testar
+ */
 public class CombinedCloseableIterable<E> extends AbstractCombinedCloseableIterable<E>
 {
 	private static final long serialVersionUID = 5192739500528924472L;

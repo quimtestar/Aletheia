@@ -23,13 +23,15 @@ import java.util.Comparator;
 import java.util.SortedMap;
 
 /**
- * Gives a read-only view of a sorted map as a sorted map with type parameters
- * that is are superclasses of the original's
+ * Gives a read-only view of a {@link SortedMap} as a {@link SortedMap} with
+ * type parameters that is are superclasses of the original's
  * 
  * @param <K>
- *            The keys type of the resulting map view.
+ *            The keys type of the resulting {@link SortedMap} view.
  * @param <V>
- *            The values type of the resulting map view.
+ *            The values type of the resulting {@link SortedMap} view.
+ * 
+ * @author Quim Testar
  */
 public class AdaptedSortedMap<K, V> extends AdaptedMap<K, V> implements SortedMap<K, V>
 {

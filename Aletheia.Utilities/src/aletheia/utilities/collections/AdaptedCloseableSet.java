@@ -19,6 +19,9 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * An {@link AdaptedSet} for {@link CloseableSet}s.
+ */
 public class AdaptedCloseableSet<E> extends AdaptedCloseableCollection<E> implements CloseableSet<E>
 {
 

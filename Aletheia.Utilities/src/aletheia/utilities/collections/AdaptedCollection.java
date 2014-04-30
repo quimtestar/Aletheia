@@ -22,11 +22,13 @@ package aletheia.utilities.collections;
 import java.util.Collection;
 
 /**
- * Gives a read-only view of a collection as a collection with a type parameter
- * that is a superclass of the original's.
+ * Gives a read-only view of a {@link Collection} as a {@link Collection} with a
+ * type parameter that is a superclass of the original's.
  * 
  * @param <E>
- *            The type of the resulting collection view.
+ *            The type of the resulting {@link Collection} view.
+ * 
+ * @author Quim Testar
  */
 public class AdaptedCollection<E> extends AdaptedIterable<E> implements Collection<E>
 {
@@ -114,9 +116,9 @@ public class AdaptedCollection<E> extends AdaptedIterable<E> implements Collecti
 	}
 
 	@Override
-	public <T> T[] toArray(T[] arg0)
+	public <T> T[] toArray(T[] a)
 	{
-		return getInner().toArray(arg0);
+		return getInner().toArray(a);
 	}
 
 }

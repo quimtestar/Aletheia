@@ -21,6 +21,12 @@ package aletheia.utilities.collections;
 
 import java.util.Map;
 
+/**
+ * A {@link Map} whose {@link Map#entrySet()}, {@link Map#keySet()} and
+ * {@link Map#values()} are {@link CloseableCollection}s
+ * 
+ * @author Quim Testar
+ */
 public interface CloseableMap<K, V> extends Map<K, V>
 {
 	@Override

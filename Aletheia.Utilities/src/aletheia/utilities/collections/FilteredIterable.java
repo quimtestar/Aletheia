@@ -22,6 +22,14 @@ package aletheia.utilities.collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * An implementation of a {@link Iterable} that filters out the elements of a
+ * given {@link Iterable}.
+ * 
+ * @see Filter
+ * 
+ * @author Quim Testar
+ */
 public class FilteredIterable<E> implements Iterable<E>
 {
 	private final Filter<E> filter;

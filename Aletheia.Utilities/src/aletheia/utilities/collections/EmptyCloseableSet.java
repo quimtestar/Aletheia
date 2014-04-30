@@ -24,6 +24,8 @@ package aletheia.utilities.collections;
  * 
  * @param <E>
  *            The element's type.
+ * 
+ * @author Quim Testar
  */
 public class EmptyCloseableSet<E> extends EmptyCloseableCollection<E> implements CloseableSet<E>
 {

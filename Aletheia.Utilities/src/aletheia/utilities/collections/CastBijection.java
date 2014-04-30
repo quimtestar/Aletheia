@@ -19,6 +19,11 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * A {@link Bijection} that just casts the objects to the corresponding type.
+ * 
+ * @author Quim Testar
+ */
 public class CastBijection<I, O> implements Bijection<I, O>
 {
 

@@ -20,10 +20,11 @@
 package aletheia.utilities.collections;
 
 import java.util.AbstractCollection;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+import aletheia.utilities.MiscUtilities;
 
 /**
  * A view of a {@link Collection} defined by a {@link Bijection}.
@@ -32,6 +33,8 @@ import java.util.NoSuchElementException;
  *            The input type.
  * @param <O>
  *            The output type.
+ * 
+ * @author Quim Testar
  */
 public class BijectionCollection<I, O> extends AbstractCollection<O>
 {
@@ -283,24 +286,16 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 		return inner.retainAll(new BijectionCollection<O, I>(invertBijection(bijection), BijectionCollection.<O> extractedCollection(c)));
 	}
 
-	protected ArrayList<O> toArrayList()
-	{
-		ArrayList<O> list = new ArrayList<O>();
-		for (O e : this)
-			list.add(e);
-		return list;
-	}
-
 	@Override
 	public Object[] toArray()
 	{
-		return toArrayList().toArray();
+		return MiscUtilities.iterableToArray(this);
 	}
 
 	@Override
 	public <T> T[] toArray(T[] a)
 	{
-		return toArrayList().toArray(a);
+		return MiscUtilities.iterableToArray(this, a);
 	}
 
 }

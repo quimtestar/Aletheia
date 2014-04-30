@@ -22,14 +22,15 @@ package aletheia.utilities.collections;
 import java.util.Map;
 
 /**
- * A cache map is a map implemented where the values are kept in memory with
- * references (weak or soft).
+ * A cache map is a map which entries might be removed if the JVM decides to
+ * claim the memory they are using.
  * 
  * @param <K>
  *            The map keys' type.
  * @param <V>
  *            The map value's type.
  * 
+ * @author Quim Testar
  */
 public interface CacheMap<K, V> extends Map<K, V>
 {

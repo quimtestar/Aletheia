@@ -19,6 +19,11 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * A {@link CloseableMap} that has no elements.
+ * 
+ * @author Quim Testar
+ */
 public class EmptyCloseableMap<K, V> extends AbstractCloseableMap<K, V>
 {
 
