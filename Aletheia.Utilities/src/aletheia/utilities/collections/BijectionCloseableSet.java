@@ -26,6 +26,8 @@ package aletheia.utilities.collections;
  *            The input type.
  * @param <O>
  *            The output type.
+ * 
+ * @author Quim Testar
  */
 
 public class BijectionCloseableSet<I, O> extends BijectionSet<I, O> implements CloseableSet<O>

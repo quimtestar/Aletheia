@@ -20,25 +20,28 @@
 package aletheia.utilities.collections;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import aletheia.utilities.MiscUtilities;
+
 /**
- * <p>
- * Abstract implementation of a combined collection. A combined collection
- * consists of two collections: the front collection and the back collection.
- * The resulting collection has both the front's elements and the back's
- * elements. When iterating across the elements of this collection we first
- * iterate across the front collection and the across the back collection. The
- * management of the back collection is kept abstract.
- * </p>
+ * Abstract implementation of a combined {@link Collection}. A combined
+ * {@link Collection} consists of two {@link Collection}s: the front
+ * {@link Collection} and the back {@link Collection}. The resulting
+ * {@link Collection} has both the front's elements and the back's elements.
+ * When iterating across the elements of this {@link Collection} we first
+ * iterate across the front {@link Collection} and the across the back
+ * {@link Collection}. The management of the back {@link Collection} is kept
+ * abstract.
  * 
  * @param <E>
  *            The elements' type.
  * 
  * @see Collection
+ * 
+ * @author Quim Testar
  */
 public abstract class AbstractCombinedCollection<E> extends AbstractReadOnlyCollection<E> implements Serializable
 {
@@ -196,16 +199,13 @@ public abstract class AbstractCombinedCollection<E> extends AbstractReadOnlyColl
 	@Override
 	public Object[] toArray()
 	{
-		ArrayList<Object> arrayList = new ArrayList<Object>();
-		for (E e : this)
-			arrayList.add(e);
-		return arrayList.toArray();
+		return MiscUtilities.iterableToArray(this);
 	}
 
 	@Override
 	public <T> T[] toArray(T[] a)
 	{
-		return new ArrayList<E>(this).toArray(a);
+		return MiscUtilities.iterableToArray(this, a);
 	}
 
 }

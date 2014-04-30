@@ -28,6 +28,8 @@ import java.util.Set;
  * 
  * @param <E>
  *            The elements' type.
+ * 
+ * @author Quim Testar
  */
 public abstract class AbstractReadOnlySet<E> extends AbstractReadOnlyCollection<E> implements Set<E>
 {

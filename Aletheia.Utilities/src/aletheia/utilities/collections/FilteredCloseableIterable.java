@@ -19,6 +19,11 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * A {@link FilteredIterable} that is also a {@link CloseableIterable}.
+ * 
+ * @author Quim Testar
+ */
 public class FilteredCloseableIterable<E> extends FilteredIterable<E> implements CloseableIterable<E>
 {
 

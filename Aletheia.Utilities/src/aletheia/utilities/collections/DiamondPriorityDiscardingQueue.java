@@ -19,7 +19,6 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -27,6 +26,7 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Vector;
 
+import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.SuperComparator;
 
 /**
@@ -37,6 +37,8 @@ import aletheia.utilities.SuperComparator;
  * 
  * @param <E>
  *            The elements' type.
+ * 
+ * @author Quim Testar
  */
 public class DiamondPriorityDiscardingQueue<E> implements Queue<E>
 {
@@ -151,17 +153,13 @@ public class DiamondPriorityDiscardingQueue<E> implements Queue<E>
 	@Override
 	public Object[] toArray()
 	{
-		return toArray(new Object[0]);
+		return MiscUtilities.iterableToArray(this);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T[] toArray(T[] a)
 	{
-		ArrayList<T> list = new ArrayList<T>();
-		for (E e : this)
-			list.add((T) e);
-		return list.toArray(a);
+		return MiscUtilities.iterableToArray(this, a);
 	}
 
 	@Override

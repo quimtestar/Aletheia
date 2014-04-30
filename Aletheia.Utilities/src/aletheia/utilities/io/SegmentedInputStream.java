@@ -22,6 +22,12 @@ package aletheia.utilities.io;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * An {@link InputStream} that will obtain its data by calling the method
+ * {@link #segment()}, which must be implemented by a subclass.
+ * 
+ * @author Quim Testar
+ */
 public abstract class SegmentedInputStream extends InputStream
 {
 	private byte[] segment;
@@ -33,6 +39,11 @@ public abstract class SegmentedInputStream extends InputStream
 		this.pos = 0;
 	}
 
+	/**
+	 * Provide a byte array of data to be read. This method will be called when
+	 * the {@link SegmentedInputStream} gets out of data to provide to the
+	 * {@link #read()} methods.
+	 */
 	public abstract byte[] segment() throws IOException;
 
 	private byte[] segmentWithData() throws IOException

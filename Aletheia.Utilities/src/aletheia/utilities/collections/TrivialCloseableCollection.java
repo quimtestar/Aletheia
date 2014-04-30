@@ -22,6 +22,12 @@ package aletheia.utilities.collections;
 import java.util.Collection;
 import java.util.Iterator;
 
+/**
+ * A {@link CloseableCollection} on the top of a regular {@link Collection} and
+ * whose {@link CloseableIterator#close()} method does nothing.
+ * 
+ * @author Quim Testar
+ */
 public class TrivialCloseableCollection<E> extends AbstractCloseableCollection<E>
 {
 	private final Collection<E> inner;

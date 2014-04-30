@@ -21,8 +21,18 @@ package aletheia.utilities.collections;
 
 import java.lang.reflect.Array;
 import java.util.AbstractList;
+import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A {@link List} view of an array. Unlike {@link Arrays#asList(Object...)}.
+ * 
+ * @see Array#get(Object, int)
+ * @see Array#set(Object, int, Object)
+ * @see Array#getLength(Object)
+ * 
+ * @author Quim Testar
+ */
 public class ArrayAsList<E> extends AbstractList<E> implements List<E>
 {
 	private final Object array;

@@ -20,10 +20,12 @@
 package aletheia.utilities.collections;
 
 /**
- * A {@link Iterable} whose iterator is a {@link CloseableIterator}
+ * A {@link Iterable} whose iterator is a {@link CloseableIterator}.
  * 
  * @param <E>
  *            The elements' type.
+ * 
+ * @author Quim Testar
  */
 public interface CloseableIterable<E> extends Iterable<E>
 {

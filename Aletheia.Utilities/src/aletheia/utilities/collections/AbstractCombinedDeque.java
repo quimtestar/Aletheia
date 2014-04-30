@@ -22,6 +22,13 @@ package aletheia.utilities.collections;
 import java.util.Deque;
 import java.util.Iterator;
 
+/**
+ * Abstract implementation of a combined {@link Deque}.
+ * 
+ * @author Quim Testar
+ * 
+ * @see AbstractCombinedQueue
+ */
 public abstract class AbstractCombinedDeque<E> extends AbstractCombinedQueue<E> implements Deque<E>
 {
 

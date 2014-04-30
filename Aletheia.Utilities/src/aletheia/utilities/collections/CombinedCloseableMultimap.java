@@ -20,15 +20,14 @@
 package aletheia.utilities.collections;
 
 /**
- * An alternative combination of closeable multimaps (maps whose values are
- * sets). Instead of being shadowed, the colliding entries' values are combined
- * into a {@link CombinedSet}. This is a much more consistent behavior of a
- * combined multimap.
+ * A {@link CombinedMultimap} that is also a {@link CloseableMap}
  * 
  * @param <K>
  *            The keys type.
  * @param <V>
  *            The values type.
+ * 
+ * @author Quim Testar
  */
 public class CombinedCloseableMultimap<K, V> extends CombinedCloseableMap<K, CloseableSet<V>>
 {

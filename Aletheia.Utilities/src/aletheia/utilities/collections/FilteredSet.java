@@ -21,6 +21,14 @@ package aletheia.utilities.collections;
 
 import java.util.Set;
 
+/**
+ * An implementation of a {@link Set} that filters out the elements of a given
+ * {@link Set}.
+ * 
+ * @see Filter
+ * 
+ * @author Quim Testar
+ */
 public class FilteredSet<E> extends FilteredCollection<E> implements Set<E>
 {
 

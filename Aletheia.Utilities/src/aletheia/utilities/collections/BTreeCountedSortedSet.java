@@ -26,6 +26,12 @@ import java.util.SortedSet;
 
 import aletheia.utilities.MiscUtilities;
 
+/**
+ * Implementation of a {@link CountedSortedSet} using a
+ * {@link BTreeCountedSortedMap}.
+ * 
+ * @author Quim Testar
+ */
 public class BTreeCountedSortedSet<E> extends DummyMapCountedSortedSet<E>
 {
 

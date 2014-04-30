@@ -29,6 +29,8 @@ import java.util.SortedMap;
  *            The keys type.
  * @param <V>
  *            The values type.
+ * 
+ * @author Quim Testar
  */
 public class CombinedSortedMap<K, V> extends AbstractCombinedSortedMap<K, V> implements SortedMap<K, V>
 {

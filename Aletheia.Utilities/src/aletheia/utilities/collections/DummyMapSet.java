@@ -19,18 +19,73 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-public abstract class SetFromVoidMap<E> implements Set<E>
-{
-	private final Map<E, Void> map;
+import aletheia.utilities.MiscUtilities;
 
-	public SetFromVoidMap(Map<E, Void> map)
+/**
+ * A {@link Set} implemented as the key set of a {@link Map}.
+ * 
+ * @author Quim Testar
+ */
+public class DummyMapSet<E> implements Set<E>
+{
+	protected static class Dummy
+	{
+	}
+
+	private final static Dummy dummy = new Dummy();
+
+	protected static class SetToDummyMap<E> extends AbstractMap<E, Dummy>
+	{
+		private final Set<E> set;
+
+		protected SetToDummyMap(Set<E> set)
+		{
+			this.set = set;
+		}
+
+		protected Set<E> getSet()
+		{
+			return set;
+		}
+
+		@Override
+		public Set<Entry<E, Dummy>> entrySet()
+		{
+			return new BijectionSet<E, Entry<E, Dummy>>(new Bijection<E, Entry<E, Dummy>>()
+			{
+
+				@Override
+				public Entry<E, Dummy> forward(E input)
+				{
+					return new SimpleEntry<E, Dummy>(input, dummy);
+				}
+
+				@Override
+				public E backward(Entry<E, Dummy> output)
+				{
+					return output.getKey();
+				}
+			}, set);
+		}
+
+	}
+
+	private final Map<E, Dummy> map;
+
+	protected DummyMapSet(Map<E, Dummy> map)
 	{
 		this.map = map;
+	}
+
+	protected Map<E, Dummy> getMap()
+	{
+		return map;
 	}
 
 	@Override
@@ -72,19 +127,13 @@ public abstract class SetFromVoidMap<E> implements Set<E>
 	@Override
 	public boolean add(E e)
 	{
-		if (map.containsKey(e))
-			return false;
-		else
-		{
-			map.put(e, null);
-			return true;
-		}
+		return map.put(e, dummy) == null;
 	}
 
 	@Override
 	public boolean remove(Object o)
 	{
-		return map.keySet().remove(o);
+		return map.remove(o) != null;
 	}
 
 	@Override
@@ -119,6 +168,12 @@ public abstract class SetFromVoidMap<E> implements Set<E>
 	public void clear()
 	{
 		map.clear();
+	}
+
+	@Override
+	public String toString()
+	{
+		return MiscUtilities.toString(this);
 	}
 
 }

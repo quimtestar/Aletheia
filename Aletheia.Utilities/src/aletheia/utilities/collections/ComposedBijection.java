@@ -19,6 +19,11 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * Composition of two {@link Bijection}s
+ * 
+ * @author Quim Testar
+ */
 public class ComposedBijection<I, K, O> implements Bijection<I, O>
 {
 	private final Bijection<K, O> bijectionOut;

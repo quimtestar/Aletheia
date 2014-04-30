@@ -19,11 +19,12 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
+
+import aletheia.utilities.MiscUtilities;
 
 /**
  * A view as a {@link Collection} of the difference (in the terms of set theory)
@@ -33,6 +34,8 @@ import java.util.Set;
  * 
  * @param <E>
  *            The element's type.
+ * 
+ * @author Quim Testar
  */
 public class DifferenceCollection<E> extends AbstractReadOnlyCollection<E> implements Collection<E>
 {
@@ -142,13 +145,13 @@ public class DifferenceCollection<E> extends AbstractReadOnlyCollection<E> imple
 	@Override
 	public Object[] toArray()
 	{
-		return toArray(new Object[0]);
+		return MiscUtilities.iterableToArray(this);
 	}
 
 	@Override
 	public <T> T[] toArray(T[] a)
 	{
-		return new ArrayList<E>(this).toArray(a);
+		return MiscUtilities.iterableToArray(this, a);
 	}
 
 	@Override

@@ -21,6 +21,12 @@ package aletheia.utilities.collections;
 
 import java.util.Iterator;
 
+/**
+ * A {@link CloseableIterable} on the top of a regular {@link Iterable} and
+ * whose {@link CloseableIterator#close()} method does nothing.
+ * 
+ * @author Quim Testar
+ */
 public class TrivialCloseableIterable<E> implements CloseableIterable<E>
 {
 	private final Iterable<E> inner;

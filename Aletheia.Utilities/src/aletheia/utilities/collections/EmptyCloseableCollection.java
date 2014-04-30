@@ -22,10 +22,12 @@ package aletheia.utilities.collections;
 import java.util.NoSuchElementException;
 
 /**
- * A {@linkplain CloseableCollection} that has no elements.
+ * A {@link CloseableCollection} that has no elements.
  * 
  * @param <E>
  *            The element's type.
+ * 
+ * @author Quim Testar
  */
 public class EmptyCloseableCollection<E> extends AbstractCloseableCollection<E>
 {

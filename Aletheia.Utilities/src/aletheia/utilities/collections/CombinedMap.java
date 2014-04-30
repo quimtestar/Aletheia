@@ -30,6 +30,8 @@ import java.util.Map;
  *            The keys type.
  * @param <V>
  *            The values type.
+ * 
+ * @author Quim Testar
  */
 public class CombinedMap<K, V> extends AbstractCombinedMap<K, V> implements Serializable
 {

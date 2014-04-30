@@ -23,11 +23,13 @@ import java.util.Iterator;
 import java.util.Set;
 
 /**
- * Abstract implementation of a combined set. The elements in the front set will
- * shadow the elements in the back set. The management of the back set is kept
- * abstract.
+ * Abstract implementation of a combined {@link Set}. The elements in the front
+ * {@link Set} will shadow the elements in the back {@link Set}. The management
+ * of the back {@link Set} is kept abstract.
  * 
  * @param <E>
+ * 
+ * @author Quim Testar
  */
 public abstract class AbstractCombinedSet<E> extends AbstractCombinedCollection<E> implements Set<E>
 {

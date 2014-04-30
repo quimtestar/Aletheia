@@ -23,7 +23,8 @@ import java.util.Comparator;
 import java.util.SortedMap;
 
 /**
- * A view of a sorted map defined by a bijection between the values.
+ * A view of a {@link SortedMap} defined by a {@link Bijection} between the
+ * values.
  * 
  * @param <K>
  *            The keys type.
@@ -31,6 +32,8 @@ import java.util.SortedMap;
  *            The input values type.
  * @param <O>
  *            The output values type.
+ * 
+ * @author Quim Testar
  */
 
 public class BijectionSortedMap<K, I, O> extends BijectionMap<K, I, O> implements SortedMap<K, O>

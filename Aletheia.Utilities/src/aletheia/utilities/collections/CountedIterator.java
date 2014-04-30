@@ -21,6 +21,11 @@ package aletheia.utilities.collections;
 
 import java.util.Iterator;
 
+/**
+ * An {@link Iterator} that keeps record of the current element's position.
+ * 
+ * @author Quim Testar
+ */
 public interface CountedIterator<E> extends Iterator<E>
 {
 	int ordinal();

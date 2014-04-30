@@ -20,7 +20,15 @@
 package aletheia.utilities.collections;
 
 import java.util.AbstractSet;
+import java.util.Iterator;
+import java.util.Set;
 
+/**
+ * An abstract implementation of a {@link Set} whose {@link Iterator} is a
+ * {@link CloseableIterator}.
+ * 
+ * @author Quim Testar
+ */
 public abstract class AbstractCloseableSet<E> extends AbstractSet<E> implements CloseableSet<E>
 {
 

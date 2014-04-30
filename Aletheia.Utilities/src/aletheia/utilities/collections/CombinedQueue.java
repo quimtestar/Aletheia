@@ -21,6 +21,11 @@ package aletheia.utilities.collections;
 
 import java.util.Queue;
 
+/**
+ * A {@link Queue} that is a concatenation of two given {@link Queue}s.
+ * 
+ * @author Quim Testar
+ */
 public class CombinedQueue<E> extends AbstractCombinedQueue<E>
 {
 	private static final long serialVersionUID = 3881330410868736031L;

@@ -31,8 +31,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.AbstractCollection;
 import java.util.AbstractMap;
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +46,7 @@ import aletheia.utilities.collections.CloseableIterator;
 /**
  * Miscellaneous utilities implemented as static methods.
  * 
+ * @author Quim Testar
  */
 public class MiscUtilities
 {
@@ -123,6 +124,9 @@ public class MiscUtilities
 		return lines.toString();
 	}
 
+	/**
+	 * Byte array to hexadecimal string.
+	 */
 	public static String toHexString(byte[] a)
 	{
 		StringBuffer buffer = new StringBuffer();
@@ -150,6 +154,10 @@ public class MiscUtilities
 
 	}
 
+	/**
+	 * Hexadecimal string to byte array. Inverse function of
+	 * {@link MiscUtilities#toHexString(byte[])}.
+	 */
 	public static byte[] parseHexString(String s)
 	{
 		ByteArrayOutputStream baos = new ByteArrayOutputStream(s.length() / 3 + 10);
@@ -169,6 +177,9 @@ public class MiscUtilities
 		}
 	}
 
+	/**
+	 * The wrapper class corresponding to a Java primitive class name.
+	 */
 	public static Class<?> resolvePrimitiveTypeWrapperClass(String type)
 	{
 		switch (type)
@@ -192,6 +203,9 @@ public class MiscUtilities
 		}
 	}
 
+	/**
+	 * Java's primitive class by name.
+	 */
 	public static Class<?> resolvePrimitiveTypeClass(String type)
 	{
 		switch (type)
@@ -215,6 +229,9 @@ public class MiscUtilities
 		}
 	}
 
+	/**
+	 * Primitive class to its wrapper class
+	 */
 	public static Class<?> resolvePrimitiveTypeWrapperClass(Class<?> primitiveType)
 	{
 		return resolvePrimitiveTypeWrapperClass(primitiveType.getName());
@@ -266,11 +283,19 @@ public class MiscUtilities
 		}
 	}
 
+	/**
+	 * The value of a particular bit of a long integer as a boolean. Bit zero
+	 * being the least significant.
+	 */
 	private static boolean bitAt(long x, int i)
 	{
 		return ((x >> (Long.SIZE - i - 1)) & 0x01l) != 0;
 	}
 
+	/**
+	 * The value of a particular bit of a {@link UUID} as a boolean. Bit zero
+	 * being the least significant.
+	 */
 	public static boolean bitAt(UUID uuid, int i)
 	{
 		if (i < 0)
@@ -283,6 +308,10 @@ public class MiscUtilities
 			return bitAt(uuid.getLeastSignificantBits(), i - Long.SIZE);
 	}
 
+	/**
+	 * First bit position that differs between two {@link UUID}s. Bit zero being
+	 * the least significant.
+	 */
 	public static int firstDifferentBit(UUID uuid1, UUID uuid2)
 	{
 		if (uuid1.equals(uuid2))
@@ -292,6 +321,17 @@ public class MiscUtilities
 				return i;
 	}
 
+	/**
+	 * Returns the index of the closest {@link UUID} from a list to a given one.
+	 * 
+	 * The distance is defined to be the absolute difference of the two
+	 * {@link UUID}s interpreted as a single 128-bit number each.
+	 * 
+	 * @param uuid
+	 *            The given {@link UUID}.
+	 * @param list
+	 *            The list.
+	 */
 	public static int closestUUIDIndex(UUID uuid, List<UUID> list)
 	{
 		class Distance implements Comparable<Distance>
@@ -345,8 +385,15 @@ public class MiscUtilities
 		return minIndex;
 	}
 
+	/**
+	 * The bit length of an UUID. That is, 128.
+	 */
 	public static int uuidBitLength = 2 * Long.SIZE;
 
+	/**
+	 * Human-readable string representation of a size of digital information in
+	 * bytes.
+	 */
 	public static String byteSizeToString(int size)
 	{
 		NumberFormat nf = new DecimalFormat("###0.##");
@@ -360,6 +407,9 @@ public class MiscUtilities
 		return nf.format(value) + " " + units[m];
 	}
 
+	/**
+	 * Next element of an iterator or null it there is no next element.
+	 */
 	private static <E> E nextFromIterator(Iterator<E> iterator)
 	{
 		if (iterator.hasNext())
@@ -368,12 +418,19 @@ public class MiscUtilities
 			return null;
 	}
 
+	/**
+	 * First element of an {@link Iterable} object.
+	 */
 	public static <E> E firstFromIterable(Iterable<E> iterable)
 	{
 		Iterator<E> iterator = iterable.iterator();
 		return nextFromIterator(iterator);
 	}
 
+	/**
+	 * First element of a {@link CloseableIterable} objects. Closes the
+	 * generated iterator.
+	 */
 	public static <E> E firstFromCloseableIterable(CloseableIterable<E> iterable)
 	{
 		CloseableIterator<E> iterator = iterable.iterator();
@@ -387,11 +444,17 @@ public class MiscUtilities
 		}
 	}
 
+	/**
+	 * Appends elements to an array.
+	 */
 	public static Object[] arrayAppend(Object... elements)
 	{
 		return arrayAppend(new Object[0], elements);
 	}
 
+	/**
+	 * Appends elements to an array.
+	 */
 	@SafeVarargs
 	public static <T> T[] arrayAppend(T[] array, T... elements)
 	{
@@ -402,6 +465,9 @@ public class MiscUtilities
 		return result;
 	}
 
+	/**
+	 * Returns a constructor of a class that matches the given arguments.
+	 */
 	@SuppressWarnings("unchecked")
 	public static <C> Constructor<C> matchingConstructor(Class<C> clazz, Object... initargs)
 	{
@@ -445,6 +511,12 @@ public class MiscUtilities
 
 	}
 
+	/**
+	 * Constructs an object of a given class using a constructor that matches
+	 * the given arguments.
+	 * 
+	 * @see #matchingConstructor(Class, Object...)
+	 */
 	public static <C> C construct(Class<C> clazz, Object... initArgs) throws InstantiationException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, NoConstructorException
 	{
@@ -455,35 +527,114 @@ public class MiscUtilities
 		return constructor.newInstance(initArgs);
 	}
 
+	/**
+	 * The one's complement of the bit representation of a {@link UUID} as a
+	 * {@link UUID}
+	 */
 	public static UUID complementUuid(UUID uuid)
 	{
 		return new UUID(~uuid.getMostSignificantBits(), ~uuid.getLeastSignificantBits());
 	}
 
+	/**
+	 * List of stack trace elements to the precise call of this method.
+	 * 
+	 * Warning: Expensive method. Use only in debug mode.
+	 */
 	public static List<StackTraceElement> stackTraceList(int depth)
 	{
 		List<StackTraceElement> list = Arrays.asList(Thread.currentThread().getStackTrace());
 		return list.subList(depth + 2, list.size());
 	}
 
+	/**
+	 * A particular element of the {@link #stackTraceList(int)}.
+	 * 
+	 * Warning: Expensive method. Use only in debug mode.
+	 */
 	public static StackTraceElement stackTraceElement(int depth)
 	{
 		return stackTraceList(depth + 1).get(0);
 	}
 
-	public static <E> E[] iterableToArray(Iterable<? extends E> iterable, E[] a)
+	/**
+	 * Puts the elements of returned by an iterator object into an array until
+	 * there's no more elements left.
+	 * 
+	 * @param <E>
+	 *            The type of the array to generate.
+	 * @param a
+	 *            The array to fill if there's enough space on it.
+	 */
+	public static <E> E[] iteratorToArray(Iterator<?> iterator, E[] a)
 	{
-		ArrayList<E> arrayList = new ArrayList<E>();
-		for (E e : iterable)
-			arrayList.add(e);
-		return arrayList.toArray(a);
+		@SuppressWarnings("unchecked")
+		Class<? extends E> componentType = (Class<? extends E>) a.getClass().getComponentType();
+		boolean rellocated = false;
+		int i = 0;
+		while (iterator.hasNext())
+		{
+			Object o = iterator.next();
+			if (i >= a.length)
+			{
+				int length = a.length + (a.length >> 1);
+				if (length < 10)
+					length = 10;
+				if (length < 0 || length > Integer.MAX_VALUE - 8)
+					length = Integer.MAX_VALUE - 8;
+				if (i >= length)
+					throw new OutOfMemoryError();
+				a = Arrays.copyOf(a, length);
+				rellocated = true;
+			}
+			E e = componentType.cast(o);
+			a[i] = e;
+			i++;
+		}
+		if (rellocated)
+		{
+			if (i < a.length)
+				a = Arrays.copyOf(a, i);
+		}
+		else
+			while (i < a.length)
+				a[i++] = null;
+		return a;
 	}
 
+	/**
+	 * Puts the elements of an iterable object into an array.
+	 * 
+	 * @param <E>
+	 *            The type of the array to generate.
+	 * @param a
+	 *            The array to fill if there's enough space on it.
+	 * 
+	 * @see Collection#toArray(Object[])
+	 */
+	public static <E> E[] iterableToArray(Iterable<?> iterable, E[] a)
+	{
+		return iteratorToArray(iterable.iterator(), a);
+	}
+
+	/**
+	 * Puts the elements of an {@link Iterable} object into an array.
+	 * 
+	 * @see MiscUtilities#iterableToArray(Iterable, Object[])
+	 * @see Collection#toArray(Object[])
+	 * 
+	 */
 	public static Object[] iterableToArray(Iterable<?> iterable)
 	{
 		return iterableToArray(iterable, new Object[0]);
 	}
 
+	/**
+	 * The remote {@link InetAddress} associated to a {@link SocketChannel}.
+	 * 
+	 * @see SocketChannel#getRemoteAddress()
+	 * @see InetSocketAddress#getAddress()
+	 */
 	public static InetAddress socketChannelRemoteInetAddress(SocketChannel socketChannel) throws IOException
 	{
 		return ((InetSocketAddress) socketChannel.getRemoteAddress()).getAddress();

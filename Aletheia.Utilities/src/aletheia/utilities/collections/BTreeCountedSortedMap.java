@@ -20,7 +20,6 @@
 package aletheia.utilities.collections;
 
 import java.io.PrintStream;
-import java.lang.reflect.Array;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,6 +35,12 @@ import java.util.Stack;
 import aletheia.utilities.CastComparator;
 import aletheia.utilities.MiscUtilities;
 
+/**
+ * Implementation of a {@link CountedSortedMap} with a <a
+ * href="http://en.wikipedia.org/wiki/Btree">B-tree</a>.
+ * 
+ * @author Quim Testar
+ */
 public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 {
 	private static class BTree
@@ -1850,24 +1855,13 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 		@Override
 		public Object[] toArray()
 		{
-			return toArray(new Object[0]);
+			return MiscUtilities.iterableToArray(this);
 		}
 
-		@SuppressWarnings("unchecked")
 		@Override
 		public <T> T[] toArray(T[] a)
 		{
-			if (size() > a.length)
-				a = (T[]) Array.newInstance(a.getClass().getComponentType(), size());
-			int i = 0;
-			for (E e : this)
-			{
-				a[i] = (T) e;
-				i++;
-			}
-			for (; i < a.length; i++)
-				a[i] = null;
-			return a;
+			return MiscUtilities.iterableToArray(this, a);
 		}
 
 		protected abstract CountedIterator<BTree.Branch> branchIterator();

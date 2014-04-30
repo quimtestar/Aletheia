@@ -35,6 +35,8 @@ package aletheia.utilities.collections;
  *            The input type.
  * @param <O>
  *            The output type.
+ * 
+ * @author Quim Testar
  */
 public interface Bijection<I, O>
 {

@@ -33,6 +33,8 @@ import java.util.Set;
  *            The output keys type.
  * @param <V>
  *            The values type.
+ * 
+ * @author Quim Testar
  */
 public class BijectionKeyMap<I, O, V> extends AbstractMap<O, V>
 {

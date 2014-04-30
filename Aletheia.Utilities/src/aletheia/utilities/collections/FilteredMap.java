@@ -23,6 +23,14 @@ import java.util.AbstractMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * An implementation of a {@link Map} with its values filtered out of a given
+ * {@link Map}.
+ * 
+ * @see Filter
+ * 
+ * @author Quim Testar
+ */
 public class FilteredMap<K, V> extends AbstractMap<K, V>
 {
 	private final Filter<? super V> filter;

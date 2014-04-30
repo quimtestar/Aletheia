@@ -19,6 +19,11 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * A read-only view of a {@link CloseableSet}.
+ * 
+ * @author Quim Testar
+ */
 public class UnmodifiableCloseableSet<E> extends UnmodifiableCloseableCollection<E> implements CloseableSet<E>
 {
 

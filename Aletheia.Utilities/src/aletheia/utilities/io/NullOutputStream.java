@@ -22,6 +22,11 @@ package aletheia.utilities.io;
 import java.io.IOException;
 import java.io.OutputStream;
 
+/**
+ * An {@link OutputStream} that simply silently discards the written data.
+ * 
+ * @author Quim Testar
+ */
 public class NullOutputStream extends OutputStream
 {
 

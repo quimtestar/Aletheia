@@ -22,6 +22,16 @@ package aletheia.utilities.aborter;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Implementation of the {@link Aborter} with an interrupt mechanism.
+ * 
+ * The process to be aborted should provide an implementation of the
+ * {@link ListenableAborter.Listener} interface and add it to the listener set.
+ * When aborting, the {@link ListenableAborter.Listener#abort()} method will be
+ * called.
+ * 
+ * @author Quim Testar
+ */
 public abstract class ListenableAborter implements Aborter
 {
 	public final static ListenableAborter nullListenableAborter = new ListenableAborter()
@@ -32,11 +42,20 @@ public abstract class ListenableAborter implements Aborter
 		}
 	};
 
+	/**
+	 * Listener object to this aborter.
+	 */
 	public interface Listener
 	{
+		/**
+		 * The process must be aborted.
+		 */
 		void abort();
 	}
 
+	/**
+	 * Listener set.
+	 */
 	private final Set<Listener> listeners;
 
 	public ListenableAborter()
@@ -44,16 +63,25 @@ public abstract class ListenableAborter implements Aborter
 		this.listeners = new HashSet<Listener>();
 	}
 
+	/**
+	 * Add a listener.
+	 */
 	public synchronized void addListener(Listener listener)
 	{
 		listeners.add(listener);
 	}
 
+	/**
+	 * Remove a listener.
+	 */
 	public synchronized void removeListener(Listener listener)
 	{
 		listeners.remove(listener);
 	}
 
+	/**
+	 * Invoke the {@link Listener#abort()} method on each listener.
+	 */
 	protected synchronized void abort()
 	{
 		for (Listener listener : listeners)

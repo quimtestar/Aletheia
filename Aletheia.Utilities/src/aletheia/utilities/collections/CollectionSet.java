@@ -22,7 +22,15 @@ package aletheia.utilities.collections;
 import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Set;
 
+/**
+ * Mimic the {@link Set} behaviour with a {@link Collection}. That is, basically
+ * avoid duplicate elements when adding. This class just filters the new
+ * additions, the inner {@link Collection} should not have duplicates by itself.
+ * 
+ * @author Quim Testar
+ */
 public class CollectionSet<E> extends AbstractSet<E>
 {
 	private final Collection<E> inner;

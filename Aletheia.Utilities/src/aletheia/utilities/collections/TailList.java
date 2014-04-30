@@ -24,6 +24,12 @@ import java.util.List;
 
 import aletheia.utilities.MiscUtilities;
 
+/**
+ * A {@link List} combining a given {@link List} and a extra element on its
+ * tail.
+ * 
+ * @author Quim Testar
+ */
 public class TailList<E> extends CombinedList<E>
 {
 	private static final long serialVersionUID = -1069698511868829703L;

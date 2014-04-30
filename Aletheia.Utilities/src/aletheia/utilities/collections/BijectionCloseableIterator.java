@@ -19,6 +19,11 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * A view of a {@link CloseableIterator} defined by a {@link Bijection}
+ * 
+ * @author Quim Testar
+ */
 public class BijectionCloseableIterator<I, O> extends BijectionIterator<I, O> implements CloseableIterator<O>
 {
 

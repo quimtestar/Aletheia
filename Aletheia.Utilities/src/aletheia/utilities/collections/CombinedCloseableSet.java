@@ -19,6 +19,11 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * A {@link CombinedSet} that is also a {@link CloseableSet}.
+ * 
+ * @author Quim Testar
+ */
 public class CombinedCloseableSet<E> extends AbstractCombinedCloseableSet<E>
 {
 	private static final long serialVersionUID = 140141528827097811L;

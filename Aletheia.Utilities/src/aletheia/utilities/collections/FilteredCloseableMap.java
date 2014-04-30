@@ -19,9 +19,15 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
+import aletheia.utilities.MiscUtilities;
+
+/**
+ * A {@link FilteredMap} that is also a {@link CloseableMap}.
+ * 
+ * @author Quim Testar
+ */
 public class FilteredCloseableMap<K, V> extends FilteredMap<K, V> implements CloseableMap<K, V>
 {
 
@@ -157,24 +163,16 @@ public class FilteredCloseableMap<K, V> extends FilteredMap<K, V> implements Clo
 				};
 			}
 
-			protected ArrayList<K> toArrayList()
-			{
-				ArrayList<K> list = new ArrayList<K>();
-				for (K e : this)
-					list.add(e);
-				return list;
-			}
-
 			@Override
 			public Object[] toArray()
 			{
-				return toArrayList().toArray();
+				return MiscUtilities.iterableToArray(this);
 			}
 
 			@Override
 			public <T> T[] toArray(T[] a)
 			{
-				return toArrayList().toArray(a);
+				return MiscUtilities.iterableToArray(this, a);
 			}
 
 			@Override
@@ -305,24 +303,16 @@ public class FilteredCloseableMap<K, V> extends FilteredMap<K, V> implements Clo
 				};
 			}
 
-			protected ArrayList<V> toArrayList()
-			{
-				ArrayList<V> list = new ArrayList<V>();
-				for (V e : this)
-					list.add(e);
-				return list;
-			}
-
 			@Override
 			public Object[] toArray()
 			{
-				return toArrayList().toArray();
+				return MiscUtilities.iterableToArray(this);
 			}
 
 			@Override
 			public <T> T[] toArray(T[] a)
 			{
-				return toArrayList().toArray(a);
+				return MiscUtilities.iterableToArray(this, a);
 			}
 
 			@Override

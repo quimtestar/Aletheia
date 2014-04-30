@@ -21,6 +21,12 @@ package aletheia.utilities.collections;
 
 import java.util.Map;
 
+/**
+ * A {@link CloseableMap} on the top of a regular {@link Map} and whose
+ * {@link CloseableIterator#close()} method does nothing.
+ * 
+ * @author Quim Testar
+ */
 public class TrivialCloseableMap<K, V> extends AbstractCloseableMap<K, V>
 {
 	private final Map<K, V> inner;

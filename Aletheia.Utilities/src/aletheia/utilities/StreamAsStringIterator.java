@@ -17,50 +17,78 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.utilities.collections;
+package aletheia.utilities;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import aletheia.utilities.collections.CloseableIterator;
 
 /**
- * A read-only view of a {@link CloseableIterator}.
+ * Iterate across the lines of an {@link InputStream} as {@link String}s.
  * 
  * @author Quim Testar
  */
-public class UnmodifiableCloseableIterator<E> implements CloseableIterator<E>
+public class StreamAsStringIterator implements CloseableIterator<String>
 {
-	private final CloseableIterator<E> inner;
+	private final BufferedReader inputStreamReader;
 
-	public UnmodifiableCloseableIterator(CloseableIterator<E> inner)
+	private String next;
+
+	public StreamAsStringIterator(InputStream inputStream)
 	{
-		super();
-		this.inner = inner;
+		this.inputStreamReader = new BufferedReader(new InputStreamReader(inputStream));
+		this.next = advance();
 	}
 
-	protected CloseableIterator<E> getInner()
+	private String advance()
 	{
-		return inner;
-	}
-
-	@Override
-	public void close()
-	{
-		inner.close();
+		try
+		{
+			String next = inputStreamReader.readLine();
+			if (next == null)
+				inputStreamReader.close();
+			return next;
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Override
 	public boolean hasNext()
 	{
-		return inner.hasNext();
+		return next != null;
 	}
 
 	@Override
-	public E next()
+	public String next()
 	{
-		return inner.next();
+		String s = next;
+		next = advance();
+		return s;
 	}
 
 	@Override
 	public void remove()
 	{
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void close()
+	{
+		try
+		{
+			inputStreamReader.close();
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 
 }

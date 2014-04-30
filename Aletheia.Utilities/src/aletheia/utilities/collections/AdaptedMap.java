@@ -26,13 +26,15 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Gives a read-only view of a map as a map with type parameters that is are
- * superclasses of the original's
+ * Gives a read-only view of a {@link Map} as a {@link Map} with type parameters
+ * that are superclasses of the original's
  * 
  * @param <K>
  *            The keys type of the resulting map view.
  * @param <V>
  *            The values type of the resulting map view.
+ * 
+ * @author Quim Testar
  */
 public class AdaptedMap<K, V> implements Map<K, V>
 {

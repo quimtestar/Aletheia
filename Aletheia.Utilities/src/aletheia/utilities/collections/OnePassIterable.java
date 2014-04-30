@@ -17,19 +17,37 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.utilities;
+package aletheia.utilities.collections;
 
-import java.util.Comparator;
+import java.util.Iterator;
 
 /**
- * A {@link CastComparator} for subclasses.
+ * An {@link Iterable} for just one use of an {@link Iterator}.
+ * 
+ * @author Quim Testar
  */
-public class SuperComparator<T> extends CastComparator<T, T>
+public class OnePassIterable<E> implements Iterable<E>
 {
+	private final Iterator<E> iterator;
+	private boolean iterated;
 
-	public SuperComparator(Comparator<? super T> inner)
+	public OnePassIterable(Iterator<E> iterator)
 	{
-		super(inner);
+		this.iterator = iterator;
+		this.iterated = false;
+	}
+
+	/**
+	 * @throws IllegalStateException
+	 *             When the iterator has been already served.
+	 */
+	@Override
+	public synchronized Iterator<E> iterator()
+	{
+		if (iterated)
+			throw new IllegalStateException();
+		iterated = true;
+		return iterator;
 	}
 
 }

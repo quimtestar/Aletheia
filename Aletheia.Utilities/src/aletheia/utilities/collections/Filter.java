@@ -19,7 +19,17 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+import java.util.Collection;
+
+/**
+ * A filter for {@link Collection}s elements.
+ * 
+ * @author Quim Testar
+ */
 public interface Filter<E>
 {
+	/**
+	 * Returns true if the element pass the filter.
+	 */
 	public boolean filter(E e);
 }

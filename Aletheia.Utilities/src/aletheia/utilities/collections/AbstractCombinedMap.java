@@ -36,6 +36,8 @@ import java.util.Set;
  *            The keys type.
  * @param <V>
  *            The values type.
+ * 
+ * @author Quim Testar
  */
 public abstract class AbstractCombinedMap<K, V> extends AbstractReadOnlyMap<K, V> implements Serializable
 {

@@ -20,33 +20,72 @@
 package aletheia.utilities.io;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.channels.SocketChannel;
 
+/**
+ * The streams ({@link InputStream input} or {@link OutputStream output})
+ * implementing this interface will send/receive the data through a non-blocking
+ * {@link SocketChannel}.
+ * 
+ * @author Quim Testar
+ */
 public interface NonBlockingSocketChannelStream
 {
 
+	/**
+	 * Sets the timeout for read/write operations. If 0 operations will wait
+	 * indefinitelly.
+	 * 
+	 * @param timeout
+	 *            in milliseconds. If 0 will wait indefinitelly.
+	 */
 	public void setTimeout(long timeout);
 
+	/**
+	 * Gets the configured timeout for read/write operations.
+	 */
 	public long getTimeout();
 
+	/**
+	 * Interrupts the read/write operation to programatically unblock it if it's
+	 * on a wait state. The operation will throw a {@link InterruptedException}.
+	 */
 	public void interrupt();
 
+	/**
+	 * Read/write operations might throw this specific exceptions for kind of
+	 * streams.
+	 */
 	public class StreamException extends IOException
 	{
 		private static final long serialVersionUID = 2426901446844555488L;
 
 	}
 
+	/**
+	 * Operation timeout has expired.
+	 */
 	public class TimeoutException extends StreamException
 	{
 		private static final long serialVersionUID = -4024446616688877784L;
 
 	}
 
+	/**
+	 * Operation has been interrupted.
+	 * 
+	 * @see #interrupt()
+	 */
 	public class InterruptedException extends StreamException
 	{
 		private static final long serialVersionUID = 8342416457669067112L;
 	}
 
+	/**
+	 * Stream has been closed.
+	 */
 	public class ClosedStreamException extends StreamException
 	{
 		private static final long serialVersionUID = 1085642608030134349L;

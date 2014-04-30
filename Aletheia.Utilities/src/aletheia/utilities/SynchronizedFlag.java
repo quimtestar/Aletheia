@@ -22,33 +22,54 @@ package aletheia.utilities;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ * A generic synchronization capsule embedding a single variable.
+ */
 public class SynchronizedFlag<V>
 {
 	private V value;
 
+	/**
+	 * @param value
+	 *            The initial value.
+	 */
 	public SynchronizedFlag(V value)
 	{
 		super();
 		this.value = value;
 	}
 
+	/**
+	 * @return The value this flag is set to.
+	 */
 	public synchronized V getValue()
 	{
 		return value;
 	}
 
+	/**
+	 * @param value
+	 *            The value to set this flag to.
+	 */
 	public synchronized void setValue(V value)
 	{
 		this.value = value;
 		notifyAll();
 	}
 
+	/**
+	 * Waits until this flag is set to any value of a given collection.
+	 */
 	public synchronized void waitForValue(Collection<V> values) throws InterruptedException
 	{
 		while (!values.contains(value))
 			wait();
 	}
 
+	/**
+	 * Waits until this flag is set to any value of a given collection or a
+	 * timeout is expired.
+	 */
 	public synchronized void waitForValue(Collection<V> values, long timeout) throws InterruptedException
 	{
 		if (timeout <= 0)
@@ -66,11 +87,17 @@ public class SynchronizedFlag<V>
 
 	}
 
+	/**
+	 * Waits until this flag is set to a given value.
+	 */
 	public synchronized void waitForValue(V value) throws InterruptedException
 	{
 		waitForValue(Collections.singleton(value));
 	}
 
+	/**
+	 * Waits until this flag is set to a given value or a timeout is expired.
+	 */
 	public synchronized void waitForValue(V value, long timeout) throws InterruptedException
 	{
 		waitForValue(Collections.singleton(value), timeout);

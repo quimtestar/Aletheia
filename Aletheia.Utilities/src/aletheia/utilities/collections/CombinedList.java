@@ -27,6 +27,8 @@ import java.util.List;
  * 
  * @param <E>
  *            The elements' type.
+ * 
+ * @author Quim Testar
  */
 public class CombinedList<E> extends AbstractCombinedList<E> implements List<E>
 {

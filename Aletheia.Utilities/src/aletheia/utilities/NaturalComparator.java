@@ -21,12 +21,22 @@ package aletheia.utilities;
 
 import java.util.Comparator;
 
+/**
+ * A comparator that uses the {@link Comparable#compareTo(Object)} method of the
+ * objects to compare.
+ * 
+ * @author Quim Testar
+ */
 public class NaturalComparator<T> implements Comparator<T>
 {
 	public NaturalComparator()
 	{
 	}
 
+	/**
+	 * @throws ClassCastException
+	 *             if o1 cannot be casted to a {@link Comparable}
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public int compare(T o1, T o2)

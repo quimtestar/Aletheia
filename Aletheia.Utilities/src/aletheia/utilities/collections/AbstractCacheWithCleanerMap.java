@@ -37,6 +37,8 @@ import java.util.Set;
  *            The map value's type.
  * @param <R>
  *            The reference type to the values.
+ * 
+ * @author Quim Testar
  */
 public abstract class AbstractCacheWithCleanerMap<K, V, R extends Reference<V>> extends AbstractCacheMap<K, V, R> implements CacheWithCleanerMap<K, V>
 {

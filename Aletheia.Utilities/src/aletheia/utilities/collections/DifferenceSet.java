@@ -27,6 +27,8 @@ import java.util.Set;
  * 
  * @param <E>
  *            The element's type.
+ * 
+ * @author Quim Testar
  */
 public class DifferenceSet<E> extends DifferenceCollection<E> implements Set<E>
 {

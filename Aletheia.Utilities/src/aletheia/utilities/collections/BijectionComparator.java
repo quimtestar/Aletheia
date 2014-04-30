@@ -21,6 +21,12 @@ package aletheia.utilities.collections;
 
 import java.util.Comparator;
 
+/**
+ * A {@link Comparator} that does its job using another type's
+ * {@link Comparator} via a {@link Bijection}.
+ * 
+ * @author Quim Testar
+ */
 public class BijectionComparator<I, O> implements Comparator<O>
 {
 	private final Bijection<I, O> bijection;

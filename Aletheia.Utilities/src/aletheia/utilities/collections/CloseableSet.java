@@ -19,13 +19,16 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+import java.util.Iterator;
 import java.util.Set;
 
 /**
- * A {@link Set} whose iterator is a {@link CloseableIterator}
+ * A {@link Set} whose {@link Iterator} is a {@link CloseableIterator}
  * 
  * @param <E>
  *            The elements' type.
+ * 
+ * @author Quim Testar
  */
 public interface CloseableSet<E> extends Set<E>, CloseableCollection<E>
 {

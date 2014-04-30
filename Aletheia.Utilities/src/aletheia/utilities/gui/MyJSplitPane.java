@@ -28,6 +28,15 @@ import javax.swing.plaf.SplitPaneUI;
 import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
+/**
+ * A extension of the JSplitPane with the capability of setting de divider
+ * position even if the container is not valid. The desired position is saved to
+ * use when we get validated.
+ * 
+ * @see #setDividerLocationOrExpandWhenValid(double)
+ * 
+ * @author Quim Testar
+ */
 public class MyJSplitPane extends JSplitPane
 {
 	private static final long serialVersionUID = -5114895971103984430L;
@@ -100,6 +109,11 @@ public class MyJSplitPane extends JSplitPane
 		expand(1);
 	}
 
+	/**
+	 * If proportionalLocation is in the open interval (0,1),
+	 * {@link #setDividerLocation(double)}, if not {@link #expandLeft()} or
+	 * {@link #expandRight()}.
+	 */
 	public void setDividerLocationOrExpand(double proportionalLocation)
 	{
 		if (proportionalLocation <= 0)
@@ -134,6 +148,12 @@ public class MyJSplitPane extends JSplitPane
 		super.paint(g);
 	}
 
+	/**
+	 * If the parent container is valid we call to the
+	 * {@link #setDividerLocationOrExpand(double)} inmediately. If not, we save
+	 * the value which will be in a subsequent call to {@link #validate()},
+	 * {@link #validateTree()} or {@link #paint(Graphics)}.
+	 */
 	public synchronized void setDividerLocationOrExpandWhenValid(double proportionalLocation)
 	{
 		if (isValid() && getParent() != null && getParent().isValid())

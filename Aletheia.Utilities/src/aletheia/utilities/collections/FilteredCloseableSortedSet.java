@@ -21,6 +21,11 @@ package aletheia.utilities.collections;
 
 import java.util.Comparator;
 
+/**
+ * A {@link FilteredSortedSet} that is also a {@link CloseableSet}.
+ * 
+ * @author Quim Testar
+ */
 public class FilteredCloseableSortedSet<E> extends FilteredCloseableSet<E> implements CloseableSortedSet<E>
 {
 

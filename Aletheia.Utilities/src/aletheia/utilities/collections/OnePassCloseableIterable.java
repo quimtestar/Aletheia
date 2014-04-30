@@ -17,19 +17,25 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.utilities;
-
-import java.util.Comparator;
+package aletheia.utilities.collections;
 
 /**
- * A {@link CastComparator} for subclasses.
+ * A {@link CloseableIterable} for just one use of an {@link CloseableIterator}.
+ * 
+ * @author Quim Testar
  */
-public class SuperComparator<T> extends CastComparator<T, T>
+public class OnePassCloseableIterable<E> extends OnePassIterable<E> implements CloseableIterable<E>
 {
 
-	public SuperComparator(Comparator<? super T> inner)
+	public OnePassCloseableIterable(CloseableIterator<E> iterator)
 	{
-		super(inner);
+		super(iterator);
+	}
+
+	@Override
+	public CloseableIterator<E> iterator()
+	{
+		return (CloseableIterator<E>) super.iterator();
 	}
 
 }

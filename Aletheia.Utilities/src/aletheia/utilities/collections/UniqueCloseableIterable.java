@@ -19,6 +19,11 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * A {@link UniqueIterable} that is also {@link CloseableIterable}.
+ * 
+ * @author Quim Testar
+ */
 public class UniqueCloseableIterable<E> extends UniqueIterable<E> implements CloseableIterable<E>
 {
 

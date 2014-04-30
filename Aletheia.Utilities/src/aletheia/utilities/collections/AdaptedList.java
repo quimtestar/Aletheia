@@ -23,6 +23,15 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 
+/**
+ * Gives a read-only view of a {@link List} as a {@link List} with a type
+ * parameter that is a superclass of the original's.
+ * 
+ * @param <E>
+ *            The type of the resulting {@link List} view.
+ * 
+ * @author Quim Testar
+ */
 public class AdaptedList<E> extends AdaptedCollection<E> implements List<E>
 {
 

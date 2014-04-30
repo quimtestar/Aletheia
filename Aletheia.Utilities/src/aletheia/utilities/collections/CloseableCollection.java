@@ -20,7 +20,13 @@
 package aletheia.utilities.collections;
 
 import java.util.Collection;
+import java.util.Iterator;
 
+/**
+ * A {@link Collection} whose {@link Iterator}s are {@link CloseableIterator}s.
+ * 
+ * @author Quim Testar
+ */
 public interface CloseableCollection<E> extends Collection<E>, CloseableIterable<E>
 {
 

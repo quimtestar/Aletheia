@@ -37,6 +37,8 @@ import java.util.Set;
  *            The map value's type.
  * @param <R>
  *            The reference type to the values.
+ * 
+ * @author Quim Testar
  */
 public abstract class AbstractCacheMap<K, V, R extends Reference<V>> extends AbstractMap<K, V> implements CacheMap<K, V>
 {
@@ -90,8 +92,7 @@ public abstract class AbstractCacheMap<K, V, R extends Reference<V>> extends Abs
 	 * 
 	 * @param value
 	 *            The value to store.
-	 * @param queue
-	 *            The reference queue to register the reference.
+	 * 
 	 * @return The reference.
 	 */
 	protected abstract R makeRef(V value);

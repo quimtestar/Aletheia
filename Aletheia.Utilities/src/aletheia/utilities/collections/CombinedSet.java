@@ -28,6 +28,8 @@ import java.util.Set;
  * 
  * @param <E>
  *            The elements' type.
+ * 
+ * @author Quim Testar
  */
 public class CombinedSet<E> extends AbstractCombinedSet<E> implements Set<E>
 {

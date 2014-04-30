@@ -19,6 +19,11 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * A {@link Bijection} that maps every value to itself.
+ * 
+ * @author Quim Testar
+ */
 public class IdentityBijection<T> implements Bijection<T, T>
 {
 

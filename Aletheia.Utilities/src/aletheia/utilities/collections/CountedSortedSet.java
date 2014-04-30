@@ -21,6 +21,12 @@ package aletheia.utilities.collections;
 
 import java.util.SortedSet;
 
+/**
+ * A {@link SortedSet} whose elements can be addressed by its position according
+ * to the Set's order.
+ * 
+ * @author Quim Testar
+ */
 public interface CountedSortedSet<E> extends SortedSet<E>
 {
 	E get(int ordinal);

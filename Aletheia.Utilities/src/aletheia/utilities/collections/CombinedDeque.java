@@ -21,6 +21,11 @@ package aletheia.utilities.collections;
 
 import java.util.Deque;
 
+/**
+ * A {@link Deque} that is a concatenation of two given {@link Deque}s.
+ * 
+ * @author Quim Testar
+ */
 public class CombinedDeque<E> extends AbstractCombinedDeque<E>
 {
 	private static final long serialVersionUID = 129137538141001003L;

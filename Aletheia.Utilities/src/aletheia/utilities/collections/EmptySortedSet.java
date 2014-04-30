@@ -26,6 +26,11 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.SortedSet;
 
+/**
+ * A {@link SortedSet} that has no elements.
+ * 
+ * @author Quim Testar
+ */
 public class EmptySortedSet<E> extends AbstractReadOnlySortedSet<E> implements SortedSet<E>
 {
 

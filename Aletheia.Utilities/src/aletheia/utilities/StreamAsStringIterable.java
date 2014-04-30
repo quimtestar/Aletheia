@@ -19,80 +19,20 @@
  ******************************************************************************/
 package aletheia.utilities;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 
-import aletheia.utilities.collections.CloseableIterable;
-import aletheia.utilities.collections.CloseableIterator;
+import aletheia.utilities.collections.OnePassCloseableIterable;
 
-public class StreamAsStringIterable implements CloseableIterable<String>
+/**
+ * Iterate across the lines of an {@link InputStream} as {@link String}s.
+ * 
+ * @author Quim Testar
+ */
+public class StreamAsStringIterable extends OnePassCloseableIterable<String>
 {
-	private final BufferedReader inputStreamReader;
-
 	public StreamAsStringIterable(InputStream inputStream)
 	{
-		this.inputStreamReader = new BufferedReader(new InputStreamReader(inputStream));
-	}
-
-	@Override
-	public CloseableIterator<String> iterator()
-	{
-		return new CloseableIterator<String>()
-		{
-
-			String next = advance();
-
-			private String advance()
-			{
-				try
-				{
-					String next = inputStreamReader.readLine();
-					if (next == null)
-						inputStreamReader.close();
-					return next;
-				}
-				catch (IOException e)
-				{
-					throw new RuntimeException(e);
-				}
-			}
-
-			@Override
-			public boolean hasNext()
-			{
-				return next != null;
-			}
-
-			@Override
-			public String next()
-			{
-				String s = next;
-				next = advance();
-				return s;
-			}
-
-			@Override
-			public void remove()
-			{
-				throw new UnsupportedOperationException();
-			}
-
-			@Override
-			public void close()
-			{
-				try
-				{
-					inputStreamReader.close();
-				}
-				catch (IOException e)
-				{
-					throw new RuntimeException(e);
-				}
-			}
-
-		};
+		super(new StreamAsStringIterator(inputStream));
 	}
 
 }

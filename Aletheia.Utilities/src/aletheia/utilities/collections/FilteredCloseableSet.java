@@ -19,6 +19,11 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+/**
+ * A {@link FilteredSet} that is also a {@link CloseableSet}
+ * 
+ * @author Quim Testar
+ */
 public class FilteredCloseableSet<E> extends FilteredCloseableCollection<E> implements CloseableSet<E>
 {
 

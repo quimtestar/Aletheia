@@ -20,12 +20,22 @@
 package aletheia.utilities.collections;
 
 import java.util.AbstractCollection;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+/**
+ * An empty {@link Collection} with enabled update operations that will
+ * nevertheless leave the {@link Collection} empty.
+ * 
+ * @author Quim Testar
+ */
 public class EmptyIgnoringCollection<E> extends AbstractCollection<E>
 {
 
+	/**
+	 * Won't add the element to the {@link Collection}. Will return false.
+	 */
 	@Override
 	public boolean add(E e)
 	{

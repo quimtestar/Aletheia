@@ -21,6 +21,9 @@ package aletheia.utilities.collections;
 
 import java.util.SortedSet;
 
+/**
+ * A {@link SortedSet} that is also a {@link CloseableSet}.
+ */
 public interface CloseableSortedSet<E> extends SortedSet<E>, CloseableSet<E>
 {
 	@Override

@@ -19,8 +19,6 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
-import java.util.ArrayList;
-
 /**
  * A view of a {@link CloseableCollection} defined by a {@link Bijection}.
  * 
@@ -28,6 +26,8 @@ import java.util.ArrayList;
  *            The input type.
  * @param <O>
  *            The output type.
+ * 
+ * @author Quim Testar
  */
 
 public class BijectionCloseableCollection<I, O> extends BijectionCollection<I, O> implements CloseableCollection<O>
@@ -48,23 +48,6 @@ public class BijectionCloseableCollection<I, O> extends BijectionCollection<I, O
 	public CloseableIterator<O> iterator()
 	{
 		return new BijectionCloseableIterator<I, O>(getBijection(), getInner().iterator());
-	}
-
-	@Override
-	protected ArrayList<O> toArrayList()
-	{
-		ArrayList<O> list = new ArrayList<O>();
-		CloseableIterator<O> iterator = iterator();
-		try
-		{
-			while (iterator.hasNext())
-				list.add(iterator.next());
-		}
-		finally
-		{
-			iterator.close();
-		}
-		return list;
 	}
 
 }

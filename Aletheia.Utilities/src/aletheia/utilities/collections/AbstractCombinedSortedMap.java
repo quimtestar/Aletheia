@@ -19,7 +19,6 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -28,10 +27,12 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedMap;
 
+import aletheia.utilities.MiscUtilities;
+
 /**
- * Abstract implementation of a combined sorted map. The entries in the front
- * map will shadow the entries in the back map with the same key. The management
- * of the back map is kept abstract.
+ * Abstract implementation of a combined {@link SortedMap}. The entries in the
+ * front map will shadow the entries in the back map with the same key. The
+ * management of the back map is kept abstract.
  * 
  * @param <K>
  *            The keys type.
@@ -285,16 +286,13 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 			@Override
 			public Object[] toArray()
 			{
-				ArrayList<Object> arrayList = new ArrayList<Object>();
-				for (Map.Entry<K, V> e : this)
-					arrayList.add(e);
-				return arrayList.toArray();
+				return MiscUtilities.iterableToArray(this);
 			}
 
 			@Override
 			public <T> T[] toArray(T[] a)
 			{
-				return new ArrayList<Map.Entry<K, V>>(this).toArray(a);
+				return MiscUtilities.iterableToArray(this, a);
 			}
 
 		};
@@ -362,16 +360,13 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 			@Override
 			public Object[] toArray()
 			{
-				ArrayList<Object> arrayList = new ArrayList<Object>();
-				for (V v : this)
-					arrayList.add(v);
-				return arrayList.toArray();
+				return MiscUtilities.iterableToArray(this);
 			}
 
 			@Override
 			public <T> T[] toArray(T[] a)
 			{
-				return new ArrayList<V>(this).toArray(a);
+				return MiscUtilities.iterableToArray(this, a);
 			}
 
 		};

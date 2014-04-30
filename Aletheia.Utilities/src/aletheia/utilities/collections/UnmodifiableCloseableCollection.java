@@ -21,6 +21,11 @@ package aletheia.utilities.collections;
 
 import java.util.Collection;
 
+/**
+ * A read-only view of a {@link CloseableCollection}.
+ * 
+ * @author Quim Testar
+ */
 public class UnmodifiableCloseableCollection<E> implements CloseableCollection<E>
 {
 	private final CloseableCollection<E> inner;
