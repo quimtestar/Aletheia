@@ -408,14 +408,52 @@ public class MiscUtilities
 	}
 
 	/**
-	 * Next element of an iterator or null it there is no next element.
+	 * Nth element from the actual position (the next is the zeroth) of an
+	 * iterator or null it there is no nth element.
 	 */
-	private static <E> E nextFromIterator(Iterator<E> iterator)
+	private static <E> E nthFromIterator(Iterator<E> iterator, int n)
 	{
+		for (int i = 0; i < n && iterator.hasNext(); i++)
+			iterator.next();
 		if (iterator.hasNext())
 			return iterator.next();
 		else
 			return null;
+	}
+
+	/**
+	 * Next element of an iterator or null it there is no next element.
+	 */
+	private static <E> E nextFromIterator(Iterator<E> iterator)
+	{
+		return nthFromIterator(iterator, 0);
+	}
+
+	/**
+	 * Nth element of an {@link Iterable} object (the first is the zeroth) of
+	 * null if there are not so many elements.
+	 */
+	public static <E> E nthFromIterable(Iterable<E> iterable, int n)
+	{
+		Iterator<E> iterator = iterable.iterator();
+		return nthFromIterator(iterator, n);
+	}
+
+	/**
+	 * Nth element of a {@link CloseableIterable} object (the first is the
+	 * zeroth) of null if there are not so many elements.
+	 */
+	public static <E> E nthFromCloseableIterable(CloseableIterable<E> iterable, int n)
+	{
+		CloseableIterator<E> iterator = iterable.iterator();
+		try
+		{
+			return nthFromIterator(iterator, n);
+		}
+		finally
+		{
+			iterator.close();
+		}
 	}
 
 	/**
