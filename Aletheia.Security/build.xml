@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="Aletheia.Security">
+    <property environment="env"/>
+    <property name="Aletheia.Base.location" value="../Aletheia.Base"/>
+    <property name="Aletheia.BerkeleyDB.location" value="../Aletheia.BerkeleyDB"/>
+    <property name="Aletheia.GUI.location" value="../Aletheia.GUI"/>
+    <property name="Aletheia.PeerToPeer.location" value="../Aletheia.PeerToPeer"/>
+    <property name="Aletheia.Test.location" value="../Aletheia.Test"/>
+    <property name="Aletheia.log4j.location" value="../Aletheia.log4j"/>
+    <property name="Aletheia.Utilities.location" value="../Aletheia.Utilities"/>
+    <property name="Aletheia.Protocol.location" value="../Aletheia.Protocol"/>
+    <property name="debug" value="true"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.7"/>
+    <property name="source" value="1.7"/>
+    <path id="Log4j Library.userclasspath">
+        <pathelement location="${Aletheia.log4j.location}/log4j-1.2.17.jar"/>
+    </path>
+    <path id="Aletheia.log4j.classpath">
+        <pathelement location="${Aletheia.log4j.location}/bin"/>
+        <path refid="Log4j Library.userclasspath"/>
+    </path>
+    <path id="Aletheia.Utilities.classpath">
+        <pathelement location="${Aletheia.Utilities.location}/bin"/>
+        <path refid="Aletheia.log4j.classpath"/>
+    </path>
+    <path id="Aletheia.Protocol.classpath">
+        <pathelement location="${Aletheia.Protocol.location}/bin"/>
+        <path refid="Aletheia.Utilities.classpath"/>
+    </path>
+    <path id="Aletheia.Security.classpath">
+        <pathelement location="bin"/>
+        <path refid="Aletheia.Utilities.classpath"/>
+        <path refid="Aletheia.Protocol.classpath"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall">
+        <ant antfile="build.xml" dir="${Aletheia.log4j.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.Utilities.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.Protocol.location}" inheritAll="false" target="clean"/>
+    </target>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects">
+        <ant antfile="build.xml" dir="${Aletheia.log4j.location}" inheritAll="false" target="build-project"/>
+        <ant antfile="build.xml" dir="${Aletheia.Utilities.location}" inheritAll="false" target="build-project"/>
+        <ant antfile="build.xml" dir="${Aletheia.Protocol.location}" inheritAll="false" target="build-project"/>
+    </target>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="${debug}" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="Aletheia.Security.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects">
+        <ant antfile="build.xml" dir="${Aletheia.Base.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.Base.location}" inheritAll="false" target="build"/>
+        <ant antfile="build.xml" dir="${Aletheia.BerkeleyDB.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.BerkeleyDB.location}" inheritAll="false" target="build"/>
+        <ant antfile="build.xml" dir="${Aletheia.GUI.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.GUI.location}" inheritAll="false" target="build"/>
+        <ant antfile="build.xml" dir="${Aletheia.PeerToPeer.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.PeerToPeer.location}" inheritAll="false" target="build"/>
+        <ant antfile="build.xml" dir="${Aletheia.Test.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.Test.location}" inheritAll="false" target="build"/>
+    </target>
+</project>
