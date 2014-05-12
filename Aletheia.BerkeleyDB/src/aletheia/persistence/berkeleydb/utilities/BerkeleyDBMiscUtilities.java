@@ -1,0 +1,39 @@
+/*******************************************************************************
+ * Copyright (c) 2014 Quim Testar.
+ * 
+ * This file is part of the Aletheia Proof Assistant.
+ * 
+ * The Aletheia Proof Assistant is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ * 
+ * The Aletheia Proof Assistant is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with the Aletheia Proof Assistant. If not, see
+ * <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+package aletheia.persistence.berkeleydb.utilities;
+
+import com.sleepycat.persist.model.PrimaryKeyMetadata;
+import com.sleepycat.persist.raw.RawType;
+
+public class BerkeleyDBMiscUtilities
+{
+	public static PrimaryKeyMetadata primaryKeyMetadata(RawType rawType)
+	{
+		while (rawType != null)
+		{
+			PrimaryKeyMetadata primaryKeyMetadata = rawType.getClassMetadata().getPrimaryKey();
+			if (primaryKeyMetadata != null)
+				return primaryKeyMetadata;
+			rawType = rawType.getSuperType();
+		}
+		return null;
+	}
+
+}

@@ -1,0 +1,355 @@
+/*******************************************************************************
+ * Copyright (c) 2014 Quim Testar.
+ * 
+ * This file is part of the Aletheia Proof Assistant.
+ * 
+ * The Aletheia Proof Assistant is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ * 
+ * The Aletheia Proof Assistant is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with the Aletheia Proof Assistant. If not, see
+ * <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+package aletheia.gui.authority;
+
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+
+import aletheia.gui.app.AletheiaJFrame;
+import aletheia.gui.common.PersistentJTreeLayerUI;
+import aletheia.gui.contextjtree.ContextJTree;
+import aletheia.gui.contextjtree.ContextJTreeJPanel;
+import aletheia.gui.delegatejtree.DelegateTreeJTree;
+import aletheia.model.authority.Person;
+import aletheia.model.authority.Signatory;
+import aletheia.model.authority.StatementAuthority;
+import aletheia.model.authority.StatementAuthoritySignature;
+import aletheia.model.identifier.Identifier;
+import aletheia.model.identifier.Namespace;
+import aletheia.model.statement.Context;
+import aletheia.model.statement.RootContext;
+import aletheia.model.statement.Statement;
+import aletheia.persistence.PersistenceManager;
+import aletheia.persistence.Transaction;
+import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
+import aletheia.utilities.gui.MyJSplitPane;
+
+public class AuthorityJPanel extends JPanel
+{
+	private static final long serialVersionUID = 7732434741412425374L;
+
+	private final static String emptyComponentName = "empty";
+	private final static String contentComponentName = "content";
+
+	private final ContextJTreeJPanel contextJTreeJPanel;
+
+	private class Listener implements ContextJTree.SelectionListener, Statement.StateListener, StatementAuthority.StateListener
+	{
+
+		private class SetStatementAuthorityTransactionHook implements Transaction.Hook
+		{
+
+			private final Statement statement;
+			private final StatementAuthority statementAuthority;
+
+			private SetStatementAuthorityTransactionHook(Statement statement, StatementAuthority statementAuthority)
+			{
+				this.statement = statement;
+				this.statementAuthority = statementAuthority;
+			}
+
+			@Override
+			public void run(Transaction closedTransaction)
+			{
+				setStatementAuthority(statement, statementAuthority);
+			}
+
+		}
+
+		@Override
+		public void statementSelected(Statement statement)
+		{
+			setStatement(statement);
+		}
+
+		@Override
+		public void consequentSelected(Context context)
+		{
+			setStatement(null);
+		}
+
+		@Override
+		public void statementAuthorityCreated(Transaction transaction, Statement statement, StatementAuthority statementAuthority)
+		{
+			transaction.runWhenCommit(new SetStatementAuthorityTransactionHook(statement, statementAuthority));
+		}
+
+		@Override
+		public void statementAuthorityDeleted(Transaction transaction, Statement statement, StatementAuthority statementAuthority)
+		{
+			transaction.runWhenCommit(new SetStatementAuthorityTransactionHook(statement, null));
+		}
+
+		@Override
+		public void validSignatureStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean validSignature)
+		{
+			transaction.runWhenCommit(new SetStatementAuthorityTransactionHook(statement, statementAuthority));
+		}
+
+		@Override
+		public void signedDependenciesStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean signedDependencies)
+		{
+			transaction.runWhenCommit(new SetStatementAuthorityTransactionHook(statement, statementAuthority));
+		}
+
+		@Override
+		public void signedProofStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean signedProof)
+		{
+			transaction.runWhenCommit(new SetStatementAuthorityTransactionHook(statement, statementAuthority));
+		}
+
+		@Override
+		public void signatureAdded(Transaction transaction, StatementAuthority statementAuthority, StatementAuthoritySignature statementAuthoritySignature)
+		{
+			transaction.runWhenCommit(new SetStatementAuthorityTransactionHook(statement, statementAuthority));
+		}
+
+		@Override
+		public void signatureDeleted(Transaction transaction, StatementAuthority statementAuthority, StatementAuthoritySignature statementAuthoritySignature)
+		{
+			transaction.runWhenCommit(new SetStatementAuthorityTransactionHook(statement, statementAuthority));
+		}
+
+		@Override
+		public void provedStateChanged(Transaction transaction, Statement statement, boolean proved)
+		{
+		}
+
+		@Override
+		public void statementAddedToContext(Transaction transaction, Context context, Statement statement)
+		{
+		}
+
+		@Override
+		public void statementDeletedFromContext(Transaction transaction, Context context, Statement statement, Identifier identifier)
+		{
+		}
+
+		@Override
+		public void delegateTreeChanged(Transaction transaction, StatementAuthority statementAuthority)
+		{
+			transaction.runWhenCommit(new SetStatementAuthorityTransactionHook(statement, statementAuthority));
+		}
+
+		@Override
+		public void successorEntriesChanged(Transaction transaction, StatementAuthority statementAuthority)
+		{
+			delegateTreeChanged(transaction, statementAuthority);
+		}
+
+		@Override
+		public void delegateAuthorizerChanged(Transaction transaction, StatementAuthority statementAuthority, Namespace prefix, Person delegate,
+				Signatory authorizer)
+		{
+		}
+
+	}
+
+	private final Listener listener;
+
+	private final JPanel emptyPanel;
+	private final JPanel contentPanel;
+	private final JScrollPane headerJScrollPane;
+	private final JScrollPane authoritySignatureTableJScrollPane;
+	private final JScrollPane delegateTreeJScrollPane;
+	private final MyJSplitPane jSplitPane1;
+	private final MyJSplitPane jSplitPane0;
+
+	private Statement statement;
+	private StatementAuthority statementAuthority;
+	private AuthorityHeaderJPanel authorityHeaderJPanel;
+	private PersistentJTreeLayerUI<AuthorityHeaderJPanel> authorityHeaderJPanelLayerUI;
+	private AbstractAuthoritySignatureJTable authoritySignatureJTable;
+	private PersistentJTreeLayerUI<AbstractAuthoritySignatureJTable> authoritySignatureJTableLayerUI;
+	private DelegateTreeJTree delegateTreeJTree;
+	private PersistentJTreeLayerUI<DelegateTreeJTree> delegateTreeJTreeLayerUI;
+	private String showing;
+
+	public AuthorityJPanel(ContextJTreeJPanel contextJTreeJPanel)
+	{
+		super(new CardLayout());
+		this.emptyPanel = new JPanel();
+		this.emptyPanel.setBackground(Color.white);
+		add(this.emptyPanel, emptyComponentName);
+		this.contentPanel = new JPanel(new BorderLayout());
+		this.contentPanel.setBackground(Color.white);
+		add(this.contentPanel, contentComponentName);
+		this.contextJTreeJPanel = contextJTreeJPanel;
+		this.listener = new Listener();
+		contextJTreeJPanel.getContextJTree().addSelectionListener(listener);
+		this.headerJScrollPane = new JScrollPane();
+		this.headerJScrollPane.getViewport().setBackground(Color.white);
+		this.authoritySignatureTableJScrollPane = new JScrollPane();
+		this.delegateTreeJScrollPane = new JScrollPane();
+		this.jSplitPane1 = new MyJSplitPane(JSplitPane.HORIZONTAL_SPLIT, authoritySignatureTableJScrollPane, delegateTreeJScrollPane);
+		this.jSplitPane1.setDividerLocationOrExpandWhenValid(1d);
+		this.jSplitPane1.setOneTouchExpandable(true);
+		this.jSplitPane0 = new MyJSplitPane(JSplitPane.VERTICAL_SPLIT, headerJScrollPane, this.jSplitPane1);
+		this.jSplitPane0.setResizeWeight(1);
+		this.jSplitPane0.setDividerLocationOrExpandWhenValid(1d);
+		this.jSplitPane0.setOneTouchExpandable(true);
+		this.contentPanel.add(this.jSplitPane0, BorderLayout.CENTER);
+		this.statement = null;
+		this.authoritySignatureJTable = null;
+		this.authorityHeaderJPanel = null;
+		this.authoritySignatureJTable = null;
+		this.delegateTreeJTree = null;
+	}
+
+	public ContextJTreeJPanel getContextJTreeJPanel()
+	{
+		return contextJTreeJPanel;
+	}
+
+	public AletheiaJFrame getAletheiaJFrame()
+	{
+		return contextJTreeJPanel.getAletheiaJFrame();
+	}
+
+	@Override
+	public CardLayout getLayout()
+	{
+		return (CardLayout) super.getLayout();
+	}
+
+	public PersistenceManager getPersistenceManager()
+	{
+		return contextJTreeJPanel.getPersistenceManager();
+	}
+
+	public void setStatement(Statement statement)
+	{
+		if (statement == null)
+			setStatementAuthority(statement, null);
+		else
+		{
+			Transaction transaction = getPersistenceManager().beginTransaction(100);
+			try
+			{
+				StatementAuthority stAuth = statement.getAuthority(transaction);
+				setStatementAuthority(statement, stAuth);
+			}
+			catch (PersistenceLockTimeoutException e)
+			{
+			}
+			finally
+			{
+				transaction.abort();
+			}
+		}
+	}
+
+	private void removeAuthorityHeaderJPanel()
+	{
+		if (authorityHeaderJPanel != null)
+		{
+			authorityHeaderJPanel.close();
+			headerJScrollPane.setViewportView(null);
+			authorityHeaderJPanel = null;
+		}
+	}
+
+	private void removeAuthoritySignatureJTable()
+	{
+		if (authoritySignatureJTable != null)
+		{
+			authoritySignatureTableJScrollPane.setViewportView(null);
+			authoritySignatureJTable = null;
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private String getShowing()
+	{
+		return showing;
+	}
+
+	private void show(String componentName)
+	{
+		showing = componentName;
+		getLayout().show(this, componentName);
+	}
+
+	private void showEmpty()
+	{
+		show(emptyComponentName);
+	}
+
+	private void showContent()
+	{
+		show(contentComponentName);
+	}
+
+	private void setStatementAuthority(Statement statement, StatementAuthority statementAuthority)
+	{
+		if (this.statement != null)
+			this.statement.removeStateListener(listener);
+		this.statement = statement;
+		if (statement != null)
+			statement.addStateListener(listener);
+
+		if (this.statementAuthority != null)
+			this.statementAuthority.removeStateListener(listener);
+		this.statementAuthority = statementAuthority;
+		if (statementAuthority != null)
+			statementAuthority.addStateListener(listener);
+
+		removeAuthorityHeaderJPanel();
+		removeAuthoritySignatureJTable();
+		if (statementAuthority != null)
+		{
+			authorityHeaderJPanel = new AuthorityHeaderJPanel(this, statementAuthority);
+			authorityHeaderJPanelLayerUI = new PersistentJTreeLayerUI<AuthorityHeaderJPanel>(getAletheiaJFrame(), authorityHeaderJPanel);
+			headerJScrollPane.setViewportView(authorityHeaderJPanelLayerUI.getJLayer());
+			if (statement instanceof RootContext)
+				authoritySignatureJTable = new RootContextAuthoritySignatureJTable(this, (RootContext) statement, statementAuthority);
+			else
+				authoritySignatureJTable = new AuthoritySignatureJTable(this, statement, statementAuthority);
+			authoritySignatureJTableLayerUI = new PersistentJTreeLayerUI<AbstractAuthoritySignatureJTable>(getAletheiaJFrame(), authoritySignatureJTable);
+			authoritySignatureTableJScrollPane.setViewportView(authoritySignatureJTableLayerUI.getJLayer());
+			if (delegateTreeJTree != null)
+				delegateTreeJTree.close();
+			delegateTreeJTree = new DelegateTreeJTree(this, statementAuthority);
+			delegateTreeJTreeLayerUI = new PersistentJTreeLayerUI<DelegateTreeJTree>(getAletheiaJFrame(), delegateTreeJTree);
+			delegateTreeJScrollPane.setViewportView(delegateTreeJTreeLayerUI.getJLayer());
+			showContent();
+		}
+		else
+			showEmpty();
+		updateUI();
+	}
+
+	public void updateFontSize()
+	{
+		setStatementAuthority(statement, statementAuthority);
+	}
+
+	public void close()
+	{
+		if (delegateTreeJTree != null)
+			delegateTreeJTree.close();
+	}
+
+}

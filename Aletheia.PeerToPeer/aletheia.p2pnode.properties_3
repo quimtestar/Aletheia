@@ -1,0 +1,10 @@
+aletheia.p2pnode.debug=true
+aletheia.p2pnode.standalone.dbfile_name=/mnt/vla1/quim/Aletheia/aletheiadb_3
+aletheia.p2pnode.standalone.allow_create=true
+aletheia.p2pnode.standalone.read_only=false
+aletheia.p2pnode.standalone.cache_percent=50
+aletheia.p2pnode.standalone.port=8667
+#aletheia.p2pnode.standalone.hook.host=localhost
+#aletheia.p2pnode.standalone.hook.port=8666
+aletheia.p2pnode.standalone.subscriptions=aletheia.p2pnode.subscriptions.txt
+

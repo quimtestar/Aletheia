@@ -1,0 +1,97 @@
+/*******************************************************************************
+ * Copyright (c) 2014 Quim Testar.
+ * 
+ * This file is part of the Aletheia Proof Assistant.
+ * 
+ * The Aletheia Proof Assistant is free software: you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the License,
+ * or (at your option) any later version.
+ * 
+ * The Aletheia Proof Assistant is distributed in the hope that it will be
+ * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
+ * General Public License for more details.
+ * 
+ * You should have received a copy of the GNU Affero General Public License
+ * along with the Aletheia Proof Assistant. If not, see
+ * <http://www.gnu.org/licenses/>.
+ ******************************************************************************/
+package aletheia.gui.cli.command.statement;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.TaggedCommand;
+import aletheia.gui.cli.command.TransactionalCommand;
+import aletheia.model.statement.Context;
+import aletheia.model.statement.Statement;
+import aletheia.persistence.Transaction;
+
+@TaggedCommand(tag = "multicopy", groupPath = "/statement", factory = MultiCopy.Factory.class)
+public class MultiCopy extends TransactionalCommand
+{
+	private final List<Statement> statements;
+
+	public MultiCopy(CliJPanel from, Transaction transaction, List<Statement> statements)
+	{
+		super(from, transaction);
+		this.statements = new ArrayList<Statement>(statements);
+	}
+
+	@Override
+	protected RunTransactionalReturnData runTransactional() throws Exception
+	{
+		if (getFrom().getActiveContext() == null)
+			throw new NotActiveContextException();
+		Context ctx = getFrom().getActiveContext();
+		List<Statement> list = ctx.copy(getTransaction(), this.statements);
+		if (list.isEmpty())
+			return null;
+		Statement last = list.get(list.size() - 1);
+		if (last instanceof Context)
+			return new RunTransactionalReturnData((Context) last);
+		else
+			return null;
+	}
+
+	public static class Factory extends AbstractVoidCommandFactory<MultiCopy>
+	{
+
+		@Override
+		protected int minParameters()
+		{
+			return 0;
+		}
+
+		@Override
+		public MultiCopy parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		{
+			List<Statement> statements = new ArrayList<Statement>();
+			for (int i = 0; i < split.size(); i++)
+			{
+				Statement st = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(i));
+				if (st == null)
+					throw new CommandParseException("Bad statement path: " + split.get(i));
+				statements.add(st);
+			}
+			return new MultiCopy(cliJPanel, transaction, statements);
+		}
+
+		@Override
+		protected String paramSpec()
+		{
+			return "<statement>*";
+		}
+
+		@Override
+		public String shortHelp()
+		{
+			return "Copies a list of statements to the active context.";
+		}
+
+	}
+
+}

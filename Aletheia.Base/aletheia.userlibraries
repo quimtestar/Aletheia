@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<eclipse-userlibraries version="2">
+    <library name="Berkeley DB Library" systemlibrary="false">
+        <archive javadoc="file:/home/quim/Referencia/je-5.0.103/docs/java/" path="/Aletheia.BerkeleyDB/je-5.0.103.jar" source="/home/quim/Referencia/je-5.0.103/src"/>
+    </library>
+    <library name="ItextPdf Library" systemlibrary="false">
+        <archive javadoc="jar:file:/home/quim/Referencia/itext-5.5.0/itextpdf-5.5.0-javadoc.jar!/" path="/Aletheia.PdfExport/itextpdf-5.5.0.jar" source="/home/quim/Referencia/itext-5.5.0/itextpdf-5.5.0-sources.jar"/>
+    </library>
+    <library name="Log4j Library" systemlibrary="false">
+        <archive javadoc="file:/home/quim/Referencia/apache-log4j-1.2.17/site/apidocs/" path="/Aletheia.log4j/log4j-1.2.17.jar" source="/home/quim/Referencia/apache-log4j-1.2.17/src"/>
+    </library>
+</eclipse-userlibraries>

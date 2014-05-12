@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="runnable">
+    <import file="build.xml"/>
+    <target depends="build" name="runnable">
+        <jar destfile="berkeleydb.aletheia.tool.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="aletheia.persistence.berkeleydb.BerkeleyDBAletheiaTool"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="bin"/>
+            <fileset dir="${Aletheia.Base.location}/bin"/>
+            <fileset dir="${Aletheia.log4j.location}/bin"/>
+            <fileset dir="${Aletheia.Utilities.location}/bin"/>
+            <fileset dir="${Aletheia.Security.location}/bin"/>
+            <fileset dir="${Aletheia.Protocol.location}/bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="je-5.0.103.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-1.2.17.jar"/>
+        </jar>
+    </target>
+</project>
+

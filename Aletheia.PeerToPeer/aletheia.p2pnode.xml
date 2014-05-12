@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="execute">
+	<property name="Xmx" value="512M"/>
+	<target name="execute">
+		<java jar="aletheia.p2pnode.jar" fork="true" spawn="true"> 
+			<jvmarg line="-Xmx${Xmx}"/> 
+			<jvmarg line="-Dcom.sun.management.jmxremote"/>
+			<jvmarg line="-Dcom.sun.management.jmxremote.authenticate=false"/> 
+			<jvmarg line="-Dcom.sun.management.jmxremote.ssl=false"/> 
+			<jvmarg line="-Dcom.sun.management.jmxremote.port=1101"/> 
+		</java>
+	</target>
+	<target name="debug">
+		<condition property="debug.suspend" value="n">
+			<not>
+				<isset property="debug.suspend" />
+			</not>
+		</condition>
+		<java jar="aletheia.p2pnode.jar" fork="true" spawn="false"> 
+			<jvmarg line="-Xmx${Xmx}"/> 
+			<jvmarg line="-Dcom.sun.management.jmxremote"/>
+			<jvmarg line="-Dcom.sun.management.jmxremote.authenticate=false"/> 
+			<jvmarg line="-Dcom.sun.management.jmxremote.ssl=false"/> 
+			<jvmarg line="-Dcom.sun.management.jmxremote.port=1101"/> 
+			<jvmarg line="-Xdebug"/>
+			<jvmarg line="-Xrunjdwp:server=y,transport=dt_socket,address=1102,suspend=${debug.suspend}"/>
+		</java>
+	</target>
+	<target name="jstatd">
+		<exec executable="jstatd" spawn="true">
+			<arg line="-J-Djava.security.policy=jstatd.all.policy"/>
+			<arg line="-p 1100"/>
+		</exec>
+	</target>
+</project>

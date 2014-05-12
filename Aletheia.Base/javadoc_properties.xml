@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project>
+    <property name="Aletheia.log4j.location" value="../Aletheia.log4j"/>
+    <property name="Aletheia.Utilities.location" value="../Aletheia.Utilities"/>
+    <property name="Aletheia.Protocol.location" value="../Aletheia.Protocol"/>
+    <property name="Aletheia.Security.location" value="../Aletheia.Security"/>
+    <property name="Aletheia.ParserGenerator.location" value="../Aletheia.ParserGenerator"/>
+    <property name="Aletheia.Base.location" value="../Aletheia.Base"/>
+    <property name="Aletheia.ProofFinder.location" value="../Aletheia.ProofFinder"/>
+    <property name="Aletheia.BerkeleyDB.location" value="../Aletheia.BerkeleyDB"/>
+    <property name="Aletheia.PeerToPeer.location" value="../Aletheia.PeerToPeer"/>
+    <property name="Aletheia.PdfExport.location" value="../Aletheia.PdfExport"/>
+    <property name="Aletheia.GUI.location" value="../Aletheia.GUI"/>
+	<property name="destdir" value="doc"/> 
+	<property name="access" value="private"/>
+	<property name="author" value="true"/>
+	<property name="sourcepath" value="src"/>
+	<property name="classpath" value="${Aletheia.Base.location}/bin:${Aletheia.BerkeleyDB.location}/bin:${Aletheia.BerkeleyDB.location}/je-5.0.103.jar:${Aletheia.GUI.location}/bin:${Aletheia.log4j.location}/bin:${Aletheia.log4j.location}/log4j-1.2.17.jar:${Aletheia.ParserGenerator.location}/bin:${Aletheia.PdfExport.location}/bin:${Aletheia.PdfExport.location}/itextpdf-5.5.0.jar:${Aletheia.PeerToPeer.location}/bin:${Aletheia.ProofFinder.location}/bin:${Aletheia.Protocol.location}/bin:${Aletheia.Security.location}/bin:${Aletheia.Utilities.location}/bin"/>
+	<property name="nodeprecated" value="false"/>
+	<property name="nodeprecatedlist" value="false"/>
+	<property name="noindex" value="false"/> 
+	<property name="nonavbar" value="false"/>
+	<property name="notree" value="false"/> 
+	<property name="splitindex" value="true"/>
+	<property name="use" value="true"/>
+	<property name="version" value="true"/>
+	<property name="encoding" value="UTF-8"/>
+	<property name="docencoding" value="UTF-8"/>
+	<property name="charset" value="UTF-8"/>
+
+    <target name="javadoc-all">
+        <ant antfile="javadoc.xml" dir="${Aletheia.log4j.location}" inheritAll="false" target="javadoc"/>
+        <ant antfile="javadoc.xml" dir="${Aletheia.Utilities.location}" inheritAll="false" target="javadoc"/>
+        <ant antfile="javadoc.xml" dir="${Aletheia.Protocol.location}" inheritAll="false" target="javadoc"/>
+        <ant antfile="javadoc.xml" dir="${Aletheia.Security.location}" inheritAll="false" target="javadoc"/>
+        <ant antfile="javadoc.xml" dir="${Aletheia.ParserGenerator.location}" inheritAll="false" target="javadoc"/>
+        <ant antfile="javadoc.xml" dir="${Aletheia.Base.location}" inheritAll="false" target="javadoc"/>
+        <ant antfile="javadoc.xml" dir="${Aletheia.BerkeleyDB.location}" inheritAll="false" target="javadoc"/>
+		<ant antfile="javadoc.xml" dir="${Aletheia.PdfExport.location}" inheritAll="false" target="javadoc"/>
+		<ant antfile="javadoc.xml" dir="${Aletheia.PeerToPeer.location}" inheritAll="false" target="javadoc"/>
+		<ant antfile="javadoc.xml" dir="${Aletheia.ProofFinder.location}" inheritAll="false" target="javadoc"/>
+		<ant antfile="javadoc.xml" dir="${Aletheia.GUI.location}" inheritAll="false" target="javadoc"/>
+    </target>
+</project>

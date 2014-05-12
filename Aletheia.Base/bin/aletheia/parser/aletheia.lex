@@ -1,0 +1,23 @@
+'<'								: openfun; 
+':'								: colon;
+'\->'							: arrow;
+'>'								: closefun;
+'\*'							: projection; 
+'\('							: openpar;
+'\)'							: closepar;
+'\.'							: dot;
+'T'								: ttype;
+'&'								: ampersand;
+'\,'							: comma;
+'\|\-'							: turnstile;
+'%'								: percent;
+'#'								: sharp;
+'!'								: bang;
+'='								: equals;
+'\-'							: hyphen;
+'/'								: bar;
+'[\0-\9]+'						: number;
+'[a-zA-Z\_][a-zA-Z\_\0-\9]*'	: id;
+'\$[\0-\9a-fA-F]+'				: hexref;
+'_*'							: ;
+
