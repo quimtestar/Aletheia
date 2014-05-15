@@ -24,6 +24,9 @@ import java.util.Map;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.term.Term.ParameterNumerator.NotNumberedException;
 
+/**
+ * A {@link VariableTerm} that can be used as a parameter of a {@link FunctionTerm}.
+ */
 public class ParameterVariableTerm extends VariableTerm
 {
 	private static final long serialVersionUID = -305846440658111516L;
