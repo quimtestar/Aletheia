@@ -147,169 +147,993 @@ In eu risus eu urna pretium interdum.
 Terms
 \end_layout
 
-\begin_layout Standard
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- Praesent adipiscing malesuada justo, in egestas lacus lacinia non.
- Donec sed tortor vel libero sollicitudin adipiscing.
- Suspendisse potenti.
- Donec vel purus in est scelerisque tempor ut non tortor.
- Integer ullamcorper egestas dui.
- Praesent a nibh et mi lacinia scelerisque.
- Praesent tellus risus, imperdiet non adipiscing quis, porttitor non sapien.
- Integer malesuada, nunc id tincidunt blandit, sem quam malesuada turpis,
- hendrerit dapibus nibh ante ac ligula.
- Donec faucibus aliquet luctus.
- Vivamus suscipit sagittis diam vitae congue.
- Vivamus pretium tempus interdum.
- Phasellus vestibulum feugiat elit, vitae auctor lacus ullamcorper at.
- Duis in mauris ornare, vehicula risus vel, porta quam.
+\begin_layout Section
+Definition
 \end_layout
 
 \begin_layout Standard
-Suspendisse laoreet tincidunt neque, a posuere mauris ultricies ut.
- Aenean sollicitudin vehicula imperdiet.
- Maecenas congue euismod est, sed elementum sapien tempor vel.
- Suspendisse faucibus ornare leo, non lobortis est suscipit nec.
- In at consectetur ligula.
- Vivamus rutrum, odio a viverra tristique, turpis augue volutpat nibh, at
- sollicitudin erat lorem eu tellus.
- Donec ut enim ut nibh sodales commodo.
- Cras sollicitudin non augue vel molestie.
+
+\emph on
+Terms
+\emph default
+ are the elements that represent mathematical expressions in the system.
+ The interpretation of a term will depend on its 
+\emph on
+context
+\emph default
+, which will give us the proper definition of the 
+\emph on
+identifiable variable terms
+\emph default
+ (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:identifiable variable term"
+
+\end_inset
+
+) that might be present inside the term.
+ 
 \end_layout
 
 \begin_layout Standard
-Cras nunc orci, volutpat vel lacus id, dictum pulvinar odio.
- Sed volutpat viverra tellus, nec molestie lorem rutrum sit amet.
- Suspendisse sagittis dui id leo suscipit sodales.
- In interdum, eros sit amet ultricies ornare, sapien augue vehicula dolor,
- vitae elementum risus dolor vitae elit.
- Fusce bibendum aliquam nunc, ac eleifend leo feugiat sed.
- Pellentesque rhoncus velit a libero dignissim sagittis.
- Nulla sit amet risus ac sem viverra imperdiet.
- Vestibulum id rhoncus ante.
- Curabitur imperdiet tempor sem, et molestie magna sagittis vel.
- Praesent rhoncus, velit a posuere convallis, orci libero viverra augue,
- non suscipit lectus metus in justo.
- Aliquam at sapien a augue mattis porttitor.
+A 
+\emph on
+term
+\emph default
+ might be immutably associated to another 
+\emph on
+term
+\emph default
+, namely its 
+\emph on
+type
+\emph default
+.
+ A 
+\emph on
+term
+\emph default
+ might also be 
+\emph on
+typeless
+\emph default
+.
 \end_layout
 
 \begin_layout Standard
-Nulla orci orci, interdum id dignissim id, feugiat id turpis.
- In condimentum tempus magna eu ornare.
- Morbi malesuada neque at tempus ultrices.
- Integer egestas ipsum libero, at ultricies ante tristique a.
- Aliquam pretium rhoncus nisl, in pharetra arcu auctor id.
- Nullam volutpat mauris vel fringilla tempus.
- Sed sollicitudin odio ut magna sodales, sit amet vestibulum tellus scelerisque.
- Suspendisse bibendum auctor nisi a pretium.
- Phasellus suscipit dolor vel nisl consectetur dictum.
- Maecenas elit odio, vestibulum sit amet convallis ut, tincidunt at nulla.
- Nulla auctor magna non arcu facilisis ultricies.
- In porta sodales urna et sodales.
- Aenean at risus justo.
- Sed lobortis, tellus in volutpat porta, diam leo convallis ligula, eget
- scelerisque metus mauris in purus.
- Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- Integer dignissim nec lorem in eleifend.
+We define a 
+\emph on
+term
+\emph default
+ recursivelly as one of these possibilities (
+\emph on
+kinds of terms
+\emph default
+):
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+T
+\series default
+: A special instance of term used as the sole primitive 
+\emph on
+type
+\emph default
+.
+ The 
+\emph on
+T term
+\emph default
+ has no 
+\emph on
+type
+\emph default
+.
+ It is textually represented simply with the letter 
+\emph on
+'T
+\emph default
+'.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Variable
+\series default
+: A 
+\emph on
+kind of term
+\emph default
+ that represents another 
+\emph on
+term
+\emph default
+.
+ Each 
+\emph on
+variable term
+\emph default
+ will have an arbitrary 
+\emph on
+type
+\emph default
+.
+ There are two kinds of 
+\emph on
+variable terms
+\emph default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Parameter
+\series default
+: The parameter variable of a 
+\emph on
+function term
+\emph default
+.
+ Only can be used in the body of that function.
+ Their textual representation differs depending on whether the term is getting
+ into the system (e.g., we are typing a 
+\emph on
+term
+\emph default
+ into the 
+\emph on
+CLI 
+\emph default
+of the 
+\emph on
+GUI
+\emph default
+) or the term is getting out of the system (e.g.
+ it is displayed on the 
+\emph on
+GUI
+\emph default
+).
+ On the former, an 
+\emph on
+identifier name
+\emph default
+ (i.e.
+ a string matching the regular expression 
+\emph on
+[_a-zA-Z][_a-zA-Z0-9]*
+\emph default
+) will be used.
+ On the latter, the variable will be expressed as an at sign (
+\emph on
+'@'
+\emph default
+) followed by a sequential number that uniquely identifies the 
+\emph on
+variable
+\emph default
+ within the corresponding function body.
+ 
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Identifiable
+\series default
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:identifiable variable term"
+
+\end_inset
+
+: An 
+\emph on
+identifiable variable
+\emph default
+ is one which is defined out of the term and on the 
+\emph on
+context
+\emph default
+ of it.
+ In fact, any identifiable variable will correspond to one 
+\emph on
+statement
+\emph default
+ of that 
+\emph on
+context
+\emph default
+.
+ It will be associated to a 
+\emph on
+UUID
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "Universally Unique Identifier"
+target "http://en.wikipedia.org/wiki/Uuid"
+
+\end_inset
+
+, essentially a 128-bit random number.
+\end_layout
+
+\end_inset
+
+
+\emph default
+.
+ The textual representation will be the 
+\emph on
+identifier
+\emph default
+ (i.e.
+ a string matching the regular expression 
+\emph on
+([_a-zA-Z][_a-zA-Z0-9]*
+\emph default
+
+\backslash
+.
+\emph on
+)*[_a-zA-Z][_a-zA-Z0-9]*
+\emph default
+) associated to the 
+\emph on
+statement
+\emph default
+ in its 
+\emph on
+context
+\emph default
+ this 
+\emph on
+variable
+\emph default
+ corresponds to, if any, or as a dollar sign(
+\emph on
+'$'
+\emph default
+) followed by an eight hexadeximal digit hashcode of the 
+\emph on
+UUID
+\emph default
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Composition
+\series default
+: A 
+\emph on
+term
+\emph default
+ that is composed by two other 
+\emph on
+component terms
+\emph default
+, a 
+\emph on
+head term
+\emph default
+ (which cannot be of the 
+\emph on
+function
+\emph default
+ kind) and a 
+\emph on
+tail term
+\emph default
+ (which can be of any kind).
+ The 
+\emph on
+type
+\emph default
+ of a 
+\emph on
+composition term
+\emph default
+ will be its head's 
+\emph on
+type
+\emph default
+ 
+\emph on
+composed
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Compose"
+
+\end_inset
+
+ 
+\emph default
+(the result of the 
+\emph on
+operation compose
+\emph default
+ on 
+\emph on
+terms
+\emph default
+, not to be confused with the 
+\emph on
+composition term
+\emph default
+, nevertheless related concepts) with its tail.
+ The 
+\emph on
+composition
+\emph default
+ won't be a valid 
+\emph on
+term
+\emph default
+ if the head is a 
+\emph on
+typeless term
+\emph default
+ or if that 
+\emph on
+compose
+\emph default
+ is not valid.
+ The textual representation of a composition will be such as:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family typewriter
+head 
+\series bold
+(
+\series default
+tail
+\series bold
+)
+\series default
+ 
+\family default
+if the 
+\emph on
+tail 
+\emph default
+is a 
+\emph on
+composition term
+\emph default
+, or
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+head tail 
+\family default
+if not.
 \end_layout
 
 \begin_layout Standard
-Praesent fringilla tortor nec leo iaculis tempor.
- Curabitur nec purus ut odio rhoncus tempor.
- Fusce massa risus, fringilla id massa ut, faucibus congue sapien.
- Fusce sed consequat elit, gravida gravida magna.
- Nam eu erat ultrices lacus fermentum semper.
- Duis consectetur dapibus felis non mattis.
- Morbi vel sollicitudin neque.
- Nunc molestie commodo metus in posuere.
- Praesent aliquam consequat felis et placerat.
- Vestibulum a tempor nunc.
- Sed pellentesque aliquet odio, a egestas dui interdum non.
- Duis elementum condimentum ipsum, sit amet semper nisl lacinia a.
- Curabitur sed purus viverra, commodo odio eget, facilisis nibh.
- Mauris imperdiet nunc tortor, sit amet egestas nisi interdum molestie.
- Vivamus non leo eleifend, semper magna ac, aliquam odio.
- Sed condimentum ullamcorper mi nec tincidunt.
+Component composition is left-associative, that is, the 
+\emph on
+term
+\emph default
+ expressed as:
 \end_layout
 
 \begin_layout Standard
-Maecenas vulputate faucibus ipsum, eu auctor diam convallis vitae.
- In mollis rhoncus libero nec semper.
- Nunc a arcu in dolor posuere accumsan id vel lacus.
- Integer nec lacus vel velit dapibus lacinia a a sapien.
- Aenean ac feugiat lorem.
- Morbi vulputate sodales libero, eu pellentesque nisi scelerisque non.
- Nam ac laoreet quam.
- Suspendisse lacinia neque at adipiscing mattis.
- In a neque volutpat, tempor lorem nec, hendrerit libero.
- Sed vestibulum, orci at pulvinar consectetur, metus quam dictum dolor,
- eget ornare turpis massa sit amet libero.
- Quisque imperdiet nulla vitae libero volutpat tincidunt.
- Suspendisse venenatis odio risus, sit amet rutrum mi feugiat vitae.
- In congue fermentum leo ac aliquet.
+
+\family typewriter
+a b c d
 \end_layout
 
 \begin_layout Standard
-Aenean accumsan viverra hendrerit.
- Pellentesque ultrices est sit amet leo facilisis, nec facilisis nunc vulputate.
- Nam vel orci posuere, consectetur massa et, adipiscing dolor.
- Praesent elementum neque consequat ante eleifend iaculis.
- Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere
- cubilia Curae; Sed congue sem ac velit varius, nec tristique velit sollicitudin.
- Aenean a risus non massa hendrerit vulputate sed vitae metus.
- Duis molestie pharetra turpis.
- Praesent non viverra arcu.
- Praesent et sem sit amet quam euismod semper ac vitae arcu.
+...is the same as:
 \end_layout
 
 \begin_layout Standard
-Vestibulum vel magna eget odio luctus molestie id ut dui.
- Morbi elit felis, aliquet sit amet dolor at, congue vestibulum sem.
- Quisque non ultrices nunc.
- Sed egestas massa eget mi tincidunt dapibus.
- Sed enim eros, tristique a est sed, pellentesque imperdiet lectus.
- Maecenas tincidunt vestibulum neque, sit amet posuere nisi blandit ut.
- Quisque quis velit est.
- Maecenas volutpat porta sem laoreet gravida.
- Vivamus nec tortor ullamcorper, rhoncus nunc nec, consequat mauris.
- Morbi eget eros magna.
- Integer in elit urna.
- Nam id risus eget leo condimentum viverra a eu orci.
- Sed nisl dolor, vehicula sit amet augue sit amet, hendrerit condimentum
- est.
- Sed vestibulum massa neque, scelerisque auctor diam ultrices ac.
- Etiam enim velit, vulputate sed erat ac, lacinia vehicula mauris.
+
+\family typewriter
+((a b) c) d
 \end_layout
 
 \begin_layout Standard
-Pellentesque in ullamcorper augue.
- Cras bibendum consequat metus, nec venenatis diam congue at.
- Cras at tellus eget magna mollis molestie non eu enim.
- Quisque sed tellus venenatis lorem dictum ultrices vel in massa.
- Maecenas lacinia tincidunt nisi, nec porta diam sollicitudin vitae.
- Ut fringilla metus felis, quis eleifend nulla varius a.
- Phasellus rhoncus mattis mauris at venenatis.
- Aliquam in imperdiet libero, vitae facilisis massa.
- Fusce commodo gravida velit id iaculis.
- Fusce pulvinar ipsum eget tempor luctus.
+When parsing a 
+\emph on
+composition term 
+\emph default
+(or any other 
+\emph on
+kind of term
+\emph default
+) the extra parentheses will be ignored.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Function
+\series default
+: This kind of 
+\emph on
+term
+\emph default
+ consist of a freshly created 
+\emph on
+parameter variable term
+\emph default
+ (namely the 
+\emph on
+parameter
+\emph default
+) and a 
+\emph on
+term
+\emph default
+ (of any kind) (namely the 
+\emph on
+body
+\emph default
+) that might or might not make use of that 
+\emph on
+parameter
+\emph default
+.
+ The 
+\emph on
+type
+\emph default
+ of a 
+\emph on
+function term 
+\emph default
+will be another 
+\emph on
+function term
+\emph default
+ with the same 
+\emph on
+parameter type
+\emph default
+ and the function's body type as a body (of course, replacing the instances
+ of the former's 
+\emph on
+function's parameter
+\emph default
+ with the 
+\emph on
+parameter
+\emph default
+ of the 
+\emph on
+type function
+\emph default
+).
+ In the case that the body has no 
+\emph on
+type
+\emph default
+, the function will also be 
+\emph on
+typeless
+\emph default
+.
+
+\emph on
+ 
+\emph default
+The textual representation of a 
+\emph on
+function
+\emph default
+ will be such as:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\family typewriter
+\series bold
+<
+\series default
+parameter
+\series bold
+:
+\series default
+type 
+\series bold
+→
+\series default
+ body
+\series bold
+>
 \end_layout
 
 \begin_layout Standard
-Nulla facilisi.
- Praesent mollis condimentum lectus, sed lacinia ante fringilla non.
- Maecenas aliquam turpis in erat bibendum, vel mattis sem pulvinar.
- In id orci ipsum.
- Aenean semper, arcu ut mattis tincidunt, massa nunc ultrices nisl, non
- rhoncus nibh elit et enim.
- Maecenas a sagittis ipsum, quis ullamcorper neque.
- Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
- inceptos himenaeos.
- Integer et ante at elit sagittis placerat vel et orci.
- In tincidunt id orci ut pretium.
- Ut tempus tincidunt enim porttitor vestibulum.
- Curabitur ipsum orci, semper sed sem nec, dapibus consequat eros.
- Suspendisse potenti.
- Pellentesque facilisis risus metus, sit amet mollis metus facilisis quis.
+Being the 
+\family typewriter
+type
+\family default
+ the 
+\emph on
+parameter variable term
+\emph default
+'s 
+\emph on
+type
+\emph default
+.
+ When parsing a 
+\emph on
+function term 
+\emph default
+the two characters '
+\family typewriter
+->
+\family default
+' will be used as the arrow symbol.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Projection
+\series default
+: Embeds of a 
+\emph on
+function term
+\emph default
+.
+ The 
+\emph on
+type
+\emph default
+ of a 
+\emph on
+projection term
+\emph default
+ will be just its 
+\emph on
+function
+\emph default
+'s body's 
+\emph on
+type
+\emph default
+ (so the name 'projection'); if the 
+\emph on
+function
+\emph default
+'s body's 
+\emph on
+type
+\emph default
+ depends on the 
+\emph on
+function
+\emph default
+'s parameter, the projection won't be a valid 
+\emph on
+term
+\emph default
+ (it would violate the general rule that a 
+\emph on
+parameter variable
+\emph default
+ must always be bound to a 
+\emph on
+function term
+\emph default
+).
+ The textual representation of a 
+\emph on
+projection
+\emph default
+ will the be such as:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\family typewriter
+function*
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Any 
+\emph on
+term
+\emph default
+ used to define a new 
+\emph on
+term
+\emph default
+ (the 
+\emph on
+type
+\emph default
+ of a 
+\emph on
+variable
+\emph default
+, a 
+\emph on
+component
+\emph default
+ of a 
+\emph on
+composition
+\emph default
+) , must preexist (i.e.
+ be defined 
+\emph on
+before 
+\emph default
+the new term is defined); so a 
+\emph on
+term
+\emph default
+ must be well founded and can never have any cycle in its definition.
+ Note that the only 
+\emph on
+term
+\emph default
+ that does not make use of any other 
+\emph on
+term
+\emph default
+ is the 
+\emph on
+T term
+\emph default
+.
+\end_layout
+
+\begin_layout Section
+Operations on terms
+\end_layout
+
+\begin_layout Subsection
+Equals
+\end_layout
+
+\begin_layout Standard
+Checking for equality between two terms.
+ Two equal 
+\emph on
+terms
+\emph default
+ are considered to be one and the same.
+ First of all, for being equal two 
+\emph on
+terms
+\emph default
+ have to be of the same 
+\emph on
+kind
+\emph default
+.
+ When so, the rules for equality checking of term are:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kind of term
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+equal when
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+T
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+All 
+\emph on
+T terms
+\emph default
+ are equal to each other.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Variable
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Parameter
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Only when their declaration as a 
+\emph on
+function parameter
+\emph default
+ is the same.
+ Every 
+\emph on
+function parameter
+\emph default
+ (of different 
+\emph on
+functions
+\emph default
+) is different to each other.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Identifiable
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Are identified with the same 
+\emph on
+UUID
+\emph default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Composition
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Both the 
+\emph on
+head
+\emph default
+ and the 
+\emph on
+tail
+\emph default
+ are equal 
+\emph on
+terms
+\emph default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Function
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The result of 
+\emph on
+replacing
+\emph default
+ (see 
+\emph on
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:term replace"
+
+\end_inset
+
+
+\emph default
+) one's 
+\emph on
+parameter
+\emph default
+ by the other's in it's 
+\emph on
+body
+\emph default
+ results to the other's 
+\emph on
+body
+\emph default
+.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Projection
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Their embedded functions are equal.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Replace
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:term replace"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Compose
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Compose"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
