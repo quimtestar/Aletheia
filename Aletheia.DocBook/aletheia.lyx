@@ -319,7 +319,6 @@ identifier name
 variable
 \emph default
  within the corresponding function body.
- 
 \end_layout
 
 \begin_layout Itemize
@@ -865,7 +864,11 @@ Kind of term
 \begin_inset Text
 
 \begin_layout Plain Layout
-equal when
+
+\emph on
+equal
+\emph default
+ when
 \end_layout
 
 \end_inset
@@ -898,7 +901,11 @@ All
 \emph on
 T terms
 \emph default
- are equal to each other.
+ are 
+\emph on
+equal
+\emph default
+ to each other.
  
 \end_layout
 
@@ -937,11 +944,19 @@ function parameter
 \emph on
 function parameter
 \emph default
- (of different 
+ (of 
+\emph on
+different
+\emph default
+ 
 \emph on
 functions
 \emph default
-) is different to each other.
+) is 
+\emph on
+different
+\emph default
+ to each other.
 \end_layout
 
 \end_inset
@@ -1005,13 +1020,17 @@ Composition
 \begin_layout Plain Layout
 Both the 
 \emph on
-head
+heads
 \emph default
  and the 
 \emph on
-tail
+tails
 \emph default
- are equal 
+ are 
+\emph on
+equal
+\emph default
+ 
 \emph on
 terms
 \emph default
@@ -1067,7 +1086,11 @@ parameter
 \emph on
 body
 \emph default
- results to the other's 
+ results into a term that is 
+\emph on
+equal
+\emph default
+ to the other's 
 \emph on
 body
 \emph default
@@ -1101,7 +1124,11 @@ Projection
 \begin_inset Text
 
 \begin_layout Plain Layout
-Their embedded functions are equal.
+Their embedded functions are 
+\emph on
+equal
+\emph default
+.
 \end_layout
 
 \end_inset
@@ -1125,6 +1152,293 @@ name "sub:term replace"
 
 \end_layout
 
+\begin_layout Standard
+Given a 
+\emph on
+term
+\emph default
+ 
+\family typewriter
+t
+\family default
+, a 
+\emph on
+variable
+\emph default
+ 
+\family typewriter
+v
+\family default
+, and another 
+\emph on
+term
+\emph default
+ 
+\family typewriter
+r
+\family default
+ of the same 
+\emph on
+type
+\emph default
+ than the variable, all the occurrences of 
+\family typewriter
+v
+\family default
+ on 
+\family typewriter
+t
+\family default
+ are replaced by 
+\family typewriter
+r
+\family default
+.
+ Depending on the 
+\emph on
+kind of term
+\emph default
+ is 
+\family typewriter
+t
+\family default
+, the result will be:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kind of term
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Replace result
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+T
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+T
+\emph default
+; there is no occurrence of any variable in 
+\emph on
+T
+\emph default
+.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Variable
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+If 
+\family typewriter
+t=v
+\family default
+, the result is 
+\family typewriter
+r
+\family default
+.
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+newline
+\end_layout
+
+\end_inset
+
+If 
+\family typewriter
+t≠v
+\family default
+, the result is 
+\family typewriter
+t
+\family default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Composition
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The result of the 
+\emph on
+operation compose
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Compose"
+
+\end_inset
+
+
+\emph default
+ on the 
+\emph on
+replace
+\emph default
+ result of the head and the tail with the same variable and 
+\emph on
+replacement
+\emph default
+ term.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Function
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A 
+\emph on
+function
+\emph default
+ whose parameter's 
+\emph on
+type
+\emph default
+ is the 
+\emph on
+replacement
+\emph default
+ of this 
+\emph on
+function
+\emph default
+'s parameter's 
+\emph on
+type
+\emph default
+ and its body is the 
+\emph on
+replacement
+\emph default
+ of this 
+\emph on
+function
+\emph default
+'s body.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Projection
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The 
+\emph on
+projection
+\emph default
+ of the 
+\emph on
+replacement
+\emph default
+ of the 
+\emph on
+function
+\emph default
+ of this 
+\emph on
+projection
+\emph default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Subsection
 Compose
 \begin_inset CommandInset label
@@ -1134,6 +1448,10 @@ name "sub:Compose"
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsection
+Unproject
 \end_layout
 
 \begin_layout Chapter
