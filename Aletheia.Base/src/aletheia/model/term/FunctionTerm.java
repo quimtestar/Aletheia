@@ -128,7 +128,7 @@ public class FunctionTerm extends Term
 	 * Computes a series of replacements on this function.
 	 */
 	@Override
-	protected Term replace(Deque<Replace> replaces, Set<VariableTerm> exclude) throws ReplaceTypeException
+	protected FunctionTerm replace(Deque<Replace> replaces, Set<VariableTerm> exclude) throws ReplaceTypeException
 	{
 		Term partype = parameter.getType();
 		Term rpartype = partype.replace(replaces, exclude);

@@ -110,18 +110,14 @@ public class ProjectionTerm extends AtomicTerm
 	@Override
 	protected Term replace(Deque<Replace> replaces, Set<VariableTerm> exclude) throws ReplaceTypeException
 	{
-		Term rfun = function.replace(replaces, exclude);
-		if (rfun instanceof FunctionTerm)
-			try
-			{
-				return new ProjectionTerm((FunctionTerm) rfun);
-			}
-			catch (ProjectionTypeException e)
-			{
-				throw new ReplaceTypeException(e);
-			}
-		else
-			throw new ReplaceTypeException();
+		try
+		{
+			return new ProjectionTerm(function.replace(replaces, exclude));
+		}
+		catch (ProjectionTypeException e)
+		{
+			throw new ReplaceTypeException(e);
+		}
 	}
 
 	/**
