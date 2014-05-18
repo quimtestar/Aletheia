@@ -1332,7 +1332,11 @@ Composition
 \begin_layout Plain Layout
 The result of the 
 \emph on
-operation compose
+operation compose 
+\emph default
+(see
+\emph on
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:Compose"
@@ -1341,7 +1345,7 @@ reference "sub:Compose"
 
 
 \emph default
- on the 
+) on the 
 \emph on
 replace
 \emph default
@@ -1462,14 +1466,14 @@ This operation is a generalization of the creation of
 \emph on
 composition term
 \emph default
-
+ (see 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:composition term"
 
 \end_inset
 
- extending it also to function terms.
+) extending it also to function terms.
  Given two terms 
 \family typewriter
 t
@@ -1555,7 +1559,11 @@ Variable
 \begin_layout Plain Layout
 The 
 \emph on
-composition term
+composition term 
+\emph default
+(see
+\emph on
+ 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:composition term"
@@ -1564,7 +1572,7 @@ reference "sub:composition term"
 
 
 \emph default
- of 
+) of 
 \family typewriter
 t
 \family default
@@ -1671,6 +1679,227 @@ types
 
 \begin_layout Subsection
 Unproject
+\end_layout
+
+\begin_layout Standard
+Transform the term by recursivelly converting its 
+\emph on
+projection terms
+\emph default
+ into regular 
+\emph on
+function terms
+\emph default
+.
+ Given a 
+\emph on
+term
+\emph default
+ 
+\family typewriter
+t
+\family default
+, the result will be, depending on its 
+\emph on
+kind
+\emph default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kind of term
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Replace result
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+T
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+T
+\emph default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Variable
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+t
+\family default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Composition
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The result of the 
+\emph on
+operation compose 
+\emph default
+(see
+\emph on
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Compose"
+
+\end_inset
+
+
+\emph default
+) on the 
+\emph on
+unprojection
+\emph default
+ result of the head and the tail.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Function
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A 
+\emph on
+function
+\emph default
+ whose parameter's 
+\emph on
+type
+\emph default
+ is the 
+\emph on
+unprojection
+\emph default
+ of this 
+\emph on
+function
+\emph default
+'s parameter's 
+\emph on
+type
+\emph default
+ and its body is the 
+\emph on
+unprojection
+\emph default
+ of this 
+\emph on
+function
+\emph default
+'s body.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Projection
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The 
+\emph on
+unprojection
+\emph default
+ of the projected 
+\emph on
+function term
+\emph default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
