@@ -417,6 +417,13 @@ UUID
 \series bold
 Composition
 \series default
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:composition term"
+
+\end_inset
+
 : A 
 \emph on
 term
@@ -488,7 +495,7 @@ typeless term
 \emph default
  or if that 
 \emph on
-compose
+type compose operation
 \emph default
  is not valid.
  The textual representation of a composition will be such as:
@@ -1194,7 +1201,7 @@ t
 r
 \family default
 .
- Depending on the 
+ Depending on which 
 \emph on
 kind of term
 \emph default
@@ -1444,6 +1451,218 @@ Compose
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Compose"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This operation is a generalization of the creation of 
+\emph on
+composition term
+\emph default
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:composition term"
+
+\end_inset
+
+ extending it also to function terms.
+ Given two terms 
+\family typewriter
+t
+\family default
+ and 
+\family typewriter
+r
+\family default
+ the result will be, depending on which 
+\emph on
+kind of term
+\emph default
+ is 
+\family typewriter
+t
+\family default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kind of term
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Replace result
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+T
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cannot be composed since it doesn't have a 
+\emph on
+type
+\emph default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Variable
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The 
+\emph on
+composition term
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:composition term"
+
+\end_inset
+
+
+\emph default
+ of 
+\family typewriter
+t
+\family default
+ and 
+\family typewriter
+r
+\family default
+, if the 
+\emph on
+type
+\emph default
+ can be composed.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Composition
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Projection
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Function
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The result of replacing the 
+\emph on
+function
+\emph default
+'s parameter for the 
+\emph on
+term
+\emph default
+ 
+\family typewriter
+r
+\family default
+ in the 
+\emph on
+function
+\emph default
+'s body, if 
+\emph on
+types
+\emph default
+ match.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
 
 \end_inset
 
