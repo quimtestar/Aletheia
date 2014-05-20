@@ -3,6 +3,9 @@
 \begin_document
 \begin_header
 \textclass docbook-book
+\begin_preamble
+\usepackage{multirow}
+\end_preamble
 \use_default_options true
 \maintain_unincluded_children false
 \language english
@@ -1497,7 +1500,7 @@ t
 \begin_inset Tabular
 <lyxtabular version="3" rows="6" columns="2">
 <features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0pt">
 <column alignment="left" valignment="top" width="0">
 <row>
 <cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
@@ -1544,7 +1547,7 @@ type
 </cell>
 </row>
 <row>
-<cell multirow="3" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1591,7 +1594,7 @@ type
 </cell>
 </row>
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1600,7 +1603,7 @@ Composition
 
 \end_inset
 </cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell multirow="4" alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1611,7 +1614,7 @@ Composition
 </cell>
 </row>
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1620,7 +1623,7 @@ Projection
 
 \end_inset
 </cell>
-<cell multirow="4" alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell multirow="4" alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1902,154 +1905,508 @@ function term
 
 \end_layout
 
+\begin_layout Subsection
+Free variables
+\end_layout
+
+\begin_layout Standard
+Computes the set of 
+\emph on
+variables
+\emph default
+ (
+\emph on
+parameters
+\emph default
+ or 
+\emph on
+identifiable
+\emph default
+) of a term that are not bound to any 
+\emph on
+function
+\emph default
+ (of this 
+\emph on
+term
+\emph default
+).
+ If a 
+\emph on
+term
+\emph default
+ is not part of another 
+\emph on
+term
+\emph default
+ all its 
+\emph on
+free variables
+\emph default
+ must be of the kind 
+\emph on
+identifiable
+\emph default
+.
+ Given a 
+\emph on
+term
+\emph default
+ 
+\family typewriter
+t
+\family default
+, its 
+\emph on
+free variables
+\emph default
+ are, depending on its 
+\emph on
+kind
+\emph default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="0">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kind of term
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Free variables
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+T
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The empty set.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Variable
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Just this variable.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Composition
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The union set of the head's 
+\emph on
+free variables
+\emph default
+ and the tail's 
+\emph on
+free variables
+\emph default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Function
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The parameter's type's 
+\emph on
+free variables
+\emph default
+ and the body's 
+\emph on
+free variables
+\emph default
+ leaving out this 
+\emph on
+function
+\emph default
+'s parameter.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Projection
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The 
+\emph on
+function
+\emph default
+'s 
+\emph on
+free variables
+\emph default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Chapter
 Statements
 \end_layout
 
-\begin_layout Standard
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- Praesent orci magna, interdum at aliquam non, consequat vel ipsum.
- Sed vitae blandit massa.
- Etiam et lorem est.
- Donec commodo lectus erat, non imperdiet felis volutpat et.
- Nam in dui id dui dictum molestie.
- Pellentesque aliquam elementum mi, a viverra diam.
- In ornare, elit vitae iaculis feugiat, quam lorem tincidunt massa, tempus
- rhoncus magna augue vitae neque.
- Donec sollicitudin ultricies est, ac lacinia dolor malesuada nec.
- Etiam ornare tortor sit amet quam consequat, pulvinar volutpat eros vestibulum.
+\begin_layout Section
+Overview and properties
 \end_layout
 
 \begin_layout Standard
-Curabitur ornare tempor velit, sed posuere libero ultrices adipiscing.
- Pellentesque sem sem, venenatis eu facilisis a, blandit ac metus.
- Donec sed sem id dui consectetur vestibulum.
- Ut id sapien eget mi dignissim tempus sed eget lectus.
- Cras et leo risus.
- Vivamus ut hendrerit urna.
- Aliquam erat volutpat.
- Aenean ut ligula ut urna congue ullamcorper.
- Nam nec adipiscing lacus.
- Vivamus sodales sodales scelerisque.
- Vivamus sit amet erat accumsan, pellentesque metus eget, condimentum mi.
- Quisque aliquet eu nisi quis volutpat.
- Pellentesque ipsum ligula, convallis a nibh vel, ornare suscipit metus.
- Etiam sodales pellentesque lacus, vel venenatis nisl suscipit at.
- Proin lacinia ullamcorper tortor, eget commodo mi suscipit at.
- Donec et congue enim.
+The 
+\emph on
+Aletheia system
+\emph default
+ esssentially consists of a collection of 
+\emph on
+statements
+\emph default
+ recorded into a database.
+ A 
+\emph on
+statement
+\emph default
+ is essentially an 
+\emph on
+identifiable variable term
+\emph default
+ associated to few extra data.
+ That variable's 
+\emph on
+type term
+\emph default
+ will be interpreted as a mathematical expression that might or might not
+ be valid (proven) on the system.
+ Theorems, proof steps, axioms, mathematical entities such as numbers, functions
+, sets and so on will all be represented in the system as 
+\emph on
+statements
+\emph default
+.
+ 
 \end_layout
 
 \begin_layout Standard
-Nam vel sodales enim.
- Nunc iaculis turpis quis elit imperdiet, sit amet pellentesque metus porttitor.
- Mauris convallis purus sed ipsum imperdiet, quis sagittis elit tincidunt.
- Aliquam sed placerat quam.
- Nullam vel diam sit amet erat elementum vestibulum.
- Integer aliquet ante augue, et placerat ligula pretium tincidunt.
- Curabitur nisi erat, feugiat id malesuada at, vehicula ac neque.
- Maecenas ut laoreet orci, mollis bibendum lacus.
- Phasellus auctor lacinia pellentesque.
- Nulla dictum felis non orci dictum consequat.
- Aliquam ac arcu quis elit luctus scelerisque sed ut tellus.
+A 
+\emph on
+statement
+\emph default
+ has the following main properties:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Context
+\series default
+: This property is optional.
+ A 
+\emph on
+context
+\emph default
+ is another 
+\emph on
+statement
+\emph default
+ (of a special kind) in which this 
+\emph on
+statement
+\emph default
+ is inserted.
+ Since the 
+\emph on
+context
+\emph default
+ is also a 
+\emph on
+statement
+\emph default
+, it might be inserted in its own 
+\emph on
+context 
+\emph default
+and so on, creating a tree-like structure.
+ Statements that aren't inserted into a context and therefore don't have
+ this property (the roots of the trees) have there own kind which is called
+ 
+\emph on
+root context
+\emph default
+.
+ This property is immutable.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Variable
+\series default
+: The 
+\emph on
+identifiable variable term
+\emph default
+ associated to this 
+\emph on
+statement
+\emph default
+.
+ This property is immutable.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Identifier
+\series default
+: An 
+\emph on
+identifier
+\emph default
+ optionally associated to this 
+\emph on
+statement
+\emph default
+ which is unique in its 
+\emph on
+context 
+\emph default
+(if this statement has a context, root contexts are also associated to identifie
+rs not necessarly in a unique way).
+ This property is mutable; it may change its value once this statement is
+ created.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Proven
+\series default
+: A boolean flag that indicates de validity of this 
+\emph on
+statement
+\emph default
+ based on the proven status of its antecedents and following the specific
+ rules of its statement's kind.
+ When the proven status of a 
+\emph on
+statement
+\emph default
+ changes, the system must update accordingly all the 
+\emph on
+statements
+\emph default
+ that depend on it.
+ This property is (evidently) mutable.
 \end_layout
 
 \begin_layout Standard
-Sed eu tristique nulla.
- Nam nisl erat, pretium sit amet ultrices sit amet, placerat sed nibh.
- Praesent eros nulla, feugiat ut rhoncus in, consectetur eget neque.
- In felis purus, pharetra vitae turpis eget, laoreet varius mauris.
- Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- Donec pretium orci vitae porta aliquet.
- Donec tincidunt sagittis sapien quis suscipit.
- In interdum libero eu metus pretium molestie non a enim.
- Mauris fermentum, est mollis venenatis mattis, risus erat suscipit mauris,
- sit amet varius sem nulla eget libero.
- Nullam eu feugiat elit, non fringilla velit.
- Ut faucibus consequat semper.
- In cursus consequat tincidunt.
- Mauris commodo facilisis eleifend.
- Pellentesque commodo eros vel ante bibendum cursus.
+And the following derived properties:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+UUID
+\series default
+: The 
+\emph on
+statement
+\emph default
+'s 
+\emph on
+variable
+\emph default
+'s 
+\emph on
+UUID
+\emph default
+.
+ An immutable property, as both the variable and its UUID is immutable.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Term
+\series default
+: The 
+\emph on
+statement
+\emph default
+'s 
+\emph on
+variable
+\emph default
+'s 
+\emph on
+type term
+\emph default
+.
+ An immutable property, as both the variable and its type is immutable.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Dependencies
+\series default
+: The set of 
+\emph on
+statements
+\emph default
+ on which it 
+\emph on
+statement
+\emph default
+ depends.
+ At the very least it will consists of all statements associated to the
+ free (identifiable) variables of it's 
+\emph on
+term
+\emph default
+, and then maybe some more depending on this 
+\emph on
+statement
+\emph default
+'s kind.
+ Every dependency of a 
+\emph on
+statement
+\emph default
+ must be present in the same 
+\emph on
+context
+\emph default
+ or in it's 
+\emph on
+context
+\emph default
+'s 
+\emph on
+context
+\emph default
+, or any ancestor 
+\emph on
+context
+\emph default
+.
+ Note that this implies that a 
+\emph on
+root context 
+\emph default
+statement cannot have any dependencies.
+\end_layout
+
+\begin_layout Section
+Statement properties
 \end_layout
 
 \begin_layout Standard
-Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus
- mus.
- Cum sociis natoque penatibus et magnis dis parturient montes, nascetur
- ridiculus mus.
- Cum sociis natoque penatibus et magnis dis parturient montes, nascetur
- ridiculus mus.
- Ut congue, nibh ut viverra congue, lacus nunc tincidunt ante, sit amet
- molestie urna enim in sem.
- Vestibulum laoreet eget justo dignissim vestibulum.
- Sed dictum condimentum justo et lobortis.
- Suspendisse vulputate nibh et augue molestie, sit amet scelerisque nibh
- viverra.
- Nullam ac tincidunt mauris, eget porta massa.
- Aenean lacinia molestie dui, a accumsan risus sagittis vel.
- Vestibulum dignissim metus at volutpat euismod.
- Phasellus pretium eros sit amet ipsum dapibus, vel rhoncus libero auctor.
- Aenean cursus tincidunt nisl, eu pellentesque nisl ullamcorper ut.
- Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere
- cubilia Curae;
+Statements will have this properties:
 \end_layout
 
-\begin_layout Standard
-Vivamus eu viverra sapien, ac lacinia eros.
- Nullam sollicitudin venenatis nunc, eu lacinia nisi mattis id.
- Aliquam scelerisque diam lorem, vitae molestie urna mattis vitae.
- Sed ullamcorper magna erat, a pellentesque est scelerisque at.
- In tincidunt sit amet tortor vel vulputate.
- Donec quis metus eu nibh consequat tempor.
- Cras magna orci, dapibus non odio et, sagittis feugiat massa.
+\begin_layout Itemize
+Variable: The identifiable variable term associated to this statement.
 \end_layout
 
-\begin_layout Standard
-Morbi purus leo, pulvinar eu elit et, eleifend tincidunt augue.
- Phasellus dictum vehicula neque, sit amet scelerisque libero cursus sed.
- Duis quis rutrum augue.
- Donec pretium malesuada odio, in cursus felis pulvinar at.
- Duis auctor porta orci, nec vestibulum purus facilisis in.
- Quisque pulvinar magna vel dignissim aliquet.
- Vivamus ut porttitor est, bibendum auctor felis.
- Donec ac tristique arcu, at lacinia sapien.
- Nam pulvinar felis nec odio aliquet elementum.
- Suspendisse lacus enim, cursus eget nulla pellentesque, condimentum pharetra
- massa.
- Integer egestas massa sed adipiscing convallis.
+\begin_layout Itemize
+Context: The context (see below)
 \end_layout
 
-\begin_layout Standard
-Maecenas et ante magna.
- Nullam pretium molestie lorem, at scelerisque elit viverra vitae.
- In vitae tortor magna.
- Cras dignissim id lacus a lacinia.
- Proin libero turpis, varius ac neque eget, euismod dapibus massa.
- Aliquam consequat viverra lectus, ac hendrerit est posuere sit amet.
- Morbi sollicitudin tellus ut tortor malesuada rutrum.
+\begin_layout Itemize
+
+\series bold
+UUID
+\series default
+: The UUID associated to this statement's variable.
 \end_layout
 
-\begin_layout Standard
-Sed rutrum pellentesque leo, ut viverra odio adipiscing et.
- Aliquam feugiat cursus mauris sit amet dapibus.
- Quisque vestibulum nulla non elit posuere ultrices.
- Curabitur malesuada quis justo sed rutrum.
- Quisque imperdiet imperdiet dui id condimentum.
- Integer dignissim nisi mi, eu aliquam tortor scelerisque id.
- Sed quis orci aliquet, suscipit lacus non, gravida nunc.
- Curabitur dignissim elementum ornare.
-\end_layout
-
-\begin_layout Standard
-In a lacinia dolor, ut venenatis erat.
- Vivamus nec posuere massa.
- Suspendisse sit amet enim nulla.
- Suspendisse vulputate eu erat et varius.
- Fusce vitae purus volutpat, dignissim erat ac, consequat arcu.
- Vivamus libero massa, pretium sed dolor scelerisque, euismod placerat turpis.
- Proin ultricies eros ipsum, et dignissim est placerat at.
- Proin id quam enim.
- Sed accumsan iaculis semper.
- Ut placerat et diam eu ultrices.
+\begin_layout Section
+Kinds of statements
 \end_layout
 
 \begin_layout Chapter
