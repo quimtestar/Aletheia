@@ -25,7 +25,6 @@ import java.util.UUID;
 
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.model.term.Term.FreeVariableNotIdentifiableException;
 import aletheia.model.term.Term.TypeException;
 import aletheia.model.term.VariableTerm;
 import aletheia.persistence.PersistenceManager;
@@ -88,7 +87,7 @@ public class Specialization extends Statement
 			for (IdentifiableVariableTerm v : instance.freeIdentifiableVariables())
 				uuidDependencies.add(v.getUuid());
 		}
-		catch (FreeVariableNotIdentifiableException e)
+		catch (ClassCastException e)
 		{
 			throw new FreeVariableNotIdentifiableStatementException(e);
 		}

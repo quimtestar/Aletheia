@@ -54,7 +54,6 @@ import aletheia.model.statement.Context.StatementHasDependentsException;
 import aletheia.model.statement.Context.StatementNotInContextException;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.model.term.Term.FreeVariableNotIdentifiableException;
 import aletheia.model.term.Term.UnprojectException;
 import aletheia.model.term.VariableTerm;
 import aletheia.persistence.PersistenceListener;
@@ -275,33 +274,37 @@ public abstract class Statement implements Exportable
 		this.persistenceManager = persistenceManager;
 		this.entity = persistenceManager.instantiateStatementEntity(entityClass);
 
+		Term term_;
 		try
 		{
-			Term term_ = term.unproject();
-			IdentifiableVariableTerm variable = (uuid == null) ? new IdentifiableVariableTerm(term_) : new IdentifiableVariableTerm(term_, uuid);
-			this.entity.setUuid(variable.getUuid());
-			this.entity.setVariable(variable);
-			this.entity.setProved(false);
-			if (this instanceof RootContext)
-				this.entity.setContextUuid(null);
-			else
-				this.entity.setContextUuid(context.getUuid());
-			Set<UUID> uuidDependencies = this.entity.getUuidDependencies();
-			for (IdentifiableVariableTerm v : getTerm().freeIdentifiableVariables())
-				uuidDependencies.add(v.getUuid());
-			if (context == null)
-				this.entity.initializeContextData(null);
-			else
-				this.entity.initializeContextData(context.getEntity());
+			term_ = term.unproject();
 		}
 		catch (UnprojectException e1)
 		{
 			throw new ProjectStatementException(e1);
 		}
-		catch (FreeVariableNotIdentifiableException e)
+		IdentifiableVariableTerm variable = (uuid == null) ? new IdentifiableVariableTerm(term_) : new IdentifiableVariableTerm(term_, uuid);
+		this.entity.setUuid(variable.getUuid());
+		this.entity.setVariable(variable);
+		this.entity.setProved(false);
+		if (this instanceof RootContext)
+			this.entity.setContextUuid(null);
+		else
+			this.entity.setContextUuid(context.getUuid());
+		Set<UUID> uuidDependencies = this.entity.getUuidDependencies();
+		try
+		{
+			for (IdentifiableVariableTerm v : getTerm().freeIdentifiableVariables())
+				uuidDependencies.add(v.getUuid());
+		}
+		catch (ClassCastException e)
 		{
 			throw new FreeVariableNotIdentifiableStatementException(e);
 		}
+		if (context == null)
+			this.entity.initializeContextData(null);
+		else
+			this.entity.initializeContextData(context.getEntity());
 	}
 
 	/**

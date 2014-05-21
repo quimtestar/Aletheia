@@ -32,6 +32,8 @@ import java.util.Stack;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.protocol.Exportable;
+import aletheia.utilities.collections.BijectionSet;
+import aletheia.utilities.collections.CastBijection;
 
 /**
  * <p>
@@ -235,49 +237,16 @@ public abstract class Term implements Serializable, Exportable
 		return freeVars;
 	}
 
-	/**
-	 * A free variable of the term is not a {@link IdentifiableVariableTerm}.
-	 * 
-	 * @see Term#freeIdentifiableVariables()
-	 * 
-	 */
-	public class FreeVariableNotIdentifiableException extends Exception
-	{
-		private static final long serialVersionUID = 6320192490348676637L;
-
-		private final VariableTerm var;
-
-		public FreeVariableNotIdentifiableException(VariableTerm var)
-		{
-			super();
-			this.var = var;
-		}
-
-		protected VariableTerm getVar()
-		{
-			return var;
-		}
-
-	}
 
 	/**
-	 * The set of free variables as {@link IdentifiableVariableTerm}s.
+	 * The set of free variables as {@link IdentifiableVariableTerm}s. Set operations might throw a {@link ClassCastException} if 
+	 * the term has any free {@link VariableTerm} that is not an {@link IdentifiableVariableTerm}.
 	 * 
 	 * @return The set of free {@link IdentifiableVariableTerm}s
-	 * @throws FreeVariableNotIdentifiableException
-	 *             There is a free variable that is not a
-	 *             {@link IdentifiableVariableTerm}
 	 */
-	public Set<IdentifiableVariableTerm> freeIdentifiableVariables() throws FreeVariableNotIdentifiableException
+	public Set<IdentifiableVariableTerm> freeIdentifiableVariables()
 	{
-		Set<IdentifiableVariableTerm> freeVars = new HashSet<IdentifiableVariableTerm>();
-		for (VariableTerm var : freeVariables())
-		{
-			if (!(var instanceof IdentifiableVariableTerm))
-				throw new FreeVariableNotIdentifiableException(var);
-			freeVars.add((IdentifiableVariableTerm) var);
-		}
-		return freeVars;
+		return new BijectionSet<>(new CastBijection<VariableTerm,IdentifiableVariableTerm>(),freeVariables());
 	}
 
 	/**

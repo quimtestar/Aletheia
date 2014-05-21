@@ -24,7 +24,6 @@ import java.util.UUID;
 
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.model.term.Term.FreeVariableNotIdentifiableException;
 import aletheia.model.term.VariableTerm;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -84,7 +83,7 @@ public class Declaration extends Statement
 			for (IdentifiableVariableTerm v : value.freeIdentifiableVariables())
 				uuidDependencies.add(v.getUuid());
 		}
-		catch (FreeVariableNotIdentifiableException e)
+		catch (ClassCastException e)
 		{
 			throw new FreeVariableNotIdentifiableStatementException(e);
 		}
