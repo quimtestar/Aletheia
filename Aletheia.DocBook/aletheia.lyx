@@ -171,7 +171,7 @@ identifiable variable terms
  (see 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:identifiable variable term"
+reference "term kind:identifiable variable term"
 
 \end_inset
 
@@ -332,7 +332,7 @@ Identifiable
 
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:identifiable variable term"
+name "term kind:identifiable variable term"
 
 \end_inset
 
@@ -423,7 +423,7 @@ Composition
 
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:composition term"
+name "term kind:composition term"
 
 \end_inset
 
@@ -1472,7 +1472,7 @@ composition term
  (see 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:composition term"
+reference "term kind:composition term"
 
 \end_inset
 
@@ -1569,7 +1569,7 @@ composition term
  
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:composition term"
+reference "term kind:composition term"
 
 \end_inset
 
@@ -1682,6 +1682,13 @@ types
 
 \begin_layout Subsection
 Unproject
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Unproject"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2150,7 +2157,7 @@ statements
 \emph on
 statement
 \emph default
- is essentially an 
+ is basically an 
 \emph on
 identifiable variable term
 \emph default
@@ -2183,6 +2190,13 @@ statement
 \series bold
 Context
 \series default
+
+\begin_inset CommandInset label
+LatexCommand label
+name "property:context"
+
+\end_inset
+
 : This property is optional.
  A 
 \emph on
@@ -2234,6 +2248,40 @@ identifiable variable term
 statement
 \emph default
 .
+ This 
+\emph on
+variable
+\emph default
+ is created at 
+\emph on
+statement
+\emph default
+ creation time and will be unique: only one statement can share the same
+ variable.
+ The 
+\emph on
+term
+\emph default
+ used as the 
+\emph on
+variable
+\emph default
+'s 
+\emph on
+type
+\emph default
+ is always 
+\emph on
+unprojected
+\emph default
+ (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Unproject"
+
+\end_inset
+
+).
  This property is immutable.
 \end_layout
 
@@ -2275,11 +2323,22 @@ statement
 \emph on
 statement
 \emph default
- changes, the system must update accordingly all the 
+ changes, the system must update according to all the 
 \emph on
 statements
 \emph default
- that depend on it.
+ that 
+\emph on
+depend
+\emph default
+ (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "property:dependencies"
+
+\end_inset
+
+) on it.
  This property is (evidently) mutable.
 \end_layout
 
@@ -2334,6 +2393,13 @@ type term
 \series bold
 Dependencies
 \series default
+
+\begin_inset CommandInset label
+LatexCommand label
+name "property:dependencies"
+
+\end_inset
+
 : The set of 
 \emph on
 statements
@@ -2379,34 +2445,107 @@ context
 root context 
 \emph default
 statement cannot have any dependencies.
-\end_layout
-
-\begin_layout Section
-Statement properties
-\end_layout
-
-\begin_layout Standard
-Statements will have this properties:
-\end_layout
-
-\begin_layout Itemize
-Variable: The identifiable variable term associated to this statement.
-\end_layout
-
-\begin_layout Itemize
-Context: The context (see below)
-\end_layout
-
-\begin_layout Itemize
-
-\series bold
-UUID
-\series default
-: The UUID associated to this statement's variable.
+ This property is also immutable, since the set of 
+\emph on
+statements
+\emph default
+ on which a 
+\emph on
+statement
+\emph default
+ depends are fixed since its creation.
 \end_layout
 
 \begin_layout Section
 Kinds of statements
+\end_layout
+
+\begin_layout Standard
+Each kind of 
+\emph on
+statement
+\emph default
+ corresponds to a inference rule of the system; at the same time the statements
+ are created they are 
+\emph on
+inferred.
+\end_layout
+
+\begin_layout Subsection
+Context
+\end_layout
+
+\begin_layout Standard
+A 
+\emph on
+context statement
+\emph default
+ is created with an arbitrary 
+\emph on
+term
+\emph default
+, that (once 
+\emph on
+unprojected
+\emph default
+) will serve as this 
+\emph on
+statement
+\emph default
+'s (
+\emph on
+variable
+\emph default
+'s 
+\emph on
+type
+\emph default
+'s) 
+\emph on
+term
+\emph default
+.
+ 
+\emph on
+Context statements 
+\emph default
+are the 
+\emph on
+statements
+\emph default
+ that might serve as 
+\emph on
+statements
+\emph default
+' 
+\emph on
+context
+\emph default
+ (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "property:context"
+
+\end_inset
+
+), so they serve as nodes of the 
+\emph on
+statements
+\emph default
+ tree.
+\end_layout
+
+\begin_layout Standard
+At its creation, the 
+\emph on
+context
+\emph default
+'s 
+\emph on
+term
+\emph default
+ will be decomposed on its antecedents and its consequent.
+ This is done with the following algorithm:
 \end_layout
 
 \begin_layout Chapter
