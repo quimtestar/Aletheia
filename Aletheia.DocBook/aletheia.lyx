@@ -2,7 +2,7 @@
 \lyxformat 413
 \begin_document
 \begin_header
-\textclass docbook-book
+\textclass book
 \begin_preamble
 \usepackage{multirow}
 \end_preamble
@@ -14,7 +14,7 @@
 \fontencoding global
 \font_roman default
 \font_sans default
-\font_typewriter default
+\font_typewriter lmtt
 \font_default_family default
 \use_non_tex_fonts false
 \font_sc false
@@ -74,76 +74,6 @@ LatexCommand tableofcontents
 \end_inset
 
 
-\end_layout
-
-\begin_layout Chapter
-Overview
-\end_layout
-
-\begin_layout Standard
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- Duis porta faucibus erat, pulvinar porta velit pretium eget.
- Mauris nec ultricies nunc.
- Etiam congue condimentum adipiscing.
- Morbi varius imperdiet dui vel consequat.
- Pellentesque varius vestibulum felis, et ultricies ligula pulvinar nec.
- Aenean vitae massa iaculis, scelerisque est vitae, iaculis urna.
- Aenean augue risus, gravida vitae ante ut, scelerisque iaculis ipsum.
- Proin a vehicula arcu.
- Phasellus lobortis, nisi quis posuere tincidunt, risus turpis commodo dolor,
- sed tincidunt diam ante id massa.
- Pellentesque vulputate lorem et tellus aliquet, et vulputate mauris sodales.
- Donec ullamcorper tempus magna vel pellentesque.
- Nam rhoncus facilisis diam, nec commodo tellus facilisis at.
- Aliquam sed molestie elit.
- Vivamus sed velit elementum, egestas nisi et, lacinia odio.
- Cum sociis natoque penatibus et magnis dis parturient montes, nascetur
- ridiculus mus.
-\end_layout
-
-\begin_layout Standard
-Vivamus facilisis odio dui, vitae sagittis urna adipiscing et.
- Praesent fringilla orci quam, eget feugiat neque volutpat sed.
- Integer a convallis ipsum.
- Sed id orci leo.
- Donec semper quam nisl, sit amet consectetur nisl tempor at.
- Donec suscipit cursus sollicitudin.
- Nullam dignissim, tortor eu rutrum accumsan, tellus nisi pharetra dolor,
- ac sollicitudin elit neque a leo.
- Nulla eu massa dui.
- Nunc tortor augue, euismod at semper sed, fringilla vitae urna.
-\end_layout
-
-\begin_layout Standard
-Ut pharetra sodales tortor semper hendrerit.
- Donec nec ultricies quam, et vehicula tortor.
- Etiam consectetur iaculis dui at accumsan.
- Suspendisse sodales rutrum tellus.
- Sed dapibus adipiscing massa sit amet auctor.
- Aenean posuere enim turpis, vitae consectetur mauris volutpat quis.
- Aenean nec leo semper, placerat lorem vitae, molestie lorem.
- Maecenas commodo convallis elit, non mattis mauris porta commodo.
- Vestibulum ut ornare ligula, quis vehicula elit.
-\end_layout
-
-\begin_layout Standard
-Donec ultrices tortor vitae blandit porttitor.
- Sed quam velit, sodales sed erat sed, luctus venenatis libero.
- Morbi feugiat enim eget dui euismod, vel cursus odio ullamcorper.
- Sed non enim ut nisl tristique mollis eu venenatis quam.
- Cras ut vestibulum nunc.
- Sed sem enim, porttitor ut luctus nec, tincidunt eu dolor.
- Aliquam cursus dignissim sagittis.
-\end_layout
-
-\begin_layout Standard
-In eu risus eu urna pretium interdum.
- Phasellus ac posuere dui, eu egestas augue.
- Sed elementum hendrerit felis.
- Aenean quis volutpat tortor.
- Vestibulum nec lacus in arcu iaculis viverra in vitae tortor.
- Pellentesque placerat lorem nec consequat fermentum.
- Sed et adipiscing justo.
 \end_layout
 
 \begin_layout Chapter
@@ -462,13 +392,17 @@ type
 \emph default
  
 \emph on
-composed
+composed 
+\emph default
+(see 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sub:Compose"
 
 \end_inset
 
+)
+\emph on
  
 \emph default
 (the result of the 
@@ -848,9 +782,9 @@ kind
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="3">
 <features tabularvalignment="middle">
-<column alignment="center" valignment="top" width="0">
-<column alignment="center" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="left" valignment="top" width="7cm">
 <row>
 <cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -876,7 +810,7 @@ Kind of term
 \begin_layout Plain Layout
 
 \emph on
-equal
+Equal
 \emph default
  when
 \end_layout
@@ -885,7 +819,7 @@ equal
 </cell>
 </row>
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="4cm">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -923,7 +857,7 @@ equal
 </cell>
 </row>
 <row>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" usebox="none">
+<cell multirow="3" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1220,7 +1154,7 @@ t
 <lyxtabular version="3" rows="6" columns="2">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="8cm">
 <row>
 <cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -1242,7 +1176,7 @@ Replace result
 </cell>
 </row>
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="3cm">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1271,7 +1205,7 @@ T
 </cell>
 </row>
 <row>
-<cell multirow="3" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1280,7 +1214,7 @@ Variable
 
 \end_inset
 </cell>
-<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1293,18 +1227,10 @@ t=v
 r
 \family default
 .
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-newline
+ 
 \end_layout
 
-\end_inset
-
+\begin_layout Plain Layout
 If 
 \family typewriter
 t≠v
@@ -1501,7 +1427,7 @@ t
 <lyxtabular version="3" rows="6" columns="2">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0pt">
-<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="8cm">
 <row>
 <cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -1523,7 +1449,7 @@ Replace result
 </cell>
 </row>
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="3cm">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1603,7 +1529,7 @@ Composition
 
 \end_inset
 </cell>
-<cell multirow="4" alignment="center" valignment="top" usebox="none">
+<cell multirow="4" alignment="left" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1623,7 +1549,7 @@ Projection
 
 \end_inset
 </cell>
-<cell multirow="4" alignment="center" valignment="top" usebox="none">
+<cell multirow="4" alignment="left" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1643,7 +1569,7 @@ Function
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1721,7 +1647,7 @@ kind
 <lyxtabular version="3" rows="6" columns="2">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="8cm">
 <row>
 <cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -1743,7 +1669,7 @@ Replace result
 </cell>
 </row>
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="3cm">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -1979,7 +1905,7 @@ kind
 <lyxtabular version="3" rows="6" columns="2">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="0">
-<column alignment="left" valignment="top" width="0">
+<column alignment="left" valignment="top" width="8cm">
 <row>
 <cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
@@ -2001,7 +1927,7 @@ Free variables
 </cell>
 </row>
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="3cm">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -2545,465 +2471,116 @@ context
 term
 \emph default
  will be decomposed on its antecedents and its consequent.
- This is done with the following algorithm:
-\end_layout
+ This is done according to the algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:context term decomposing"
 
-\begin_layout Chapter
-The GUI
-\end_layout
+\end_inset
 
-\begin_layout Standard
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- Nunc dictum nunc eu massa tempus facilisis.
- In cursus est sed enim ullamcorper, eget hendrerit felis rhoncus.
- Aliquam convallis tellus lorem.
- In ac quam nec augue scelerisque tincidunt vel sit amet nisl.
- Suspendisse non erat euismod, porttitor metus sed, mattis risus.
- Etiam purus libero, fringilla a pharetra ut, pulvinar id ante.
- Nam quis velit ac lacus posuere mollis.
+.
 \end_layout
 
 \begin_layout Standard
-Interdum et malesuada fames ac ante ipsum primis in faucibus.
- Vestibulum quis metus sed mauris ultricies congue.
- Aenean condimentum ligula quis tristique pretium.
- Vestibulum pharetra purus nec nibh gravida consequat vel eget nisi.
- Curabitur sit amet ultrices ipsum.
- Nullam sed velit sed arcu ultrices porta ut at est.
- Vivamus a varius ante.
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+Input:
+\series default
+ t: term
 \end_layout
 
-\begin_layout Standard
-Phasellus ut massa quis enim faucibus hendrerit lacinia vitae ante.
- Ut vel ultricies nibh.
- Sed imperdiet hendrerit iaculis.
- Quisque semper nunc a urna adipiscing consequat.
- Integer dapibus pretium dignissim.
- Phasellus dapibus adipiscing mattis.
- Ut lobortis aliquam congue.
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \qquad{}
+\end_inset
+
+antecedents:=empty_list
 \end_layout
 
-\begin_layout Standard
-Maecenas dictum purus est, ut tempus augue rutrum nec.
- Nulla vitae enim ac ante cursus euismod.
- Mauris nulla dui, porttitor faucibus libero vitae, tincidunt tristique
- leo.
- Donec vehicula ipsum ut pulvinar feugiat.
- Sed venenatis massa eu venenatis convallis.
- Proin mollis lacus eget ante convallis, eu gravida lorem dignissim.
- Aenean a mollis mi, sit amet aliquam libero.
- Etiam sapien sapien, vehicula eu sollicitudin vel, faucibus vulputate nunc.
- Nam id porttitor mauris.
- Mauris laoreet pharetra orci a vulputate.
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \qquad{}
+\end_inset
+
+
+\series bold
+while
+\series default
+ t is a function
 \end_layout
 
-\begin_layout Standard
-Phasellus quis tortor ipsum.
- Maecenas lacus tellus, imperdiet sit amet mattis ut, imperdiet laoreet
- nibh.
- Aenean sed dolor blandit, cursus velit non, tincidunt velit.
- Morbi ullamcorper interdum faucibus.
- Praesent tempus condimentum est ac vulputate.
- Proin cursus arcu metus.
- Aliquam erat volutpat.
- Donec aliquet mi ac diam volutpat, elementum lacinia tellus tincidunt.
- Proin scelerisque rutrum lectus, in faucibus risus ultricies aliquet.
- Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
- inceptos himenaeos.
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \qquad{}
+\end_inset
+
+
+\begin_inset space \qquad{}
+\end_inset
+
+antecedents.append(t.parameter.type)
 \end_layout
 
-\begin_layout Standard
-Sed vitae mauris commodo, volutpat sem sed, accumsan mauris.
- Aenean tempor neque sed massa sagittis, nec pellentesque odio accumsan.
- Ut iaculis malesuada ante egestas imperdiet.
- Vestibulum a mi eu neque placerat euismod.
- In lacinia scelerisque metus id elementum.
- Vivamus risus nibh, pellentesque eu commodo a, iaculis eu quam.
- Praesent consectetur imperdiet rutrum.
- Sed bibendum purus a porta elementum.
- Suspendisse potenti.
- Sed venenatis quam sagittis, pellentesque erat sit amet, congue nibh.
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \qquad{}
+\end_inset
+
+t:=t.body
 \end_layout
 
-\begin_layout Standard
-Nullam commodo elit suscipit eros condimentum, ac scelerisque tortor pulvinar.
- Quisque eu lorem sem.
- Donec tristique eros justo, sed pulvinar mi iaculis vel.
- Quisque felis dui, dignissim eu egestas vitae, vestibulum non metus.
- Integer vel ligula in erat convallis commodo.
- Mauris pulvinar, nulla quis auctor scelerisque, nunc metus rutrum lectus,
- a adipiscing purus massa eu purus.
- Aenean convallis id urna id rhoncus.
- Vestibulum scelerisque sodales rhoncus.
- Aenean at nulla placerat, consectetur orci quis, gravida sapien.
- Nunc molestie nec diam non laoreet.
- Quisque ut tortor urna.
- Quisque congue arcu vitae justo porttitor, quis suscipit lorem hendrerit.
- Donec ac ipsum est.
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \qquad{}
+\end_inset
+
+consequent:=t
 \end_layout
 
-\begin_layout Standard
-Donec in hendrerit lacus.
- Duis dapibus mi arcu, vel fringilla nisi consectetur sed.
- Phasellus adipiscing venenatis venenatis.
- Suspendisse iaculis est urna, et rhoncus urna feugiat ut.
- Ut et congue sapien, id semper lorem.
- Morbi sollicitudin luctus arcu eu adipiscing.
- In hac habitasse platea dictumst.
- Vestibulum lacinia ligula malesuada commodo consectetur.
- Integer pretium scelerisque velit, sed bibendum mauris molestie eget.
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+Output:
+\series default
+ antecedents, consequent.
+ 
 \end_layout
 
-\begin_layout Standard
-Mauris ut luctus diam.
- Morbi at tincidunt odio, vitae fermentum mauris.
- Morbi urna tortor, consectetur quis dapibus et, viverra luctus felis.
- Nulla molestie quis mauris quis imperdiet.
- In sed libero iaculis, mollis erat et, sodales nibh.
- Proin ut vulputate erat.
- Morbi sem tortor, vestibulum et accumsan in, aliquet vel enim.
- Proin mattis lacus sed est porta suscipit.
- Nunc interdum ornare laoreet.
- Sed fringilla hendrerit sapien eu faucibus.
- Fusce malesuada pretium elit ac vehicula.
- Etiam et dui metus.
- Nunc quis scelerisque purus.
- Aliquam in quam nec nisl dictum gravida eget vel leo.
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:context term decomposing"
+
+\end_inset
+
+Decomposing the context's term into its antecedents and its consequent.
 \end_layout
 
-\begin_layout Standard
-Phasellus vel mattis massa, id facilisis quam.
- Curabitur mollis iaculis venenatis.
- Pellentesque tincidunt justo at mattis lobortis.
- Quisque nec consequat lacus, sed porttitor felis.
- Morbi et libero mauris.
- Mauris blandit dui ac massa pellentesque, eu euismod nisi vehicula.
- Vestibulum id faucibus dui.
+\end_inset
+
+
 \end_layout
 
-\begin_layout Chapter
-Authoring
-\end_layout
+\end_inset
 
-\begin_layout Standard
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- Ut vulputate felis in lacinia blandit.
- Phasellus pretium, erat rhoncus bibendum vestibulum, neque lectus dictum
- ante, nec lacinia turpis felis in est.
- Vestibulum nec venenatis lacus.
- Vestibulum eget feugiat tellus.
- Nullam non dui risus.
- Nullam a placerat eros, a dapibus enim.
- Aliquam consequat, libero ut tempus porta, tellus diam bibendum urna, in
- luctus lectus felis quis erat.
- Aenean nec lectus arcu.
- Pellentesque vestibulum varius ullamcorper.
- Fusce dignissim turpis eu ipsum condimentum, sed molestie erat volutpat.
-\end_layout
 
-\begin_layout Standard
-Nullam condimentum sapien urna, ut dictum enim commodo vitae.
- Fusce viverra arcu risus, sit amet ullamcorper nulla tincidunt a.
- Donec euismod, libero ac ultricies volutpat, risus lorem eleifend nisi,
- vitae vulputate diam orci non eros.
- Ut fermentum in turpis varius euismod.
- Duis ullamcorper nec arcu ut fringilla.
- Aenean at mollis mi.
- Nulla auctor faucibus commodo.
-\end_layout
-
-\begin_layout Standard
-Cras quis justo non metus dapibus pretium.
- Aenean nisl magna, fringilla consectetur nulla eu, accumsan cursus sem.
- Ut sit amet viverra diam.
- Maecenas sit amet eros sit amet leo aliquet bibendum in eget justo.
- Duis varius elit enim, suscipit posuere lacus fermentum vel.
- Quisque ullamcorper risus et faucibus commodo.
- Proin vitae nunc id eros pharetra feugiat.
- Curabitur viverra tortor magna, sit amet mollis ante mollis et.
- Mauris pretium elementum tortor, consectetur consectetur ipsum pharetra
- in.
- Curabitur eget elementum nunc.
- Nulla bibendum bibendum purus ut imperdiet.
- Sed eros lectus, porttitor eu diam vel, laoreet bibendum mauris.
-\end_layout
-
-\begin_layout Standard
-Nullam facilisis et dolor et semper.
- Quisque laoreet consectetur felis non aliquet.
- Nulla ut vestibulum lorem, sed varius metus.
- Nullam ante tellus, consectetur a fringilla quis, condimentum at odio.
- Etiam ut purus sit amet felis tristique tempus.
- Donec ut nisl vitae leo tincidunt ultricies dignissim ac massa.
- Aenean quis dui orci.
- Mauris dignissim sem eu laoreet vestibulum.
- Ut est nulla, vestibulum ut tempor tempor, accumsan ac mi.
- Nullam ipsum leo, venenatis a pellentesque quis, luctus a erat.
- Pellentesque nec accumsan dui.
- Fusce gravida vitae magna ut elementum.
- Quisque laoreet tortor vitae augue mattis, id dignissim nibh luctus.
- Praesent velit libero, molestie ut tellus et, volutpat egestas arcu.
- Curabitur quis nisi facilisis, lacinia nibh id, vehicula risus.
-\end_layout
-
-\begin_layout Standard
-Quisque ac ligula ante.
- Vivamus facilisis nulla commodo metus luctus tempor sit amet nec tellus.
- Nulla augue massa, sagittis sit amet diam viverra, pharetra sodales elit.
- Suspendisse eget eros libero.
- Nam at ante eleifend, dapibus mi quis, facilisis sapien.
- Nunc pretium eleifend massa, eget consequat magna tincidunt in.
- Nullam ac malesuada nulla.
- Sed non tincidunt sapien.
- Nullam eleifend et libero id iaculis.
- Quisque tincidunt justo tellus, a ullamcorper ligula viverra sed.
-\end_layout
-
-\begin_layout Standard
-Quisque turpis turpis, cursus sed semper in, volutpat sed nibh.
- Sed vel adipiscing sapien.
- Nulla eu libero non diam convallis ultricies.
- Phasellus venenatis, ante id convallis accumsan, velit nisl tempor purus,
- ut rutrum magna leo in nibh.
- Quisque a nibh ipsum.
- Vestibulum vel ipsum vitae tellus faucibus pulvinar.
- Vestibulum in lectus commodo, elementum eros in, placerat arcu.
- Quisque laoreet leo lacus, vitae ultricies quam dignissim sed.
- Etiam ornare erat lacinia lectus imperdiet rhoncus.
- In sodales, odio et lacinia porta, lectus mi porttitor elit, sit amet convallis
- urna nisl vel mauris.
-\end_layout
-
-\begin_layout Standard
-Nullam vel aliquam orci, sit amet commodo ante.
- Suspendisse dictum in ante et eleifend.
- Donec egestas nulla consectetur est sollicitudin varius.
- Aenean tincidunt rhoncus elit, nec mattis nunc dignissim vel.
- Aliquam eget ornare nisi.
- Phasellus congue quam vel metus ultricies, vel volutpat elit congue.
- Mauris vulputate dapibus facilisis.
- In hac habitasse platea dictumst.
- Ut convallis risus libero.
- Cum sociis natoque penatibus et magnis dis parturient montes, nascetur
- ridiculus mus.
- Aenean non lorem vel nisl ornare laoreet sed rhoncus neque.
- Maecenas congue facilisis purus ut adipiscing.
- Suspendisse potenti.
- Nulla egestas aliquam lorem et fermentum.
- Integer fringilla lacus interdum nisl rhoncus, ac rutrum libero congue.
-\end_layout
-
-\begin_layout Standard
-Sed vestibulum nisl sem, ac cursus sapien rutrum in.
- Aliquam arcu ante, mattis dignissim eros at, consectetur rutrum nisi.
- Praesent elementum accumsan sem quis aliquam.
- Fusce et leo eros.
- Curabitur ac dapibus dui, id cursus mi.
- Cras eu eleifend quam.
- Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
- inceptos himenaeos.
- Quisque id urna a magna accumsan egestas.
- Nunc viverra eros non convallis dictum.
- In hac habitasse platea dictumst.
-\end_layout
-
-\begin_layout Standard
-Vivamus aliquam non elit sed malesuada.
- Mauris malesuada, tortor a eleifend accumsan, leo metus fermentum lorem,
- vel tempus neque leo laoreet libero.
- Sed suscipit purus eget neque viverra sodales.
- Quisque et egestas lectus.
- Sed nec magna imperdiet, sollicitudin lacus in, suscipit purus.
- Nullam consequat quam id massa cursus, quis cursus erat sodales.
- Praesent a posuere odio.
- Nulla cursus nibh quis massa consectetur, a eleifend turpis pulvinar.
- Vestibulum hendrerit eros odio, mollis elementum nisi semper vel.
- Maecenas id eros eros.
- Mauris dui tellus, placerat quis libero eget, tincidunt adipiscing eros.
-\end_layout
-
-\begin_layout Standard
-Cras sit amet tristique ipsum.
- Vestibulum ipsum orci, vehicula ut vehicula imperdiet, volutpat ac lacus.
- Nullam vehicula sagittis dolor, et dictum mauris rhoncus luctus.
- Nullam consequat feugiat blandit.
- Aliquam commodo ultrices augue vel blandit.
- Nullam sit amet volutpat nulla.
- Donec pulvinar nunc ac libero posuere, at porta sapien volutpat.
- Praesent tincidunt lectus et urna interdum elementum.
- Suspendisse ornare pulvinar justo ac convallis.
- Aenean a rhoncus urna.
- Vestibulum iaculis justo at massa malesuada dignissim sed vel elit.
- In rhoncus nec urna tincidunt lobortis.
- Donec nec tortor quis dolor bibendum vestibulum.
- Quisque nulla quam, pretium vel vestibulum quis, fringilla sed nunc.
- Praesent sollicitudin nisi a tempus dictum.
- Nam egestas nisl sit amet erat tristique tincidunt.
-\end_layout
-
-\begin_layout Chapter
-Networking
-\end_layout
-
-\begin_layout Standard
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- Integer dictum adipiscing lobortis.
- Maecenas mollis mi sollicitudin lectus feugiat, eu molestie dui lacinia.
- Pellentesque vehicula venenatis quam eget suscipit.
- Interdum et malesuada fames ac ante ipsum primis in faucibus.
- Maecenas sit amet ullamcorper ante.
- Etiam massa risus, aliquet non urna vitae, pharetra cursus enim.
- Sed quis odio ut sapien consectetur suscipit.
- Quisque volutpat mauris eu nisi semper aliquam.
- Quisque bibendum in dui pellentesque dignissim.
- Morbi gravida, eros ut mollis tincidunt, turpis arcu facilisis erat, eu
- lacinia nibh ligula at nulla.
- Proin suscipit elit a porta accumsan.
- Etiam nibh leo, ultricies ac commodo sed, iaculis quis justo.
-\end_layout
-
-\begin_layout Standard
-Sed lobortis mi a magna sollicitudin dapibus.
- Suspendisse potenti.
- Mauris dignissim sit amet tortor iaculis egestas.
- Nullam rhoncus nulla vel ante rutrum, eget rutrum urna lobortis.
- Nulla malesuada suscipit erat, non varius nibh bibendum euismod.
- Quisque et mi eget ligula sodales elementum.
- Integer id purus sit amet sapien tempor interdum et eu odio.
- Sed urna turpis, accumsan vel pulvinar a, hendrerit et orci.
- Aliquam iaculis rhoncus blandit.
- Donec vel arcu ipsum.
- Proin sodales ante id orci placerat faucibus.
- In venenatis, turpis non euismod rutrum, arcu massa rhoncus erat, id dapibus
- risus neque id diam.
- Sed pulvinar in lorem id sodales.
- Pellentesque consequat lobortis volutpat.
- Duis in mauris faucibus, luctus magna ac, eleifend velit.
- Cum sociis natoque penatibus et magnis dis parturient montes, nascetur
- ridiculus mus.
-\end_layout
-
-\begin_layout Standard
-Aenean sit amet nunc dui.
- Suspendisse interdum elit id tellus ultrices, id porta est varius.
- Nulla turpis odio, lacinia ornare mauris et, ultrices aliquet dui.
- Aenean pulvinar leo quis tellus luctus tempus.
- Quisque auctor arcu justo, et sollicitudin erat malesuada et.
- Proin consequat sodales lacus id vulputate.
- Cras et sapien sed lacus egestas laoreet nec ac lacus.
- Maecenas ac purus elit.
- Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere
- cubilia Curae; Proin elit quam, pharetra condimentum adipiscing eget, posuere
- vitae justo.
-\end_layout
-
-\begin_layout Standard
-Donec dignissim congue risus, nec fringilla purus hendrerit in.
- Suspendisse enim mi, tincidunt at lacus dictum, dignissim bibendum odio.
- Aenean tincidunt risus feugiat erat commodo placerat.
- Etiam commodo turpis faucibus, aliquam augue vel, volutpat sem.
- Morbi congue, metus eget placerat sagittis, risus ipsum lobortis magna,
- id rhoncus libero velit ut risus.
- Etiam ac nisi vel quam facilisis blandit at consequat diam.
- Morbi facilisis feugiat cursus.
-\end_layout
-
-\begin_layout Standard
-Sed pretium, orci eget faucibus vehicula, urna augue condimentum velit,
- a fringilla quam nunc at metus.
- Phasellus imperdiet mauris id tellus pharetra, id lacinia metus dapibus.
- Sed ut sagittis eros.
- Pellentesque convallis ac mi sed porttitor.
- Aliquam dignissim, eros vitae malesuada malesuada, ligula nulla eleifend
- ipsum, mattis hendrerit elit urna a purus.
- Nunc semper molestie mollis.
- Curabitur congue nisi placerat feugiat rutrum.
- Maecenas nulla turpis, ornare ut placerat quis, lacinia ut sem.
- Ut ut dui sit amet leo pulvinar tempus.
- Proin lobortis, dolor non pharetra feugiat, ante leo ultricies nibh, quis
- viverra sem metus quis sem.
- Integer feugiat libero ac tellus mattis, sed varius nulla pulvinar.
-\end_layout
-
-\begin_layout Standard
-Proin vitae felis fringilla, congue ligula quis, consectetur orci.
- Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
- inceptos himenaeos.
- Maecenas vestibulum interdum metus eu molestie.
- Nulla tristique cursus enim, non facilisis turpis auctor ac.
- Donec gravida nisl nec urna condimentum, at molestie velit aliquet.
- Duis non elit iaculis, suscipit nulla quis, mattis dolor.
- Sed et lorem auctor, porttitor quam ut, ornare magna.
- Integer dapibus tincidunt mi, nec blandit justo cursus quis.
- Etiam aliquet mattis ornare.
- Integer hendrerit sagittis luctus.
- Pellentesque vestibulum mi nulla, sit amet sagittis odio lobortis sit amet.
- Maecenas ac tellus augue.
- Curabitur sit amet risus nibh.
- Maecenas sed nibh sem.
- Suspendisse at tempus urna.
-\end_layout
-
-\begin_layout Standard
-Donec sed mi at turpis cursus eleifend a et est.
- Duis porta elit sapien, ut ullamcorper lectus hendrerit eu.
- Nulla et facilisis dolor, dapibus elementum arcu.
- Nulla faucibus ac arcu vitae auctor.
- Maecenas in vestibulum orci.
- Vivamus ut volutpat diam, a consequat dolor.
- Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- Maecenas ultrices ultricies tempus.
- Mauris convallis, tortor ac congue tincidunt, est nisi vulputate lorem,
- quis pharetra urna lectus eget felis.
- Nam erat nisi, facilisis vitae diam non, tempus lacinia elit.
- Nunc quis elit varius, aliquet lacus vel, interdum arcu.
-\end_layout
-
-\begin_layout Standard
-Aliquam gravida scelerisque arcu, sit amet ullamcorper diam viverra nec.
- Nam egestas blandit elit ac luctus.
- Morbi sed hendrerit leo, eget ultrices lectus.
- Fusce ultricies malesuada tellus id semper.
- Curabitur felis urna, facilisis vel tincidunt non, adipiscing sed mauris.
- Quisque vestibulum felis eu quam tincidunt, dapibus posuere dui euismod.
- Sed molestie orci eget laoreet laoreet.
- Mauris ultrices urna at massa sagittis molestie.
- Quisque rhoncus, ipsum eget laoreet molestie, justo massa egestas lacus,
- venenatis feugiat est ipsum sit amet elit.
- Aliquam iaculis arcu ut felis tincidunt, vitae viverra lacus fermentum.
- Maecenas bibendum scelerisque elit, ac auctor orci.
- Etiam luctus sapien non mauris condimentum lobortis.
- Ut erat enim, pulvinar a aliquam eget, posuere viverra libero.
- Vivamus sit amet arcu leo.
-\end_layout
-
-\begin_layout Standard
-Nullam quis augue non ligula volutpat hendrerit et sit amet tortor.
- Morbi velit elit, blandit congue consequat quis, fringilla suscipit libero.
- Curabitur mattis felis ornare velit imperdiet scelerisque nec nec felis.
- Cras id dignissim elit, quis malesuada risus.
- Maecenas at felis vitae arcu hendrerit iaculis malesuada ut enim.
- Sed et augue viverra, feugiat turpis et, vestibulum mauris.
- Maecenas pretium a urna at tincidunt.
- Phasellus vel lacus vel odio faucibus egestas eget vel leo.
- Duis non accumsan nisl, fermentum commodo massa.
- Curabitur hendrerit vestibulum lacinia.
-\end_layout
-
-\begin_layout Standard
-Nam pellentesque convallis lorem sit amet dignissim.
- Suspendisse sollicitudin velit nec risus fringilla pulvinar.
- Suspendisse faucibus posuere mauris, in scelerisque diam dapibus vitae.
- Donec diam ante, iaculis non interdum at, mollis ut tortor.
- Aenean laoreet erat at risus eleifend lobortis eu id eros.
- Duis tincidunt rutrum dui, at euismod sem sagittis in.
- Nulla a nisl aliquam, mattis elit at, luctus erat.
- Cras cursus est velit, vel mollis tellus molestie quis.
- Cras non mauris nec mauris accumsan pulvinar id in enim.
- In mattis, velit vitae mattis faucibus, tellus ipsum consectetur enim,
- non egestas orci risus vel mauris.
- Proin mi nibh, porttitor nec aliquam ac, posuere quis nunc.
- Praesent mollis eros neque, ut rhoncus libero congue sit amet.
 \end_layout
 
 \end_body
