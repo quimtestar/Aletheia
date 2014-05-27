@@ -757,6 +757,13 @@ Operations on terms
 
 \begin_layout Subsection
 Equals
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Equals"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -2239,6 +2246,13 @@ rs not necessarly in a unique way).
 \series bold
 Proven
 \series default
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Statement property:proven"
+
+\end_inset
+
 : A boolean flag that indicates de validity of this 
 \emph on
 statement
@@ -2398,7 +2412,190 @@ inferred.
 \end_layout
 
 \begin_layout Subsection
-Context
+Declaration
+\end_layout
+
+\begin_layout Standard
+A 
+\emph on
+declaration statement 
+\emph default
+make its 
+\emph on
+variable
+\emph default
+ equivalent to an arbitrary 
+\emph on
+term
+\emph default
+, namely its 
+\emph on
+value
+\emph default
+.
+ It shall be used to define new concepts equivalent to what is already expressab
+le as a 
+\emph on
+term
+\emph default
+ using other already defined concepts on its 
+\emph on
+context
+\emph default
+.
+ The 
+\emph on
+declaration statement's term
+\emph default
+ is its 
+\emph on
+value
+\emph default
+'s 
+\emph on
+type 
+\emph default
+term.
+\end_layout
+
+\begin_layout Standard
+A declaration has the following special properties:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Value
+\series default
+: As specified above.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Dependencies
+\series default
+: What's specified in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "property:dependencies"
+
+\end_inset
+
+ plus the free variables of the 
+\emph on
+declaration
+\emph default
+'s value.
+\end_layout
+
+\begin_layout Subsection
+Specialization
+\end_layout
+
+\begin_layout Standard
+A 
+\emph on
+specialization statement
+\emph default
+ obtains its 
+\emph on
+term
+\emph default
+ by taking an arbitrary general 
+\emph on
+statement
+\emph default
+ and 
+\emph on
+composing
+\emph default
+ (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Compose"
+
+\end_inset
+
+) its 
+\emph on
+term
+\emph default
+ with another 
+\emph on
+term
+\emph default
+ (the instance).
+ It has the following special properties:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+General
+\series default
+: The general 
+\emph on
+statement
+\emph default
+, as specified above.
+ Must be a 
+\emph on
+statement
+\emph default
+ from the same 
+\emph on
+context
+\emph default
+ or one of its ancestors.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Instance
+\series default
+: The term with which the 
+\emph on
+composing
+\emph default
+ is done.
+ Its 
+\emph on
+free variables
+\emph default
+ must also be in this 
+\emph on
+specialization statement
+\emph default
+'s 
+\emph on
+context
+\emph default
+ or one of its ancestors.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Proven
+\series default
+: Besides what's specified in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Statement property:proven"
+
+\end_inset
+
+, the 
+\emph on
+general statement
+\emph default
+ must be proven and also all the statements corresponding to the 
+\emph on
+instance
+\emph default
+'s free variables.
 \end_layout
 
 \begin_layout Standard
@@ -2470,7 +2667,15 @@ context
 \emph on
 term
 \emph default
- will be decomposed on its antecedents and its consequent.
+ will be decomposed on its 
+\emph on
+antecedents
+\emph default
+ and its 
+\emph on
+consequent
+\emph default
+.
  This is done according to the algorithm 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2479,6 +2684,35 @@ reference "alg:context term decomposing"
 \end_inset
 
 .
+ The 
+\emph on
+antecedent
+\emph default
+ 
+\emph on
+terms
+\emph default
+ are used to create the 
+\emph on
+assumption statements
+\emph default
+ (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Assumption"
+
+\end_inset
+
+) of this 
+\emph on
+context
+\emph default
+; that is, the antecedents are asumed to be valid terms in this 
+\emph on
+context
+\emph default
+.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -2487,6 +2721,24 @@ placement h
 wide false
 sideways false
 status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:context term decomposing"
+
+\end_inset
+
+Decomposing the context's term into its antecedents and its consequent.
+\end_layout
+
+\end_inset
+
+
+\end_layout
 
 \begin_layout Plain Layout
 
@@ -2560,27 +2812,225 @@ Output:
  
 \end_layout
 
-\begin_layout Plain Layout
-\begin_inset Caption
+\end_inset
 
-\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Standard
+A 
+\emph on
+context
+\emph default
+ has the following special properties:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Consequent
+\series default
+: As computed by 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:context term decomposing"
+
+\end_inset
+
+.
+ A non-
+\emph on
+function
+\emph default
+ 
+\emph on
+term
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Proven
+\series default
+: To be 
+\emph on
+proved
+\emph default
+, besides what's specified in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Statement property:proven"
+
+\end_inset
+
+, there must be a 
+\emph on
+statement
+\emph default
+ in any of this 
+\emph on
+context
+\emph default
+'s ancestors (including itself) whose 
+\emph on
+term
+\emph default
+ is 
+\emph on
+equal 
+\emph default
+(see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Equals"
+
+\end_inset
+
+) to the 
+\emph on
+consequent
+\emph default
+ of this 
+\emph on
+context
+\emph default
+.
+\end_layout
+
+\begin_layout Subsubsection
+Root context
+\end_layout
+
+\begin_layout Standard
+A special kind of 
+\emph on
+context
+\emph default
+ that serves as a the root of the context tree.
+ Its only particularity is that it does not have a context (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "property:context"
+
+\end_inset
+
+), being the only kind of 
+\emph on
+statements
+\emph default
+ where so happens.
+\end_layout
+
+\begin_layout Subsubsection
+Unfolding context
+\end_layout
+
+\begin_layout Standard
+This kind of 
+\emph on
+context
+\emph default
+ takes a 
+\emph on
+declaration statement
+\emph default
+ as a parameter and replaces its value on the 
+\emph on
+context
+\emph default
+'s 
+\emph on
+term
+\emph default
+ before decomposing it into its antecedents and consequent.
+ The result is that this 
+\emph on
+context
+\emph default
+'s 
+\emph on
+term
+\emph default
+ will contain (presumably, it makes no sense to use this kind of 
+\emph on
+statement
+\emph default
+ if not) instances of the 
+\emph on
+declaration
+\emph default
+'s variable and it's 
+\emph on
+assumptions
+\emph default
+ and 
+\emph on
+consequent 
+\emph default
+will have it substitued the 
+\emph on
+declaration
+\emph default
+'s value.
+ This is the way to introduce 
+\emph on
+statements
+\emph default
+ into the system that put a 
+\emph on
+declaration
+\emph default
+ in relation to its 
+\emph on
+value
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+Its special properties:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Declaration
+\series default
+: As specified above.
+\end_layout
+
+\begin_layout Subsection
+Assumption
 \begin_inset CommandInset label
 LatexCommand label
-name "alg:context term decomposing"
-
-\end_inset
-
-Decomposing the context's term into its antecedents and its consequent.
-\end_layout
+name "sub:Assumption"
 
 \end_inset
 
 
 \end_layout
 
-\end_inset
+\begin_layout Standard
 
-
+\emph on
+Assumption statements
+\emph default
+ are automatically created when creating its 
+\emph on
+context statement
+\emph default
+ and their 
+\emph on
+term
+\emph default
+ is the result of the decomposition of the context's term.
+ Its existence will be linked to the existence of the 
+\emph on
+context statement
+\emph default
+.
 \end_layout
 
 \end_body
