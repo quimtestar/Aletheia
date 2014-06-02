@@ -237,16 +237,17 @@ public abstract class Term implements Serializable, Exportable
 		return freeVars;
 	}
 
-
 	/**
-	 * The set of free variables as {@link IdentifiableVariableTerm}s. Set operations might throw a {@link ClassCastException} if 
-	 * the term has any free {@link VariableTerm} that is not an {@link IdentifiableVariableTerm}.
+	 * The set of free variables as {@link IdentifiableVariableTerm}s. Set
+	 * operations might throw a {@link ClassCastException} if the term has any
+	 * free {@link VariableTerm} that is not an {@link IdentifiableVariableTerm}
+	 * .
 	 * 
 	 * @return The set of free {@link IdentifiableVariableTerm}s
 	 */
 	public Set<IdentifiableVariableTerm> freeIdentifiableVariables()
 	{
-		return new BijectionSet<>(new CastBijection<VariableTerm,IdentifiableVariableTerm>(),freeVariables());
+		return new BijectionSet<>(new CastBijection<VariableTerm, IdentifiableVariableTerm>(), freeVariables());
 	}
 
 	/**

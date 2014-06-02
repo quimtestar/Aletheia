@@ -266,7 +266,22 @@ public class AletheiaTermParser extends Parser
 						Term type = term.getType();
 						if (type == null)
 							throw new TermParserException("Term '" + term + "' has no type", token.getStartLocation(), token.getStopLocation(), input);
-						return term.getType();
+						return type;
+					}
+					else if (token.getProduction().getRight().get(1).equals(taggedTerminalSymbols.get("apostrophe")))
+					{
+						if (term instanceof FunctionTerm)
+						{
+							FunctionTerm functionTerm = (FunctionTerm) term;
+							Term body = functionTerm.getBody();
+							if (body.freeVariables().contains(functionTerm.getParameter()))
+								throw new TermParserException("Function's body depends on function parameter", token.getStartLocation(),
+										token.getStopLocation(), input);
+							else
+								return body;
+						}
+						else
+							throw new TermParserException("Only can take the body of a function term", token.getStartLocation(), token.getStopLocation(), input);
 					}
 					else
 						throw new Error();

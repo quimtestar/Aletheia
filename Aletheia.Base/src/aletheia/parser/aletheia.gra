@@ -1,5 +1,5 @@
 T;
-T -> T A; 
+T -> T A;
 T -> A;
 A -> ttype;
 A -> I;
@@ -9,6 +9,7 @@ A -> hexref;
 A -> A projection;
 A -> A percent;
 A -> A sharp;
+A -> A apostrophe;
 A -> A bang I;
 A -> A bar I;
 A -> equals bang I;
