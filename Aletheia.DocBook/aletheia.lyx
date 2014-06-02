@@ -1,0 +1,3043 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass book
+\begin_preamble
+\usepackage{multirow}
+\end_preamble
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter lmtt
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 1
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+The Aletheia Proof Assistant
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Terms
+\end_layout
+
+\begin_layout Section
+Definition
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Terms
+\emph default
+ are the elements that represent mathematical expressions in the system.
+ The interpretation of a term will depend on its 
+\emph on
+context
+\emph default
+, which will give us the proper definition of the 
+\emph on
+identifiable variable terms
+\emph default
+ (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "term kind:identifiable variable term"
+
+\end_inset
+
+) that might be present inside the term.
+ 
+\end_layout
+
+\begin_layout Standard
+A 
+\emph on
+term
+\emph default
+ might be immutably associated to another 
+\emph on
+term
+\emph default
+, namely its 
+\emph on
+type
+\emph default
+.
+ A 
+\emph on
+term
+\emph default
+ might also be 
+\emph on
+typeless
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+We define a 
+\emph on
+term
+\emph default
+ recursivelly as one of these possibilities (
+\emph on
+kinds of terms
+\emph default
+):
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+T
+\series default
+: A special instance of term used as the sole primitive 
+\emph on
+type
+\emph default
+.
+ The 
+\emph on
+T term
+\emph default
+ has no 
+\emph on
+type
+\emph default
+.
+ It is textually represented simply with the letter 
+\emph on
+'T
+\emph default
+'.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Variable
+\series default
+: A 
+\emph on
+kind of term
+\emph default
+ that represents another 
+\emph on
+term
+\emph default
+.
+ Each 
+\emph on
+variable term
+\emph default
+ will have an arbitrary 
+\emph on
+type
+\emph default
+.
+ There are two kinds of 
+\emph on
+variable terms
+\emph default
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\series bold
+Parameter
+\series default
+: The parameter variable of a 
+\emph on
+function term
+\emph default
+.
+ Only can be used in the body of that function.
+ Their textual representation differs depending on whether the term is getting
+ into the system (e.g., we are typing a 
+\emph on
+term
+\emph default
+ into the 
+\emph on
+CLI 
+\emph default
+of the 
+\emph on
+GUI
+\emph default
+) or the term is getting out of the system (e.g.
+ it is displayed on the 
+\emph on
+GUI
+\emph default
+).
+ On the former, an 
+\emph on
+identifier name
+\emph default
+ (i.e.
+ a string matching the regular expression 
+\emph on
+[_a-zA-Z][_a-zA-Z0-9]*
+\emph default
+) will be used.
+ On the latter, the variable will be expressed as an at sign (
+\emph on
+'@'
+\emph default
+) followed by a sequential number that uniquely identifies the 
+\emph on
+variable
+\emph default
+ within the corresponding function body.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Identifiable
+\series default
+
+\begin_inset CommandInset label
+LatexCommand label
+name "term kind:identifiable variable term"
+
+\end_inset
+
+: An 
+\emph on
+identifiable variable
+\emph default
+ is one which is defined out of the term and on the 
+\emph on
+context
+\emph default
+ of it.
+ In fact, any identifiable variable will correspond to one 
+\emph on
+statement
+\emph default
+ of that 
+\emph on
+context
+\emph default
+.
+ It will be associated to a 
+\emph on
+UUID
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+\begin_inset CommandInset href
+LatexCommand href
+name "Universally Unique Identifier"
+target "http://en.wikipedia.org/wiki/Uuid"
+
+\end_inset
+
+, essentially a 128-bit random number.
+\end_layout
+
+\end_inset
+
+
+\emph default
+.
+ The textual representation will be the 
+\emph on
+identifier
+\emph default
+ (i.e.
+ a string matching the regular expression 
+\emph on
+([_a-zA-Z][_a-zA-Z0-9]*
+\emph default
+
+\backslash
+.
+\emph on
+)*[_a-zA-Z][_a-zA-Z0-9]*
+\emph default
+) associated to the 
+\emph on
+statement
+\emph default
+ in its 
+\emph on
+context
+\emph default
+ this 
+\emph on
+variable
+\emph default
+ corresponds to, if any, or as a dollar sign(
+\emph on
+'$'
+\emph default
+) followed by an eight hexadeximal digit hashcode of the 
+\emph on
+UUID
+\emph default
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Composition
+\series default
+
+\begin_inset CommandInset label
+LatexCommand label
+name "term kind:composition term"
+
+\end_inset
+
+: A 
+\emph on
+term
+\emph default
+ that is composed by two other 
+\emph on
+component terms
+\emph default
+, a 
+\emph on
+head term
+\emph default
+ (which cannot be of the 
+\emph on
+function
+\emph default
+ kind) and a 
+\emph on
+tail term
+\emph default
+ (which can be of any kind).
+ The 
+\emph on
+type
+\emph default
+ of a 
+\emph on
+composition term
+\emph default
+ will be its head's 
+\emph on
+type
+\emph default
+ 
+\emph on
+composed 
+\emph default
+(see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Compose"
+
+\end_inset
+
+)
+\emph on
+ 
+\emph default
+(the result of the 
+\emph on
+operation compose
+\emph default
+ on 
+\emph on
+terms
+\emph default
+, not to be confused with the 
+\emph on
+composition term
+\emph default
+, nevertheless related concepts) with its tail.
+ The 
+\emph on
+composition
+\emph default
+ won't be a valid 
+\emph on
+term
+\emph default
+ if the head is a 
+\emph on
+typeless term
+\emph default
+ or if that 
+\emph on
+type compose operation
+\emph default
+ is not valid.
+ The textual representation of a composition will be such as:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+
+\family typewriter
+head 
+\series bold
+(
+\series default
+tail
+\series bold
+)
+\series default
+ 
+\family default
+if the 
+\emph on
+tail 
+\emph default
+is a 
+\emph on
+composition term
+\emph default
+, or
+\end_layout
+
+\begin_layout Itemize
+
+\family typewriter
+head tail 
+\family default
+if not.
+\end_layout
+
+\begin_layout Standard
+Component composition is left-associative, that is, the 
+\emph on
+term
+\emph default
+ expressed as:
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+a b c d
+\end_layout
+
+\begin_layout Standard
+...is the same as:
+\end_layout
+
+\begin_layout Standard
+
+\family typewriter
+((a b) c) d
+\end_layout
+
+\begin_layout Standard
+When parsing a 
+\emph on
+composition term 
+\emph default
+(or any other 
+\emph on
+kind of term
+\emph default
+) the extra parentheses will be ignored.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Function
+\series default
+: This kind of 
+\emph on
+term
+\emph default
+ consist of a freshly created 
+\emph on
+parameter variable term
+\emph default
+ (namely the 
+\emph on
+parameter
+\emph default
+) and a 
+\emph on
+term
+\emph default
+ (of any kind) (namely the 
+\emph on
+body
+\emph default
+) that might or might not make use of that 
+\emph on
+parameter
+\emph default
+.
+ The 
+\emph on
+type
+\emph default
+ of a 
+\emph on
+function term 
+\emph default
+will be another 
+\emph on
+function term
+\emph default
+ with the same 
+\emph on
+parameter type
+\emph default
+ and the function's body type as a body (of course, replacing the instances
+ of the former's 
+\emph on
+function's parameter
+\emph default
+ with the 
+\emph on
+parameter
+\emph default
+ of the 
+\emph on
+type function
+\emph default
+).
+ In the case that the body has no 
+\emph on
+type
+\emph default
+, the function will also be 
+\emph on
+typeless
+\emph default
+.
+
+\emph on
+ 
+\emph default
+The textual representation of a 
+\emph on
+function
+\emph default
+ will be such as:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\family typewriter
+\series bold
+<
+\series default
+parameter
+\series bold
+:
+\series default
+type 
+\series bold
+→
+\series default
+ body
+\series bold
+>
+\end_layout
+
+\begin_layout Standard
+Being the 
+\family typewriter
+type
+\family default
+ the 
+\emph on
+parameter variable term
+\emph default
+'s 
+\emph on
+type
+\emph default
+.
+ When parsing a 
+\emph on
+function term 
+\emph default
+the two characters '
+\family typewriter
+->
+\family default
+' will be used as the arrow symbol.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+
+\series bold
+Projection
+\series default
+: Embeds of a 
+\emph on
+function term
+\emph default
+.
+ The 
+\emph on
+type
+\emph default
+ of a 
+\emph on
+projection term
+\emph default
+ will be just its 
+\emph on
+function
+\emph default
+'s body's 
+\emph on
+type
+\emph default
+ (so the name 'projection'); if the 
+\emph on
+function
+\emph default
+'s body's 
+\emph on
+type
+\emph default
+ depends on the 
+\emph on
+function
+\emph default
+'s parameter, the projection won't be a valid 
+\emph on
+term
+\emph default
+ (it would violate the general rule that a 
+\emph on
+parameter variable
+\emph default
+ must always be bound to a 
+\emph on
+function term
+\emph default
+).
+ The textual representation of a 
+\emph on
+projection
+\emph default
+ will the be such as:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+
+\family typewriter
+function*
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+Any 
+\emph on
+term
+\emph default
+ used to define a new 
+\emph on
+term
+\emph default
+ (the 
+\emph on
+type
+\emph default
+ of a 
+\emph on
+variable
+\emph default
+, a 
+\emph on
+component
+\emph default
+ of a 
+\emph on
+composition
+\emph default
+) , must preexist (i.e.
+ be defined 
+\emph on
+before 
+\emph default
+the new term is defined); so a 
+\emph on
+term
+\emph default
+ must be well founded and can never have any cycle in its definition.
+ Note that the only 
+\emph on
+term
+\emph default
+ that does not make use of any other 
+\emph on
+term
+\emph default
+ is the 
+\emph on
+T term
+\emph default
+.
+\end_layout
+
+\begin_layout Section
+Operations on terms
+\end_layout
+
+\begin_layout Subsection
+Equals
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Equals"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Checking for equality between two terms.
+ Two equal 
+\emph on
+terms
+\emph default
+ are considered to be one and the same.
+ First of all, for being equal two 
+\emph on
+terms
+\emph default
+ have to be of the same 
+\emph on
+kind
+\emph default
+.
+ When so, the rules for equality checking of term are:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="left" valignment="top" width="7cm">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kind of term
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+Equal
+\emph default
+ when
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="4cm">
+\begin_inset Text
+
+\begin_layout Plain Layout
+T
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+All 
+\emph on
+T terms
+\emph default
+ are 
+\emph on
+equal
+\emph default
+ to each other.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Variable
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Parameter
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Only when their declaration as a 
+\emph on
+function parameter
+\emph default
+ is the same.
+ Every 
+\emph on
+function parameter
+\emph default
+ (of 
+\emph on
+different
+\emph default
+ 
+\emph on
+functions
+\emph default
+) is 
+\emph on
+different
+\emph default
+ to each other.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Identifiable
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Are identified with the same 
+\emph on
+UUID
+\emph default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Composition
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Both the 
+\emph on
+heads
+\emph default
+ and the 
+\emph on
+tails
+\emph default
+ are 
+\emph on
+equal
+\emph default
+ 
+\emph on
+terms
+\emph default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Function
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The result of 
+\emph on
+replacing
+\emph default
+ (see 
+\emph on
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:term replace"
+
+\end_inset
+
+
+\emph default
+) one's 
+\emph on
+parameter
+\emph default
+ by the other's in it's 
+\emph on
+body
+\emph default
+ results into a term that is 
+\emph on
+equal
+\emph default
+ to the other's 
+\emph on
+body
+\emph default
+.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Projection
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Their embedded functions are 
+\emph on
+equal
+\emph default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Replace
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:term replace"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Given a 
+\emph on
+term
+\emph default
+ 
+\family typewriter
+t
+\family default
+, a 
+\emph on
+variable
+\emph default
+ 
+\family typewriter
+v
+\family default
+, and another 
+\emph on
+term
+\emph default
+ 
+\family typewriter
+r
+\family default
+ of the same 
+\emph on
+type
+\emph default
+ than the variable, all the occurrences of 
+\family typewriter
+v
+\family default
+ on 
+\family typewriter
+t
+\family default
+ are replaced by 
+\family typewriter
+r
+\family default
+.
+ Depending on which 
+\emph on
+kind of term
+\emph default
+ is 
+\family typewriter
+t
+\family default
+, the result will be:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="8cm">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kind of term
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Replace result
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="3cm">
+\begin_inset Text
+
+\begin_layout Plain Layout
+T
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+T
+\emph default
+; there is no occurrence of any variable in 
+\emph on
+T
+\emph default
+.
+ 
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Variable
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+If 
+\family typewriter
+t=v
+\family default
+, the result is 
+\family typewriter
+r
+\family default
+.
+ 
+\end_layout
+
+\begin_layout Plain Layout
+If 
+\family typewriter
+t≠v
+\family default
+, the result is 
+\family typewriter
+t
+\family default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Composition
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The result of the 
+\emph on
+operation compose 
+\emph default
+(see
+\emph on
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Compose"
+
+\end_inset
+
+
+\emph default
+) on the 
+\emph on
+replace
+\emph default
+ result of the head and the tail with the same variable and 
+\emph on
+replacement
+\emph default
+ term.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Function
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A 
+\emph on
+function
+\emph default
+ whose parameter's 
+\emph on
+type
+\emph default
+ is the 
+\emph on
+replacement
+\emph default
+ of this 
+\emph on
+function
+\emph default
+'s parameter's 
+\emph on
+type
+\emph default
+ and its body is the 
+\emph on
+replacement
+\emph default
+ of this 
+\emph on
+function
+\emph default
+'s body.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Projection
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The 
+\emph on
+projection
+\emph default
+ of the 
+\emph on
+replacement
+\emph default
+ of the 
+\emph on
+function
+\emph default
+ of this 
+\emph on
+projection
+\emph default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Compose
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Compose"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This operation is a generalization of the creation of 
+\emph on
+composition term
+\emph default
+ (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "term kind:composition term"
+
+\end_inset
+
+) extending it also to function terms.
+ Given two terms 
+\family typewriter
+t
+\family default
+ and 
+\family typewriter
+r
+\family default
+ the result will be, depending on which 
+\emph on
+kind of term
+\emph default
+ is 
+\family typewriter
+t
+\family default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="left" valignment="top" width="8cm">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kind of term
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Replace result
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="3cm">
+\begin_inset Text
+
+\begin_layout Plain Layout
+T
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Cannot be composed since it doesn't have a 
+\emph on
+type
+\emph default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Variable
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The 
+\emph on
+composition term 
+\emph default
+(see
+\emph on
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "term kind:composition term"
+
+\end_inset
+
+
+\emph default
+) of 
+\family typewriter
+t
+\family default
+ and 
+\family typewriter
+r
+\family default
+, if the 
+\emph on
+type
+\emph default
+ can be composed.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Composition
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Projection
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Function
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The result of replacing the 
+\emph on
+function
+\emph default
+'s parameter for the 
+\emph on
+term
+\emph default
+ 
+\family typewriter
+r
+\family default
+ in the 
+\emph on
+function
+\emph default
+'s body, if 
+\emph on
+types
+\emph default
+ match.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Unproject
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Unproject"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Transform the term by recursivelly converting its 
+\emph on
+projection terms
+\emph default
+ into regular 
+\emph on
+function terms
+\emph default
+.
+ Given a 
+\emph on
+term
+\emph default
+ 
+\family typewriter
+t
+\family default
+, the result will be, depending on its 
+\emph on
+kind
+\emph default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="8cm">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kind of term
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Replace result
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="3cm">
+\begin_inset Text
+
+\begin_layout Plain Layout
+T
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\emph on
+T
+\emph default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Variable
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\family typewriter
+t
+\family default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Composition
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The result of the 
+\emph on
+operation compose 
+\emph default
+(see
+\emph on
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Compose"
+
+\end_inset
+
+
+\emph default
+) on the 
+\emph on
+unprojection
+\emph default
+ result of the head and the tail.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Function
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+A 
+\emph on
+function
+\emph default
+ whose parameter's 
+\emph on
+type
+\emph default
+ is the 
+\emph on
+unprojection
+\emph default
+ of this 
+\emph on
+function
+\emph default
+'s parameter's 
+\emph on
+type
+\emph default
+ and its body is the 
+\emph on
+unprojection
+\emph default
+ of this 
+\emph on
+function
+\emph default
+'s body.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Projection
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The 
+\emph on
+unprojection
+\emph default
+ of the projected 
+\emph on
+function term
+\emph default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Free variables
+\end_layout
+
+\begin_layout Standard
+Computes the set of 
+\emph on
+variables
+\emph default
+ (
+\emph on
+parameters
+\emph default
+ or 
+\emph on
+identifiable
+\emph default
+) of a term that are not bound to any 
+\emph on
+function
+\emph default
+ (of this 
+\emph on
+term
+\emph default
+).
+ If a 
+\emph on
+term
+\emph default
+ is not part of another 
+\emph on
+term
+\emph default
+ all its 
+\emph on
+free variables
+\emph default
+ must be of the kind 
+\emph on
+identifiable
+\emph default
+.
+ Given a 
+\emph on
+term
+\emph default
+ 
+\family typewriter
+t
+\family default
+, its 
+\emph on
+free variables
+\emph default
+ are, depending on its 
+\emph on
+kind
+\emph default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="left" valignment="top" width="8cm">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Kind of term
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Free variables
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none" width="3cm">
+\begin_inset Text
+
+\begin_layout Plain Layout
+T
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The empty set.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="3" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Variable
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="left" valignment="middle" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Just this variable.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Composition
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The union set of the head's 
+\emph on
+free variables
+\emph default
+ and the tail's 
+\emph on
+free variables
+\emph default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Function
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The parameter's type's 
+\emph on
+free variables
+\emph default
+ and the body's 
+\emph on
+free variables
+\emph default
+ leaving out this 
+\emph on
+function
+\emph default
+'s parameter.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Projection
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The 
+\emph on
+function
+\emph default
+'s 
+\emph on
+free variables
+\emph default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Statements
+\end_layout
+
+\begin_layout Section
+Overview and properties
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+Aletheia system
+\emph default
+ esssentially consists of a collection of 
+\emph on
+statements
+\emph default
+ recorded into a database.
+ A 
+\emph on
+statement
+\emph default
+ is basically an 
+\emph on
+identifiable variable term
+\emph default
+ associated to few extra data.
+ That variable's 
+\emph on
+type term
+\emph default
+ will be interpreted as a mathematical expression that might or might not
+ be valid (proven) on the system.
+ Theorems, proof steps, axioms, mathematical entities such as numbers, functions
+, sets and so on will all be represented in the system as 
+\emph on
+statements
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Standard
+A 
+\emph on
+statement
+\emph default
+ has the following main properties:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Context
+\series default
+
+\begin_inset CommandInset label
+LatexCommand label
+name "property:context"
+
+\end_inset
+
+: This property is optional.
+ A 
+\emph on
+context
+\emph default
+ is another 
+\emph on
+statement
+\emph default
+ (of a special kind) in which this 
+\emph on
+statement
+\emph default
+ is inserted.
+ Since the 
+\emph on
+context
+\emph default
+ is also a 
+\emph on
+statement
+\emph default
+, it might be inserted in its own 
+\emph on
+context 
+\emph default
+and so on, creating a tree-like structure.
+ Statements that aren't inserted into a context and therefore don't have
+ this property (the roots of the trees) have there own kind which is called
+ 
+\emph on
+root context
+\emph default
+.
+ This property is immutable.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Variable
+\series default
+: The 
+\emph on
+identifiable variable term
+\emph default
+ associated to this 
+\emph on
+statement
+\emph default
+.
+ This 
+\emph on
+variable
+\emph default
+ is created at 
+\emph on
+statement
+\emph default
+ creation time and will be unique: only one statement can share the same
+ variable.
+ The 
+\emph on
+term
+\emph default
+ used as the 
+\emph on
+variable
+\emph default
+'s 
+\emph on
+type
+\emph default
+ is always 
+\emph on
+unprojected
+\emph default
+ (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Unproject"
+
+\end_inset
+
+).
+ This property is immutable.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Identifier
+\series default
+: An 
+\emph on
+identifier
+\emph default
+ optionally associated to this 
+\emph on
+statement
+\emph default
+ which is unique in its 
+\emph on
+context 
+\emph default
+(if this statement has a context, root contexts are also associated to identifie
+rs not necessarly in a unique way).
+ The identifier is a sequence of one or more strings that match the regular
+ expression 
+\emph on
+[_a-zA-Z][_a-zA-Z0-9]*
+\emph default
+ that are textually represented separated by dots.
+ This property is mutable; it may change its value once this statement is
+ created.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Proven
+\series default
+
+\begin_inset CommandInset label
+LatexCommand label
+name "Statement property:proven"
+
+\end_inset
+
+: A boolean flag that indicates de validity of this 
+\emph on
+statement
+\emph default
+ based on the proven status of its antecedents and following the specific
+ rules of its statement's kind.
+ When the proven status of a 
+\emph on
+statement
+\emph default
+ changes, the system must update according to all the 
+\emph on
+statements
+\emph default
+ that 
+\emph on
+depend
+\emph default
+ (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "property:dependencies"
+
+\end_inset
+
+) on it.
+ This property is (evidently) mutable.
+\end_layout
+
+\begin_layout Standard
+And the following derived properties:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+UUID
+\series default
+: The 
+\emph on
+statement
+\emph default
+'s 
+\emph on
+variable
+\emph default
+'s 
+\emph on
+UUID
+\emph default
+.
+ An immutable property, as both the variable and its UUID is immutable.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Term
+\series default
+: The 
+\emph on
+statement
+\emph default
+'s 
+\emph on
+variable
+\emph default
+'s 
+\emph on
+type term
+\emph default
+.
+ An immutable property, as both the variable and its type is immutable.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Dependencies
+\series default
+
+\begin_inset CommandInset label
+LatexCommand label
+name "property:dependencies"
+
+\end_inset
+
+: The set of 
+\emph on
+statements
+\emph default
+ on which it 
+\emph on
+statement
+\emph default
+ depends.
+ At the very least it will consists of all statements associated to the
+ free (identifiable) variables of it's 
+\emph on
+term
+\emph default
+, and then maybe some more depending on this 
+\emph on
+statement
+\emph default
+'s kind.
+ Every dependency of a 
+\emph on
+statement
+\emph default
+ must be present in the same 
+\emph on
+context
+\emph default
+ or in it's 
+\emph on
+context
+\emph default
+'s 
+\emph on
+context
+\emph default
+, or any ancestor 
+\emph on
+context
+\emph default
+.
+ Note that this implies that a 
+\emph on
+root context 
+\emph default
+statement cannot have any dependencies.
+ This property is also immutable, since the set of 
+\emph on
+statements
+\emph default
+ on which a 
+\emph on
+statement
+\emph default
+ depends are fixed since its creation.
+\end_layout
+
+\begin_layout Section
+Kinds of statements
+\end_layout
+
+\begin_layout Standard
+Each kind of 
+\emph on
+statement
+\emph default
+ corresponds to a inference rule of the system; at the same time the statements
+ are created they are 
+\emph on
+inferred.
+\end_layout
+
+\begin_layout Subsection
+Declaration
+\end_layout
+
+\begin_layout Standard
+A 
+\emph on
+declaration statement 
+\emph default
+make its 
+\emph on
+variable
+\emph default
+ equivalent to an arbitrary 
+\emph on
+term
+\emph default
+, namely its 
+\emph on
+value
+\emph default
+.
+ It shall be used to define new concepts equivalent to what is already expressab
+le as a 
+\emph on
+term
+\emph default
+ using other already defined concepts on its 
+\emph on
+context
+\emph default
+.
+ The 
+\emph on
+declaration statement's term
+\emph default
+ is its 
+\emph on
+value
+\emph default
+'s 
+\emph on
+type 
+\emph default
+term.
+\end_layout
+
+\begin_layout Standard
+A declaration has the following special properties:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Value
+\series default
+: As specified above.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Dependencies
+\series default
+: What's specified in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "property:dependencies"
+
+\end_inset
+
+ plus the free variables of the 
+\emph on
+declaration
+\emph default
+'s value.
+\end_layout
+
+\begin_layout Subsection
+Specialization
+\end_layout
+
+\begin_layout Standard
+A 
+\emph on
+specialization statement
+\emph default
+ obtains its 
+\emph on
+term
+\emph default
+ by taking an arbitrary general 
+\emph on
+statement
+\emph default
+ and 
+\emph on
+composing
+\emph default
+ (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Compose"
+
+\end_inset
+
+) its 
+\emph on
+term
+\emph default
+ with another 
+\emph on
+term
+\emph default
+ (the instance).
+ It has the following special properties:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+General
+\series default
+: The general 
+\emph on
+statement
+\emph default
+, as specified above.
+ Must be a 
+\emph on
+statement
+\emph default
+ from the same 
+\emph on
+context
+\emph default
+ or one of its ancestors.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Instance
+\series default
+: The term with which the 
+\emph on
+composing
+\emph default
+ is done.
+ Its 
+\emph on
+free variables
+\emph default
+ must also be in this 
+\emph on
+specialization statement
+\emph default
+'s 
+\emph on
+context
+\emph default
+ or one of its ancestors.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Proven
+\series default
+: Besides what's specified in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Statement property:proven"
+
+\end_inset
+
+, the 
+\emph on
+general statement
+\emph default
+ must be proven and also all the statements corresponding to the 
+\emph on
+instance
+\emph default
+'s free variables.
+\end_layout
+
+\begin_layout Standard
+A 
+\emph on
+context statement
+\emph default
+ is created with an arbitrary 
+\emph on
+term
+\emph default
+, that (once 
+\emph on
+unprojected
+\emph default
+) will serve as this 
+\emph on
+statement
+\emph default
+'s (
+\emph on
+variable
+\emph default
+'s 
+\emph on
+type
+\emph default
+'s) 
+\emph on
+term
+\emph default
+.
+ 
+\emph on
+Context statements 
+\emph default
+are the 
+\emph on
+statements
+\emph default
+ that might serve as 
+\emph on
+statements
+\emph default
+' 
+\emph on
+context
+\emph default
+ (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "property:context"
+
+\end_inset
+
+), so they serve as nodes of the 
+\emph on
+statements
+\emph default
+ tree.
+\end_layout
+
+\begin_layout Standard
+At its creation, the 
+\emph on
+context
+\emph default
+'s 
+\emph on
+term
+\emph default
+ will be decomposed on its 
+\emph on
+antecedents
+\emph default
+ and its 
+\emph on
+consequent
+\emph default
+.
+ This is done according to the algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:context term decomposing"
+
+\end_inset
+
+.
+ The 
+\emph on
+antecedent
+\emph default
+ 
+\emph on
+terms
+\emph default
+ are used to create the 
+\emph on
+assumption statements
+\emph default
+ (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Assumption"
+
+\end_inset
+
+) of this 
+\emph on
+context
+\emph default
+; that is, the antecedents are asumed to be valid terms in this 
+\emph on
+context
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+placement h
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:context term decomposing"
+
+\end_inset
+
+Decomposing the context's term into its antecedents and its consequent.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+Input:
+\series default
+ t: term
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \qquad{}
+\end_inset
+
+antecedents:=empty_list
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \qquad{}
+\end_inset
+
+
+\series bold
+while
+\series default
+ t is a function
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \qquad{}
+\end_inset
+
+
+\begin_inset space \qquad{}
+\end_inset
+
+antecedents.append(t.parameter.type)
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \qquad{}
+\end_inset
+
+t:=t.body
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \qquad{}
+\end_inset
+
+consequent:=t
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\series bold
+Output:
+\series default
+ antecedents, consequent.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A 
+\emph on
+context
+\emph default
+ has the following special properties:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Consequent
+\series default
+: As computed by 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:context term decomposing"
+
+\end_inset
+
+.
+ A non-
+\emph on
+function
+\emph default
+ 
+\emph on
+term
+\emph default
+.
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Proven
+\series default
+: To be 
+\emph on
+proved
+\emph default
+, besides what's specified in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Statement property:proven"
+
+\end_inset
+
+, there must be a 
+\emph on
+statement
+\emph default
+ in any of this 
+\emph on
+context
+\emph default
+'s ancestors (including itself) whose 
+\emph on
+term
+\emph default
+ is 
+\emph on
+equal 
+\emph default
+(see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Equals"
+
+\end_inset
+
+) to the 
+\emph on
+consequent
+\emph default
+ of this 
+\emph on
+context
+\emph default
+.
+\end_layout
+
+\begin_layout Subsubsection
+Root context
+\end_layout
+
+\begin_layout Standard
+A special kind of 
+\emph on
+context
+\emph default
+ that serves as a the root of the context tree.
+ Its only particularity is that it does not have a context (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "property:context"
+
+\end_inset
+
+), being the only kind of 
+\emph on
+statements
+\emph default
+ where so happens.
+\end_layout
+
+\begin_layout Subsubsection
+Unfolding context
+\end_layout
+
+\begin_layout Standard
+This kind of 
+\emph on
+context
+\emph default
+ takes a 
+\emph on
+declaration statement
+\emph default
+ as a parameter and replaces its value on the 
+\emph on
+context
+\emph default
+'s 
+\emph on
+term
+\emph default
+ before decomposing it into its antecedents and consequent.
+ The result is that this 
+\emph on
+context
+\emph default
+'s 
+\emph on
+term
+\emph default
+ will contain (presumably, it makes no sense to use this kind of 
+\emph on
+statement
+\emph default
+ if not) instances of the 
+\emph on
+declaration
+\emph default
+'s variable and it's 
+\emph on
+assumptions
+\emph default
+ and 
+\emph on
+consequent 
+\emph default
+will have it substitued the 
+\emph on
+declaration
+\emph default
+'s value.
+ This is the way to introduce 
+\emph on
+statements
+\emph default
+ into the system that put a 
+\emph on
+declaration
+\emph default
+ in relation to its 
+\emph on
+value
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+Its special properties:
+\end_layout
+
+\begin_layout Itemize
+
+\series bold
+Declaration
+\series default
+: As specified above.
+\end_layout
+
+\begin_layout Subsection
+Assumption
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Assumption"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Assumption statements
+\emph default
+ are automatically created when creating its 
+\emph on
+context statement
+\emph default
+ and their 
+\emph on
+term
+\emph default
+ is the result of the decomposition of the context's term.
+ Its existence will be linked to the existence of the 
+\emph on
+context statement
+\emph default
+.
+\end_layout
+
+\end_body
+\end_document
