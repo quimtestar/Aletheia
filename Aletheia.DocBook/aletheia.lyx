@@ -2237,6 +2237,12 @@ context
 \emph default
 (if this statement has a context, root contexts are also associated to identifie
 rs not necessarly in a unique way).
+ The identifier is a sequence of one or more strings that match the regular
+ expression 
+\emph on
+[_a-zA-Z][_a-zA-Z0-9]*
+\emph default
+ that are textually represented separated by dots.
  This property is mutable; it may change its value once this statement is
  created.
 \end_layout
