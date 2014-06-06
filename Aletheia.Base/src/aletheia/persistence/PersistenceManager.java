@@ -36,8 +36,8 @@ import aletheia.model.authority.DelegateTreeRootNode;
 import aletheia.model.authority.DelegateTreeSubNode;
 import aletheia.model.authority.PackedSignatureRequest;
 import aletheia.model.authority.Person;
+import aletheia.model.authority.PlainPrivateSignatory;
 import aletheia.model.authority.PrivatePerson;
-import aletheia.model.authority.PrivateSignatory;
 import aletheia.model.authority.RootContextAuthority;
 import aletheia.model.authority.Signatory;
 import aletheia.model.authority.SignatureRequest;
@@ -123,8 +123,10 @@ import aletheia.persistence.entities.authority.DelegateAuthorizerEntity;
 import aletheia.persistence.entities.authority.DelegateTreeNodeEntity;
 import aletheia.persistence.entities.authority.DelegateTreeRootNodeEntity;
 import aletheia.persistence.entities.authority.DelegateTreeSubNodeEntity;
+import aletheia.persistence.entities.authority.EncryptedPrivateSignatoryEntity;
 import aletheia.persistence.entities.authority.PackedSignatureRequestEntity;
 import aletheia.persistence.entities.authority.PersonEntity;
+import aletheia.persistence.entities.authority.PlainPrivateSignatoryEntity;
 import aletheia.persistence.entities.authority.PrivatePersonEntity;
 import aletheia.persistence.entities.authority.PrivateSignatoryEntity;
 import aletheia.persistence.entities.authority.RootContextAuthorityEntity;
@@ -938,7 +940,14 @@ public abstract class PersistenceManager
 	public Signatory entityToSignatory(SignatoryEntity e)
 	{
 		if (e instanceof PrivateSignatoryEntity)
-			return new PrivateSignatory(this, (PrivateSignatoryEntity) e);
+		{
+			if (e instanceof PlainPrivateSignatoryEntity)
+				return new PlainPrivateSignatory(this, (PlainPrivateSignatoryEntity) e);
+			else if (e instanceof EncryptedPrivateSignatoryEntity)
+				throw new IllegalArgumentException(); //TODO
+			else
+				throw new Error();
+		}
 		else
 			return new Signatory(this, e);
 	}

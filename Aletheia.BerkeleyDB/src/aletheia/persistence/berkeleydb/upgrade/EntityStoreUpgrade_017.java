@@ -45,7 +45,7 @@ import com.sleepycat.persist.raw.RawObject;
 import com.sleepycat.persist.raw.RawStore;
 import com.sleepycat.persist.raw.RawType;
 
-public class EntityStoreUpgrade_017 extends EntityStoreUpgrade
+public class EntityStoreUpgrade_017 extends EntityStoreUpgrade_018
 {
 	private final static Logger logger = LoggerManager.logger();
 
@@ -59,7 +59,7 @@ public class EntityStoreUpgrade_017 extends EntityStoreUpgrade
 		return Arrays.asList(17);
 	}
 
-	protected class UpgradeInstance extends EntityStoreUpgrade.UpgradeInstance
+	protected class UpgradeInstance extends EntityStoreUpgrade_018.UpgradeInstance
 	{
 
 		protected UpgradeInstance(BerkeleyDBAletheiaEnvironment environment, String storeName)

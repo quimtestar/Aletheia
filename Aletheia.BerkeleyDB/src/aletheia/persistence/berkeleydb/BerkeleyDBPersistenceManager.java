@@ -118,10 +118,11 @@ import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTree
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTreeRootNodeEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTreeSubNodeEntity;
+import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBEncryptedPrivateSignatoryEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPackedSignatureRequestEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPersonEntity;
+import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPlainPrivateSignatoryEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPrivatePersonEntity;
-import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPrivateSignatoryEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBRootContextAuthorityEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBSignatoryEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBSignatureRequestEntity;
@@ -951,8 +952,10 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 	{
 		if (entityClass.isAssignableFrom(BerkeleyDBSignatoryEntity.class))
 			return new BerkeleyDBSignatoryEntity();
-		else if (entityClass.isAssignableFrom(BerkeleyDBPrivateSignatoryEntity.class))
-			return new BerkeleyDBPrivateSignatoryEntity();
+		else if (entityClass.isAssignableFrom(BerkeleyDBPlainPrivateSignatoryEntity.class))
+			return new BerkeleyDBPlainPrivateSignatoryEntity();
+		else if (entityClass.isAssignableFrom(BerkeleyDBEncryptedPrivateSignatoryEntity.class))
+			return new BerkeleyDBEncryptedPrivateSignatoryEntity();
 		else
 			throw new Error();
 	}

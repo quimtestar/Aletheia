@@ -39,7 +39,7 @@ import aletheia.security.signerverifier.BufferedSigner;
 import aletheia.security.signerverifier.Signer;
 import aletheia.security.utilities.SecurityUtilities;
 
-public class PrivateSignatory extends Signatory
+public abstract class PrivateSignatory extends Signatory
 {
 	private static final Logger logger = LoggerManager.logger();
 
@@ -51,14 +51,14 @@ public class PrivateSignatory extends Signatory
 		return SecurityUtilities.instance.objectToUUID(publicKey, new PublicKeyProtocol(0));
 	}
 
-	private PrivateSignatory(PersistenceManager persistenceManager, UUID uuid, String signatureAlgorithm, PublicKey publicKey, PrivateKey privateKey)
-			throws KeysDontMatchException
+	protected PrivateSignatory(PersistenceManager persistenceManager, Class<? extends PrivateSignatoryEntity> entityClass, UUID uuid,
+			String signatureAlgorithm, PublicKey publicKey, PrivateKey privateKey) throws KeysDontMatchException
 	{
-		super(persistenceManager, PrivateSignatoryEntity.class, uuid, publicKey);
+		super(persistenceManager, entityClass, uuid, publicKey);
 		if (!SecurityUtilities.instance.checkKeyPair(signatureAlgorithm, privateKey, publicKey))
 			throw new KeysDontMatchException();
-		getEntity().setSignatureAlgorithm(signatureAlgorithm);
-		getEntity().setPrivateKey(privateKey);
+		setSignatureAlgorithm(signatureAlgorithm);
+		setPrivateKey(privateKey);
 	}
 
 	public PrivateSignatory(PersistenceManager persistenceManager, PrivateSignatoryEntity entity)
@@ -66,13 +66,20 @@ public class PrivateSignatory extends Signatory
 		super(persistenceManager, entity);
 	}
 
+	private void setSignatureAlgorithm(String signatureAlgorithm)
+	{
+		getEntity().setSignatureAlgorithm(signatureAlgorithm);
+	}
+
+	protected abstract void setPrivateKey(PrivateKey privateKey);
+
 	public static PrivateSignatory create(PersistenceManager persistenceManager, Transaction transaction)
 	{
 		KeyPair keyPair = generateKeyPair(creationKeyPairGenerationAlgorithm);
 		UUID uuid = publicKeyToUUID(keyPair.getPublic());
 		try
 		{
-			PrivateSignatory privateSignatory = new PrivateSignatory(persistenceManager, uuid, creationSignatureAlgorithm, keyPair.getPublic(),
+			PrivateSignatory privateSignatory = new PlainPrivateSignatory(persistenceManager, uuid, creationSignatureAlgorithm, keyPair.getPublic(),
 					keyPair.getPrivate());
 			privateSignatory.persistenceUpdate(transaction);
 			return privateSignatory;
@@ -86,7 +93,7 @@ public class PrivateSignatory extends Signatory
 	public static PrivateSignatory create(PersistenceManager persistenceManager, Transaction transaction, UUID uuid, String signatureAlgorithm,
 			PublicKey publicKey, PrivateKey privateKey) throws KeysDontMatchException
 	{
-		PrivateSignatory privateSignatory = new PrivateSignatory(persistenceManager, uuid, signatureAlgorithm, publicKey, privateKey);
+		PrivateSignatory privateSignatory = new PlainPrivateSignatory(persistenceManager, uuid, signatureAlgorithm, publicKey, privateKey);
 		privateSignatory.persistenceUpdate(transaction);
 		return privateSignatory;
 	}
@@ -128,10 +135,7 @@ public class PrivateSignatory extends Signatory
 		return getEntity().getSignatureAlgorithm();
 	}
 
-	public PrivateKey getPrivateKey()
-	{
-		return getEntity().getPrivateKey();
-	}
+	public abstract PrivateKey getPrivateKey();
 
 	@Override
 	public int hashCode()

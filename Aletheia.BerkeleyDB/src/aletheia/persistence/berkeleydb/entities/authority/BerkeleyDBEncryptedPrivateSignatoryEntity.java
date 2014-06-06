@@ -17,13 +17,33 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.persistence.entities.authority;
+package aletheia.persistence.berkeleydb.entities.authority;
 
+import aletheia.persistence.entities.authority.EncryptedPrivateSignatoryEntity;
 
-public interface PrivateSignatoryEntity extends SignatoryEntity
+import com.sleepycat.persist.model.Persistent;
+
+@Persistent(version = 0)
+public class BerkeleyDBEncryptedPrivateSignatoryEntity extends BerkeleyDBPrivateSignatoryEntity implements EncryptedPrivateSignatoryEntity
 {
-	public String getSignatureAlgorithm();
 
-	public void setSignatureAlgorithm(String signatureAlgorithm);
+	@Override
+	public int hashCode()
+	{
+		int result = super.hashCode();
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		return true;
+	}
 
 }

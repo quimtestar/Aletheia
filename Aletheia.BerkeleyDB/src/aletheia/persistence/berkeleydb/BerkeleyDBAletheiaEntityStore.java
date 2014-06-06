@@ -35,9 +35,11 @@ import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTree
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTreeRootNodeEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTreeSubNodeEntity;
+import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBEncryptedPrivateSignatoryEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPackedSignatureRequestEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPackedSignatureRequestEntity.ContextPackingDateSecondaryKeyData;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPersonEntity;
+import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPlainPrivateSignatoryEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPrivatePersonEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPrivateSignatoryEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBRootContextAuthorityEntity;
@@ -95,7 +97,7 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 {
 	private static final Logger logger = LoggerManager.logger();
 
-	private static final int storeVersion = 18;
+	private static final int storeVersion = 20;
 
 	private static final Collection<Class<?>> registerClasses = Arrays.<Class<?>> asList(
 		// @formatter:off
@@ -127,6 +129,8 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 		
 		BerkeleyDBSignatoryEntity.class,
 		BerkeleyDBPrivateSignatoryEntity.class,
+		BerkeleyDBPlainPrivateSignatoryEntity.class,
+		BerkeleyDBEncryptedPrivateSignatoryEntity.class,
 		BerkeleyDBPersonEntity.class,
 		BerkeleyDBPrivatePersonEntity.class,
 		BerkeleyDBStatementAuthorityEntity.class,
