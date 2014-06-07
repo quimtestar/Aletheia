@@ -32,7 +32,7 @@ public abstract class ExportableProtocol<E extends Exportable> extends Protocol<
 	public ExportableProtocol(int requiredVersion)
 	{
 		super(0);
-		checkVersionAvailability(ExportableProtocol.class, 0);
+		checkVersionAvailability(ExportableProtocol.class, requiredVersion);
 	}
 
 }

@@ -31,7 +31,7 @@ public class TupleProtocol extends Protocol<Object[]>
 	public TupleProtocol(int requiredVersion, Protocol<Object>[] protocols)
 	{
 		super(0);
-		checkVersionAvailability(TupleProtocol.class, 0);
+		checkVersionAvailability(TupleProtocol.class, requiredVersion);
 		this.protocols = protocols;
 	}
 
