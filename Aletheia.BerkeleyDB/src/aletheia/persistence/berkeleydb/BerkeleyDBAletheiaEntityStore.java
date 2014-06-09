@@ -52,6 +52,7 @@ import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBUnpackedSign
 import aletheia.persistence.berkeleydb.entities.local.BerkeleyDBContextLocalEntity;
 import aletheia.persistence.berkeleydb.entities.local.BerkeleyDBRootContextLocalEntity;
 import aletheia.persistence.berkeleydb.entities.local.BerkeleyDBStatementLocalEntity;
+import aletheia.persistence.berkeleydb.entities.misc.BerkeleyDBPersistenceSecretKeySingletonEntity;
 import aletheia.persistence.berkeleydb.entities.peertopeer.BerkeleyDBHookEntity;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBAssumptionEntity;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBAssumptionEntity.UUIDKeyOrder;
@@ -159,7 +160,9 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 		InetAddressProxy.Inet6AddressProxy.class,
 		InetSocketAddressProxy.class,
 
-		BerkeleyDBHookEntity.class
+		BerkeleyDBHookEntity.class,
+		
+		BerkeleyDBPersistenceSecretKeySingletonEntity.class
 		// @formatter:on
 			);
 
@@ -623,6 +626,11 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 	public SecondaryIndex<Long, UUIDKey, BerkeleyDBHookEntity> hookEntityPrioritySecondaryIndex()
 	{
 		return getSecondaryIndex(hookEntityPrimaryIndex(), Long.class, BerkeleyDBHookEntity.priority_FieldName);
+	}
+
+	public PrimaryIndex<Boolean, BerkeleyDBPersistenceSecretKeySingletonEntity> persistenceSecretKeySingletonPrimaryIndex() throws DatabaseException
+	{
+		return getPrimaryIndex(Boolean.class, BerkeleyDBPersistenceSecretKeySingletonEntity.class);
 	}
 
 }

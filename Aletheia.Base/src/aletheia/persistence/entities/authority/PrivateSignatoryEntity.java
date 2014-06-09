@@ -19,7 +19,6 @@
  ******************************************************************************/
 package aletheia.persistence.entities.authority;
 
-
 public interface PrivateSignatoryEntity extends SignatoryEntity
 {
 	public String getSignatureAlgorithm();

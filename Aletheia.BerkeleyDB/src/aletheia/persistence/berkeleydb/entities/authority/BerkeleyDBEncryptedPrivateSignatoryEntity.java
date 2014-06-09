@@ -19,18 +19,49 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.entities.authority;
 
+import java.util.Arrays;
+
 import aletheia.persistence.entities.authority.EncryptedPrivateSignatoryEntity;
 
 import com.sleepycat.persist.model.Persistent;
 
-@Persistent(version = 0)
+@Persistent(version = 1)
 public class BerkeleyDBEncryptedPrivateSignatoryEntity extends BerkeleyDBPrivateSignatoryEntity implements EncryptedPrivateSignatoryEntity
 {
+	private int version;
+	private byte[] bytes;
+
+	@Override
+	public int getVersion()
+	{
+		return version;
+	}
+
+	@Override
+	public void setVersion(int version)
+	{
+		this.version = version;
+	}
+
+	@Override
+	public byte[] getBytes()
+	{
+		return bytes;
+	}
+
+	@Override
+	public void setBytes(byte[] bytes)
+	{
+		this.bytes = bytes;
+	}
 
 	@Override
 	public int hashCode()
 	{
+		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + Arrays.hashCode(bytes);
+		result = prime * result + version;
 		return result;
 	}
 
@@ -42,6 +73,11 @@ public class BerkeleyDBEncryptedPrivateSignatoryEntity extends BerkeleyDBPrivate
 		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
+			return false;
+		BerkeleyDBEncryptedPrivateSignatoryEntity other = (BerkeleyDBEncryptedPrivateSignatoryEntity) obj;
+		if (!Arrays.equals(bytes, other.bytes))
+			return false;
+		if (version != other.version)
 			return false;
 		return true;
 	}

@@ -17,15 +17,22 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.persistence.entities.authority;
+package aletheia.persistence.entities.misc;
 
-public interface EncryptedPrivateSignatoryEntity extends PrivateSignatoryEntity
+import aletheia.persistence.entities.Entity;
+
+public interface PersistenceSecretKeySingletonEntity extends Entity
 {
-	public int getVersion();
+	public byte[] getSalt();
 
-	public void setVersion(int version);
+	public void setSalt(byte[] salt);
 
-	public byte[] getBytes();
+	public int getVerificationVersion();
 
-	public void setBytes(byte[] bytes);
+	public void setVerificationVersion(int verificationVersion);
+
+	public byte[] getVerification();
+
+	public void setVerification(byte[] verification);
+
 }
