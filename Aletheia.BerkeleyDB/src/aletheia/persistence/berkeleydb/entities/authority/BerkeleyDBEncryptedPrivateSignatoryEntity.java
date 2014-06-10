@@ -19,36 +19,40 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.entities.authority;
 
-import aletheia.persistence.entities.authority.PrivateSignatoryEntity;
+import java.util.Arrays;
+
+import aletheia.persistence.entities.authority.EncryptedPrivateSignatoryEntity;
 
 import com.sleepycat.persist.model.Persistent;
-import com.sleepycat.persist.model.Relationship;
-import com.sleepycat.persist.model.SecondaryKey;
 
-@Persistent(version = 2)
-public abstract class BerkeleyDBPrivateSignatoryEntity extends BerkeleyDBSignatoryEntity implements PrivateSignatoryEntity
+@Persistent(version = 1)
+public class BerkeleyDBEncryptedPrivateSignatoryEntity extends BerkeleyDBPrivateSignatoryEntity implements EncryptedPrivateSignatoryEntity
 {
-	public static final String mark_FieldName = "mark";
-	@SecondaryKey(name = mark_FieldName, relate = Relationship.MANY_TO_ONE)
-	private boolean mark;
+	private int version;
+	private byte[] bytes;
 
-	private String signatureAlgorithm;
-
-	public BerkeleyDBPrivateSignatoryEntity()
+	@Override
+	public int getVersion()
 	{
-		this.mark = true;
+		return version;
 	}
 
 	@Override
-	public String getSignatureAlgorithm()
+	public void setVersion(int version)
 	{
-		return signatureAlgorithm;
+		this.version = version;
 	}
 
 	@Override
-	public void setSignatureAlgorithm(String signatureAlgorithm)
+	public byte[] getBytes()
 	{
-		this.signatureAlgorithm = signatureAlgorithm;
+		return bytes;
+	}
+
+	@Override
+	public void setBytes(byte[] bytes)
+	{
+		this.bytes = bytes;
 	}
 
 	@Override
@@ -56,8 +60,8 @@ public abstract class BerkeleyDBPrivateSignatoryEntity extends BerkeleyDBSignato
 	{
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + (mark ? 1231 : 1237);
-		result = prime * result + ((signatureAlgorithm == null) ? 0 : signatureAlgorithm.hashCode());
+		result = prime * result + Arrays.hashCode(bytes);
+		result = prime * result + version;
 		return result;
 	}
 
@@ -70,15 +74,10 @@ public abstract class BerkeleyDBPrivateSignatoryEntity extends BerkeleyDBSignato
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		BerkeleyDBPrivateSignatoryEntity other = (BerkeleyDBPrivateSignatoryEntity) obj;
-		if (mark != other.mark)
+		BerkeleyDBEncryptedPrivateSignatoryEntity other = (BerkeleyDBEncryptedPrivateSignatoryEntity) obj;
+		if (!Arrays.equals(bytes, other.bytes))
 			return false;
-		if (signatureAlgorithm == null)
-		{
-			if (other.signatureAlgorithm != null)
-				return false;
-		}
-		else if (!signatureAlgorithm.equals(other.signatureAlgorithm))
+		if (version != other.version)
 			return false;
 		return true;
 	}

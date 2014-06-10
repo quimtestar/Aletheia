@@ -107,6 +107,22 @@ public class PassphraseDialog extends JDialog
 			gbc.anchor = GridBagConstraints.WEST;
 			formPanel.add(passwordField, gbc);
 		}
+		this.passwordField.setAction(new AbstractAction()
+		{
+			private static final long serialVersionUID = -799097050917370341L;
+
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if (confirmField != null)
+					confirmField.requestFocus();
+				else
+				{
+					passphrase = passwordField.getPassword();
+					dispose();
+				}
+			}
+		});
 		gridy++;
 		if (confirm)
 		{
@@ -128,6 +144,23 @@ public class PassphraseDialog extends JDialog
 				gbc.anchor = GridBagConstraints.WEST;
 				formPanel.add(confirmField, gbc);
 			}
+			this.confirmField.setAction(new AbstractAction()
+			{
+				private static final long serialVersionUID = -799097050917370341L;
+
+				@Override
+				public void actionPerformed(ActionEvent e)
+				{
+					if (Arrays.equals(passwordField.getPassword(), confirmField.getPassword()))
+					{
+						passphrase = passwordField.getPassword();
+						dispose();
+					}
+					else
+						passwordField.requestFocus();
+				}
+			});
+
 			gridy++;
 		}
 		else

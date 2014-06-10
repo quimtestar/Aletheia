@@ -68,6 +68,7 @@ public abstract class EntityStoreUpgrade
 		EntityStoreUpgrade_014.class,
 		EntityStoreUpgrade_016.class,
 		EntityStoreUpgrade_017.class,
+		EntityStoreUpgrade_018.class,
 	};
 	// @formatter:on
 

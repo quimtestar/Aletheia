@@ -17,12 +17,27 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.persistence.entities.authority;
+package aletheia.gui.menu.configuration;
 
-public interface PrivateSignatoryEntity extends SignatoryEntity
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+
+import aletheia.gui.app.AletheiaJFrame;
+import aletheia.gui.menu.AletheiaMenuAction;
+
+public class RestartAction extends AletheiaMenuAction
 {
-	public String getSignatureAlgorithm();
+	private static final long serialVersionUID = 3139185314206318493L;
 
-	public void setSignatureAlgorithm(String signatureAlgorithm);
+	public RestartAction(ConfigurationMenu configurationMenu)
+	{
+		super(configurationMenu, "Restart", KeyEvent.VK_R);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		getAletheiaJFrame().exit(AletheiaJFrame.ExitState.RESTART);
+	}
 
 }

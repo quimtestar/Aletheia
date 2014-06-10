@@ -19,36 +19,30 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.entities.authority;
 
-import aletheia.persistence.entities.authority.PrivateSignatoryEntity;
+import java.security.PrivateKey;
+
+import aletheia.persistence.berkeleydb.entities.PrivateKeyCapsule;
+import aletheia.persistence.entities.authority.PlainPrivateSignatoryEntity;
 
 import com.sleepycat.persist.model.Persistent;
-import com.sleepycat.persist.model.Relationship;
-import com.sleepycat.persist.model.SecondaryKey;
 
-@Persistent(version = 2)
-public abstract class BerkeleyDBPrivateSignatoryEntity extends BerkeleyDBSignatoryEntity implements PrivateSignatoryEntity
+@Persistent(version = 0)
+public class BerkeleyDBPlainPrivateSignatoryEntity extends BerkeleyDBPrivateSignatoryEntity implements PlainPrivateSignatoryEntity
 {
-	public static final String mark_FieldName = "mark";
-	@SecondaryKey(name = mark_FieldName, relate = Relationship.MANY_TO_ONE)
-	private boolean mark;
+	private PrivateKeyCapsule privateKeyCapsule;
 
-	private String signatureAlgorithm;
-
-	public BerkeleyDBPrivateSignatoryEntity()
+	@Override
+	public PrivateKey getPrivateKey()
 	{
-		this.mark = true;
+		if (privateKeyCapsule == null)
+			return null;
+		return privateKeyCapsule.getObject();
 	}
 
 	@Override
-	public String getSignatureAlgorithm()
+	public void setPrivateKey(PrivateKey privateKey)
 	{
-		return signatureAlgorithm;
-	}
-
-	@Override
-	public void setSignatureAlgorithm(String signatureAlgorithm)
-	{
-		this.signatureAlgorithm = signatureAlgorithm;
+		this.privateKeyCapsule = new PrivateKeyCapsule(privateKey);
 	}
 
 	@Override
@@ -56,8 +50,7 @@ public abstract class BerkeleyDBPrivateSignatoryEntity extends BerkeleyDBSignato
 	{
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + (mark ? 1231 : 1237);
-		result = prime * result + ((signatureAlgorithm == null) ? 0 : signatureAlgorithm.hashCode());
+		result = prime * result + ((privateKeyCapsule == null) ? 0 : privateKeyCapsule.hashCode());
 		return result;
 	}
 
@@ -70,15 +63,13 @@ public abstract class BerkeleyDBPrivateSignatoryEntity extends BerkeleyDBSignato
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		BerkeleyDBPrivateSignatoryEntity other = (BerkeleyDBPrivateSignatoryEntity) obj;
-		if (mark != other.mark)
-			return false;
-		if (signatureAlgorithm == null)
+		BerkeleyDBPlainPrivateSignatoryEntity other = (BerkeleyDBPlainPrivateSignatoryEntity) obj;
+		if (privateKeyCapsule == null)
 		{
-			if (other.signatureAlgorithm != null)
+			if (other.privateKeyCapsule != null)
 				return false;
 		}
-		else if (!signatureAlgorithm.equals(other.signatureAlgorithm))
+		else if (!privateKeyCapsule.equals(other.privateKeyCapsule))
 			return false;
 		return true;
 	}

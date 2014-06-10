@@ -34,10 +34,12 @@ import aletheia.model.authority.DelegateAuthorizer;
 import aletheia.model.authority.DelegateTreeNode;
 import aletheia.model.authority.DelegateTreeRootNode;
 import aletheia.model.authority.DelegateTreeSubNode;
+import aletheia.model.authority.EncryptedPrivateSignatory;
+import aletheia.model.authority.EncryptedPrivateSignatory.EncryptedException;
 import aletheia.model.authority.PackedSignatureRequest;
 import aletheia.model.authority.Person;
+import aletheia.model.authority.PlainPrivateSignatory;
 import aletheia.model.authority.PrivatePerson;
-import aletheia.model.authority.PrivateSignatory;
 import aletheia.model.authority.RootContextAuthority;
 import aletheia.model.authority.Signatory;
 import aletheia.model.authority.SignatureRequest;
@@ -50,6 +52,7 @@ import aletheia.model.identifier.RootNamespace;
 import aletheia.model.local.ContextLocal;
 import aletheia.model.local.RootContextLocal;
 import aletheia.model.local.StatementLocal;
+import aletheia.model.misc.PersistenceSecretKeySingleton;
 import aletheia.model.peertopeer.DeferredMessage;
 import aletheia.model.peertopeer.Hook;
 import aletheia.model.peertopeer.NodeDeferredMessage;
@@ -123,8 +126,10 @@ import aletheia.persistence.entities.authority.DelegateAuthorizerEntity;
 import aletheia.persistence.entities.authority.DelegateTreeNodeEntity;
 import aletheia.persistence.entities.authority.DelegateTreeRootNodeEntity;
 import aletheia.persistence.entities.authority.DelegateTreeSubNodeEntity;
+import aletheia.persistence.entities.authority.EncryptedPrivateSignatoryEntity;
 import aletheia.persistence.entities.authority.PackedSignatureRequestEntity;
 import aletheia.persistence.entities.authority.PersonEntity;
+import aletheia.persistence.entities.authority.PlainPrivateSignatoryEntity;
 import aletheia.persistence.entities.authority.PrivatePersonEntity;
 import aletheia.persistence.entities.authority.PrivateSignatoryEntity;
 import aletheia.persistence.entities.authority.RootContextAuthorityEntity;
@@ -136,6 +141,7 @@ import aletheia.persistence.entities.authority.UnpackedSignatureRequestEntity;
 import aletheia.persistence.entities.local.ContextLocalEntity;
 import aletheia.persistence.entities.local.RootContextLocalEntity;
 import aletheia.persistence.entities.local.StatementLocalEntity;
+import aletheia.persistence.entities.misc.PersistenceSecretKeySingletonEntity;
 import aletheia.persistence.entities.peertopeer.DeferredMessageEntity;
 import aletheia.persistence.entities.peertopeer.HookEntity;
 import aletheia.persistence.entities.peertopeer.NodeDeferredMessageEntity;
@@ -223,6 +229,8 @@ public abstract class PersistenceManager
 
 	private final PersistenceListenerManager persistenceListenerManager;
 
+	private final PersistenceSecretKeyManager persistenceSecretKeyManager;
+
 	private final boolean debug;
 
 	private boolean open;
@@ -234,6 +242,7 @@ public abstract class PersistenceManager
 	{
 		this.persistenceSchedulerThread = new PersistenceSchedulerThread(this);
 		this.persistenceListenerManager = new PersistenceListenerManager();
+		this.persistenceSecretKeyManager = new PersistenceSecretKeyManager(this);
 		this.debug = configuration.isDebug();
 		this.open = true;
 	}
@@ -246,6 +255,11 @@ public abstract class PersistenceManager
 	public PersistenceListenerManager getListenerManager()
 	{
 		return persistenceListenerManager;
+	}
+
+	public PersistenceSecretKeyManager getSecretKeyManager()
+	{
+		return persistenceSecretKeyManager;
 	}
 
 	public boolean isDebug()
@@ -579,6 +593,7 @@ public abstract class PersistenceManager
 		{
 			throw new PersistenceException(e);
 		}
+		persistenceSecretKeyManager.close();
 	}
 
 	public boolean isOpen()
@@ -938,7 +953,21 @@ public abstract class PersistenceManager
 	public Signatory entityToSignatory(SignatoryEntity e)
 	{
 		if (e instanceof PrivateSignatoryEntity)
-			return new PrivateSignatory(this, (PrivateSignatoryEntity) e);
+		{
+			if (e instanceof PlainPrivateSignatoryEntity)
+				return new PlainPrivateSignatory(this, (PlainPrivateSignatoryEntity) e);
+			else if (e instanceof EncryptedPrivateSignatoryEntity)
+				try
+				{
+					return new EncryptedPrivateSignatory(this, (EncryptedPrivateSignatoryEntity) e);
+				}
+				catch (EncryptedException e1)
+				{
+					return new Signatory(this, e);
+				}
+			else
+				throw new Error();
+		}
 		else
 			return new Signatory(this, e);
 	}
@@ -1606,6 +1635,45 @@ public abstract class PersistenceManager
 	{
 		for (Hook hook : hookList(transaction))
 			hook.delete(transaction);
+	}
+
+	public abstract PersistenceSecretKeySingletonEntity instantiatePersistenceSecretKeySingletonEntity(
+			Class<? extends PersistenceSecretKeySingletonEntity> entityClass);
+
+	public PersistenceSecretKeySingleton getPersistenceSecretKeySingleton(Transaction transaction)
+	{
+		PersistenceSecretKeySingletonEntity entity = getPersistenceSecretKeySingletonEntity(transaction);
+		if (entity == null)
+			return null;
+		return entityToPersistenceSecretKeySingleton(entity);
+	}
+
+	public abstract PersistenceSecretKeySingletonEntity getPersistenceSecretKeySingletonEntity(Transaction transaction);
+
+	public void putPersistenceSecretKeySingleton(Transaction transaction, PersistenceSecretKeySingleton persistenceSecretKeySingleton)
+	{
+		putPersistenceSecretKeySingletonEntity(transaction, persistenceSecretKeySingleton.getEntity());
+	}
+
+	public abstract void putPersistenceSecretKeySingletonEntity(Transaction transaction, PersistenceSecretKeySingletonEntity entity);
+
+	public PersistenceSecretKeySingleton entityToPersistenceSecretKeySingleton(PersistenceSecretKeySingletonEntity e)
+	{
+		return new PersistenceSecretKeySingleton(this, e);
+	}
+
+	public void deletePersistenceSecretKeySingleton(Transaction transaction)
+	{
+		deletePersistenceSecretKeySingletonEntity(transaction);
+	}
+
+	public abstract void deletePersistenceSecretKeySingletonEntity(Transaction transaction);
+
+	public abstract boolean lockPersistenceSecretKeySingletonEntity(Transaction transaction);
+
+	public boolean lockPersistenceSecretKeySingleton(Transaction transaction)
+	{
+		return lockPersistenceSecretKeySingletonEntity(transaction);
 	}
 
 }

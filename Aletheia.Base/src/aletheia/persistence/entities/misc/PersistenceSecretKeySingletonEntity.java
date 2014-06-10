@@ -17,32 +17,22 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.menu;
+package aletheia.persistence.entities.misc;
 
-import java.awt.event.KeyEvent;
+import aletheia.persistence.entities.Entity;
 
-import javax.swing.JMenu;
-
-import aletheia.gui.app.AletheiaJFrame;
-import aletheia.gui.menu.actions.PersonsAction;
-
-public class DataMenu extends JMenu
+public interface PersistenceSecretKeySingletonEntity extends Entity
 {
-	private static final long serialVersionUID = 5598459073059823214L;
+	public byte[] getSalt();
 
-	private final PersonsAction personsAction;
+	public void setSalt(byte[] salt);
 
-	public DataMenu(AletheiaJFrame aletheiaJFrame)
-	{
-		super("Data");
-		this.setFont(aletheiaJFrame.getMenuFont());
-		this.setMnemonic(KeyEvent.VK_D);
-		this.personsAction = new PersonsAction(aletheiaJFrame);
-		this.add(new AletheiaMenuItem(aletheiaJFrame, personsAction));
-	}
+	public int getVerificationVersion();
 
-	public PersonsAction getPersonsAction()
-	{
-		return personsAction;
-	}
+	public void setVerificationVersion(int verificationVersion);
+
+	public byte[] getVerification();
+
+	public void setVerification(byte[] verification);
+
 }

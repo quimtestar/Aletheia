@@ -17,42 +17,57 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.menu;
+package aletheia.persistence.berkeleydb.entities.misc;
 
-import java.awt.event.KeyEvent;
+import aletheia.persistence.entities.misc.PersistenceSecretKeySingletonEntity;
 
-import javax.swing.JMenu;
+import com.sleepycat.persist.model.Entity;
+import com.sleepycat.persist.model.PrimaryKey;
 
-import aletheia.gui.app.AletheiaJFrame;
-import aletheia.gui.menu.actions.ExitAction;
-import aletheia.gui.menu.actions.PreferencesAction;
-
-public class ConfigurationMenu extends JMenu
+@Entity(version = 1)
+public class BerkeleyDBPersistenceSecretKeySingletonEntity implements PersistenceSecretKeySingletonEntity
 {
-	private static final long serialVersionUID = 5598459073059823214L;
+	@PrimaryKey
+	private final boolean mark = true;
 
-	private final PreferencesAction preferencesAction;
-	private final ExitAction exitAction;
+	private byte[] salt;
+	private int verificationVersion;
+	private byte[] verification;
 
-	public ConfigurationMenu(AletheiaJFrame aletheiaJFrame)
+	@Override
+	public byte[] getSalt()
 	{
-		super("Configuration");
-		this.setFont(aletheiaJFrame.getMenuFont());
-		this.setMnemonic(KeyEvent.VK_C);
-		this.preferencesAction = new PreferencesAction(aletheiaJFrame);
-		this.add(new AletheiaMenuItem(aletheiaJFrame, preferencesAction));
-		this.exitAction = new ExitAction(aletheiaJFrame);
-		this.add(new AletheiaMenuItem(aletheiaJFrame, exitAction));
+		return salt;
 	}
 
-	public PreferencesAction getPreferencesAction()
+	@Override
+	public void setSalt(byte[] salt)
 	{
-		return preferencesAction;
+		this.salt = salt;
 	}
 
-	public ExitAction getExitAction()
+	@Override
+	public int getVerificationVersion()
 	{
-		return exitAction;
+		return verificationVersion;
+	}
+
+	@Override
+	public void setVerificationVersion(int verificationVersion)
+	{
+		this.verificationVersion = verificationVersion;
+	}
+
+	@Override
+	public byte[] getVerification()
+	{
+		return verification;
+	}
+
+	@Override
+	public void setVerification(byte[] verification)
+	{
+		this.verification = verification;
 	}
 
 }

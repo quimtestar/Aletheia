@@ -17,12 +17,27 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.persistence.entities.authority;
+package aletheia.gui.menu.configuration;
 
-public interface PrivateSignatoryEntity extends SignatoryEntity
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+
+import aletheia.gui.menu.AletheiaMenuAction;
+
+public class ExitAction extends AletheiaMenuAction
 {
-	public String getSignatureAlgorithm();
+	private static final long serialVersionUID = 3139185314206318493L;
 
-	public void setSignatureAlgorithm(String signatureAlgorithm);
+	public ExitAction(ConfigurationMenu configurationMenu)
+	{
+		super(configurationMenu, "Exit", KeyEvent.VK_X);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		getAletheiaJFrame().exit();
+
+	}
 
 }

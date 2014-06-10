@@ -17,30 +17,40 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.menu.actions;
+package aletheia.gui.menu.security;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import aletheia.gui.app.AletheiaJFrame;
-import aletheia.gui.person.PersonsDialog;
+import javax.swing.JOptionPane;
 
-public class PersonsAction extends MenuAction
+import aletheia.gui.menu.AletheiaMenuAction;
+import aletheia.utilities.MiscUtilities;
+
+public class DeletePassphraseAction extends AletheiaMenuAction
 {
 
-	private static final long serialVersionUID = 2818746913208642479L;
+	private static final long serialVersionUID = -1330032008572065618L;
 
-	public PersonsAction(AletheiaJFrame aletheiaJFrame)
+	public DeletePassphraseAction(SecurityMenu securityMenu)
 	{
-		super(aletheiaJFrame, "Persons", KeyEvent.VK_P);
+		super(securityMenu, "Delete passphrase", KeyEvent.VK_D);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		PersonsDialog dialog = getAletheiaJFrame().getPersonsDialog();
-		if (dialog != null)
-			dialog.setVisible(true);
+		int option = JOptionPane.showConfirmDialog(getAletheiaJFrame(), MiscUtilities.wrapText(
+				"This action might take some minutes, since all the private keys must be decrypted.\nAre you sure you want to continue?", 80));
+		if (JOptionPane.OK_OPTION == option)
+			try
+			{
+				getAletheiaJFrame().getPersistenceManager().getSecretKeyManager().deletePassphrase();
+			}
+			catch (Exception ex)
+			{
+				JOptionPane.showMessageDialog(getAletheiaJFrame(), MiscUtilities.wrapText(ex.getMessage(), 80), "Error", JOptionPane.ERROR_MESSAGE);
+			}
 	}
 
 }

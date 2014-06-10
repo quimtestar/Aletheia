@@ -27,6 +27,8 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.UUID;
 
+import javax.crypto.SecretKey;
+
 import org.apache.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
@@ -39,7 +41,7 @@ import aletheia.security.signerverifier.BufferedSigner;
 import aletheia.security.signerverifier.Signer;
 import aletheia.security.utilities.SecurityUtilities;
 
-public class PrivateSignatory extends Signatory
+public abstract class PrivateSignatory extends Signatory
 {
 	private static final Logger logger = LoggerManager.logger();
 
@@ -51,14 +53,11 @@ public class PrivateSignatory extends Signatory
 		return SecurityUtilities.instance.objectToUUID(publicKey, new PublicKeyProtocol(0));
 	}
 
-	private PrivateSignatory(PersistenceManager persistenceManager, UUID uuid, String signatureAlgorithm, PublicKey publicKey, PrivateKey privateKey)
-			throws KeysDontMatchException
+	protected PrivateSignatory(PersistenceManager persistenceManager, Class<? extends PrivateSignatoryEntity> entityClass, UUID uuid, PublicKey publicKey,
+			String signatureAlgorithm)
 	{
-		super(persistenceManager, PrivateSignatoryEntity.class, uuid, publicKey);
-		if (!SecurityUtilities.instance.checkKeyPair(signatureAlgorithm, privateKey, publicKey))
-			throw new KeysDontMatchException();
+		super(persistenceManager, entityClass, uuid, publicKey);
 		getEntity().setSignatureAlgorithm(signatureAlgorithm);
-		getEntity().setPrivateKey(privateKey);
 	}
 
 	public PrivateSignatory(PersistenceManager persistenceManager, PrivateSignatoryEntity entity)
@@ -72,10 +71,7 @@ public class PrivateSignatory extends Signatory
 		UUID uuid = publicKeyToUUID(keyPair.getPublic());
 		try
 		{
-			PrivateSignatory privateSignatory = new PrivateSignatory(persistenceManager, uuid, creationSignatureAlgorithm, keyPair.getPublic(),
-					keyPair.getPrivate());
-			privateSignatory.persistenceUpdate(transaction);
-			return privateSignatory;
+			return create(persistenceManager, transaction, uuid, creationSignatureAlgorithm, keyPair.getPublic(), keyPair.getPrivate());
 		}
 		catch (KeysDontMatchException e)
 		{
@@ -86,7 +82,12 @@ public class PrivateSignatory extends Signatory
 	public static PrivateSignatory create(PersistenceManager persistenceManager, Transaction transaction, UUID uuid, String signatureAlgorithm,
 			PublicKey publicKey, PrivateKey privateKey) throws KeysDontMatchException
 	{
-		PrivateSignatory privateSignatory = new PrivateSignatory(persistenceManager, uuid, signatureAlgorithm, publicKey, privateKey);
+		SecretKey secretKey = persistenceManager.getSecretKeyManager().getSecretKey();
+		PrivateSignatory privateSignatory;
+		if (secretKey == null)
+			privateSignatory = new PlainPrivateSignatory(persistenceManager, uuid, publicKey, signatureAlgorithm, privateKey);
+		else
+			privateSignatory = new EncryptedPrivateSignatory(persistenceManager, uuid, publicKey, signatureAlgorithm, secretKey, privateKey);
 		privateSignatory.persistenceUpdate(transaction);
 		return privateSignatory;
 	}
@@ -128,10 +129,7 @@ public class PrivateSignatory extends Signatory
 		return getEntity().getSignatureAlgorithm();
 	}
 
-	public PrivateKey getPrivateKey()
-	{
-		return getEntity().getPrivateKey();
-	}
+	public abstract PrivateKey getPrivateKey();
 
 	@Override
 	public int hashCode()
@@ -204,6 +202,37 @@ public class PrivateSignatory extends Signatory
 			{
 				logger.warn("Updating private signatory", e);
 			}
+	}
+
+	public EncryptedPrivateSignatory encrypt(Transaction transaction, SecretKey secretKey)
+	{
+		EncryptedPrivateSignatory encryptedPrivateSignatory;
+		try
+		{
+			encryptedPrivateSignatory = new EncryptedPrivateSignatory(getPersistenceManager(), getUuid(), getPublicKey(), getSignatureAlgorithm(), secretKey,
+					getPrivateKey());
+		}
+		catch (KeysDontMatchException e)
+		{
+			throw new RuntimeException(e);
+		}
+		encryptedPrivateSignatory.persistenceUpdate(transaction);
+		return encryptedPrivateSignatory;
+	}
+
+	public PlainPrivateSignatory decrypt(Transaction transaction)
+	{
+		PlainPrivateSignatory plainPrivateSignatory;
+		try
+		{
+			plainPrivateSignatory = new PlainPrivateSignatory(getPersistenceManager(), getUuid(), getPublicKey(), getSignatureAlgorithm(), getPrivateKey());
+		}
+		catch (KeysDontMatchException e)
+		{
+			throw new RuntimeException(e);
+		}
+		plainPrivateSignatory.persistenceUpdate(transaction);
+		return plainPrivateSignatory;
 	}
 
 }

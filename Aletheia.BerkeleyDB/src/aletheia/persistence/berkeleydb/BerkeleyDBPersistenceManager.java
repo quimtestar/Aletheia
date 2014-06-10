@@ -118,10 +118,11 @@ import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTree
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTreeRootNodeEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTreeSubNodeEntity;
+import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBEncryptedPrivateSignatoryEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPackedSignatureRequestEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPersonEntity;
+import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPlainPrivateSignatoryEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPrivatePersonEntity;
-import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPrivateSignatoryEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBRootContextAuthorityEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBSignatoryEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBSignatureRequestEntity;
@@ -131,6 +132,7 @@ import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBUnpackedSign
 import aletheia.persistence.berkeleydb.entities.local.BerkeleyDBContextLocalEntity;
 import aletheia.persistence.berkeleydb.entities.local.BerkeleyDBRootContextLocalEntity;
 import aletheia.persistence.berkeleydb.entities.local.BerkeleyDBStatementLocalEntity;
+import aletheia.persistence.berkeleydb.entities.misc.BerkeleyDBPersistenceSecretKeySingletonEntity;
 import aletheia.persistence.berkeleydb.entities.peertopeer.BerkeleyDBDeferredMessageEntity;
 import aletheia.persistence.berkeleydb.entities.peertopeer.BerkeleyDBHookEntity;
 import aletheia.persistence.berkeleydb.entities.peertopeer.BerkeleyDBNodeDeferredMessageEntity;
@@ -197,6 +199,7 @@ import aletheia.persistence.entities.authority.SignatureRequestEntity;
 import aletheia.persistence.entities.authority.StatementAuthorityEntity;
 import aletheia.persistence.entities.authority.StatementAuthoritySignatureEntity;
 import aletheia.persistence.entities.local.StatementLocalEntity;
+import aletheia.persistence.entities.misc.PersistenceSecretKeySingletonEntity;
 import aletheia.persistence.entities.peertopeer.DeferredMessageEntity;
 import aletheia.persistence.entities.peertopeer.HookEntity;
 import aletheia.persistence.entities.peertopeer.NodeDeferredMessageEntity;
@@ -951,8 +954,10 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 	{
 		if (entityClass.isAssignableFrom(BerkeleyDBSignatoryEntity.class))
 			return new BerkeleyDBSignatoryEntity();
-		else if (entityClass.isAssignableFrom(BerkeleyDBPrivateSignatoryEntity.class))
-			return new BerkeleyDBPrivateSignatoryEntity();
+		else if (entityClass.isAssignableFrom(BerkeleyDBPlainPrivateSignatoryEntity.class))
+			return new BerkeleyDBPlainPrivateSignatoryEntity();
+		else if (entityClass.isAssignableFrom(BerkeleyDBEncryptedPrivateSignatoryEntity.class))
+			return new BerkeleyDBEncryptedPrivateSignatoryEntity();
 		else
 			throw new Error();
 	}
@@ -1768,6 +1773,41 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 	public HookList hookList(Transaction transaction)
 	{
 		return new BerkeleyDBHookList(this, (BerkeleyDBTransaction) transaction);
+	}
+
+	@Override
+	public PersistenceSecretKeySingletonEntity instantiatePersistenceSecretKeySingletonEntity(Class<? extends PersistenceSecretKeySingletonEntity> entityClass)
+	{
+		return new BerkeleyDBPersistenceSecretKeySingletonEntity();
+	}
+
+	@Override
+	public PersistenceSecretKeySingletonEntity getPersistenceSecretKeySingletonEntity(Transaction transaction)
+	{
+		return ((BerkeleyDBTransaction) transaction).get(getEntityStore().persistenceSecretKeySingletonPrimaryIndex(), true);
+	}
+
+	@Override
+	public void putPersistenceSecretKeySingletonEntity(Transaction transaction, PersistenceSecretKeySingletonEntity entity)
+	{
+		putPersistenceSecretKeySingletonEntity((BerkeleyDBTransaction) transaction, (BerkeleyDBPersistenceSecretKeySingletonEntity) entity);
+	}
+
+	private void putPersistenceSecretKeySingletonEntity(BerkeleyDBTransaction transaction, BerkeleyDBPersistenceSecretKeySingletonEntity entity)
+	{
+		transaction.putNoReturn(getEntityStore().persistenceSecretKeySingletonPrimaryIndex(), entity);
+	}
+
+	@Override
+	public void deletePersistenceSecretKeySingletonEntity(Transaction transaction)
+	{
+		((BerkeleyDBTransaction) transaction).delete(getEntityStore().persistenceSecretKeySingletonPrimaryIndex(), true);
+	}
+
+	@Override
+	public boolean lockPersistenceSecretKeySingletonEntity(Transaction transaction)
+	{
+		return ((BerkeleyDBTransaction) transaction).lock(getEntityStore().persistenceSecretKeySingletonPrimaryIndex(), true);
 	}
 
 }

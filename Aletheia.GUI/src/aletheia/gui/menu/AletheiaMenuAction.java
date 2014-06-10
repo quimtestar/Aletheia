@@ -19,52 +19,36 @@
  ******************************************************************************/
 package aletheia.gui.menu;
 
-import javax.swing.JMenuBar;
+import javax.swing.AbstractAction;
 
 import aletheia.gui.app.AletheiaJFrame;
-import aletheia.gui.menu.configuration.ConfigurationMenu;
-import aletheia.gui.menu.data.DataMenu;
-import aletheia.gui.menu.security.SecurityMenu;
 
-public class AletheiaJMenuBar extends JMenuBar
+public abstract class AletheiaMenuAction extends AbstractAction
 {
-	private static final long serialVersionUID = 7019581855541691246L;
+	private static final long serialVersionUID = -8269480514632884323L;
 
-	private final AletheiaJFrame aletheiaJFrame;
-	private final ConfigurationMenu configurationMenu;
-	private final SecurityMenu securityMenu;
-	private final DataMenu dataMenu;
+	private final AletheiaJMenu aletheiaJMenu;
 
-	public AletheiaJMenuBar(AletheiaJFrame aletheiaJFrame)
+	public AletheiaMenuAction(AletheiaJMenu aletheiaJMenu, String name, int mnemonic)
 	{
-		super();
-		this.aletheiaJFrame = aletheiaJFrame;
-		this.configurationMenu = new ConfigurationMenu(this);
-		this.add(configurationMenu);
-		this.securityMenu = new SecurityMenu(this);
-		this.add(securityMenu);
-		this.dataMenu = new DataMenu(this);
-		this.add(dataMenu);
+		this.aletheiaJMenu = aletheiaJMenu;
+		this.putValue(NAME, name);
+		this.putValue(MNEMONIC_KEY, mnemonic);
+	}
+
+	public AletheiaJMenu getAletheiaJMenu()
+	{
+		return aletheiaJMenu;
+	}
+
+	public AletheiaJMenuBar getAletheiaJMenuBar()
+	{
+		return getAletheiaJMenu().getAletheiaJMenuBar();
 	}
 
 	public AletheiaJFrame getAletheiaJFrame()
 	{
-		return aletheiaJFrame;
-	}
-
-	public ConfigurationMenu getConfigurationMenu()
-	{
-		return configurationMenu;
-	}
-
-	public SecurityMenu getSecurityMenu()
-	{
-		return securityMenu;
-	}
-
-	public DataMenu getDataMenu()
-	{
-		return dataMenu;
+		return getAletheiaJMenuBar().getAletheiaJFrame();
 	}
 
 }

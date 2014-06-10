@@ -21,17 +21,14 @@ package aletheia.gui.menu;
 
 import javax.swing.JMenuItem;
 
-import aletheia.gui.app.AletheiaJFrame;
-import aletheia.gui.menu.actions.MenuAction;
-
 public class AletheiaMenuItem extends JMenuItem
 {
 	private static final long serialVersionUID = 2274956848981066125L;
 
-	public AletheiaMenuItem(AletheiaJFrame aletheiaJFrame, MenuAction a)
+	public AletheiaMenuItem(AletheiaMenuAction a)
 	{
 		super(a);
-		setFont(aletheiaJFrame.getMenuFont());
+		setFont(a.getAletheiaJFrame().getMenuFont());
 	}
 
 }

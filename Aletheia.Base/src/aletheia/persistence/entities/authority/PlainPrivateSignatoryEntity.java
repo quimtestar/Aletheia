@@ -19,10 +19,11 @@
  ******************************************************************************/
 package aletheia.persistence.entities.authority;
 
-public interface PrivateSignatoryEntity extends SignatoryEntity
+import java.security.PrivateKey;
+
+public interface PlainPrivateSignatoryEntity extends PrivateSignatoryEntity
 {
-	public String getSignatureAlgorithm();
+	public PrivateKey getPrivateKey();
 
-	public void setSignatureAlgorithm(String signatureAlgorithm);
-
+	public void setPrivateKey(PrivateKey privateKey);
 }

@@ -17,12 +17,27 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.persistence.entities.authority;
+package aletheia.gui.menu.security;
 
-public interface PrivateSignatoryEntity extends SignatoryEntity
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+
+import aletheia.gui.menu.AletheiaMenuAction;
+
+public class ClearPassphraseAction extends AletheiaMenuAction
 {
-	public String getSignatureAlgorithm();
 
-	public void setSignatureAlgorithm(String signatureAlgorithm);
+	private static final long serialVersionUID = -4393437974843669180L;
+
+	public ClearPassphraseAction(SecurityMenu securityMenu)
+	{
+		super(securityMenu, "Clear passphrase", KeyEvent.VK_C);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		getAletheiaJFrame().getPersistenceManager().getSecretKeyManager().clearPassphrase();
+	}
 
 }

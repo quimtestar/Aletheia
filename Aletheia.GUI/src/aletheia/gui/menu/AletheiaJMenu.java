@@ -17,26 +17,33 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.menu.actions;
+package aletheia.gui.menu;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import javax.swing.JMenu;
 
 import aletheia.gui.app.AletheiaJFrame;
 
-public class RestartAction extends MenuAction
+public abstract class AletheiaJMenu extends JMenu
 {
-	private static final long serialVersionUID = 3139185314206318493L;
+	private static final long serialVersionUID = -1841244310731526360L;
+	private final AletheiaJMenuBar aletheiaJMenuBar;
 
-	public RestartAction(AletheiaJFrame aletheiaJFrame)
+	public AletheiaJMenu(AletheiaJMenuBar aletheiaJMenuBar, String s, int mnemonic)
 	{
-		super(aletheiaJFrame, "Restart", KeyEvent.VK_R);
+		super(s);
+		this.setMnemonic(mnemonic);
+		this.aletheiaJMenuBar = aletheiaJMenuBar;
+		this.setFont(getAletheiaJFrame().getMenuFont());
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e)
+	public AletheiaJMenuBar getAletheiaJMenuBar()
 	{
-		getAletheiaJFrame().exit(AletheiaJFrame.ExitState.RESTART);
+		return aletheiaJMenuBar;
+	}
+
+	public AletheiaJFrame getAletheiaJFrame()
+	{
+		return getAletheiaJMenuBar().getAletheiaJFrame();
 	}
 
 }

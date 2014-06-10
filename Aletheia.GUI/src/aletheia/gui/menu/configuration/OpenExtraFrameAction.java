@@ -17,28 +17,37 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.menu.actions;
+package aletheia.gui.menu.configuration;
 
-import javax.swing.AbstractAction;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
-import aletheia.gui.app.AletheiaJFrame;
+import org.apache.log4j.Logger;
 
-public abstract class MenuAction extends AbstractAction
+import aletheia.gui.menu.AletheiaMenuAction;
+import aletheia.log4j.LoggerManager;
+
+public class OpenExtraFrameAction extends AletheiaMenuAction
 {
-	private static final long serialVersionUID = -8269480514632884323L;
+	private final static Logger logger = LoggerManager.logger();
+	private static final long serialVersionUID = -6488350677927156996L;
 
-	private final AletheiaJFrame aletheiaJFrame;
-
-	public MenuAction(AletheiaJFrame aletheiaJFrame, String name, int mnemonic)
+	public OpenExtraFrameAction(ConfigurationMenu configurationMenu)
 	{
-		this.aletheiaJFrame = aletheiaJFrame;
-		this.putValue(NAME, name);
-		this.putValue(MNEMONIC_KEY, mnemonic);
+		super(configurationMenu, "Open extra frame", KeyEvent.VK_O);
 	}
 
-	public AletheiaJFrame getAletheiaJFrame()
+	@Override
+	public void actionPerformed(ActionEvent ev)
 	{
-		return aletheiaJFrame;
+		try
+		{
+			getAletheiaJFrame().openExtraFrame();
+		}
+		catch (InterruptedException e)
+		{
+			logger.warn("Exception caught", e);
+		}
 	}
 
 }
