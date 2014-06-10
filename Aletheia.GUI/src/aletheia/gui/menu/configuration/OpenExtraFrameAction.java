@@ -17,26 +17,37 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.menu.actions;
+package aletheia.gui.menu.configuration;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import aletheia.gui.app.AletheiaJFrame;
+import org.apache.log4j.Logger;
 
-public class RestartAction extends MenuAction
+import aletheia.gui.menu.AletheiaMenuAction;
+import aletheia.log4j.LoggerManager;
+
+public class OpenExtraFrameAction extends AletheiaMenuAction
 {
-	private static final long serialVersionUID = 3139185314206318493L;
+	private final static Logger logger = LoggerManager.logger();
+	private static final long serialVersionUID = -6488350677927156996L;
 
-	public RestartAction(AletheiaJFrame aletheiaJFrame)
+	public OpenExtraFrameAction(ConfigurationMenu configurationMenu)
 	{
-		super(aletheiaJFrame, "Restart", KeyEvent.VK_R);
+		super(configurationMenu, "Open extra frame", KeyEvent.VK_O);
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e)
+	public void actionPerformed(ActionEvent ev)
 	{
-		getAletheiaJFrame().exit(AletheiaJFrame.ExitState.RESTART);
+		try
+		{
+			getAletheiaJFrame().openExtraFrame();
+		}
+		catch (InterruptedException e)
+		{
+			logger.warn("Exception caught", e);
+		}
 	}
 
 }

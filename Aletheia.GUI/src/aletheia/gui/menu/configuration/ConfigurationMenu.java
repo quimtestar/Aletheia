@@ -17,28 +17,38 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.menu.actions;
+package aletheia.gui.menu.configuration;
 
-import javax.swing.AbstractAction;
+import java.awt.event.KeyEvent;
 
-import aletheia.gui.app.AletheiaJFrame;
+import aletheia.gui.menu.AletheiaJMenu;
+import aletheia.gui.menu.AletheiaJMenuBar;
+import aletheia.gui.menu.AletheiaMenuItem;
 
-public abstract class MenuAction extends AbstractAction
+public class ConfigurationMenu extends AletheiaJMenu
 {
-	private static final long serialVersionUID = -8269480514632884323L;
+	private static final long serialVersionUID = 5598459073059823214L;
 
-	private final AletheiaJFrame aletheiaJFrame;
+	private final PreferencesAction preferencesAction;
+	private final ExitAction exitAction;
 
-	public MenuAction(AletheiaJFrame aletheiaJFrame, String name, int mnemonic)
+	public ConfigurationMenu(AletheiaJMenuBar aletheiaJMenuBar)
 	{
-		this.aletheiaJFrame = aletheiaJFrame;
-		this.putValue(NAME, name);
-		this.putValue(MNEMONIC_KEY, mnemonic);
+		super(aletheiaJMenuBar, "Configuration", KeyEvent.VK_C);
+		this.preferencesAction = new PreferencesAction(this);
+		this.add(new AletheiaMenuItem(preferencesAction));
+		this.exitAction = new ExitAction(this);
+		this.add(new AletheiaMenuItem(exitAction));
 	}
 
-	public AletheiaJFrame getAletheiaJFrame()
+	public PreferencesAction getPreferencesAction()
 	{
-		return aletheiaJFrame;
+		return preferencesAction;
+	}
+
+	public ExitAction getExitAction()
+	{
+		return exitAction;
 	}
 
 }

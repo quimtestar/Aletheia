@@ -17,27 +17,27 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.menu.actions;
+package aletheia.gui.menu.security;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import aletheia.gui.app.AletheiaJFrame;
+import aletheia.gui.menu.AletheiaMenuAction;
 
-public class ExitAction extends MenuAction
+public class ClearPassphraseAction extends AletheiaMenuAction
 {
-	private static final long serialVersionUID = 3139185314206318493L;
 
-	public ExitAction(AletheiaJFrame aletheiaJFrame)
+	private static final long serialVersionUID = -4393437974843669180L;
+
+	public ClearPassphraseAction(SecurityMenu securityMenu)
 	{
-		super(aletheiaJFrame, "Exit", KeyEvent.VK_X);
+		super(securityMenu, "Clear passphrase", KeyEvent.VK_C);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		getAletheiaJFrame().exit();
-
+		getAletheiaJFrame().getPersistenceManager().getPersistenceSecretKeyManager().clearPassphrase();
 	}
 
 }

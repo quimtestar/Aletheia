@@ -30,6 +30,8 @@ import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.LinkedList;
 
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
@@ -58,6 +60,45 @@ public class PersistenceSecretKeyManager
 	private final SecretKeyFactory secretKeyFactory;
 	private final SecureRandom secureRandom;
 
+	public interface Listener
+	{
+		public void secretSet();
+
+		public void secretUnset();
+
+		public void keySet();
+
+		public void keyUnset();
+	}
+
+	private final Collection<Listener> listeners;
+
+	private class PersistenceSecretKeySingletonStateListener implements PersistenceSecretKeySingleton.StateListener
+	{
+
+		@Override
+		public void persistenceSecretKeySingletonInserted(PersistenceSecretKeySingleton persistenceSecretKeySingleton)
+		{
+			synchronized (PersistenceSecretKeyManager.this)
+			{
+				for (Listener l : listeners)
+					l.secretSet();
+			}
+		}
+
+		@Override
+		public void persistenceSecretKeySingletonDeleted(PersistenceSecretKeySingleton persistenceSecretKeySingleton)
+		{
+			synchronized (PersistenceSecretKeyManager.this)
+			{
+				for (Listener l : listeners)
+					l.secretUnset();
+			}
+		}
+	}
+
+	private final PersistenceSecretKeySingletonStateListener persistenceSecretKeySingletonStateListener;
+
 	private SecretKey secretKey;
 
 	public PersistenceSecretKeyManager(PersistenceManager persistenceManager)
@@ -72,12 +113,41 @@ public class PersistenceSecretKeyManager
 		{
 			throw new RuntimeException(e);
 		}
+		this.listeners = new LinkedList<Listener>();
+		this.persistenceSecretKeySingletonStateListener = new PersistenceSecretKeySingletonStateListener();
+		persistenceManager.getListenerManager().getPersistenceSecretKeySingletonStateListeners().add(persistenceSecretKeySingletonStateListener);
 		this.secretKey = null;
+	}
+
+	public void close()
+	{
+		persistenceManager.getListenerManager().getPersistenceSecretKeySingletonStateListeners().remove(persistenceSecretKeySingletonStateListener);
+	}
+
+	public synchronized void addListener(Listener l)
+	{
+		listeners.add(l);
+	}
+
+	public synchronized void removeListener(Listener l)
+	{
+		listeners.remove(l);
 	}
 
 	public synchronized SecretKey getSecretKey()
 	{
 		return secretKey;
+	}
+
+	private synchronized void setSecretKey(SecretKey secretKey)
+	{
+		this.secretKey = secretKey;
+		if (secretKey != null)
+			for (Listener l : listeners)
+				l.keySet();
+		else
+			for (Listener l : listeners)
+				l.keyUnset();
 	}
 
 	public class PersistenceSecretKeyException extends Exception
@@ -163,7 +233,7 @@ public class PersistenceSecretKeyManager
 				throw new VersionPersistenceSecretKeyException();
 			if (!verify(secretKey_, persistenceSecretKeySingleton.getVerification()))
 				throw new BadPassphrasePersistenceSecretKeyException();
-			this.secretKey = secretKey_;
+			setSecretKey(secretKey_);
 			transaction.commit();
 		}
 		finally
@@ -175,7 +245,7 @@ public class PersistenceSecretKeyManager
 
 	public synchronized void clearPassphrase()
 	{
-		this.secretKey = null;
+		setSecretKey(null);
 	}
 
 	private byte[] generateSalt()
@@ -275,7 +345,7 @@ public class PersistenceSecretKeyManager
 			PersistenceSecretKeySingleton persistenceSecretKeySingleton = PersistenceSecretKeySingleton.lock(persistenceManager, transaction);
 			if (persistenceSecretKeySingleton != null)
 			{
-				if (secretKey == null)
+				if (getSecretKey() == null)
 					throw new KeyNotSetPersistenceSecretKeyException();
 				persistenceSecretKeySingleton.delete(transaction);
 			}
@@ -294,7 +364,7 @@ public class PersistenceSecretKeyManager
 			for (PrivateSignatory privateSignatory : persistenceManager.privateSignatories(transaction).values())
 				privateSignatory.encrypt(transaction, newSecretKey);
 			transaction.commit();
-			secretKey = newSecretKey;
+			setSecretKey(newSecretKey);
 		}
 		finally
 		{
@@ -310,14 +380,14 @@ public class PersistenceSecretKeyManager
 			PersistenceSecretKeySingleton persistenceSecretKeySingleton = PersistenceSecretKeySingleton.lock(persistenceManager, transaction);
 			if (persistenceSecretKeySingleton != null)
 			{
-				if (secretKey == null)
+				if (getSecretKey() == null)
 					throw new KeyNotSetPersistenceSecretKeyException();
 				persistenceSecretKeySingleton.delete(transaction);
 			}
 			for (PrivateSignatory privateSignatory : persistenceManager.privateSignatories(transaction).values())
 				privateSignatory.decrypt(transaction);
 			transaction.commit();
-			secretKey = null;
+			setSecretKey(null);
 		}
 		finally
 		{

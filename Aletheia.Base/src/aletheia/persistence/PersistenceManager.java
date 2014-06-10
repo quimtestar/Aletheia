@@ -593,6 +593,7 @@ public abstract class PersistenceManager
 		{
 			throw new PersistenceException(e);
 		}
+		persistenceSecretKeyManager.close();
 	}
 
 	public boolean isOpen()

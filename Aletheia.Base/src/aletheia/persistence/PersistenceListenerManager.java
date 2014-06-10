@@ -32,6 +32,7 @@ import aletheia.model.authority.SignatureRequest;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.local.ContextLocal;
 import aletheia.model.local.RootContextLocal;
+import aletheia.model.misc.PersistenceSecretKeySingleton;
 import aletheia.model.nomenclator.Nomenclator;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
@@ -79,6 +80,7 @@ public class PersistenceListenerManager
 	private final Listeners<RootContextLocal.StateListener> rootContextLocalStateListeners;
 	private final Listeners<Person.AddStateListener> personAddStateListeners;
 	private final Listeners<SignatureRequest.AddStateListener> signatureRequestAddStateListeners;
+	private final Listeners<PersistenceSecretKeySingleton.StateListener> persistenceSecretKeySingletonStateListeners;
 
 	public class ListenersByUuid<L extends PersistenceListener>
 	{
@@ -173,6 +175,7 @@ public class PersistenceListenerManager
 		this.rootContextLocalStateListeners = new Listeners<RootContextLocal.StateListener>();
 		this.personAddStateListeners = new Listeners<Person.AddStateListener>();
 		this.signatureRequestAddStateListeners = new Listeners<SignatureRequest.AddStateListener>();
+		this.persistenceSecretKeySingletonStateListeners = new Listeners<PersistenceSecretKeySingleton.StateListener>();
 
 		this.subNomenclatorListeners = new ListenersByUuid<Nomenclator.Listener>();
 		this.rootNomenclatorListeners = new ListenersByUuid<Nomenclator.Listener>();
@@ -202,6 +205,11 @@ public class PersistenceListenerManager
 	public Listeners<SignatureRequest.AddStateListener> getSignatureRequestAddStateListeners()
 	{
 		return signatureRequestAddStateListeners;
+	}
+
+	public Listeners<PersistenceSecretKeySingleton.StateListener> getPersistenceSecretKeySingletonStateListeners()
+	{
+		return persistenceSecretKeySingletonStateListeners;
 	}
 
 	public ListenersByUuid<Nomenclator.Listener> getSubNomenclatorListeners()

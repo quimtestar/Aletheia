@@ -17,18 +17,29 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.menu;
+package aletheia.gui.menu.data;
 
-import javax.swing.JMenuItem;
+import java.awt.event.KeyEvent;
 
-public class AletheiaMenuItem extends JMenuItem
+import aletheia.gui.menu.AletheiaJMenu;
+import aletheia.gui.menu.AletheiaJMenuBar;
+import aletheia.gui.menu.AletheiaMenuItem;
+
+public class DataMenu extends AletheiaJMenu
 {
-	private static final long serialVersionUID = 2274956848981066125L;
+	private static final long serialVersionUID = 5598459073059823214L;
 
-	public AletheiaMenuItem(AletheiaMenuAction a)
+	private final PersonsAction personsAction;
+
+	public DataMenu(AletheiaJMenuBar aletheiaJMenuBar)
 	{
-		super(a);
-		setFont(a.getAletheiaJFrame().getMenuFont());
+		super(aletheiaJMenuBar, "Data", KeyEvent.VK_D);
+		this.personsAction = new PersonsAction(this);
+		this.add(new AletheiaMenuItem(personsAction));
 	}
 
+	public PersonsAction getPersonsAction()
+	{
+		return personsAction;
+	}
 }

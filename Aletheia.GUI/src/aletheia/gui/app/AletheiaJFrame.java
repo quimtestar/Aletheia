@@ -434,11 +434,13 @@ public class AletheiaJFrame extends JFrame
 				{
 					aletheiaContentPane = new VoidAletheiaContentPane();
 					getJMenuBar().getDataMenu().getPersonsAction().setEnabled(false);
+					getJMenuBar().getSecurityMenu().updatePersistenceManager();
 				}
 				else
 				{
 					aletheiaContentPane = new AletheiaJPanel(this, persistenceManager);
 					getJMenuBar().getDataMenu().getPersonsAction().setEnabled(true);
+					getJMenuBar().getSecurityMenu().updatePersistenceManager();
 				}
 				refreshContentPane();
 			}
@@ -446,6 +448,7 @@ public class AletheiaJFrame extends JFrame
 			{
 				aletheiaContentPane = new VoidAletheiaContentPane();
 				getJMenuBar().getDataMenu().getPersonsAction().setEnabled(false);
+				getJMenuBar().getSecurityMenu().updatePersistenceManager();
 				refreshContentPane();
 				return false;
 			}

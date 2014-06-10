@@ -17,28 +17,33 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.menu.actions;
+package aletheia.gui.menu;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import javax.swing.JMenu;
 
 import aletheia.gui.app.AletheiaJFrame;
-import aletheia.gui.preferences.PreferencesDialog;
 
-public class PreferencesAction extends MenuAction
+public abstract class AletheiaJMenu extends JMenu
 {
-	private static final long serialVersionUID = -7130403205117417584L;
+	private static final long serialVersionUID = -1841244310731526360L;
+	private final AletheiaJMenuBar aletheiaJMenuBar;
 
-	public PreferencesAction(AletheiaJFrame aletheiaJFrame)
+	public AletheiaJMenu(AletheiaJMenuBar aletheiaJMenuBar, String s, int mnemonic)
 	{
-		super(aletheiaJFrame, "Preferences", KeyEvent.VK_P);
+		super(s);
+		this.setMnemonic(mnemonic);
+		this.aletheiaJMenuBar = aletheiaJMenuBar;
+		this.setFont(getAletheiaJFrame().getMenuFont());
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent ev)
+	public AletheiaJMenuBar getAletheiaJMenuBar()
 	{
-		PreferencesDialog dialog = new PreferencesDialog(getAletheiaJFrame());
-		dialog.dispose();
+		return aletheiaJMenuBar;
+	}
+
+	public AletheiaJFrame getAletheiaJFrame()
+	{
+		return getAletheiaJMenuBar().getAletheiaJFrame();
 	}
 
 }

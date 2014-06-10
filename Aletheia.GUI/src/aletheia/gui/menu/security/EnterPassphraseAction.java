@@ -17,36 +17,43 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.menu.actions;
+package aletheia.gui.menu.security;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import org.apache.log4j.Logger;
+import javax.swing.JOptionPane;
 
-import aletheia.gui.app.AletheiaJFrame;
-import aletheia.log4j.LoggerManager;
+import aletheia.gui.common.PassphraseDialog;
+import aletheia.gui.menu.AletheiaMenuAction;
+import aletheia.persistence.PersistenceSecretKeyManager.PersistenceSecretKeyException;
+import aletheia.utilities.MiscUtilities;
 
-public class OpenExtraFrameAction extends MenuAction
+public class EnterPassphraseAction extends AletheiaMenuAction
 {
-	private final static Logger logger = LoggerManager.logger();
-	private static final long serialVersionUID = -6488350677927156996L;
 
-	public OpenExtraFrameAction(AletheiaJFrame aletheiaJFrame)
+	private static final long serialVersionUID = 6601874351675562729L;
+
+	public EnterPassphraseAction(SecurityMenu securityMenu)
 	{
-		super(aletheiaJFrame, "Open extra frame", KeyEvent.VK_O);
+		super(securityMenu, "Enter passphrase", KeyEvent.VK_E);
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent ev)
+	public void actionPerformed(ActionEvent e)
 	{
-		try
+		PassphraseDialog dialog = new PassphraseDialog(getAletheiaJFrame());
+		char[] passphrase = dialog.getPassphrase();
+		if (passphrase != null)
 		{
-			getAletheiaJFrame().openExtraFrame();
-		}
-		catch (InterruptedException e)
-		{
-			logger.warn("Exception caught", e);
+			try
+			{
+				getAletheiaJFrame().getPersistenceManager().getPersistenceSecretKeyManager().enterPassphrase(passphrase);
+			}
+			catch (PersistenceSecretKeyException ex)
+			{
+				JOptionPane.showMessageDialog(getAletheiaJFrame(), MiscUtilities.wrapText(ex.getMessage(), 80), "Error", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 

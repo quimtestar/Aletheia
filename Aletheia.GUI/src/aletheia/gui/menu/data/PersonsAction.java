@@ -17,42 +17,30 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.menu;
+package aletheia.gui.menu.data;
 
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JMenu;
+import aletheia.gui.menu.AletheiaMenuAction;
+import aletheia.gui.person.PersonsDialog;
 
-import aletheia.gui.app.AletheiaJFrame;
-import aletheia.gui.menu.actions.ExitAction;
-import aletheia.gui.menu.actions.PreferencesAction;
-
-public class ConfigurationMenu extends JMenu
+public class PersonsAction extends AletheiaMenuAction
 {
-	private static final long serialVersionUID = 5598459073059823214L;
 
-	private final PreferencesAction preferencesAction;
-	private final ExitAction exitAction;
+	private static final long serialVersionUID = 2818746913208642479L;
 
-	public ConfigurationMenu(AletheiaJFrame aletheiaJFrame)
+	public PersonsAction(DataMenu dataMenu)
 	{
-		super("Configuration");
-		this.setFont(aletheiaJFrame.getMenuFont());
-		this.setMnemonic(KeyEvent.VK_C);
-		this.preferencesAction = new PreferencesAction(aletheiaJFrame);
-		this.add(new AletheiaMenuItem(aletheiaJFrame, preferencesAction));
-		this.exitAction = new ExitAction(aletheiaJFrame);
-		this.add(new AletheiaMenuItem(aletheiaJFrame, exitAction));
+		super(dataMenu, "Persons", KeyEvent.VK_P);
 	}
 
-	public PreferencesAction getPreferencesAction()
+	@Override
+	public void actionPerformed(ActionEvent e)
 	{
-		return preferencesAction;
-	}
-
-	public ExitAction getExitAction()
-	{
-		return exitAction;
+		PersonsDialog dialog = getAletheiaJFrame().getPersonsDialog();
+		if (dialog != null)
+			dialog.setVisible(true);
 	}
 
 }

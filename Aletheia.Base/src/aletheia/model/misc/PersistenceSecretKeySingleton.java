@@ -19,12 +19,22 @@
  ******************************************************************************/
 package aletheia.model.misc;
 
+import aletheia.persistence.PersistenceListener;
+import aletheia.persistence.PersistenceListenerManager.Listeners;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.entities.misc.PersistenceSecretKeySingletonEntity;
 
 public class PersistenceSecretKeySingleton
 {
+	public interface StateListener extends PersistenceListener
+	{
+		public void persistenceSecretKeySingletonInserted(PersistenceSecretKeySingleton persistenceSecretKeySingleton);
+
+		public void persistenceSecretKeySingletonDeleted(PersistenceSecretKeySingleton persistenceSecretKeySingleton);
+
+	}
+
 	public static class PersistenceSecretKeySingletonException extends Exception
 	{
 		private static final long serialVersionUID = -312555166850561985L;
@@ -54,6 +64,12 @@ public class PersistenceSecretKeySingleton
 		PersistenceSecretKeySingleton persistenceSecretKeySingleton = new PersistenceSecretKeySingleton(persistenceManager, salt, verificationVersion,
 				verification);
 		persistenceSecretKeySingleton.persistenceUpdate(transaction);
+		Listeners<StateListener> listeners = persistenceManager.getListenerManager().getPersistenceSecretKeySingletonStateListeners();
+		synchronized (listeners)
+		{
+			for (StateListener l : listeners)
+				l.persistenceSecretKeySingletonInserted(persistenceSecretKeySingleton);
+		}
 		return persistenceSecretKeySingleton;
 	}
 
@@ -104,6 +120,12 @@ public class PersistenceSecretKeySingleton
 	public void delete(Transaction transaction)
 	{
 		persistenceManager.deletePersistenceSecretKeySingleton(transaction);
+		Listeners<StateListener> listeners = persistenceManager.getListenerManager().getPersistenceSecretKeySingletonStateListeners();
+		synchronized (listeners)
+		{
+			for (StateListener l : listeners)
+				l.persistenceSecretKeySingletonInserted(this);
+		}
 	}
 
 }
