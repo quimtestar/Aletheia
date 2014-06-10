@@ -26,7 +26,6 @@ import javax.swing.JOptionPane;
 
 import aletheia.gui.common.PassphraseDialog;
 import aletheia.gui.menu.AletheiaMenuAction;
-import aletheia.persistence.PersistenceSecretKeyManager.PersistenceSecretKeyException;
 import aletheia.utilities.MiscUtilities;
 
 public class ChangePassphraseAction extends AletheiaMenuAction
@@ -43,17 +42,25 @@ public class ChangePassphraseAction extends AletheiaMenuAction
 	public void actionPerformed(ActionEvent e)
 	{
 		PassphraseDialog dialog = new PassphraseDialog(getAletheiaJFrame(), true);
-		char[] passphrase = dialog.getPassphrase();
+		final char[] passphrase = dialog.getPassphrase();
 		if (passphrase != null)
 		{
-			try
-			{
-				getAletheiaJFrame().getPersistenceManager().getPersistenceSecretKeyManager().changePassphrase(passphrase);
-			}
-			catch (PersistenceSecretKeyException ex)
-			{
-				JOptionPane.showMessageDialog(getAletheiaJFrame(), MiscUtilities.wrapText(ex.getMessage(), 80), "Error", JOptionPane.ERROR_MESSAGE);
-			}
+			int option = JOptionPane
+					.showConfirmDialog(
+							getAletheiaJFrame(),
+							MiscUtilities
+									.wrapText(
+											"This action might take some minutes, since all the private keys must be (re)encrypted with the new passphrase.\nAre you sure you want to continue?",
+											80));
+			if (JOptionPane.OK_OPTION == option)
+				try
+				{
+					getAletheiaJFrame().getPersistenceManager().getSecretKeyManager().changePassphrase(passphrase);
+				}
+				catch (Exception ex)
+				{
+					JOptionPane.showMessageDialog(getAletheiaJFrame(), MiscUtilities.wrapText(ex.getMessage(), 80), "Error", JOptionPane.ERROR_MESSAGE);
+				}
 		}
 	}
 

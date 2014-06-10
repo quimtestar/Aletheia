@@ -29,9 +29,9 @@ public class PersistenceSecretKeySingleton
 {
 	public interface StateListener extends PersistenceListener
 	{
-		public void persistenceSecretKeySingletonInserted(PersistenceSecretKeySingleton persistenceSecretKeySingleton);
+		public void persistenceSecretKeySingletonInserted(Transaction transaction, PersistenceSecretKeySingleton persistenceSecretKeySingleton);
 
-		public void persistenceSecretKeySingletonDeleted(PersistenceSecretKeySingleton persistenceSecretKeySingleton);
+		public void persistenceSecretKeySingletonDeleted(Transaction transaction, PersistenceSecretKeySingleton persistenceSecretKeySingleton);
 
 	}
 
@@ -68,7 +68,7 @@ public class PersistenceSecretKeySingleton
 		synchronized (listeners)
 		{
 			for (StateListener l : listeners)
-				l.persistenceSecretKeySingletonInserted(persistenceSecretKeySingleton);
+				l.persistenceSecretKeySingletonInserted(transaction, persistenceSecretKeySingleton);
 		}
 		return persistenceSecretKeySingleton;
 	}
@@ -124,7 +124,7 @@ public class PersistenceSecretKeySingleton
 		synchronized (listeners)
 		{
 			for (StateListener l : listeners)
-				l.persistenceSecretKeySingletonInserted(this);
+				l.persistenceSecretKeySingletonInserted(transaction, this);
 		}
 	}
 

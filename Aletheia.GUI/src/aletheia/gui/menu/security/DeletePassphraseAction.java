@@ -25,7 +25,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 
 import aletheia.gui.menu.AletheiaMenuAction;
-import aletheia.persistence.PersistenceSecretKeyManager.PersistenceSecretKeyException;
 import aletheia.utilities.MiscUtilities;
 
 public class DeletePassphraseAction extends AletheiaMenuAction
@@ -41,14 +40,17 @@ public class DeletePassphraseAction extends AletheiaMenuAction
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		try
-		{
-			getAletheiaJFrame().getPersistenceManager().getPersistenceSecretKeyManager().deletePassphrase();
-		}
-		catch (PersistenceSecretKeyException ex)
-		{
-			JOptionPane.showMessageDialog(getAletheiaJFrame(), MiscUtilities.wrapText(ex.getMessage(), 80), "Error", JOptionPane.ERROR_MESSAGE);
-		}
+		int option = JOptionPane.showConfirmDialog(getAletheiaJFrame(), MiscUtilities.wrapText(
+				"This action might take some minutes, since all the private keys must be decrypted.\nAre you sure you want to continue?", 80));
+		if (JOptionPane.OK_OPTION == option)
+			try
+			{
+				getAletheiaJFrame().getPersistenceManager().getSecretKeyManager().deletePassphrase();
+			}
+			catch (Exception ex)
+			{
+				JOptionPane.showMessageDialog(getAletheiaJFrame(), MiscUtilities.wrapText(ex.getMessage(), 80), "Error", JOptionPane.ERROR_MESSAGE);
+			}
 	}
 
 }

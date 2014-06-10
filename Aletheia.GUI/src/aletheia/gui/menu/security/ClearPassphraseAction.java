@@ -37,7 +37,7 @@ public class ClearPassphraseAction extends AletheiaMenuAction
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		getAletheiaJFrame().getPersistenceManager().getPersistenceSecretKeyManager().clearPassphrase();
+		getAletheiaJFrame().getPersistenceManager().getSecretKeyManager().clearPassphrase();
 	}
 
 }

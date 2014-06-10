@@ -257,7 +257,7 @@ public abstract class PersistenceManager
 		return persistenceListenerManager;
 	}
 
-	public PersistenceSecretKeyManager getPersistenceSecretKeyManager()
+	public PersistenceSecretKeyManager getSecretKeyManager()
 	{
 		return persistenceSecretKeyManager;
 	}

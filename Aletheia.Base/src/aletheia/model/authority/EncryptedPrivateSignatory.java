@@ -169,7 +169,7 @@ public class EncryptedPrivateSignatory extends PrivateSignatory
 	public EncryptedPrivateSignatory(PersistenceManager persistenceManager, EncryptedPrivateSignatoryEntity entity) throws EncryptedException
 	{
 		super(persistenceManager, entity);
-		SecretKey secretKey = persistenceManager.getPersistenceSecretKeyManager().getSecretKey();
+		SecretKey secretKey = persistenceManager.getSecretKeyManager().getSecretKey();
 		if (secretKey == null)
 			throw new NoSecretEncryptedException();
 		this.privateKey = decryptPrivateKey(getVersion(), secretKey, getBytes());

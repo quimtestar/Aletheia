@@ -37,6 +37,7 @@ import javax.swing.WindowConstants;
 import org.apache.log4j.Logger;
 
 import aletheia.common.AletheiaConstants;
+import aletheia.gui.common.PassphraseDialog;
 import aletheia.gui.icons.IconManager;
 import aletheia.gui.menu.AletheiaJMenuBar;
 import aletheia.gui.person.PersonsDialog;
@@ -48,6 +49,7 @@ import aletheia.peertopeer.FemalePeerToPeerNode;
 import aletheia.peertopeer.MalePeerToPeerNode;
 import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.persistence.PersistenceManager;
+import aletheia.persistence.PersistenceSecretKeyManager.PersistenceSecretKeyException;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
 import aletheia.persistence.gui.PersistenceGUIFactory.EncapsulatedCreatePersistenceManagerException;
@@ -438,6 +440,25 @@ public class AletheiaJFrame extends JFrame
 				}
 				else
 				{
+					if (persistenceManager.getSecretKeyManager().isSecretSet())
+					{
+						while (true)
+						{
+							PassphraseDialog dialog = new PassphraseDialog(this);
+							char[] passphrase = dialog.getPassphrase();
+							if (passphrase == null)
+								break;
+							try
+							{
+								persistenceManager.getSecretKeyManager().enterPassphrase(passphrase);
+								break;
+							}
+							catch (PersistenceSecretKeyException ex)
+							{
+								JOptionPane.showMessageDialog(this, MiscUtilities.wrapText(ex.getMessage(), 80), "Error", JOptionPane.ERROR_MESSAGE);
+							}
+						}
+					}
 					aletheiaContentPane = new AletheiaJPanel(this, persistenceManager);
 					getJMenuBar().getDataMenu().getPersonsAction().setEnabled(true);
 					getJMenuBar().getSecurityMenu().updatePersistenceManager();

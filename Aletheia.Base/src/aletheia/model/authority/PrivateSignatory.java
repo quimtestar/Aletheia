@@ -82,7 +82,7 @@ public abstract class PrivateSignatory extends Signatory
 	public static PrivateSignatory create(PersistenceManager persistenceManager, Transaction transaction, UUID uuid, String signatureAlgorithm,
 			PublicKey publicKey, PrivateKey privateKey) throws KeysDontMatchException
 	{
-		SecretKey secretKey = persistenceManager.getPersistenceSecretKeyManager().getSecretKey();
+		SecretKey secretKey = persistenceManager.getSecretKeyManager().getSecretKey();
 		PrivateSignatory privateSignatory;
 		if (secretKey == null)
 			privateSignatory = new PlainPrivateSignatory(persistenceManager, uuid, publicKey, signatureAlgorithm, privateKey);

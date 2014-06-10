@@ -38,7 +38,10 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import aletheia.model.authority.Person;
+import aletheia.model.authority.Person.PersonCreationException;
 import aletheia.model.authority.PrivateSignatory;
+import aletheia.model.authority.Signatory;
 import aletheia.model.misc.PersistenceSecretKeySingleton;
 import aletheia.model.misc.PersistenceSecretKeySingleton.PersistenceSecretKeySingletonCollisionException;
 import aletheia.protocol.ProtocolException;
@@ -77,23 +80,39 @@ public class PersistenceSecretKeyManager
 	{
 
 		@Override
-		public void persistenceSecretKeySingletonInserted(PersistenceSecretKeySingleton persistenceSecretKeySingleton)
+		public void persistenceSecretKeySingletonInserted(Transaction transaction, PersistenceSecretKeySingleton persistenceSecretKeySingleton)
 		{
-			synchronized (PersistenceSecretKeyManager.this)
+			transaction.runWhenCommit(new Transaction.Hook()
 			{
-				for (Listener l : listeners)
-					l.secretSet();
-			}
+
+				@Override
+				public void run(Transaction closedTransaction)
+				{
+					synchronized (PersistenceSecretKeyManager.this)
+					{
+						for (Listener l : listeners)
+							l.secretSet();
+					}
+				}
+			});
 		}
 
 		@Override
-		public void persistenceSecretKeySingletonDeleted(PersistenceSecretKeySingleton persistenceSecretKeySingleton)
+		public void persistenceSecretKeySingletonDeleted(Transaction transaction, PersistenceSecretKeySingleton persistenceSecretKeySingleton)
 		{
-			synchronized (PersistenceSecretKeyManager.this)
+			transaction.runWhenCommit(new Transaction.Hook()
 			{
-				for (Listener l : listeners)
-					l.secretUnset();
-			}
+
+				@Override
+				public void run(Transaction closedTransaction)
+				{
+					synchronized (PersistenceSecretKeyManager.this)
+					{
+						for (Listener l : listeners)
+							l.secretUnset();
+					}
+				}
+			});
 		}
 	}
 
@@ -403,6 +422,38 @@ public class PersistenceSecretKeyManager
 			PersistenceSecretKeySingleton persistenceSecretKeySingleton = persistenceManager.getPersistenceSecretKeySingleton(transaction);
 			transaction.commit();
 			return persistenceSecretKeySingleton != null;
+		}
+		finally
+		{
+			transaction.abort();
+		}
+	}
+
+	public synchronized void resetPassphrase() throws PersistenceSecretKeyException
+	{
+		Transaction transaction = persistenceManager.beginTransaction();
+		try
+		{
+			setSecretKey(null);
+			PersistenceSecretKeySingleton persistenceSecretKeySingleton = PersistenceSecretKeySingleton.lock(persistenceManager, transaction);
+			if (persistenceSecretKeySingleton != null)
+				persistenceSecretKeySingleton.delete(transaction);
+			for (Signatory signatory : persistenceManager.privateSignatories(transaction).values())
+			{
+				signatory = Signatory.create(persistenceManager, transaction, signatory.getUuid(), signatory.getPublicKey());
+				Person person = persistenceManager.getPrivatePerson(transaction, signatory.getUuid());
+				if (person != null)
+					try
+					{
+						person = Person.create(persistenceManager, transaction, signatory, person.getNick(), person.getName(), person.getEmail(),
+								person.getSignatureDate(), person.getSignatureVersion(), person.getSignatureData());
+					}
+					catch (PersonCreationException e)
+					{
+						throw new PersistenceSecretKeyException(e);
+					}
+			}
+			transaction.commit();
 		}
 		finally
 		{

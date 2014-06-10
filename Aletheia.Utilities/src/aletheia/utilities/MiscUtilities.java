@@ -102,6 +102,13 @@ public class MiscUtilities
 				line.append(word);
 				word.delete(0, word.length());
 			}
+			else if (chars[i] == '\n')
+			{
+				line.append(word);
+				word.delete(0, word.length());
+				lines.append(line);
+				line.delete(0, line.length());
+			}
 		}
 
 		// handle any extra chars in current word

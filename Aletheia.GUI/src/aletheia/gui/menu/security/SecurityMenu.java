@@ -38,6 +38,7 @@ public class SecurityMenu extends AletheiaJMenu
 	private final ClearPassphraseAction clearPassphraseAction;
 	private final ChangePassphraseAction changePassphraseAction;
 	private final DeletePassphraseAction deletePassphraseAction;
+	private final ResetPassphraseAction resetPassphraseAction;
 
 	private class PersistenceSecretKeyManagerListener implements PersistenceSecretKeyManager.Listener
 	{
@@ -82,6 +83,8 @@ public class SecurityMenu extends AletheiaJMenu
 		this.add(new AletheiaMenuItem(changePassphraseAction));
 		this.deletePassphraseAction = new DeletePassphraseAction(this);
 		this.add(new AletheiaMenuItem(deletePassphraseAction));
+		this.resetPassphraseAction = new ResetPassphraseAction(this);
+		this.add(new AletheiaMenuItem(resetPassphraseAction));
 		this.persistenceSecretKeyManagerListener = new PersistenceSecretKeyManagerListener();
 		updateEnabledActions();
 	}
@@ -112,10 +115,10 @@ public class SecurityMenu extends AletheiaJMenu
 		if (newPersistenceManager != persistenceManager)
 		{
 			if (persistenceManager != null)
-				persistenceManager.getPersistenceSecretKeyManager().removeListener(persistenceSecretKeyManagerListener);
+				persistenceManager.getSecretKeyManager().removeListener(persistenceSecretKeyManagerListener);
 			this.persistenceManager = getAletheiaJFrame().getPersistenceManager();
 			if (persistenceManager != null)
-				persistenceManager.getPersistenceSecretKeyManager().addListener(persistenceSecretKeyManagerListener);
+				persistenceManager.getSecretKeyManager().addListener(persistenceSecretKeyManagerListener);
 			updateEnabledActions();
 		}
 	}
@@ -124,15 +127,16 @@ public class SecurityMenu extends AletheiaJMenu
 	{
 		if (persistenceManager != null)
 		{
-			if (persistenceManager.getPersistenceSecretKeyManager().isSecretSet())
+			if (persistenceManager.getSecretKeyManager().isSecretSet())
 			{
-				SecretKey secretKey = persistenceManager.getPersistenceSecretKeyManager().getSecretKey();
+				SecretKey secretKey = persistenceManager.getSecretKeyManager().getSecretKey();
 				if (secretKey == null)
 				{
 					enterPassphraseAction.setEnabled(true);
 					clearPassphraseAction.setEnabled(false);
 					changePassphraseAction.setEnabled(false);
 					deletePassphraseAction.setEnabled(false);
+					resetPassphraseAction.setEnabled(true);
 				}
 				else
 				{
@@ -140,6 +144,7 @@ public class SecurityMenu extends AletheiaJMenu
 					clearPassphraseAction.setEnabled(true);
 					changePassphraseAction.setEnabled(true);
 					deletePassphraseAction.setEnabled(true);
+					resetPassphraseAction.setEnabled(false);
 				}
 			}
 			else
@@ -148,6 +153,7 @@ public class SecurityMenu extends AletheiaJMenu
 				clearPassphraseAction.setEnabled(false);
 				changePassphraseAction.setEnabled(true);
 				deletePassphraseAction.setEnabled(false);
+				resetPassphraseAction.setEnabled(false);
 			}
 		}
 		else
@@ -156,6 +162,7 @@ public class SecurityMenu extends AletheiaJMenu
 			clearPassphraseAction.setEnabled(false);
 			changePassphraseAction.setEnabled(false);
 			deletePassphraseAction.setEnabled(false);
+			resetPassphraseAction.setEnabled(false);
 		}
 	}
 

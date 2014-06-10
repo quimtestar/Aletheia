@@ -24,36 +24,38 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JOptionPane;
 
-import aletheia.gui.common.PassphraseDialog;
 import aletheia.gui.menu.AletheiaMenuAction;
 import aletheia.utilities.MiscUtilities;
 
-public class EnterPassphraseAction extends AletheiaMenuAction
+public class ResetPassphraseAction extends AletheiaMenuAction
 {
 
-	private static final long serialVersionUID = 6601874351675562729L;
+	private static final long serialVersionUID = -1330032008572065618L;
 
-	public EnterPassphraseAction(SecurityMenu securityMenu)
+	public ResetPassphraseAction(SecurityMenu securityMenu)
 	{
-		super(securityMenu, "Enter passphrase", KeyEvent.VK_E);
+		super(securityMenu, "Reset passphrase", KeyEvent.VK_R);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		PassphraseDialog dialog = new PassphraseDialog(getAletheiaJFrame());
-		char[] passphrase = dialog.getPassphrase();
-		if (passphrase != null)
-		{
+		int option = JOptionPane
+				.showConfirmDialog(
+						getAletheiaJFrame(),
+						MiscUtilities
+								.wrapText(
+										"WARNING!\nAll the encrypted private keys (keeping only the public part) will be deleted in order to reset the passphrase and that information will be lost.\nDo this only if you have no way to recover the passphrase.\nAre you sure you want to continue?",
+										80));
+		if (JOptionPane.OK_OPTION == option)
 			try
 			{
-				getAletheiaJFrame().getPersistenceManager().getSecretKeyManager().enterPassphrase(passphrase);
+				getAletheiaJFrame().getPersistenceManager().getSecretKeyManager().resetPassphrase();
 			}
 			catch (Exception ex)
 			{
 				JOptionPane.showMessageDialog(getAletheiaJFrame(), MiscUtilities.wrapText(ex.getMessage(), 80), "Error", JOptionPane.ERROR_MESSAGE);
 			}
-		}
 	}
 
 }
