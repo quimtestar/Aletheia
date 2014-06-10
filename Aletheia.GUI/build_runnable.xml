@@ -20,7 +20,7 @@
             <fileset dir="${Aletheia.PeerToPeer.location}/bin"/>
             <fileset dir="${Aletheia.GUI.Fonts.location}/bin"/>
             <fileset dir="${Aletheia.Protocol.location}/bin"/>
-            <zipfileset excludes="META-INF/*.SF" src="${Aletheia.BerkeleyDB.location}/je-5.0.103.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${Aletheia.BerkeleyDB.location}/je-6.0.11.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-1.2.17.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${Aletheia.PdfExport.location}/itextpdf-5.5.0.jar"/>
         </jar>

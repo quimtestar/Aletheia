@@ -15,7 +15,7 @@
 	<property name="access" value="private"/>
 	<property name="author" value="true"/>
 	<property name="sourcepath" value="src"/>
-	<property name="classpath" value="${Aletheia.Base.location}/bin:${Aletheia.BerkeleyDB.location}/bin:${Aletheia.BerkeleyDB.location}/je-5.0.103.jar:${Aletheia.GUI.location}/bin:${Aletheia.log4j.location}/bin:${Aletheia.log4j.location}/log4j-1.2.17.jar:${Aletheia.ParserGenerator.location}/bin:${Aletheia.PdfExport.location}/bin:${Aletheia.PdfExport.location}/itextpdf-5.5.0.jar:${Aletheia.PeerToPeer.location}/bin:${Aletheia.ProofFinder.location}/bin:${Aletheia.Protocol.location}/bin:${Aletheia.Security.location}/bin:${Aletheia.Utilities.location}/bin"/>
+	<property name="classpath" value="${Aletheia.Base.location}/bin:${Aletheia.BerkeleyDB.location}/bin:${Aletheia.BerkeleyDB.location}/je-6.0.11.jar:${Aletheia.GUI.location}/bin:${Aletheia.log4j.location}/bin:${Aletheia.log4j.location}/log4j-1.2.17.jar:${Aletheia.ParserGenerator.location}/bin:${Aletheia.PdfExport.location}/bin:${Aletheia.PdfExport.location}/itextpdf-5.5.0.jar:${Aletheia.PeerToPeer.location}/bin:${Aletheia.ProofFinder.location}/bin:${Aletheia.Protocol.location}/bin:${Aletheia.Security.location}/bin:${Aletheia.Utilities.location}/bin"/>
 	<property name="nodeprecated" value="false"/>
 	<property name="nodeprecatedlist" value="false"/>
 	<property name="noindex" value="false"/> 

@@ -13,7 +13,7 @@
             <fileset dir="${Aletheia.Utilities.location}/bin"/>
             <fileset dir="${Aletheia.Security.location}/bin"/>
             <fileset dir="${Aletheia.Protocol.location}/bin"/>
-            <zipfileset excludes="META-INF/*.SF" src="je-5.0.103.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="je-6.0.11.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-1.2.17.jar"/>
         </jar>
     </target>
