@@ -273,7 +273,21 @@ public abstract class EntityStoreUpgrade
 				{
 					super(environment, entityStore);
 				}
+
+				@Override
+				public void close()
+				{
+					try
+					{
+						getPersistenceSchedulerThread().shutdown();
+					}
+					catch (InterruptedException e)
+					{
+						throw new PersistenceException(e);
+					}
+				}
 			}
+
 			MyPersistenceManager persistenceManager = new MyPersistenceManager();
 			try
 			{
@@ -281,6 +295,7 @@ public abstract class EntityStoreUpgrade
 			}
 			finally
 			{
+				persistenceManager.close();
 			}
 
 		}
