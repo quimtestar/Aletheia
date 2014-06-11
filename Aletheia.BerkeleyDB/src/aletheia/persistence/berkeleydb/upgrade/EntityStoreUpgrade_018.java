@@ -25,6 +25,7 @@ import java.util.Collection;
 import aletheia.persistence.berkeleydb.BerkeleyDBAletheiaEnvironment;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateAuthorizerEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTreeNodeEntity;
+import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTreeRootNodeEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPersonEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthoritySignatureEntity;
 
@@ -69,14 +70,26 @@ public class EntityStoreUpgrade_018 extends EntityStoreUpgrade_019
 			{
 				Object osv = oldRawObject.getValues().get("signatureVersion");
 				if (osv == null)
-					oldRawObject.getValues().put("signatureVersion", 0);
+				{
+					RawObject ro = oldRawObject;
+					while (ro != null && !ro.getType().getClassName().equals(BerkeleyDBDelegateTreeRootNodeEntity.class.getName()))
+						ro = ro.getSuper();
+					if (ro != null)
+						ro.getValues().put("signatureVersion", 0);
+				}
 				super.putConvertedRawObject(tx, aletheiaModel, entityClass, primaryKeyClass, newPrimaryIndex, oldRawObject);
 			}
 			else if (entityClass.equals(BerkeleyDBPersonEntity.class))
 			{
 				Object osv = oldRawObject.getValues().get("signatureVersion");
 				if (osv == null)
-					oldRawObject.getValues().put("signatureVersion", 0);
+				{
+					RawObject ro = oldRawObject;
+					while (ro != null && !ro.getType().getClassName().equals(BerkeleyDBPersonEntity.class.getName()))
+						ro = ro.getSuper();
+					if (ro != null)
+						ro.getValues().put("signatureVersion", 0);
+				}
 				super.putConvertedRawObject(tx, aletheiaModel, entityClass, primaryKeyClass, newPrimaryIndex, oldRawObject);
 			}
 			else if (entityClass.equals(BerkeleyDBDelegateAuthorizerEntity.class))
