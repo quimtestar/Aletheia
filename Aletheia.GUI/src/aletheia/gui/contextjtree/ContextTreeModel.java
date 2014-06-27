@@ -765,7 +765,7 @@ public class ContextTreeModel extends PersistentTreeModel
 		{
 			StatementTreeNode node = addStatement(statement);
 			BranchTreeNode pNode = node.getParent();
-			if (!pNode.checkStatementInsert(statement))
+			if (!pNode.checkStatementInsert(statement.refresh(transaction)))
 				nodeStructureChanged(pNode);
 
 			if (pNode instanceof ContextTreeNode)
