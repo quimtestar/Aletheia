@@ -77,10 +77,14 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Chapter
-Terms
+Basic concepts
 \end_layout
 
 \begin_layout Section
+Terms
+\end_layout
+
+\begin_layout Subsection
 Definition
 \end_layout
 
@@ -751,11 +755,11 @@ T term
 .
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Operations on terms
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Equals
 \begin_inset CommandInset label
 LatexCommand label
@@ -1092,7 +1096,7 @@ equal
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Replace
 \begin_inset CommandInset label
 LatexCommand label
@@ -1386,7 +1390,7 @@ projection
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Compose
 \begin_inset CommandInset label
 LatexCommand label
@@ -1613,7 +1617,7 @@ types
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Unproject
 \begin_inset CommandInset label
 LatexCommand label
@@ -1845,7 +1849,7 @@ function term
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Free variables
 \end_layout
 
@@ -2068,11 +2072,11 @@ free variables
 
 \end_layout
 
-\begin_layout Chapter
+\begin_layout Section
 Statements
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Overview and properties
 \end_layout
 
@@ -2402,7 +2406,7 @@ statement
  depends are fixed since its creation.
 \end_layout
 
-\begin_layout Section
+\begin_layout Subsection
 Kinds of statements
 \end_layout
 
@@ -2417,7 +2421,7 @@ statement
 inferred.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Declaration
 \end_layout
 
@@ -2495,7 +2499,7 @@ declaration
 's value.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Specialization
 \end_layout
 
@@ -2905,7 +2909,7 @@ context
 .
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Root context
 \end_layout
 
@@ -2929,7 +2933,7 @@ statements
  where so happens.
 \end_layout
 
-\begin_layout Subsubsection
+\begin_layout Paragraph
 Unfolding context
 \end_layout
 
@@ -3007,7 +3011,7 @@ Declaration
 : As specified above.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Assumption
 \begin_inset CommandInset label
 LatexCommand label
@@ -3037,6 +3041,204 @@ term
 context statement
 \emph default
 .
+\end_layout
+
+\begin_layout Chapter
+The GUI
+\end_layout
+
+\begin_layout Standard
+The 
+\emph on
+Aletheia GUI application
+\emph default
+ (
+\family typewriter
+aletheiagui.jar
+\family default
+) is the one of the 
+\emph on
+Aletheia system
+\emph default
+ that permits a human user to (among other things) entering 
+\emph on
+statements
+\emph default
+ into the system (declare mathematical concepts, prove theorems, etc).
+ In this chapter it is covered the functionality of doing so.
+ More advanced features will be covered in subsequent chapters.
+\end_layout
+
+\begin_layout Standard
+At the first execution the following window will show up:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/cap000.png
+	width 100text%
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+There is a menu bar and an empty panel.
+ We must then select the database location at the 
+\emph on
+Persistence folder 
+\emph default
+field on the 
+\emph on
+Configuration/Preferences
+\emph default
+ dialog to have something properly initialized to work with.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/cap001.png
+	width 100text%
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Next we'll have a fresh empty environment ready to work with:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/cap002.png
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Panels
+\end_layout
+
+\begin_layout Standard
+The UI is divided into several subpanels that we can set its sizes or hide
+ them with the corresponding divider:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/cap003.png
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+For now we will only need the panels for 
+\emph on
+context
+\emph default
+, 
+\emph on
+command line
+\emph default
+ and eventually the 
+\emph on
+catalog
+\emph default
+.
+\end_layout
+
+\begin_layout Section
+The command line
+\end_layout
+
+\begin_layout Standard
+
 \end_layout
 
 \end_body
