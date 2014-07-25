@@ -386,9 +386,10 @@ public class UnpackedSignatureRequest extends SignatureRequest
 			{
 				return new Iterator<Statement>()
 				{
+					final Collection<Statement> statements = new HashSet<Statement>(statements(transaction));
 					final Stack<Statement> stack = new Stack<Statement>();
 					{
-						stack.addAll(statements(transaction));
+						stack.addAll(statements);
 					}
 					final Set<Statement> visited = new HashSet<Statement>();
 					Statement next = advance();
@@ -415,7 +416,7 @@ public class UnpackedSignatureRequest extends SignatureRequest
 										if (!stAuth.isValidSignature())
 										{
 											boolean descends = false;
-											for (Statement st_ : statements(transaction))
+											for (Statement st_ : statements)
 											{
 												if ((st_ instanceof Context) && ((Context) st_).isDescendent(transaction, st))
 												{
@@ -424,7 +425,10 @@ public class UnpackedSignatureRequest extends SignatureRequest
 												}
 											}
 											if (!descends)
+											{
+												statements.add(st);
 												return st;
+											}
 										}
 									}
 								}
