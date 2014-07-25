@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -150,14 +150,14 @@ public class BerkeleyDBLocalDelegateAuthorizerMap extends AbstractCloseableMap<P
 	public CloseableSet<Entry<Person, DelegateAuthorizer>> entrySet()
 	{
 		return new AbstractCloseableSet<Entry<Person, DelegateAuthorizer>>()
-		{
+				{
 
 			@Override
 			public CloseableIterator<Entry<Person, DelegateAuthorizer>> iterator()
 			{
 				final EntityCursor<BerkeleyDBDelegateAuthorizerEntity> cursor = transaction.entities(index);
 				return new CloseableIterator<Entry<Person, DelegateAuthorizer>>()
-				{
+						{
 					private BerkeleyDBDelegateAuthorizerEntity next;
 					{
 						next = transaction.first(cursor);
@@ -181,7 +181,7 @@ public class BerkeleyDBLocalDelegateAuthorizerMap extends AbstractCloseableMap<P
 						if (next == null)
 							transaction.close(cursor);
 						return new Entry<Person, DelegateAuthorizer>()
-						{
+								{
 
 							@Override
 							public Person getKey()
@@ -201,7 +201,7 @@ public class BerkeleyDBLocalDelegateAuthorizerMap extends AbstractCloseableMap<P
 								throw new UnsupportedOperationException();
 							}
 
-						};
+								};
 					}
 
 					@Override
@@ -223,7 +223,7 @@ public class BerkeleyDBLocalDelegateAuthorizerMap extends AbstractCloseableMap<P
 						super.finalize();
 					}
 
-				};
+						};
 			}
 
 			@Override
@@ -238,7 +238,7 @@ public class BerkeleyDBLocalDelegateAuthorizerMap extends AbstractCloseableMap<P
 				return BerkeleyDBLocalDelegateAuthorizerMap.this.isEmpty();
 			}
 
-		};
+				};
 	}
 
 }

@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -59,7 +59,7 @@ public class Grammar implements Serializable
 	/**
 	 * Creates a new grammar from a collection of productions and a start
 	 * symbol.
-	 * 
+	 *
 	 * @param productions
 	 *            The collection of productions.
 	 * @param startSymbol
@@ -96,7 +96,7 @@ public class Grammar implements Serializable
 	/**
 	 * The productions of this grammar organized as a map from the non-terminal
 	 * symbols that constitute their left sides to sets of productions.
-	 * 
+	 *
 	 * @return The map of productions.
 	 */
 	public Map<NonTerminalSymbol, Set<Production>> getProductions()
@@ -106,7 +106,7 @@ public class Grammar implements Serializable
 
 	/**
 	 * The full collection of productions.
-	 * 
+	 *
 	 * @return The collection of productions.
 	 */
 	public Collection<Production> productions()
@@ -116,7 +116,7 @@ public class Grammar implements Serializable
 
 	/**
 	 * The start symbol.
-	 * 
+	 *
 	 * @return The start symbol.
 	 */
 	public Symbol getStartSymbol()
@@ -127,7 +127,7 @@ public class Grammar implements Serializable
 	/**
 	 * The full set of symbols of this grammar. Any symbol appearing on any side
 	 * of any production of this grammar is in this set.
-	 * 
+	 *
 	 * @return The set of symbols.
 	 */
 	public Set<Symbol> getSymbols()
@@ -138,7 +138,7 @@ public class Grammar implements Serializable
 	/**
 	 * Computes the set of nullable symbols. To be called only at construction
 	 * time.
-	 * 
+	 *
 	 * @see #nullableSymbol(NonTerminalSymbol)
 	 */
 	private void computeNullableSymbols()
@@ -172,7 +172,7 @@ public class Grammar implements Serializable
 	/**
 	 * Checks if a symbol is nullable. A symbol is nullable if it can be
 	 * converted to the empty string using the production rules of this grammar.
-	 * 
+	 *
 	 * @param s
 	 *            The symbol.
 	 * @return Is it nullable?
@@ -185,7 +185,7 @@ public class Grammar implements Serializable
 	/**
 	 * Computes the map of first symbols. To be called only at construction
 	 * time.
-	 * 
+	 *
 	 * @see #firstSymbols(NonTerminalSymbol)
 	 */
 	private void computeFirstSymbols()
@@ -238,7 +238,7 @@ public class Grammar implements Serializable
 	 * The set of first symbols of a non-terminal symbol. A first symbol is any
 	 * terminal symbol that can be the first one of a string derived from that
 	 * non-terminal symbol using the production rules of this grammar.
-	 * 
+	 *
 	 * @param s
 	 *            The non-terminal symbol.
 	 * @return The set of first symbols.
@@ -250,7 +250,7 @@ public class Grammar implements Serializable
 
 	/**
 	 * Computes the map of next symbols. To be called only at construction time.
-	 * 
+	 *
 	 * @see #nextSymbols(NonTerminalSymbol)
 	 */
 	private void computeNextSymbols()
@@ -330,7 +330,7 @@ public class Grammar implements Serializable
 	 * terminal symbol that can be found following any string produced by that
 	 * non-terminal symbol, including the {@linkplain EndTerminalSymbol end
 	 * terminal symbol} if that string can be at the end of the input.
-	 * 
+	 *
 	 * @param s
 	 *            The non-terminal symbol.
 	 * @return The set of next symbols.
@@ -385,7 +385,7 @@ public class Grammar implements Serializable
 
 	/**
 	 * The set of non terminal symbols of this grammar.
-	 * 
+	 *
 	 * @return The set.
 	 */
 	public Set<NonTerminalSymbol> nonTerminalSymbols()
@@ -395,13 +395,13 @@ public class Grammar implements Serializable
 
 	/**
 	 * The set of terminal symbols of this grammar.
-	 * 
+	 *
 	 * @return The set.
 	 */
 	public Set<TerminalSymbol> terminalSymbols()
 	{
 		return new BijectionSet<>(new Bijection<Symbol, TerminalSymbol>()
-		{
+				{
 			@Override
 			public TerminalSymbol forward(Symbol input)
 			{
@@ -413,7 +413,7 @@ public class Grammar implements Serializable
 			{
 				return output;
 			}
-		}, new DifferenceSet<Symbol>(getSymbols(), new AdaptedSet<Symbol>(nonTerminalSymbols())));
+				}, new DifferenceSet<Symbol>(getSymbols(), new AdaptedSet<Symbol>(nonTerminalSymbols())));
 	}
 
 	public void trace(PrintStream out)

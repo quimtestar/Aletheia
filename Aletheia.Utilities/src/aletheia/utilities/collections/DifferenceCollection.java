@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -31,10 +31,10 @@ import aletheia.utilities.MiscUtilities;
  * between two collections. If the subtrahend collections
  * {@link Collection#contains(Object)} is not efficient (as in a {@link Set})
  * the operations will be quite slow.
- * 
+ *
  * @param <E>
  *            The element's type.
- * 
+ *
  * @author Quim Testar
  */
 public class DifferenceCollection<E> extends AbstractReadOnlyCollection<E> implements Collection<E>
@@ -44,7 +44,7 @@ public class DifferenceCollection<E> extends AbstractReadOnlyCollection<E> imple
 
 	/**
 	 * Creates a new difference collection.
-	 * 
+	 *
 	 * @param minuend
 	 *            The minuend of the difference. This collection is contained
 	 *            into the minuend.
@@ -61,7 +61,7 @@ public class DifferenceCollection<E> extends AbstractReadOnlyCollection<E> imple
 
 	/**
 	 * The minuend collection.
-	 * 
+	 *
 	 * @return The minuend collection.
 	 */
 	public Collection<E> getMinuend()
@@ -71,7 +71,7 @@ public class DifferenceCollection<E> extends AbstractReadOnlyCollection<E> imple
 
 	/**
 	 * The subtrahend collection.
-	 * 
+	 *
 	 * @return The subtrahend collection.
 	 */
 	public Collection<E> getSubtrahend()
@@ -106,7 +106,7 @@ public class DifferenceCollection<E> extends AbstractReadOnlyCollection<E> imple
 		final Iterator<E> iterator = minuend.iterator();
 
 		return new AbstractReadOnlyIterator<E>()
-		{
+				{
 
 			E next = advance();
 
@@ -139,7 +139,7 @@ public class DifferenceCollection<E> extends AbstractReadOnlyCollection<E> imple
 				return e;
 			}
 
-		};
+				};
 	}
 
 	@Override

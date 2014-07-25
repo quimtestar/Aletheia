@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -30,7 +30,7 @@ import aletheia.utilities.collections.ReverseList;
  * and is associated to the a @{linkplain Symbol grammar symbol}. A token also
  * keeps record of the start location and end location of the part of the input
  * processed.
- * 
+ *
  * @param <S>
  *            The symbol class that is associated to this token class.
  */
@@ -42,7 +42,7 @@ public class Token<S extends Symbol>
 
 	/**
 	 * Creates a new token.
-	 * 
+	 *
 	 * @param symbol
 	 *            The symbol associated to this token.
 	 * @param startLocation
@@ -59,7 +59,7 @@ public class Token<S extends Symbol>
 
 	/**
 	 * Creates a new token with the same start and stop location.
-	 * 
+	 *
 	 * @param symbol
 	 *            The symbol associated to this token.
 	 * @param location
@@ -72,7 +72,7 @@ public class Token<S extends Symbol>
 
 	/**
 	 * The symbol.
-	 * 
+	 *
 	 * @return The symbol.
 	 */
 	public S getSymbol()
@@ -88,7 +88,7 @@ public class Token<S extends Symbol>
 
 	/**
 	 * The start location.
-	 * 
+	 *
 	 * @return The start location.
 	 */
 	public Location getStartLocation()
@@ -98,7 +98,7 @@ public class Token<S extends Symbol>
 
 	/**
 	 * The stop location.
-	 * 
+	 *
 	 * @return The stop location.
 	 */
 	public Location getStopLocation()

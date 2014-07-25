@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -36,14 +36,14 @@ import aletheia.parsergenerator.symbols.Symbol;
  * <li><b>The right side:</b> A sequence of {@linkplain Symbol symbols}.</li>
  * </ul>
  * A production is textually represented as:
- * 
+ *
  * <pre>
  * A -> x<sub>1</sub> x<sub>2</sub> x<sub>3</sub> ... x<sub>n</sub>
  * </pre>
- * 
+ *
  * Where A is the {@linkplain NonTerminalSymbol non terminal symbol} on the left
  * side and x<sub>i</sub> are the {@linkplain Symbol symbols} on the right side.
- * 
+ *
  */
 public class Production implements Serializable
 {
@@ -54,7 +54,7 @@ public class Production implements Serializable
 
 	/**
 	 * Creates a new production with the specified left and right sides.
-	 * 
+	 *
 	 * @param left
 	 *            The left side.
 	 * @param right
@@ -68,7 +68,7 @@ public class Production implements Serializable
 
 	/**
 	 * The left side.
-	 * 
+	 *
 	 * @return The left side.
 	 */
 	public NonTerminalSymbol getLeft()
@@ -78,7 +78,7 @@ public class Production implements Serializable
 
 	/**
 	 * The right side.
-	 * 
+	 *
 	 * @return The right side.
 	 */
 	public List<Symbol> getRight()

@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -215,7 +215,7 @@ public class PreferencesDialog extends JDialog
 							public Collection<AddressComboBoxItem> forward(final NetworkInterface networkInterface)
 							{
 								return new BijectionCollection<>(new Bijection<InterfaceAddress, AddressComboBoxItem>()
-								{
+										{
 
 									@Override
 									public AddressComboBoxItem forward(InterfaceAddress interfaceAddress)
@@ -228,7 +228,7 @@ public class PreferencesDialog extends JDialog
 									{
 										throw new UnsupportedOperationException();
 									}
-								}, networkInterface.getInterfaceAddresses());
+										}, networkInterface.getInterfaceAddresses());
 							}
 
 							@Override
@@ -550,7 +550,7 @@ public class PreferencesDialog extends JDialog
 				preferences.peerToPeerNode().setP2pGender(peerToPeerNodeGender);
 				AddressComboBoxItem addressComboBoxItem = (AddressComboBoxItem) p2pExternalAddressComboBox.getSelectedItem();
 				preferences.peerToPeerNode().femalePeerToPeerNode()
-						.setP2pExternalAddress(addressComboBoxItem != null ? addressComboBoxItem.getAddress() : null);
+				.setP2pExternalAddress(addressComboBoxItem != null ? addressComboBoxItem.getAddress() : null);
 				if (peerToPeerNodeGender == PeerToPeerNodeGender.FEMALE && addressComboBoxItem == null)
 					throw new Exception("Must select a P2P external address");
 				preferences.peerToPeerNode().femalePeerToPeerNode().setP2pExternalPort((int) p2pExternalPortSpinner.getValue());

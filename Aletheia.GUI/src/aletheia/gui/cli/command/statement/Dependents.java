@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -62,7 +62,7 @@ public class Dependents extends TransactionalCommand
 		}
 
 		Comparator<List<? extends Statement>> comparator = new Comparator<List<? extends Statement>>()
-		{
+				{
 			@Override
 			public int compare(List<? extends Statement> path1, List<? extends Statement> path2)
 			{
@@ -103,33 +103,33 @@ public class Dependents extends TransactionalCommand
 					return 0;
 			}
 
-		};
-		Collections.sort(list, comparator);
+				};
+				Collections.sort(list, comparator);
 
-		for (List<? extends Statement> path : list)
-		{
-			StringBuffer sbpath = new StringBuffer();
-			boolean first = true;
-			for (Statement st2 : path)
-			{
-				if (!first)
-					sbpath.append("/");
-				else
-					first = false;
-				if (!(st2 instanceof RootContext))
+				for (List<? extends Statement> path : list)
 				{
-					Identifier id = st2.identifier(getTransaction());
-					if (id != null)
-						sbpath.append(id.toString());
-					else
-						sbpath.append(st2.getVariable().toString());
+					StringBuffer sbpath = new StringBuffer();
+					boolean first = true;
+					for (Statement st2 : path)
+					{
+						if (!first)
+							sbpath.append("/");
+						else
+							first = false;
+						if (!(st2 instanceof RootContext))
+						{
+							Identifier id = st2.identifier(getTransaction());
+							if (id != null)
+								sbpath.append(id.toString());
+							else
+								sbpath.append(st2.getVariable().toString());
+						}
+					}
+					getOut().println(" -> " + sbpath);
 				}
-			}
-			getOut().println(" -> " + sbpath);
-		}
-		getOut().println("end.");
+				getOut().println("end.");
 
-		return null;
+				return null;
 	}
 
 	public static class Factory extends AbstractVoidCommandFactory<Dependents>

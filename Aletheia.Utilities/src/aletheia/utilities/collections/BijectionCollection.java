@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -28,12 +28,12 @@ import aletheia.utilities.MiscUtilities;
 
 /**
  * A view of a {@link Collection} defined by a {@link Bijection}.
- * 
+ *
  * @param <I>
  *            The input type.
  * @param <O>
  *            The output type.
- * 
+ *
  * @author Quim Testar
  */
 public class BijectionCollection<I, O> extends AbstractCollection<O>
@@ -42,7 +42,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 	/**
 	 * Returns the {@linkplain InverseBijection inverse bijection} of another
 	 * one.
-	 * 
+	 *
 	 * @param b
 	 *            The input bijection.
 	 * @return The inverted bijection.
@@ -65,7 +65,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 
 	/**
 	 * The bijection.
-	 * 
+	 *
 	 * @return The bijection.
 	 */
 	protected Bijection<I, O> getBijection()
@@ -75,7 +75,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 
 	/**
 	 * The original collection.
-	 * 
+	 *
 	 * @return The original collection.
 	 */
 	protected Collection<I> getInner()
@@ -121,7 +121,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 	/**
 	 * Casts an object to the output type of the bijection. If it's not possible
 	 * throws an {@link ExtractionClassException}.
-	 * 
+	 *
 	 * @param o
 	 *            The object to cast.
 	 * @return The casted object.
@@ -187,7 +187,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 	 * Extracts a full collection of objects into a collection of instances of
 	 * the output type, by {@linkplain #extracted(Object) extracting} its
 	 * elements.
-	 * 
+	 *
 	 * @param c
 	 *            The collection to be extracted.
 	 * @return The extracted collection.
@@ -195,7 +195,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 	protected static <O> Collection<O> extractedCollection(final Collection<?> c)
 	{
 		return new AbstractReadOnlyCollection<O>()
-		{
+				{
 
 			@Override
 			public int size()
@@ -220,7 +220,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 			{
 				final Iterator<?> iterator = c.iterator();
 				return new Iterator<O>()
-				{
+						{
 
 					@Override
 					public boolean hasNext()
@@ -250,7 +250,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 						iterator.remove();
 					}
 
-				};
+						};
 
 			}
 
@@ -271,7 +271,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 			{
 				return c.containsAll(c_);
 			}
-		};
+				};
 	}
 
 	@Override

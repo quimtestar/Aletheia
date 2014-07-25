@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -29,10 +29,10 @@ import java.util.Set;
  * shadow the elements on the back set. The iterator is sorted according an
  * specified comparator or the natural order of the elements (assuming the
  * components' respective iterators are sorted using the very same comparator).
- * 
+ *
  * @param <E>
  *            The elements' type.
- * 
+ *
  * @author Quim Testar
  */
 class CombinedSetSortedIterator<E> extends CombinedSet<E>
@@ -44,7 +44,7 @@ class CombinedSetSortedIterator<E> extends CombinedSet<E>
 	/**
 	 * If the specified comparator is null the natural order of the elements
 	 * will be used.
-	 * 
+	 *
 	 * @param front
 	 *            The front set.
 	 * @param back
@@ -60,7 +60,7 @@ class CombinedSetSortedIterator<E> extends CombinedSet<E>
 
 	/**
 	 * The comparator specified ad contstruction time. Might be null.
-	 * 
+	 *
 	 * @return The comparator specified at construction time.
 	 */
 	public Comparator<? super E> comparator()
@@ -75,7 +75,7 @@ class CombinedSetSortedIterator<E> extends CombinedSet<E>
 	 * case, a {@link ClassCastException} might be thrown (not now but when
 	 * using the comparator) if an element that does no implement
 	 * {@link Comparable} is found.
-	 * 
+	 *
 	 * @return The comparator.
 	 */
 	protected Comparator<? super E> resolvedComparator()
@@ -84,14 +84,14 @@ class CombinedSetSortedIterator<E> extends CombinedSet<E>
 		if (comp != null)
 			return comp;
 		return new Comparator<E>()
-		{
+				{
 			@SuppressWarnings("unchecked")
 			@Override
 			public int compare(E e1, E e2) throws ClassCastException
 			{
 				return ((Comparable<E>) e1).compareTo(e2);
 			};
-		};
+				};
 	}
 
 	/**
@@ -108,7 +108,7 @@ class CombinedSetSortedIterator<E> extends CombinedSet<E>
 		final Iterator<E> backIterator = getBack().iterator();
 
 		return new AbstractReadOnlyIterator<E>()
-		{
+				{
 			E nextFront;
 			E nextBack;
 			boolean hasNextFront;
@@ -226,7 +226,7 @@ class CombinedSetSortedIterator<E> extends CombinedSet<E>
 
 			}
 
-		};
+				};
 	}
 
 }

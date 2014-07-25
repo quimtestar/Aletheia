@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -33,7 +33,7 @@ import aletheia.utilities.MiscUtilities;
  * transaction that can ultimately committed or aborted. Persistence changes are
  * not effective until the transaction is committed, and the data access might
  * be locked to other transactions to keep consistency.
- * 
+ *
  */
 public abstract class Transaction
 {
@@ -52,7 +52,7 @@ public abstract class Transaction
 	/**
 	 * Creates a new transaction and registers it on the persistence manager as
 	 * a pending transaction.
-	 * 
+	 *
 	 * @param persistenceManager
 	 *            The persistence manager associated to this transaction.
 	 * @param auto
@@ -73,7 +73,7 @@ public abstract class Transaction
 
 	/**
 	 * The persistence manager.
-	 * 
+	 *
 	 * @return The persistence manager.
 	 */
 	public PersistenceManager getPersistenceManager()
@@ -89,7 +89,7 @@ public abstract class Transaction
 	/**
 	 * A transaction is open if it hasn't been committed or aborted and can
 	 * still be used to operate on the persistence environment.
-	 * 
+	 *
 	 * @return Is this transaction open?
 	 */
 	public boolean isOpen()
@@ -99,7 +99,7 @@ public abstract class Transaction
 
 	/**
 	 * The transaction has been committed.
-	 * 
+	 *
 	 * @return Has this transaction been committed?
 	 */
 	public boolean isCommited()
@@ -149,7 +149,7 @@ public abstract class Transaction
 	/**
 	 * Locks the current thread until this transaction is closed (either
 	 * committed or aborted):
-	 * 
+	 *
 	 * @throws InterruptedException
 	 */
 	public synchronized void waitForClose() throws InterruptedException
@@ -161,7 +161,7 @@ public abstract class Transaction
 	/**
 	 * Locks the current Locks the current thread until this transaction is
 	 * closed (either committed or aborted) or the some time out is reached.
-	 * 
+	 *
 	 * @param timeOut
 	 *            The time out in milliseconds.
 	 * @throws InterruptedException
@@ -185,7 +185,7 @@ public abstract class Transaction
 	/**
 	 * Delays the execution of a {@link Hook} object until this transaction is
 	 * closed somehow.
-	 * 
+	 *
 	 * @param hook
 	 *            The hook to execute.
 	 */

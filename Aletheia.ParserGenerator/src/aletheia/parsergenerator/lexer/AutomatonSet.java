@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -67,7 +67,7 @@ public class AutomatonSet implements Serializable
 	 * Adds a deterministic automaton associated to a {@link TerminalSymbol}.
 	 * The order of the automatons is determined with the order in which this
 	 * method is called.
-	 * 
+	 *
 	 * @param automaton
 	 *            The automaton.
 	 * @param terminalSymbol
@@ -83,7 +83,7 @@ public class AutomatonSet implements Serializable
 
 	/**
 	 * The set of deterministic automatons of this automaton set.
-	 * 
+	 *
 	 * @return The set.
 	 */
 	public Set<DeterministicAutomaton> automatonSet()
@@ -94,13 +94,13 @@ public class AutomatonSet implements Serializable
 	/**
 	 * Creates a comparator of deterministic automatons based on the order
 	 * defined.
-	 * 
+	 *
 	 * @return The comparator.
 	 */
 	public Comparator<DeterministicAutomaton> automatonComparator()
 	{
 		return new Comparator<DeterministicAutomaton>()
-		{
+				{
 
 			@Override
 			public int compare(DeterministicAutomaton a0, DeterministicAutomaton a1)
@@ -108,12 +108,12 @@ public class AutomatonSet implements Serializable
 				return orderMap.get(a0) - orderMap.get(a1);
 			}
 
-		};
+				};
 	}
 
 	/**
 	 * The terminal symbol associated to an automaton.
-	 * 
+	 *
 	 * @param automaton
 	 *            The automaton.
 	 * @return The terminal symbol.
@@ -126,7 +126,7 @@ public class AutomatonSet implements Serializable
 	/**
 	 * The collection of terminal symbols associated to any automaton in this
 	 * set.
-	 * 
+	 *
 	 * @return The collection.
 	 */
 	public Collection<TerminalSymbol> terminalSymbols()
@@ -136,7 +136,7 @@ public class AutomatonSet implements Serializable
 
 	/**
 	 * Saves this automaton set to a file for further use.
-	 * 
+	 *
 	 * @param file
 	 *            The file.
 	 * @throws FileNotFoundException
@@ -157,7 +157,7 @@ public class AutomatonSet implements Serializable
 
 	/**
 	 * Loads a previously saved automaton set from a file.
-	 * 
+	 *
 	 * @param file
 	 *            The file.
 	 * @return The automaton set.
@@ -179,7 +179,7 @@ public class AutomatonSet implements Serializable
 
 	/**
 	 * Loads a previously saved automaton from an input stream.
-	 * 
+	 *
 	 * @param inputStream
 	 *            The input stream.
 	 * @return The automaton set.

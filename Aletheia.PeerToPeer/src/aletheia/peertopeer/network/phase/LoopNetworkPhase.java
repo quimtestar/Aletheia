@@ -1,20 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
- * The Aletheia Proof Assistant is free software: you can redistribute it 
- * and/or modify it under the terms of the GNU Affero General Public License 
- * as published by the Free Software Foundation, either version 3 of the 
+ *
+ * The Aletheia Proof Assistant is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
- * The Aletheia Proof Assistant is distributed in the hope that it will be 
+ *
+ * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
- * along with the Aletheia Proof Assistant. 
+ * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package aletheia.peertopeer.network.phase;
@@ -868,7 +868,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 
 		@Override
 		protected boolean clientPhase(LoopSubPhase<LoopNetworkDialogType>.Command<?> command) throws IOException, ProtocolException, InterruptedException,
-				DialogStreamException
+		DialogStreamException
 		{
 			switch (command.getLoopDialogType())
 			{
@@ -988,7 +988,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 		}
 
 		private void routeableMessageDialogClient(RouteableMessageCommand command) throws IOException, ProtocolException, InterruptedException,
-				DialogStreamException
+		DialogStreamException
 		{
 			dialog(RouteableMessageDialogClient.class, this);
 		}
@@ -1010,7 +1010,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 		}
 
 		private void complementingInvitationDialogClient(NodeAddress nodeAddress) throws IOException, ProtocolException, InterruptedException,
-				DialogStreamException
+		DialogStreamException
 		{
 			dialog(ComplementingInvitationDialogClient.class, this, nodeAddress);
 		}
@@ -1021,7 +1021,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 		}
 
 		private void beltConnectDialogClient(NodeAddress nodeAddress, Collection<Side> sides) throws IOException, ProtocolException, InterruptedException,
-				DialogStreamException
+		DialogStreamException
 		{
 			dialog(BeltConnectDialogClient.class, this, nodeAddress, sides);
 		}
@@ -1053,7 +1053,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 		}
 
 		private RouterSetNeighbourDialog routerSetNeighbourDialog(RouterSetNeighbourCommand command) throws IOException, ProtocolException,
-				InterruptedException, DialogStreamException
+		InterruptedException, DialogStreamException
 		{
 			try
 			{
@@ -1070,7 +1070,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 		}
 
 		private void propagateDeferredMessagesDialogClient(PropagateDeferredMessagesCommand command) throws IOException, ProtocolException,
-				InterruptedException, DialogStreamException
+		InterruptedException, DialogStreamException
 		{
 			dialog(PropagateDeferredMessagesDialogClient.class, this, command.getDeferredMessages());
 		}
@@ -1081,7 +1081,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 		}
 
 		private void deferredMessageQueueDialogClient(DeferredMessageQueueCommand command) throws IOException, ProtocolException, InterruptedException,
-				DialogStreamException
+		DialogStreamException
 		{
 			dialog(DeferredMessageQueueDialogClient.class, this, command.getRecipientUuid(), command.getDistance());
 		}
@@ -1092,7 +1092,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 		}
 
 		private void propagateDeferredMessageRemovalDialogClient(PropagateDeferredMessageRemovalCommand command) throws IOException, ProtocolException,
-				InterruptedException, DialogStreamException
+		InterruptedException, DialogStreamException
 		{
 			dialog(PropagateDeferredMessageRemovalDialogClient.class, this, command.getRecipientUuid(), command.getDeferredMessageUuids());
 		}
@@ -1103,7 +1103,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 		}
 
 		private void updateNeighbourCumulationValueDialogClient(UpdateNeighbourCumulationValueCommand command) throws IOException, ProtocolException,
-				InterruptedException, DialogStreamException
+		InterruptedException, DialogStreamException
 		{
 			dialog(UpdateNeighbourCumulationValueDialogClient.class, this, command.getCumulationValue());
 		}
@@ -1114,7 +1114,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 		}
 
 		private void updateRouterCumulationValueDialogClient(UpdateRouterCumulationValueCommand command) throws IOException, ProtocolException,
-				InterruptedException, DialogStreamException
+		InterruptedException, DialogStreamException
 		{
 			dialog(UpdateRouterCumulationValueDialogClient.class, this, command.getIndex(), command.getCumulationValue());
 		}
@@ -1125,7 +1125,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 		}
 
 		private void removeRouterCumulationValueDialogClient(RemoveRouterCumulationValueCommand command) throws IOException, ProtocolException,
-				InterruptedException, DialogStreamException
+		InterruptedException, DialogStreamException
 		{
 			dialog(RemoveRouterCumulationValueDialogClient.class, this, command.getIndex(), command.getCumulation());
 		}
@@ -1136,7 +1136,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 		}
 
 		private void requestRouterCumulationValueDialogClient(RequestRouterCumulationValueCommand command) throws IOException, ProtocolException,
-				InterruptedException, DialogStreamException
+		InterruptedException, DialogStreamException
 		{
 			dialog(RequestRouterCumulationValueDialogClient.class, this, command.getIndex());
 		}

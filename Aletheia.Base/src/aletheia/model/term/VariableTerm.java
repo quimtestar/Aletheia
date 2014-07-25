@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -25,7 +25,7 @@ import java.util.Set;
 
 /**
  * A term which is a single variable.
- * 
+ *
  * <p>
  * By default, every variable is considered to be distinct (as far as the java
  * object representing them are distinct), and is represented textually with a
@@ -33,7 +33,7 @@ import java.util.Set;
  * hexadecimal representation to eight digits of the hashcode of the java
  * object.
  * </p>
- * 
+ *
  */
 public abstract class VariableTerm extends AtomicTerm
 {
@@ -41,7 +41,7 @@ public abstract class VariableTerm extends AtomicTerm
 
 	/**
 	 * Create a new variable with the specified type.
-	 * 
+	 *
 	 * @param type
 	 *            The type of the new variable.
 	 */
@@ -95,7 +95,7 @@ public abstract class VariableTerm extends AtomicTerm
 	 * includes the free variables of its type term, and the type-recursive free
 	 * variables of each of these variables, but does not include this variable
 	 * object.
-	 * 
+	 *
 	 * @return The type-recursive free variables set of this variable (excluding
 	 *         itself).
 	 */

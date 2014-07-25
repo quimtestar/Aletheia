@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -26,7 +26,7 @@ import aletheia.persistence.Transaction;
  * Extension of the {@link ExportableProtocol} for objects stored into the
  * persistent environment. A single transaction will be used for all the
  * send/receive operations.
- * 
+ *
  * @param <E>
  *            The class of objects to export.
  */
@@ -39,7 +39,7 @@ public abstract class PersistentExportableProtocol<E extends Exportable> extends
 	/**
 	 * Creates a new protocol for a given persistence manager and transaction to
 	 * use
-	 * 
+	 *
 	 * @param persistenceManager
 	 *            The persistence manager.
 	 * @param transaction
@@ -55,7 +55,7 @@ public abstract class PersistentExportableProtocol<E extends Exportable> extends
 
 	/**
 	 * The persistent manager associated to this protocol.
-	 * 
+	 *
 	 * @return The persistent manager.
 	 */
 	public PersistenceManager getPersistenceManager()
@@ -65,7 +65,7 @@ public abstract class PersistentExportableProtocol<E extends Exportable> extends
 
 	/**
 	 * The persistent transaction associated to this protocol.
-	 * 
+	 *
 	 * @return The transaction.
 	 */
 	public Transaction getTransaction()

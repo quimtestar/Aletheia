@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -193,7 +193,7 @@ public abstract class DelegateTreeNode implements Exportable
 	}
 
 	protected DelegateTreeSubNode createSubNode(Transaction transaction, String name) throws InvalidNameException, NoPrivateDataForAuthorException,
-			DateConsistenceException
+	DateConsistenceException
 	{
 		DelegateTreeSubNode delegateTreeSubNode = DelegateTreeSubNode.create(persistenceManager, transaction, this, name);
 		persistenceUpdateSign(transaction);
@@ -207,7 +207,7 @@ public abstract class DelegateTreeNode implements Exportable
 	}
 
 	public DelegateTreeSubNode getOrCreateSubNode(Transaction transaction, String name) throws InvalidNameException, NoPrivateDataForAuthorException,
-			DateConsistenceException
+	DateConsistenceException
 	{
 		DelegateTreeSubNode subNode = getSubNode(transaction, name);
 		if (subNode == null)
@@ -291,7 +291,7 @@ public abstract class DelegateTreeNode implements Exportable
 	}
 
 	private DelegateAuthorizer createDelegateAuthorizer(Transaction transaction, Person delegate) throws NoPrivateDataForAuthorException,
-			DateConsistenceException
+	DateConsistenceException
 	{
 		DelegateAuthorizer delegateAuthorizer = DelegateAuthorizer.create(persistenceManager, transaction, this, delegate);
 		persistenceUpdateSign(transaction);
@@ -305,7 +305,7 @@ public abstract class DelegateTreeNode implements Exportable
 	}
 
 	public DelegateAuthorizer getOrCreateDelegateAuthorizer(Transaction transaction, Person delegate) throws NoPrivateDataForAuthorException,
-			DateConsistenceException
+	DateConsistenceException
 	{
 		DelegateAuthorizer delegateAuthorizer = getDelegateAuthorizer(transaction, delegate);
 		if (delegateAuthorizer == null)
@@ -335,7 +335,7 @@ public abstract class DelegateTreeNode implements Exportable
 	}
 
 	public void deleteDelegateAuthorizer(Transaction transaction, DelegateAuthorizer delegateAuthorizer) throws NoPrivateDataForAuthorException,
-			DateConsistenceException
+	DateConsistenceException
 	{
 		deleteDelegateAuthorizerNoSign(transaction, delegateAuthorizer);
 		persistenceUpdateSign(transaction);

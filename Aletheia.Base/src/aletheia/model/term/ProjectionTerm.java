@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -28,14 +28,14 @@ import aletheia.model.identifier.Identifier;
 /**
  * A projection of a function is a term which is roughly equivalent to the
  * function but:
- * 
+ *
  * <ul>
  * <li>Its type is the type of the function's body (this is why it is called a
  * projection).</li>
  * <li>Its composition with another term is a composition term, not a
  * replacement of the body as in regular functions.</li>
  * </ul>
- * 
+ *
  */
 public class ProjectionTerm extends AtomicTerm
 {
@@ -79,7 +79,7 @@ public class ProjectionTerm extends AtomicTerm
 
 	/**
 	 * Constructs the projection of a specific function.
-	 * 
+	 *
 	 * @param function
 	 *            The function to project.
 	 * @throws ProjectionTypeException
@@ -91,7 +91,7 @@ public class ProjectionTerm extends AtomicTerm
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The function projected.
 	 */
 	public FunctionTerm getFunction()
@@ -105,7 +105,7 @@ public class ProjectionTerm extends AtomicTerm
 	 * projected. It is possible than the resulting term of the replacements is
 	 * not a function in which case a {@link Term.ReplaceTypeException} will be
 	 * thrown.
-	 * 
+	 *
 	 */
 	@Override
 	protected Term replace(Deque<Replace> replaces, Set<VariableTerm> exclude) throws ReplaceTypeException

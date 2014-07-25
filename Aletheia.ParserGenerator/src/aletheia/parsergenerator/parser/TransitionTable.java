@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -207,7 +207,7 @@ public abstract class TransitionTable implements Serializable
 		 * Create a new {@link State} from a {@link ParserItem} or return a
 		 * previously generated {@link State} if it was already created in a
 		 * previous call.
-		 * 
+		 *
 		 * @param item
 		 *            The {@link ParserItem}.
 		 * @return The {@link State}.
@@ -217,7 +217,7 @@ public abstract class TransitionTable implements Serializable
 		/**
 		 * Return a {@link ParserItem} corresponding from a previously generated
 		 * {@link State}.
-		 * 
+		 *
 		 * @param state
 		 *            The {@link State}.
 		 * @return The {@link ParserItem}.
@@ -226,7 +226,7 @@ public abstract class TransitionTable implements Serializable
 
 		/**
 		 * This item is already mapped by this translator.
-		 * 
+		 *
 		 * @param item
 		 *            The {@link ParserItem}.
 		 * @return Is it?
@@ -237,14 +237,14 @@ public abstract class TransitionTable implements Serializable
 	/**
 	 * Creates the instance of {@link ItemStateTranslator} to be used in this
 	 * transition table generator.
-	 * 
+	 *
 	 * @return The item to state translator.
 	 */
 	protected abstract ItemStateTranslator itemStateTranslator();
 
 	/**
 	 * Creates the transition table of a grammar.
-	 * 
+	 *
 	 * @param grammar
 	 *            The grammar.
 	 * @throws ConflictException
@@ -304,7 +304,7 @@ public abstract class TransitionTable implements Serializable
 
 	/**
 	 * The grammar associated to this transition table.
-	 * 
+	 *
 	 * @return The grammar.
 	 */
 	public Grammar getGrammar()
@@ -314,7 +314,7 @@ public abstract class TransitionTable implements Serializable
 
 	/**
 	 * The starting state.
-	 * 
+	 *
 	 * @return The state.
 	 */
 	public State getStartState()
@@ -324,7 +324,7 @@ public abstract class TransitionTable implements Serializable
 
 	/**
 	 * The accepting state.
-	 * 
+	 *
 	 * @return The state.
 	 */
 	public State getAcceptState()
@@ -334,7 +334,7 @@ public abstract class TransitionTable implements Serializable
 
 	/**
 	 * The full set of states.
-	 * 
+	 *
 	 * @return The set of states.
 	 */
 	public Set<State> getStateSet()
@@ -344,7 +344,7 @@ public abstract class TransitionTable implements Serializable
 
 	/**
 	 * The full map of transitions.
-	 * 
+	 *
 	 * @return The map of transitions
 	 */
 	public Map<State, Map<Symbol, State>> getTransitions()
@@ -354,7 +354,7 @@ public abstract class TransitionTable implements Serializable
 
 	/**
 	 * The full map of reductions.
-	 * 
+	 *
 	 * @return The map of reductions.
 	 */
 	public Map<State, Map<TerminalSymbol, Production>> getReductions()
@@ -364,7 +364,7 @@ public abstract class TransitionTable implements Serializable
 
 	/**
 	 * The set of terminals that may follow a state.
-	 * 
+	 *
 	 * @param state
 	 *            The state.
 	 * @return The set of terminals.
@@ -380,7 +380,7 @@ public abstract class TransitionTable implements Serializable
 
 	/**
 	 * Saves this transition table to a file.
-	 * 
+	 *
 	 * @param file
 	 *            The file.
 	 * @throws FileNotFoundException
@@ -401,7 +401,7 @@ public abstract class TransitionTable implements Serializable
 
 	/**
 	 * Loads a transition table from a file.
-	 * 
+	 *
 	 * @param file
 	 *            The file.
 	 * @return The transition table.
@@ -423,7 +423,7 @@ public abstract class TransitionTable implements Serializable
 
 	/**
 	 * Loads a transition table from an input stream.
-	 * 
+	 *
 	 * @param inputStream
 	 *            The input stream.
 	 * @return The transition table.

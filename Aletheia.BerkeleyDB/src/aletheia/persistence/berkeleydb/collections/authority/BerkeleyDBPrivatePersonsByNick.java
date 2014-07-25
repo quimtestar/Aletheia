@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -164,14 +164,14 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 	public CloseableSet<String> keySet()
 	{
 		return new AbstractCloseableSet<String>()
-		{
+				{
 
 			@Override
 			public CloseableIterator<String> iterator()
 			{
 				final EntityCursor<String> cursor = transaction.keys(privatePersonEntityNickSecondaryIndex, from, true, to, false);
 				return new CloseableIterator<String>()
-				{
+						{
 					private String advance()
 					{
 						String next = transaction.nextNoDup(cursor);
@@ -217,7 +217,7 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 						super.finalize();
 					}
 
-				};
+						};
 			}
 
 			@Override
@@ -251,7 +251,7 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 				}
 			}
 
-		};
+				};
 	}
 
 	@Override
@@ -259,14 +259,14 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 	{
 		final CloseableSet<String> keySet = keySet();
 		return new AbstractCloseableSet<Map.Entry<String, PrivatePerson>>()
-		{
+				{
 
 			@Override
 			public CloseableIterator<Entry<String, PrivatePerson>> iterator()
 			{
 				final CloseableIterator<String> iterator = keySet.iterator();
 				return new CloseableIterator<Map.Entry<String, PrivatePerson>>()
-				{
+						{
 
 					@Override
 					public void remove()
@@ -279,7 +279,7 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 					{
 						final String key = iterator.next();
 						return new Entry<String, PrivatePerson>()
-						{
+								{
 
 							@Override
 							public PrivatePerson setValue(PrivatePerson value)
@@ -298,7 +298,7 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 							{
 								return key;
 							}
-						};
+								};
 					}
 
 					@Override
@@ -312,7 +312,7 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 					{
 						iterator.close();
 					}
-				};
+						};
 			}
 
 			@Override
@@ -327,7 +327,7 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 				return keySet.isEmpty();
 			}
 
-		};
+				};
 	}
 
 }

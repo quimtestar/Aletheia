@@ -1,20 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
- * The Aletheia Proof Assistant is free software: you can redistribute it 
- * and/or modify it under the terms of the GNU Affero General Public License 
- * as published by the Free Software Foundation, either version 3 of the 
+ *
+ * The Aletheia Proof Assistant is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
- * The Aletheia Proof Assistant is distributed in the hope that it will be 
+ *
+ * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
- * along with the Aletheia Proof Assistant. 
+ * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package aletheia.peertopeer.statement.dialog;
@@ -52,7 +52,7 @@ public abstract class DelegateTreeDialog extends StatementDialog
 	}
 
 	protected DelegateTreeInfoMessage dialogateDelegateTreeInfoSend(Collection<DelegateTreeRootNode> delegateTreeRootNodes) throws IOException,
-			InterruptedException
+	InterruptedException
 	{
 		Collection<DelegateTreeInfoMessage.Entry> entries = new ArrayList<DelegateTreeInfoMessage.Entry>();
 		for (DelegateTreeRootNode delegateTreeRootNode : delegateTreeRootNodes)
@@ -72,7 +72,7 @@ public abstract class DelegateTreeDialog extends StatementDialog
 	}
 
 	protected void dialogateDelegateTreeSuccessorDependencyRequestSend(DelegateTreeInfoMessage delegateTreeInfoMessage) throws InterruptedException,
-			IOException
+	IOException
 	{
 		Collection<UUID> successorUuids = delegateTreeInfoMessage.successorUuidDependencies(getPersistenceManager(), getTransaction());
 		sendMessage(new DelegateTreeSuccessorDependencyRequestMessage(successorUuids));
@@ -131,7 +131,7 @@ public abstract class DelegateTreeDialog extends StatementDialog
 	}
 
 	protected void dialogateDelegateAuthorizerResponseSend(DelegateAuthorizerRequestMessage delegateAuthorizerRequestMessage) throws IOException,
-			InterruptedException
+	InterruptedException
 	{
 		sendMessage(new DelegateAuthorizerResponseMessage(getPersistenceManager(), getTransaction(), delegateAuthorizerRequestMessage));
 	}

@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -28,10 +28,10 @@ import aletheia.utilities.MiscUtilities;
  * A collection that is the result of the union operation on a collection of
  * collections. The union operation is the collection of the elements of the
  * elements of the collection that we are uniting.
- * 
+ *
  * @param <E>
  *            The elements' type.
- * 
+ *
  * @author Quim Testar
  */
 public class UnionCollection<E> extends AbstractReadOnlyCollection<E>
@@ -40,7 +40,7 @@ public class UnionCollection<E> extends AbstractReadOnlyCollection<E>
 
 	/**
 	 * Creates a new union collection.
-	 * 
+	 *
 	 * @param inner
 	 *            The collection of collections to unite.
 	 */
@@ -50,9 +50,9 @@ public class UnionCollection<E> extends AbstractReadOnlyCollection<E>
 	}
 
 	protected Collection<? extends Collection<E>> getInner()
-	{
+			{
 		return inner;
-	}
+			}
 
 	/**
 	 * The sum of the sizes of all the element collections of the united

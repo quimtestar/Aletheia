@@ -1,20 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
- * The Aletheia Proof Assistant is free software: you can redistribute it 
- * and/or modify it under the terms of the GNU Affero General Public License 
- * as published by the Free Software Foundation, either version 3 of the 
+ *
+ * The Aletheia Proof Assistant is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
- * The Aletheia Proof Assistant is distributed in the hope that it will be 
+ *
+ * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
- * along with the Aletheia Proof Assistant. 
+ * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package aletheia.peertopeer.conjugal.phase;
@@ -191,7 +191,7 @@ public class MaleConjugalPhase extends GenderedConjugalPhase
 
 		@Override
 		protected boolean genderedServerPhase(LoopConjugalDialogType loopDialogType) throws IOException, ProtocolException, InterruptedException,
-				DialogStreamException
+		DialogStreamException
 		{
 			switch (loopDialogType)
 			{
@@ -229,7 +229,7 @@ public class MaleConjugalPhase extends GenderedConjugalPhase
 		}
 
 		private void maleOpenConnectionDialogMale(MaleOpenConnectionCommand command) throws IOException, ProtocolException, InterruptedException,
-				DialogStreamException
+		DialogStreamException
 		{
 			try
 			{
@@ -251,7 +251,7 @@ public class MaleConjugalPhase extends GenderedConjugalPhase
 		}
 
 		private void updateMaleNodeUuidsDialogMale(UpdateMaleNodeUuidsCommand command) throws IOException, ProtocolException, InterruptedException,
-				DialogStreamException
+		DialogStreamException
 		{
 			dialog(UpdateMaleNodeUuidsDialogMale.class, this, command.getAddUuids(), command.getRemoveUuids());
 		}
@@ -262,7 +262,7 @@ public class MaleConjugalPhase extends GenderedConjugalPhase
 		}
 
 		public SplicedConnectionId maleOpenConnection(InetSocketAddress socketAddress, UUID expectedPeerNodeUuid) throws InterruptedException,
-				CancelledCommandException, OpenConnectionException
+		CancelledCommandException, OpenConnectionException
 		{
 			MaleOpenConnectionCommand.Result result = (MaleOpenConnectionCommand.Result) commandResult(new MaleOpenConnectionCommand(socketAddress,
 					expectedPeerNodeUuid));
@@ -314,7 +314,7 @@ public class MaleConjugalPhase extends GenderedConjugalPhase
 	}
 
 	public SplicedConnectionId maleOpenConnection(InetSocketAddress socketAddress, UUID expectedPeerNodeUuid) throws InterruptedException,
-			CancelledCommandException, OpenConnectionException
+	CancelledCommandException, OpenConnectionException
 	{
 		return maleLoopConjugalSubPhase.maleOpenConnection(socketAddress, expectedPeerNodeUuid);
 	}

@@ -1,20 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
- * The Aletheia Proof Assistant is free software: you can redistribute it 
- * and/or modify it under the terms of the GNU Affero General Public License 
- * as published by the Free Software Foundation, either version 3 of the 
+ *
+ * The Aletheia Proof Assistant is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
- * The Aletheia Proof Assistant is distributed in the hope that it will be 
+ *
+ * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
- * along with the Aletheia Proof Assistant. 
+ * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package aletheia.peertopeer.statement.dialog;
@@ -47,10 +47,10 @@ public class StatementProofSubscriptionLoopDialogClient extends StatementProofSu
 	}
 
 	private AvailableProofsMessage dialogateAvailableProofsClient(Set<StatementLocal> subscribedProofStatementLocals) throws IOException, ProtocolException,
-			InterruptedException
+	InterruptedException
 	{
 		Bijection<StatementLocal, UUID> statementLocalUuidBijection = new Bijection<StatementLocal, UUID>()
-		{
+				{
 
 			@Override
 			public UUID forward(StatementLocal input)
@@ -63,55 +63,55 @@ public class StatementProofSubscriptionLoopDialogClient extends StatementProofSu
 			{
 				throw new UnsupportedOperationException();
 			}
-		};
-		RemoteSubscription remoteSubscription = getRemoteSubscription();
-		PendingPersistentDataChanges pendingStatementLocalChanges = getPendingPersistentDataChanges();
-		Set<UUID> subscribedUuids = new HashSet<UUID>();
-		Set<RootContextLocal> pendingSubscribedProofRootContextLocals = pendingStatementLocalChanges.dumpPendingSubscribedProofRootContextLocals();
-		if (pendingSubscribedProofRootContextLocals != null)
-		{
-			subscribedProofStatementLocals.addAll(pendingSubscribedProofRootContextLocals);
-			subscribedUuids.addAll(new BijectionCollection<>(statementLocalUuidBijection, new AdaptedSet<StatementLocal>(
-					pendingSubscribedProofRootContextLocals)));
-		}
-		Set<UUID> unsubscribedUuids = new HashSet<UUID>();
-		Set<RootContextLocal> pendingUnsubscribedProofRootContextLocals = pendingStatementLocalChanges.dumpPendingUnsubscribedProofRootContextLocals();
-		if (pendingUnsubscribedProofRootContextLocals != null)
-		{
-			unsubscribedUuids.addAll(new BijectionCollection<>(statementLocalUuidBijection, new AdaptedSet<StatementLocal>(
-					pendingUnsubscribedProofRootContextLocals)));
-		}
-		Set<UUID> contextUuids = remoteSubscription.rootContextUuids();
-		while (!contextUuids.isEmpty())
-		{
-			Set<UUID> contextUuids_ = new HashSet<UUID>();
-			for (UUID contextUuid : contextUuids)
-			{
-				SubContextSubscription subContextSubscription = remoteSubscription.subContextSubscriptions().get(contextUuid);
-				if (subContextSubscription != null)
-					contextUuids_.addAll(subContextSubscription.contextUuids());
-				ContextLocal ctxLocal = getPersistenceManager().getContextLocal(getTransaction(), contextUuid);
-				if (ctxLocal != null)
+				};
+				RemoteSubscription remoteSubscription = getRemoteSubscription();
+				PendingPersistentDataChanges pendingStatementLocalChanges = getPendingPersistentDataChanges();
+				Set<UUID> subscribedUuids = new HashSet<UUID>();
+				Set<RootContextLocal> pendingSubscribedProofRootContextLocals = pendingStatementLocalChanges.dumpPendingSubscribedProofRootContextLocals();
+				if (pendingSubscribedProofRootContextLocals != null)
 				{
-					Set<StatementLocal> pendingSubscribedProofStatementLocals = pendingStatementLocalChanges
-							.dumpPendingSubscribedProofStatementLocals(ctxLocal);
-					if (pendingSubscribedProofStatementLocals != null)
-					{
-						subscribedProofStatementLocals.addAll(pendingSubscribedProofStatementLocals);
-						subscribedUuids.addAll(new BijectionCollection<>(statementLocalUuidBijection, pendingSubscribedProofStatementLocals));
-					}
-					Set<StatementLocal> pendingUnsubscribedProofStatementLocals = pendingStatementLocalChanges
-							.dumpPendingUnsubscribedProofStatementLocals(ctxLocal);
-					if (pendingUnsubscribedProofStatementLocals != null)
-					{
-						unsubscribedUuids.addAll(new BijectionCollection<>(statementLocalUuidBijection, pendingUnsubscribedProofStatementLocals));
-					}
+					subscribedProofStatementLocals.addAll(pendingSubscribedProofRootContextLocals);
+					subscribedUuids.addAll(new BijectionCollection<>(statementLocalUuidBijection, new AdaptedSet<StatementLocal>(
+							pendingSubscribedProofRootContextLocals)));
 				}
-			}
-			contextUuids = contextUuids_;
-		}
-		sendMessage(new StatementsSubscribeMessage(subscribedUuids, unsubscribedUuids));
-		return recvMessage(AvailableProofsMessage.class);
+				Set<UUID> unsubscribedUuids = new HashSet<UUID>();
+				Set<RootContextLocal> pendingUnsubscribedProofRootContextLocals = pendingStatementLocalChanges.dumpPendingUnsubscribedProofRootContextLocals();
+				if (pendingUnsubscribedProofRootContextLocals != null)
+				{
+					unsubscribedUuids.addAll(new BijectionCollection<>(statementLocalUuidBijection, new AdaptedSet<StatementLocal>(
+							pendingUnsubscribedProofRootContextLocals)));
+				}
+				Set<UUID> contextUuids = remoteSubscription.rootContextUuids();
+				while (!contextUuids.isEmpty())
+				{
+					Set<UUID> contextUuids_ = new HashSet<UUID>();
+					for (UUID contextUuid : contextUuids)
+					{
+						SubContextSubscription subContextSubscription = remoteSubscription.subContextSubscriptions().get(contextUuid);
+						if (subContextSubscription != null)
+							contextUuids_.addAll(subContextSubscription.contextUuids());
+						ContextLocal ctxLocal = getPersistenceManager().getContextLocal(getTransaction(), contextUuid);
+						if (ctxLocal != null)
+						{
+							Set<StatementLocal> pendingSubscribedProofStatementLocals = pendingStatementLocalChanges
+									.dumpPendingSubscribedProofStatementLocals(ctxLocal);
+							if (pendingSubscribedProofStatementLocals != null)
+							{
+								subscribedProofStatementLocals.addAll(pendingSubscribedProofStatementLocals);
+								subscribedUuids.addAll(new BijectionCollection<>(statementLocalUuidBijection, pendingSubscribedProofStatementLocals));
+							}
+							Set<StatementLocal> pendingUnsubscribedProofStatementLocals = pendingStatementLocalChanges
+									.dumpPendingUnsubscribedProofStatementLocals(ctxLocal);
+							if (pendingUnsubscribedProofStatementLocals != null)
+							{
+								unsubscribedUuids.addAll(new BijectionCollection<>(statementLocalUuidBijection, pendingUnsubscribedProofStatementLocals));
+							}
+						}
+					}
+					contextUuids = contextUuids_;
+				}
+				sendMessage(new StatementsSubscribeMessage(subscribedUuids, unsubscribedUuids));
+				return recvMessage(AvailableProofsMessage.class);
 	}
 
 	@Override

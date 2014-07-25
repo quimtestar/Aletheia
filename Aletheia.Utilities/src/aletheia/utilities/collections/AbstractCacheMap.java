@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -30,14 +30,14 @@ import java.util.Set;
 /**
  * Abstract implementation of cache map, independent of the actual subclass of
  * {@link Reference} used to store the values.
- * 
+ *
  * @param <K>
  *            The map keys' type.
  * @param <V>
  *            The map value's type.
  * @param <R>
  *            The reference type to the values.
- * 
+ *
  * @author Quim Testar
  */
 public abstract class AbstractCacheMap<K, V, R extends Reference<V>> extends AbstractMap<K, V> implements CacheMap<K, V>
@@ -89,10 +89,10 @@ public abstract class AbstractCacheMap<K, V, R extends Reference<V>> extends Abs
 	/**
 	 * Creates a reference to be used for storing a value in the map. Subclasses
 	 * must override this method.
-	 * 
+	 *
 	 * @param value
 	 *            The value to store.
-	 * 
+	 *
 	 * @return The reference.
 	 */
 	protected abstract R makeRef(V value);

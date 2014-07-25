@@ -1,20 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
- * The Aletheia Proof Assistant is free software: you can redistribute it 
- * and/or modify it under the terms of the GNU Affero General Public License 
- * as published by the Free Software Foundation, either version 3 of the 
+ *
+ * The Aletheia Proof Assistant is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
- * The Aletheia Proof Assistant is distributed in the hope that it will be 
+ *
+ * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
- * along with the Aletheia Proof Assistant. 
+ * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package aletheia.protocol.security;
@@ -62,7 +62,7 @@ public abstract class CipherProtocol<T> extends Protocol<T>
 	{
 		return inner;
 	}
-	
+
 	public static class CipherException extends RuntimeException
 	{
 		private static final long serialVersionUID = 6185585348650786411L;
@@ -77,7 +77,7 @@ public abstract class CipherProtocol<T> extends Protocol<T>
 		{
 			return (GeneralSecurityException) super.getCause();
 		}
-		
+
 	}
 
 	@Override
@@ -88,7 +88,6 @@ public abstract class CipherProtocol<T> extends Protocol<T>
 
 	protected abstract T recv(String algorithm, DataInput in) throws IOException, ProtocolException, CipherException;
 
-	
 	@Override
 	public final T recv(DataInput in) throws IOException, ProtocolException, CipherException
 	{

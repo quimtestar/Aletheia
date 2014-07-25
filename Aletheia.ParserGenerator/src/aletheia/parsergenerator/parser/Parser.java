@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -48,11 +48,11 @@ import aletheia.parsergenerator.tokens.Token;
  * {@link NonTerminalToken} object according to the {@link Grammar} rules. Once
  * generated, a parser might be saved to a file for further use skipping the
  * generation phase.
- * 
+ *
  * This class is abstract; his subclasses will typically implement a method that
  * builds the useful parsed objects by converting the {@link NonTerminalToken}
  * structure returned by the {@link #parseToken(Lexer)} method.
- * 
+ *
  */
 public abstract class Parser implements Serializable
 {
@@ -107,7 +107,7 @@ public abstract class Parser implements Serializable
 	/**
 	 * Creates a new parser from a {@linkplain TransitionTable transition table}
 	 * .
-	 * 
+	 *
 	 * @param transitionTable
 	 *            The transition table.
 	 */
@@ -118,7 +118,7 @@ public abstract class Parser implements Serializable
 
 	/**
 	 * Builds a new parser with the same transition table.
-	 * 
+	 *
 	 * @param parser
 	 */
 	public Parser(Parser parser)
@@ -128,7 +128,7 @@ public abstract class Parser implements Serializable
 
 	/**
 	 * The transition table of this parser.
-	 * 
+	 *
 	 * @return The transition table.
 	 */
 	public TransitionTable getTransitionTable()
@@ -138,7 +138,7 @@ public abstract class Parser implements Serializable
 
 	/**
 	 * Saves this parser to a file.
-	 * 
+	 *
 	 * @param file
 	 *            The file.
 	 * @throws FileNotFoundException
@@ -159,7 +159,7 @@ public abstract class Parser implements Serializable
 
 	/**
 	 * Loads a parser from a file.
-	 * 
+	 *
 	 * @param file
 	 *            The file.
 	 * @return The parser.
@@ -181,7 +181,7 @@ public abstract class Parser implements Serializable
 
 	/**
 	 * Loads a parser from an input stream.
-	 * 
+	 *
 	 * @param inputStream
 	 *            The input stream.
 	 * @return The parser.
@@ -197,7 +197,7 @@ public abstract class Parser implements Serializable
 	/**
 	 * Parse the flow of terminal tokens served by a lexer, building a non
 	 * terminal token.
-	 * 
+	 *
 	 * @param lexer
 	 *            The lexer.
 	 * @return The {@link NonTerminalToken} containing the parsed structure.
@@ -262,7 +262,7 @@ public abstract class Parser implements Serializable
 
 	/**
 	 * The grammar of this parser.
-	 * 
+	 *
 	 * @return The grammar.
 	 */
 	public Grammar getGrammar()

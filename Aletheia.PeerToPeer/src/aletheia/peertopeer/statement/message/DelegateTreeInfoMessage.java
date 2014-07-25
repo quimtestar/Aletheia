@@ -1,20 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
- * The Aletheia Proof Assistant is free software: you can redistribute it 
- * and/or modify it under the terms of the GNU Affero General Public License 
- * as published by the Free Software Foundation, either version 3 of the 
+ *
+ * The Aletheia Proof Assistant is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
- * The Aletheia Proof Assistant is distributed in the hope that it will be 
+ *
+ * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
- * along with the Aletheia Proof Assistant. 
+ * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package aletheia.peertopeer.statement.message;
@@ -584,7 +584,7 @@ public class DelegateTreeInfoMessage extends AbstractUUIDInfoMessage<DelegateTre
 					{
 						if (successorEntryInfo.getSignatureDate() == null
 								|| (delegateTreeRootNode != null && delegateTreeRootNode.getSignatureDate() != null && successorEntryInfo.getSignatureDate()
-										.compareTo(delegateTreeRootNode.getSignatureDate()) < 0))
+								.compareTo(delegateTreeRootNode.getSignatureDate()) < 0))
 						{
 							forceNotUpdate = true;
 							break;
@@ -1028,7 +1028,7 @@ public class DelegateTreeInfoMessage extends AbstractUUIDInfoMessage<DelegateTre
 	}
 
 	public void update(PersistenceManager persistenceManager, Transaction transaction) throws SignatureVerifyException, MissingDependencyException,
-			DateConsistenceException, DuplicateSuccessorException, SignatureVersionException
+	DateConsistenceException, DuplicateSuccessorException, SignatureVersionException
 	{
 		for (AbstractUUIDInfoMessage.Entry<DelegateTreeRootNodeInfo> e : getEntries())
 		{
@@ -1044,7 +1044,7 @@ public class DelegateTreeInfoMessage extends AbstractUUIDInfoMessage<DelegateTre
 	public Map<UUID, DelegateTreeRootNodeInfo> filterFullyUpdatedMap(final PersistenceManager persistenceManager, final Transaction transaction)
 	{
 		return new FilteredEntryMap<>(new Filter<Map.Entry<UUID, DelegateTreeRootNodeInfo>>()
-		{
+				{
 
 			@Override
 			public boolean filter(Map.Entry<UUID, DelegateTreeRootNodeInfo> e)
@@ -1057,7 +1057,7 @@ public class DelegateTreeInfoMessage extends AbstractUUIDInfoMessage<DelegateTre
 				return delegateTreeRootNodeInfo.fullyUpdated(persistenceManager, transaction, delegateTreeRootNode);
 
 			}
-		}, getMap());
+				}, getMap());
 	}
 
 	@ProtocolInfo(availableVersions = 0)

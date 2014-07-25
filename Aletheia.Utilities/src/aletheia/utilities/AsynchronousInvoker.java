@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -29,19 +29,19 @@ import aletheia.log4j.LoggerManager;
 /**
  * Singleton class that keeps a queue of tasks to be executed sequentially on
  * several threads.
- * 
+ *
  * Designed basically to avoid dead-lock problems when the result of a
  * potentially locking task is not needed to keep going.
- * 
+ *
  * The tasks to be executed are objects implementing the {@link Invokable}
  * interface.
- * 
+ *
  * The amount of {@link #maxRunningThreads} tasks will be executed on one each
  * parallel thread (hard-coded, non-configurable). Those threads will be kept
  * alive as long there are pending tasks to execute.
- * 
+ *
  * @author Quim Testar
- * 
+ *
  */
 public class AsynchronousInvoker
 {
@@ -156,7 +156,7 @@ public class AsynchronousInvoker
 	/**
 	 * Puts the invoker in a wait state until the number of pending tasks is
 	 * lower than <b>n</b>.
-	 * 
+	 *
 	 * @param n
 	 *            Minimum size that will keep the method waiting.
 	 */

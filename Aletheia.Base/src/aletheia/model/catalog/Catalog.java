@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -44,7 +44,7 @@ import aletheia.persistence.Transaction;
  * on every operation with this data structure. Note that the catalog will only
  * be usable while the transaction is alive.
  * </p>
- * 
+ *
  * @see aletheia.model.catalog
  */
 public abstract class Catalog
@@ -55,7 +55,7 @@ public abstract class Catalog
 	/**
 	 * Creates a new catalog associated to a persistence transaction and a
 	 * context.
-	 * 
+	 *
 	 * @param persistenceManager
 	 * @param transaction
 	 *            The transaction.
@@ -84,7 +84,7 @@ public abstract class Catalog
 
 	/**
 	 * The name space prefix associated to this catalog.
-	 * 
+	 *
 	 * @return The prefix.
 	 */
 	public abstract Namespace prefix();
@@ -92,7 +92,7 @@ public abstract class Catalog
 	/**
 	 * The depth of this node of the catalog tree. The same as the number of
 	 * components of {@link #prefix()}.
-	 * 
+	 *
 	 * @return The depth.
 	 */
 	public abstract int depth();
@@ -100,7 +100,7 @@ public abstract class Catalog
 	/**
 	 * The mapping between identifiers and statements in this catalog (and
 	 * subcatalogs).
-	 * 
+	 *
 	 * @return The map.
 	 */
 	protected abstract SortedMap<Identifier, Statement> map(Transaction transaction);
@@ -108,14 +108,14 @@ public abstract class Catalog
 	public Collection<SubCatalog> subCatalogs(final Transaction transaction)
 	{
 		return new AbstractCollection<SubCatalog>()
-		{
+				{
 
 			@Override
 			public Iterator<SubCatalog> iterator()
 			{
 				final SortedMap<Identifier, Statement> map = map(transaction);
 				return new Iterator<SubCatalog>()
-				{
+						{
 
 					NodeNamespace nextNamespace = null;
 
@@ -158,7 +158,7 @@ public abstract class Catalog
 						throw new UnsupportedOperationException();
 					}
 
-				};
+						};
 			}
 
 			@Override
@@ -173,7 +173,7 @@ public abstract class Catalog
 				return map(transaction).isEmpty();
 			}
 
-		};
+				};
 	}
 
 	public SubCatalog subCatalog(String name) throws InvalidNameException

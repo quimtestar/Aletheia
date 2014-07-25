@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -74,7 +74,7 @@ import aletheia.utilities.collections.NotNullFilter;
 
 /**
  * Abstract representation of a statement.
- * 
+ *
  * <p>
  * A statement is a {@link IdentifiableVariableTerm} which type's term
  * represents a mathematical expression which might be found valid or not
@@ -103,7 +103,7 @@ import aletheia.utilities.collections.NotNullFilter;
  * necessary to it to make sense. When the proven status changes on a statement,
  * it also might change on the statements that depend on it.
  * </p>
- * 
+ *
  */
 public abstract class Statement implements Exportable
 {
@@ -114,7 +114,7 @@ public abstract class Statement implements Exportable
 
 	/**
 	 * Any exception thrown during a statement operation extends from this.
-	 * 
+	 *
 	 */
 	public static abstract class StatementException extends Exception
 	{
@@ -237,7 +237,7 @@ public abstract class Statement implements Exportable
 
 	/**
 	 * Creates a new statement from scratch.
-	 * 
+	 *
 	 * @param persistenceManager
 	 *            The persistence manager that will manage the persistence state
 	 *            of this statement.
@@ -311,7 +311,7 @@ public abstract class Statement implements Exportable
 	 * Calls to
 	 * {@link #Statement(PersistenceManager, Transaction, Class, UUID, Context, Term)}
 	 * with a null UUID.
-	 * 
+	 *
 	 * @param persistenceManager
 	 *            The persistence manager that will manage the persistence state
 	 *            of this statement.
@@ -342,7 +342,7 @@ public abstract class Statement implements Exportable
 	/**
 	 * Creates a statement that envelopes an already existing
 	 * {@link StatementEntity}
-	 * 
+	 *
 	 * @param persistenceManager
 	 *            The persistence manager that will manage the persistence state
 	 *            of this statement.
@@ -375,7 +375,7 @@ public abstract class Statement implements Exportable
 
 	/**
 	 * Saves the persistent state using the transaction.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to use in the operation.
 	 */
@@ -386,7 +386,7 @@ public abstract class Statement implements Exportable
 
 	/**
 	 * Returns an updated version of this very statement.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to use in the operation.
 	 * @return The updated statement.
@@ -406,7 +406,7 @@ public abstract class Statement implements Exportable
 	 * statement is changed, the status of all the statements that depend on it
 	 * must be checked too, so this method can trigger the checking of a huge
 	 * set of statements.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to use in the operation.
 	 * @param checkContext
@@ -421,7 +421,7 @@ public abstract class Statement implements Exportable
 	protected static void checkProved(Transaction transaction, boolean checkContext, Collection<Statement> statements)
 	{
 		checkProvedUuids(transaction, checkContext, new BijectionCollection<>(new Bijection<Statement, UUID>()
-		{
+				{
 
 			@Override
 			public UUID forward(Statement input)
@@ -434,7 +434,7 @@ public abstract class Statement implements Exportable
 			{
 				throw new UnsupportedOperationException();
 			}
-		}, statements));
+				}, statements));
 	}
 
 	/**
@@ -442,7 +442,7 @@ public abstract class Statement implements Exportable
 	 * statement is changed, the status of all the statements that depend on it
 	 * must be checked too, so this method can trigger the checking of a huge
 	 * set of statements.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to use in the operation.
 	 * @param checkContext
@@ -525,12 +525,12 @@ public abstract class Statement implements Exportable
 	/**
 	 * Equivalent to {@link #checkProved(Transaction, boolean, Collection)} with
 	 * checkContext set to true.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param statements
 	 *            The collection of statements to be checked.
-	 * 
+	 *
 	 * @see #checkProved(Transaction, boolean, Collection)
 	 */
 	protected static void checkProved(Transaction transaction, Collection<Statement> statements)
@@ -541,7 +541,7 @@ public abstract class Statement implements Exportable
 	/**
 	 * Equivalent to {@link #checkProved(Transaction, boolean, Collection)} with
 	 * statements set to the singleton set of <b>this</b> statement.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param checkContext
@@ -559,7 +559,7 @@ public abstract class Statement implements Exportable
 	/**
 	 * Equivalent to {@link #checkProved(Transaction, boolean)} with
 	 * checkContext set to true.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 */
@@ -601,11 +601,11 @@ public abstract class Statement implements Exportable
 
 	/**
 	 * Creates a set of statements that depend on this statement.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the set.
 	 * @return The set.
-	 * 
+	 *
 	 * @see DependentsSet
 	 */
 	protected DependentsSet getDependents(Transaction transaction)
@@ -615,11 +615,11 @@ public abstract class Statement implements Exportable
 
 	/**
 	 * The set of statements that depend on this statement.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the set.
 	 * @return The set.
-	 * 
+	 *
 	 * @see #getDependents(Transaction)
 	 */
 	public DependentsSet dependents(Transaction transaction)
@@ -649,7 +649,7 @@ public abstract class Statement implements Exportable
 	/**
 	 * Sets the proven status of this statement AND saves it to the persistence
 	 * layer.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param proved
@@ -663,7 +663,7 @@ public abstract class Statement implements Exportable
 
 	/**
 	 * Sets the {@link Identifier} of this statement in its context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param identifier
@@ -687,7 +687,7 @@ public abstract class Statement implements Exportable
 	 * of statements associated to the free variables of the term. Must be
 	 * overridden by the subclasses to add the specific logic on this
 	 * computation. This method doesn't set the proven flag of this class.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @return The proven status
@@ -711,7 +711,7 @@ public abstract class Statement implements Exportable
 	/**
 	 * Returns the set of statements on which this statement depends. This is
 	 * the opposite relation of {@link #dependents(Transaction)}.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @return The set.
@@ -719,7 +719,7 @@ public abstract class Statement implements Exportable
 	public Set<Statement> dependencies(final Transaction transaction)
 	{
 		return new BijectionSet<UUID, Statement>(new Bijection<UUID, Statement>()
-		{
+				{
 
 			@Override
 			public Statement forward(UUID uuid)
@@ -732,19 +732,19 @@ public abstract class Statement implements Exportable
 			{
 				return statement.getUuid();
 			}
-		}, getUuidDependencies());
+				}, getUuidDependencies());
 	}
 
 	public Set<Statement> localDependencies(Transaction transaction)
 	{
 		return new FilteredSet<Statement>(new Filter<Statement>()
-		{
+				{
 			@Override
 			public boolean filter(Statement statement)
 			{
 				return getContextUuid().equals(statement.getContextUuid());
 			}
-		}, dependencies(transaction));
+				}, dependencies(transaction));
 	}
 
 	public Set<Statement> dependenciesThisAndDescendents(Transaction transaction)
@@ -842,7 +842,7 @@ public abstract class Statement implements Exportable
 	 * context. i.e. the list of stataments you need to traverse to reach this
 	 * statement from the specified context to this statement. If this statement
 	 * is not a descendent of that context, the absolute path is returned.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param from
@@ -896,7 +896,7 @@ public abstract class Statement implements Exportable
 	/**
 	 * Calls to {@link #toString(Transaction)} using a persistence's dirty
 	 * transaction created ad hoc for this operation.
-	 * 
+	 *
 	 * @see PersistenceManager#beginDirtyTransaction()
 	 */
 	@Override
@@ -917,7 +917,7 @@ public abstract class Statement implements Exportable
 	 * A string representation of this statement. Calls to
 	 * {@link #toString(Map)} with the
 	 * {@link #parentVariableToIdentifier(Transaction)} of this statement.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @return The string.
@@ -930,7 +930,7 @@ public abstract class Statement implements Exportable
 	/**
 	 * A string representation of this statement using a specific map between
 	 * variables and identifiers.
-	 * 
+	 *
 	 * @param variableToIdentifier
 	 *            The map to use in the construction of the representation.
 	 * @return The string.
@@ -961,7 +961,7 @@ public abstract class Statement implements Exportable
 		/**
 		 * The statement's proven status has changed. This listener must be
 		 * registered on that statement's listeners poll.
-		 * 
+		 *
 		 * @param transaction
 		 *            The transaction under which the modification has been
 		 *            done. Possibly the data change is not visible outside of
@@ -970,14 +970,14 @@ public abstract class Statement implements Exportable
 		 *            The statement that has been proven or unproven.
 		 * @param proved
 		 *            The new proven status.
-		 * 
+		 *
 		 * @see Statement#addStateListener(StateListener)
 		 */
 		public void provedStateChanged(Transaction transaction, Statement statement, boolean proved);
 
 		/**
 		 * A statement has been added to a listened context.
-		 * 
+		 *
 		 * @param transaction
 		 *            The transaction under which the modification has been
 		 *            done. Possibly the data change is not visible outside of
@@ -991,7 +991,7 @@ public abstract class Statement implements Exportable
 
 		/**
 		 * A statement has been deleted from a listened context.
-		 * 
+		 *
 		 * @param transaction
 		 *            The transaction under which the modification has been
 		 *            done. Possibly the data change is not visible outside of
@@ -1018,7 +1018,7 @@ public abstract class Statement implements Exportable
 
 	/**
 	 * Register a listener to this statement.
-	 * 
+	 *
 	 * @param listener
 	 *            The listener to register.
 	 */
@@ -1029,7 +1029,7 @@ public abstract class Statement implements Exportable
 
 	/**
 	 * Unregister a listener from this statement.
-	 * 
+	 *
 	 * @param listener
 	 *            The listener to unregister.
 	 */
@@ -1050,7 +1050,7 @@ public abstract class Statement implements Exportable
 
 	/**
 	 * Return the set of listeners of this statement.
-	 * 
+	 *
 	 * @return The set of listeners.
 	 */
 	protected Iterable<StateListener> stateListeners()
@@ -1061,7 +1061,7 @@ public abstract class Statement implements Exportable
 	/**
 	 * The UUID of the variable assigned to this statement. Identifies uniquely
 	 * this statement.
-	 * 
+	 *
 	 * @return The UUID.
 	 */
 	public UUID getUuid()
@@ -1212,7 +1212,7 @@ public abstract class Statement implements Exportable
 	public CloseableSet<StatementAuthority> dependentAuthorities(final Transaction transaction)
 	{
 		return new FilteredCloseableSet<>(new NotNullFilter<StatementAuthority>(), new BijectionCloseableSet<>(new Bijection<Statement, StatementAuthority>()
-		{
+				{
 			@Override
 			public StatementAuthority forward(Statement statement)
 			{
@@ -1224,7 +1224,7 @@ public abstract class Statement implements Exportable
 			{
 				throw new UnsupportedOperationException();
 			}
-		}, dependents(transaction)));
+				}, dependents(transaction)));
 	}
 
 	public void identify(Transaction transaction, Identifier identifier) throws NomenclatorException
@@ -1247,13 +1247,13 @@ public abstract class Statement implements Exportable
 	}
 
 	public void delete(Transaction transaction) throws StatementNotInContextException, StatementHasDependentsException, CantDeleteAssumptionException,
-			DependentUnpackedSignatureRequests
+	DependentUnpackedSignatureRequests
 	{
 		getContext(transaction).deleteStatement(transaction, this);
 	}
 
 	public void deleteWithRemovalFromDependentUnpackedSignatureRequests(Transaction transaction) throws StatementNotInContextException,
-			StatementHasDependentsException, CantDeleteAssumptionException
+	StatementHasDependentsException, CantDeleteAssumptionException
 	{
 		removeFromDependentUnpackedSignatureRequests(transaction);
 		try
@@ -1282,7 +1282,7 @@ public abstract class Statement implements Exportable
 	/**
 	 * Rebuild the proven statuses of all the descendants of this context (and
 	 * the statements that depend on them).
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 */

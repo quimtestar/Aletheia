@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -39,7 +39,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
 public abstract class BerkeleyDBGenericSignatureRequestMap<S extends SignatureRequest, E extends BerkeleyDBSignatureRequestEntity> extends
-		AbstractCloseableMap<UUID, S> implements GenericSignatureRequestMap<S>
+AbstractCloseableMap<UUID, S> implements GenericSignatureRequestMap<S>
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final EntityIndex<UUIDKey, E> index;
@@ -119,7 +119,7 @@ public abstract class BerkeleyDBGenericSignatureRequestMap<S extends SignatureRe
 		{
 			final EntityCursor<E> cursor = transaction.entities(index);
 			return new CloseableIterator<Entry<UUID, S>>()
-			{
+					{
 				E next;
 				{
 					next = transaction.next(cursor);
@@ -164,7 +164,7 @@ public abstract class BerkeleyDBGenericSignatureRequestMap<S extends SignatureRe
 					close();
 					super.finalize();
 				}
-			};
+					};
 
 		}
 
@@ -221,7 +221,7 @@ public abstract class BerkeleyDBGenericSignatureRequestMap<S extends SignatureRe
 
 	/**
 	 * Faster computation (possibly not accurate) of the size of this map.
-	 * 
+	 *
 	 * @return The size
 	 * @see #size()
 	 */

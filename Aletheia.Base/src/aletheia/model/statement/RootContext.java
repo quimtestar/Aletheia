@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -78,7 +78,7 @@ public class RootContext extends Context
 
 	/**
 	 * Creates a root context from scratch.
-	 * 
+	 *
 	 * @param persistenceManager
 	 *            The persistence manager that will manage the persistence state
 	 *            of this statement.
@@ -90,7 +90,7 @@ public class RootContext extends Context
 	 *            to this statement. Since the term associated to the statement
 	 *            can't have projections pending, the actual term used is the
 	 *            unprojection of this one.
-	 * 
+	 *
 	 * @throws StatementException
 	 */
 	private RootContext(PersistenceManager persistenceManager, Transaction transaction, UUID uuid, List<UUID> uuidAssumptions, Term term)
@@ -102,7 +102,7 @@ public class RootContext extends Context
 	/**
 	 * Creates a context that envelopes an already existing
 	 * {@link RootContextEntity}
-	 * 
+	 *
 	 * @param persistenceManager
 	 *            The persistence manager that will manage the persistence state
 	 *            of this statement.
@@ -119,7 +119,7 @@ public class RootContext extends Context
 	 * Since the root context statement is the only statement that isn't in any
 	 * context, this method always throws and
 	 * {@link UnsupportedOperationException}
-	 * 
+	 *
 	 * @throws UnsupportedOperationException
 	 */
 	@Override
@@ -142,7 +142,7 @@ public class RootContext extends Context
 
 	/**
 	 * Creates the root context statement in an empty persistence environment.
-	 * 
+	 *
 	 * @param persistenceManager
 	 *            The persistence manager associated to this statement.
 	 * @param transaction
@@ -172,7 +172,7 @@ public class RootContext extends Context
 	}
 
 	public static RootContext create(PersistenceManager persistenceManager, Transaction transaction, String termString) throws TermParserException,
-			StatementException
+	StatementException
 	{
 		return create(persistenceManager, transaction, AletheiaTermParser.parseTerm(termString));
 	}

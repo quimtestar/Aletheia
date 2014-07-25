@@ -17,7 +17,7 @@
  * catalogs will be accessed via successive (and recursive) calls to the method
  * {@link aletheia.model.catalog.Catalog#children()}.
  * </p>
- * 
+ *
  * @see aletheia.model.identifier
  */
 package aletheia.model.catalog;

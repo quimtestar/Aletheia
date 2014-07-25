@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -96,14 +96,14 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 			{
 				delegateAuthorizerList = new BufferedList<>(delegateTreeNode.localDelegateAuthorizerMap(transaction).values());
 				Collections.sort(delegateAuthorizerList, new Comparator<DelegateAuthorizer>()
-				{
+						{
 
 					@Override
 					public int compare(DelegateAuthorizer a1, DelegateAuthorizer a2)
 					{
 						return a1.getDelegate(transaction).getNick().compareTo(a2.getDelegate(transaction).getNick());
 					}
-				});
+						});
 				delegateAuthorizerListRef = new SoftReference<List<DelegateAuthorizer>>(delegateAuthorizerList);
 			}
 			finally
@@ -123,7 +123,7 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 	private List<DelegateTreeModelBranchSubNode> getBranchSubNodeList()
 	{
 		return new BijectionList<DelegateTreeSubNode, DelegateTreeModelBranchSubNode>(new Bijection<DelegateTreeSubNode, DelegateTreeModelBranchSubNode>()
-		{
+				{
 
 			@Override
 			public DelegateTreeModelBranchSubNode forward(DelegateTreeSubNode delegateTreeSubNode)
@@ -136,13 +136,13 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 			{
 				return delegateTreeModelBranchSubNode.getDelegateTreeNode();
 			}
-		}, getSubNodeList());
+				}, getSubNodeList());
 	}
 
 	private List<DelegateTreeModelLeafNode> getLeafNodeList()
 	{
 		return new BijectionList<DelegateAuthorizer, DelegateTreeModelLeafNode>(new Bijection<DelegateAuthorizer, DelegateTreeModelLeafNode>()
-		{
+				{
 
 			@Override
 			public DelegateTreeModelLeafNode forward(DelegateAuthorizer delegateAuthorizer)
@@ -156,7 +156,7 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 				return delegateTreeModelLeafNode.getDelegateAuthorizer();
 			}
 
-		}, getDelegateAuthorizerList());
+				}, getDelegateAuthorizerList());
 	}
 
 	private List<DelegateTreeModelNode> getChildList()
@@ -206,7 +206,7 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 		final List<DelegateTreeModelNode> childList = getChildList();
 		final Iterator<DelegateTreeModelNode> iterator = childList.iterator();
 		return new Enumeration<DelegateTreeModelNode>()
-		{
+				{
 			@Override
 			public boolean hasMoreElements()
 			{
@@ -218,7 +218,7 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 			{
 				return iterator.next();
 			}
-		};
+				};
 	}
 
 }

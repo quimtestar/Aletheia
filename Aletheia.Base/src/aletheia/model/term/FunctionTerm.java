@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -27,7 +27,7 @@ import aletheia.model.identifier.Identifier;
 
 /**
  * A term representing a generic function.
- * 
+ *
  * <p>
  * A function is composed by two elements: a <i>parameter</i> which is a
  * {@link VariableTerm}, and a <i>body</i> which is a {@link Term}, where the
@@ -38,7 +38,7 @@ import aletheia.model.identifier.Identifier;
  * <b>"<<i>parameter</i>:<i>type</i> -> <i>body</i>>"</b> where <i>type</i> is
  * the type term of the parameter variable.
  * </p>
- * 
+ *
  */
 public class FunctionTerm extends Term
 {
@@ -64,7 +64,7 @@ public class FunctionTerm extends Term
 
 	/**
 	 * Create a new function term with the specified parameter and body.
-	 * 
+	 *
 	 * @param parameter
 	 *            The parameter of the function.
 	 * @param body
@@ -80,7 +80,7 @@ public class FunctionTerm extends Term
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The parameter.
 	 */
 	public ParameterVariableTerm getParameter()
@@ -89,7 +89,7 @@ public class FunctionTerm extends Term
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The body.
 	 */
 	public Term getBody()

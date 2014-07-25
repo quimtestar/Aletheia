@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -28,16 +28,16 @@ import aletheia.parsergenerator.symbols.TerminalSymbol;
 /**
  * A grammar for grammar specifications. Intended to work with the
  * {@link GrammarLexer} lexer. The production rules are:
- * 
+ *
  * <pre>
- * G -> identifier Q 
- * Q -> Q P semicolon 
- * Q -> semicolon 
- * P -> identifier arrow R 
+ * G -> identifier Q
+ * Q -> Q P semicolon
+ * Q -> semicolon
+ * P -> identifier arrow R
  * R -> R identifier
  * R ->
  * </pre>
- * 
+ *
  * Where the start symbol is G and <i>identifier</i>, <i>semicolon</i> and
  * <i>arrow</i> are the {@linkplain TerminalSymbol terminal symbols} defined at
  * the {@linkplain GrammarLexer grammar lexer} specification.
@@ -53,14 +53,14 @@ public class GrammarGrammar extends Grammar
 
 	/*
 	 * @formatter:off
-	 * 
-	 * G -> id Q 
-	 * Q -> Q P ; 
-	 * Q -> ; 
-	 * P -> id -> R 
-	 * R -> R id 
+	 *
+	 * G -> id Q
+	 * Q -> Q P ;
+	 * Q -> ;
+	 * P -> id -> R
+	 * R -> R id
 	 * R ->
-	 * 
+	 *
 	 * @formatter:on
 	 */
 	public static final Production prodG = new Production(sG, Arrays.<Symbol> asList(GrammarLexer.sIdentifier, sQ));

@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -66,7 +66,7 @@ import aletheia.utilities.collections.BufferedList;
 /**
  * A class for backing up and restoring the full persistence environment using
  * the protocol tools.
- * 
+ *
  * The data is arranged in the following way, starting from the root context:
  * <ul>
  * <li>The statement is placed via the {@link StatementProtocol}.</li>
@@ -78,7 +78,7 @@ import aletheia.utilities.collections.BufferedList;
  * recursively) as returned by the method
  * {@link Context#localDependencySortedStatements(Transaction)}. </blockquote>
  * </ul>
- * 
+ *
  * @see IntegerProtocol
  * @see UUIDProtocol
  * @see StatementProtocol
@@ -273,7 +273,7 @@ public class BackupRestore
 	 * and
 	 * {@link #restoreStatementsClean(DataInput, PersistenceManager, Transaction)}
 	 * .
-	 * 
+	 *
 	 * @param out
 	 *            The data output to send the data to.
 	 * @param persistenceManager
@@ -331,7 +331,7 @@ public class BackupRestore
 	 * Receives a full data set of a persistence environment through a
 	 * {@link DataInput}. Cleans up any information previously present on this
 	 * persistence environment.
-	 * 
+	 *
 	 * @param in
 	 *            The data input to receive the data from.
 	 * @param persistenceManager
@@ -420,7 +420,7 @@ public class BackupRestore
 	 * Receives a full data set of a persistence environment through a
 	 * {@link DataInput}. Merges the received information with any that is
 	 * already present on this persistence environment.
-	 * 
+	 *
 	 * @param in
 	 *            The data input to receive the data from.
 	 * @param restoreCancellerImpl

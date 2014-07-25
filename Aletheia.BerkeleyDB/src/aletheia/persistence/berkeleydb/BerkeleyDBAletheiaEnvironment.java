@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -77,7 +77,7 @@ public class BerkeleyDBAletheiaEnvironment extends Environment
 		if (configuration.getCachePercent() > 0)
 			environmentConfig.setCachePercent(configuration.getCachePercent());
 		environmentConfig.setRecoveryProgressListener(new ProgressListener<RecoveryProgress>()
-		{
+				{
 			@Override
 			public boolean progress(RecoveryProgress phase, long n, long total)
 			{
@@ -95,7 +95,7 @@ public class BerkeleyDBAletheiaEnvironment extends Environment
 				}
 				return true;
 			}
-		});
+				});
 		return environmentConfig;
 	}
 
@@ -222,14 +222,14 @@ public class BerkeleyDBAletheiaEnvironment extends Environment
 	public Collection<String> storeDatabaseNames(final String storeName)
 	{
 		return new FilteredCollection<>(new Filter<String>()
-		{
+				{
 
 			@Override
 			public boolean filter(String dbName)
 			{
 				return databaseNameMatchesStore(storeName, dbName);
 			}
-		}, getDatabaseNames());
+				}, getDatabaseNames());
 	}
 
 	public void renameStore(String oldStoreName, String newStoreName)
@@ -279,13 +279,13 @@ public class BerkeleyDBAletheiaEnvironment extends Environment
 		{
 			for (String dbName : storeDatabaseNames(oldStoreName))
 				try
-				{
+			{
 					removeDatabase(tx, dbName);
-				}
-				catch (DatabaseNotFoundException e)
-				{
-					logger.error(e.getMessage(), e);
-				}
+			}
+			catch (DatabaseNotFoundException e)
+			{
+				logger.error(e.getMessage(), e);
+			}
 			tx.commit();
 		}
 		finally

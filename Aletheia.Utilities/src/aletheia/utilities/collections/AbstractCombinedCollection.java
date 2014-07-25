@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -35,12 +35,12 @@ import aletheia.utilities.MiscUtilities;
  * iterate across the front {@link Collection} and the across the back
  * {@link Collection}. The management of the back {@link Collection} is kept
  * abstract.
- * 
+ *
  * @param <E>
  *            The elements' type.
- * 
+ *
  * @see Collection
- * 
+ *
  * @author Quim Testar
  */
 public abstract class AbstractCombinedCollection<E> extends AbstractReadOnlyCollection<E> implements Serializable
@@ -69,7 +69,7 @@ public abstract class AbstractCombinedCollection<E> extends AbstractReadOnlyColl
 	/**
 	 * The managing of the back collection is left for the subclasses, so this
 	 * method must be overriden.
-	 * 
+	 *
 	 * @return The back collection.
 	 */
 	protected abstract Collection<E> getBack();
@@ -106,7 +106,7 @@ public abstract class AbstractCombinedCollection<E> extends AbstractReadOnlyColl
 	 * found. If the front iterator still can be moved forward, we move it and
 	 * return the element found; if not we use the back iterator. we advance it
 	 * one position
-	 * 
+	 *
 	 * @param frontIterator
 	 * @param backIterator
 	 * @return The next element found in either iterator.

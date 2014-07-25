@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -432,11 +432,11 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 
 	//@formatter:off
 	private final static Collection<Class<? extends MyTableCellRenderer<?>>> cellRendererClasses = Arrays.<Class<? extends MyTableCellRenderer<?>>> asList(
-			SignatoryTableCellRenderer.class, 
-			DateTableCellRenderer.class, 
-			BooleanTableCellRenderer.class, 
+			SignatoryTableCellRenderer.class,
+			DateTableCellRenderer.class,
+			BooleanTableCellRenderer.class,
 			ContextTableCellRenderer.class,
-			NamespaceTableCellRenerer.class, 
+			NamespaceTableCellRenerer.class,
 			DelegateTableCellRenderer.class
 			);
 	//@formatter:on
@@ -458,7 +458,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 				try
 				{
 					deleteSignatures(new BijectionList<Integer, StatementAuthoritySignature>(new Bijection<Integer, StatementAuthoritySignature>()
-					{
+							{
 
 						@Override
 						public StatementAuthoritySignature forward(Integer input)
@@ -471,7 +471,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 						{
 							throw new UnsupportedOperationException();
 						}
-					}, new ArrayAsList<Integer>(getSelectedRows())));
+							}, new ArrayAsList<Integer>(getSelectedRows())));
 				}
 				catch (InterruptedException e)
 				{
@@ -591,12 +591,12 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 	private void deleteSignatures(Collection<StatementAuthoritySignature> signatures) throws InterruptedException
 	{
 		getAuthorityJPanel()
-				.getContextJTreeJPanel()
-				.getAletheiaJPanel()
-				.getCliJPanel()
-				.command(
-						new DeleteSignatures(getAuthorityJPanel().getContextJTreeJPanel().getAletheiaJPanel().getCliJPanel(), getModel().beginTransaction(),
-								signatures), false);
+		.getContextJTreeJPanel()
+		.getAletheiaJPanel()
+		.getCliJPanel()
+		.command(
+				new DeleteSignatures(getAuthorityJPanel().getContextJTreeJPanel().getAletheiaJPanel().getCliJPanel(), getModel().beginTransaction(),
+						signatures), false);
 	}
 
 	public void updateFontSize()

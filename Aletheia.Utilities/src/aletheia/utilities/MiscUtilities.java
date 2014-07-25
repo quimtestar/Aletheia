@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -45,7 +45,7 @@ import aletheia.utilities.collections.CloseableIterator;
 
 /**
  * Miscellaneous utilities implemented as static methods.
- * 
+ *
  * @author Quim Testar
  */
 public class MiscUtilities
@@ -53,15 +53,15 @@ public class MiscUtilities
 
 	/**
 	 * Wrap a text with a number of columns.
-	 * 
+	 *
 	 * Copied from
-	 * 
+	 *
 	 * <a href=
 	 * "http://progcookbook.blogspot.com/2006/02/text-wrapping-function-for-java.html"
 	 * >http://progcookbook.blogspot.com/2006/02/text-wrapping-function-for-java
 	 * .html</a>.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param text
 	 *            Text to be wrapped.
 	 * @param len
@@ -330,10 +330,10 @@ public class MiscUtilities
 
 	/**
 	 * Returns the index of the closest {@link UUID} from a list to a given one.
-	 * 
+	 *
 	 * The distance is defined to be the absolute difference of the two
 	 * {@link UUID}s interpreted as a single 128-bit number each.
-	 * 
+	 *
 	 * @param uuid
 	 *            The given {@link UUID}.
 	 * @param list
@@ -405,7 +405,7 @@ public class MiscUtilities
 	{
 		NumberFormat nf = new DecimalFormat("###0.##");
 		String[] units = new String[]
-		{ "B", "KiB", "MiB", "GiB" };
+				{ "B", "KiB", "MiB", "GiB" };
 		float value = size;
 		int m = (int) (Math.log(value) / Math.log(1 << 10));
 		if (m >= units.length)
@@ -559,11 +559,11 @@ public class MiscUtilities
 	/**
 	 * Constructs an object of a given class using a constructor that matches
 	 * the given arguments.
-	 * 
+	 *
 	 * @see #matchingConstructor(Class, Object...)
 	 */
 	public static <C> C construct(Class<C> clazz, Object... initArgs) throws InstantiationException, IllegalAccessException, IllegalArgumentException,
-			InvocationTargetException, NoConstructorException
+	InvocationTargetException, NoConstructorException
 	{
 		Constructor<C> constructor = matchingConstructor(clazz, initArgs);
 		if (constructor == null)
@@ -583,7 +583,7 @@ public class MiscUtilities
 
 	/**
 	 * List of stack trace elements to the precise call of this method.
-	 * 
+	 *
 	 * Warning: Expensive method. Use only in debug mode.
 	 */
 	public static List<StackTraceElement> stackTraceList(int depth)
@@ -594,7 +594,7 @@ public class MiscUtilities
 
 	/**
 	 * A particular element of the {@link #stackTraceList(int)}.
-	 * 
+	 *
 	 * Warning: Expensive method. Use only in debug mode.
 	 */
 	public static StackTraceElement stackTraceElement(int depth)
@@ -605,7 +605,7 @@ public class MiscUtilities
 	/**
 	 * Puts the elements of returned by an iterator object into an array until
 	 * there's no more elements left.
-	 * 
+	 *
 	 * @param <E>
 	 *            The type of the array to generate.
 	 * @param a
@@ -649,12 +649,12 @@ public class MiscUtilities
 
 	/**
 	 * Puts the elements of an iterable object into an array.
-	 * 
+	 *
 	 * @param <E>
 	 *            The type of the array to generate.
 	 * @param a
 	 *            The array to fill if there's enough space on it.
-	 * 
+	 *
 	 * @see Collection#toArray(Object[])
 	 */
 	public static <E> E[] iterableToArray(Iterable<?> iterable, E[] a)
@@ -664,10 +664,10 @@ public class MiscUtilities
 
 	/**
 	 * Puts the elements of an {@link Iterable} object into an array.
-	 * 
+	 *
 	 * @see MiscUtilities#iterableToArray(Iterable, Object[])
 	 * @see Collection#toArray(Object[])
-	 * 
+	 *
 	 */
 	public static Object[] iterableToArray(Iterable<?> iterable)
 	{
@@ -676,7 +676,7 @@ public class MiscUtilities
 
 	/**
 	 * The remote {@link InetAddress} associated to a {@link SocketChannel}.
-	 * 
+	 *
 	 * @see SocketChannel#getRemoteAddress()
 	 * @see InetSocketAddress#getAddress()
 	 */

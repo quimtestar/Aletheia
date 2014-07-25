@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -203,7 +203,7 @@ public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractMap<I
 				final EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(statementEntityContextIdentifierSecondaryIndex,
 						uuidContextIdentifierMin, true, uuidContextIdentifierMax, false);
 				return new CloseableIterator<Map.Entry<Identifier, Statement>>()
-				{
+						{
 					BerkeleyDBStatementEntity next;
 					{
 						next = transaction.next(cursor);
@@ -249,7 +249,7 @@ public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractMap<I
 						super.finalize();
 					}
 
-				};
+						};
 			}
 
 			@Override
@@ -270,7 +270,7 @@ public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractMap<I
 			{
 				final Comparator<Identifier> comp = BerkeleyDBLocalIdentifierToStatement.this.comparator();
 				return new Comparator<Entry<Identifier, Statement>>()
-				{
+						{
 
 					@Override
 					public int compare(Entry<Identifier, Statement> e0, Entry<Identifier, Statement> e1)
@@ -278,7 +278,7 @@ public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractMap<I
 						return comp.compare(e0.getKey(), e1.getKey());
 					}
 
-				};
+						};
 			}
 
 			@Override

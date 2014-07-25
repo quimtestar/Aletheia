@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -37,7 +37,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
 public abstract class BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<K> extends AbstractCloseableMap<Signatory, DelegateAuthorizer> implements
-		DelegateAuthorizerByAuthorizerMap
+DelegateAuthorizerByAuthorizerMap
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -78,7 +78,7 @@ public abstract class BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<K> exte
 		{
 			final EntityCursor<BerkeleyDBDelegateAuthorizerEntity> cursor = transaction.entities(index, firstKey, true, lastKey, true);
 			return new CloseableIterator<Entry<Signatory, DelegateAuthorizer>>()
-			{
+					{
 				BerkeleyDBDelegateAuthorizerEntity next;
 				{
 					next = transaction.first(cursor);
@@ -102,7 +102,7 @@ public abstract class BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<K> exte
 					if (next == null)
 						transaction.close(cursor);
 					return new Entry<Signatory, DelegateAuthorizer>()
-					{
+							{
 
 						@Override
 						public Signatory getKey()
@@ -122,7 +122,7 @@ public abstract class BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<K> exte
 							throw new UnsupportedOperationException();
 						}
 
-					};
+							};
 				}
 
 				@Override
@@ -144,7 +144,7 @@ public abstract class BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<K> exte
 					super.finalize();
 				}
 
-			};
+					};
 		}
 
 		@Override

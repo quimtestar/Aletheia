@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -29,7 +29,7 @@ import aletheia.utilities.MiscUtilities;
 
 /**
  * A {@link Set} implemented as the key set of a {@link Map}.
- * 
+ *
  * @author Quim Testar
  */
 public class DummyMapSet<E> implements Set<E>
@@ -58,7 +58,7 @@ public class DummyMapSet<E> implements Set<E>
 		public Set<Entry<E, Dummy>> entrySet()
 		{
 			return new BijectionSet<E, Entry<E, Dummy>>(new Bijection<E, Entry<E, Dummy>>()
-			{
+					{
 
 				@Override
 				public Entry<E, Dummy> forward(E input)
@@ -71,7 +71,7 @@ public class DummyMapSet<E> implements Set<E>
 				{
 					return output.getKey();
 				}
-			}, set);
+					}, set);
 		}
 
 	}

@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -155,7 +155,7 @@ public abstract class DelegateTreeNodeProtocol<D extends DelegateTreeNode> exten
 	public void send(DataOutput out, D delegateTreeNode) throws IOException
 	{
 		Collection<UUID> delegateUuids = new BijectionCollection<Person, UUID>(new Bijection<Person, UUID>()
-		{
+				{
 
 			@Override
 			public UUID forward(Person person)
@@ -168,7 +168,7 @@ public abstract class DelegateTreeNodeProtocol<D extends DelegateTreeNode> exten
 			{
 				throw new UnsupportedOperationException();
 			}
-		}, delegateTreeNode.localDelegateAuthorizerMap(getTransaction()).keySet());
+				}, delegateTreeNode.localDelegateAuthorizerMap(getTransaction()).keySet());
 		uuidCollectionProtocol.send(out, delegateUuids);
 		DelegateTreeSubNodeEntryCollectionProtocol delegateTreeSubNodeEntryCollectionProtocol = new DelegateTreeSubNodeEntryCollectionProtocol(0,
 				delegateTreeNode);
@@ -210,13 +210,13 @@ public abstract class DelegateTreeNodeProtocol<D extends DelegateTreeNode> exten
 			String name = ((NodeNamespace) ns).getName();
 			if (!names.contains(name))
 				try
-				{
+			{
 					delegateTreeNode.deleteSubNodeNoSign(getTransaction(), name);
-				}
-				catch (InvalidNameException e)
-				{
-					throw new ProtocolException(e);
-				}
+			}
+			catch (InvalidNameException e)
+			{
+				throw new ProtocolException(e);
+			}
 		}
 		try
 		{

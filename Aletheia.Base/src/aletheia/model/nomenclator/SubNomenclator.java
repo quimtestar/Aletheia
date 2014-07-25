@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -48,7 +48,7 @@ import aletheia.utilities.collections.CombinedSortedMap;
  * This class is abstract, a subclass of this will be used depending on if the
  * context is the {@link RootContext} or not.
  * </p>
- * 
+ *
  * @see aletheia.model.nomenclator
  */
 public class SubNomenclator extends Nomenclator implements Serializable, Exportable
@@ -59,7 +59,7 @@ public class SubNomenclator extends Nomenclator implements Serializable, Exporta
 
 	/**
 	 * Creates a nomenclator for a given context with a given transaction.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction.
 	 * @param context
@@ -94,7 +94,7 @@ public class SubNomenclator extends Nomenclator implements Serializable, Exporta
 
 	/**
 	 * Creates a nomenclator for the parent context, using the same transaction.
-	 * 
+	 *
 	 * @return The parent nomenclator.
 	 */
 	protected Nomenclator getParent()

@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -46,14 +46,14 @@ import aletheia.persistence.entities.statement.DeclarationEntity;
  * To relate a declaration to its value, the {@linkplain UnfoldingContext
  * unfolding context statement} is used.
  * </p>
- * 
- * 
+ *
+ *
  */
 public class Declaration extends Statement
 {
 	/**
 	 * Creates a new declaration statement from scratch.
-	 * 
+	 *
 	 * @param persistenceManager
 	 *            The persistence manager that will manage the persistence state
 	 *            of this statement.
@@ -67,7 +67,7 @@ public class Declaration extends Statement
 	 *            The context that enclosures this declaration statement.
 	 * @param value
 	 *            The value of this declaration.
-	 * 
+	 *
 	 * @throws StatementException
 	 */
 	protected Declaration(PersistenceManager persistenceManager, Transaction transaction, UUID uuid, Context context, Term value) throws StatementException
@@ -118,7 +118,7 @@ public class Declaration extends Statement
 	 * Computes the term of the statement, that is, the value's type. Any
 	 * exception thrown while the type computation will be caught and embedded
 	 * into a {@link DeclarationException}
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction used in the operation.
 	 * @param context
@@ -143,7 +143,7 @@ public class Declaration extends Statement
 	 * {@link #Declaration(PersistenceManager, Transaction, UUID, Context, Term)}
 	 * with the uuid set to null, so a new UUID will be generated for the
 	 * statement.
-	 * 
+	 *
 	 * @param persistenceManager
 	 *            The persistence manager that will manage the persistence state
 	 *            of this statement.
@@ -163,7 +163,7 @@ public class Declaration extends Statement
 	/**
 	 * Creates a declaration statement that envelopes an already existing
 	 * {@link DeclarationEntity}
-	 * 
+	 *
 	 * @param persistenceManager
 	 *            The persistence manager that will manage the persistence state
 	 *            of this statement.
@@ -213,11 +213,11 @@ public class Declaration extends Statement
 
 	/**
 	 * Constructs the set of unfolding contexts that unfold this declaration.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on this set.
 	 * @return The set.
-	 * 
+	 *
 	 * @see UnfoldingContext
 	 * @see UnfoldingContextsByDeclaration
 	 */

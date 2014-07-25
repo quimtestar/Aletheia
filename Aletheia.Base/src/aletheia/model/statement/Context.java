@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -116,7 +116,7 @@ import aletheia.utilities.collections.UnmodifiableCloseableMap;
  * statement of any of its ancestor contexts (note: *NOT* the descendant
  * contexts) whose term matches the consequent term of this context .
  * </p>
- * 
+ *
  */
 public class Context extends Statement
 {
@@ -188,7 +188,7 @@ public class Context extends Statement
 	 * Calls to
 	 * {@link Context#Context(PersistenceManager, Transaction, Class, UUID, List, Context, Term, Term)}
 	 * with innerTerm = term.
-	 * 
+	 *
 	 * @param persistenceManager
 	 *            The persistence manager that will manage the persistence state
 	 *            of this statement.
@@ -227,7 +227,7 @@ public class Context extends Statement
 	 * Calls to
 	 * {@link Context#Context(PersistenceManager, Transaction, Class, UUID, List, Context, Term, Term)}
 	 * with uuid and uuidAssumptions set to null and innerTerm = term.
-	 * 
+	 *
 	 * @param persistenceManager
 	 *            The persistence manager that will manage the persistence state
 	 *            of this statement.
@@ -258,7 +258,7 @@ public class Context extends Statement
 	/**
 	 * Creates a new context from scratch. The assumptions of this context are
 	 * also computed and generated.
-	 * 
+	 *
 	 * @param persistenceManager
 	 *            The persistence manager that will manage the persistence state
 	 *            of this statement.
@@ -311,7 +311,7 @@ public class Context extends Statement
 		{
 			FunctionTerm functionTerm = (FunctionTerm) innerTerm_;
 			Assumption assumption = (uuidAssumptions == null) ? new Assumption(persistenceManager, transaction, this, functionTerm.getParameter().getType(), i)
-					: new Assumption(persistenceManager, transaction, uuidAssumptions.get(i), this, functionTerm.getParameter().getType(), i);
+			: new Assumption(persistenceManager, transaction, uuidAssumptions.get(i), this, functionTerm.getParameter().getType(), i);
 			addStatement(transaction, assumption, false);
 			try
 			{
@@ -332,7 +332,7 @@ public class Context extends Statement
 	 * Calls to
 	 * {@link Context#Context(PersistenceManager, Transaction, Class, UUID, List, Context, Term, Term)}
 	 * with uuid and uuidAssumptions set to null.
-	 * 
+	 *
 	 * @param persistenceManager
 	 *            The persistence manager that will manage the persistence state
 	 *            of this statement.
@@ -368,7 +368,7 @@ public class Context extends Statement
 	/**
 	 * Creates a context that envelopes an already existing
 	 * {@link ContextEntity}
-	 * 
+	 *
 	 * @param persistenceManager
 	 *            The persistence manager that will manage the persistence state
 	 *            of this statement.
@@ -390,12 +390,12 @@ public class Context extends Statement
 	/**
 	 * Creates a mapping between variables and statements for the local
 	 * statements of this context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The persistence transaction across which the operations on
 	 *            this map will be performed.
 	 * @return The map.
-	 * 
+	 *
 	 * @see LocalStatementsMap
 	 */
 	protected LocalStatementsMap getLocalStatements(Transaction transaction)
@@ -407,12 +407,12 @@ public class Context extends Statement
 	 * Creates a mapping between terms and statements for the local statements
 	 * of this context. Useful for finding the set of statements that match a
 	 * particular term.
-	 * 
+	 *
 	 * @param transaction
 	 *            The persistence transaction across which the operations on
 	 *            this map will be performed.
 	 * @return The map
-	 * 
+	 *
 	 * @see LocalStatementsByTerm
 	 */
 	protected LocalStatementsByTerm getLocalStatementsByTerm(Transaction transaction)
@@ -422,12 +422,12 @@ public class Context extends Statement
 
 	/**
 	 * Creates a list of the assumptions of this context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The persistence transaction across which the operations on
 	 *            this list will be performed.
 	 * @return The list.
-	 * 
+	 *
 	 * @see AssumptionList
 	 */
 	protected AssumptionList getAssumptionList(Transaction transaction)
@@ -437,12 +437,12 @@ public class Context extends Statement
 
 	/**
 	 * The set of direct subcontexts of this context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The persistence transaction across which the operations on
 	 *            this set will be performed.
 	 * @return The set.
-	 * 
+	 *
 	 * @see SubContextsSet
 	 */
 	public SubContextsSet subContexts(Transaction transaction)
@@ -454,12 +454,12 @@ public class Context extends Statement
 	 * Creates a nomenclator for this context. A nomenclator is a bidirectional
 	 * directory of the existing correspondences between identifiers and
 	 * statements for this context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The persistence transaction across which the operations on
 	 *            this set will be performed.
 	 * @return The nomenclator.
-	 * 
+	 *
 	 * @see SubNomenclator
 	 */
 	public SubNomenclator getNomenclator(Transaction transaction)
@@ -471,7 +471,7 @@ public class Context extends Statement
 	 * Adds a statement to this context at the persistence level, rechecks the
 	 * proven status of the affected statements (the added statement and its
 	 * dependents) and triggers the notifications to this context's listeners.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param statement
@@ -496,7 +496,7 @@ public class Context extends Statement
 	/**
 	 * Calls to {@link #addStatement(Transaction, Statement, boolean)} with
 	 * checkContext set to true.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param statement
@@ -520,7 +520,7 @@ public class Context extends Statement
 	 * context or any ancestor context whose term matches with the consequent of
 	 * this context. If all the dependencies of this context and moreover any of
 	 * these statements is proven, this context will also be proven.
-	 * 
+	 *
 	 * @param transaction
 	 *            The persistence transaction to be used in the operation.
 	 * @return The set.
@@ -562,7 +562,7 @@ public class Context extends Statement
 
 	/**
 	 * Creates a new context in this context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The persistence transaction used in this operation.
 	 * @param uuid
@@ -588,7 +588,7 @@ public class Context extends Statement
 	/**
 	 * Calls to {@link #openSubContext(Transaction, UUID, List, Term)} with uuid
 	 * and uuidAssumptions set to null, so the UUIDs will be fresh-generated.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param term
@@ -603,7 +603,7 @@ public class Context extends Statement
 
 	/**
 	 * Creates a new unfolding context in this context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The persistence transaction used in this operation.
 	 * @param uuid
@@ -633,7 +633,7 @@ public class Context extends Statement
 	 * Calls to {@link #openUnfoldingSubContext(Transaction, Term, Declaration)}
 	 * with uuid and uuidAssumptions set to null, so the UUIDs will be
 	 * fresh-generated.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param term
@@ -652,7 +652,7 @@ public class Context extends Statement
 	 * The full mapping of pairs variable-statement that are accessible from
 	 * this context. That is, the union of all the
 	 * {@link #localStatements(Transaction)} of the ancestors of this context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the map.
 	 * @return The map.
@@ -667,7 +667,7 @@ public class Context extends Statement
 	 * context. That is the union of all the
 	 * {@link #localStatementsByTerm(Transaction)} of the ancestors of this
 	 * context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the map.
 	 * @return The map.
@@ -679,7 +679,7 @@ public class Context extends Statement
 
 	/**
 	 * The mapping of pairs variable-statement that are local of this context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the map.
 	 * @return The map.
@@ -691,7 +691,7 @@ public class Context extends Statement
 
 	/**
 	 * The list of assumptions of this context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the list.
 	 * @return The list.
@@ -704,7 +704,7 @@ public class Context extends Statement
 	/**
 	 * Given a term, computes the set of its free variables that are not defined
 	 * under this context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param term
@@ -725,7 +725,7 @@ public class Context extends Statement
 
 	/**
 	 * Creates a new declaration in this context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The persistence transaction used in this operation.
 	 * @param uuid
@@ -746,7 +746,7 @@ public class Context extends Statement
 	/**
 	 * Calls to {@link #declare(Transaction, UUID, Term)} with the UUID set to
 	 * null.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param value
@@ -761,7 +761,7 @@ public class Context extends Statement
 
 	/**
 	 * Creates a new specialization statement in this context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The persistence transaction used in this operation.
 	 * @param uuid
@@ -784,7 +784,7 @@ public class Context extends Statement
 	/**
 	 * Calls to {@link #specialize(Transaction, UUID, Statement, Term)} with the
 	 * UUID set to null.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param general
@@ -814,13 +814,13 @@ public class Context extends Statement
 	{
 		final LocalSortedStatements localSortedStatements = localSortedStatements(transaction);
 		return new UnionCloseableCollection<Statement>(new AbstractCloseableCollection<CloseableCollection<Statement>>()
-		{
+				{
 
 			@Override
 			public CloseableIterator<CloseableCollection<Statement>> iterator()
 			{
 				return new CloseableIterator<CloseableCollection<Statement>>()
-				{
+						{
 					final CloseableIterator<Statement> iterator = localSortedStatements.iterator();
 					final Set<Statement> visited = new HashSet<Statement>();
 
@@ -845,13 +845,13 @@ public class Context extends Statement
 							if (list == null)
 							{
 								list = new ArrayList<Statement>(new FilteredCollection<Statement>(new Filter<Statement>()
-								{
+										{
 									@Override
 									public boolean filter(Statement e)
 									{
 										return !visited.contains(e);
 									}
-								}, st.localDependencies(transaction)));
+										}, st.localDependencies(transaction)));
 								Collections.sort(list, localSortedStatements.comparator());
 								dependencyMap.put(st, list);
 							}
@@ -882,7 +882,7 @@ public class Context extends Statement
 						iterator.close();
 					}
 
-				};
+						};
 			}
 
 			@Override
@@ -890,12 +890,12 @@ public class Context extends Statement
 			{
 				return localSortedStatements.size();
 			}
-		});
+				});
 	}
 
 	/**
 	 * Assigns a local statement to a identifier.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param identifier
@@ -915,7 +915,7 @@ public class Context extends Statement
 
 	/**
 	 * Unassigns the identifier assigned to a local statement.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param identifier
@@ -931,11 +931,11 @@ public class Context extends Statement
 	/**
 	 * The composed map from identifiers to statements of the ancestors of this
 	 * context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the map.
 	 * @return The map.
-	 * 
+	 *
 	 * @see SubNomenclator#identifierToStatement()
 	 */
 	public SortedMap<Identifier, Statement> identifierToStatement(Transaction transaction)
@@ -945,11 +945,11 @@ public class Context extends Statement
 
 	/**
 	 * The local map from identifiers to statements of this context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the map.
 	 * @return The map.
-	 * 
+	 *
 	 * @see SubNomenclator#localIdentifierToStatement()
 	 */
 	public SortedMap<Identifier, Statement> localIdentifierToStatement(Transaction transaction)
@@ -960,11 +960,11 @@ public class Context extends Statement
 	/**
 	 * The composed map from statements to identifiers of the ancestors of this
 	 * context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the map.
 	 * @return The map.
-	 * 
+	 *
 	 * @see SubNomenclator#statementToIdentifier()
 	 */
 	public Map<Statement, Identifier> statementToIdentifier(Transaction transaction)
@@ -974,11 +974,11 @@ public class Context extends Statement
 
 	/**
 	 * The local map from statements to identifiers.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the map.
 	 * @return The map.
-	 * 
+	 *
 	 * @see SubNomenclator#localStatementToIdentifier()
 	 */
 	public Map<Statement, Identifier> localStatementToIdentifier(Transaction transaction)
@@ -989,11 +989,11 @@ public class Context extends Statement
 	/**
 	 * The composed map from identifiers to variables of the ancestors of this
 	 * context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the map.
 	 * @return The map.
-	 * 
+	 *
 	 * @see SubNomenclator#identifierToVariable()
 	 */
 	public SortedMap<Identifier, IdentifiableVariableTerm> identifierToVariable(Transaction transaction)
@@ -1003,11 +1003,11 @@ public class Context extends Statement
 
 	/**
 	 * The local map from variable to identifier.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the map.
 	 * @return The map.
-	 * 
+	 *
 	 * @see SubNomenclator#variableToIdentifier()
 	 */
 	public Map<IdentifiableVariableTerm, Identifier> variableToIdentifier(Transaction transaction)
@@ -1018,7 +1018,7 @@ public class Context extends Statement
 	/**
 	 * Parse a string into a term using the identifiers defined in this context
 	 * (and ancestors).
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param s
@@ -1074,7 +1074,7 @@ public class Context extends Statement
 	 * other statements depending on them. With the deletion, the proven status
 	 * of the pertinent statements is updated, so it's possible that the
 	 * execution of this methods spans through a long period of time.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param statement
@@ -1085,7 +1085,7 @@ public class Context extends Statement
 	 * @throws DependentUnpackedSignatureRequests
 	 */
 	public void deleteStatement(Transaction transaction, Statement statement) throws StatementNotInContextException, StatementHasDependentsException,
-			CantDeleteAssumptionException, DependentUnpackedSignatureRequests
+	CantDeleteAssumptionException, DependentUnpackedSignatureRequests
 	{
 		if (statement instanceof Assumption)
 			throw new CantDeleteAssumptionException();
@@ -1181,7 +1181,7 @@ public class Context extends Statement
 
 	/**
 	 * Recursively clears the proven flags of this context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @return The set of affected statements.
@@ -1219,7 +1219,7 @@ public class Context extends Statement
 	/**
 	 * Returns an {@link Iterable} of statements that descend of this context,
 	 * in preorder
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @return The iterable.
@@ -1227,12 +1227,12 @@ public class Context extends Statement
 	public CloseableIterable<Statement> descendentStatements(final Transaction transaction)
 	{
 		return new CloseableIterable<Statement>()
-		{
+				{
 			@Override
 			public CloseableIterator<Statement> iterator()
 			{
 				return new CloseableIterator<Statement>()
-				{
+						{
 					final Stack<CloseableIterator<Statement>> stack;
 					{
 						stack = new Stack<CloseableIterator<Statement>>();
@@ -1296,14 +1296,14 @@ public class Context extends Statement
 						close();
 						super.finalize();
 					}
-				};
+						};
 			}
-		};
+				};
 	}
 
 	/**
 	 * The set of descendant contexts whose consequent match a term.
-	 * 
+	 *
 	 * @param transaction
 	 *            Persistence transaction to use in the operations on the set.
 	 * @param consequent
@@ -1320,7 +1320,7 @@ public class Context extends Statement
 
 	/**
 	 * The set of descendant contexts whose consequent match a simple term.
-	 * 
+	 *
 	 * @param transaction
 	 *            Persistence transaction to use in the operations on the set.
 	 * @param consequent
@@ -1334,13 +1334,13 @@ public class Context extends Statement
 
 	/**
 	 * Deletes a statement cascading on its dependents.
-	 * 
+	 *
 	 * @param transaction
 	 *            Persistence transaction to use in this operation.
 	 * @param statement
 	 *            The statement to delete.
 	 * @throws StatementNotInContextException
-	 * 
+	 *
 	 * @see #deleteStatement(Transaction, Statement)
 	 */
 	public void deleteStatementCascade(Transaction transaction, Statement statement) throws StatementNotInContextException
@@ -1410,7 +1410,7 @@ public class Context extends Statement
 	 * statement map. In other words, it replaces in the term all the variables
 	 * that make sense on one context by corresponding variables on the other
 	 * context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction used in the operation.
 	 * @param map
@@ -1462,7 +1462,7 @@ public class Context extends Statement
 
 	/**
 	 * Copies a statement (belonging or not to this context) into this context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param statement
@@ -1483,7 +1483,7 @@ public class Context extends Statement
 	/**
 	 * Copies a list of statements (belonging or not to this context) into this
 	 * context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param statements
@@ -1499,9 +1499,9 @@ public class Context extends Statement
 	@SuppressWarnings("unused")
 	private Map<Statement, Statement> privateCopy(Transaction transaction, List<Statement> statements, Map<Statement, Statement> initMap)
 			throws StatementException
-	{
+			{
 		return privateCopy(transaction, statements, initMap, Collections.<Statement> emptySet());
-	}
+			}
 
 	public class CyclicCopyContextException extends CopyStatementException
 	{
@@ -1524,7 +1524,7 @@ public class Context extends Statement
 	 * context. Some of that statements can be specified to not be identified
 	 * (usually the original identifiers are copied to the resulting
 	 * statements).
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param statements
@@ -1541,7 +1541,7 @@ public class Context extends Statement
 	 */
 	private Map<Statement, Statement> privateCopy(Transaction transaction, List<Statement> statements, Map<Statement, Statement> initMap,
 			Set<Statement> excludeFromIdentify) throws CopyStatementException
-	{
+			{
 		Map<Statement, Statement> map = new HashMap<Statement, Statement>(initMap);
 		Set<Statement> copied = new HashSet<Statement>(initMap.values());
 		Queue<Statement> queue = new ArrayDeque<Statement>();
@@ -1656,22 +1656,22 @@ public class Context extends Statement
 				{
 					if (stDest.identifier(transaction) == null)
 						try
-						{
+					{
 							stDest.getContext(transaction).identifyStatement(transaction, id, stDest);
-						}
-						catch (NomenclatorException e)
-						{
-							throw new CopyStatementException(e);
-						}
+					}
+					catch (NomenclatorException e)
+					{
+						throw new CopyStatementException(e);
+					}
 				}
 			}
 		}
 		return map;
-	}
+			}
 
 	/**
 	 * Copies a statement (belonging or not to this context) into this context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param statement
@@ -1682,7 +1682,7 @@ public class Context extends Statement
 	 *            context.
 	 * @return The new statement.
 	 * @throws StatementException
-	 * 
+	 *
 	 * @see #privateCopy(Transaction, Statement, Map)
 	 */
 	public Statement copy(Transaction transaction, Statement statement, Map<Statement, Statement> initMap) throws StatementException
@@ -1696,7 +1696,7 @@ public class Context extends Statement
 	 * context. Some of that statements can be specified to not be identified
 	 * (usually the original identifiers are copied to the resulting
 	 * statements).
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param statements
@@ -1709,23 +1709,23 @@ public class Context extends Statement
 	 *            The set of statements that will be excluded from identifying.
 	 * @return The list of copied statements.
 	 * @throws CopyStatementException
-	 * 
+	 *
 	 * @see #privateCopy(Transaction, List, Map, Set)
 	 */
 	public List<Statement> copy(Transaction transaction, List<Statement> statements, Map<Statement, Statement> initMap, Set<Statement> excludeFromIdentify)
 			throws StatementException
-	{
+			{
 		Map<Statement, Statement> map = privateCopy(transaction, statements, initMap, excludeFromIdentify);
 		List<Statement> list = new ArrayList<Statement>();
 		for (Statement st : statements)
 			list.add(map.get(st));
 		return list;
-	}
+			}
 
 	/**
 	 * Copies a list of statements (belonging or not to this context) into this
 	 * context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param statements
@@ -1736,7 +1736,7 @@ public class Context extends Statement
 	 *            context.
 	 * @return The list of copied statements.
 	 * @throws CopyStatementException
-	 * 
+	 *
 	 * @see #copy(Transaction, List, Map, Set)
 	 */
 	public List<Statement> copy(Transaction transaction, List<Statement> statements, Map<Statement, Statement> initMap) throws StatementException
@@ -1746,14 +1746,14 @@ public class Context extends Statement
 
 	/**
 	 * Copies a statement (belonging or not to this context) into this context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param statement
 	 *            The statement to be copied.
 	 * @return The new statement.
 	 * @throws StatementException
-	 * 
+	 *
 	 * @see #copy(Transaction, Statement, Map)
 	 */
 	public Statement copy(Transaction transaction, Statement statement) throws StatementException
@@ -1764,14 +1764,14 @@ public class Context extends Statement
 	/**
 	 * Copies a list of statements (belonging or not to this context) into this
 	 * context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param statements
 	 *            The list of statements to be copied (in that order).
 	 * @return The list of copied statements.
 	 * @throws CopyStatementException
-	 * 
+	 *
 	 * @see #copy(Transaction, List, Map)
 	 */
 	public List<Statement> copy(Transaction transaction, List<Statement> statements) throws StatementException
@@ -1782,7 +1782,7 @@ public class Context extends Statement
 	/**
 	 * Copies a list of statements (belonging or not to this context) into this
 	 * context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param statements
@@ -1791,7 +1791,7 @@ public class Context extends Statement
 	 *            The set of statements that will be excluded from identifying.
 	 * @return The list of copied statements.
 	 * @throws CopyStatementException
-	 * 
+	 *
 	 * @see #copy(Transaction, List, Map, Set)
 	 */
 	public List<Statement> copy(Transaction transaction, List<Statement> statements, Set<Statement> excludeFromIdentify) throws StatementException
@@ -1814,7 +1814,7 @@ public class Context extends Statement
 	 * Decides if a statement is a independent of this context. That is, it
 	 * doesn't depends on any of the substatements of this context and so, it
 	 * can be moved to the upper context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction used in this operation.
 	 * @param statement
@@ -1861,7 +1861,7 @@ public class Context extends Statement
 
 	/**
 	 * Does that identifier identify a local statement?
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param id
@@ -1876,7 +1876,7 @@ public class Context extends Statement
 	/**
 	 * Return the number of local statements in this contexts (including the
 	 * assumptions).
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @return The number of local statements.
@@ -1889,11 +1889,11 @@ public class Context extends Statement
 	/**
 	 * The map from variables to statements of the local statements in this
 	 * context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the map.
 	 * @return The map
-	 * 
+	 *
 	 * @see #getLocalStatements(Transaction)
 	 */
 	public CloseableMap<IdentifiableVariableTerm, Statement> localStatements(Transaction transaction)
@@ -1910,7 +1910,7 @@ public class Context extends Statement
 	/**
 	 * The set of all the dependencies of all the statements that descend from
 	 * this context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the map.
 	 * @return The set.
@@ -1931,7 +1931,7 @@ public class Context extends Statement
 
 	/**
 	 * Decides if a statement descends from this context
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the map.
 	 * @param st
@@ -1953,11 +1953,11 @@ public class Context extends Statement
 
 	/**
 	 * Creates a {@link Catalog} for this context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the catalog.
 	 * @return The catalog.
-	 * 
+	 *
 	 * @see Catalog
 	 */
 	public RootCatalog catalog()

@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -34,10 +34,10 @@ import aletheia.utilities.SuperComparator;
  * discards the elements with lower priority when that limit capacity is
  * reached. The capacity cannot be fixed as any integer, it must be in the form
  * of 3*2^height-2, where <b>height</b> can be any positive integer.
- * 
+ *
  * @param <E>
  *            The elements' type.
- * 
+ *
  * @author Quim Testar
  */
 public class DiamondPriorityDiscardingQueue<E> implements Queue<E>
@@ -55,26 +55,26 @@ public class DiamondPriorityDiscardingQueue<E> implements Queue<E>
 	 * {@link Comparator} may throw a {@link ClassCastException} when it
 	 * compares an object that does not implement the {@link Comparable}
 	 * interface.
-	 * 
+	 *
 	 * @return The created {@link Comparator}.
 	 */
 	private static <E> Comparator<E> defaultComparator()
 	{
 		return new Comparator<E>()
-		{
+				{
 			@SuppressWarnings("unchecked")
 			@Override
 			public int compare(E e1, E e2) throws ClassCastException
 			{
 				return ((Comparable<? super E>) e1).compareTo(e2);
 			}
-		};
+				};
 	}
 
 	/**
 	 * Creates a new priority discarding queue with a given height and a
 	 * comparator. The resulting capacity of the queue will be 3*2^height-2.
-	 * 
+	 *
 	 * @param height
 	 *            The height.
 	 * @param comparator
@@ -93,7 +93,7 @@ public class DiamondPriorityDiscardingQueue<E> implements Queue<E>
 	 * Creates a new priority discarding queue with a given height and the
 	 * {@link #defaultComparator()}. The resulting capacity of the queue will be
 	 * 3*2^height-2.
-	 * 
+	 *
 	 * @param height
 	 *            The height.
 	 */
@@ -124,7 +124,7 @@ public class DiamondPriorityDiscardingQueue<E> implements Queue<E>
 	public Iterator<E> iterator()
 	{
 		return new Iterator<E>()
-		{
+				{
 			int i = 0;
 
 			@Override
@@ -147,7 +147,7 @@ public class DiamondPriorityDiscardingQueue<E> implements Queue<E>
 				throw new UnsupportedOperationException();
 			}
 
-		};
+				};
 	}
 
 	@Override

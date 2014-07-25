@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -42,7 +42,7 @@ public class AutomatonSetState
 
 	/**
 	 * Creates the initial automaton set state for a given automaton set.
-	 * 
+	 *
 	 * @param automatonSet
 	 *            The automaton set.
 	 */
@@ -58,7 +58,7 @@ public class AutomatonSetState
 	/**
 	 * Forces the choosing of the automaton still non-discarded state that is
 	 * first in the defined order.
-	 * 
+	 *
 	 * @see #getChosen()
 	 */
 	public void choose()
@@ -81,7 +81,7 @@ public class AutomatonSetState
 
 	/**
 	 * Alters this state by processing the given character.
-	 * 
+	 *
 	 * @param c
 	 *            The character.
 	 */
@@ -107,7 +107,7 @@ public class AutomatonSetState
 
 	/**
 	 * Checks if there is any non-discarded automaton in this state.
-	 * 
+	 *
 	 * @return Is this state at end?
 	 */
 	public boolean atEnd()
@@ -117,7 +117,7 @@ public class AutomatonSetState
 
 	/**
 	 * Returns the chosen terminal symbol of this state.
-	 * 
+	 *
 	 * @return The chosen symbol.
 	 */
 	public TerminalSymbol getChosen()
@@ -128,7 +128,7 @@ public class AutomatonSetState
 	/**
 	 * Checks true if the chosen automaton is associated with no terminal
 	 * symbol.
-	 * 
+	 *
 	 * @return Is this state ignoring input?
 	 */
 	public boolean isIgnoreInput()

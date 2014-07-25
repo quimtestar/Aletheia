@@ -1,20 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
- * The Aletheia Proof Assistant is free software: you can redistribute it 
- * and/or modify it under the terms of the GNU Affero General Public License 
- * as published by the Free Software Foundation, either version 3 of the 
+ *
+ * The Aletheia Proof Assistant is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
- * The Aletheia Proof Assistant is distributed in the hope that it will be 
+ *
+ * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
- * along with the Aletheia Proof Assistant. 
+ * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package aletheia.peertopeer;
@@ -393,7 +393,7 @@ public abstract class PeerToPeerNode
 		private final Map<UUID, Set<Resource>> nodeUuidToResourceSetMap = new HashMap<UUID, Set<Resource>>();
 
 		public synchronized StatementMalePeerToPeerConnection obtainConnection(Resource resource, NodeAddress nodeAddress) throws ConnectException,
-				IOException, InterruptedException
+		IOException, InterruptedException
 		{
 			StatementMalePeerToPeerConnection connect = nodeUuidToStatementConnectionMap.get(nodeAddress.getUuid());
 			if (connect == null)
@@ -1593,13 +1593,13 @@ public abstract class PeerToPeerNode
 		{
 			for (PendingEntry entry : pending.values())
 				try
-				{
+			{
 					entry.close();
-				}
-				catch (IOException e)
-				{
-					logger.warn("Exception caught", e);
-				}
+			}
+			catch (IOException e)
+			{
+				logger.warn("Exception caught", e);
+			}
 			pending.clear();
 			pendingEntriesByConjugalPhase.clear();
 			pendingEntryExpirationQueue.clear();
@@ -1863,7 +1863,7 @@ public abstract class PeerToPeerNode
 	}
 
 	protected ConnectSocketChannel directConnectSocketChannel(InetSocketAddress socketAddress) throws ConnectTimeoutException, SocketOpenException,
-			NullSocketAddressConnectException
+	NullSocketAddressConnectException
 	{
 		if (socketAddress == null)
 			throw new NullSocketAddressConnectException();
@@ -1918,7 +1918,7 @@ public abstract class PeerToPeerNode
 	}
 
 	protected abstract ConnectSocketChannel connectSocketChannel(InetSocketAddress socketAddress, UUID expectedPeerNodeUuid) throws ConnectException,
-			IOException;
+	IOException;
 
 	private ConnectSocketChannel connectSocketChannel(InetSocketAddress socketAddress, Class<? extends MalePeerToPeerConnection> connectionClass,
 			UUID expectedPeerNodeUuid) throws ConnectException, IOException
@@ -2112,7 +2112,7 @@ public abstract class PeerToPeerNode
 	}
 
 	protected JoiningNetworkMalePeerToPeerConnection joiningNetworkConnect(InetSocketAddress socketAddress, UUID expectedPeerNodeUuid) throws IOException,
-			ConnectException
+	ConnectException
 	{
 		return connect(socketAddress, JoiningNetworkMalePeerToPeerConnection.class, expectedPeerNodeUuid);
 	}
@@ -2292,7 +2292,7 @@ public abstract class PeerToPeerNode
 	}
 
 	public RootContext obtainRootContext(UUID signatureUuid, ListenableAborter aborter) throws InterruptedException, IOException, ConnectException,
-			CancelledCommandException, AbortException
+	CancelledCommandException, AbortException
 	{
 		PersistenceManager persistenceManager = getPersistenceManager();
 		{
@@ -2325,7 +2325,7 @@ public abstract class PeerToPeerNode
 	}
 
 	private RootContext obtainRootContext(NodeAddress nodeAddress, UUID signatureUuid, ListenableAborter aborter) throws ConnectException, IOException,
-			InterruptedException, AbortException, CancelledCommandException
+	InterruptedException, AbortException, CancelledCommandException
 	{
 		EphemeralMalePeerToPeerConnection connection = ephemeralConnect(nodeAddress);
 		try
@@ -2343,7 +2343,7 @@ public abstract class PeerToPeerNode
 	}
 
 	private RootContext obtainRootContext(NodeAddress nodeAddress, UUID signatureUuid) throws ConnectException, IOException, InterruptedException,
-			CancelledCommandException
+	CancelledCommandException
 	{
 		try
 		{
@@ -2356,7 +2356,7 @@ public abstract class PeerToPeerNode
 	}
 
 	private void transmitRootContext(NodeAddress nodeAddress, UUID signatureUuid, ListenableAborter aborter) throws ConnectException, IOException,
-			InterruptedException, AbortException, CancelledCommandException
+	InterruptedException, AbortException, CancelledCommandException
 	{
 		EphemeralMalePeerToPeerConnection connection = ephemeralConnect(nodeAddress);
 		try
@@ -2373,7 +2373,7 @@ public abstract class PeerToPeerNode
 	}
 
 	private void transmitRootContext(NodeAddress nodeAddress, UUID signatureUuid) throws ConnectException, IOException, InterruptedException,
-			CancelledCommandException
+	CancelledCommandException
 	{
 		try
 		{
@@ -2386,7 +2386,7 @@ public abstract class PeerToPeerNode
 	}
 
 	public boolean sendSignatureRequest(Person person, SignatureRequest signatureRequest, ListenableAborter aborter) throws InterruptedException, IOException,
-			ConnectException, AbortException, CancelledCommandException
+	ConnectException, AbortException, CancelledCommandException
 	{
 		ResourceInfo resourceInfo = locateResource(new PrivatePersonResource(person.getUuid()));
 		if (resourceInfo != null)
@@ -2412,7 +2412,7 @@ public abstract class PeerToPeerNode
 	}
 
 	private boolean sendDeferredSignatureRequest(Person person, SignatureRequest signatureRequest, ListenableAborter aborter) throws IOException,
-			ConnectException, InterruptedException, AbortException, CancelledCommandException
+	ConnectException, InterruptedException, AbortException, CancelledCommandException
 	{
 		Transaction transaction = getPersistenceManager().beginTransaction();
 		try
@@ -2430,7 +2430,7 @@ public abstract class PeerToPeerNode
 	}
 
 	private boolean sendDeferredMessage(UUID recipientUuid, DeferredMessageContent content, ListenableAborter aborter) throws IOException, ConnectException,
-			InterruptedException, AbortException, CancelledCommandException
+	InterruptedException, AbortException, CancelledCommandException
 	{
 		NodeAddress closest = closestNodeAddress(recipientUuid);
 		if (closest.getUuid().equals(getNodeUuid()))
@@ -2556,13 +2556,13 @@ public abstract class PeerToPeerNode
 			Person person = persistenceManager.getPerson(transaction, personResourceMetadata.getResource().getUuid());
 			if (person != null)
 				try
-				{
+			{
 					personInfo.update(transaction, person);
-				}
-				catch (SignatureVerifyException e)
-				{
-					logger.error("Can't update person", e);
-				}
+			}
+			catch (SignatureVerifyException e)
+			{
+				logger.error("Can't update person", e);
+			}
 			transaction.commit();
 		}
 		finally
@@ -2573,7 +2573,7 @@ public abstract class PeerToPeerNode
 	}
 
 	public boolean sendPersons(Person recipient, Collection<Person> persons, ListenableAborter aborter) throws InterruptedException, AbortException,
-			ConnectException, IOException, CancelledCommandException
+	ConnectException, IOException, CancelledCommandException
 	{
 		ResourceInfo resourceInfo = locateResource(new PrivatePersonResource(recipient.getUuid()));
 		if (resourceInfo != null)
@@ -2601,7 +2601,7 @@ public abstract class PeerToPeerNode
 	}
 
 	private boolean sendDeferredPersons(Person recipient, Collection<Person> persons, ListenableAborter aborter) throws IOException, ConnectException,
-			InterruptedException, AbortException, CancelledCommandException
+	InterruptedException, AbortException, CancelledCommandException
 	{
 		Transaction transaction = getPersistenceManager().beginTransaction();
 		try
@@ -2916,7 +2916,7 @@ public abstract class PeerToPeerNode
 	}
 
 	public boolean transmitDeferredMessages(UUID recipientUuid, Collection<DeferredMessage> deferredMessages) throws InterruptedException, IOException,
-			ConnectException, CancelledCommandException
+	ConnectException, CancelledCommandException
 	{
 		PrivatePersonResource privatePersonResourceMetadata = new PrivatePersonResource(recipientUuid);
 		if (isLocalResource(privatePersonResourceMetadata))
@@ -3120,7 +3120,7 @@ public abstract class PeerToPeerNode
 	}
 
 	protected void asynchronousNetworkJoin(InetSocketAddress hookSocketAddress, UUID expectedPeerNodeUuid) throws InterruptedException, ConnectException,
-			IOException
+	IOException
 	{
 		waitForJoinedToNetwork();
 		clearJoinedToNetwork();

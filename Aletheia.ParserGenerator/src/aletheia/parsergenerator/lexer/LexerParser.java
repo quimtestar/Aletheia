@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -49,22 +49,22 @@ public class LexerParser extends Parser
 
 	//@formatter:off
 	private final static Automaton blankAutomaton=Automaton.charset(Arrays.asList(new Character[]{
-		'\u2028','\u2029',
-		'\u0020','\u1680','\u180e','\u2000','\u2001','\u2002','\u2003','\u2004','\u2005','\u2006','\u2007','\u2008','\u2009',
-		'\u200a','\u202f','\u205f','\u3000',
-		'\u00A0', '\u2007', '\u202F',
-		'\u0009', '\n', '\u000B', '\u000C', '\r', '\u001C', '\u001D', '\u001E', '\u001F',
+			'\u2028','\u2029',
+			'\u0020','\u1680','\u180e','\u2000','\u2001','\u2002','\u2003','\u2004','\u2005','\u2006','\u2007','\u2008','\u2009',
+			'\u200a','\u202f','\u205f','\u3000',
+			'\u00A0', '\u2007', '\u202F',
+			'\u0009', '\n', '\u000B', '\u000C', '\r', '\u001C', '\u001D', '\u001E', '\u001F',
 	}));
 
 	private final static Collection<Character> eolChars=new HashSet<Character>(Arrays.asList(new Character[]{
 			'\n','\r','\u000b','\u000c','\u0085',
 			'\u2028','\u2029',
 	}));
-	
+
 	//@formatter:off
 	private final static Automaton eolAutomaton=Automaton.union(
-				Automaton.charset(eolChars),
-				Automaton.string("\r\n"));
+			Automaton.charset(eolChars),
+			Automaton.string("\r\n"));
 	//@formatter:on
 
 	private final static Automaton dotAutomaton;
@@ -98,7 +98,7 @@ public class LexerParser extends Parser
 
 	/**
 	 * Parses an automaton set object from a {@link LexerLexer}
-	 * 
+	 *
 	 * @param lexerLexer
 	 *            The lexer of lexers.
 	 * @return The automaton set.
@@ -361,7 +361,7 @@ public class LexerParser extends Parser
 
 	/**
 	 * Parses an automaton set object from a {@link Reader}.
-	 * 
+	 *
 	 * @param reader
 	 *            The reader to read from.
 	 * @return The automaton set.

@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -47,7 +47,7 @@ public class DeterministicAutomaton implements Serializable
 	 * of accepting states and transitions. This method is private and doesn't
 	 * make a copy of the parameter data structures, so the caller must be
 	 * responsible of the further modifications done on them.
-	 * 
+	 *
 	 * @param startState
 	 *            The start state.
 	 * @param acceptStates
@@ -66,7 +66,7 @@ public class DeterministicAutomaton implements Serializable
 	/**
 	 * Creates a new deterministic automaton as a determinized version of a
 	 * given generalized (nondeterministic) automaton.
-	 * 
+	 *
 	 * @param automaton
 	 *            The automaton to determinize.
 	 */
@@ -143,7 +143,7 @@ public class DeterministicAutomaton implements Serializable
 
 	/**
 	 * The start state of this automaton.
-	 * 
+	 *
 	 * @return The start state.
 	 */
 	public AutomatonState startState()
@@ -153,7 +153,7 @@ public class DeterministicAutomaton implements Serializable
 
 	/**
 	 * The set of accepting states of this automaton.
-	 * 
+	 *
 	 * @return The set of accepting states.
 	 */
 	public Set<AutomatonState> acceptStates()
@@ -163,7 +163,7 @@ public class DeterministicAutomaton implements Serializable
 
 	/**
 	 * Checks if a given state is a member of the acceptable state set.
-	 * 
+	 *
 	 * @param state
 	 *            The state.
 	 * @return Is it acceptable?
@@ -176,7 +176,7 @@ public class DeterministicAutomaton implements Serializable
 	/**
 	 * Checks if this automaton accepts the empty string. I.e. the start state
 	 * is acceptable.
-	 * 
+	 *
 	 * @return Does it?
 	 */
 	public boolean acceptsEmpty()
@@ -186,7 +186,7 @@ public class DeterministicAutomaton implements Serializable
 
 	/**
 	 * The transition of a given state and a character.
-	 * 
+	 *
 	 * @param state
 	 *            The state.
 	 * @param c
@@ -204,7 +204,7 @@ public class DeterministicAutomaton implements Serializable
 	/**
 	 * The transition map of a given state. A compact form of
 	 * {@link #next(AutomatonState, char)}.
-	 * 
+	 *
 	 * @param state
 	 *            The state.
 	 * @return The transition map.
@@ -222,7 +222,7 @@ public class DeterministicAutomaton implements Serializable
 	 * Compute the deterministic automaton that accepts the same language of
 	 * this one and have the minimal number of states. That minimal automaton is
 	 * unique for a language up to isomorphism.
-	 * 
+	 *
 	 * @return The minimal deterministic finite automaton.
 	 */
 	public DeterministicAutomaton minimize()
@@ -343,7 +343,7 @@ public class DeterministicAutomaton implements Serializable
 	/**
 	 * Gives a generalized (nondeterministic) version of this deterministic
 	 * automaton.
-	 * 
+	 *
 	 * @return The nondeterministic automaton.
 	 */
 	public Automaton undeterminize()
@@ -353,9 +353,9 @@ public class DeterministicAutomaton implements Serializable
 
 	/**
 	 * Creates the empty deterministic automaton.
-	 * 
+	 *
 	 * @return The empty automaton.
-	 * 
+	 *
 	 * @see Automaton#empty()
 	 */
 	public static DeterministicAutomaton empty()
@@ -365,9 +365,9 @@ public class DeterministicAutomaton implements Serializable
 
 	/**
 	 * Create the empty string deterministic automaton.
-	 * 
+	 *
 	 * @return The empty string automaton.
-	 * 
+	 *
 	 * @see Automaton#emptyString()
 	 */
 	public static DeterministicAutomaton emptyString()
@@ -377,11 +377,11 @@ public class DeterministicAutomaton implements Serializable
 
 	/**
 	 * Create the singleton automaton.
-	 * 
+	 *
 	 * @param c
 	 *            The character.
 	 * @return The singleton automaton.
-	 * 
+	 *
 	 * @see Automaton#singleton(char)
 	 */
 	public static DeterministicAutomaton singleton(char c)
@@ -391,11 +391,11 @@ public class DeterministicAutomaton implements Serializable
 
 	/**
 	 * Creates a deterministic automaton that solely recognizes a given string.
-	 * 
+	 *
 	 * @param s
 	 *            The string.
 	 * @return The automaton.
-	 * 
+	 *
 	 * @see Automaton#string(CharSequence)
 	 */
 	public static DeterministicAutomaton string(CharSequence s)
@@ -405,13 +405,13 @@ public class DeterministicAutomaton implements Serializable
 
 	/**
 	 * Creates the union automaton of two previously existing automatons.
-	 * 
+	 *
 	 * @param a1
 	 *            The first automaton to unite.
 	 * @param a2
 	 *            The second automaton to unite.
 	 * @return The union automaton.
-	 * 
+	 *
 	 * @see Automaton#union(Automaton, Automaton)
 	 */
 	public static DeterministicAutomaton union(DeterministicAutomaton a1, DeterministicAutomaton a2)
@@ -422,7 +422,7 @@ public class DeterministicAutomaton implements Serializable
 	/**
 	 * Calls to {@link #union(DeterministicAutomaton, DeterministicAutomaton)}
 	 * with this automaton and another one.
-	 * 
+	 *
 	 * @param a
 	 *            The automaton to unite to this.
 	 * @return The resulting automaton.
@@ -434,13 +434,13 @@ public class DeterministicAutomaton implements Serializable
 
 	/**
 	 * Creates a concatenation automaton of two previously existing automatons.
-	 * 
+	 *
 	 * @param a1
 	 *            The first automaton to concatenate.
 	 * @param a2
 	 *            The second automaton to concatenate.
 	 * @return The concatenation automaton.
-	 * 
+	 *
 	 * @see Automaton#concatenate(Automaton, Automaton)
 	 */
 	public static DeterministicAutomaton concatenate(DeterministicAutomaton a1, DeterministicAutomaton a2)
@@ -452,7 +452,7 @@ public class DeterministicAutomaton implements Serializable
 	 * Calls to
 	 * {@link #concatenate(DeterministicAutomaton, DeterministicAutomaton)} with
 	 * this automaton and another one.
-	 * 
+	 *
 	 * @param a
 	 *            The automaton to concatenate to this.
 	 * @return The concatenated automaton.
@@ -464,11 +464,11 @@ public class DeterministicAutomaton implements Serializable
 
 	/**
 	 * Creates the Kleene star of an automaton.
-	 * 
+	 *
 	 * @param a
 	 *            The source automaton.
 	 * @return The Kleene star automaton.
-	 * 
+	 *
 	 * @see Automaton#kleene(Automaton)
 	 */
 	public static DeterministicAutomaton kleene(DeterministicAutomaton a)
@@ -478,7 +478,7 @@ public class DeterministicAutomaton implements Serializable
 
 	/**
 	 * Calls to {@link #kleene(DeterministicAutomaton)} with this automaton.
-	 * 
+	 *
 	 * @return The Kleene star automaton.
 	 */
 	public DeterministicAutomaton kleene()
@@ -496,7 +496,7 @@ public class DeterministicAutomaton implements Serializable
 	 * of accept states of a and the complement of the set of accept states of
 	 * b.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @param a
 	 *            The first automaton.
 	 * @param b
@@ -638,7 +638,7 @@ public class DeterministicAutomaton implements Serializable
 	/**
 	 * The deterministic automaton that accepts the intersection language of two
 	 * other automatons.
-	 * 
+	 *
 	 * @param a
 	 *            The first automaton.
 	 * @param b
@@ -654,7 +654,7 @@ public class DeterministicAutomaton implements Serializable
 	 * Calls to
 	 * {@link #intersection(DeterministicAutomaton, DeterministicAutomaton)}
 	 * with this automaton and another one.
-	 * 
+	 *
 	 * @param a
 	 *            The other automaton.
 	 * @return The intersection.
@@ -667,7 +667,7 @@ public class DeterministicAutomaton implements Serializable
 	/**
 	 * The deterministic automaton that accepts the subtraction language of two
 	 * other automatons.
-	 * 
+	 *
 	 * @param a
 	 *            The first automaton.
 	 * @param b
@@ -683,7 +683,7 @@ public class DeterministicAutomaton implements Serializable
 	 * Calls to
 	 * {@link #subtraction(DeterministicAutomaton, DeterministicAutomaton)} with
 	 * this automaton and another one.
-	 * 
+	 *
 	 * @param a
 	 *            The other automaton.
 	 * @return The subtraction.
@@ -696,7 +696,7 @@ public class DeterministicAutomaton implements Serializable
 	/**
 	 * Checks The equality of two deterministic automatons up to isomorphism.
 	 * Should be minimized first to check if they recognize the same language.
-	 * 
+	 *
 	 * @param a1
 	 *            The first automaton to be compared.
 	 * @param a2

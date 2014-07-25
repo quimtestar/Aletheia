@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -47,7 +47,7 @@ public class UnfoldingContext extends Context
 {
 	/**
 	 * Creates a new unfolding context statement from scratch.
-	 * 
+	 *
 	 * @param persistenceManager
 	 *            The persistence manager that will manage the persistence state
 	 *            of this statement.
@@ -84,7 +84,7 @@ public class UnfoldingContext extends Context
 	 * Calls to
 	 * {@link #UnfoldingContext(Transaction, PersistenceManager, UUID, List, Context, Term, Declaration)}
 	 * with uuid and uuidAssumptions set to null.
-	 * 
+	 *
 	 * @param persistenceManager
 	 *            The persistence manager that will manage the persistence state
 	 *            of this statement.
@@ -111,7 +111,7 @@ public class UnfoldingContext extends Context
 	/**
 	 * Creates a unfolding context that envelopes an already existing
 	 * {@link UnfoldingContextEntity}
-	 * 
+	 *
 	 * @param persistenceManager
 	 *            The persistence manager that will manage the persistence state
 	 *            of this statement.
@@ -191,7 +191,7 @@ public class UnfoldingContext extends Context
 	 * context. Takes the term and replaces the declaration's variable with the
 	 * declaration's value in it. Any exception thrown in the process is caught
 	 * and embedded into an {@link UnfoldingContextException}
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction used in the operation.
 	 * @param context
@@ -225,7 +225,7 @@ public class UnfoldingContext extends Context
 
 	/**
 	 * The UUID of the declaration of this unfolding context.
-	 * 
+	 *
 	 * @return The UUID.
 	 */
 	public UUID getDeclarationUuid()
@@ -235,7 +235,7 @@ public class UnfoldingContext extends Context
 
 	/**
 	 * The declaration statement associated to this unfolding context.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction to use in this operation.
 	 * @return The declaration.

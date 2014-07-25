@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -24,7 +24,7 @@ import java.util.Map;
 /**
  * A view of a {@link CloseableSortedMap} defined by a {@link Bijection} on the
  * values.
- * 
+ *
  * @author Quim Testar
  */
 public class BijectionCloseableSortedMap<K, I, O> extends BijectionSortedMap<K, I, O> implements CloseableSortedMap<K, O>
@@ -57,13 +57,13 @@ public class BijectionCloseableSortedMap<K, I, O> extends BijectionSortedMap<K, 
 	public CloseableSet<Map.Entry<K, O>> entrySet()
 	{
 		Bijection<Entry<K, I>, Entry<K, O>> bijection_ = new Bijection<Entry<K, I>, Entry<K, O>>()
-		{
+				{
 
 			@Override
 			public Entry<K, O> forward(final Entry<K, I> input)
 			{
 				return new Entry<K, O>()
-				{
+						{
 
 					@Override
 					public K getKey()
@@ -83,14 +83,14 @@ public class BijectionCloseableSortedMap<K, I, O> extends BijectionSortedMap<K, 
 						return getBijection().forward(input.setValue(getBijection().backward(value)));
 					}
 
-				};
+						};
 			}
 
 			@Override
 			public Entry<K, I> backward(final Entry<K, O> output)
 			{
 				return new Entry<K, I>()
-				{
+						{
 
 					@Override
 					public K getKey()
@@ -110,12 +110,12 @@ public class BijectionCloseableSortedMap<K, I, O> extends BijectionSortedMap<K, 
 						return getBijection().backward(output.setValue(getBijection().forward(value)));
 					}
 
-				};
+						};
 			}
 
-		};
+				};
 
-		return new BijectionCloseableSet<Entry<K, I>, Entry<K, O>>(bijection_, getInner().entrySet());
+				return new BijectionCloseableSet<Entry<K, I>, Entry<K, O>>(bijection_, getInner().entrySet());
 	}
 
 	@Override

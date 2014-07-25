@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -55,7 +55,7 @@ import aletheia.utilities.collections.CloseableMap;
  * This class is abstract, a subclass of this will be used depending on if the
  * context is the {@link RootContext} or not.
  * </p>
- * 
+ *
  * @see aletheia.model.nomenclator
  */
 public abstract class Nomenclator implements Serializable, Exportable
@@ -102,7 +102,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 
 	/**
 	 * Creates a nomenclator for a given context with a given transaction.
-	 * 
+	 *
 	 * @param transaction
 	 *            The transaction.
 	 * @param context
@@ -143,14 +143,14 @@ public abstract class Nomenclator implements Serializable, Exportable
 
 	/**
 	 * A mapping from identifiers to accessible statements.
-	 * 
+	 *
 	 * @return The map.
 	 */
 	public abstract SortedMap<Identifier, Statement> identifierToStatement();
 
 	/**
 	 * A mapping from accessible statements to identifiers.
-	 * 
+	 *
 	 * @return The map.
 	 */
 	public abstract Map<Statement, Identifier> statementToIdentifier();
@@ -224,7 +224,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 
 	/**
 	 * Gives a local unidentified statement a new identifier.
-	 * 
+	 *
 	 * @param identifier
 	 *            The identifier
 	 * @param statement
@@ -260,7 +260,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 
 	/**
 	 * Unassigns an identifier from a local statement.
-	 * 
+	 *
 	 * @param identifier
 	 *            The identifier to be unassigned.
 	 * @return The statement that had that identifier.
@@ -284,7 +284,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 	/**
 	 * A mapping from identifiers to the variables of the statements that they
 	 * identify.
-	 * 
+	 *
 	 * @return The map.
 	 */
 	public SortedMap<Identifier, IdentifiableVariableTerm> identifierToVariable()
@@ -292,7 +292,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 		final SortedMap<Identifier, Statement> i2s = identifierToStatement();
 		final Map<Statement, Identifier> s2i = statementToIdentifier();
 		return new AbstractReadOnlySortedMap<Identifier, IdentifiableVariableTerm>()
-		{
+				{
 			@Override
 			public boolean containsKey(Object key)
 			{
@@ -384,13 +384,13 @@ public abstract class Nomenclator implements Serializable, Exportable
 				throw new UnsupportedOperationException();
 			}
 
-		};
+				};
 	}
 
 	/**
 	 * A mapping from the variables to the identifiers the statements associated
 	 * to them hav in this nomenclator.
-	 * 
+	 *
 	 * @return The map.
 	 */
 	public Map<IdentifiableVariableTerm, Identifier> variableToIdentifier()
@@ -398,7 +398,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 		final SortedMap<Identifier, Statement> i2s = identifierToStatement();
 		final Map<Statement, Identifier> s2i = statementToIdentifier();
 		return new AbstractReadOnlyMap<IdentifiableVariableTerm, Identifier>()
-		{
+				{
 			@Override
 			public boolean containsKey(Object key)
 			{
@@ -451,13 +451,13 @@ public abstract class Nomenclator implements Serializable, Exportable
 				return i2s.keySet();
 			}
 
-		};
+				};
 	}
 
 	/**
 	 * True if and only if a given identifier is assigned to a local statement
 	 * to the context.
-	 * 
+	 *
 	 * @param identifier
 	 *            The identifier.
 	 * @return Is it local?
@@ -469,7 +469,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 
 	/**
 	 * A mapping from identifiers to local statements.
-	 * 
+	 *
 	 * @return The map.
 	 */
 	public SortedMap<Identifier, Statement> localIdentifierToStatement()
@@ -479,7 +479,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 
 	/**
 	 * A mapping from local statements to identifiers.
-	 * 
+	 *
 	 * @return The map.
 	 */
 	public Map<Statement, Identifier> localStatementToIdentifier()

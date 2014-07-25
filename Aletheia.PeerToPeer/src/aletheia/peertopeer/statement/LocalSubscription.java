@@ -1,20 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
- * The Aletheia Proof Assistant is free software: you can redistribute it 
- * and/or modify it under the terms of the GNU Affero General Public License 
- * as published by the Free Software Foundation, either version 3 of the 
+ *
+ * The Aletheia Proof Assistant is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
- * The Aletheia Proof Assistant is distributed in the hope that it will be 
+ *
+ * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
- * along with the Aletheia Proof Assistant. 
+ * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package aletheia.peertopeer.statement;
@@ -51,7 +51,7 @@ public class LocalSubscription implements Subscription
 
 		SubscribeStatementsRootContextLocalSet subscribeStatementsRootContextLocalSet = persistenceManager.subscribeStatementsRootContextLocalSet(transaction);
 		return new BijectionCloseableSet<RootContextLocal, UUID>(new Bijection<RootContextLocal, UUID>()
-		{
+				{
 
 			@Override
 			public UUID forward(RootContextLocal rootContextLocal)
@@ -64,7 +64,7 @@ public class LocalSubscription implements Subscription
 			{
 				return persistenceManager.getRootContextLocal(transaction, uuid);
 			}
-		}, subscribeStatementsRootContextLocalSet);
+				}, subscribeStatementsRootContextLocalSet);
 	}
 
 	public class LocalSubContextSubscription implements SubContextSubscription
@@ -81,7 +81,7 @@ public class LocalSubscription implements Subscription
 		public CloseableSet<UUID> contextUuids()
 		{
 			return new BijectionCloseableSet<>(new Bijection<ContextLocal, UUID>()
-			{
+					{
 
 				@Override
 				public UUID forward(ContextLocal contextLocal)
@@ -94,14 +94,14 @@ public class LocalSubscription implements Subscription
 				{
 					return persistenceManager.getContextLocal(transaction, uuid);
 				}
-			}, contextLocal.subscribeStatementsContextLocalSet(transaction));
+					}, contextLocal.subscribeStatementsContextLocalSet(transaction));
 		}
 
 		@Override
 		public CloseableSet<UUID> proofUuids()
 		{
 			return new BijectionCloseableSet<>(new Bijection<StatementLocal, UUID>()
-			{
+					{
 
 				@Override
 				public UUID forward(StatementLocal statementLocal)
@@ -114,7 +114,7 @@ public class LocalSubscription implements Subscription
 				{
 					return persistenceManager.getStatementLocal(transaction, uuid);
 				}
-			}, contextLocal.subscribeProofStatementLocalSet(transaction));
+					}, contextLocal.subscribeProofStatementLocalSet(transaction));
 		}
 
 	}
@@ -123,7 +123,7 @@ public class LocalSubscription implements Subscription
 	public CloseableMap<UUID, LocalSubContextSubscription> subContextSubscriptions()
 	{
 		return new AbstractCloseableMap<UUID, LocalSubContextSubscription>()
-		{
+				{
 
 			@Override
 			public boolean containsKey(Object key)
@@ -152,13 +152,13 @@ public class LocalSubscription implements Subscription
 			public CloseableSet<Map.Entry<UUID, LocalSubContextSubscription>> entrySet()
 			{
 				return new BijectionCloseableSet<>(new Bijection<ContextLocal, Map.Entry<UUID, LocalSubContextSubscription>>()
-				{
+						{
 
 					@Override
 					public Map.Entry<UUID, LocalSubContextSubscription> forward(final ContextLocal contextLocal)
 					{
 						return new Map.Entry<UUID, LocalSubContextSubscription>()
-						{
+								{
 
 							@Override
 							public UUID getKey()
@@ -178,7 +178,7 @@ public class LocalSubscription implements Subscription
 								throw new UnsupportedOperationException();
 							}
 
-						};
+								};
 					}
 
 					@Override
@@ -186,10 +186,10 @@ public class LocalSubscription implements Subscription
 					{
 						return persistenceManager.getContextLocal(transaction, entry.getKey());
 					}
-				}, persistenceManager.statementLocalSetMap(transaction).keySet());
+						}, persistenceManager.statementLocalSetMap(transaction).keySet());
 
 			}
-		};
+				};
 	}
 
 }

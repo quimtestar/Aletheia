@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -358,7 +358,7 @@ public class CliJPanel extends JPanel
 			public void write(int b) throws IOException
 			{
 				write(new byte[]
-				{ (byte) b });
+						{ (byte) b });
 			}
 
 		}
@@ -688,7 +688,7 @@ public class CliJPanel extends JPanel
 								}
 								float pref = layoutPool.getPreferredSpan(axis);
 								float min = layoutPool.getMinimumSpan(axis);
-								// Don't include insets, Box.getXXXSpan will include them. 
+								// Don't include insets, Box.getXXXSpan will include them.
 								r.minimum = (int) min;
 								r.preferred = Math.max(r.minimum, (int) pref);
 								r.maximum = Integer.MAX_VALUE;
@@ -780,7 +780,7 @@ public class CliJPanel extends JPanel
 		public boolean canImport(JComponent comp, DataFlavor[] transferFlavors)
 		{
 			//@formatter:off
-			if (Arrays.asList(transferFlavors).contains(StatementDataFlavor.instance) || 
+			if (Arrays.asList(transferFlavors).contains(StatementDataFlavor.instance) ||
 					Arrays.asList(transferFlavors).contains(NamespaceDataFlavor.instance) ||
 					Arrays.asList(transferFlavors).contains(UUIDDataFlavor.instance) )
 				return true;

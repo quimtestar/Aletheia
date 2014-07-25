@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -58,7 +58,7 @@ public abstract class EntityStoreUpgrade
 	@SuppressWarnings("unchecked")
 	// @formatter:off
 	private static final Class<? extends EntityStoreUpgrade>[] upgradeClasses = (Class<? extends EntityStoreUpgrade>[]) new Class<?>[]
-	{ 
+			{
 		EntityStoreUpgrade_000.class,
 		EntityStoreUpgrade_001.class,
 		EntityStoreUpgrade_002.class,
@@ -69,7 +69,7 @@ public abstract class EntityStoreUpgrade
 		EntityStoreUpgrade_016.class,
 		EntityStoreUpgrade_017.class,
 		EntityStoreUpgrade_018.class,
-	};
+			};
 	// @formatter:on
 
 	private static final Map<Integer, EntityStoreUpgrade> upgradeMap;
@@ -496,7 +496,7 @@ public abstract class EntityStoreUpgrade
 		}
 
 		protected Object partialConvertRawObject(EntityModel model, RawObject rawObject, Map<RawObject, Object> converted) throws ClassNotFoundException,
-				NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+		NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 		{
 			Object o = converted.get(rawObject);
 			if (o == null)
@@ -512,13 +512,13 @@ public abstract class EntityStoreUpgrade
 		}
 
 		protected Object partialConvertRawObject(EntityModel model, RawObject rawObject) throws ClassNotFoundException, NoSuchMethodException,
-				SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+		SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 		{
 			return partialConvertRawObject(model, rawObject, new IdentityHashMap<RawObject, Object>());
 		}
 
 		protected Object partialConvertRawObjectIfException(EntityModel model, RawObject rawObject) throws ClassNotFoundException, InstantiationException,
-				IllegalAccessException, NoSuchFieldException, SecurityException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException
+		IllegalAccessException, NoSuchFieldException, SecurityException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException
 		{
 			try
 			{

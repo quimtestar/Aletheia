@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -44,7 +44,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBNodeDeferredMessagesByNodeMap extends AbstractCloseableMap<UUID, NodeDeferredMessagesByRecipientCollection> implements
-		NodeDeferredMessagesByNodeMap
+NodeDeferredMessagesByNodeMap
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -87,14 +87,14 @@ public class BerkeleyDBNodeDeferredMessagesByNodeMap extends AbstractCloseableMa
 	public CloseableSet<UUID> keySet()
 	{
 		return new AbstractCloseableSet<UUID>()
-		{
+				{
 
 			@Override
 			public CloseableIterator<UUID> iterator()
 			{
 				final EntityCursor<NodeDeferredMessageRecipientSecondaryKeyData> cursor = transaction.keys(index, fromKey, true, toKey, true);
 				return new CloseableIterator<UUID>()
-				{
+						{
 					private NodeDeferredMessageRecipientSecondaryKeyData next;
 					{
 						next = transaction.first(cursor);
@@ -139,7 +139,7 @@ public class BerkeleyDBNodeDeferredMessagesByNodeMap extends AbstractCloseableMa
 						super.finalize();
 					}
 
-				};
+						};
 			}
 
 			@Override
@@ -245,7 +245,7 @@ public class BerkeleyDBNodeDeferredMessagesByNodeMap extends AbstractCloseableMa
 				}
 			}
 
-		};
+				};
 	}
 
 	@Override
@@ -259,7 +259,7 @@ public class BerkeleyDBNodeDeferredMessagesByNodeMap extends AbstractCloseableMa
 					public Entry<UUID, NodeDeferredMessagesByRecipientCollection> forward(final UUID recipientUuid)
 					{
 						return new Entry<UUID, NodeDeferredMessagesByRecipientCollection>()
-						{
+								{
 
 							@Override
 							public UUID getKey()
@@ -284,7 +284,7 @@ public class BerkeleyDBNodeDeferredMessagesByNodeMap extends AbstractCloseableMa
 							{
 								return getKey() + " => " + getValue();
 							}
-						};
+								};
 					}
 
 					@Override

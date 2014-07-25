@@ -1,20 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
- * The Aletheia Proof Assistant is free software: you can redistribute it 
- * and/or modify it under the terms of the GNU Affero General Public License 
- * as published by the Free Software Foundation, either version 3 of the 
+ *
+ * The Aletheia Proof Assistant is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
- * The Aletheia Proof Assistant is distributed in the hope that it will be 
+ *
+ * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
- * along with the Aletheia Proof Assistant. 
+ * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package aletheia.peertopeer.base.message;
@@ -127,7 +127,7 @@ public enum MessageCode implements ShortExportableEnum<MessageCode>
 	_LoopStatementDialogAcknowledge((short) 0x0017, LoopStatementDialogTypeAcknowledgeMessage.class, 0, 0),
 	_StatementsSubscribe((short)0x0018, StatementsSubscribeMessage.class, 0, 0),
 	_StatementsSubscribeConfirmation((short)0x0019, StatementsSubscribeConfirmationMessage.class, 0, 0),
-	
+
 	_Routeable((short)0x0100, RouteableMessage.class, 0, 0),
 	_RouterSet((short)0x0101, RouterSetMessage.class, 0, 0),
 	_LoopNetworkDialogRequest((short) 0x0102, LoopNetworkDialogTypeRequestMessage.class,0, 0),
@@ -153,7 +153,7 @@ public enum MessageCode implements ShortExportableEnum<MessageCode>
 	_NeighbourCumulation((short) 0x0116, NeighbourCumulationMessage.class,0, 0),
 	_RouterCumulation((short) 0x0117, RouterCumulationMessage.class,0, 0),
 	_RequestRouterCumulationValue((short) 0x0118, RequestRouterCumulationValueMessage.class,0, 0),
-	
+
 	_LoopEphemeralDialogAcknowledge((short)0x0200, LoopEphemeralDialogTypeAcknowledgeMessage.class,0, 0),
 	_LoopEphemeralDialogRequest((short)0x0201, LoopEphemeralDialogTypeRequestMessage.class,0, 0),
 	_RootContextsRequest((short)0x0202, RootContextsRequestMessage.class,0, 0),
@@ -176,7 +176,7 @@ public enum MessageCode implements ShortExportableEnum<MessageCode>
 	_OpenConnectionAccepted((short)0x0305, OpenConnectionAcceptedMessage.class,0, 0),
 	_OpenConnectionError((short)0x0306, OpenConnectionErrorMessage.class,0, 0),
 	_UpdateMaleNodeUuids((short)0x0307, UpdateMaleNodeUuidsMessage.class,0, 0),
-	
+
 	_ConnectionId((short)0x0400, ConnectionIdMessage.class,0, 0),
 
 	_Salutation((short)0xff00, SalutationMessage.class,0, 0),
@@ -261,9 +261,9 @@ public enum MessageCode implements ShortExportableEnum<MessageCode>
 	}
 
 	public Class<? extends MessageSubProtocol<? extends Message>> getSubProtocolClazz()
-	{
+			{
 		return subProtocolClazz;
-	}
+			}
 
 	public int getSubProtocolVersion(int version)
 	{

@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -26,14 +26,14 @@ import java.util.Set;
 
 /**
  * A view of a {@link Map} defined by a {@link Bijection} between the values.
- * 
+ *
  * @param <K>
  *            The keys type.
  * @param <I>
  *            The input values type.
  * @param <O>
  *            The output values type.
- * 
+ *
  * @author Quim Testar
  */
 public class BijectionMap<K, I, O> extends AbstractMap<K, O>
@@ -49,7 +49,7 @@ public class BijectionMap<K, I, O> extends AbstractMap<K, O>
 
 	/**
 	 * The bijection.
-	 * 
+	 *
 	 * @return The bijection.
 	 */
 	public Bijection<I, O> getBijection()
@@ -59,7 +59,7 @@ public class BijectionMap<K, I, O> extends AbstractMap<K, O>
 
 	/**
 	 * The original map.
-	 * 
+	 *
 	 * @return The original map.
 	 */
 	protected Map<K, I> getInner()
@@ -92,7 +92,7 @@ public class BijectionMap<K, I, O> extends AbstractMap<K, O>
 	/**
 	 * Casts an object to the output type of the bijection. If it's not possible
 	 * throws an {@link ExtractionClassException}.
-	 * 
+	 *
 	 * @param o
 	 *            The object to cast.
 	 * @return The casted object.
@@ -152,13 +152,13 @@ public class BijectionMap<K, I, O> extends AbstractMap<K, O>
 	public Set<Map.Entry<K, O>> entrySet()
 	{
 		Bijection<Entry<K, I>, Entry<K, O>> bijection_ = new Bijection<Entry<K, I>, Entry<K, O>>()
-		{
+				{
 
 			@Override
 			public Entry<K, O> forward(final Entry<K, I> input)
 			{
 				return new Entry<K, O>()
-				{
+						{
 
 					@Override
 					public K getKey()
@@ -178,14 +178,14 @@ public class BijectionMap<K, I, O> extends AbstractMap<K, O>
 						return bijection.forward(input.setValue(bijection.backward(value)));
 					}
 
-				};
+						};
 			}
 
 			@Override
 			public Entry<K, I> backward(final Entry<K, O> output)
 			{
 				return new Entry<K, I>()
-				{
+						{
 
 					@Override
 					public K getKey()
@@ -205,12 +205,12 @@ public class BijectionMap<K, I, O> extends AbstractMap<K, O>
 						return bijection.backward(output.setValue(bijection.forward(value)));
 					}
 
-				};
+						};
 			}
 
-		};
+				};
 
-		return new BijectionSet<Entry<K, I>, Entry<K, O>>(bijection_, inner.entrySet());
+				return new BijectionSet<Entry<K, I>, Entry<K, O>>(bijection_, inner.entrySet());
 	}
 
 	@Override
@@ -228,7 +228,7 @@ public class BijectionMap<K, I, O> extends AbstractMap<K, O>
 	/**
 	 * Returns the {@linkplain InverseBijection inverse bijection} of another
 	 * one.
-	 * 
+	 *
 	 * @param b
 	 *            The input bijection.
 	 * @return The inverted bijection.

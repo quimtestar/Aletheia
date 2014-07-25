@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -46,7 +46,7 @@ import aletheia.utilities.collections.CastBijection;
  * The type relation between terms is acyclic, and some terms have no defined
  * type. (e.g. the primitive type or any function to the primitve type).
  * </p>
- * 
+ *
  */
 public abstract class Term implements Serializable, Exportable
 {
@@ -66,7 +66,7 @@ public abstract class Term implements Serializable, Exportable
 
 	/**
 	 * Base class for all the type-related exceptions for terms.
-	 * 
+	 *
 	 */
 	public abstract static class TypeException extends Exception
 	{
@@ -95,7 +95,7 @@ public abstract class Term implements Serializable, Exportable
 
 	/**
 	 * Computes the type of this term (another term).
-	 * 
+	 *
 	 * @return The type.
 	 */
 	public Term getType()
@@ -104,9 +104,9 @@ public abstract class Term implements Serializable, Exportable
 	}
 
 	/**
-	 * 
+	 *
 	 * Exception related with the non-matching types of the replacing terms.
-	 * 
+	 *
 	 */
 	public class ReplaceTypeException extends TypeException
 	{
@@ -136,7 +136,7 @@ public abstract class Term implements Serializable, Exportable
 	/**
 	 * Replace all occurrences of the <i>variable</i> in this term with the
 	 * <i>term</i>.
-	 * 
+	 *
 	 * @param variable
 	 *            The variable to be replaced.
 	 * @param term
@@ -180,9 +180,9 @@ public abstract class Term implements Serializable, Exportable
 
 	/**
 	 * Two terms are equal by default.
-	 * 
+	 *
 	 * Must be overridden by subclasses.
-	 * 
+	 *
 	 */
 	@Override
 	public boolean equals(Object obj)
@@ -215,7 +215,7 @@ public abstract class Term implements Serializable, Exportable
 	 * Adds the free variables in this term to <i>freeVars</i>, considering
 	 * <i>localVars</i> as bounded (allegedly, they are the parameter variables
 	 * of function terms which this term is embedded in the body of).
-	 * 
+	 *
 	 * @param freeVars
 	 *            The set of free variables.
 	 * @param localVars
@@ -227,7 +227,7 @@ public abstract class Term implements Serializable, Exportable
 	 * Returns the set of free variables in this term. A variable is free when
 	 * it doesn't occur in the body of a function which the variable is the
 	 * parameter of.
-	 * 
+	 *
 	 * @return The set of free variables.
 	 */
 	public Set<VariableTerm> freeVariables()
@@ -242,7 +242,7 @@ public abstract class Term implements Serializable, Exportable
 	 * operations might throw a {@link ClassCastException} if the term has any
 	 * free {@link VariableTerm} that is not an {@link IdentifiableVariableTerm}
 	 * .
-	 * 
+	 *
 	 * @return The set of free {@link IdentifiableVariableTerm}s
 	 */
 	public Set<IdentifiableVariableTerm> freeIdentifiableVariables()
@@ -253,7 +253,7 @@ public abstract class Term implements Serializable, Exportable
 	/**
 	 * Converts term to {@link String} using the specified correspondence
 	 * between variables and identifiers.
-	 * 
+	 *
 	 * @param variableToIdentifier
 	 *            Mapping from variables to identifiers to use for the
 	 *            conversion.
@@ -268,7 +268,7 @@ public abstract class Term implements Serializable, Exportable
 
 	/**
 	 * Equivalent to {@link #toString(Map)} with an empty map.
-	 * 
+	 *
 	 * @see #toString(Map)
 	 */
 	@Override
@@ -278,11 +278,11 @@ public abstract class Term implements Serializable, Exportable
 	}
 
 	/**
-	 * 
+	 *
 	 * Information about the result of a comparison of two given terms.
-	 * 
+	 *
 	 * @see Term#diff(Term)
-	 * 
+	 *
 	 */
 	public abstract class DiffInfo
 	{
@@ -304,7 +304,7 @@ public abstract class Term implements Serializable, Exportable
 		/**
 		 * Constructs a {@link DiffInfo} for a comparison within <i>this</i> and
 		 * <i>other</i>.
-		 * 
+		 *
 		 * @param other
 		 *            The right part of the comparison.
 		 */
@@ -337,7 +337,7 @@ public abstract class Term implements Serializable, Exportable
 		 * Shows the left part of the comparison as a {@link String}. Marks the
 		 * differences to the other part using {@link #beginMark} and
 		 * {@link #endMark}.
-		 * 
+		 *
 		 * @param variableToIdentifier
 		 *            Mapping from variables to identifiers to use for the
 		 *            conversion.
@@ -349,7 +349,7 @@ public abstract class Term implements Serializable, Exportable
 		 * Shows the right part of the comparison as a {@link String}. Marks the
 		 * differences to the other part using {@link #beginMark} and
 		 * {@link #endMark}.
-		 * 
+		 *
 		 * @param variableToIdentifier
 		 *            Mapping from variables to identifiers to use for the
 		 *            conversion.
@@ -359,9 +359,9 @@ public abstract class Term implements Serializable, Exportable
 	}
 
 	/**
-	 * 
+	 *
 	 * {@link DiffInfo} for identical terms.
-	 * 
+	 *
 	 */
 	public class DiffInfoEqual extends DiffInfo
 	{
@@ -387,7 +387,7 @@ public abstract class Term implements Serializable, Exportable
 
 	/**
 	 * {@link DiffInfo} for absolutely different terms.
-	 * 
+	 *
 	 */
 	public class DiffInfoNotEqual extends DiffInfo
 	{
@@ -412,11 +412,11 @@ public abstract class Term implements Serializable, Exportable
 	/**
 	 * Computes the {@link DiffInfo} for the comparison between this term and
 	 * the parameter.
-	 * 
+	 *
 	 * @param term
 	 *            The term to compare with.
 	 * @return The result of the comparison.
-	 * 
+	 *
 	 * @see DiffInfo
 	 */
 	public DiffInfo diff(Term term)
@@ -428,9 +428,9 @@ public abstract class Term implements Serializable, Exportable
 
 	/**
 	 * Type error when composing
-	 * 
+	 *
 	 * @see Term#compose(Term)
-	 * 
+	 *
 	 */
 	public class ComposeTypeException extends TypeException
 	{
@@ -481,8 +481,8 @@ public abstract class Term implements Serializable, Exportable
 
 	/**
 	 * Composes this term with another term.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param term
 	 *            The term to compose with.
 	 * @return The composed term.
@@ -494,15 +494,15 @@ public abstract class Term implements Serializable, Exportable
 	/**
 	 * The consequent of a term is defined to be itself if it's a simple term or
 	 * the consequent of the body if it's a function
-	 * 
-	 * 
+	 *
+	 *
 	 * @return The consequent of this term.
 	 */
 	public abstract SimpleTerm consequent();
 
 	/**
 	 * Exception thrown when <i>unprojecting</i> a term.
-	 * 
+	 *
 	 * @see Term#unproject()
 	 */
 	public class UnprojectException extends TypeException
@@ -536,7 +536,7 @@ public abstract class Term implements Serializable, Exportable
 	 * composes them with the terms which they are composed with, since a
 	 * projected function can be the head of a composition term and a regular
 	 * function can't).
-	 * 
+	 *
 	 * @return This term unprojected.
 	 * @throws UnprojectException
 	 */

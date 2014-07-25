@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -42,12 +42,12 @@ import aletheia.protocol.enumerate.ExportableEnumInfo;
 public enum StatementCode implements ByteExportableEnum<StatementCode>
 {
 	//@formatter:off
-	_Assumption((byte)'A', Assumption.class), 
-	_Declaration((byte)'D', Declaration.class), 
-	_Specialization((byte)'S', Specialization.class), 
-	_Context((byte)'X', Context.class), 
-	_RootContext((byte)'R', RootContext.class), 
-	_UnfoldingContext((byte)'U', UnfoldingContext.class), 
+	_Assumption((byte)'A', Assumption.class),
+	_Declaration((byte)'D', Declaration.class),
+	_Specialization((byte)'S', Specialization.class),
+	_Context((byte)'X', Context.class),
+	_RootContext((byte)'R', RootContext.class),
+	_UnfoldingContext((byte)'U', UnfoldingContext.class),
 	;
 	//@formatter:on
 
@@ -91,7 +91,7 @@ public enum StatementCode implements ByteExportableEnum<StatementCode>
 
 	/**
 	 * Mapping from byte codes to {@link StatementCode}.
-	 * 
+	 *
 	 * @return The map.
 	 */
 	public static Map<Byte, StatementCode> codeMap()
@@ -101,7 +101,7 @@ public enum StatementCode implements ByteExportableEnum<StatementCode>
 
 	/**
 	 * Mapping from {@link Class} to {@link StatementCode}.
-	 * 
+	 *
 	 * @return The map.
 	 */
 	public static Map<Class<? extends Statement>, StatementCode> classMap()

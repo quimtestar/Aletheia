@@ -1,20 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
- * The Aletheia Proof Assistant is free software: you can redistribute it 
- * and/or modify it under the terms of the GNU Affero General Public License 
- * as published by the Free Software Foundation, either version 3 of the 
+ *
+ * The Aletheia Proof Assistant is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
- * The Aletheia Proof Assistant is distributed in the hope that it will be 
+ *
+ * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
- * along with the Aletheia Proof Assistant. 
+ * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package aletheia.peertopeer.statement.dialog;
@@ -133,7 +133,7 @@ public class IterationStatementProofDialog extends StatementProofDialog
 	}
 
 	private void dialogatePersonStatementRequisiteSend(ContextProofRequestMessage contextDescendentsDependenciesRequestMessage) throws IOException,
-			InterruptedException
+	InterruptedException
 	{
 		Collection<PersonRequisiteMessage.Entry> personRequisiteMessageEntries = new ArrayList<PersonRequisiteMessage.Entry>();
 		Collection<StatementRequisiteMessage.Entry> statementRequisiteMessageEntries = new ArrayList<StatementRequisiteMessage.Entry>();
@@ -189,21 +189,21 @@ public class IterationStatementProofDialog extends StatementProofDialog
 			throws InterruptedException, IOException
 	{
 		Collection<UUID> personUuidsFiltered = new FilteredCollection<>(new Filter<UUID>()
-		{
+				{
 			@Override
 			public boolean filter(UUID personUuid)
 			{
 				return getPersistenceManager().getPerson(getTransaction(), personUuid) == null;
 			}
-		}, new UnionCollection<UUID>(new FilteredKeyMap<UUID, Collection<UUID>>(new Filter<UUID>()
-		{
+				}, new UnionCollection<UUID>(new FilteredKeyMap<UUID, Collection<UUID>>(new Filter<UUID>()
+						{
 
-			@Override
-			public boolean filter(UUID contextUuid)
-			{
-				return filterDelegateTreeInfoMessageContextUuid(delegateTreeInfoMessage, contextUuid);
-			}
-		}, personRequisiteMessage.getMap()).values()));
+					@Override
+					public boolean filter(UUID contextUuid)
+					{
+						return filterDelegateTreeInfoMessageContextUuid(delegateTreeInfoMessage, contextUuid);
+					}
+						}, personRequisiteMessage.getMap()).values()));
 		sendMessage(new PersonRequestMessage(personUuidsFiltered));
 	}
 
@@ -211,7 +211,7 @@ public class IterationStatementProofDialog extends StatementProofDialog
 			throws InterruptedException, IOException
 	{
 		Collection<UUID> statementUuidsFiltered = new FilteredCollection<>(new Filter<UUID>()
-		{
+				{
 			@Override
 			public boolean filter(UUID uuid)
 			{
@@ -225,15 +225,15 @@ public class IterationStatementProofDialog extends StatementProofDialog
 					return true;
 				return false;
 			}
-		}, new UnionCollection<UUID>(new FilteredKeyMap<UUID, Collection<UUID>>(new Filter<UUID>()
-		{
+				}, new UnionCollection<UUID>(new FilteredKeyMap<UUID, Collection<UUID>>(new Filter<UUID>()
+						{
 
-			@Override
-			public boolean filter(UUID contextUuid)
-			{
-				return filterDelegateTreeInfoMessageContextUuid(delegateTreeInfoMessage, contextUuid);
-			}
-		}, statementRequisiteMessage.getMap()).values()));
+					@Override
+					public boolean filter(UUID contextUuid)
+					{
+						return filterDelegateTreeInfoMessageContextUuid(delegateTreeInfoMessage, contextUuid);
+					}
+						}, statementRequisiteMessage.getMap()).values()));
 
 		StatementRequestMessage filtered = new StatementRequestMessage(statementUuidsFiltered);
 		extendRemainingTime((long) (statementExtendTime * 1000 * filtered.getUuids().size()));
@@ -289,7 +289,7 @@ public class IterationStatementProofDialog extends StatementProofDialog
 	}
 
 	private void dialogateDelegateTreeInfoSend(ContextProofRequestMessage contextDescendentsDependenciesRequestMessage) throws IOException,
-			InterruptedException
+	InterruptedException
 	{
 		Collection<DelegateTreeInfoMessage.Entry> entries = new ArrayList<DelegateTreeInfoMessage.Entry>();
 		for (UUID uuid : contextDescendentsDependenciesRequestMessage.getUuids())
@@ -378,7 +378,7 @@ public class IterationStatementProofDialog extends StatementProofDialog
 	}
 
 	private void dialogateDelegateAuthorizerResponseSend(DelegateAuthorizerRequestMessage delegateAuthorizerRequestMessage) throws IOException,
-			InterruptedException
+	InterruptedException
 	{
 		sendMessage(new DelegateAuthorizerResponseMessage(getPersistenceManager(), getTransaction(), delegateAuthorizerRequestMessage));
 	}

@@ -1,20 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
- * The Aletheia Proof Assistant is free software: you can redistribute it 
- * and/or modify it under the terms of the GNU Affero General Public License 
- * as published by the Free Software Foundation, either version 3 of the 
+ *
+ * The Aletheia Proof Assistant is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
- * The Aletheia Proof Assistant is distributed in the hope that it will be 
+ *
+ * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
- * along with the Aletheia Proof Assistant. 
+ * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package aletheia.protocol;
@@ -32,7 +32,7 @@ import aletheia.utilities.collections.ArrayAsList;
 /**
  * A protocol is a object with the capability of sending/receiving objects
  * from/to a generic {@link DataInput}/{@link DataOutput} object.
- * 
+ *
  * @param <T>
  *            The class of objects that this protocol manages.
  */
@@ -104,17 +104,17 @@ public abstract class Protocol<T>
 
 	protected static Collection<Integer> availableVersionsForClass(@SuppressWarnings("rawtypes") Class<? extends Protocol> protocolClass)
 			throws MissingProtocolInfoException
-	{
+			{
 		ProtocolInfo protocolInfo = protocolClass.getAnnotation(ProtocolInfo.class);
 		if (protocolInfo == null)
 			throw new MissingProtocolInfoException(protocolClass);
 		return new ArrayAsList<Integer>(protocolInfo.availableVersions());
-	}
+			}
 
 	/**
 	 * Send a object to a {@link DataOutput}. Must be consistent with
 	 * {@link #recv(DataInput)}..
-	 * 
+	 *
 	 * @param out
 	 *            The data output to send the data.
 	 * @param t
@@ -126,7 +126,7 @@ public abstract class Protocol<T>
 	/**
 	 * Receives a object from a {@link DataInput}. Must be consistent with
 	 * {@link #send(DataOutput, Object)}.
-	 * 
+	 *
 	 * @param in
 	 *            The data input to receive the data from.
 	 * @return The object.
@@ -137,7 +137,7 @@ public abstract class Protocol<T>
 
 	/**
 	 * Skips the input data corresponding to a object of this protocol type.
-	 * 
+	 *
 	 * @param in
 	 *            The data input to receive the data from.
 	 * @throws IOException

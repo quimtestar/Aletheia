@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -39,7 +39,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBRootContextAuthorityBySignatureUuid extends AbstractCloseableMap<UUID, RootContextAuthority> implements
-		RootContextAuthorityBySignatureUuid
+RootContextAuthorityBySignatureUuid
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -164,7 +164,7 @@ public class BerkeleyDBRootContextAuthorityBySignatureUuid extends AbstractClose
 		{
 			final EntityCursor<BerkeleyDBRootContextAuthorityEntity> cursor = transaction.entities(index);
 			return new CloseableIterator<Entry<UUID, RootContextAuthority>>()
-			{
+					{
 				BerkeleyDBRootContextAuthorityEntity next;
 				{
 					next = transaction.next(cursor);
@@ -209,7 +209,7 @@ public class BerkeleyDBRootContextAuthorityBySignatureUuid extends AbstractClose
 					close();
 					super.finalize();
 				}
-			};
+					};
 		}
 
 		@Override

@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -36,7 +36,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
 public class BerkeleyDBSubscribeStatementsContextLocalSetMap extends AbstractCloseableMap<ContextLocal, SubscribeStatementsContextLocalSet> implements
-		SubscribeStatementsContextLocalSetMap
+SubscribeStatementsContextLocalSetMap
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -90,14 +90,14 @@ public class BerkeleyDBSubscribeStatementsContextLocalSetMap extends AbstractClo
 	public CloseableSet<Entry<ContextLocal, SubscribeStatementsContextLocalSet>> entrySet()
 	{
 		return new AbstractCloseableSet<Entry<ContextLocal, SubscribeStatementsContextLocalSet>>()
-		{
+				{
 
 			@Override
 			public CloseableIterator<Entry<ContextLocal, SubscribeStatementsContextLocalSet>> iterator()
 			{
 				final EntityCursor<BerkeleyDBStatementLocalEntity> cursor = transaction.entities(index);
 				return new CloseableIterator<Entry<ContextLocal, SubscribeStatementsContextLocalSet>>()
-				{
+						{
 					private BerkeleyDBStatementLocalEntity next;
 					{
 						next = transaction.first(cursor);
@@ -122,7 +122,7 @@ public class BerkeleyDBSubscribeStatementsContextLocalSetMap extends AbstractClo
 						final SubscribeStatementsContextLocalSet subscribeStatementsContextLocalSet = contextLocal
 								.subscribeStatementsContextLocalSet(transaction);
 						return new Entry<ContextLocal, SubscribeStatementsContextLocalSet>()
-						{
+								{
 
 							@Override
 							public ContextLocal getKey()
@@ -142,7 +142,7 @@ public class BerkeleyDBSubscribeStatementsContextLocalSetMap extends AbstractClo
 								throw new UnsupportedOperationException();
 							}
 
-						};
+								};
 					}
 
 					@Override
@@ -157,7 +157,7 @@ public class BerkeleyDBSubscribeStatementsContextLocalSetMap extends AbstractClo
 						transaction.close(cursor);
 					}
 
-				};
+						};
 			}
 
 			@Override
@@ -172,7 +172,7 @@ public class BerkeleyDBSubscribeStatementsContextLocalSetMap extends AbstractClo
 				return BerkeleyDBSubscribeStatementsContextLocalSetMap.this.isEmpty();
 			}
 
-		};
+				};
 
 	}
 

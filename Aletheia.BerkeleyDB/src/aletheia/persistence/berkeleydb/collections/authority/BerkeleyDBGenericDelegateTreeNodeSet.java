@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -37,7 +37,7 @@ import com.sleepycat.persist.EntityIndex;
 import com.sleepycat.persist.PrimaryIndex;
 
 public abstract class BerkeleyDBGenericDelegateTreeNodeSet<N extends DelegateTreeNode, E extends BerkeleyDBDelegateTreeNodeEntity> extends
-		AbstractCloseableSet<N> implements GenericDelegateTreeNodeSet<N>
+AbstractCloseableSet<N> implements GenericDelegateTreeNodeSet<N>
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -96,7 +96,7 @@ public abstract class BerkeleyDBGenericDelegateTreeNodeSet<N extends DelegateTre
 	{
 		final EntityCursor<E> cursor = transaction.entities(index());
 		return new CloseableIterator<N>()
-		{
+				{
 			private E next;
 			{
 				next = transaction.first(cursor);
@@ -141,7 +141,7 @@ public abstract class BerkeleyDBGenericDelegateTreeNodeSet<N extends DelegateTre
 				super.finalize();
 			}
 
-		};
+				};
 	}
 
 	@Override

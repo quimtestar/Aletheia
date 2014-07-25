@@ -1,20 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
- * The Aletheia Proof Assistant is free software: you can redistribute it 
- * and/or modify it under the terms of the GNU Affero General Public License 
- * as published by the Free Software Foundation, either version 3 of the 
+ *
+ * The Aletheia Proof Assistant is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
- * The Aletheia Proof Assistant is distributed in the hope that it will be 
+ *
+ * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
- * along with the Aletheia Proof Assistant. 
+ * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package aletheia.peertopeer.statement.dialog;
@@ -57,9 +57,9 @@ public class NewStatementsLoopDialogServer extends NewStatementsLoopDialog
 
 	private Collection<StatementAuthoritySubMessage> filterRequestableStatementAuthoritySubMessages(
 			Collection<StatementAuthoritySubMessage> statementAuthoritySubMessages)
-	{
+			{
 		return new BufferedList<>(new FilteredCollection<StatementAuthoritySubMessage>(new Filter<StatementAuthoritySubMessage>()
-		{
+				{
 
 			@Override
 			public boolean filter(StatementAuthoritySubMessage statementAuthoritySubMessage)
@@ -90,8 +90,8 @@ public class NewStatementsLoopDialogServer extends NewStatementsLoopDialog
 				}
 				return false;
 			}
-		}, statementAuthoritySubMessages));
-	}
+				}, statementAuthoritySubMessages));
+			}
 
 	private void dialogateStatementRequestSend(Collection<StatementAuthoritySubMessage> statementAuthoritySubMessages) throws IOException, InterruptedException
 	{
@@ -124,14 +124,14 @@ public class NewStatementsLoopDialogServer extends NewStatementsLoopDialog
 					public Collection<UUID> forward(StatementAuthoritySubMessage statementAuthoritySubMessage)
 					{
 						return new FilteredCollection<UUID>(new Filter<UUID>()
-						{
+								{
 
 							@Override
 							public boolean filter(UUID personUuid)
 							{
 								return getPersistenceManager().getPerson(getTransaction(), personUuid) == null;
 							}
-						}, statementAuthoritySubMessage.getPersonDependencies());
+								}, statementAuthoritySubMessage.getPersonDependencies());
 					}
 
 					@Override
@@ -148,7 +148,7 @@ public class NewStatementsLoopDialogServer extends NewStatementsLoopDialog
 	{
 
 		Bijection<AbstractUUIDInfoMessage.Entry<StatementAuthoritySubMessage>, StatementAuthoritySubMessage> bijection = new Bijection<AbstractUUIDInfoMessage.Entry<StatementAuthoritySubMessage>, StatementAuthoritySubMessage>()
-		{
+				{
 			@Override
 			public StatementAuthoritySubMessage forward(AbstractUUIDInfoMessage.Entry<StatementAuthoritySubMessage> input)
 			{
@@ -160,13 +160,13 @@ public class NewStatementsLoopDialogServer extends NewStatementsLoopDialog
 			{
 				throw new UnsupportedOperationException();
 			}
-		};
+				};
 
-		Collection<StatementAuthoritySubMessage> filterRequestableStatementAuthoritySubMessages = filterRequestableStatementAuthoritySubMessages(new BijectionCollection<AbstractUUIDInfoMessage.Entry<StatementAuthoritySubMessage>, StatementAuthoritySubMessage>(
-				bijection, subscriptionContextsMessage.getEntries()));
+				Collection<StatementAuthoritySubMessage> filterRequestableStatementAuthoritySubMessages = filterRequestableStatementAuthoritySubMessages(new BijectionCollection<AbstractUUIDInfoMessage.Entry<StatementAuthoritySubMessage>, StatementAuthoritySubMessage>(
+						bijection, subscriptionContextsMessage.getEntries()));
 
-		dialogatePersonRequestSend(filterRequestableStatementAuthoritySubMessages);
-		dialogateStatementRequestSend(filterRequestableStatementAuthoritySubMessages);
+				dialogatePersonRequestSend(filterRequestableStatementAuthoritySubMessages);
+				dialogateStatementRequestSend(filterRequestableStatementAuthoritySubMessages);
 	}
 
 	private PersonResponseMessage dialogatePersonResponseRecv() throws IOException, ProtocolException

@@ -1,20 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
- * The Aletheia Proof Assistant is free software: you can redistribute it 
- * and/or modify it under the terms of the GNU Affero General Public License 
- * as published by the Free Software Foundation, either version 3 of the 
+ *
+ * The Aletheia Proof Assistant is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
- * The Aletheia Proof Assistant is distributed in the hope that it will be 
+ *
+ * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
- * along with the Aletheia Proof Assistant. 
+ * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package aletheia.peertopeer;
@@ -120,15 +120,15 @@ public class HookNetworkJoinThread extends Thread
 	{
 		/*
 		 * This loop is a workaround. In seems that the Berkeley DB gets stuck into a dead lock when simulaneously
-		 * inserting two hooks and trying to obtain a hook with the cursor-based iterative method 
+		 * inserting two hooks and trying to obtain a hook with the cursor-based iterative method
 		 * HookList.getNullOverflow(int i). One of the inserts succeeds and the two other operations get stuck.
-		 * 
+		 *
 		 * I am suspecting that it is a Berkeley DB bug. I should check if this behaviour is still happening when
-		 * upgrading to future versions and/or investigate this alleged bug further and comunicate it to the Oracle 
+		 * upgrading to future versions and/or investigate this alleged bug further and comunicate it to the Oracle
 		 * people. Tested so far with {je-5.0.97,  je-5.0.103}
-		 *  
+		 *
 		 * See Test.prova373() to generate the condition .
-		 *  
+		 *
 		 */
 		while (true)
 		{

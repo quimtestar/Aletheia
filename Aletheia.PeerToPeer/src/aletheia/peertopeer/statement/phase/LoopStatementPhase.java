@@ -1,20 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
- * The Aletheia Proof Assistant is free software: you can redistribute it 
- * and/or modify it under the terms of the GNU Affero General Public License 
- * as published by the Free Software Foundation, either version 3 of the 
+ *
+ * The Aletheia Proof Assistant is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
- * The Aletheia Proof Assistant is distributed in the hope that it will be 
+ *
+ * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
- * along with the Aletheia Proof Assistant. 
+ * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package aletheia.peertopeer.statement.phase;
@@ -268,7 +268,7 @@ public class LoopStatementPhase extends StatementSubPhase
 		private final StatementStateListener statementStateListener;
 
 		private class ContextStateListener implements RootContextLocal.StateListener, ContextLocal.StateListener, Statement.StateListener,
-				StatementAuthority.StateListener
+		StatementAuthority.StateListener
 		{
 			@Override
 			public void subscribeStatementsChanged(Transaction transaction, ContextLocal contextLocal, ContextLocal contextLocal_, boolean subscribed)
@@ -398,7 +398,7 @@ public class LoopStatementPhase extends StatementSubPhase
 
 		@Override
 		protected boolean serverPhase(LoopStatementDialogType loopDialogType) throws IOException, ProtocolException, InterruptedException,
-				DialogStreamException
+		DialogStreamException
 		{
 			switch (loopDialogType)
 			{
@@ -427,7 +427,7 @@ public class LoopStatementPhase extends StatementSubPhase
 
 		@Override
 		protected boolean clientPhase(LoopSubPhase<LoopStatementDialogType>.Command<?> command) throws IOException, ProtocolException, InterruptedException,
-				DialogStreamException
+		DialogStreamException
 		{
 			switch (command.getLoopDialogType())
 			{
@@ -482,7 +482,7 @@ public class LoopStatementPhase extends StatementSubPhase
 		}
 
 		protected <C extends Command<C>> Command<C>.Result commandResult(Command<C> command, ListenableAborter aborter) throws InterruptedException,
-				CancelledCommandException, AbortException
+		CancelledCommandException, AbortException
 		{
 			return super.commandResult(command, aborter);
 		}

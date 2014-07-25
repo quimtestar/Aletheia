@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -101,69 +101,69 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 	private static final int storeVersion = 20;
 
 	private static final Collection<Class<?>> registerClasses = Arrays.<Class<?>> asList(
-		// @formatter:off
-		TermProxy.class, 
-		TTermProxy.class, 
-		FunctionTermProxy.class,
-		ProjectionTermProxy.class,
-		SimpleTermProxy.class, 
-		CompositionTermProxy.class,
-		VariableTermProxy.class,
-		ParameterVariableTermProxy.class, 
-		IdentifiableVariableTermProxy.class, 
-		UUIDProxy.class,
+			// @formatter:off
+			TermProxy.class,
+			TTermProxy.class,
+			FunctionTermProxy.class,
+			ProjectionTermProxy.class,
+			SimpleTermProxy.class,
+			CompositionTermProxy.class,
+			VariableTermProxy.class,
+			ParameterVariableTermProxy.class,
+			IdentifiableVariableTermProxy.class,
+			UUIDProxy.class,
 
-		NamespaceProxy.class, 
-		RootNamespaceProxy.class, 
-		NodeNamespaceProxy.class, 
-		IdentifierProxy.class,
-		
-		UUIDKey.class,
-		
-		BerkeleyDBStatementEntity.class, 
-		BerkeleyDBContextEntity.class, 
-		BerkeleyDBAssumptionEntity.class, 
-		BerkeleyDBSpecializationEntity.class, 
-		BerkeleyDBUnfoldingContextEntity.class,
-		BerkeleyDBRootContextEntity.class, 
-		BerkeleyDBDeclarationEntity.class,
-		
-		BerkeleyDBSignatoryEntity.class,
-		BerkeleyDBPrivateSignatoryEntity.class,
-		BerkeleyDBPlainPrivateSignatoryEntity.class,
-		BerkeleyDBEncryptedPrivateSignatoryEntity.class,
-		BerkeleyDBPersonEntity.class,
-		BerkeleyDBPrivatePersonEntity.class,
-		BerkeleyDBStatementAuthorityEntity.class,
-		BerkeleyDBContextAuthorityEntity.class,
-		BerkeleyDBRootContextAuthorityEntity.class,
-		BerkeleyDBStatementAuthoritySignatureEntity.class,
-		BerkeleyDBDelegateTreeNodeEntity.class,
-		BerkeleyDBDelegateTreeRootNodeEntity.class,
-		BerkeleyDBDelegateTreeSubNodeEntity.class,
-		BerkeleyDBDelegateAuthorizerEntity.class,
-		BerkeleyDBSignatureRequestEntity.class,
-		BerkeleyDBPackedSignatureRequestEntity.class,
-		BerkeleyDBUnpackedSignatureRequestEntity.class,
-		
-		PublicKeyProxy.class,
-		PrivateKeyProxy.class,
-		SignatureDataProxy.class,
-		MessageDigestDataProxy.class,
-		
-		BerkeleyDBStatementLocalEntity.class,
-		BerkeleyDBContextLocalEntity.class,
-		BerkeleyDBRootContextLocalEntity.class,
-		
-		InetAddressProxy.class,
-		InetAddressProxy.Inet4AddressProxy.class,
-		InetAddressProxy.Inet6AddressProxy.class,
-		InetSocketAddressProxy.class,
+			NamespaceProxy.class,
+			RootNamespaceProxy.class,
+			NodeNamespaceProxy.class,
+			IdentifierProxy.class,
 
-		BerkeleyDBHookEntity.class,
-		
-		BerkeleyDBPersistenceSecretKeySingletonEntity.class
-		// @formatter:on
+			UUIDKey.class,
+
+			BerkeleyDBStatementEntity.class,
+			BerkeleyDBContextEntity.class,
+			BerkeleyDBAssumptionEntity.class,
+			BerkeleyDBSpecializationEntity.class,
+			BerkeleyDBUnfoldingContextEntity.class,
+			BerkeleyDBRootContextEntity.class,
+			BerkeleyDBDeclarationEntity.class,
+
+			BerkeleyDBSignatoryEntity.class,
+			BerkeleyDBPrivateSignatoryEntity.class,
+			BerkeleyDBPlainPrivateSignatoryEntity.class,
+			BerkeleyDBEncryptedPrivateSignatoryEntity.class,
+			BerkeleyDBPersonEntity.class,
+			BerkeleyDBPrivatePersonEntity.class,
+			BerkeleyDBStatementAuthorityEntity.class,
+			BerkeleyDBContextAuthorityEntity.class,
+			BerkeleyDBRootContextAuthorityEntity.class,
+			BerkeleyDBStatementAuthoritySignatureEntity.class,
+			BerkeleyDBDelegateTreeNodeEntity.class,
+			BerkeleyDBDelegateTreeRootNodeEntity.class,
+			BerkeleyDBDelegateTreeSubNodeEntity.class,
+			BerkeleyDBDelegateAuthorizerEntity.class,
+			BerkeleyDBSignatureRequestEntity.class,
+			BerkeleyDBPackedSignatureRequestEntity.class,
+			BerkeleyDBUnpackedSignatureRequestEntity.class,
+
+			PublicKeyProxy.class,
+			PrivateKeyProxy.class,
+			SignatureDataProxy.class,
+			MessageDigestDataProxy.class,
+
+			BerkeleyDBStatementLocalEntity.class,
+			BerkeleyDBContextLocalEntity.class,
+			BerkeleyDBRootContextLocalEntity.class,
+
+			InetAddressProxy.class,
+			InetAddressProxy.Inet4AddressProxy.class,
+			InetAddressProxy.Inet6AddressProxy.class,
+			InetSocketAddressProxy.class,
+
+			BerkeleyDBHookEntity.class,
+
+			BerkeleyDBPersistenceSecretKeySingletonEntity.class
+			// @formatter:on
 			);
 
 	protected BerkeleyDBAletheiaEntityStore(BerkeleyDBAletheiaEnvironment env, String storeName, boolean bulkLoad) throws DatabaseException
@@ -263,10 +263,10 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 
 	public SecondaryIndex<BerkeleyDBStatementEntity.UUIDKeyTermHash, UUIDKey, BerkeleyDBStatementEntity> statementEntityTermHashSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSecondaryIndex(statementEntityPrimaryIndex(), BerkeleyDBStatementEntity.UUIDKeyTermHash.class,
 				BerkeleyDBStatementEntity.uuidKeyTermHash_FieldName);
-	}
+			}
 
 	public EntityIndex<UUIDKey, BerkeleyDBStatementEntity> statementEntityTermHashSubIndex(UUIDKey uuidKeyContext, int termHash) throws DatabaseException
 	{
@@ -376,17 +376,17 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 
 	public SecondaryIndex<BerkeleyDBStatementAuthorityEntity.ContextFlagSecondaryKeyData, UUIDKey, BerkeleyDBStatementAuthorityEntity> statementAuthorityEntityContextSignedDependenciesSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSecondaryIndex(statementAuthorityEntityPrimaryIndex(), BerkeleyDBStatementAuthorityEntity.ContextFlagSecondaryKeyData.class,
 				BerkeleyDBStatementAuthorityEntity.contextSignedDependenciesSecondaryKeyData_FieldName);
-	}
+			}
 
 	public SecondaryIndex<BerkeleyDBStatementAuthorityEntity.ContextFlagSecondaryKeyData, UUIDKey, BerkeleyDBStatementAuthorityEntity> statementAuthorityEntityContextSignedProofSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSecondaryIndex(statementAuthorityEntityPrimaryIndex(), BerkeleyDBStatementAuthorityEntity.ContextFlagSecondaryKeyData.class,
 				BerkeleyDBStatementAuthorityEntity.contextSignedProofSecondaryKeyData_FieldName);
-	}
+			}
 
 	public SecondaryIndex<UUIDKey, UUIDKey, BerkeleyDBRootContextAuthorityEntity> rootContextAuthorityEntitySignatureUuidSecondaryIndex()
 	{
@@ -401,58 +401,58 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 
 	public PrimaryIndex<BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> statementAuthoritySignatureEntityPrimaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getPrimaryIndex(BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData.class, BerkeleyDBStatementAuthoritySignatureEntity.class);
-	}
+			}
 
 	public SecondaryIndex<UUIDKey, BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> statementAuthoritySignatureEntityStatementSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSecondaryIndex(statementAuthoritySignatureEntityPrimaryIndex(), UUIDKey.class,
 				BerkeleyDBStatementAuthoritySignatureEntity.statementUuidKey_FieldName);
-	}
+			}
 
 	public SecondaryIndex<UUIDKey, BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> statementAuthoritySignatureEntityAuthorizerSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSecondaryIndex(statementAuthoritySignatureEntityPrimaryIndex(), UUIDKey.class,
 				BerkeleyDBStatementAuthoritySignatureEntity.authorizerUuidKey_FieldName);
-	}
+			}
 
 	public SecondaryIndex<BerkeleyDBStatementAuthoritySignatureEntity.StatementSignatureDateKeyData, BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> statementAuthoritySignatureEntityStatementSignatureDateSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSecondaryIndex(statementAuthoritySignatureEntityPrimaryIndex(),
 				BerkeleyDBStatementAuthoritySignatureEntity.StatementSignatureDateKeyData.class,
 				BerkeleyDBStatementAuthoritySignatureEntity.statementSignatureDateKeyData_FieldName);
-	}
+			}
 
 	public SecondaryIndex<BerkeleyDBStatementAuthoritySignatureEntity.AuthorizerSignatureUuidKeyData, BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> statementAuthoritySignatureEntityAuthorizerSignatureUuidKeySecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSecondaryIndex(statementAuthoritySignatureEntityPrimaryIndex(),
 				BerkeleyDBStatementAuthoritySignatureEntity.AuthorizerSignatureUuidKeyData.class,
 				BerkeleyDBStatementAuthoritySignatureEntity.authorizerSignatureUuidKeyData_FieldName);
-	}
+			}
 
 	public PrimaryIndex<BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData, BerkeleyDBDelegateTreeNodeEntity> delegateTreeNodeEntityPrimaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getPrimaryIndex(BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData.class, BerkeleyDBDelegateTreeNodeEntity.class);
-	}
+			}
 
 	public SecondaryIndex<BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData, BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData, BerkeleyDBDelegateTreeNodeEntity> delegateTreeSubNodeEntityParentSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSecondaryIndex(delegateTreeNodeEntityPrimaryIndex(), BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData.class,
 				BerkeleyDBDelegateTreeSubNodeEntity.parent_FieldName);
-	}
+			}
 
 	public EntityIndex<BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData, BerkeleyDBDelegateTreeNodeEntity> delegateTreeSubNodeEntityParentSubindex(
 			BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData parentPkd) throws DatabaseException
-	{
+			{
 		return delegateTreeSubNodeEntityParentSecondaryIndex().subIndex(parentPkd);
-	}
+			}
 
 	public SecondaryIndex<UUIDKey, PrimaryKeyData, BerkeleyDBDelegateTreeRootNodeEntity> delegateTreeRootNodeEntitySuccessorUuidKeysSecondaryIndex()
 	{
@@ -467,47 +467,47 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 
 	public PrimaryIndex<BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> delegateAuthorizerEntityPrimaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getPrimaryIndex(BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData.class, BerkeleyDBDelegateAuthorizerEntity.class);
-	}
+			}
 
 	public SecondaryIndex<BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> delegateAuthorizerEntityTreeNodeSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSecondaryIndex(delegateAuthorizerEntityPrimaryIndex(), BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData.class,
 				BerkeleyDBDelegateAuthorizerEntity.delegateTreeNodePrimaryKeyData_FieldName);
-	}
+			}
 
 	public EntityIndex<BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> delegateAuthorizerEntityTreeNodeSubindex(
 			BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData parentPkd) throws DatabaseException
-	{
+			{
 		return delegateAuthorizerEntityTreeNodeSecondaryIndex().subIndex(parentPkd);
-	}
+			}
 
 	public SecondaryIndex<BerkeleyDBDelegateAuthorizerEntity.StatementAuthorizerKeyData, BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> delegateAuthorizerEntityContextAuthorizerSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSecondaryIndex(delegateAuthorizerEntityPrimaryIndex(), BerkeleyDBDelegateAuthorizerEntity.StatementAuthorizerKeyData.class,
 				BerkeleyDBDelegateAuthorizerEntity.statementAuthorizerKeyData_FieldName);
-	}
+			}
 
 	public SecondaryIndex<UUIDKey, BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> delegateAuthorizerEntityAuthorizerSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSecondaryIndex(delegateAuthorizerEntityPrimaryIndex(), UUIDKey.class, BerkeleyDBDelegateAuthorizerEntity.authorizerUuidKey_FieldName);
-	}
+			}
 
 	public SecondaryIndex<UUIDKey, BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> delegateAuthorizerEntityDelegateSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSecondaryIndex(delegateAuthorizerEntityPrimaryIndex(), UUIDKey.class, BerkeleyDBDelegateAuthorizerEntity.delegateUuidKey_FieldName);
-	}
+			}
 
 	public EntityIndex<BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> delegateAuthorizerEntityDelegateSubindex(
 			UUIDKey delegateUuidKey) throws DatabaseException
-	{
+			{
 		return delegateAuthorizerEntityDelegateSecondaryIndex().subIndex(delegateUuidKey);
-	}
+			}
 
 	public PrimaryIndex<UUIDKey, BerkeleyDBSignatureRequestEntity> signatureRequestEntityPrimaryIndex() throws DatabaseException
 	{
@@ -521,10 +521,10 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 
 	public SecondaryIndex<BerkeleyDBSignatureRequestEntity.ContextCreationDateSecondaryKeyData, UUIDKey, BerkeleyDBSignatureRequestEntity> signatureRequestEntityContextCreationDateSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSecondaryIndex(signatureRequestEntityPrimaryIndex(), BerkeleyDBSignatureRequestEntity.ContextCreationDateSecondaryKeyData.class,
 				BerkeleyDBSignatureRequestEntity.contextCreationDateSecondaryKeyData_FieldName);
-	}
+			}
 
 	public SecondaryIndex<ContextSubContextSecondaryKeyData, UUIDKey, BerkeleyDBSignatureRequestEntity> signatureRequestEntityContextSubContextSecondaryIndex()
 	{
@@ -534,64 +534,64 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 
 	public SecondaryIndex<UUIDKey, UUIDKey, BerkeleyDBUnpackedSignatureRequestEntity> unpackedSignatureRequestEntityContextPathSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSubclassIndex(signatureRequestEntityPrimaryIndex(), BerkeleyDBUnpackedSignatureRequestEntity.class, UUIDKey.class,
 				BerkeleyDBUnpackedSignatureRequestEntity.contextUuidKeyPath_FieldName);
-	}
+			}
 
 	public EntityIndex<UUIDKey, BerkeleyDBUnpackedSignatureRequestEntity> unpackedSignatureRequestEntityContextPathSubIndex(UUIDKey contextUuidKey)
 			throws DatabaseException
-	{
+			{
 		return unpackedSignatureRequestEntityContextPathSecondaryIndex().subIndex(contextUuidKey);
-	}
+			}
 
 	public SecondaryIndex<UUIDKey, UUIDKey, BerkeleyDBUnpackedSignatureRequestEntity> unpackedSignatureRequestEntityStatementListSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSubclassIndex(signatureRequestEntityPrimaryIndex(), BerkeleyDBUnpackedSignatureRequestEntity.class, UUIDKey.class,
 				BerkeleyDBUnpackedSignatureRequestEntity.statementUuidKeys_FieldName);
-	}
+			}
 
 	public EntityIndex<UUIDKey, BerkeleyDBUnpackedSignatureRequestEntity> unpackedSignatureRequestEntityStatementListSubIndex(UUIDKey contextUuidKey)
 			throws DatabaseException
-	{
+			{
 		return unpackedSignatureRequestEntityStatementListSecondaryIndex().subIndex(contextUuidKey);
-	}
+			}
 
 	public SecondaryIndex<ContextPackingDateSecondaryKeyData, UUIDKey, BerkeleyDBPackedSignatureRequestEntity> packedSignatureRequestEntityContextPackingDateSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSubclassIndex(signatureRequestEntityPrimaryIndex(), BerkeleyDBPackedSignatureRequestEntity.class,
 				BerkeleyDBPackedSignatureRequestEntity.ContextPackingDateSecondaryKeyData.class,
 				BerkeleyDBPackedSignatureRequestEntity.contextPackingDateSecondaryKeyDataList_FieldName);
-	}
+			}
 
 	public SecondaryIndex<UUIDKey, UUIDKey, BerkeleyDBPackedSignatureRequestEntity> packedSignatureRequestEntityRootContextSignatureUuidSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSubclassIndex(signatureRequestEntityPrimaryIndex(), BerkeleyDBPackedSignatureRequestEntity.class, UUIDKey.class,
 				BerkeleyDBPackedSignatureRequestEntity.rootContextSignatureUuidKey_FieldName);
-	}
+			}
 
 	public SecondaryIndex<UUIDKey, UUIDKey, BerkeleyDBPackedSignatureRequestEntity> packedSignatureRequestEntityContextPathSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSubclassIndex(signatureRequestEntityPrimaryIndex(), BerkeleyDBPackedSignatureRequestEntity.class, UUIDKey.class,
 				BerkeleyDBPackedSignatureRequestEntity.contextUuidKeyPath_FieldName);
-	}
+			}
 
 	public EntityIndex<UUIDKey, BerkeleyDBPackedSignatureRequestEntity> packedSignatureRequestEntityContextPathSubIndex(UUIDKey contextUuidKey)
 			throws DatabaseException
-	{
+			{
 		return packedSignatureRequestEntityContextPathSecondaryIndex().subIndex(contextUuidKey);
-	}
+			}
 
 	public SecondaryIndex<UUIDKey, UUIDKey, BerkeleyDBPackedSignatureRequestEntity> packedSignatureRequestEntityDependencyUuidsSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSubclassIndex(signatureRequestEntityPrimaryIndex(), BerkeleyDBPackedSignatureRequestEntity.class, UUIDKey.class,
 				BerkeleyDBPackedSignatureRequestEntity.dependencyUuidKeys_FieldName);
-	}
+			}
 
 	public PrimaryIndex<UUIDKey, BerkeleyDBStatementLocalEntity> statementLocalEntityPrimaryIndex() throws DatabaseException
 	{
@@ -600,18 +600,18 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 
 	public SecondaryIndex<BerkeleyDBStatementLocalEntity.ContextSubscribeProofSecondaryKeyData, UUIDKey, BerkeleyDBStatementLocalEntity> statementLocalEntitySubscribeProofSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSecondaryIndex(statementLocalEntityPrimaryIndex(), BerkeleyDBStatementLocalEntity.ContextSubscribeProofSecondaryKeyData.class,
 				BerkeleyDBStatementLocalEntity.contextSubscribeProofSecondaryKeyData_FieldName);
-	}
+			}
 
 	public SecondaryIndex<BerkeleyDBContextLocalEntity.ContextSubscribeStatementsSecondaryKeyData, UUIDKey, BerkeleyDBContextLocalEntity> contextLocalEntitySubscribeStatementSecondaryIndex()
 			throws DatabaseException
-	{
+			{
 		return getSubclassIndex(statementLocalEntityPrimaryIndex(), BerkeleyDBContextLocalEntity.class,
 				BerkeleyDBContextLocalEntity.ContextSubscribeStatementsSecondaryKeyData.class,
 				BerkeleyDBContextLocalEntity.contextSubscribeStatementsSecondaryKeyData_FieldName);
-	}
+			}
 
 	public SecondaryIndex<UUIDKey, UUIDKey, BerkeleyDBStatementLocalEntity> statementLocalEntityContextSecondaryIndex() throws DatabaseException
 	{

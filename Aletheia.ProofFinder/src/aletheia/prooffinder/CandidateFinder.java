@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -324,7 +324,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 
 	private synchronized Set<ImpureCandidate> localImpureCandidatesFor(Context context, Candidate candidate, VariableTerm variable,
 			VariableTerm variableDependent)
-	{
+			{
 		ImpureCandidatesCacheMapKey key = new ImpureCandidatesCacheMapKey(context, candidate, variable, variableDependent);
 		Set<ImpureCandidate> impures = impureCandidatesCacheMap.get(key);
 		if (impures == null)
@@ -352,11 +352,11 @@ public class CandidateFinder implements StatementCacheTree.Listener
 			keySet.add(key);
 		}
 		return impures;
-	}
+			}
 
 	private Set<ImpureCandidate> virtualImpureCandidatesFor(List<VirtualStatement> virtualStatements, Candidate candidate, VariableTerm variable,
 			VariableTerm variableDependent)
-	{
+			{
 		Set<ImpureCandidate> impures = new HashSet<ImpureCandidate>();
 		Term type = candidate.getAntecedentMap().get(variableDependent);
 		Term target = type.consequent();
@@ -367,11 +367,11 @@ public class CandidateFinder implements StatementCacheTree.Listener
 				impures.add(new ImpureCandidate(candidate, variable, value));
 		}
 		return impures;
-	}
+			}
 
 	public Set<ImpureCandidate> impureCandidatesFor(Context context, List<VirtualStatement> virtualStatements, Candidate candidate, VariableTerm variable,
 			VariableTerm variableDependent)
-	{
+			{
 		Stack<Context> stack = new Stack<Context>();
 		Transaction transaction = persistenceManager.beginTransaction();
 		try
@@ -393,7 +393,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 		impureCandidates = new CombinedSet<ImpureCandidate>(virtualImpureCandidatesFor(virtualStatements, candidate, variable, variableDependent),
 				impureCandidates);
 		return impureCandidates;
-	}
+			}
 
 	public Set<ImpureCandidate> impureCandidatesFor(Context context, List<VirtualStatement> virtualStatements, Candidate candidate, VariableTerm variable)
 	{

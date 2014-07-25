@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -29,7 +29,7 @@ import aletheia.utilities.MiscUtilities;
  * An abstract implementation of a {@link Map} whose {@link Map#entrySet()},
  * {@link Map#keySet()} and {@link Map#values()} are {@link CloseableCollection}
  * s
- * 
+ *
  * @author Quim Testar
  */
 
@@ -43,7 +43,7 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 	public CloseableSet<K> keySet()
 	{
 		return new CloseableSet<K>()
-		{
+				{
 
 			@Override
 			public int size()
@@ -68,7 +68,7 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 			{
 				final CloseableIterator<Entry<K, V>> iterator = entrySet().iterator();
 				return new CloseableIterator<K>()
-				{
+						{
 
 					@Override
 					public boolean hasNext()
@@ -94,7 +94,7 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 						iterator.close();
 					}
 
-				};
+						};
 			}
 
 			@Override
@@ -177,14 +177,14 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 				AbstractCloseableMap.this.clear();
 			}
 
-		};
+				};
 	}
 
 	@Override
 	public CloseableCollection<V> values()
 	{
 		return new CloseableCollection<V>()
-		{
+				{
 			@Override
 			public int size()
 			{
@@ -208,7 +208,7 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 			{
 				final CloseableIterator<Entry<K, V>> iterator = entrySet().iterator();
 				return new CloseableIterator<V>()
-				{
+						{
 
 					@Override
 					public boolean hasNext()
@@ -234,7 +234,7 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 						iterator.close();
 					}
 
-				};
+						};
 			}
 
 			@Override
@@ -341,7 +341,7 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 				AbstractCloseableMap.this.clear();
 			}
 
-		};
+				};
 
 	}
 

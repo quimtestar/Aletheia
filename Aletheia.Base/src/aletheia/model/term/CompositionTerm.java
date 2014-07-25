@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -31,12 +31,12 @@ import aletheia.utilities.collections.CombinedList;
 /**
  * A composition is composed by two parts; a head, which must be an
  * {@link SimpleTerm}, and a tail which can be any kind of {@link Term}.
- * 
+ *
  * <p>
  * The textual representation of a composition is just the concatenation of the
  * terms which compose it.
  * </p>
- * 
+ *
  */
 public class CompositionTerm extends SimpleTerm
 {
@@ -92,9 +92,9 @@ public class CompositionTerm extends SimpleTerm
 
 	/**
 	 * Create a new composition with the specified head and tail.
-	 * 
+	 *
 	 * The type of the composition will be the same as the type of the head.
-	 * 
+	 *
 	 * @param head
 	 *            The head.
 	 * @param tail
@@ -109,7 +109,7 @@ public class CompositionTerm extends SimpleTerm
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The head.
 	 */
 	public SimpleTerm getHead()
@@ -118,7 +118,7 @@ public class CompositionTerm extends SimpleTerm
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The tail.
 	 */
 	public Term getTail()
@@ -150,13 +150,13 @@ public class CompositionTerm extends SimpleTerm
 	/**
 	 * The textual representation of a composition is just the concatenation of
 	 * the terms which compose it.
-	 * 
+	 *
 	 * <p>
 	 * If the tail is a composition, it is represented inside a couple of
 	 * parentheses since it the composition is interpreted to be
 	 * left-associative.
 	 * </p>
-	 * 
+	 *
 	 */
 	@Override
 	public String toString(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
@@ -233,10 +233,10 @@ public class CompositionTerm extends SimpleTerm
 		{
 			if (((CompositionTerm) other).getTail() instanceof CompositionTerm)
 				return diffHead.toStringRight(variableToIdentifier, parameterNumerator) + " ("
-						+ diffTail.toStringRight(variableToIdentifier, parameterNumerator) + ")";
+				+ diffTail.toStringRight(variableToIdentifier, parameterNumerator) + ")";
 			else
 				return diffHead.toStringRight(variableToIdentifier, parameterNumerator) + " "
-						+ diffTail.toStringRight(variableToIdentifier, parameterNumerator);
+				+ diffTail.toStringRight(variableToIdentifier, parameterNumerator);
 		}
 	}
 

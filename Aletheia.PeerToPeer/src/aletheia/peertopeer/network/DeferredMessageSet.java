@@ -1,20 +1,20 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
- * The Aletheia Proof Assistant is free software: you can redistribute it 
- * and/or modify it under the terms of the GNU Affero General Public License 
- * as published by the Free Software Foundation, either version 3 of the 
+ *
+ * The Aletheia Proof Assistant is free software: you can redistribute it
+ * and/or modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation, either version 3 of the
  * License, or (at your option) any later version.
- * 
- * The Aletheia Proof Assistant is distributed in the hope that it will be 
+ *
+ * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU Affero General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
- * along with the Aletheia Proof Assistant. 
+ * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 package aletheia.peertopeer.network;
@@ -172,7 +172,7 @@ public class DeferredMessageSet
 	public synchronized Map<UUID, Integer> recipientDistanceMap()
 	{
 		return Collections.unmodifiableMap(new BijectionMap<UUID, RecipientData, Integer>(new Bijection<RecipientData, Integer>()
-		{
+				{
 
 			@Override
 			public Integer forward(RecipientData recipientData)
@@ -185,7 +185,7 @@ public class DeferredMessageSet
 			{
 				throw new UnsupportedOperationException();
 			}
-		}, recipientDataMap));
+				}, recipientDataMap));
 	}
 
 	private void clearDeferredMessages(Transaction transaction)
@@ -362,7 +362,7 @@ public class DeferredMessageSet
 	private CloseableCollection<DeferredMessage> propagableDeferredMessagesByRecipientCollection(final Transaction transaction, UUID recipientUuid)
 	{
 		return new BijectionCloseableCollection<NodeDeferredMessage, DeferredMessage>(new Bijection<NodeDeferredMessage, DeferredMessage>()
-		{
+				{
 
 			@Override
 			public DeferredMessage forward(NodeDeferredMessage nodeDeferredMessage)
@@ -375,7 +375,7 @@ public class DeferredMessageSet
 			{
 				throw new UnsupportedOperationException();
 			}
-		}, propagableNodeDeferredMessagesByRecipientCollection(transaction, recipientUuid));
+				}, propagableNodeDeferredMessagesByRecipientCollection(transaction, recipientUuid));
 	}
 
 	private Date fromDate()
@@ -501,7 +501,7 @@ public class DeferredMessageSet
 	}
 
 	private synchronized void transmitDeferredMessages(PrivatePersonResource privatePersonResourceMetadata) throws IOException, ConnectException,
-			CancelledCommandException
+	CancelledCommandException
 	{
 		RecipientData recipientData = recipientDataMap.get(privatePersonResourceMetadata.getUuid());
 		if (recipientData != null && recipientData.distance == 0)

@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -26,7 +26,7 @@ import java.util.List;
  * A node name space is every name space that is not the root name space. The
  * main properties of a node name space are a parent name space and his name (a
  * string).
- * 
+ *
  */
 public class NodeNamespace extends Namespace
 {
@@ -83,7 +83,7 @@ public class NodeNamespace extends Namespace
 	/**
 	 * Creates a direct descendant of the root name space with the specified
 	 * name.
-	 * 
+	 *
 	 * @param name
 	 *            The name.
 	 * @throws InvalidNameException
@@ -95,7 +95,7 @@ public class NodeNamespace extends Namespace
 
 	/**
 	 * Builds a name space by concatenating two name spaces.
-	 * 
+	 *
 	 * @param parent
 	 *            The left side.
 	 * @param right
@@ -109,7 +109,7 @@ public class NodeNamespace extends Namespace
 
 	/**
 	 * Builds a copy of a name space.
-	 * 
+	 *
 	 * @param namespace
 	 *            The name space to be copied.
 	 * @throws InvalidNameException
@@ -121,7 +121,7 @@ public class NodeNamespace extends Namespace
 
 	/**
 	 * The parent name space of this name space.
-	 * 
+	 *
 	 * @return The parent.
 	 */
 	public Namespace getParent()
@@ -131,7 +131,7 @@ public class NodeNamespace extends Namespace
 
 	/**
 	 * The name of this name space.
-	 * 
+	 *
 	 * @return The name.
 	 */
 	public String getName()
@@ -155,13 +155,13 @@ public class NodeNamespace extends Namespace
 			return this;
 		else if (right instanceof NodeNamespace)
 			try
-			{
+		{
 				return new NodeNamespace(concat(((NodeNamespace) right).getParent()), ((NodeNamespace) right).getName());
-			}
-			catch (InvalidNameException e)
-			{
-				throw new Error(e);
-			}
+		}
+		catch (InvalidNameException e)
+		{
+			throw new Error(e);
+		}
 		else
 			throw new Error();
 	}
@@ -296,13 +296,13 @@ public class NodeNamespace extends Namespace
 			return (Identifier) this;
 		else
 			try
-			{
+		{
 				return new Identifier(this);
-			}
-			catch (InvalidNameException e)
-			{
-				throw new Error(e);
-			}
+		}
+		catch (InvalidNameException e)
+		{
+			throw new Error(e);
+		}
 	}
 
 }

@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -47,7 +47,7 @@ public class ParserItem implements Serializable
 
 	/**
 	 * Creates a new grammar state given the {@link Grammar}.
-	 * 
+	 *
 	 * @param grammar
 	 *            The grammar.
 	 */
@@ -65,7 +65,7 @@ public class ParserItem implements Serializable
 	 * <li>For every first symbol of the right side on any of these productions,
 	 * do the same processing recursively.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @param start
 	 *            The start symbol.
 	 */
@@ -113,7 +113,7 @@ public class ParserItem implements Serializable
 	/**
 	 * The set of possible terminal symbol followers of the next symbol of the
 	 * production state.
-	 * 
+	 *
 	 * @param ps
 	 *            The production state.
 	 * @param prodFollowers
@@ -149,10 +149,10 @@ public class ParserItem implements Serializable
 	 * states of the initial grammar state is computed by just calling to the
 	 * {@link #populateStarters(Symbol, Set)} method with the start symbol of
 	 * the grammar.
-	 * 
+	 *
 	 * @param grammar
 	 *            The grammar.
-	 * 
+	 *
 	 * @see #populateStarters(Symbol, Set)
 	 */
 	public static ParserItem initial(Grammar grammar)
@@ -164,7 +164,7 @@ public class ParserItem implements Serializable
 
 	/**
 	 * The grammar.
-	 * 
+	 *
 	 * @return The grammar.
 	 */
 	public Grammar getGrammar()
@@ -174,7 +174,7 @@ public class ParserItem implements Serializable
 
 	/**
 	 * The set of {@link ProductionState}s of this grammar state.
-	 * 
+	 *
 	 * @return The set of production states.
 	 */
 	public Set<ProductionState> getProductionStates()
@@ -185,7 +185,7 @@ public class ParserItem implements Serializable
 	/**
 	 * The set of {@link TerminalSymbol}s that may follow a
 	 * {@link ProductionState} on this item.
-	 * 
+	 *
 	 * @param productionState
 	 *            The production state;
 	 * @return The set of followers;
@@ -238,7 +238,7 @@ public class ParserItem implements Serializable
 
 	/**
 	 * A grammar state is empty when it has no production states.
-	 * 
+	 *
 	 * @return Is this grammar state empty?
 	 */
 	private boolean isEmpty()
@@ -252,11 +252,11 @@ public class ParserItem implements Serializable
 	 * next symbol is this parameter symbol and then calling the
 	 * {@link #populateStarters(Symbol, Set)} method for the next symbol of the
 	 * advanced production state.
-	 * 
+	 *
 	 * @param symbol
 	 *            The symbol.
 	 * @return The new grammar state.
-	 * 
+	 *
 	 * @see #populateStarters(Symbol, Set)
 	 */
 	public ParserItem next(Symbol symbol)
@@ -285,7 +285,7 @@ public class ParserItem implements Serializable
 
 	/**
 	 * Computes the map of next grammar states for every possible symbol.
-	 * 
+	 *
 	 * @return The map.
 	 */
 	public Map<Symbol, ParserItem> next()
@@ -303,9 +303,9 @@ public class ParserItem implements Serializable
 	/**
 	 * Computes the map of productions to terminal symbols that are at end in
 	 * the set of production states of this grammar state.
-	 * 
+	 *
 	 * @return The map.
-	 * 
+	 *
 	 * @see ProductionState#atEnd()
 	 */
 	public Map<Production, Set<TerminalSymbol>> endingProductions()

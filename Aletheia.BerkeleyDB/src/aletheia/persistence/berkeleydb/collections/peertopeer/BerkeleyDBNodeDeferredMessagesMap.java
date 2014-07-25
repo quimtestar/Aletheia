@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -222,14 +222,14 @@ public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID
 	public CloseableSet<Entry<UUID, NodeDeferredMessage>> entrySet()
 	{
 		return new AbstractCloseableSet<Entry<UUID, NodeDeferredMessage>>()
-		{
+				{
 
 			@Override
 			public CloseableIterator<Entry<UUID, NodeDeferredMessage>> iterator()
 			{
 				final EntityCursor<BerkeleyDBNodeDeferredMessageEntity> cursor = transaction.entities(index);
 				return new CloseableIterator<Entry<UUID, NodeDeferredMessage>>()
-				{
+						{
 					private BerkeleyDBNodeDeferredMessageEntity next;
 					{
 						next = transaction.first(cursor);
@@ -274,7 +274,7 @@ public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID
 						super.finalize();
 					}
 
-				};
+						};
 			}
 
 			@Override
@@ -327,14 +327,14 @@ public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID
 			{
 				BerkeleyDBNodeDeferredMessagesMap.this.clear();
 			}
-		};
+				};
 	}
 
 	@Override
 	public CloseableSet<UUID> keySet()
 	{
 		return new BijectionCloseableSet<Entry<UUID, NodeDeferredMessage>, UUID>(new Bijection<Entry<UUID, NodeDeferredMessage>, UUID>()
-		{
+				{
 
 			@Override
 			public UUID forward(Entry<UUID, NodeDeferredMessage> entry)
@@ -350,7 +350,7 @@ public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID
 					return null;
 				return new MyEntry(nodeDeferredMessage);
 			}
-		}, entrySet());
+				}, entrySet());
 	}
 
 	@Override

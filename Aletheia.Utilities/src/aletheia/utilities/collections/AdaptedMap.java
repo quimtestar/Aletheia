@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -28,12 +28,12 @@ import java.util.Set;
 /**
  * Gives a read-only view of a {@link Map} as a {@link Map} with type parameters
  * that are superclasses of the original's
- * 
+ *
  * @param <K>
  *            The keys type of the resulting map view.
  * @param <V>
  *            The values type of the resulting map view.
- * 
+ *
  * @author Quim Testar
  */
 public class AdaptedMap<K, V> implements Map<K, V>
@@ -75,14 +75,14 @@ public class AdaptedMap<K, V> implements Map<K, V>
 	{
 		final Set<K> keys = keySet();
 		return new AbstractSet<Entry<K, V>>()
-		{
+				{
 
 			@Override
 			public Iterator<Entry<K, V>> iterator()
 			{
 				final Iterator<K> iterator = keys.iterator();
 				return new Iterator<Entry<K, V>>()
-				{
+						{
 
 					@Override
 					public boolean hasNext()
@@ -95,7 +95,7 @@ public class AdaptedMap<K, V> implements Map<K, V>
 					{
 						final K key = iterator.next();
 						return new Entry<K, V>()
-						{
+								{
 
 							@Override
 							public K getKey()
@@ -115,7 +115,7 @@ public class AdaptedMap<K, V> implements Map<K, V>
 								throw new UnsupportedOperationException();
 							}
 
-						};
+								};
 					}
 
 					@Override
@@ -124,7 +124,7 @@ public class AdaptedMap<K, V> implements Map<K, V>
 						throw new UnsupportedOperationException();
 					}
 
-				};
+						};
 			}
 
 			@Override
@@ -132,7 +132,7 @@ public class AdaptedMap<K, V> implements Map<K, V>
 			{
 				return inner.size();
 			}
-		};
+				};
 	}
 
 	@Override

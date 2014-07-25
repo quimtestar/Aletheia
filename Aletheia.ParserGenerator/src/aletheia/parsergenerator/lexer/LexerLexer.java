@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -243,7 +243,7 @@ public class LexerLexer extends AbstractLexer
 
 		/**
 		 * Creates a new character token with a given character.
-		 * 
+		 *
 		 * @param startLocation
 		 *            The start location.
 		 * @param stopLocation
@@ -259,7 +259,7 @@ public class LexerLexer extends AbstractLexer
 
 		/**
 		 * The read character.
-		 * 
+		 *
 		 * @return The character.
 		 */
 		public char getC()
@@ -285,7 +285,7 @@ public class LexerLexer extends AbstractLexer
 
 		/**
 		 * Creates a new number token with a given number.
-		 * 
+		 *
 		 * @param startLocation
 		 *            The start location.
 		 * @param stopLocation
@@ -301,7 +301,7 @@ public class LexerLexer extends AbstractLexer
 
 		/**
 		 * The number.
-		 * 
+		 *
 		 * @return The number.
 		 */
 		public int getN()
@@ -327,7 +327,7 @@ public class LexerLexer extends AbstractLexer
 
 		/**
 		 * Creates a new tag token with a given string tag.
-		 * 
+		 *
 		 * @param startLocation
 		 *            The start location.
 		 * @param stopLocation
@@ -343,7 +343,7 @@ public class LexerLexer extends AbstractLexer
 
 		/**
 		 * The tag.
-		 * 
+		 *
 		 * @return The tag.
 		 */
 		public String getTag()

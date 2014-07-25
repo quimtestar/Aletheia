@@ -1,18 +1,18 @@
 /*******************************************************************************
  * Copyright (c) 2014 Quim Testar.
- * 
+ *
  * This file is part of the Aletheia Proof Assistant.
- * 
+ *
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- * 
+ *
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
@@ -38,7 +38,7 @@ import aletheia.utilities.MiscUtilities;
 /**
  * Implementation of a {@link CountedSortedMap} with a <a
  * href="http://en.wikipedia.org/wiki/Btree">B-tree</a>.
- * 
+ *
  * @author Quim Testar
  */
 public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
@@ -2008,7 +2008,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 		class EntrySet extends GeneralViewCollection<Entry<K, V>> implements CountedIteratorSet<Entry<K, V>>
 		{
 			private Bijection<BTree.Branch, Entry<K, V>> branchBijection = new Bijection<BTree.Branch, Entry<K, V>>()
-			{
+					{
 
 				@Override
 				public Entry<K, V> forward(BTree.Branch branch)
@@ -2021,35 +2021,35 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 				{
 					throw new UnsupportedOperationException();
 				}
-			};
+					};
 
-			private Bijection<Entry<K, V>, K> keyBijection = new Bijection<Entry<K, V>, K>()
-			{
+					private Bijection<Entry<K, V>, K> keyBijection = new Bijection<Entry<K, V>, K>()
+							{
 
-				@Override
-				public K forward(Entry<K, V> input)
-				{
-					return input.getKey();
-				}
+						@Override
+						public K forward(Entry<K, V> input)
+						{
+							return input.getKey();
+						}
 
-				@Override
-				public Entry<K, V> backward(K output)
-				{
-					throw new UnsupportedOperationException();
-				}
-			};
+						@Override
+						public Entry<K, V> backward(K output)
+						{
+							throw new UnsupportedOperationException();
+						}
+							};
 
-			@Override
-			protected Bijection<BTree.Branch, Entry<K, V>> branchBijection()
-			{
-				return branchBijection;
-			}
+							@Override
+							protected Bijection<BTree.Branch, Entry<K, V>> branchBijection()
+							{
+								return branchBijection;
+							}
 
-			@Override
-			protected Bijection<Entry<K, V>, K> keyBijection()
-			{
-				return keyBijection;
-			}
+							@Override
+							protected Bijection<Entry<K, V>, K> keyBijection()
+							{
+								return keyBijection;
+							}
 		}
 
 		return new EntrySet();
@@ -2061,7 +2061,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 		class KeySet extends GeneralViewCollection<K> implements CountedIteratorSet<K>
 		{
 			private Bijection<BTree.Branch, K> branchBijection = new Bijection<BTree.Branch, K>()
-			{
+					{
 
 				@SuppressWarnings("unchecked")
 				@Override
@@ -2075,21 +2075,21 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 				{
 					throw new UnsupportedOperationException();
 				}
-			};
+					};
 
-			private Bijection<K, K> keyBijection = new IdentityBijection<K>();
+					private Bijection<K, K> keyBijection = new IdentityBijection<K>();
 
-			@Override
-			protected Bijection<BTree.Branch, K> branchBijection()
-			{
-				return branchBijection;
-			}
+					@Override
+					protected Bijection<BTree.Branch, K> branchBijection()
+					{
+						return branchBijection;
+					}
 
-			@Override
-			protected Bijection<K, K> keyBijection()
-			{
-				return keyBijection;
-			}
+					@Override
+					protected Bijection<K, K> keyBijection()
+					{
+						return keyBijection;
+					}
 		}
 
 		return new KeySet();
@@ -2102,7 +2102,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 		{
 
 			private Bijection<BTree.Branch, V> branchBijection = new Bijection<BTree.Branch, V>()
-			{
+					{
 
 				@SuppressWarnings("unchecked")
 				@Override
@@ -2116,19 +2116,19 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 				{
 					throw new UnsupportedOperationException();
 				}
-			};
+					};
 
-			@Override
-			protected Bijection<BTree.Branch, V> branchBijection()
-			{
-				return branchBijection;
-			}
+					@Override
+					protected Bijection<BTree.Branch, V> branchBijection()
+					{
+						return branchBijection;
+					}
 
-			@Override
-			protected Bijection<V, K> keyBijection()
-			{
-				throw new UnsupportedOperationException();
-			}
+					@Override
+					protected Bijection<V, K> keyBijection()
+					{
+						throw new UnsupportedOperationException();
+					}
 		}
 
 		return new Values();
@@ -2254,7 +2254,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 			class EntrySet extends IntervalViewCollection<Entry<K, V>> implements CountedIteratorSet<Entry<K, V>>
 			{
 				private Bijection<BTree.Branch, Entry<K, V>> branchBijection = new Bijection<BTree.Branch, Entry<K, V>>()
-				{
+						{
 
 					@Override
 					public Entry<K, V> forward(BTree.Branch branch)
@@ -2267,35 +2267,35 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 					{
 						throw new UnsupportedOperationException();
 					}
-				};
+						};
 
-				private Bijection<Entry<K, V>, K> keyBijection = new Bijection<Entry<K, V>, K>()
-				{
+						private Bijection<Entry<K, V>, K> keyBijection = new Bijection<Entry<K, V>, K>()
+								{
 
-					@Override
-					public K forward(Entry<K, V> input)
-					{
-						return input.getKey();
-					}
+							@Override
+							public K forward(Entry<K, V> input)
+							{
+								return input.getKey();
+							}
 
-					@Override
-					public Entry<K, V> backward(K output)
-					{
-						throw new UnsupportedOperationException();
-					}
-				};
+							@Override
+							public Entry<K, V> backward(K output)
+							{
+								throw new UnsupportedOperationException();
+							}
+								};
 
-				@Override
-				protected Bijection<BTree.Branch, Entry<K, V>> branchBijection()
-				{
-					return branchBijection;
-				}
+								@Override
+								protected Bijection<BTree.Branch, Entry<K, V>> branchBijection()
+								{
+									return branchBijection;
+								}
 
-				@Override
-				protected Bijection<Entry<K, V>, K> keyBijection()
-				{
-					return keyBijection;
-				}
+								@Override
+								protected Bijection<Entry<K, V>, K> keyBijection()
+								{
+									return keyBijection;
+								}
 			}
 
 			return new EntrySet();
@@ -2307,7 +2307,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 			class KeySet extends IntervalViewCollection<K> implements CountedIteratorSet<K>
 			{
 				private Bijection<BTree.Branch, K> branchBijection = new Bijection<BTree.Branch, K>()
-				{
+						{
 
 					@SuppressWarnings("unchecked")
 					@Override
@@ -2321,21 +2321,21 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 					{
 						throw new UnsupportedOperationException();
 					}
-				};
+						};
 
-				private Bijection<K, K> keyBijection = new IdentityBijection<K>();
+						private Bijection<K, K> keyBijection = new IdentityBijection<K>();
 
-				@Override
-				protected Bijection<BTree.Branch, K> branchBijection()
-				{
-					return branchBijection;
-				}
+						@Override
+						protected Bijection<BTree.Branch, K> branchBijection()
+						{
+							return branchBijection;
+						}
 
-				@Override
-				protected Bijection<K, K> keyBijection()
-				{
-					return keyBijection;
-				}
+						@Override
+						protected Bijection<K, K> keyBijection()
+						{
+							return keyBijection;
+						}
 			}
 
 			return new KeySet();
@@ -2348,7 +2348,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 			{
 
 				private Bijection<BTree.Branch, V> branchBijection = new Bijection<BTree.Branch, V>()
-				{
+						{
 
 					@SuppressWarnings("unchecked")
 					@Override
@@ -2362,19 +2362,19 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 					{
 						throw new UnsupportedOperationException();
 					}
-				};
+						};
 
-				@Override
-				protected Bijection<BTree.Branch, V> branchBijection()
-				{
-					return branchBijection;
-				}
+						@Override
+						protected Bijection<BTree.Branch, V> branchBijection()
+						{
+							return branchBijection;
+						}
 
-				@Override
-				protected Bijection<V, K> keyBijection()
-				{
-					throw new UnsupportedOperationException();
-				}
+						@Override
+						protected Bijection<V, K> keyBijection()
+						{
+							throw new UnsupportedOperationException();
+						}
 			}
 
 			return new Values();
