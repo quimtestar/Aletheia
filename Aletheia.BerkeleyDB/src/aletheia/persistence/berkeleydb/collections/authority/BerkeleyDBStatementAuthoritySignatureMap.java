@@ -41,7 +41,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
 public class BerkeleyDBStatementAuthoritySignatureMap extends AbstractCloseableMap<Signatory, StatementAuthoritySignature> implements
-StatementAuthoritySignatureMap
+		StatementAuthoritySignatureMap
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -118,7 +118,7 @@ StatementAuthoritySignatureMap
 	}
 
 	private class EntrySet extends AbstractSet<Entry<Signatory, StatementAuthoritySignature>> implements
-	CloseableSet<Entry<Signatory, StatementAuthoritySignature>>
+			CloseableSet<Entry<Signatory, StatementAuthoritySignature>>
 	{
 		private EntrySet()
 		{
@@ -130,7 +130,7 @@ StatementAuthoritySignatureMap
 		{
 			final EntityCursor<BerkeleyDBStatementAuthoritySignatureEntity> cursor = transaction.entities(index);
 			return new CloseableIterator<Entry<Signatory, StatementAuthoritySignature>>()
-					{
+			{
 
 				BerkeleyDBStatementAuthoritySignatureEntity nextEntity;
 				{
@@ -155,7 +155,7 @@ StatementAuthoritySignatureMap
 					if (nextEntity == null)
 						transaction.close(cursor);
 					return new Entry<Signatory, StatementAuthoritySignature>()
-							{
+					{
 
 						@Override
 						public Signatory getKey()
@@ -175,7 +175,7 @@ StatementAuthoritySignatureMap
 							throw new UnsupportedOperationException();
 						}
 
-							};
+					};
 				}
 
 				@Override
@@ -197,7 +197,7 @@ StatementAuthoritySignatureMap
 					super.finalize();
 				}
 
-					};
+			};
 		}
 
 		@Override

@@ -42,7 +42,7 @@ public class TrivialCloseableIterable<E> implements CloseableIterable<E>
 	{
 		final Iterator<E> iterator = this.inner.iterator();
 		return new CloseableIterator<E>()
-				{
+		{
 
 			@Override
 			public boolean hasNext()
@@ -67,7 +67,7 @@ public class TrivialCloseableIterable<E> implements CloseableIterable<E>
 			{
 			}
 
-				};
+		};
 	}
 
 }

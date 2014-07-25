@@ -106,7 +106,7 @@ public class DifferenceCollection<E> extends AbstractReadOnlyCollection<E> imple
 		final Iterator<E> iterator = minuend.iterator();
 
 		return new AbstractReadOnlyIterator<E>()
-				{
+		{
 
 			E next = advance();
 
@@ -139,7 +139,7 @@ public class DifferenceCollection<E> extends AbstractReadOnlyCollection<E> imple
 				return e;
 			}
 
-				};
+		};
 	}
 
 	@Override

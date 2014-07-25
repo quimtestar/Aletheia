@@ -36,7 +36,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
 public class BerkeleyDBSubscribeStatementsContextLocalSetMap extends AbstractCloseableMap<ContextLocal, SubscribeStatementsContextLocalSet> implements
-SubscribeStatementsContextLocalSetMap
+		SubscribeStatementsContextLocalSetMap
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -90,14 +90,14 @@ SubscribeStatementsContextLocalSetMap
 	public CloseableSet<Entry<ContextLocal, SubscribeStatementsContextLocalSet>> entrySet()
 	{
 		return new AbstractCloseableSet<Entry<ContextLocal, SubscribeStatementsContextLocalSet>>()
-				{
+		{
 
 			@Override
 			public CloseableIterator<Entry<ContextLocal, SubscribeStatementsContextLocalSet>> iterator()
 			{
 				final EntityCursor<BerkeleyDBStatementLocalEntity> cursor = transaction.entities(index);
 				return new CloseableIterator<Entry<ContextLocal, SubscribeStatementsContextLocalSet>>()
-						{
+				{
 					private BerkeleyDBStatementLocalEntity next;
 					{
 						next = transaction.first(cursor);
@@ -122,7 +122,7 @@ SubscribeStatementsContextLocalSetMap
 						final SubscribeStatementsContextLocalSet subscribeStatementsContextLocalSet = contextLocal
 								.subscribeStatementsContextLocalSet(transaction);
 						return new Entry<ContextLocal, SubscribeStatementsContextLocalSet>()
-								{
+						{
 
 							@Override
 							public ContextLocal getKey()
@@ -142,7 +142,7 @@ SubscribeStatementsContextLocalSetMap
 								throw new UnsupportedOperationException();
 							}
 
-								};
+						};
 					}
 
 					@Override
@@ -157,7 +157,7 @@ SubscribeStatementsContextLocalSetMap
 						transaction.close(cursor);
 					}
 
-						};
+				};
 			}
 
 			@Override
@@ -172,7 +172,7 @@ SubscribeStatementsContextLocalSetMap
 				return BerkeleyDBSubscribeStatementsContextLocalSetMap.this.isEmpty();
 			}
 
-				};
+		};
 
 	}
 

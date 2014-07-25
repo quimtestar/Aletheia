@@ -444,14 +444,14 @@ public class PersistenceSecretKeyManager
 				Person person = persistenceManager.getPrivatePerson(transaction, signatory.getUuid());
 				if (person != null)
 					try
-				{
+					{
 						person = Person.create(persistenceManager, transaction, signatory, person.getNick(), person.getName(), person.getEmail(),
 								person.getSignatureDate(), person.getSignatureVersion(), person.getSignatureData());
-				}
-				catch (PersonCreationException e)
-				{
-					throw new PersistenceSecretKeyException(e);
-				}
+					}
+					catch (PersonCreationException e)
+					{
+						throw new PersistenceSecretKeyException(e);
+					}
 			}
 			transaction.commit();
 		}

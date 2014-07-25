@@ -37,7 +37,7 @@ public class IconManager
 	private static List<Image> loadIcons()
 	{
 		String[] files =
-			{ "aletheia_plain_16.png", "aletheia_plain_32.png", "aletheia_plain_64.png", "aletheia_plain_128.png" };
+		{ "aletheia_plain_16.png", "aletheia_plain_32.png", "aletheia_plain_64.png", "aletheia_plain_128.png" };
 		List<Image> icons = new ArrayList<Image>();
 		for (String f : files)
 		{
@@ -55,12 +55,12 @@ public class IconManager
 			{
 				if (is != null)
 					try
-				{
+					{
 						is.close();
-				}
-				catch (IOException e)
-				{
-				}
+					}
+					catch (IOException e)
+					{
+					}
 			}
 		}
 		return icons;
@@ -86,13 +86,13 @@ public class IconManager
 		{
 			if (is != null)
 				try
-			{
+				{
 					is.close();
-			}
-			catch (IOException e)
-			{
-				return null;
-			}
+				}
+				catch (IOException e)
+				{
+					return null;
+				}
 		}
 	}
 

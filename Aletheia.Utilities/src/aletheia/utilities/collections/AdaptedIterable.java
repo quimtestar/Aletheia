@@ -56,7 +56,7 @@ public class AdaptedIterable<E> implements Iterable<E>
 	{
 		final Iterator<? extends E> iterator = inner.iterator();
 		return new Iterator<E>()
-				{
+		{
 
 			@Override
 			public boolean hasNext()
@@ -76,7 +76,7 @@ public class AdaptedIterable<E> implements Iterable<E>
 				throw new UnsupportedOperationException();
 			}
 
-				};
+		};
 	}
 
 }

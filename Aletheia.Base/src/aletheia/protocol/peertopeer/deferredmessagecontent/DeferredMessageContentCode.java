@@ -106,9 +106,9 @@ public enum DeferredMessageContentCode implements ShortExportableEnum<DeferredMe
 	}
 
 	public Class<? extends DeferredMessageContent.SubProtocol<? extends DeferredMessageContent>> getSubProtocolClazz()
-			{
+	{
 		return subProtocolClazz;
-			}
+	}
 
 	public int getSubProtocolVersion(int version)
 	{

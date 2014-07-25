@@ -34,14 +34,14 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBLocalDelegateAuthorizerByAuthorizerMap extends BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<StatementAuthorizerKeyData> implements
-LocalDelegateAuthorizerByAuthorizerMap
+		LocalDelegateAuthorizerByAuthorizerMap
 {
 	private final StatementAuthority statementAuthority;
 	private final Namespace prefix;
 
 	private static SecondaryIndex<StatementAuthorizerKeyData, PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> makeIndex(
 			BerkeleyDBPersistenceManager persistenceManager)
-			{
+	{
 		try
 		{
 			return persistenceManager.getEntityStore().delegateAuthorizerEntityContextAuthorizerSecondaryIndex();
@@ -50,7 +50,7 @@ LocalDelegateAuthorizerByAuthorizerMap
 		{
 			throw persistenceManager.convertDatabaseException(e);
 		}
-			}
+	}
 
 	public BerkeleyDBLocalDelegateAuthorizerByAuthorizerMap(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction,
 			StatementAuthority statementAuthority, Namespace prefix)

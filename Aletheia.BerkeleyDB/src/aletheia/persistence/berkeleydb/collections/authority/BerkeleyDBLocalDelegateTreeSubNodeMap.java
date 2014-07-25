@@ -174,14 +174,14 @@ public class BerkeleyDBLocalDelegateTreeSubNodeMap extends AbstractCloseableMap<
 	public CloseableSet<Entry<Namespace, DelegateTreeSubNode>> entrySet()
 	{
 		return new AbstractCloseableSet<Entry<Namespace, DelegateTreeSubNode>>()
-				{
+		{
 
 			@Override
 			public CloseableIterator<Entry<Namespace, DelegateTreeSubNode>> iterator()
 			{
 				final EntityCursor<BerkeleyDBDelegateTreeNodeEntity> cursor = transaction.entities(index, primaryKeyFrom, true, primaryKeyTo, false);
 				return new CloseableIterator<Entry<Namespace, DelegateTreeSubNode>>()
-						{
+				{
 					private BerkeleyDBDelegateTreeNodeEntity next;
 					{
 						next = transaction.first(cursor);
@@ -205,7 +205,7 @@ public class BerkeleyDBLocalDelegateTreeSubNodeMap extends AbstractCloseableMap<
 						if (next == null)
 							transaction.close(cursor);
 						return new Entry<Namespace, DelegateTreeSubNode>()
-								{
+						{
 
 							@Override
 							public Namespace getKey()
@@ -225,7 +225,7 @@ public class BerkeleyDBLocalDelegateTreeSubNodeMap extends AbstractCloseableMap<
 								throw new UnsupportedOperationException();
 							}
 
-								};
+						};
 					}
 
 					@Override
@@ -247,7 +247,7 @@ public class BerkeleyDBLocalDelegateTreeSubNodeMap extends AbstractCloseableMap<
 						super.finalize();
 					}
 
-						};
+				};
 			}
 
 			@Override
@@ -262,7 +262,7 @@ public class BerkeleyDBLocalDelegateTreeSubNodeMap extends AbstractCloseableMap<
 				return BerkeleyDBLocalDelegateTreeSubNodeMap.this.isEmpty();
 			}
 
-				};
+		};
 	}
 
 	@Override

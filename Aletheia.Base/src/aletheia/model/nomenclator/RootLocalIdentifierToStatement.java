@@ -181,7 +181,7 @@ public class RootLocalIdentifierToStatement extends AbstractMap<Identifier, Stat
 			public CloseableIterator<Map.Entry<Identifier, Statement>> iterator()
 			{
 				return new CloseableIterator<Map.Entry<Identifier, Statement>>()
-						{
+				{
 					private MyEntry next = myEntry();
 
 					@Override
@@ -210,7 +210,7 @@ public class RootLocalIdentifierToStatement extends AbstractMap<Identifier, Stat
 					public void close()
 					{
 					}
-						};
+				};
 
 			}
 
@@ -225,7 +225,7 @@ public class RootLocalIdentifierToStatement extends AbstractMap<Identifier, Stat
 			{
 				final Comparator<Identifier> comp = RootLocalIdentifierToStatement.this.comparator();
 				return new Comparator<Entry<Identifier, Statement>>()
-						{
+				{
 
 					@Override
 					public int compare(Entry<Identifier, Statement> e0, Entry<Identifier, Statement> e1)
@@ -233,7 +233,7 @@ public class RootLocalIdentifierToStatement extends AbstractMap<Identifier, Stat
 						return comp.compare(e0.getKey(), e1.getKey());
 					}
 
-						};
+				};
 			}
 
 			@Override

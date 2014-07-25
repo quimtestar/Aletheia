@@ -45,13 +45,13 @@ public class ComplementingInvitationDialogServer extends ComplementingInvitation
 		ComplementingInvitationMessage complementingInvitationMessage = recvMessage(ComplementingInvitationMessage.class);
 		if (getLocalRouterSet().neighbourSlot(complementingInvitationMessage.getNodeAddress().getUuid()) == null)
 			try
-		{
+			{
 				getPeerToPeerNode().complementingNetworkConnect(getNetworkPhase().translateRemoteNodeAddress(complementingInvitationMessage.getNodeAddress()));
-		}
-		catch (ConnectException e)
-		{
-			logger.info("Can't connect", e);
-		}
+			}
+			catch (ConnectException e)
+			{
+				logger.info("Can't connect", e);
+			}
 	}
 
 }

@@ -34,11 +34,11 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBSignatureRequestContextCreationDateCollection extends BerkeleyDBSignatureRequestCollection<ContextCreationDateSecondaryKeyData>
-implements SignatureRequestContextCreationDateCollection
+		implements SignatureRequestContextCreationDateCollection
 {
 	private static SecondaryIndex<ContextCreationDateSecondaryKeyData, UUIDKey, BerkeleyDBSignatureRequestEntity> index(
 			BerkeleyDBPersistenceManager persistenceManager)
-			{
+	{
 		try
 		{
 			return persistenceManager.getEntityStore().signatureRequestEntityContextCreationDateSecondaryIndex();
@@ -48,7 +48,7 @@ implements SignatureRequestContextCreationDateCollection
 		{
 			throw persistenceManager.convertDatabaseException(e);
 		}
-			}
+	}
 
 	private final UUID contextUuid;
 

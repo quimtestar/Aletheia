@@ -88,14 +88,14 @@ public class FilteredMap<K, V> extends AbstractMap<K, V>
 		public FilteredEntrySet(Set<Entry<K, V>> innerEntrySet)
 		{
 			super(new Filter<Entry<K, V>>()
-					{
+			{
 
 				@Override
 				public boolean filter(Entry<K, V> e)
 				{
 					return filter.filter(e.getValue());
 				}
-					}, innerEntrySet);
+			}, innerEntrySet);
 		}
 
 	}

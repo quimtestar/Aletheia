@@ -57,9 +57,9 @@ public class NewStatementsLoopDialogServer extends NewStatementsLoopDialog
 
 	private Collection<StatementAuthoritySubMessage> filterRequestableStatementAuthoritySubMessages(
 			Collection<StatementAuthoritySubMessage> statementAuthoritySubMessages)
-			{
+	{
 		return new BufferedList<>(new FilteredCollection<StatementAuthoritySubMessage>(new Filter<StatementAuthoritySubMessage>()
-				{
+		{
 
 			@Override
 			public boolean filter(StatementAuthoritySubMessage statementAuthoritySubMessage)
@@ -90,8 +90,8 @@ public class NewStatementsLoopDialogServer extends NewStatementsLoopDialog
 				}
 				return false;
 			}
-				}, statementAuthoritySubMessages));
-			}
+		}, statementAuthoritySubMessages));
+	}
 
 	private void dialogateStatementRequestSend(Collection<StatementAuthoritySubMessage> statementAuthoritySubMessages) throws IOException, InterruptedException
 	{
@@ -124,14 +124,14 @@ public class NewStatementsLoopDialogServer extends NewStatementsLoopDialog
 					public Collection<UUID> forward(StatementAuthoritySubMessage statementAuthoritySubMessage)
 					{
 						return new FilteredCollection<UUID>(new Filter<UUID>()
-								{
+						{
 
 							@Override
 							public boolean filter(UUID personUuid)
 							{
 								return getPersistenceManager().getPerson(getTransaction(), personUuid) == null;
 							}
-								}, statementAuthoritySubMessage.getPersonDependencies());
+						}, statementAuthoritySubMessage.getPersonDependencies());
 					}
 
 					@Override
@@ -148,7 +148,7 @@ public class NewStatementsLoopDialogServer extends NewStatementsLoopDialog
 	{
 
 		Bijection<AbstractUUIDInfoMessage.Entry<StatementAuthoritySubMessage>, StatementAuthoritySubMessage> bijection = new Bijection<AbstractUUIDInfoMessage.Entry<StatementAuthoritySubMessage>, StatementAuthoritySubMessage>()
-				{
+		{
 			@Override
 			public StatementAuthoritySubMessage forward(AbstractUUIDInfoMessage.Entry<StatementAuthoritySubMessage> input)
 			{
@@ -160,13 +160,13 @@ public class NewStatementsLoopDialogServer extends NewStatementsLoopDialog
 			{
 				throw new UnsupportedOperationException();
 			}
-				};
+		};
 
-				Collection<StatementAuthoritySubMessage> filterRequestableStatementAuthoritySubMessages = filterRequestableStatementAuthoritySubMessages(new BijectionCollection<AbstractUUIDInfoMessage.Entry<StatementAuthoritySubMessage>, StatementAuthoritySubMessage>(
-						bijection, subscriptionContextsMessage.getEntries()));
+		Collection<StatementAuthoritySubMessage> filterRequestableStatementAuthoritySubMessages = filterRequestableStatementAuthoritySubMessages(new BijectionCollection<AbstractUUIDInfoMessage.Entry<StatementAuthoritySubMessage>, StatementAuthoritySubMessage>(
+				bijection, subscriptionContextsMessage.getEntries()));
 
-				dialogatePersonRequestSend(filterRequestableStatementAuthoritySubMessages);
-				dialogateStatementRequestSend(filterRequestableStatementAuthoritySubMessages);
+		dialogatePersonRequestSend(filterRequestableStatementAuthoritySubMessages);
+		dialogateStatementRequestSend(filterRequestableStatementAuthoritySubMessages);
 	}
 
 	private PersonResponseMessage dialogatePersonResponseRecv() throws IOException, ProtocolException

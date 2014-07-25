@@ -89,9 +89,9 @@ public class CumulationSet
 			}
 
 			public SubProtocol<? extends Cumulation<?>> getSubProtocol()
-					{
+			{
 				return subProtocol;
-					}
+			}
 
 			public int getValueSubProtocolVersion()
 			{
@@ -882,7 +882,7 @@ public class CumulationSet
 	public synchronized Collection<Cumulation.Value<?>> routerCumulationValues(final int i, Collection<Cumulation<?>> cumulations)
 	{
 		return new BufferedList<>(new BijectionCollection<>(new Bijection<Cumulation<?>, Cumulation.Value<?>>()
-				{
+		{
 
 			@Override
 			public Cumulation.Value<?> forward(Cumulation<?> cumulation)
@@ -895,7 +895,7 @@ public class CumulationSet
 			{
 				return value.getCumulation();
 			}
-				}, cumulations));
+		}, cumulations));
 	}
 
 	private synchronized Cumulation.Value<?> putRouterCumulationValue(int i, Cumulation.Value<?> cumulationValue)

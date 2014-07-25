@@ -30,7 +30,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityIndex;
 
 public class BerkeleyDBPrivateSignatoriesMap extends BerkeleyDBGenericSignatoriesMap<PrivateSignatory, BerkeleyDBPrivateSignatoryEntity> implements
-PrivateSignatoriesMap
+		PrivateSignatoriesMap
 {
 
 	private static EntityIndex<UUIDKey, BerkeleyDBPrivateSignatoryEntity> subIndex(BerkeleyDBPersistenceManager persistenceManager)

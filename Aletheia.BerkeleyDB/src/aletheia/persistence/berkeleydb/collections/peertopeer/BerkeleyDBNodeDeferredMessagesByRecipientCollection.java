@@ -41,7 +41,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBNodeDeferredMessagesByRecipientCollection extends AbstractCloseableCollection<NodeDeferredMessage> implements
-NodeDeferredMessagesByRecipientCollection
+		NodeDeferredMessagesByRecipientCollection
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -124,7 +124,7 @@ NodeDeferredMessagesByRecipientCollection
 	{
 		final EntityCursor<BerkeleyDBNodeDeferredMessageEntity> cursor = transaction.entities(index, fromKey, true, toKey, false);
 		return new CloseableIterator<NodeDeferredMessage>()
-				{
+		{
 			private BerkeleyDBNodeDeferredMessageEntity next;
 			{
 				next = transaction.first(cursor);
@@ -169,7 +169,7 @@ NodeDeferredMessagesByRecipientCollection
 				super.finalize();
 			}
 
-				};
+		};
 	}
 
 	@Override

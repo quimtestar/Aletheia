@@ -94,7 +94,7 @@ public class BerkeleyDBStatementLocalSet extends AbstractCloseableSet<StatementL
 	{
 		final EntityCursor<BerkeleyDBStatementLocalEntity> cursor = transaction.entities(index);
 		return new CloseableIterator<StatementLocal>()
-				{
+		{
 
 			private BerkeleyDBStatementLocalEntity next;
 			{
@@ -140,7 +140,7 @@ public class BerkeleyDBStatementLocalSet extends AbstractCloseableSet<StatementL
 				super.finalize();
 			}
 
-				};
+		};
 	}
 
 	@Override

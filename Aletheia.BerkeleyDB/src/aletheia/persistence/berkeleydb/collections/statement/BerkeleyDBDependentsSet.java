@@ -92,7 +92,7 @@ public class BerkeleyDBDependentsSet extends AbstractCloseableSet<Statement> imp
 	{
 		final EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(statementEntityDependenciesSecondaryIndex, uuidKey, true, uuidKey, true);
 		return new CloseableIterator<Statement>()
-				{
+		{
 			BerkeleyDBStatementEntity next;
 			{
 				next = transaction.next(cursor);
@@ -137,7 +137,7 @@ public class BerkeleyDBDependentsSet extends AbstractCloseableSet<Statement> imp
 				transaction.close(cursor);
 			}
 
-				};
+		};
 	}
 
 	@Override

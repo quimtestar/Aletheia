@@ -62,7 +62,7 @@ public class Dependents extends TransactionalCommand
 		}
 
 		Comparator<List<? extends Statement>> comparator = new Comparator<List<? extends Statement>>()
-				{
+		{
 			@Override
 			public int compare(List<? extends Statement> path1, List<? extends Statement> path2)
 			{
@@ -103,33 +103,33 @@ public class Dependents extends TransactionalCommand
 					return 0;
 			}
 
-				};
-				Collections.sort(list, comparator);
+		};
+		Collections.sort(list, comparator);
 
-				for (List<? extends Statement> path : list)
+		for (List<? extends Statement> path : list)
+		{
+			StringBuffer sbpath = new StringBuffer();
+			boolean first = true;
+			for (Statement st2 : path)
+			{
+				if (!first)
+					sbpath.append("/");
+				else
+					first = false;
+				if (!(st2 instanceof RootContext))
 				{
-					StringBuffer sbpath = new StringBuffer();
-					boolean first = true;
-					for (Statement st2 : path)
-					{
-						if (!first)
-							sbpath.append("/");
-						else
-							first = false;
-						if (!(st2 instanceof RootContext))
-						{
-							Identifier id = st2.identifier(getTransaction());
-							if (id != null)
-								sbpath.append(id.toString());
-							else
-								sbpath.append(st2.getVariable().toString());
-						}
-					}
-					getOut().println(" -> " + sbpath);
+					Identifier id = st2.identifier(getTransaction());
+					if (id != null)
+						sbpath.append(id.toString());
+					else
+						sbpath.append(st2.getVariable().toString());
 				}
-				getOut().println("end.");
+			}
+			getOut().println(" -> " + sbpath);
+		}
+		getOut().println("end.");
 
-				return null;
+		return null;
 	}
 
 	public static class Factory extends AbstractVoidCommandFactory<Dependents>

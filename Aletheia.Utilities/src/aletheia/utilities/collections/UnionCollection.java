@@ -50,9 +50,9 @@ public class UnionCollection<E> extends AbstractReadOnlyCollection<E>
 	}
 
 	protected Collection<? extends Collection<E>> getInner()
-			{
+	{
 		return inner;
-			}
+	}
 
 	/**
 	 * The sum of the sizes of all the element collections of the united

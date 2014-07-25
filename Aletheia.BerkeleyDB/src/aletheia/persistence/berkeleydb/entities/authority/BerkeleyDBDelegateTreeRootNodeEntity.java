@@ -193,7 +193,7 @@ public class BerkeleyDBDelegateTreeRootNodeEntity extends BerkeleyDBDelegateTree
 		{
 			final ListIterator<BerkeleyDBSuccessorEntryEntity> successorEntriesIterator = successorEntryEntities.listIterator(index);
 			return new ListIterator<BerkeleyDBSuccessorEntryEntity>()
-					{
+			{
 				private BerkeleyDBSuccessorEntryEntity last = null;
 
 				@Override
@@ -267,7 +267,7 @@ public class BerkeleyDBDelegateTreeRootNodeEntity extends BerkeleyDBDelegateTree
 					successorEntriesIterator.add(e);
 				}
 
-					};
+			};
 		}
 
 		@Override
@@ -331,7 +331,7 @@ public class BerkeleyDBDelegateTreeRootNodeEntity extends BerkeleyDBDelegateTree
 	public Set<UUID> successorUuids()
 	{
 		return new BijectionSet<UUIDKey, UUID>(new Bijection<UUIDKey, UUID>()
-				{
+		{
 
 			@Override
 			public UUID forward(UUIDKey uuidKey)
@@ -344,7 +344,7 @@ public class BerkeleyDBDelegateTreeRootNodeEntity extends BerkeleyDBDelegateTree
 			{
 				return new UUIDKey(uuid);
 			}
-				}, Collections.unmodifiableSet(successorUuidKeys));
+		}, Collections.unmodifiableSet(successorUuidKeys));
 	}
 
 	@Override

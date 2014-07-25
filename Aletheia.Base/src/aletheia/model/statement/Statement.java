@@ -421,7 +421,7 @@ public abstract class Statement implements Exportable
 	protected static void checkProved(Transaction transaction, boolean checkContext, Collection<Statement> statements)
 	{
 		checkProvedUuids(transaction, checkContext, new BijectionCollection<>(new Bijection<Statement, UUID>()
-				{
+		{
 
 			@Override
 			public UUID forward(Statement input)
@@ -434,7 +434,7 @@ public abstract class Statement implements Exportable
 			{
 				throw new UnsupportedOperationException();
 			}
-				}, statements));
+		}, statements));
 	}
 
 	/**
@@ -719,7 +719,7 @@ public abstract class Statement implements Exportable
 	public Set<Statement> dependencies(final Transaction transaction)
 	{
 		return new BijectionSet<UUID, Statement>(new Bijection<UUID, Statement>()
-				{
+		{
 
 			@Override
 			public Statement forward(UUID uuid)
@@ -732,19 +732,19 @@ public abstract class Statement implements Exportable
 			{
 				return statement.getUuid();
 			}
-				}, getUuidDependencies());
+		}, getUuidDependencies());
 	}
 
 	public Set<Statement> localDependencies(Transaction transaction)
 	{
 		return new FilteredSet<Statement>(new Filter<Statement>()
-				{
+		{
 			@Override
 			public boolean filter(Statement statement)
 			{
 				return getContextUuid().equals(statement.getContextUuid());
 			}
-				}, dependencies(transaction));
+		}, dependencies(transaction));
 	}
 
 	public Set<Statement> dependenciesThisAndDescendents(Transaction transaction)
@@ -1212,7 +1212,7 @@ public abstract class Statement implements Exportable
 	public CloseableSet<StatementAuthority> dependentAuthorities(final Transaction transaction)
 	{
 		return new FilteredCloseableSet<>(new NotNullFilter<StatementAuthority>(), new BijectionCloseableSet<>(new Bijection<Statement, StatementAuthority>()
-				{
+		{
 			@Override
 			public StatementAuthority forward(Statement statement)
 			{
@@ -1224,7 +1224,7 @@ public abstract class Statement implements Exportable
 			{
 				throw new UnsupportedOperationException();
 			}
-				}, dependents(transaction)));
+		}, dependents(transaction)));
 	}
 
 	public void identify(Transaction transaction, Identifier identifier) throws NomenclatorException
@@ -1247,13 +1247,13 @@ public abstract class Statement implements Exportable
 	}
 
 	public void delete(Transaction transaction) throws StatementNotInContextException, StatementHasDependentsException, CantDeleteAssumptionException,
-	DependentUnpackedSignatureRequests
+			DependentUnpackedSignatureRequests
 	{
 		getContext(transaction).deleteStatement(transaction, this);
 	}
 
 	public void deleteWithRemovalFromDependentUnpackedSignatureRequests(Transaction transaction) throws StatementNotInContextException,
-	StatementHasDependentsException, CantDeleteAssumptionException
+			StatementHasDependentsException, CantDeleteAssumptionException
 	{
 		removeFromDependentUnpackedSignatureRequests(transaction);
 		try

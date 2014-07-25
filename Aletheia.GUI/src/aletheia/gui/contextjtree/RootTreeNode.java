@@ -111,7 +111,7 @@ public class RootTreeNode extends AbstractTreeNode implements BranchTreeNode
 		final Iterator<RootContext> iterator = getRootContextList().iterator();
 
 		return new Enumeration<AbstractTreeNode>()
-				{
+		{
 			@Override
 			public boolean hasMoreElements()
 			{
@@ -125,7 +125,7 @@ public class RootTreeNode extends AbstractTreeNode implements BranchTreeNode
 					throw new NoSuchElementException();
 				return getModel().nodeMap().get(iterator.next());
 			}
-				};
+		};
 	}
 
 	@Override

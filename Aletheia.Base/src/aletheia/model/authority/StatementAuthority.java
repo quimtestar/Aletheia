@@ -387,14 +387,14 @@ public class StatementAuthority implements Exportable
 	public CloseableMap<Signatory, StatementAuthoritySignature> validSignatureMap(Transaction transaction)
 	{
 		return new FilteredCloseableMap<>(new Filter<StatementAuthoritySignature>()
-				{
+		{
 
 			@Override
 			public boolean filter(StatementAuthoritySignature sas)
 			{
 				return sas.isValid();
 			}
-				}, signatureMap(transaction));
+		}, signatureMap(transaction));
 	}
 
 	public boolean isValidSignature()
@@ -441,15 +441,15 @@ public class StatementAuthority implements Exportable
 	public CloseableSortedSet<StatementAuthoritySignature> validSignatureDateSortedSet(Transaction transaction)
 	{
 		return new FilteredCloseableSortedSet<StatementAuthoritySignature>(new Filter<StatementAuthoritySignature>()
-				{
+		{
 
 			@Override
 			public boolean filter(StatementAuthoritySignature sas)
 			{
 				return sas.isValid();
 			}
-				}, signatureDateSortedSet(transaction))
-				{
+		}, signatureDateSortedSet(transaction))
+		{
 
 			@Override
 			protected StatementAuthoritySignatureDateSortedSet getInner()
@@ -475,7 +475,7 @@ public class StatementAuthority implements Exportable
 					iterator.close();
 				}
 			}
-				};
+		};
 	}
 
 	public StatementAuthoritySignature lastValidSignature(Transaction transaction)
@@ -513,7 +513,7 @@ public class StatementAuthority implements Exportable
 		if (author == null)
 			return "*null*";
 		return statement.getVariable().toString(statement.parentVariableToIdentifier(transaction)) + ": " + "[ " + author.toString() + "]" + ": "
-		+ getCreationDate() + ": " + signatureStatus();
+				+ getCreationDate() + ": " + signatureStatus();
 	}
 
 	public DelegateTreeRootNode getDelegateTreeRootNode(Transaction transaction)
@@ -693,7 +693,7 @@ public class StatementAuthority implements Exportable
 		if (delegateTreeRootNode != null)
 		{
 			Bijection<DelegateAuthorizer, Signatory> bijection = new Bijection<DelegateAuthorizer, Signatory>()
-					{
+			{
 
 				@Override
 				public Signatory forward(DelegateAuthorizer delegateAuthorizer)
@@ -706,9 +706,9 @@ public class StatementAuthority implements Exportable
 				{
 					throw new UnsupportedOperationException();
 				}
-					};
-					deps = new CombinedCloseableCollection<Signatory>(new BijectionCloseableCollection<DelegateAuthorizer, Signatory>(bijection,
-							new TrivialCloseableCollection<>(new BufferedList<>(delegateTreeRootNode.delegateAuthorizersRecursive(transaction)))), deps);
+			};
+			deps = new CombinedCloseableCollection<Signatory>(new BijectionCloseableCollection<DelegateAuthorizer, Signatory>(bijection,
+					new TrivialCloseableCollection<>(new BufferedList<>(delegateTreeRootNode.delegateAuthorizersRecursive(transaction)))), deps);
 		}
 		return deps;
 	}
@@ -803,7 +803,7 @@ public class StatementAuthority implements Exportable
 	public static void checkSignedDependencies(Transaction transaction, Collection<StatementAuthority> statementAuthorities)
 	{
 		checkSignedDependenciesUuids(transaction, new BijectionCollection<>(new Bijection<StatementAuthority, UUID>()
-				{
+		{
 
 			@Override
 			public UUID forward(StatementAuthority input)
@@ -816,7 +816,7 @@ public class StatementAuthority implements Exportable
 			{
 				throw new UnsupportedOperationException();
 			}
-				}, statementAuthorities));
+		}, statementAuthorities));
 
 	}
 
@@ -883,7 +883,7 @@ public class StatementAuthority implements Exportable
 	public static void checkSignedProof(Transaction transaction, Collection<StatementAuthority> statementAuthorities)
 	{
 		checkSignedProofUuids(transaction, new BijectionCollection<>(new Bijection<StatementAuthority, UUID>()
-				{
+		{
 
 			@Override
 			public UUID forward(StatementAuthority input)
@@ -896,7 +896,7 @@ public class StatementAuthority implements Exportable
 			{
 				throw new UnsupportedOperationException();
 			}
-				}, statementAuthorities));
+		}, statementAuthorities));
 
 	}
 

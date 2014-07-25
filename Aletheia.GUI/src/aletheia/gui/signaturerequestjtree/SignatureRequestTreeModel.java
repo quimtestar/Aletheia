@@ -60,7 +60,7 @@ public class SignatureRequestTreeModel extends PersistentTreeModel
 	private final RootSignatureRequestTreeNode rootSignatureRequestTreeNode;
 
 	private class NodeStateListener implements SignatureRequest.AddStateListener, SignatureRequest.StateListener, Statement.StateListener,
-	StatementAuthority.StateListener, Nomenclator.Listener, RootContext.TopStateListener
+			StatementAuthority.StateListener, Nomenclator.Listener, RootContext.TopStateListener
 	{
 
 		@Override
@@ -572,14 +572,14 @@ public class SignatureRequestTreeModel extends PersistentTreeModel
 			synchronized (set)
 			{
 				set.removeAll(new BufferedList<>(new FilteredSet<>(new Filter<StatementSignatureRequestTreeNode>()
-						{
+				{
 
 					@Override
 					public boolean filter(StatementSignatureRequestTreeNode node)
 					{
 						return node.getUnpackedSignatureRequest().getUuid().equals(statementCacheKey.requestUuid);
 					}
-						}, set)));
+				}, set)));
 				if (set.isEmpty())
 				{
 					statementReverseCachedNodesMap.remove(statementCacheKey.statementUuid);
@@ -853,7 +853,7 @@ public class SignatureRequestTreeModel extends PersistentTreeModel
 				{
 					getPersistenceManager().getListenerManager().getStatementStateListeners().remove(statementCacheKey.statementUuid, nodeStateListener);
 					getPersistenceManager().getListenerManager().getStatementAuthorityStateListeners()
-					.remove(statementCacheKey.statementUuid, nodeStateListener);
+							.remove(statementCacheKey.statementUuid, nodeStateListener);
 				}
 			}
 			else

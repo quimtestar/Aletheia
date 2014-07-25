@@ -49,18 +49,18 @@ public class ChangePassphraseAction extends AletheiaMenuAction
 					.showConfirmDialog(
 							getAletheiaJFrame(),
 							MiscUtilities
-							.wrapText(
-									"This action might take some minutes, since all the private keys must be (re)encrypted with the new passphrase.\nAre you sure you want to continue?",
-									80));
+									.wrapText(
+											"This action might take some minutes, since all the private keys must be (re)encrypted with the new passphrase.\nAre you sure you want to continue?",
+											80));
 			if (JOptionPane.OK_OPTION == option)
 				try
-			{
+				{
 					getAletheiaJFrame().getPersistenceManager().getSecretKeyManager().changePassphrase(passphrase);
-			}
-			catch (Exception ex)
-			{
-				JOptionPane.showMessageDialog(getAletheiaJFrame(), MiscUtilities.wrapText(ex.getMessage(), 80), "Error", JOptionPane.ERROR_MESSAGE);
-			}
+				}
+				catch (Exception ex)
+				{
+					JOptionPane.showMessageDialog(getAletheiaJFrame(), MiscUtilities.wrapText(ex.getMessage(), 80), "Error", JOptionPane.ERROR_MESSAGE);
+				}
 		}
 	}
 

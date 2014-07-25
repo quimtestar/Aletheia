@@ -138,13 +138,13 @@ public abstract class QueueSubEntry implements Comparable<QueueSubEntry>
 				Proof.PureSolvedCandidate psc = new Proof.PureSolvedCandidate(candidate);
 				for (VariableTerm var : candidate.getUnassignedVarSet())
 					try
-				{
+					{
 						psc.putDescendant(var, new NodeQueueSubEntry(this, candidate, var));
-				}
-				catch (UnprojectException e)
-				{
-					throw new RuntimeException();
-				}
+					}
+					catch (UnprojectException e)
+					{
+						throw new RuntimeException();
+					}
 				solvedCandidates.add(psc);
 			}
 			else
@@ -237,13 +237,13 @@ public abstract class QueueSubEntry implements Comparable<QueueSubEntry>
 			VariableTerm v_ = v0;
 			for (SubEntry se : subs)
 				try
-			{
+				{
 					v_ = (VariableTerm) v_.replace(se.v0, se.v1);
-			}
-			catch (ReplaceTypeException e)
-			{
-				throw new Error(e);
-			}
+				}
+				catch (ReplaceTypeException e)
+				{
+					throw new Error(e);
+				}
 			if (!v1.getType().equals(v_.getType()))
 				return false;
 			subs.add(new SubEntry(v0, v1));
@@ -291,13 +291,13 @@ public abstract class QueueSubEntry implements Comparable<QueueSubEntry>
 			VariableTerm v = v0;
 			for (SubEntry se : subs)
 				try
-			{
+				{
 					v = (VariableTerm) v.replace(se.v0, se.v1);
-			}
-			catch (ReplaceTypeException e)
-			{
-				throw new Error(e);
-			}
+				}
+				catch (ReplaceTypeException e)
+				{
+					throw new Error(e);
+				}
 			final int hashCode = (hashvalue *= primevar);
 			VariableTerm vhash = new ParameterVariableTerm(v.getType())
 			{
@@ -316,13 +316,13 @@ public abstract class QueueSubEntry implements Comparable<QueueSubEntry>
 		Term target_ = getTarget();
 		for (SubEntry se : subs)
 			try
-		{
+			{
 				target_ = target_.replace(se.v0, se.v1);
-		}
-		catch (ReplaceTypeException e)
-		{
-			throw new Error(e);
-		}
+			}
+			catch (ReplaceTypeException e)
+			{
+				throw new Error(e);
+			}
 		result = prime * result + target_.hashCode();
 		return result;
 	}

@@ -44,7 +44,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBNodeDeferredMessagesByNodeMap extends AbstractCloseableMap<UUID, NodeDeferredMessagesByRecipientCollection> implements
-NodeDeferredMessagesByNodeMap
+		NodeDeferredMessagesByNodeMap
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -87,14 +87,14 @@ NodeDeferredMessagesByNodeMap
 	public CloseableSet<UUID> keySet()
 	{
 		return new AbstractCloseableSet<UUID>()
-				{
+		{
 
 			@Override
 			public CloseableIterator<UUID> iterator()
 			{
 				final EntityCursor<NodeDeferredMessageRecipientSecondaryKeyData> cursor = transaction.keys(index, fromKey, true, toKey, true);
 				return new CloseableIterator<UUID>()
-						{
+				{
 					private NodeDeferredMessageRecipientSecondaryKeyData next;
 					{
 						next = transaction.first(cursor);
@@ -139,7 +139,7 @@ NodeDeferredMessagesByNodeMap
 						super.finalize();
 					}
 
-						};
+				};
 			}
 
 			@Override
@@ -245,7 +245,7 @@ NodeDeferredMessagesByNodeMap
 				}
 			}
 
-				};
+		};
 	}
 
 	@Override
@@ -259,7 +259,7 @@ NodeDeferredMessagesByNodeMap
 					public Entry<UUID, NodeDeferredMessagesByRecipientCollection> forward(final UUID recipientUuid)
 					{
 						return new Entry<UUID, NodeDeferredMessagesByRecipientCollection>()
-								{
+						{
 
 							@Override
 							public UUID getKey()
@@ -284,7 +284,7 @@ NodeDeferredMessagesByNodeMap
 							{
 								return getKey() + " => " + getValue();
 							}
-								};
+						};
 					}
 
 					@Override

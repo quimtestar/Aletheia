@@ -152,13 +152,13 @@ public class BijectionMap<K, I, O> extends AbstractMap<K, O>
 	public Set<Map.Entry<K, O>> entrySet()
 	{
 		Bijection<Entry<K, I>, Entry<K, O>> bijection_ = new Bijection<Entry<K, I>, Entry<K, O>>()
-				{
+		{
 
 			@Override
 			public Entry<K, O> forward(final Entry<K, I> input)
 			{
 				return new Entry<K, O>()
-						{
+				{
 
 					@Override
 					public K getKey()
@@ -178,14 +178,14 @@ public class BijectionMap<K, I, O> extends AbstractMap<K, O>
 						return bijection.forward(input.setValue(bijection.backward(value)));
 					}
 
-						};
+				};
 			}
 
 			@Override
 			public Entry<K, I> backward(final Entry<K, O> output)
 			{
 				return new Entry<K, I>()
-						{
+				{
 
 					@Override
 					public K getKey()
@@ -205,12 +205,12 @@ public class BijectionMap<K, I, O> extends AbstractMap<K, O>
 						return bijection.backward(output.setValue(bijection.forward(value)));
 					}
 
-						};
+				};
 			}
 
-				};
+		};
 
-				return new BijectionSet<Entry<K, I>, Entry<K, O>>(bijection_, inner.entrySet());
+		return new BijectionSet<Entry<K, I>, Entry<K, O>>(bijection_, inner.entrySet());
 	}
 
 	@Override

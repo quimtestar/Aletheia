@@ -140,7 +140,7 @@ public abstract class CatalogTreeNode implements TreeNode
 
 		final Iterator<SubCatalogTreeNode> iterator = getChildren().list.iterator();
 		return new Enumeration<SubCatalogTreeNode>()
-				{
+		{
 
 			@Override
 			public boolean hasMoreElements()
@@ -154,7 +154,7 @@ public abstract class CatalogTreeNode implements TreeNode
 				return iterator.next();
 			}
 
-				};
+		};
 	}
 
 	@Override

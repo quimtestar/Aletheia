@@ -222,14 +222,14 @@ public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID
 	public CloseableSet<Entry<UUID, NodeDeferredMessage>> entrySet()
 	{
 		return new AbstractCloseableSet<Entry<UUID, NodeDeferredMessage>>()
-				{
+		{
 
 			@Override
 			public CloseableIterator<Entry<UUID, NodeDeferredMessage>> iterator()
 			{
 				final EntityCursor<BerkeleyDBNodeDeferredMessageEntity> cursor = transaction.entities(index);
 				return new CloseableIterator<Entry<UUID, NodeDeferredMessage>>()
-						{
+				{
 					private BerkeleyDBNodeDeferredMessageEntity next;
 					{
 						next = transaction.first(cursor);
@@ -274,7 +274,7 @@ public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID
 						super.finalize();
 					}
 
-						};
+				};
 			}
 
 			@Override
@@ -327,14 +327,14 @@ public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID
 			{
 				BerkeleyDBNodeDeferredMessagesMap.this.clear();
 			}
-				};
+		};
 	}
 
 	@Override
 	public CloseableSet<UUID> keySet()
 	{
 		return new BijectionCloseableSet<Entry<UUID, NodeDeferredMessage>, UUID>(new Bijection<Entry<UUID, NodeDeferredMessage>, UUID>()
-				{
+		{
 
 			@Override
 			public UUID forward(Entry<UUID, NodeDeferredMessage> entry)
@@ -350,7 +350,7 @@ public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID
 					return null;
 				return new MyEntry(nodeDeferredMessage);
 			}
-				}, entrySet());
+		}, entrySet());
 	}
 
 	@Override

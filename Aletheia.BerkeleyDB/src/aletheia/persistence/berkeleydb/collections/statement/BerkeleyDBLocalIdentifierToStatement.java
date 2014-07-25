@@ -203,7 +203,7 @@ public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractMap<I
 				final EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(statementEntityContextIdentifierSecondaryIndex,
 						uuidContextIdentifierMin, true, uuidContextIdentifierMax, false);
 				return new CloseableIterator<Map.Entry<Identifier, Statement>>()
-						{
+				{
 					BerkeleyDBStatementEntity next;
 					{
 						next = transaction.next(cursor);
@@ -249,7 +249,7 @@ public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractMap<I
 						super.finalize();
 					}
 
-						};
+				};
 			}
 
 			@Override
@@ -270,7 +270,7 @@ public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractMap<I
 			{
 				final Comparator<Identifier> comp = BerkeleyDBLocalIdentifierToStatement.this.comparator();
 				return new Comparator<Entry<Identifier, Statement>>()
-						{
+				{
 
 					@Override
 					public int compare(Entry<Identifier, Statement> e0, Entry<Identifier, Statement> e1)
@@ -278,7 +278,7 @@ public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractMap<I
 						return comp.compare(e0.getKey(), e1.getKey());
 					}
 
-						};
+				};
 			}
 
 			@Override

@@ -90,7 +90,7 @@ public abstract class BerkeleyDBAbstractStatementAuthoritySet extends AbstractCl
 	{
 		final EntityCursor<BerkeleyDBStatementAuthorityEntity> cursor = transaction.entities(index());
 		return new CloseableIterator<StatementAuthority>()
-				{
+		{
 			private StatementAuthorityEntity next;
 			{
 				next = transaction.first(cursor);
@@ -135,7 +135,7 @@ public abstract class BerkeleyDBAbstractStatementAuthoritySet extends AbstractCl
 				super.finalize();
 			}
 
-				};
+		};
 	}
 
 	@Override

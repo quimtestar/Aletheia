@@ -329,7 +329,7 @@ public class DelegateAuthorizerResponseMessage extends AbstractUUIDPersistentInf
 
 	private static Collection<Entry> makeEntries(PersistenceManager persistenceManager, Transaction transaction,
 			DelegateAuthorizerRequestMessage delegateAuthorizerRequestMessage)
-			{
+	{
 		Collection<Entry> entries = new ArrayList<Entry>();
 		for (AbstractUUIDInfoMessage.Entry<DelegateAuthorizerRequestMessage.DelegateTreeRootNodeInfo> e : delegateAuthorizerRequestMessage.getEntries())
 		{
@@ -338,7 +338,7 @@ public class DelegateAuthorizerResponseMessage extends AbstractUUIDPersistentInf
 				entries.add(new Entry(e.getKey(), new DelegateTreeRootNodeInfo(persistenceManager, transaction, delegateTreeRootNode, e.getValue())));
 		}
 		return entries;
-			}
+	}
 
 	public DelegateAuthorizerResponseMessage(PersistenceManager persistenceManager, Transaction transaction,
 			DelegateAuthorizerRequestMessage delegateAuthorizerRequestMessage)

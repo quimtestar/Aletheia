@@ -28,7 +28,7 @@ import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCloseableSet;
 
 public class BerkeleyDBSubscribeProofRootContextLocalSet extends BijectionCloseableSet<StatementLocal, RootContextLocal> implements
-SubscribeProofRootContextLocalSet
+		SubscribeProofRootContextLocalSet
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -36,7 +36,7 @@ SubscribeProofRootContextLocalSet
 	public BerkeleyDBSubscribeProofRootContextLocalSet(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction)
 	{
 		super(new Bijection<StatementLocal, RootContextLocal>()
-				{
+		{
 
 			@Override
 			public StatementLocal backward(RootContextLocal output)
@@ -49,7 +49,7 @@ SubscribeProofRootContextLocalSet
 			{
 				return (RootContextLocal) input;
 			}
-				}, new BerkeleyDBSubscribeProofStatementLocalSet(persistenceManager, transaction));
+		}, new BerkeleyDBSubscribeProofStatementLocalSet(persistenceManager, transaction));
 
 		this.persistenceManager = persistenceManager;
 		this.transaction = transaction;

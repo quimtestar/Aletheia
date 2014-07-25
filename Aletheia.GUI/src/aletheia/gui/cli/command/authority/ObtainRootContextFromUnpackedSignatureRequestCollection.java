@@ -101,7 +101,7 @@ public class ObtainRootContextFromUnpackedSignatureRequestCollection extends Tra
 		PeerToPeerNode peerToPeerNode = getPeerToPeerNode();
 		CloseableIterator<UUID> iterator = new UniqueCloseableIterable<UUID>(new FilteredCloseableCollection<UUID>(new NotNullFilter<UUID>(),
 				new BijectionCloseableCollection<>(new Bijection<PackedSignatureRequest, UUID>()
-						{
+				{
 
 					@Override
 					public UUID forward(PackedSignatureRequest packedSignatureRequest)
@@ -114,7 +114,7 @@ public class ObtainRootContextFromUnpackedSignatureRequestCollection extends Tra
 					{
 						throw new UnsupportedOperationException();
 					}
-						}, packedSignatureRequestCollection))).iterator();
+				}, packedSignatureRequestCollection))).iterator();
 		try
 		{
 			RootContext rootCtx = null;

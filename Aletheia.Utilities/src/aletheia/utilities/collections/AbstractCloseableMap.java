@@ -43,7 +43,7 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 	public CloseableSet<K> keySet()
 	{
 		return new CloseableSet<K>()
-				{
+		{
 
 			@Override
 			public int size()
@@ -68,7 +68,7 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 			{
 				final CloseableIterator<Entry<K, V>> iterator = entrySet().iterator();
 				return new CloseableIterator<K>()
-						{
+				{
 
 					@Override
 					public boolean hasNext()
@@ -94,7 +94,7 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 						iterator.close();
 					}
 
-						};
+				};
 			}
 
 			@Override
@@ -177,14 +177,14 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 				AbstractCloseableMap.this.clear();
 			}
 
-				};
+		};
 	}
 
 	@Override
 	public CloseableCollection<V> values()
 	{
 		return new CloseableCollection<V>()
-				{
+		{
 			@Override
 			public int size()
 			{
@@ -208,7 +208,7 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 			{
 				final CloseableIterator<Entry<K, V>> iterator = entrySet().iterator();
 				return new CloseableIterator<V>()
-						{
+				{
 
 					@Override
 					public boolean hasNext()
@@ -234,7 +234,7 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 						iterator.close();
 					}
 
-						};
+				};
 			}
 
 			@Override
@@ -341,7 +341,7 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 				AbstractCloseableMap.this.clear();
 			}
 
-				};
+		};
 
 	}
 

@@ -144,263 +144,263 @@ public class BerkeleyDBIdentifierToRootContexts extends AbstractMap<Identifier, 
 	}
 
 	private final static Comparator<Identifier> comparator = new Comparator<Identifier>()
-			{
+	{
 		@Override
 		public int compare(Identifier o1, Identifier o2)
 		{
 			return o1.compareTo(o2);
 		}
-			};
+	};
 
-			@Override
-			public Comparator<Identifier> comparator()
+	@Override
+	public Comparator<Identifier> comparator()
+	{
+		return comparator;
+	}
+
+	protected BerkeleyDBIdentifierToRootContexts newBerkeleyDBIdentifierToRootContextsBounds(NodeNamespace fromKey, NodeNamespace toKey)
+	{
+		return new BerkeleyDBIdentifierToRootContexts(persistenceManager, transaction, fromKey, toKey);
+	}
+
+	@Override
+	public BerkeleyDBIdentifierToRootContexts headMap(Identifier toKey)
+	{
+		return newBerkeleyDBIdentifierToRootContextsBounds(from, toKey.min(to));
+	}
+
+	@Override
+	public BerkeleyDBIdentifierToRootContexts tailMap(Identifier fromKey)
+	{
+		return newBerkeleyDBIdentifierToRootContextsBounds(fromKey.max(from), to);
+	}
+
+	@Override
+	public BerkeleyDBIdentifierToRootContexts subMap(Identifier fromKey, Identifier toKey)
+	{
+		return newBerkeleyDBIdentifierToRootContextsBounds(fromKey.max(from), toKey.min(to));
+	}
+
+	@Override
+	public SortedSet<Entry<Identifier, GenericRootContextsMap>> entrySet()
+	{
+		class MyEntry implements Entry<Identifier, GenericRootContextsMap>
+		{
+			private final Identifier identifier;
+
+			public MyEntry(Identifier identifier)
 			{
-				return comparator;
+				super();
+				this.identifier = identifier;
 			}
 
-			protected BerkeleyDBIdentifierToRootContexts newBerkeleyDBIdentifierToRootContextsBounds(NodeNamespace fromKey, NodeNamespace toKey)
+			@Override
+			public Identifier getKey()
 			{
-				return new BerkeleyDBIdentifierToRootContexts(persistenceManager, transaction, fromKey, toKey);
+				return identifier;
 			}
 
 			@Override
-			public BerkeleyDBIdentifierToRootContexts headMap(Identifier toKey)
+			public GenericRootContextsMap getValue()
 			{
-				return newBerkeleyDBIdentifierToRootContextsBounds(from, toKey.min(to));
+				return new MyRootContextsMap(identifier);
 			}
 
 			@Override
-			public BerkeleyDBIdentifierToRootContexts tailMap(Identifier fromKey)
+			public GenericRootContextsMap setValue(GenericRootContextsMap value)
 			{
-				return newBerkeleyDBIdentifierToRootContextsBounds(fromKey.max(from), to);
+				throw new UnsupportedOperationException();
 			}
 
 			@Override
-			public BerkeleyDBIdentifierToRootContexts subMap(Identifier fromKey, Identifier toKey)
+			public String toString()
 			{
-				return newBerkeleyDBIdentifierToRootContextsBounds(fromKey.max(from), toKey.min(to));
+				return getKey() + "=" + getValue();
+			}
+
+		}
+		;
+
+		class EntrySet extends AbstractSet<Map.Entry<Identifier, GenericRootContextsMap>> implements SortedSet<Map.Entry<Identifier, GenericRootContextsMap>>
+		{
+
+			@Override
+			public boolean contains(Object o)
+			{
+				throw new UnsupportedOperationException();
 			}
 
 			@Override
-			public SortedSet<Entry<Identifier, GenericRootContextsMap>> entrySet()
+			public CloseableIterator<Map.Entry<Identifier, GenericRootContextsMap>> iterator()
 			{
-				class MyEntry implements Entry<Identifier, GenericRootContextsMap>
+				final EntityCursor<IdentifierKey> cursor = transaction.keys(rootContextEntityIdentifierSecondaryIndex, identifierKeyMin, true,
+						identifierKeyMax, false);
+				return new CloseableIterator<Map.Entry<Identifier, GenericRootContextsMap>>()
 				{
-					private final Identifier identifier;
-
-					public MyEntry(Identifier identifier)
+					IdentifierKey next;
 					{
-						super();
-						this.identifier = identifier;
+						next = transaction.nextNoDup(cursor);
 					}
 
 					@Override
-					public Identifier getKey()
+					public boolean hasNext()
 					{
-						return identifier;
+						if (next == null)
+						{
+							transaction.close(cursor);
+							return false;
+						}
+						return true;
 					}
 
 					@Override
-					public GenericRootContextsMap getValue()
+					public MyEntry next()
 					{
-						return new MyRootContextsMap(identifier);
+						if (!hasNext())
+							throw new NoSuchElementException();
+						IdentifierKey key = next;
+						next = transaction.nextNoDup(cursor);
+						return new MyEntry(key.getIdentifier());
 					}
 
 					@Override
-					public GenericRootContextsMap setValue(GenericRootContextsMap value)
+					public void remove()
 					{
 						throw new UnsupportedOperationException();
 					}
 
 					@Override
-					public String toString()
+					public void close()
 					{
-						return getKey() + "=" + getValue();
+						transaction.close(cursor);
 					}
 
-				}
-				;
+					@Override
+					protected void finalize() throws Throwable
+					{
+						close();
+						super.finalize();
+					}
 
-				class EntrySet extends AbstractSet<Map.Entry<Identifier, GenericRootContextsMap>> implements SortedSet<Map.Entry<Identifier, GenericRootContextsMap>>
+				};
+			}
+
+			@Override
+			public int size()
+			{
+				int n = 0;
+				Iterator<?> i = iterator();
+				while (i.hasNext())
+				{
+					i.next();
+					n++;
+				}
+				return n;
+			}
+
+			@Override
+			public Comparator<Entry<Identifier, GenericRootContextsMap>> comparator()
+			{
+				final Comparator<Identifier> comp = BerkeleyDBIdentifierToRootContexts.this.comparator();
+				return new Comparator<Entry<Identifier, GenericRootContextsMap>>()
 				{
 
 					@Override
-					public boolean contains(Object o)
+					public int compare(Entry<Identifier, GenericRootContextsMap> e0, Entry<Identifier, GenericRootContextsMap> e1)
 					{
-						throw new UnsupportedOperationException();
+						return comp.compare(e0.getKey(), e1.getKey());
 					}
 
-					@Override
-					public CloseableIterator<Map.Entry<Identifier, GenericRootContextsMap>> iterator()
-					{
-						final EntityCursor<IdentifierKey> cursor = transaction.keys(rootContextEntityIdentifierSecondaryIndex, identifierKeyMin, true,
-								identifierKeyMax, false);
-						return new CloseableIterator<Map.Entry<Identifier, GenericRootContextsMap>>()
-								{
-							IdentifierKey next;
-							{
-								next = transaction.nextNoDup(cursor);
-							}
+				};
+			}
 
-							@Override
-							public boolean hasNext()
-							{
-								if (next == null)
-								{
-									transaction.close(cursor);
-									return false;
-								}
-								return true;
-							}
-
-							@Override
-							public MyEntry next()
-							{
-								if (!hasNext())
-									throw new NoSuchElementException();
-								IdentifierKey key = next;
-								next = transaction.nextNoDup(cursor);
-								return new MyEntry(key.getIdentifier());
-							}
-
-							@Override
-							public void remove()
-							{
-								throw new UnsupportedOperationException();
-							}
-
-							@Override
-							public void close()
-							{
-								transaction.close(cursor);
-							}
-
-							@Override
-							protected void finalize() throws Throwable
-							{
-								close();
-								super.finalize();
-							}
-
-								};
-					}
-
-					@Override
-					public int size()
-					{
-						int n = 0;
-						Iterator<?> i = iterator();
-						while (i.hasNext())
-						{
-							i.next();
-							n++;
-						}
-						return n;
-					}
-
-					@Override
-					public Comparator<Entry<Identifier, GenericRootContextsMap>> comparator()
-					{
-						final Comparator<Identifier> comp = BerkeleyDBIdentifierToRootContexts.this.comparator();
-						return new Comparator<Entry<Identifier, GenericRootContextsMap>>()
-								{
-
-							@Override
-							public int compare(Entry<Identifier, GenericRootContextsMap> e0, Entry<Identifier, GenericRootContextsMap> e1)
-							{
-								return comp.compare(e0.getKey(), e1.getKey());
-							}
-
-								};
-					}
-
-					@Override
-					public MyEntry first()
-					{
-						EntityCursor<IdentifierKey> cursor = transaction.keys(rootContextEntityIdentifierSecondaryIndex, identifierKeyMin, true, identifierKeyMax,
-								false);
-						try
-						{
-							IdentifierKey k = transaction.first(cursor);
-							if (k == null)
-								throw new NoSuchElementException();
-							return new MyEntry(k.getIdentifier());
-						}
-						finally
-						{
-							transaction.close(cursor);
-						}
-					}
-
-					@Override
-					public MyEntry last()
-					{
-						EntityCursor<IdentifierKey> cursor = transaction.keys(rootContextEntityIdentifierSecondaryIndex, identifierKeyMin, true, identifierKeyMax,
-								false);
-						try
-						{
-							IdentifierKey k = transaction.last(cursor);
-							if (k == null)
-								throw new NoSuchElementException();
-							return new MyEntry(k.getIdentifier());
-						}
-						finally
-						{
-							transaction.close(cursor);
-						}
-					}
-
-					@Override
-					public SortedSet<Map.Entry<Identifier, GenericRootContextsMap>> headSet(Map.Entry<Identifier, GenericRootContextsMap> from)
-					{
-						return BerkeleyDBIdentifierToRootContexts.this.headMap(from.getKey()).entrySet();
-					}
-
-					@Override
-					public SortedSet<Map.Entry<Identifier, GenericRootContextsMap>> subSet(Map.Entry<Identifier, GenericRootContextsMap> from,
-							Map.Entry<Identifier, GenericRootContextsMap> to)
-							{
-						return BerkeleyDBIdentifierToRootContexts.this.subMap(from.getKey(), to.getKey()).entrySet();
-							}
-
-					@Override
-					public SortedSet<Map.Entry<Identifier, GenericRootContextsMap>> tailSet(Map.Entry<Identifier, GenericRootContextsMap> to)
-					{
-						return BerkeleyDBIdentifierToRootContexts.this.tailMap(to.getKey()).entrySet();
-					}
-
-					@Override
-					public boolean isEmpty()
-					{
-						EntityCursor<IdentifierKey> cursor = transaction.keys(rootContextEntityIdentifierSecondaryIndex, identifierKeyMin, true, identifierKeyMax,
-								false);
-						try
-						{
-							return transaction.first(cursor) == null;
-						}
-						finally
-						{
-							transaction.close(cursor);
-						}
-					}
-
+			@Override
+			public MyEntry first()
+			{
+				EntityCursor<IdentifierKey> cursor = transaction.keys(rootContextEntityIdentifierSecondaryIndex, identifierKeyMin, true, identifierKeyMax,
+						false);
+				try
+				{
+					IdentifierKey k = transaction.first(cursor);
+					if (k == null)
+						throw new NoSuchElementException();
+					return new MyEntry(k.getIdentifier());
 				}
-				;
-
-				return new EntrySet();
-
+				finally
+				{
+					transaction.close(cursor);
+				}
 			}
 
 			@Override
-			public Identifier firstKey()
+			public MyEntry last()
 			{
-				return entrySet().first().getKey();
+				EntityCursor<IdentifierKey> cursor = transaction.keys(rootContextEntityIdentifierSecondaryIndex, identifierKeyMin, true, identifierKeyMax,
+						false);
+				try
+				{
+					IdentifierKey k = transaction.last(cursor);
+					if (k == null)
+						throw new NoSuchElementException();
+					return new MyEntry(k.getIdentifier());
+				}
+				finally
+				{
+					transaction.close(cursor);
+				}
 			}
 
 			@Override
-			public Identifier lastKey()
+			public SortedSet<Map.Entry<Identifier, GenericRootContextsMap>> headSet(Map.Entry<Identifier, GenericRootContextsMap> from)
 			{
-				return entrySet().last().getKey();
+				return BerkeleyDBIdentifierToRootContexts.this.headMap(from.getKey()).entrySet();
 			}
+
+			@Override
+			public SortedSet<Map.Entry<Identifier, GenericRootContextsMap>> subSet(Map.Entry<Identifier, GenericRootContextsMap> from,
+					Map.Entry<Identifier, GenericRootContextsMap> to)
+			{
+				return BerkeleyDBIdentifierToRootContexts.this.subMap(from.getKey(), to.getKey()).entrySet();
+			}
+
+			@Override
+			public SortedSet<Map.Entry<Identifier, GenericRootContextsMap>> tailSet(Map.Entry<Identifier, GenericRootContextsMap> to)
+			{
+				return BerkeleyDBIdentifierToRootContexts.this.tailMap(to.getKey()).entrySet();
+			}
+
+			@Override
+			public boolean isEmpty()
+			{
+				EntityCursor<IdentifierKey> cursor = transaction.keys(rootContextEntityIdentifierSecondaryIndex, identifierKeyMin, true, identifierKeyMax,
+						false);
+				try
+				{
+					return transaction.first(cursor) == null;
+				}
+				finally
+				{
+					transaction.close(cursor);
+				}
+			}
+
+		}
+		;
+
+		return new EntrySet();
+
+	}
+
+	@Override
+	public Identifier firstKey()
+	{
+		return entrySet().first().getKey();
+	}
+
+	@Override
+	public Identifier lastKey()
+	{
+		return entrySet().last().getKey();
+	}
 
 }

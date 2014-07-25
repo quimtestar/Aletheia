@@ -164,14 +164,14 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 	public CloseableSet<String> keySet()
 	{
 		return new AbstractCloseableSet<String>()
-				{
+		{
 
 			@Override
 			public CloseableIterator<String> iterator()
 			{
 				final EntityCursor<String> cursor = transaction.keys(privatePersonEntityNickSecondaryIndex, from, true, to, false);
 				return new CloseableIterator<String>()
-						{
+				{
 					private String advance()
 					{
 						String next = transaction.nextNoDup(cursor);
@@ -217,7 +217,7 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 						super.finalize();
 					}
 
-						};
+				};
 			}
 
 			@Override
@@ -251,7 +251,7 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 				}
 			}
 
-				};
+		};
 	}
 
 	@Override
@@ -259,14 +259,14 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 	{
 		final CloseableSet<String> keySet = keySet();
 		return new AbstractCloseableSet<Map.Entry<String, PrivatePerson>>()
-				{
+		{
 
 			@Override
 			public CloseableIterator<Entry<String, PrivatePerson>> iterator()
 			{
 				final CloseableIterator<String> iterator = keySet.iterator();
 				return new CloseableIterator<Map.Entry<String, PrivatePerson>>()
-						{
+				{
 
 					@Override
 					public void remove()
@@ -279,7 +279,7 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 					{
 						final String key = iterator.next();
 						return new Entry<String, PrivatePerson>()
-								{
+						{
 
 							@Override
 							public PrivatePerson setValue(PrivatePerson value)
@@ -298,7 +298,7 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 							{
 								return key;
 							}
-								};
+						};
 					}
 
 					@Override
@@ -312,7 +312,7 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 					{
 						iterator.close();
 					}
-						};
+				};
 			}
 
 			@Override
@@ -327,7 +327,7 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 				return keySet.isEmpty();
 			}
 
-				};
+		};
 	}
 
 }

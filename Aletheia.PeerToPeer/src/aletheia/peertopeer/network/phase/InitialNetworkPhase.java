@@ -150,7 +150,7 @@ public class InitialNetworkPhase extends NetworkSubPhase
 	}
 
 	private InitialNetworkPhaseTypeDialogFemale initialNetworkPhaseTypeDialogFemale() throws IOException, ProtocolException, InterruptedException,
-	DialogStreamException
+			DialogStreamException
 	{
 		return dialog(InitialNetworkPhaseTypeDialogFemale.class, this);
 	}
@@ -161,7 +161,7 @@ public class InitialNetworkPhase extends NetworkSubPhase
 	}
 
 	private InitialNetworkPhaseTypeDialogMale initialNetworkPhaseTypeDialogMale(InitialNetworkPhaseType type) throws IOException, ProtocolException,
-	InterruptedException, DialogStreamException
+			InterruptedException, DialogStreamException
 	{
 		return dialog(InitialNetworkPhaseTypeDialogMale.class, this, type);
 	}

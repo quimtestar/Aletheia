@@ -129,7 +129,7 @@ public abstract class RootPhase extends Phase
 	}
 
 	protected abstract SalutationDialog salutationDialog(int localProtcolVersion) throws IOException, ProtocolException, InterruptedException,
-	DialogStreamException;
+			DialogStreamException;
 
 	protected abstract SubRootPhaseType subRootPhaseDialog() throws IOException, ProtocolException, InterruptedException, DialogStreamException;
 

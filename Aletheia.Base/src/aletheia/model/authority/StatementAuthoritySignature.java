@@ -359,7 +359,7 @@ public class StatementAuthoritySignature implements Exportable
 		if (statement == null)
 			return "*null*";
 		return statement.getVariable().toString(statement.parentVariableToIdentifier(transaction)) + ": " + getAuthorizer(transaction).toString() + ": "
-		+ getSignatureDate() + ": " + getSignatureData() + ": " + isValid();
+				+ getSignatureDate() + ": " + getSignatureData() + ": " + isValid();
 	}
 
 }

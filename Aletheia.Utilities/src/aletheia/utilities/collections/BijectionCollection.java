@@ -195,7 +195,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 	protected static <O> Collection<O> extractedCollection(final Collection<?> c)
 	{
 		return new AbstractReadOnlyCollection<O>()
-				{
+		{
 
 			@Override
 			public int size()
@@ -220,7 +220,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 			{
 				final Iterator<?> iterator = c.iterator();
 				return new Iterator<O>()
-						{
+				{
 
 					@Override
 					public boolean hasNext()
@@ -250,7 +250,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 						iterator.remove();
 					}
 
-						};
+				};
 
 			}
 
@@ -271,7 +271,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 			{
 				return c.containsAll(c_);
 			}
-				};
+		};
 	}
 
 	@Override

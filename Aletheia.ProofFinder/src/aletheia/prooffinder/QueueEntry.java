@@ -119,7 +119,7 @@ public abstract class QueueEntry implements Comparable<QueueEntry>
 		Collection<QueueEntry> offspring = new ArrayList<QueueEntry>();
 		for (Proof.SolvedCandidate sc : firstSubEntry.solvedCandidates())
 			try
-		{
+			{
 				boolean cycle = false;
 				for (QueueSubEntry qse : sc.descendants())
 					if (proof.existsPath(qse, firstSubEntry))
@@ -129,10 +129,10 @@ public abstract class QueueEntry implements Comparable<QueueEntry>
 					}
 				if (!cycle)
 					offspring.add(new NodeQueueEntry(this, firstSubEntry, sc));
-		}
-		catch (UnsolvableQueueEntryException e)
-		{
-		}
+			}
+			catch (UnsolvableQueueEntryException e)
+			{
+			}
 		return offspring;
 	}
 

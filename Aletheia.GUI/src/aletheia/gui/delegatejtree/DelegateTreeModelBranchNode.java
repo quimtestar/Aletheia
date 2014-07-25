@@ -96,14 +96,14 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 			{
 				delegateAuthorizerList = new BufferedList<>(delegateTreeNode.localDelegateAuthorizerMap(transaction).values());
 				Collections.sort(delegateAuthorizerList, new Comparator<DelegateAuthorizer>()
-						{
+				{
 
 					@Override
 					public int compare(DelegateAuthorizer a1, DelegateAuthorizer a2)
 					{
 						return a1.getDelegate(transaction).getNick().compareTo(a2.getDelegate(transaction).getNick());
 					}
-						});
+				});
 				delegateAuthorizerListRef = new SoftReference<List<DelegateAuthorizer>>(delegateAuthorizerList);
 			}
 			finally
@@ -123,7 +123,7 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 	private List<DelegateTreeModelBranchSubNode> getBranchSubNodeList()
 	{
 		return new BijectionList<DelegateTreeSubNode, DelegateTreeModelBranchSubNode>(new Bijection<DelegateTreeSubNode, DelegateTreeModelBranchSubNode>()
-				{
+		{
 
 			@Override
 			public DelegateTreeModelBranchSubNode forward(DelegateTreeSubNode delegateTreeSubNode)
@@ -136,13 +136,13 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 			{
 				return delegateTreeModelBranchSubNode.getDelegateTreeNode();
 			}
-				}, getSubNodeList());
+		}, getSubNodeList());
 	}
 
 	private List<DelegateTreeModelLeafNode> getLeafNodeList()
 	{
 		return new BijectionList<DelegateAuthorizer, DelegateTreeModelLeafNode>(new Bijection<DelegateAuthorizer, DelegateTreeModelLeafNode>()
-				{
+		{
 
 			@Override
 			public DelegateTreeModelLeafNode forward(DelegateAuthorizer delegateAuthorizer)
@@ -156,7 +156,7 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 				return delegateTreeModelLeafNode.getDelegateAuthorizer();
 			}
 
-				}, getDelegateAuthorizerList());
+		}, getDelegateAuthorizerList());
 	}
 
 	private List<DelegateTreeModelNode> getChildList()
@@ -206,7 +206,7 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 		final List<DelegateTreeModelNode> childList = getChildList();
 		final Iterator<DelegateTreeModelNode> iterator = childList.iterator();
 		return new Enumeration<DelegateTreeModelNode>()
-				{
+		{
 			@Override
 			public boolean hasMoreElements()
 			{
@@ -218,7 +218,7 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 			{
 				return iterator.next();
 			}
-				};
+		};
 	}
 
 }

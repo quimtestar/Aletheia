@@ -178,7 +178,7 @@ public class MalePeerToPeerNode extends PeerToPeerNode
 	private final ConjugalNetworkJoinThread conjugalNetworkJoinThread;
 
 	public MalePeerToPeerNode(PersistenceManager persistenceManager, InetSocketAddress surrogateAddress) throws ConnectException, IOException,
-	InterruptedException
+			InterruptedException
 	{
 		super(persistenceManager);
 		this.surrogateAddress = surrogateAddress;

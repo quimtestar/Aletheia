@@ -98,7 +98,7 @@ public class BerkeleyDBSubscribeStatementsContextLocalSet extends AbstractClosea
 	{
 		final EntityCursor<BerkeleyDBContextLocalEntity> cursor = transaction.entities(index);
 		return new CloseableIterator<ContextLocal>()
-				{
+		{
 
 			private BerkeleyDBContextLocalEntity next;
 			{
@@ -144,7 +144,7 @@ public class BerkeleyDBSubscribeStatementsContextLocalSet extends AbstractClosea
 				super.finalize();
 			}
 
-				};
+		};
 	}
 
 	@Override

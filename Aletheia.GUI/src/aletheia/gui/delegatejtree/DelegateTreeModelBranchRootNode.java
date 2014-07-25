@@ -47,7 +47,7 @@ public class DelegateTreeModelBranchRootNode extends DelegateTreeModelBranchNode
 	public TreePath path()
 	{
 		return new TreePath(new Object[]
-				{ getModel().getRoot(), this });
+		{ getModel().getRoot(), this });
 	}
 
 }

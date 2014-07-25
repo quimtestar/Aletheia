@@ -40,7 +40,7 @@ public class BerkeleyDBKeyComparator<K> implements Comparator<K>
 		if (keyClass.equals(String.class))
 		{
 			innerComparator = new Comparator<K>()
-					{
+			{
 				private final Charset utfCharSet = Charset.forName("UTF-8");
 
 				@Override
@@ -102,7 +102,7 @@ public class BerkeleyDBKeyComparator<K> implements Comparator<K>
 							i2++;
 					}
 				}
-					};
+			};
 		}
 		else if (keyClass.isPrimitive() || Comparable.class.isAssignableFrom(keyClass))
 			innerComparator = new NaturalComparator<K>();
@@ -125,7 +125,7 @@ public class BerkeleyDBKeyComparator<K> implements Comparator<K>
 				}
 			}
 			innerComparator = new Comparator<K>()
-					{
+			{
 				@Override
 				public int compare(K k1, K k2)
 				{
@@ -154,7 +154,7 @@ public class BerkeleyDBKeyComparator<K> implements Comparator<K>
 					{
 					}
 				}
-					};
+			};
 
 		}
 		else

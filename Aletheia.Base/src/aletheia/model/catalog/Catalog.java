@@ -108,14 +108,14 @@ public abstract class Catalog
 	public Collection<SubCatalog> subCatalogs(final Transaction transaction)
 	{
 		return new AbstractCollection<SubCatalog>()
-				{
+		{
 
 			@Override
 			public Iterator<SubCatalog> iterator()
 			{
 				final SortedMap<Identifier, Statement> map = map(transaction);
 				return new Iterator<SubCatalog>()
-						{
+				{
 
 					NodeNamespace nextNamespace = null;
 
@@ -158,7 +158,7 @@ public abstract class Catalog
 						throw new UnsupportedOperationException();
 					}
 
-						};
+				};
 			}
 
 			@Override
@@ -173,7 +173,7 @@ public abstract class Catalog
 				return map(transaction).isEmpty();
 			}
 
-				};
+		};
 	}
 
 	public SubCatalog subCatalog(String name) throws InvalidNameException

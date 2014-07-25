@@ -76,7 +76,7 @@ public class ComplementingInvitationRouteableSubMessage extends BitSlotRouteable
 
 		@Override
 		protected ComplementingInvitationRouteableSubMessage recv(UUID origin, int sequence, int slot, boolean bit, DataInput in) throws IOException,
-		ProtocolException
+				ProtocolException
 		{
 			ComplementingInvitationRouteableSubMessage m = new ComplementingInvitationRouteableSubMessage(origin, sequence, slot, bit);
 			InetSocketAddress address = nullableInetSocketAddress.recv(in);

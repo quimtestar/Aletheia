@@ -137,7 +137,7 @@ public abstract class Phase
 	}
 
 	private <D extends Dialog> D dialog(Constructor<D> dialogConstructor, Object... initargs) throws IOException, ProtocolException, InterruptedException,
-	DialogStreamException
+			DialogStreamException
 	{
 		D dialog;
 		try
@@ -161,7 +161,7 @@ public abstract class Phase
 	}
 
 	protected <D extends Dialog> D dialog(Class<D> dialogClass, Object... initargs) throws IOException, ProtocolException, InterruptedException,
-	DialogStreamException
+			DialogStreamException
 	{
 		Constructor<D> constructor = dialogConstructor(dialogClass, initargs);
 		return dialog(constructor, initargs);
@@ -185,7 +185,7 @@ public abstract class Phase
 	private Iterator<Phase> ancestorIterator()
 	{
 		return new Iterator<Phase>()
-				{
+		{
 			private Phase phase = Phase.this;
 
 			@Override
@@ -210,20 +210,20 @@ public abstract class Phase
 			{
 				throw new UnsupportedOperationException();
 			}
-				};
+		};
 	}
 
 	protected Iterable<Phase> ancestors()
 	{
 		return new Iterable<Phase>()
-				{
+		{
 
 			@Override
 			public Iterator<Phase> iterator()
 			{
 				return ancestorIterator();
 			}
-				};
+		};
 	}
 
 	protected <P extends Phase> P ancestor(Class<? extends P> ancestorClass)

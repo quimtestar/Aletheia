@@ -215,7 +215,7 @@ public class PreferencesDialog extends JDialog
 							public Collection<AddressComboBoxItem> forward(final NetworkInterface networkInterface)
 							{
 								return new BijectionCollection<>(new Bijection<InterfaceAddress, AddressComboBoxItem>()
-										{
+								{
 
 									@Override
 									public AddressComboBoxItem forward(InterfaceAddress interfaceAddress)
@@ -228,7 +228,7 @@ public class PreferencesDialog extends JDialog
 									{
 										throw new UnsupportedOperationException();
 									}
-										}, networkInterface.getInterfaceAddresses());
+								}, networkInterface.getInterfaceAddresses());
 							}
 
 							@Override
@@ -550,7 +550,7 @@ public class PreferencesDialog extends JDialog
 				preferences.peerToPeerNode().setP2pGender(peerToPeerNodeGender);
 				AddressComboBoxItem addressComboBoxItem = (AddressComboBoxItem) p2pExternalAddressComboBox.getSelectedItem();
 				preferences.peerToPeerNode().femalePeerToPeerNode()
-				.setP2pExternalAddress(addressComboBoxItem != null ? addressComboBoxItem.getAddress() : null);
+						.setP2pExternalAddress(addressComboBoxItem != null ? addressComboBoxItem.getAddress() : null);
 				if (peerToPeerNodeGender == PeerToPeerNodeGender.FEMALE && addressComboBoxItem == null)
 					throw new Exception("Must select a P2P external address");
 				preferences.peerToPeerNode().femalePeerToPeerNode().setP2pExternalPort((int) p2pExternalPortSpinner.getValue());

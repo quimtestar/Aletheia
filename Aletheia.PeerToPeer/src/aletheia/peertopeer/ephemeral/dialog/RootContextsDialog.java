@@ -71,14 +71,14 @@ public abstract class RootContextsDialog extends EphemeralDialog
 								RootContextAuthority rootContextAuthority = rootContextAuthorityBySignatureUuid.get(uuid);
 								if (rootContextAuthority != null)
 									try
-								{
+									{
 										return new RootContextStatementSignaturesResponseMessage.Entry(uuid, new StatementAuthoritySubMessage(getTransaction(),
 												rootContextAuthority));
-								}
-								catch (NoValidSignature e)
-								{
-									return new RootContextStatementSignaturesResponseMessage.Entry(uuid);
-								}
+									}
+									catch (NoValidSignature e)
+									{
+										return new RootContextStatementSignaturesResponseMessage.Entry(uuid);
+									}
 								else
 									return new RootContextStatementSignaturesResponseMessage.Entry(uuid);
 							}

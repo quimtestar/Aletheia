@@ -50,13 +50,13 @@ public class CreatePrivatePerson extends TransactionalCommand
 		PrivatePerson person = getPersistenceManager().privatePersonsByNick(getTransaction()).get(nick);
 		if (person == null)
 			try
-		{
+			{
 				person = PrivatePerson.create(getPersistenceManager(), getTransaction(), nick);
-		}
-		catch (PersistenceUniqueConstraintException e)
-		{
-			throw new Exception("Try again", e);
-		}
+			}
+			catch (PersistenceUniqueConstraintException e)
+			{
+				throw new Exception("Try again", e);
+			}
 		person.setName(name);
 		person.setEmail(email);
 		person.sign(getTransaction());

@@ -150,14 +150,14 @@ public class BerkeleyDBLocalDelegateAuthorizerMap extends AbstractCloseableMap<P
 	public CloseableSet<Entry<Person, DelegateAuthorizer>> entrySet()
 	{
 		return new AbstractCloseableSet<Entry<Person, DelegateAuthorizer>>()
-				{
+		{
 
 			@Override
 			public CloseableIterator<Entry<Person, DelegateAuthorizer>> iterator()
 			{
 				final EntityCursor<BerkeleyDBDelegateAuthorizerEntity> cursor = transaction.entities(index);
 				return new CloseableIterator<Entry<Person, DelegateAuthorizer>>()
-						{
+				{
 					private BerkeleyDBDelegateAuthorizerEntity next;
 					{
 						next = transaction.first(cursor);
@@ -181,7 +181,7 @@ public class BerkeleyDBLocalDelegateAuthorizerMap extends AbstractCloseableMap<P
 						if (next == null)
 							transaction.close(cursor);
 						return new Entry<Person, DelegateAuthorizer>()
-								{
+						{
 
 							@Override
 							public Person getKey()
@@ -201,7 +201,7 @@ public class BerkeleyDBLocalDelegateAuthorizerMap extends AbstractCloseableMap<P
 								throw new UnsupportedOperationException();
 							}
 
-								};
+						};
 					}
 
 					@Override
@@ -223,7 +223,7 @@ public class BerkeleyDBLocalDelegateAuthorizerMap extends AbstractCloseableMap<P
 						super.finalize();
 					}
 
-						};
+				};
 			}
 
 			@Override
@@ -238,7 +238,7 @@ public class BerkeleyDBLocalDelegateAuthorizerMap extends AbstractCloseableMap<P
 				return BerkeleyDBLocalDelegateAuthorizerMap.this.isEmpty();
 			}
 
-				};
+		};
 	}
 
 }

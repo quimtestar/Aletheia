@@ -205,7 +205,7 @@ public abstract class AbstractAuthoritySignatureTableModel implements TableModel
 	public List<StatementAuthoritySignature> getSignatureList()
 	{
 		return new BijectionList<RowData, StatementAuthoritySignature>(new Bijection<RowData, StatementAuthoritySignature>()
-				{
+		{
 
 			@Override
 			public StatementAuthoritySignature forward(RowData input)
@@ -218,7 +218,7 @@ public abstract class AbstractAuthoritySignatureTableModel implements TableModel
 			{
 				throw new UnsupportedOperationException();
 			}
-				}, getRowDataList());
+		}, getRowDataList());
 
 	}
 

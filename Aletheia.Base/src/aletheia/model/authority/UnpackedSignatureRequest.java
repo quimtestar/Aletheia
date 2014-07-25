@@ -178,7 +178,7 @@ public class UnpackedSignatureRequest extends SignatureRequest
 	public Set<Statement> statements(final Transaction transaction)
 	{
 		return new BijectionSet<UUID, Statement>(new Bijection<UUID, Statement>()
-				{
+		{
 
 			@Override
 			public Statement forward(UUID uuid)
@@ -191,7 +191,7 @@ public class UnpackedSignatureRequest extends SignatureRequest
 			{
 				return statement.getUuid();
 			}
-				}, statementUuids(transaction));
+		}, statementUuids(transaction));
 	}
 
 	public class AuthorityMissingUnpackedSignatureRequestException extends UnpackedSignatureRequestException
@@ -311,7 +311,7 @@ public class UnpackedSignatureRequest extends SignatureRequest
 	private static List<UUID> contextUuidPath(Transaction transaction, Context context)
 	{
 		return new BijectionList<Statement, UUID>(new Bijection<Statement, UUID>()
-				{
+		{
 
 			@Override
 			public UUID forward(Statement input)
@@ -324,7 +324,7 @@ public class UnpackedSignatureRequest extends SignatureRequest
 			{
 				throw new UnsupportedOperationException();
 			}
-				}, new AdaptedList<Statement>(context.statementPath(transaction)));
+		}, new AdaptedList<Statement>(context.statementPath(transaction)));
 	}
 
 	public PackedBuilder packedBuilder(Transaction transaction, DataOutput dataOutput) throws IOException
@@ -379,13 +379,13 @@ public class UnpackedSignatureRequest extends SignatureRequest
 	public Iterable<Statement> missingForSignedProofRequest(final Transaction transaction)
 	{
 		return new Iterable<Statement>()
-				{
+		{
 
 			@Override
 			public Iterator<Statement> iterator()
 			{
 				return new Iterator<Statement>()
-						{
+				{
 					final Collection<Statement> statements = new HashSet<Statement>(statements(transaction));
 					final Stack<Statement> stack = new Stack<Statement>();
 					{
@@ -456,9 +456,9 @@ public class UnpackedSignatureRequest extends SignatureRequest
 					{
 						throw new UnsupportedOperationException();
 					}
-						};
-			}
 				};
+			}
+		};
 	}
 
 	public Collection<Statement> completeMissingForSignedProofRequest(Transaction transaction)

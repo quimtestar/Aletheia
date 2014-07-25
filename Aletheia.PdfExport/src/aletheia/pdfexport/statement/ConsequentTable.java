@@ -117,7 +117,7 @@ public class ConsequentTable extends StatementOrConsequentTable
 			float stbw = stw - termw;
 
 			this.setTotalWidth(new float[]
-					{ pcw, termw, stbw });
+			{ pcw, termw, stbw });
 			this.setLockedWidth(true);
 		}
 		catch (DocumentException e)

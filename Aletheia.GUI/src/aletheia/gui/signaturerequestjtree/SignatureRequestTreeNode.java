@@ -133,7 +133,7 @@ public abstract class SignatureRequestTreeNode implements TreeNode
 	{
 		final Iterator<? extends SignatureRequestTreeNode> iterator = childNodeList().iterator();
 		return new Enumeration<SignatureRequestTreeNode>()
-				{
+		{
 
 			@Override
 			public boolean hasMoreElements()
@@ -146,7 +146,7 @@ public abstract class SignatureRequestTreeNode implements TreeNode
 			{
 				return iterator.next();
 			}
-				};
+		};
 	}
 
 	public synchronized void rebuild()

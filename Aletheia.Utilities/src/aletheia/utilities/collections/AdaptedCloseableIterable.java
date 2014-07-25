@@ -41,7 +41,7 @@ public class AdaptedCloseableIterable<E> extends AdaptedIterable<E> implements C
 	{
 		final CloseableIterator<? extends E> iterator = getInner().iterator();
 		return new CloseableIterator<E>()
-				{
+		{
 
 			@Override
 			public boolean hasNext()
@@ -67,7 +67,7 @@ public class AdaptedCloseableIterable<E> extends AdaptedIterable<E> implements C
 				iterator.close();
 			}
 
-				};
+		};
 	}
 
 }

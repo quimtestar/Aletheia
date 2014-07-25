@@ -49,7 +49,7 @@ public class StandAlonePeerToPeerNodeManager
 	private final StandAlonePeerToPeerNodeSubscriptions standAlonePeerToPeerNodeSubscriptions;
 
 	private StandAlonePeerToPeerNodeManager() throws ExternalServerSocketManagerException, ConnectException, IOException, InterruptedException,
-	ConfigurationException, InternalServerSocketManagerException
+			ConfigurationException, InternalServerSocketManagerException
 	{
 		this.persistenceManager = new BerkeleyDBPersistenceManager(makePersistenceManagerConfiguration());
 		switch (getStandaloneGender())

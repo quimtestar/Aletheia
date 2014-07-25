@@ -49,7 +49,7 @@ public class BijectionCloseableSet<I, O> extends BijectionSet<I, O> implements C
 	{
 		final CloseableIterator<I> inner = getInner().iterator();
 		return new CloseableIterator<O>()
-				{
+		{
 
 			@Override
 			public boolean hasNext()
@@ -75,7 +75,7 @@ public class BijectionCloseableSet<I, O> extends BijectionSet<I, O> implements C
 			{
 				inner.close();
 			}
-				};
+		};
 	}
 
 }

@@ -79,7 +79,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 		if (comp != null)
 			return comp;
 		return new Comparator<K>()
-				{
+		{
 			@SuppressWarnings("unchecked")
 			@Override
 			public int compare(K k1, K k2)
@@ -93,7 +93,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 					throw new ClassCastException();
 				}
 			};
-				};
+		};
 	}
 
 	@Override
@@ -130,7 +130,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 	public SortedMap<K, V> headMap(final K toKey)
 	{
 		return new AbstractCombinedSortedMap<K, V>(getFront().headMap(toKey))
-				{
+		{
 			private static final long serialVersionUID = 7624550350393322501L;
 
 			@Override
@@ -138,7 +138,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 			{
 				return AbstractCombinedSortedMap.this.getBack().headMap(toKey);
 			}
-				};
+		};
 	}
 
 	@Override
@@ -169,7 +169,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 	public SortedMap<K, V> subMap(final K fromKey, final K toKey)
 	{
 		return new AbstractCombinedSortedMap<K, V>(getFront().subMap(fromKey, toKey))
-				{
+		{
 			private static final long serialVersionUID = -326776527215251305L;
 
 			@Override
@@ -178,14 +178,14 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 				return AbstractCombinedSortedMap.this.getBack().subMap(fromKey, toKey);
 			}
 
-				};
+		};
 	}
 
 	@Override
 	public SortedMap<K, V> tailMap(final K fromKey)
 	{
 		return new AbstractCombinedSortedMap<K, V>(getFront().tailMap(fromKey))
-				{
+		{
 			private static final long serialVersionUID = 134854101902632800L;
 
 			@Override
@@ -194,7 +194,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 				return AbstractCombinedSortedMap.this.getBack().tailMap(fromKey);
 			}
 
-				};
+		};
 	}
 
 	@Override
@@ -202,7 +202,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 	{
 		final Set<K> keySet = keySet();
 		return new AbstractReadOnlySet<Map.Entry<K, V>>()
-				{
+		{
 
 			@Override
 			public boolean contains(Object o)
@@ -233,7 +233,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 			{
 				final Iterator<K> iterator = keySet.iterator();
 				return new AbstractReadOnlyIterator<Map.Entry<K, V>>()
-						{
+				{
 
 					@Override
 					public boolean hasNext()
@@ -246,7 +246,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 					{
 						final K key = iterator.next();
 						return new Map.Entry<K, V>()
-								{
+						{
 							@Override
 							public K getKey()
 							{
@@ -271,10 +271,10 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 								return getKey().toString() + " => " + getValue().toString();
 							}
 
-								};
+						};
 					}
 
-						};
+				};
 			}
 
 			@Override
@@ -295,7 +295,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 				return MiscUtilities.iterableToArray(this, a);
 			}
 
-				};
+		};
 	}
 
 	@Override
@@ -303,7 +303,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 	{
 		final Set<K> keySet = keySet();
 		return new AbstractReadOnlyCollection<V>()
-				{
+		{
 
 			@Override
 			public boolean contains(Object o)
@@ -334,7 +334,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 			{
 				final Iterator<K> iterator = keySet.iterator();
 				return new AbstractReadOnlyIterator<V>()
-						{
+				{
 
 					@Override
 					public boolean hasNext()
@@ -348,7 +348,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 						return get(iterator.next());
 					}
 
-						};
+				};
 			}
 
 			@Override
@@ -369,7 +369,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 				return MiscUtilities.iterableToArray(this, a);
 			}
 
-				};
+		};
 
 	}
 

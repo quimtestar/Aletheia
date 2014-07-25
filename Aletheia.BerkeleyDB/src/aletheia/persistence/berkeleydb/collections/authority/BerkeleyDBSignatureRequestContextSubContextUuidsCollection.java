@@ -36,7 +36,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBSignatureRequestContextSubContextUuidsCollection extends AbstractCloseableCollection<UUID> implements
-SignatureRequestContextSubContextUuidsCollection
+		SignatureRequestContextSubContextUuidsCollection
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -85,7 +85,7 @@ SignatureRequestContextSubContextUuidsCollection
 		final EntityCursor<ContextSubContextSecondaryKeyData> cursor = transaction.keys(index, minContextSubContextSecondaryKeyData, true,
 				maxContextSubContextSecondaryKeyData, true);
 		return new CloseableIterator<UUID>()
-				{
+		{
 			private ContextSubContextSecondaryKeyData next;
 			{
 				next = transaction.first(cursor);
@@ -130,7 +130,7 @@ SignatureRequestContextSubContextUuidsCollection
 				super.finalize();
 			}
 
-				};
+		};
 	}
 
 	@Override

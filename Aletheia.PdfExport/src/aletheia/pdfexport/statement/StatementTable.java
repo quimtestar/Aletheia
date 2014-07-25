@@ -121,7 +121,7 @@ public abstract class StatementTable extends StatementOrConsequentTable
 			float stbw = stw - termw;
 
 			this.setTotalWidth(new float[]
-					{ pcw, vcpw, termw, stbw });
+			{ pcw, vcpw, termw, stbw });
 			this.setLockedWidth(true);
 		}
 		catch (DocumentException e)

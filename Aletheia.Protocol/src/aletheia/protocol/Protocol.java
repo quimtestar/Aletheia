@@ -104,12 +104,12 @@ public abstract class Protocol<T>
 
 	protected static Collection<Integer> availableVersionsForClass(@SuppressWarnings("rawtypes") Class<? extends Protocol> protocolClass)
 			throws MissingProtocolInfoException
-			{
+	{
 		ProtocolInfo protocolInfo = protocolClass.getAnnotation(ProtocolInfo.class);
 		if (protocolInfo == null)
 			throw new MissingProtocolInfoException(protocolClass);
 		return new ArrayAsList<Integer>(protocolInfo.availableVersions());
-			}
+	}
 
 	/**
 	 * Send a object to a {@link DataOutput}. Must be consistent with

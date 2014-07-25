@@ -465,7 +465,7 @@ public abstract class BerkeleyDBSignatureRequestEntity implements SignatureReque
 	public List<UUID> getContextUuidPath()
 	{
 		return new BijectionList<UUIDKey, UUID>(new Bijection<UUIDKey, UUID>()
-				{
+		{
 
 			@Override
 			public UUID forward(UUIDKey input)
@@ -478,7 +478,7 @@ public abstract class BerkeleyDBSignatureRequestEntity implements SignatureReque
 			{
 				return new UUIDKey(output);
 			}
-				}, contextUuidKeyPathView);
+		}, contextUuidKeyPathView);
 	}
 
 	public ContextCreationDateSecondaryKeyData getContextCreationDateSecondaryKeyData()

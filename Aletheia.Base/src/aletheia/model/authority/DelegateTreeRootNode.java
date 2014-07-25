@@ -353,7 +353,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 	}
 
 	private synchronized void addSuccessorEntry(Transaction transaction, SuccessorEntry successorEntry) throws DateConsistenceException,
-	DuplicateSuccessorException
+			DuplicateSuccessorException
 	{
 		if (duplicateSuccessorUuid(transaction, successorEntry.getSuccessorUuid()))
 			throw new DuplicateSuccessorException();
@@ -371,7 +371,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 	}
 
 	private synchronized SuccessorEntry addSuccessorEntry(Transaction transaction, UUID successorUuid) throws NoPrivateDataForSignatoryException,
-	DateConsistenceException, DuplicateSuccessorException
+			DateConsistenceException, DuplicateSuccessorException
 	{
 		SuccessorEntry successorEntry = new SuccessorEntry(successorUuid);
 		PrivatePerson person = cutSuccessorEntriesToLastPrivatePerson(transaction);
@@ -401,7 +401,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 	}
 
 	public SuccessorEntry addSuccessorEntry(Transaction transaction, Person successor) throws NoPrivateDataForSignatoryException, DateConsistenceException,
-	DuplicateSuccessorException
+			DuplicateSuccessorException
 	{
 		return addSuccessorEntry(transaction, successor.getUuid());
 	}
@@ -640,7 +640,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 	public CloseableIterable<DelegateTreeSubNode> delegateTreeSubNodesRecursive(final Transaction transaction)
 	{
 		return new CloseableIterable<DelegateTreeSubNode>()
-				{
+		{
 
 			@Override
 			public CloseableIterator<DelegateTreeSubNode> iterator()
@@ -648,7 +648,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 				final Stack<CloseableIterator<DelegateTreeSubNode>> stack = new Stack<CloseableIterator<DelegateTreeSubNode>>();
 				stack.push(localDelegateTreeSubNodeMap(transaction).values().iterator());
 				return new CloseableIterator<DelegateTreeSubNode>()
-						{
+				{
 					private DelegateTreeSubNode next = obtainNext();
 
 					private DelegateTreeSubNode obtainNext()
@@ -696,10 +696,10 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 						close();
 						super.finalize();
 					}
-						};
+				};
 			}
 
-				};
+		};
 	}
 
 	public CloseableIterable<DelegateTreeNode> delegateTreeNodesRecursive(final Transaction transaction)

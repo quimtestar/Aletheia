@@ -47,7 +47,7 @@ public abstract class SymmetricSelectionRequestMessage<C, E extends ExportableEn
 
 	@ProtocolInfo(availableVersions = 0)
 	public static abstract class SubProtocol<C, E extends ExportableEnum<C, ?>, M extends SymmetricSelectionRequestMessage<C, E>> extends
-	SymmetricSelectionMessage.SubProtocol<C, E, M>
+			SymmetricSelectionMessage.SubProtocol<C, E, M>
 	{
 		private final BooleanProtocol booleanProtocol;
 

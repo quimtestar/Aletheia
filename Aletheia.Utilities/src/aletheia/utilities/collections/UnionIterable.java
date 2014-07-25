@@ -42,9 +42,9 @@ public class UnionIterable<E> implements Iterable<E>
 	}
 
 	protected Iterable<? extends Iterable<E>> getInner()
-			{
+	{
 		return inner;
-			}
+	}
 
 	protected class MyIterator implements Iterator<E>
 	{
@@ -78,9 +78,9 @@ public class UnionIterable<E> implements Iterable<E>
 		}
 
 		protected Iterator<? extends Iterable<E>> getIterator0()
-				{
+		{
 			return iterator0;
-				}
+		}
 
 		@Override
 		public boolean hasNext()

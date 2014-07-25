@@ -43,9 +43,9 @@ public class FilteredEntryMap<K, V> extends AbstractMap<K, V>
 	}
 
 	protected Filter<? super Entry<K, V>> getFilter()
-			{
+	{
 		return filter;
-			}
+	}
 
 	protected Map<K, V> getInner()
 	{
@@ -95,14 +95,14 @@ public class FilteredEntryMap<K, V> extends AbstractMap<K, V>
 		public FilteredEntrySet(Set<Entry<K, V>> innerEntrySet)
 		{
 			super(new Filter<Entry<K, V>>()
-					{
+			{
 
 				@Override
 				public boolean filter(Entry<K, V> e)
 				{
 					return filter.filter(e);
 				}
-					}, innerEntrySet);
+			}, innerEntrySet);
 		}
 
 	}

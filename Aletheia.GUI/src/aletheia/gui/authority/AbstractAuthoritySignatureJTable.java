@@ -458,7 +458,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 				try
 				{
 					deleteSignatures(new BijectionList<Integer, StatementAuthoritySignature>(new Bijection<Integer, StatementAuthoritySignature>()
-							{
+					{
 
 						@Override
 						public StatementAuthoritySignature forward(Integer input)
@@ -471,7 +471,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 						{
 							throw new UnsupportedOperationException();
 						}
-							}, new ArrayAsList<Integer>(getSelectedRows())));
+					}, new ArrayAsList<Integer>(getSelectedRows())));
 				}
 				catch (InterruptedException e)
 				{
@@ -591,12 +591,12 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 	private void deleteSignatures(Collection<StatementAuthoritySignature> signatures) throws InterruptedException
 	{
 		getAuthorityJPanel()
-		.getContextJTreeJPanel()
-		.getAletheiaJPanel()
-		.getCliJPanel()
-		.command(
-				new DeleteSignatures(getAuthorityJPanel().getContextJTreeJPanel().getAletheiaJPanel().getCliJPanel(), getModel().beginTransaction(),
-						signatures), false);
+				.getContextJTreeJPanel()
+				.getAletheiaJPanel()
+				.getCliJPanel()
+				.command(
+						new DeleteSignatures(getAuthorityJPanel().getContextJTreeJPanel().getAletheiaJPanel().getCliJPanel(), getModel().beginTransaction(),
+								signatures), false);
 	}
 
 	public void updateFontSize()

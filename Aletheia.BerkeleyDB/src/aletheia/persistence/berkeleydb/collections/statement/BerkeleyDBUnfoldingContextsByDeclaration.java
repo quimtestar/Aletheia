@@ -93,7 +93,7 @@ public class BerkeleyDBUnfoldingContextsByDeclaration extends AbstractCloseableS
 		final EntityCursor<BerkeleyDBUnfoldingContextEntity> cursor = transaction.entities(unfoldingContextEntityDeclarationSecondaryIndex, uuidKey, true,
 				uuidKey, true);
 		return new CloseableIterator<UnfoldingContext>()
-				{
+		{
 			UnfoldingContextEntity next;
 			{
 				next = transaction.next(cursor);
@@ -139,7 +139,7 @@ public class BerkeleyDBUnfoldingContextsByDeclaration extends AbstractCloseableS
 				transaction.close(cursor);
 			}
 
-				};
+		};
 
 	}
 

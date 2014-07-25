@@ -268,7 +268,7 @@ public class LoopStatementPhase extends StatementSubPhase
 		private final StatementStateListener statementStateListener;
 
 		private class ContextStateListener implements RootContextLocal.StateListener, ContextLocal.StateListener, Statement.StateListener,
-		StatementAuthority.StateListener
+				StatementAuthority.StateListener
 		{
 			@Override
 			public void subscribeStatementsChanged(Transaction transaction, ContextLocal contextLocal, ContextLocal contextLocal_, boolean subscribed)
@@ -398,7 +398,7 @@ public class LoopStatementPhase extends StatementSubPhase
 
 		@Override
 		protected boolean serverPhase(LoopStatementDialogType loopDialogType) throws IOException, ProtocolException, InterruptedException,
-		DialogStreamException
+				DialogStreamException
 		{
 			switch (loopDialogType)
 			{
@@ -427,7 +427,7 @@ public class LoopStatementPhase extends StatementSubPhase
 
 		@Override
 		protected boolean clientPhase(LoopSubPhase<LoopStatementDialogType>.Command<?> command) throws IOException, ProtocolException, InterruptedException,
-		DialogStreamException
+				DialogStreamException
 		{
 			switch (command.getLoopDialogType())
 			{
@@ -482,7 +482,7 @@ public class LoopStatementPhase extends StatementSubPhase
 		}
 
 		protected <C extends Command<C>> Command<C>.Result commandResult(Command<C> command, ListenableAborter aborter) throws InterruptedException,
-		CancelledCommandException, AbortException
+				CancelledCommandException, AbortException
 		{
 			return super.commandResult(command, aborter);
 		}

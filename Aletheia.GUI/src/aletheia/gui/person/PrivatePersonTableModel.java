@@ -58,7 +58,7 @@ public class PrivatePersonTableModel extends AbstractPersonTableModel
 	protected CloseableSortedMap<String, CloseableSet<Person>> personsByNick(Transaction transaction)
 	{
 		return new BijectionCloseableSortedMap<String, PrivatePerson, CloseableSet<Person>>(new Bijection<PrivatePerson, CloseableSet<Person>>()
-				{
+		{
 
 			@Override
 			public CloseableSet<Person> forward(PrivatePerson person)
@@ -71,7 +71,7 @@ public class PrivatePersonTableModel extends AbstractPersonTableModel
 			{
 				throw new UnsupportedOperationException();
 			}
-				}, getPersistenceManager().privatePersonsByNick(transaction));
+		}, getPersistenceManager().privatePersonsByNick(transaction));
 
 	}
 

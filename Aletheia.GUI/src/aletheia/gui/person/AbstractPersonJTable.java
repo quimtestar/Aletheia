@@ -501,7 +501,7 @@ public abstract class AbstractPersonJTable extends JTable
 		int[] rows = getSelectedRows();
 		clearSelection();
 		Collection<Person> persons = new BijectionCollection<Integer, Person>(new Bijection<Integer, Person>()
-				{
+		{
 
 			@Override
 			public Person forward(Integer row)
@@ -514,7 +514,7 @@ public abstract class AbstractPersonJTable extends JTable
 			{
 				throw new UnsupportedOperationException();
 			}
-				}, new ArrayAsList<Integer>(rows));
+		}, new ArrayAsList<Integer>(rows));
 
 		class DeleteException extends Exception
 		{

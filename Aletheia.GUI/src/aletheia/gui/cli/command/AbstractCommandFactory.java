@@ -243,7 +243,7 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 
 	protected Collection<StatementAuthoritySignature> specToStatementAuthoritySignatures(PersistenceManager persistenceManager, Transaction transaction,
 			Context activeContext, List<String> split) throws CommandParseException
-			{
+	{
 		Statement statement = findStatementPath(persistenceManager, transaction, activeContext, split.get(0));
 		if (statement == null)
 			throw new CommandParseException("Invalid statement");
@@ -288,6 +288,6 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 		else
 			throw new MissingParametersException();
 
-			}
+	}
 
 }

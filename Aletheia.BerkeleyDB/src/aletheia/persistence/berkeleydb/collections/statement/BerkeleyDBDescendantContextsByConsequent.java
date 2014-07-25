@@ -106,7 +106,7 @@ public class BerkeleyDBDescendantContextsByConsequent extends AbstractCloseableS
 				uuidKeyTermHash, true);
 
 		return new CloseableIterator<Context>()
-				{
+		{
 			BerkeleyDBContextEntity next;
 			{
 				do
@@ -163,7 +163,7 @@ public class BerkeleyDBDescendantContextsByConsequent extends AbstractCloseableS
 				close();
 				super.finalize();
 			}
-				};
+		};
 	}
 
 	@Override

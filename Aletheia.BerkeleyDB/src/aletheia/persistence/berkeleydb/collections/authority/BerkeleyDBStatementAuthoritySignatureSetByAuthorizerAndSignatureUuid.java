@@ -33,15 +33,15 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBStatementAuthoritySignatureSetByAuthorizerAndSignatureUuid extends
-BerkeleyDBAbstractStatementAuthoritySignatureSet<BerkeleyDBStatementAuthoritySignatureEntity.AuthorizerSignatureUuidKeyData> implements
-StatementAuthoritySignatureSetByAuthorizerAndSignatureUuid
+		BerkeleyDBAbstractStatementAuthoritySignatureSet<BerkeleyDBStatementAuthoritySignatureEntity.AuthorizerSignatureUuidKeyData> implements
+		StatementAuthoritySignatureSetByAuthorizerAndSignatureUuid
 {
 	private final Signatory authorizer;
 	private final UUID signatureUuid;
 
 	private static SecondaryIndex<AuthorizerSignatureUuidKeyData, PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> index(
 			BerkeleyDBPersistenceManager persistenceManager)
-			{
+	{
 		try
 		{
 			return persistenceManager.getEntityStore().statementAuthoritySignatureEntityAuthorizerSignatureUuidKeySecondaryIndex();
@@ -50,7 +50,7 @@ StatementAuthoritySignatureSetByAuthorizerAndSignatureUuid
 		{
 			throw persistenceManager.convertDatabaseException(e);
 		}
-			}
+	}
 
 	public BerkeleyDBStatementAuthoritySignatureSetByAuthorizerAndSignatureUuid(BerkeleyDBPersistenceManager persistenceManager,
 			BerkeleyDBTransaction transaction, Signatory authorizer, UUID signatureUuid)

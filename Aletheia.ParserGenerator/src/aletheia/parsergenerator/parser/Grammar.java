@@ -401,7 +401,7 @@ public class Grammar implements Serializable
 	public Set<TerminalSymbol> terminalSymbols()
 	{
 		return new BijectionSet<>(new Bijection<Symbol, TerminalSymbol>()
-				{
+		{
 			@Override
 			public TerminalSymbol forward(Symbol input)
 			{
@@ -413,7 +413,7 @@ public class Grammar implements Serializable
 			{
 				return output;
 			}
-				}, new DifferenceSet<Symbol>(getSymbols(), new AdaptedSet<Symbol>(nonTerminalSymbols())));
+		}, new DifferenceSet<Symbol>(getSymbols(), new AdaptedSet<Symbol>(nonTerminalSymbols())));
 	}
 
 	public void trace(PrintStream out)

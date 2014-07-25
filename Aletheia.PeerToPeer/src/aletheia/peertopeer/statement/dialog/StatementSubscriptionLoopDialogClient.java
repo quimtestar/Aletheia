@@ -52,9 +52,9 @@ public class StatementSubscriptionLoopDialogClient extends StatementSubscription
 
 	private Set<Context> dialogateStatementsSubscribeClient(Set<ContextLocal> subscribedContextLocals, Set<ContextLocal> unsubscribedContextLocals)
 			throws IOException, ProtocolException, InterruptedException
-			{
+	{
 		Bijection<ContextLocal, UUID> contextLocalUuidBijection = new Bijection<ContextLocal, UUID>()
-				{
+		{
 
 			@Override
 			public UUID forward(ContextLocal ctxLocal)
@@ -67,81 +67,81 @@ public class StatementSubscriptionLoopDialogClient extends StatementSubscription
 			{
 				throw new UnsupportedOperationException();
 			}
-				};
+		};
 
-				Set<UUID> subscribeUuids = new HashSet<UUID>();
-				Set<UUID> unsubscribeUuids = new HashSet<UUID>();
-				PendingPersistentDataChanges pendingStatementLocalChanges = getPendingPersistentDataChanges();
-				RemoteSubscription remoteSubscription = getRemoteSubscription();
-				Set<ContextLocal> pendingUnsubscribedContextLocals;
+		Set<UUID> subscribeUuids = new HashSet<UUID>();
+		Set<UUID> unsubscribeUuids = new HashSet<UUID>();
+		PendingPersistentDataChanges pendingStatementLocalChanges = getPendingPersistentDataChanges();
+		RemoteSubscription remoteSubscription = getRemoteSubscription();
+		Set<ContextLocal> pendingUnsubscribedContextLocals;
+		{
+			Set<RootContextLocal> set = pendingStatementLocalChanges.dumpPendingUnsubscribedRootContextLocals();
+			if (set != null)
+			{
+				subscribedContextLocals.addAll(set);
+				pendingUnsubscribedContextLocals = new AdaptedSet<ContextLocal>(set);
+			}
+			else
+				pendingUnsubscribedContextLocals = Collections.emptySet();
+		}
+		Set<ContextLocal> pendingSubscribedContextLocals;
+		{
+			Set<RootContextLocal> set = pendingStatementLocalChanges.dumpPendingSubscribedRootContextLocals();
+			if (set != null)
+			{
+				subscribedContextLocals.addAll(set);
+				pendingSubscribedContextLocals = new AdaptedSet<ContextLocal>(set);
+			}
+			else
+				pendingSubscribedContextLocals = Collections.emptySet();
+		}
+		Set<UUID> contextUuids = remoteSubscription.rootContextUuids();
+		while (!contextUuids.isEmpty())
+		{
+			Set<UUID> contextUuids_ = new HashSet<UUID>();
+			Set<ContextLocal> pendingUnsubscribedContextLocals_ = new HashSet<ContextLocal>();
+			Set<ContextLocal> pendingSubscribedContextLocals_ = new HashSet<ContextLocal>();
+			subscribeUuids.addAll(new BijectionSet<>(contextLocalUuidBijection, pendingSubscribedContextLocals));
+			for (UUID contextUuid : contextUuids)
+			{
+				ContextLocal ctxLocal = getPersistenceManager().getContextLocal(getTransaction(), contextUuid);
+				if (ctxLocal != null)
 				{
-					Set<RootContextLocal> set = pendingStatementLocalChanges.dumpPendingUnsubscribedRootContextLocals();
-					if (set != null)
+					if (pendingUnsubscribedContextLocals.contains(ctxLocal))
+						unsubscribeUuids.add(contextUuid);
+					Subscription.SubContextSubscription subcontextSubscription = remoteSubscription.subContextSubscriptions().get(contextUuid);
+					if (subcontextSubscription != null)
+						contextUuids_.addAll(subcontextSubscription.contextUuids());
 					{
-						subscribedContextLocals.addAll(set);
-						pendingUnsubscribedContextLocals = new AdaptedSet<ContextLocal>(set);
-					}
-					else
-						pendingUnsubscribedContextLocals = Collections.emptySet();
-				}
-				Set<ContextLocal> pendingSubscribedContextLocals;
-				{
-					Set<RootContextLocal> set = pendingStatementLocalChanges.dumpPendingSubscribedRootContextLocals();
-					if (set != null)
-					{
-						subscribedContextLocals.addAll(set);
-						pendingSubscribedContextLocals = new AdaptedSet<ContextLocal>(set);
-					}
-					else
-						pendingSubscribedContextLocals = Collections.emptySet();
-				}
-				Set<UUID> contextUuids = remoteSubscription.rootContextUuids();
-				while (!contextUuids.isEmpty())
-				{
-					Set<UUID> contextUuids_ = new HashSet<UUID>();
-					Set<ContextLocal> pendingUnsubscribedContextLocals_ = new HashSet<ContextLocal>();
-					Set<ContextLocal> pendingSubscribedContextLocals_ = new HashSet<ContextLocal>();
-					subscribeUuids.addAll(new BijectionSet<>(contextLocalUuidBijection, pendingSubscribedContextLocals));
-					for (UUID contextUuid : contextUuids)
-					{
-						ContextLocal ctxLocal = getPersistenceManager().getContextLocal(getTransaction(), contextUuid);
-						if (ctxLocal != null)
+						Set<ContextLocal> set = pendingStatementLocalChanges.dumpPendingUnsubscribedContextLocals(ctxLocal);
+						if (set != null)
 						{
-							if (pendingUnsubscribedContextLocals.contains(ctxLocal))
-								unsubscribeUuids.add(contextUuid);
-							Subscription.SubContextSubscription subcontextSubscription = remoteSubscription.subContextSubscriptions().get(contextUuid);
-							if (subcontextSubscription != null)
-								contextUuids_.addAll(subcontextSubscription.contextUuids());
-							{
-								Set<ContextLocal> set = pendingStatementLocalChanges.dumpPendingUnsubscribedContextLocals(ctxLocal);
-								if (set != null)
-								{
-									unsubscribedContextLocals.addAll(set);
-									pendingUnsubscribedContextLocals_.addAll(set);
-								}
-							}
-							{
-								Set<ContextLocal> set = pendingStatementLocalChanges.dumpPendingSubscribedContextLocals(ctxLocal);
-								if (set != null)
-								{
-									subscribedContextLocals.addAll(set);
-									pendingSubscribedContextLocals_.addAll(set);
-								}
-							}
+							unsubscribedContextLocals.addAll(set);
+							pendingUnsubscribedContextLocals_.addAll(set);
 						}
 					}
-					contextUuids = contextUuids_;
-					pendingUnsubscribedContextLocals = pendingUnsubscribedContextLocals_;
-					pendingSubscribedContextLocals = pendingSubscribedContextLocals_;
+					{
+						Set<ContextLocal> set = pendingStatementLocalChanges.dumpPendingSubscribedContextLocals(ctxLocal);
+						if (set != null)
+						{
+							subscribedContextLocals.addAll(set);
+							pendingSubscribedContextLocals_.addAll(set);
+						}
+					}
 				}
-				subscribeUuids.addAll(new BijectionSet<>(contextLocalUuidBijection, pendingSubscribedContextLocals));
-
-				sendMessage(new StatementsSubscribeMessage(subscribeUuids, unsubscribeUuids));
-				StatementsSubscribeConfirmationMessage statementsSubscribeConfirmationMessage = recvMessage(StatementsSubscribeConfirmationMessage.class);
-				subscribeUuids.retainAll(statementsSubscribeConfirmationMessage.getUuids());
-				return new BijectionSet<UUID, Context>(new ComposedBijection<>(new CastBijection<Statement, Context>(), getStatementUuidBijection().inverse()),
-						subscribeUuids);
 			}
+			contextUuids = contextUuids_;
+			pendingUnsubscribedContextLocals = pendingUnsubscribedContextLocals_;
+			pendingSubscribedContextLocals = pendingSubscribedContextLocals_;
+		}
+		subscribeUuids.addAll(new BijectionSet<>(contextLocalUuidBijection, pendingSubscribedContextLocals));
+
+		sendMessage(new StatementsSubscribeMessage(subscribeUuids, unsubscribeUuids));
+		StatementsSubscribeConfirmationMessage statementsSubscribeConfirmationMessage = recvMessage(StatementsSubscribeConfirmationMessage.class);
+		subscribeUuids.retainAll(statementsSubscribeConfirmationMessage.getUuids());
+		return new BijectionSet<UUID, Context>(new ComposedBijection<>(new CastBijection<Statement, Context>(), getStatementUuidBijection().inverse()),
+				subscribeUuids);
+	}
 
 	@Override
 	protected void dialogate() throws IOException, ProtocolException, InterruptedException

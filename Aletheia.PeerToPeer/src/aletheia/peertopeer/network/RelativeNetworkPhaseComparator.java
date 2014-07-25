@@ -29,7 +29,7 @@ public class RelativeNetworkPhaseComparator extends BijectionComparator<UUID, Ne
 {
 
 	private static Bijection<UUID, NetworkPhase> bijection = new Bijection<UUID, NetworkPhase>()
-			{
+	{
 
 		@Override
 		public NetworkPhase forward(UUID input)
@@ -42,17 +42,17 @@ public class RelativeNetworkPhaseComparator extends BijectionComparator<UUID, Ne
 		{
 			return networkPhase.getPeerNodeUuid();
 		}
-			};
+	};
 
-			public RelativeNetworkPhaseComparator(UUID center)
-			{
-				super(bijection, new RelativeUuidComparator(center));
-			}
+	public RelativeNetworkPhaseComparator(UUID center)
+	{
+		super(bijection, new RelativeUuidComparator(center));
+	}
 
-			@Override
-			public RelativeUuidComparator getInner()
-			{
-				return (RelativeUuidComparator) super.getInner();
-			}
+	@Override
+	public RelativeUuidComparator getInner()
+	{
+		return (RelativeUuidComparator) super.getInner();
+	}
 
 }

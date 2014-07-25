@@ -84,14 +84,14 @@ class CombinedSetSortedIterator<E> extends CombinedSet<E>
 		if (comp != null)
 			return comp;
 		return new Comparator<E>()
-				{
+		{
 			@SuppressWarnings("unchecked")
 			@Override
 			public int compare(E e1, E e2) throws ClassCastException
 			{
 				return ((Comparable<E>) e1).compareTo(e2);
 			};
-				};
+		};
 	}
 
 	/**
@@ -108,7 +108,7 @@ class CombinedSetSortedIterator<E> extends CombinedSet<E>
 		final Iterator<E> backIterator = getBack().iterator();
 
 		return new AbstractReadOnlyIterator<E>()
-				{
+		{
 			E nextFront;
 			E nextBack;
 			boolean hasNextFront;
@@ -226,7 +226,7 @@ class CombinedSetSortedIterator<E> extends CombinedSet<E>
 
 			}
 
-				};
+		};
 	}
 
 }

@@ -700,7 +700,7 @@ public abstract class BerkeleyDBStatementEntity implements StatementEntity
 	public Set<UUID> getUuidDependencies()
 	{
 		return new BijectionSet<UUIDKey, UUID>(new Bijection<UUIDKey, UUID>()
-				{
+		{
 
 			@Override
 			public UUID forward(UUIDKey input)
@@ -713,7 +713,7 @@ public abstract class BerkeleyDBStatementEntity implements StatementEntity
 			{
 				return new UUIDKey(output);
 			}
-				}, uuidKeyDependencies);
+		}, uuidKeyDependencies);
 	}
 
 	public LocalSortKey getLocalSortKey()

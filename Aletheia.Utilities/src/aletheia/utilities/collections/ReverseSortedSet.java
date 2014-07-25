@@ -67,7 +67,7 @@ public class ReverseSortedSet<E> implements SortedSet<E>
 	public Iterator<E> iterator()
 	{
 		return new Iterator<E>()
-				{
+		{
 			private SortedSet<E> remain = inner;
 			private E last = null;
 
@@ -94,7 +94,7 @@ public class ReverseSortedSet<E> implements SortedSet<E>
 				last = null;
 			}
 
-				};
+		};
 	}
 
 	@Override

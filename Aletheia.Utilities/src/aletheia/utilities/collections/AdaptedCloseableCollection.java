@@ -43,7 +43,7 @@ public class AdaptedCloseableCollection<E> extends AdaptedCollection<E> implemen
 	{
 		final CloseableIterator<? extends E> iterator = getInner().iterator();
 		return new CloseableIterator<E>()
-				{
+		{
 
 			@Override
 			public boolean hasNext()
@@ -69,7 +69,7 @@ public class AdaptedCloseableCollection<E> extends AdaptedCollection<E> implemen
 				iterator.close();
 			}
 
-				};
+		};
 	}
 
 }

@@ -57,7 +57,7 @@ public class PropagateDeferredMessagesDialogClient extends PropagateDeferredMess
 		DeferredMessageRequestMessage deferredMessageRequestMessage = recvMessage(DeferredMessageRequestMessage.class);
 		Collection<DeferredMessage> deferredMessages = new FilteredCollection<DeferredMessage>(new NotNullFilter<DeferredMessage>(),
 				new BijectionCollection<UUID, DeferredMessage>(new Bijection<UUID, DeferredMessage>()
-						{
+				{
 					@Override
 					public DeferredMessage forward(UUID uuid)
 					{
@@ -69,7 +69,7 @@ public class PropagateDeferredMessagesDialogClient extends PropagateDeferredMess
 					{
 						return deferredMessage.getUuid();
 					}
-						}, deferredMessageRequestMessage.getUuids()));
+				}, deferredMessageRequestMessage.getUuids()));
 		sendMessage(DeferredMessageResponseMessage.create(deferredMessages));
 	}
 

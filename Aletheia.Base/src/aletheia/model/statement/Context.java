@@ -311,7 +311,7 @@ public class Context extends Statement
 		{
 			FunctionTerm functionTerm = (FunctionTerm) innerTerm_;
 			Assumption assumption = (uuidAssumptions == null) ? new Assumption(persistenceManager, transaction, this, functionTerm.getParameter().getType(), i)
-			: new Assumption(persistenceManager, transaction, uuidAssumptions.get(i), this, functionTerm.getParameter().getType(), i);
+					: new Assumption(persistenceManager, transaction, uuidAssumptions.get(i), this, functionTerm.getParameter().getType(), i);
 			addStatement(transaction, assumption, false);
 			try
 			{
@@ -814,13 +814,13 @@ public class Context extends Statement
 	{
 		final LocalSortedStatements localSortedStatements = localSortedStatements(transaction);
 		return new UnionCloseableCollection<Statement>(new AbstractCloseableCollection<CloseableCollection<Statement>>()
-				{
+		{
 
 			@Override
 			public CloseableIterator<CloseableCollection<Statement>> iterator()
 			{
 				return new CloseableIterator<CloseableCollection<Statement>>()
-						{
+				{
 					final CloseableIterator<Statement> iterator = localSortedStatements.iterator();
 					final Set<Statement> visited = new HashSet<Statement>();
 
@@ -845,13 +845,13 @@ public class Context extends Statement
 							if (list == null)
 							{
 								list = new ArrayList<Statement>(new FilteredCollection<Statement>(new Filter<Statement>()
-										{
+								{
 									@Override
 									public boolean filter(Statement e)
 									{
 										return !visited.contains(e);
 									}
-										}, st.localDependencies(transaction)));
+								}, st.localDependencies(transaction)));
 								Collections.sort(list, localSortedStatements.comparator());
 								dependencyMap.put(st, list);
 							}
@@ -882,7 +882,7 @@ public class Context extends Statement
 						iterator.close();
 					}
 
-						};
+				};
 			}
 
 			@Override
@@ -890,7 +890,7 @@ public class Context extends Statement
 			{
 				return localSortedStatements.size();
 			}
-				});
+		});
 	}
 
 	/**
@@ -1085,7 +1085,7 @@ public class Context extends Statement
 	 * @throws DependentUnpackedSignatureRequests
 	 */
 	public void deleteStatement(Transaction transaction, Statement statement) throws StatementNotInContextException, StatementHasDependentsException,
-	CantDeleteAssumptionException, DependentUnpackedSignatureRequests
+			CantDeleteAssumptionException, DependentUnpackedSignatureRequests
 	{
 		if (statement instanceof Assumption)
 			throw new CantDeleteAssumptionException();
@@ -1227,12 +1227,12 @@ public class Context extends Statement
 	public CloseableIterable<Statement> descendentStatements(final Transaction transaction)
 	{
 		return new CloseableIterable<Statement>()
-				{
+		{
 			@Override
 			public CloseableIterator<Statement> iterator()
 			{
 				return new CloseableIterator<Statement>()
-						{
+				{
 					final Stack<CloseableIterator<Statement>> stack;
 					{
 						stack = new Stack<CloseableIterator<Statement>>();
@@ -1296,9 +1296,9 @@ public class Context extends Statement
 						close();
 						super.finalize();
 					}
-						};
-			}
 				};
+			}
+		};
 	}
 
 	/**
@@ -1499,9 +1499,9 @@ public class Context extends Statement
 	@SuppressWarnings("unused")
 	private Map<Statement, Statement> privateCopy(Transaction transaction, List<Statement> statements, Map<Statement, Statement> initMap)
 			throws StatementException
-			{
+	{
 		return privateCopy(transaction, statements, initMap, Collections.<Statement> emptySet());
-			}
+	}
 
 	public class CyclicCopyContextException extends CopyStatementException
 	{
@@ -1541,7 +1541,7 @@ public class Context extends Statement
 	 */
 	private Map<Statement, Statement> privateCopy(Transaction transaction, List<Statement> statements, Map<Statement, Statement> initMap,
 			Set<Statement> excludeFromIdentify) throws CopyStatementException
-			{
+	{
 		Map<Statement, Statement> map = new HashMap<Statement, Statement>(initMap);
 		Set<Statement> copied = new HashSet<Statement>(initMap.values());
 		Queue<Statement> queue = new ArrayDeque<Statement>();
@@ -1656,18 +1656,18 @@ public class Context extends Statement
 				{
 					if (stDest.identifier(transaction) == null)
 						try
-					{
+						{
 							stDest.getContext(transaction).identifyStatement(transaction, id, stDest);
-					}
-					catch (NomenclatorException e)
-					{
-						throw new CopyStatementException(e);
-					}
+						}
+						catch (NomenclatorException e)
+						{
+							throw new CopyStatementException(e);
+						}
 				}
 			}
 		}
 		return map;
-			}
+	}
 
 	/**
 	 * Copies a statement (belonging or not to this context) into this context.
@@ -1714,13 +1714,13 @@ public class Context extends Statement
 	 */
 	public List<Statement> copy(Transaction transaction, List<Statement> statements, Map<Statement, Statement> initMap, Set<Statement> excludeFromIdentify)
 			throws StatementException
-			{
+	{
 		Map<Statement, Statement> map = privateCopy(transaction, statements, initMap, excludeFromIdentify);
 		List<Statement> list = new ArrayList<Statement>();
 		for (Statement st : statements)
 			list.add(map.get(st));
 		return list;
-			}
+	}
 
 	/**
 	 * Copies a list of statements (belonging or not to this context) into this

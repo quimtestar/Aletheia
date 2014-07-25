@@ -100,7 +100,7 @@ public class AutomatonSet implements Serializable
 	public Comparator<DeterministicAutomaton> automatonComparator()
 	{
 		return new Comparator<DeterministicAutomaton>()
-				{
+		{
 
 			@Override
 			public int compare(DeterministicAutomaton a0, DeterministicAutomaton a1)
@@ -108,7 +108,7 @@ public class AutomatonSet implements Serializable
 				return orderMap.get(a0) - orderMap.get(a1);
 			}
 
-				};
+		};
 	}
 
 	/**

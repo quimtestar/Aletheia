@@ -36,9 +36,9 @@ public class UnionCloseableIterable<E> extends UnionIterable<E> implements Close
 	@SuppressWarnings("unchecked")
 	@Override
 	protected CloseableIterable<? extends CloseableIterable<E>> getInner()
-			{
+	{
 		return (CloseableIterable<? extends CloseableIterable<E>>) super.getInner();
-			}
+	}
 
 	protected class MyIterator extends UnionIterable<E>.MyIterator implements CloseableIterator<E>
 	{
@@ -51,9 +51,9 @@ public class UnionCloseableIterable<E> extends UnionIterable<E> implements Close
 
 		@Override
 		protected CloseableIterator<? extends Iterable<E>> getIterator0()
-				{
+		{
 			return (CloseableIterator<? extends Iterable<E>>) super.getIterator0();
-				}
+		}
 
 		@Override
 		public void close()

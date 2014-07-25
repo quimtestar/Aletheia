@@ -136,7 +136,7 @@ public class DelegateTreeModel extends PersistentTreeModel
 		public Enumeration<DelegateTreeModelNode> children()
 		{
 			return new Enumeration<DelegateTreeModelNode>()
-					{
+			{
 
 				boolean hasNext = true;
 
@@ -155,7 +155,7 @@ public class DelegateTreeModel extends PersistentTreeModel
 						throw new NoSuchElementException();
 				}
 
-					};
+			};
 		}
 
 		@Override

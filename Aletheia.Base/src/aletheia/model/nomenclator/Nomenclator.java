@@ -292,7 +292,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 		final SortedMap<Identifier, Statement> i2s = identifierToStatement();
 		final Map<Statement, Identifier> s2i = statementToIdentifier();
 		return new AbstractReadOnlySortedMap<Identifier, IdentifiableVariableTerm>()
-				{
+		{
 			@Override
 			public boolean containsKey(Object key)
 			{
@@ -384,7 +384,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 				throw new UnsupportedOperationException();
 			}
 
-				};
+		};
 	}
 
 	/**
@@ -398,7 +398,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 		final SortedMap<Identifier, Statement> i2s = identifierToStatement();
 		final Map<Statement, Identifier> s2i = statementToIdentifier();
 		return new AbstractReadOnlyMap<IdentifiableVariableTerm, Identifier>()
-				{
+		{
 			@Override
 			public boolean containsKey(Object key)
 			{
@@ -451,7 +451,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 				return i2s.keySet();
 			}
 
-				};
+		};
 	}
 
 	/**

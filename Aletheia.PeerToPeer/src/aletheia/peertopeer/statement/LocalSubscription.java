@@ -51,7 +51,7 @@ public class LocalSubscription implements Subscription
 
 		SubscribeStatementsRootContextLocalSet subscribeStatementsRootContextLocalSet = persistenceManager.subscribeStatementsRootContextLocalSet(transaction);
 		return new BijectionCloseableSet<RootContextLocal, UUID>(new Bijection<RootContextLocal, UUID>()
-				{
+		{
 
 			@Override
 			public UUID forward(RootContextLocal rootContextLocal)
@@ -64,7 +64,7 @@ public class LocalSubscription implements Subscription
 			{
 				return persistenceManager.getRootContextLocal(transaction, uuid);
 			}
-				}, subscribeStatementsRootContextLocalSet);
+		}, subscribeStatementsRootContextLocalSet);
 	}
 
 	public class LocalSubContextSubscription implements SubContextSubscription
@@ -81,7 +81,7 @@ public class LocalSubscription implements Subscription
 		public CloseableSet<UUID> contextUuids()
 		{
 			return new BijectionCloseableSet<>(new Bijection<ContextLocal, UUID>()
-					{
+			{
 
 				@Override
 				public UUID forward(ContextLocal contextLocal)
@@ -94,14 +94,14 @@ public class LocalSubscription implements Subscription
 				{
 					return persistenceManager.getContextLocal(transaction, uuid);
 				}
-					}, contextLocal.subscribeStatementsContextLocalSet(transaction));
+			}, contextLocal.subscribeStatementsContextLocalSet(transaction));
 		}
 
 		@Override
 		public CloseableSet<UUID> proofUuids()
 		{
 			return new BijectionCloseableSet<>(new Bijection<StatementLocal, UUID>()
-					{
+			{
 
 				@Override
 				public UUID forward(StatementLocal statementLocal)
@@ -114,7 +114,7 @@ public class LocalSubscription implements Subscription
 				{
 					return persistenceManager.getStatementLocal(transaction, uuid);
 				}
-					}, contextLocal.subscribeProofStatementLocalSet(transaction));
+			}, contextLocal.subscribeProofStatementLocalSet(transaction));
 		}
 
 	}
@@ -123,7 +123,7 @@ public class LocalSubscription implements Subscription
 	public CloseableMap<UUID, LocalSubContextSubscription> subContextSubscriptions()
 	{
 		return new AbstractCloseableMap<UUID, LocalSubContextSubscription>()
-				{
+		{
 
 			@Override
 			public boolean containsKey(Object key)
@@ -152,13 +152,13 @@ public class LocalSubscription implements Subscription
 			public CloseableSet<Map.Entry<UUID, LocalSubContextSubscription>> entrySet()
 			{
 				return new BijectionCloseableSet<>(new Bijection<ContextLocal, Map.Entry<UUID, LocalSubContextSubscription>>()
-						{
+				{
 
 					@Override
 					public Map.Entry<UUID, LocalSubContextSubscription> forward(final ContextLocal contextLocal)
 					{
 						return new Map.Entry<UUID, LocalSubContextSubscription>()
-								{
+						{
 
 							@Override
 							public UUID getKey()
@@ -178,7 +178,7 @@ public class LocalSubscription implements Subscription
 								throw new UnsupportedOperationException();
 							}
 
-								};
+						};
 					}
 
 					@Override
@@ -186,10 +186,10 @@ public class LocalSubscription implements Subscription
 					{
 						return persistenceManager.getContextLocal(transaction, entry.getKey());
 					}
-						}, persistenceManager.statementLocalSetMap(transaction).keySet());
+				}, persistenceManager.statementLocalSetMap(transaction).keySet());
 
 			}
-				};
+		};
 	}
 
 }

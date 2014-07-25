@@ -61,7 +61,7 @@ public class CatalogTreeModel extends PersistentTreeModel
 		public Enumeration<RootCatalogTreeNode> children()
 		{
 			return new Enumeration<RootCatalogTreeNode>()
-					{
+			{
 
 				boolean hasNext = true;
 
@@ -80,7 +80,7 @@ public class CatalogTreeModel extends PersistentTreeModel
 						throw new NoSuchElementException();
 				}
 
-					};
+			};
 		}
 
 		@Override

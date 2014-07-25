@@ -40,7 +40,7 @@ public class StatementSubscriptionInitialDialog extends StatementSubscriptionDia
 	protected void dialogate() throws IOException, ProtocolException, InterruptedException
 	{
 		Collection<Context> contexts = new BijectionCollection<>(new Bijection<UUID, Context>()
-				{
+		{
 			@Override
 			public Context forward(UUID uuid)
 			{
@@ -52,7 +52,7 @@ public class StatementSubscriptionInitialDialog extends StatementSubscriptionDia
 			{
 				throw new UnsupportedOperationException();
 			}
-				}, getLocalSubscription().rootContextUuids());
+		}, getLocalSubscription().rootContextUuids());
 		dialogateStatementSubscriptions(contexts);
 	}
 }

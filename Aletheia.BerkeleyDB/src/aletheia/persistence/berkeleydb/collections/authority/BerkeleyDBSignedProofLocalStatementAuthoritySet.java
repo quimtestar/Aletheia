@@ -34,7 +34,7 @@ public class BerkeleyDBSignedProofLocalStatementAuthoritySet extends BerkeleyDBF
 {
 	private static SecondaryIndex<ContextFlagSecondaryKeyData, UUIDKey, BerkeleyDBStatementAuthorityEntity> secondaryIndex(
 			BerkeleyDBPersistenceManager persistenceManager)
-			{
+	{
 		try
 		{
 			return persistenceManager.getEntityStore().statementAuthorityEntityContextSignedProofSecondaryIndex();
@@ -43,7 +43,7 @@ public class BerkeleyDBSignedProofLocalStatementAuthoritySet extends BerkeleyDBF
 		{
 			throw persistenceManager.convertDatabaseException(e);
 		}
-			}
+	}
 
 	public BerkeleyDBSignedProofLocalStatementAuthoritySet(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction,
 			ContextAuthority contextAuthority)

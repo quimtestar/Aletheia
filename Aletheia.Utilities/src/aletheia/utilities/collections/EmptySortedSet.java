@@ -68,7 +68,7 @@ public class EmptySortedSet<E> extends AbstractReadOnlySortedSet<E> implements S
 	public Iterator<E> iterator()
 	{
 		return new Iterator<E>()
-				{
+		{
 
 			@Override
 			public boolean hasNext()
@@ -88,7 +88,7 @@ public class EmptySortedSet<E> extends AbstractReadOnlySortedSet<E> implements S
 				throw new UnsupportedOperationException();
 			}
 
-				};
+		};
 	}
 
 	@Override

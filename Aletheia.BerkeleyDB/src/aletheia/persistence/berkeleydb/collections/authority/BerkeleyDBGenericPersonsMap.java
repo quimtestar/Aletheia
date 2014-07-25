@@ -38,7 +38,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
 public class BerkeleyDBGenericPersonsMap<S extends Signatory, SE extends SignatoryEntity, P extends Person, PE extends PersonEntity> extends
-AbstractCloseableMap<S, P> implements GenericPersonsMap<S, P>
+		AbstractCloseableMap<S, P> implements GenericPersonsMap<S, P>
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final EntityIndex<UUIDKey, PE> entityIndex;
@@ -217,7 +217,7 @@ AbstractCloseableMap<S, P> implements GenericPersonsMap<S, P>
 		{
 			final EntityCursor<PE> cursor = transaction.entities(index, from, true, to, true);
 			return new CloseableIterator<Map.Entry<S, P>>()
-					{
+			{
 				PE next;
 				{
 					next = transaction.next(cursor);
@@ -263,7 +263,7 @@ AbstractCloseableMap<S, P> implements GenericPersonsMap<S, P>
 					close();
 					super.finalize();
 				}
-					};
+			};
 		}
 
 	}

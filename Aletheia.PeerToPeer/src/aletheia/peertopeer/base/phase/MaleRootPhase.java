@@ -57,7 +57,7 @@ public abstract class MaleRootPhase extends RootPhase
 	}
 
 	private SubRootPhaseDialogActive subRootPhaseDialogActive(SubRootPhaseType subRootPhaseType) throws IOException, ProtocolException, InterruptedException,
-	DialogStreamException
+			DialogStreamException
 	{
 		return dialog(SubRootPhaseDialogActive.class, this, subRootPhaseType);
 	}
@@ -74,7 +74,7 @@ public abstract class MaleRootPhase extends RootPhase
 
 	@Override
 	protected SalutationDialogMale salutationDialog(int localProtocolVersion) throws IOException, ProtocolException, InterruptedException,
-	DialogStreamException
+			DialogStreamException
 	{
 		return dialog(SalutationDialogMale.class, this, localProtocolVersion, getPeerToPeerConnection().getExpectedPeerNodeUuid());
 	}

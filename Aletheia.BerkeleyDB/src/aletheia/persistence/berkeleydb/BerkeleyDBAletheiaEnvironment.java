@@ -77,7 +77,7 @@ public class BerkeleyDBAletheiaEnvironment extends Environment
 		if (configuration.getCachePercent() > 0)
 			environmentConfig.setCachePercent(configuration.getCachePercent());
 		environmentConfig.setRecoveryProgressListener(new ProgressListener<RecoveryProgress>()
-				{
+		{
 			@Override
 			public boolean progress(RecoveryProgress phase, long n, long total)
 			{
@@ -95,7 +95,7 @@ public class BerkeleyDBAletheiaEnvironment extends Environment
 				}
 				return true;
 			}
-				});
+		});
 		return environmentConfig;
 	}
 
@@ -222,14 +222,14 @@ public class BerkeleyDBAletheiaEnvironment extends Environment
 	public Collection<String> storeDatabaseNames(final String storeName)
 	{
 		return new FilteredCollection<>(new Filter<String>()
-				{
+		{
 
 			@Override
 			public boolean filter(String dbName)
 			{
 				return databaseNameMatchesStore(storeName, dbName);
 			}
-				}, getDatabaseNames());
+		}, getDatabaseNames());
 	}
 
 	public void renameStore(String oldStoreName, String newStoreName)
@@ -279,13 +279,13 @@ public class BerkeleyDBAletheiaEnvironment extends Environment
 		{
 			for (String dbName : storeDatabaseNames(oldStoreName))
 				try
-			{
+				{
 					removeDatabase(tx, dbName);
-			}
-			catch (DatabaseNotFoundException e)
-			{
-				logger.error(e.getMessage(), e);
-			}
+				}
+				catch (DatabaseNotFoundException e)
+				{
+					logger.error(e.getMessage(), e);
+				}
 			tx.commit();
 		}
 		finally

@@ -41,7 +41,7 @@ import aletheia.utilities.collections.BijectionCollection;
 public class PersonResponseMessage extends AbstractUUIDPersistentInfoMessage<Person>
 {
 	private final static Bijection<Person, Entry<Person>> entryBijection = new Bijection<Person, Entry<Person>>()
-			{
+	{
 
 		@Override
 		public Entry<Person> forward(Person person)
@@ -54,54 +54,54 @@ public class PersonResponseMessage extends AbstractUUIDPersistentInfoMessage<Per
 		{
 			return entry.getValue();
 		}
-			};
+	};
 
-			public static PersonResponseMessage create(Collection<Person> persons)
-			{
-				return new PersonResponseMessage(new BijectionCollection<Person, Entry<Person>>(entryBijection, persons));
-			}
+	public static PersonResponseMessage create(Collection<Person> persons)
+	{
+		return new PersonResponseMessage(new BijectionCollection<Person, Entry<Person>>(entryBijection, persons));
+	}
 
-			private PersonResponseMessage(Collection<Entry<Person>> entries)
-			{
-				super(entries);
-			}
+	private PersonResponseMessage(Collection<Entry<Person>> entries)
+	{
+		super(entries);
+	}
 
-			@ProtocolInfo(availableVersions = 0)
-			public static class SubProtocol extends AbstractUUIDPersistentInfoMessage.SubProtocol<Person, PersonResponseMessage>
-			{
-				private final PersonProtocol personProtocol;
+	@ProtocolInfo(availableVersions = 0)
+	public static class SubProtocol extends AbstractUUIDPersistentInfoMessage.SubProtocol<Person, PersonResponseMessage>
+	{
+		private final PersonProtocol personProtocol;
 
-				public SubProtocol(int requiredVersion, PersistenceManager persistenceManager, Transaction transaction, MessageCode messageCode)
-				{
-					super(0, persistenceManager, transaction, messageCode);
-					checkVersionAvailability(SubProtocol.class, requiredVersion);
-					this.personProtocol = new PersonProtocol(0, persistenceManager, transaction);
-				}
+		public SubProtocol(int requiredVersion, PersistenceManager persistenceManager, Transaction transaction, MessageCode messageCode)
+		{
+			super(0, persistenceManager, transaction, messageCode);
+			checkVersionAvailability(SubProtocol.class, requiredVersion);
+			this.personProtocol = new PersonProtocol(0, persistenceManager, transaction);
+		}
 
-				@Override
-				protected void sendValue(UUID uuid, DataOutput out, Person person) throws IOException
-				{
-					personProtocol.send(out, person);
-				}
+		@Override
+		protected void sendValue(UUID uuid, DataOutput out, Person person) throws IOException
+		{
+			personProtocol.send(out, person);
+		}
 
-				@Override
-				protected Person recvValue(UUID uuid, DataInput in) throws IOException, ProtocolException
-				{
-					return personProtocol.recv(in);
-				}
+		@Override
+		protected Person recvValue(UUID uuid, DataInput in) throws IOException, ProtocolException
+		{
+			return personProtocol.recv(in);
+		}
 
-				@Override
-				protected void skipValue(DataInput in) throws IOException, ProtocolException
-				{
-					personProtocol.skip(in);
-				}
+		@Override
+		protected void skipValue(DataInput in) throws IOException, ProtocolException
+		{
+			personProtocol.skip(in);
+		}
 
-				@Override
-				public PersonResponseMessage recv(DataInput in) throws IOException, ProtocolException
-				{
-					return new PersonResponseMessage(recvEntries(in));
-				}
+		@Override
+		public PersonResponseMessage recv(DataInput in) throws IOException, ProtocolException
+		{
+			return new PersonResponseMessage(recvEntries(in));
+		}
 
-			}
+	}
 
 }

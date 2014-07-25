@@ -153,7 +153,7 @@ public class SecurityUtilities
 	}
 
 	public PublicKey decodePublicKey(String format, String algorithm, byte[] publicKeyEncoded) throws NoSuchAlgorithmException, InvalidKeySpecException,
-	NoSuchFormatException
+			NoSuchFormatException
 	{
 		EncodedKeySpec ekeyspec = instantiateEncodedKeySpec(format, publicKeyEncoded);
 		KeyFactory keyFactory = KeyFactory.getInstance(algorithm);
@@ -162,7 +162,7 @@ public class SecurityUtilities
 	}
 
 	public PrivateKey decodePrivateKey(String format, String algorithm, byte[] privateKeyEncoded) throws NoSuchAlgorithmException, InvalidKeySpecException,
-	NoSuchFormatException
+			NoSuchFormatException
 	{
 		EncodedKeySpec ekeyspec = instantiateEncodedKeySpec(format, privateKeyEncoded);
 		KeyFactory keyFactory = KeyFactory.getInstance(algorithm);

@@ -43,7 +43,7 @@ public class TrivialCloseableCollection<E> extends AbstractCloseableCollection<E
 	{
 		final Iterator<E> iterator = this.inner.iterator();
 		return new CloseableIterator<E>()
-				{
+		{
 
 			@Override
 			public boolean hasNext()
@@ -68,7 +68,7 @@ public class TrivialCloseableCollection<E> extends AbstractCloseableCollection<E
 			{
 			}
 
-				};
+		};
 	}
 
 	@Override

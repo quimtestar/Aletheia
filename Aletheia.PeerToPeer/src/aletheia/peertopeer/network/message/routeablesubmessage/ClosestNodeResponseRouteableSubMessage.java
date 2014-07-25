@@ -95,7 +95,7 @@ public class ClosestNodeResponseRouteableSubMessage extends ResponseRouteableSub
 
 		@Override
 		protected ClosestNodeResponseRouteableSubMessage recv(UUID origin, int sequence, UUID target, int sequenceResponse, DataInput in) throws IOException,
-		ProtocolException
+				ProtocolException
 		{
 			UUID node = uuidProtocol.recv(in);
 			InetSocketAddress address = nullableInetSocketAddressProtocol.recv(in);

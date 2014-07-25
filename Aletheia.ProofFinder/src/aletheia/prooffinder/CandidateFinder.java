@@ -324,7 +324,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 
 	private synchronized Set<ImpureCandidate> localImpureCandidatesFor(Context context, Candidate candidate, VariableTerm variable,
 			VariableTerm variableDependent)
-			{
+	{
 		ImpureCandidatesCacheMapKey key = new ImpureCandidatesCacheMapKey(context, candidate, variable, variableDependent);
 		Set<ImpureCandidate> impures = impureCandidatesCacheMap.get(key);
 		if (impures == null)
@@ -352,11 +352,11 @@ public class CandidateFinder implements StatementCacheTree.Listener
 			keySet.add(key);
 		}
 		return impures;
-			}
+	}
 
 	private Set<ImpureCandidate> virtualImpureCandidatesFor(List<VirtualStatement> virtualStatements, Candidate candidate, VariableTerm variable,
 			VariableTerm variableDependent)
-			{
+	{
 		Set<ImpureCandidate> impures = new HashSet<ImpureCandidate>();
 		Term type = candidate.getAntecedentMap().get(variableDependent);
 		Term target = type.consequent();
@@ -367,11 +367,11 @@ public class CandidateFinder implements StatementCacheTree.Listener
 				impures.add(new ImpureCandidate(candidate, variable, value));
 		}
 		return impures;
-			}
+	}
 
 	public Set<ImpureCandidate> impureCandidatesFor(Context context, List<VirtualStatement> virtualStatements, Candidate candidate, VariableTerm variable,
 			VariableTerm variableDependent)
-			{
+	{
 		Stack<Context> stack = new Stack<Context>();
 		Transaction transaction = persistenceManager.beginTransaction();
 		try
@@ -393,7 +393,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 		impureCandidates = new CombinedSet<ImpureCandidate>(virtualImpureCandidatesFor(virtualStatements, candidate, variable, variableDependent),
 				impureCandidates);
 		return impureCandidates;
-			}
+	}
 
 	public Set<ImpureCandidate> impureCandidatesFor(Context context, List<VirtualStatement> virtualStatements, Candidate candidate, VariableTerm variable)
 	{

@@ -38,7 +38,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
 public abstract class BerkeleyDBGenericSignatureRequestCollection<S extends SignatureRequest, K, E extends BerkeleyDBSignatureRequestEntity> extends
-AbstractCloseableCollection<S> implements GenericSignatureRequestCollection<S>
+		AbstractCloseableCollection<S> implements GenericSignatureRequestCollection<S>
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final EntityIndex<K, E> index;
@@ -116,7 +116,7 @@ AbstractCloseableCollection<S> implements GenericSignatureRequestCollection<S>
 	{
 		final EntityCursor<E> cursor = transaction.entities(index, fromKey, fromInclusive, toKey, toInclusive);
 		return new CloseableIterator<S>()
-				{
+		{
 			private E next;
 			{
 				next = transaction.first(cursor);
@@ -161,7 +161,7 @@ AbstractCloseableCollection<S> implements GenericSignatureRequestCollection<S>
 				super.finalize();
 			}
 
-				};
+		};
 	}
 
 	@Override

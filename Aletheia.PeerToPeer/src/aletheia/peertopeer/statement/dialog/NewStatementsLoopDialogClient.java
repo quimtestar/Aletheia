@@ -57,12 +57,12 @@ public class NewStatementsLoopDialogClient extends NewStatementsLoopDialog
 		List<SubscriptionContextsMessage.Entry> entries = new ArrayList<SubscriptionContextsMessage.Entry>();
 		for (StatementAuthority statementAuthority : statementAuthorities)
 			try
-		{
+			{
 				entries.add(new SubscriptionContextsMessage.Entry(new StatementAuthoritySubMessage(getTransaction(), statementAuthority)));
-		}
-		catch (NoValidSignature e)
-		{
-		}
+			}
+			catch (NoValidSignature e)
+			{
+			}
 		sendMessage(new SubscriptionContextsMessage(entries));
 	}
 

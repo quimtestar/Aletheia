@@ -124,7 +124,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 			return new EmptyCloseableCollection<>();
 		return new FilteredCloseableIterable<Class<? extends Command>>(new NotNullFilter<Class<? extends Command>>(),
 				new BijectionCloseableIterable<String, Class<? extends Command>>(new Bijection<String, Class<? extends Command>>()
-						{
+				{
 
 					@SuppressWarnings("unchecked")
 					@Override
@@ -150,7 +150,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 					{
 						throw new UnsupportedOperationException();
 					}
-						}, new StreamAsStringIterable(stream)));
+				}, new StreamAsStringIterable(stream)));
 	}
 
 	private static final String staticTaggedCommandsResourceName = "aletheia/gui/cli/command/staticTaggedCommands.txt";
@@ -185,7 +185,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 						try
 						{
 							commandResourceList.add(new CommandResource(new URLClassLoader(new URL[]
-									{ new URL(a[0].trim()) }), a[1].trim()));
+							{ new URL(a[0].trim()) }), a[1].trim()));
 						}
 						catch (Exception e)
 						{
@@ -198,7 +198,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 			}
 		}
 		return new UnionCloseableIterable<>(new BijectionCloseableCollection<>(new Bijection<CommandResource, CloseableIterable<Class<? extends Command>>>()
-				{
+		{
 
 			@Override
 			public CloseableIterable<Class<? extends Command>> forward(CommandResource commandResource)
@@ -211,7 +211,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 			{
 				throw new UnsupportedOperationException();
 			}
-				}, new TrivialCloseableCollection<>(commandResourceList)));
+		}, new TrivialCloseableCollection<>(commandResourceList)));
 	}
 
 	private final RootCommandGroup rootCommandGroup;
@@ -260,7 +260,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 		}
 		this.dynamicTaggedFactoryEntries = new HashMap<String, DynamicTaggedFactoryEntry>();
 		this.dynamicTaggedFactories = new BijectionMap<>(new Bijection<DynamicTaggedFactoryEntry, DynamicCommand.Factory<? extends DynamicCommand>>()
-				{
+		{
 
 			@Override
 			public DynamicCommand.Factory<? extends DynamicCommand> forward(DynamicTaggedFactoryEntry input)
@@ -273,7 +273,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 			{
 				throw new UnsupportedOperationException();
 			}
-				}, dynamicTaggedFactoryEntries);
+		}, dynamicTaggedFactoryEntries);
 
 		this.taggedFactories = new CombinedMap<String, AbstractVoidCommandFactory<? extends Command>>(
 				new AdaptedMap<String, AbstractVoidCommandFactory<? extends Command>>(dynamicTaggedFactories), staticTaggedFactories);
@@ -347,7 +347,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 
 	private synchronized void putDynamicCommandFactoryClass(String tag, String groupPath,
 			Class<? extends DynamicCommand.Factory<? extends DynamicCommand>> commandFactoryClass, URLClassLoader urlClassLoader,
-					Class<? extends DynamicCommand> commandClass) throws PutCommandException
+			Class<? extends DynamicCommand> commandClass) throws PutCommandException
 	{
 		try
 		{
@@ -401,7 +401,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 	public void putDynamicCommandClass(URL url, String className) throws PutCommandException
 	{
 		URLClassLoader urlClassLoader = new URLClassLoader(new URL[]
-				{ url }, ClassLoader.getSystemClassLoader());
+		{ url }, ClassLoader.getSystemClassLoader());
 		try
 		{
 			putDynamicCommandClass(urlClassLoader, className);
@@ -424,13 +424,13 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 		DynamicTaggedFactoryEntry factoryEntry = dynamicTaggedFactoryEntries.remove(tag);
 		if (factoryEntry != null)
 			try
-		{
+			{
 				factoryEntry.urlClassLoader.close();
 				factoryEntry.commandGroup.removeFactory(tag);
-		}
-		catch (IOException e)
-		{
-		}
+			}
+			catch (IOException e)
+			{
+			}
 		return factoryEntry != null;
 	}
 

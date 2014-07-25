@@ -116,7 +116,7 @@ public abstract class NewStatement extends TransactionalCommand
 					Constructor<? extends AbstractCommandFactory<? extends Command, ?>> constructor = tc.factory().getConstructor();
 					@SuppressWarnings("unchecked")
 					AbstractNewStatementFactory<? extends NewStatement> factory = (AbstractNewStatementFactory<? extends NewStatement>) constructor
-					.newInstance();
+							.newInstance();
 					if (taggedFactories.put(tc.tag(), factory) != null)
 						throw new Error();
 					rootCommandGroup.resolveOrCreatePath(tc.groupPath()).putFactory(tc.tag(), factory);

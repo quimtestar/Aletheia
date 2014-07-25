@@ -37,7 +37,7 @@ import com.sleepycat.persist.EntityIndex;
 import com.sleepycat.persist.PrimaryIndex;
 
 public abstract class BerkeleyDBGenericDelegateTreeNodeSet<N extends DelegateTreeNode, E extends BerkeleyDBDelegateTreeNodeEntity> extends
-AbstractCloseableSet<N> implements GenericDelegateTreeNodeSet<N>
+		AbstractCloseableSet<N> implements GenericDelegateTreeNodeSet<N>
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -96,7 +96,7 @@ AbstractCloseableSet<N> implements GenericDelegateTreeNodeSet<N>
 	{
 		final EntityCursor<E> cursor = transaction.entities(index());
 		return new CloseableIterator<N>()
-				{
+		{
 			private E next;
 			{
 				next = transaction.first(cursor);
@@ -141,7 +141,7 @@ AbstractCloseableSet<N> implements GenericDelegateTreeNodeSet<N>
 				super.finalize();
 			}
 
-				};
+		};
 	}
 
 	@Override

@@ -57,7 +57,7 @@ public class DeferredMessageResponseMessage extends AbstractUUIDPersistentInfoMe
 	public static DeferredMessageResponseMessage create(Collection<DeferredMessage> deferredMessages)
 	{
 		return new DeferredMessageResponseMessage(new BijectionCollection<DeferredMessage, Entry>(new Bijection<DeferredMessage, Entry>()
-				{
+		{
 
 			@Override
 			public Entry forward(DeferredMessage deferredMessage)
@@ -70,7 +70,7 @@ public class DeferredMessageResponseMessage extends AbstractUUIDPersistentInfoMe
 			{
 				return entry.getValue();
 			}
-				}, deferredMessages));
+		}, deferredMessages));
 	}
 
 	@ProtocolInfo(availableVersions = 0)

@@ -31,7 +31,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBStatementAuthoritySignatureSetByAuthorizer extends BerkeleyDBAbstractStatementAuthoritySignatureSet<UUIDKey> implements
-StatementAuthoritySignatureSetByAuthorizer
+		StatementAuthoritySignatureSetByAuthorizer
 {
 	private final Signatory authorizer;
 

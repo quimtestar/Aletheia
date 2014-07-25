@@ -65,7 +65,7 @@ public class PrivateSignatoryBackupRestore
 		protected Collection<PrivateSignatory> makeCollection(int n)
 		{
 			return new EmptyIgnoringCollection<PrivateSignatory>()
-					{
+			{
 
 				@Override
 				public boolean add(PrivateSignatory s)
@@ -86,7 +86,7 @@ public class PrivateSignatoryBackupRestore
 					return super.add(s);
 				}
 
-					};
+			};
 		}
 
 	}

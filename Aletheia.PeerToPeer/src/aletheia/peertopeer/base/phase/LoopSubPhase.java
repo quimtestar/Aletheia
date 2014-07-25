@@ -200,7 +200,7 @@ public abstract class LoopSubPhase<T extends LoopDialogType<?>> extends SubPhase
 	}
 
 	protected <C extends Command<C>> Command<C>.Result commandResult(Command<C> command, ListenableAborter aborter) throws InterruptedException,
-	CancelledCommandException, AbortException
+			CancelledCommandException, AbortException
 	{
 		Command<C> c = command(command);
 		Command<C>.Result r = c.waitForResult(aborter);
@@ -265,7 +265,7 @@ public abstract class LoopSubPhase<T extends LoopDialogType<?>> extends SubPhase
 	}
 
 	private LoopDialogTypeDialogActive<?> loopDialogTypeDialogActive(T loopDialogType) throws IOException, ProtocolException, InterruptedException,
-	DialogStreamException
+			DialogStreamException
 	{
 		return dialog(loopDialogTypeDialogActiveClass, this, loopDialogType);
 	}
@@ -366,13 +366,13 @@ public abstract class LoopSubPhase<T extends LoopDialogType<?>> extends SubPhase
 		super.shutdown(fast);
 		if (fast)
 			try
-		{
+			{
 				close();
-		}
-		catch (IOException e)
-		{
-			logger.error("fast shutdown", e);
-		}
+			}
+			catch (IOException e)
+			{
+				logger.error("fast shutdown", e);
+			}
 		else
 			command(makeValedictionCommand());
 	}

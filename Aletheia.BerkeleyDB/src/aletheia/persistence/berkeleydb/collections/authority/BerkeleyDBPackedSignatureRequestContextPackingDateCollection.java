@@ -33,11 +33,11 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBPackedSignatureRequestContextPackingDateCollection extends
-BerkeleyDBPackedSignatureRequestCollection<ContextPackingDateSecondaryKeyData> implements PackedSignatureRequestContextPackingDateCollection
+		BerkeleyDBPackedSignatureRequestCollection<ContextPackingDateSecondaryKeyData> implements PackedSignatureRequestContextPackingDateCollection
 {
 	private static SecondaryIndex<ContextPackingDateSecondaryKeyData, UUIDKey, BerkeleyDBPackedSignatureRequestEntity> index(
 			BerkeleyDBPersistenceManager persistenceManager)
-			{
+	{
 		try
 		{
 			return persistenceManager.getEntityStore().packedSignatureRequestEntityContextPackingDateSecondaryIndex();
@@ -47,7 +47,7 @@ BerkeleyDBPackedSignatureRequestCollection<ContextPackingDateSecondaryKeyData> i
 		{
 			throw persistenceManager.convertDatabaseException(e);
 		}
-			}
+	}
 
 	private final UUID contextUuid;
 

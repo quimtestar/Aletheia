@@ -39,7 +39,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBRootContextAuthorityBySignatureUuid extends AbstractCloseableMap<UUID, RootContextAuthority> implements
-RootContextAuthorityBySignatureUuid
+		RootContextAuthorityBySignatureUuid
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -164,7 +164,7 @@ RootContextAuthorityBySignatureUuid
 		{
 			final EntityCursor<BerkeleyDBRootContextAuthorityEntity> cursor = transaction.entities(index);
 			return new CloseableIterator<Entry<UUID, RootContextAuthority>>()
-					{
+			{
 				BerkeleyDBRootContextAuthorityEntity next;
 				{
 					next = transaction.next(cursor);
@@ -209,7 +209,7 @@ RootContextAuthorityBySignatureUuid
 					close();
 					super.finalize();
 				}
-					};
+			};
 		}
 
 		@Override

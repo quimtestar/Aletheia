@@ -109,7 +109,7 @@ public class FilteredCloseableMap<K, V> extends FilteredMap<K, V> implements Clo
 	public CloseableSet<K> keySet()
 	{
 		return new CloseableSet<K>()
-				{
+		{
 
 			@Override
 			public int size()
@@ -134,7 +134,7 @@ public class FilteredCloseableMap<K, V> extends FilteredMap<K, V> implements Clo
 			{
 				final CloseableIterator<Entry<K, V>> iterator = entrySet().iterator();
 				return new CloseableIterator<K>()
-						{
+				{
 
 					@Override
 					public boolean hasNext()
@@ -160,7 +160,7 @@ public class FilteredCloseableMap<K, V> extends FilteredMap<K, V> implements Clo
 						iterator.close();
 					}
 
-						};
+				};
 			}
 
 			@Override
@@ -243,14 +243,14 @@ public class FilteredCloseableMap<K, V> extends FilteredMap<K, V> implements Clo
 				FilteredCloseableMap.this.clear();
 			}
 
-				};
+		};
 	}
 
 	@Override
 	public CloseableCollection<V> values()
 	{
 		return new CloseableCollection<V>()
-				{
+		{
 			@Override
 			public int size()
 			{
@@ -274,7 +274,7 @@ public class FilteredCloseableMap<K, V> extends FilteredMap<K, V> implements Clo
 			{
 				final CloseableIterator<Entry<K, V>> iterator = entrySet().iterator();
 				return new CloseableIterator<V>()
-						{
+				{
 
 					@Override
 					public boolean hasNext()
@@ -300,7 +300,7 @@ public class FilteredCloseableMap<K, V> extends FilteredMap<K, V> implements Clo
 						iterator.close();
 					}
 
-						};
+				};
 			}
 
 			@Override
@@ -407,7 +407,7 @@ public class FilteredCloseableMap<K, V> extends FilteredMap<K, V> implements Clo
 				FilteredCloseableMap.this.clear();
 			}
 
-				};
+		};
 
 	}
 

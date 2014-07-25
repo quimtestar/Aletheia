@@ -111,9 +111,9 @@ public enum RouteableSubMessageCode implements ShortExportableEnum<RouteableSubM
 	}
 
 	public Class<? extends RouteableSubMessageSubProtocol<? extends RouteableSubMessage>> getSubProtocolClazz()
-			{
+	{
 		return subProtocolClazz;
-			}
+	}
 
 	public int getSubProtocolVersion(int version)
 	{

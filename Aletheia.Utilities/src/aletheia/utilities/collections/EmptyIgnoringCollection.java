@@ -57,7 +57,7 @@ public class EmptyIgnoringCollection<E> extends AbstractCollection<E>
 	public Iterator<E> iterator()
 	{
 		return new Iterator<E>()
-				{
+		{
 
 			@Override
 			public boolean hasNext()
@@ -76,7 +76,7 @@ public class EmptyIgnoringCollection<E> extends AbstractCollection<E>
 			{
 			}
 
-				};
+		};
 	}
 
 	@Override

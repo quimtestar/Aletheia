@@ -32,7 +32,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBDelegateAuthorizerByAuthorizerMap extends BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<UUIDKey> implements
-DelegateAuthorizerByAuthorizerMap
+		DelegateAuthorizerByAuthorizerMap
 {
 
 	private static SecondaryIndex<UUIDKey, PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> makeIndex(BerkeleyDBPersistenceManager persistenceManager)

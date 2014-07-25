@@ -36,7 +36,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
 public class BerkeleyDBSubscribeProofStatementLocalSetMap extends AbstractCloseableMap<ContextLocal, SubscribeProofStatementLocalSet> implements
-SubscribeProofStatementLocalSetMap
+		SubscribeProofStatementLocalSetMap
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -90,14 +90,14 @@ SubscribeProofStatementLocalSetMap
 	public CloseableSet<Entry<ContextLocal, SubscribeProofStatementLocalSet>> entrySet()
 	{
 		return new AbstractCloseableSet<Entry<ContextLocal, SubscribeProofStatementLocalSet>>()
-				{
+		{
 
 			@Override
 			public CloseableIterator<Entry<ContextLocal, SubscribeProofStatementLocalSet>> iterator()
 			{
 				final EntityCursor<BerkeleyDBStatementLocalEntity> cursor = transaction.entities(index);
 				return new CloseableIterator<Entry<ContextLocal, SubscribeProofStatementLocalSet>>()
-						{
+				{
 					private BerkeleyDBStatementLocalEntity next;
 					{
 						next = transaction.first(cursor);
@@ -121,7 +121,7 @@ SubscribeProofStatementLocalSetMap
 						final ContextLocal contextLocal = (ContextLocal) persistenceManager.getStatementLocal(transaction, entity.getContextUuid());
 						final SubscribeProofStatementLocalSet subscribeProofStatementLocalSet = contextLocal.subscribeProofStatementLocalSet(transaction);
 						return new Entry<ContextLocal, SubscribeProofStatementLocalSet>()
-								{
+						{
 
 							@Override
 							public ContextLocal getKey()
@@ -141,7 +141,7 @@ SubscribeProofStatementLocalSetMap
 								throw new UnsupportedOperationException();
 							}
 
-								};
+						};
 					}
 
 					@Override
@@ -156,7 +156,7 @@ SubscribeProofStatementLocalSetMap
 						transaction.close(cursor);
 					}
 
-						};
+				};
 			}
 
 			@Override
@@ -171,7 +171,7 @@ SubscribeProofStatementLocalSetMap
 				return BerkeleyDBSubscribeProofStatementLocalSetMap.this.isEmpty();
 			}
 
-				};
+		};
 
 	}
 

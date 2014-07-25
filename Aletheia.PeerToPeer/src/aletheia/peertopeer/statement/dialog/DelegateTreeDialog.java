@@ -52,7 +52,7 @@ public abstract class DelegateTreeDialog extends StatementDialog
 	}
 
 	protected DelegateTreeInfoMessage dialogateDelegateTreeInfoSend(Collection<DelegateTreeRootNode> delegateTreeRootNodes) throws IOException,
-	InterruptedException
+			InterruptedException
 	{
 		Collection<DelegateTreeInfoMessage.Entry> entries = new ArrayList<DelegateTreeInfoMessage.Entry>();
 		for (DelegateTreeRootNode delegateTreeRootNode : delegateTreeRootNodes)
@@ -72,7 +72,7 @@ public abstract class DelegateTreeDialog extends StatementDialog
 	}
 
 	protected void dialogateDelegateTreeSuccessorDependencyRequestSend(DelegateTreeInfoMessage delegateTreeInfoMessage) throws InterruptedException,
-	IOException
+			IOException
 	{
 		Collection<UUID> successorUuids = delegateTreeInfoMessage.successorUuidDependencies(getPersistenceManager(), getTransaction());
 		sendMessage(new DelegateTreeSuccessorDependencyRequestMessage(successorUuids));
@@ -131,7 +131,7 @@ public abstract class DelegateTreeDialog extends StatementDialog
 	}
 
 	protected void dialogateDelegateAuthorizerResponseSend(DelegateAuthorizerRequestMessage delegateAuthorizerRequestMessage) throws IOException,
-	InterruptedException
+			InterruptedException
 	{
 		sendMessage(new DelegateAuthorizerResponseMessage(getPersistenceManager(), getTransaction(), delegateAuthorizerRequestMessage));
 	}

@@ -290,7 +290,7 @@ public class BerkeleyDBPackedSignatureRequestEntity extends BerkeleyDBSignatureR
 	public Set<UUID> getDependencyUuids()
 	{
 		return new BijectionSet<UUIDKey, UUID>(new Bijection<UUIDKey, UUID>()
-				{
+		{
 
 			@Override
 			public UUID forward(UUIDKey input)
@@ -303,7 +303,7 @@ public class BerkeleyDBPackedSignatureRequestEntity extends BerkeleyDBSignatureR
 			{
 				return new UUIDKey(output);
 			}
-				}, getDependencyUuidKeys());
+		}, getDependencyUuidKeys());
 	}
 
 	@Override

@@ -58,7 +58,7 @@ public class DummyMapSet<E> implements Set<E>
 		public Set<Entry<E, Dummy>> entrySet()
 		{
 			return new BijectionSet<E, Entry<E, Dummy>>(new Bijection<E, Entry<E, Dummy>>()
-					{
+			{
 
 				@Override
 				public Entry<E, Dummy> forward(E input)
@@ -71,7 +71,7 @@ public class DummyMapSet<E> implements Set<E>
 				{
 					return output.getKey();
 				}
-					}, set);
+			}, set);
 		}
 
 	}

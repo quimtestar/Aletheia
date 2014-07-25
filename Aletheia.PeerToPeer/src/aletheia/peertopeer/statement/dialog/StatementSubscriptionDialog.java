@@ -109,13 +109,13 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 			StatementAuthority statementAuthority = ctx.getAuthority(getTransaction());
 			if ((statementAuthority != null) && statementAuthority.isValidSignature())
 				try
-			{
+				{
 					entries.add(new SubscriptionContextsMessage.Entry(new StatementAuthoritySubMessage(getTransaction(), statementAuthority)));
-			}
-			catch (NoValidSignature e)
-			{
-				entries.add(new SubscriptionContextsMessage.Entry(ctx.getUuid()));
-			}
+				}
+				catch (NoValidSignature e)
+				{
+					entries.add(new SubscriptionContextsMessage.Entry(ctx.getUuid()));
+				}
 			else
 				entries.add(new SubscriptionContextsMessage.Entry(ctx.getUuid()));
 		}
@@ -130,7 +130,7 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 	}
 
 	private Map<UUID, StatementAuthoritySubMessage> dialogateSubscriptionContexts(Collection<Context> contexts) throws IOException, ProtocolException,
-	InterruptedException
+			InterruptedException
 	{
 		SubscriptionContextsMessage sended = dialogateSubscriptionContextsSend(contexts);
 		SubscriptionContextsMessage received = dialogateSubscriptionContextsRecv();
@@ -156,9 +156,9 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 
 	private Collection<StatementAuthoritySubMessage> filterRequestableStatementAuthoritySubMessages(
 			Collection<StatementAuthoritySubMessage> statementAuthoritySubMessages)
-			{
+	{
 		return new BufferedList<>(new FilteredCollection<StatementAuthoritySubMessage>(new Filter<StatementAuthoritySubMessage>()
-				{
+		{
 
 			@Override
 			public boolean filter(StatementAuthoritySubMessage statementAuthoritySubMessage)
@@ -210,11 +210,11 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 				}
 				return false;
 			}
-				}, statementAuthoritySubMessages));
-			}
+		}, statementAuthoritySubMessages));
+	}
 
 	private StatementRequestMessage dialogateStatementRequest(Collection<StatementAuthoritySubMessage> statementAuthoritySubMessages) throws IOException,
-	ProtocolException, InterruptedException
+			ProtocolException, InterruptedException
 	{
 		Collection<UUID> statementRequestUuids = new BijectionCollection<StatementAuthoritySubMessage, UUID>(
 				new Bijection<StatementAuthoritySubMessage, UUID>()
@@ -240,7 +240,7 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 	}
 
 	private PersonRequestMessage dialogatePersonRequest(Collection<StatementAuthoritySubMessage> statementAuthoritySubMessages) throws IOException,
-	ProtocolException, InterruptedException
+			ProtocolException, InterruptedException
 	{
 		Collection<UUID> personRequestUuids = new UnionCollection<UUID>(new BijectionCollection<StatementAuthoritySubMessage, Collection<UUID>>(
 				new Bijection<StatementAuthoritySubMessage, Collection<UUID>>()
@@ -250,14 +250,14 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 					public Collection<UUID> forward(StatementAuthoritySubMessage statementAuthoritySubMessage)
 					{
 						return new FilteredCollection<UUID>(new Filter<UUID>()
-								{
+						{
 
 							@Override
 							public boolean filter(UUID personUuid)
 							{
 								return getPersistenceManager().getPerson(getTransaction(), personUuid) == null;
 							}
-								}, statementAuthoritySubMessage.getPersonDependencies());
+						}, statementAuthoritySubMessage.getPersonDependencies());
 					}
 
 					@Override
@@ -274,7 +274,7 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 	}
 
 	private PersonResponseMessage dialogatePersonResponse(PersonRequestMessage personRequestMessage) throws IOException, ProtocolException,
-	InterruptedException
+			InterruptedException
 	{
 		Collection<Person> persons = new FilteredCollection<Person>(new NotNullFilter<Person>(), new BijectionCollection<UUID, Person>(
 				new Bijection<UUID, Person>()
@@ -298,7 +298,7 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 	}
 
 	private StatementResponseMessage dialogateStatementResponse(StatementRequestMessage statementRequestMessage) throws IOException, InterruptedException,
-	ProtocolException
+			ProtocolException
 	{
 		Collection<Statement> statements = responseStatementListDependencySorted(getTransaction(), statementRequestMessage.getUuids());
 		extendRemainingTime((long) (statementExtendTime * 1000 * statements.size()));
@@ -308,7 +308,7 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 
 	private Collection<UUID> dialogateSubscriptionSubContextMessage(List<SubscriptionSubContextsMessage.Entry> subscriptionSubContextsEntryList)
 			throws IOException, ProtocolException, InterruptedException
-			{
+	{
 		SubscriptionSubContextsMessage sended = new SubscriptionSubContextsMessage(subscriptionSubContextsEntryList);
 		sendMessage(sended);
 		SubscriptionSubContextsMessage received = recvMessage(SubscriptionSubContextsMessage.class);
@@ -329,7 +329,7 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 		}
 		extendRemainingTime((long) (1000 * contextExtendTime * uuids.size()));
 		return Collections.unmodifiableCollection(uuids);
-			}
+	}
 
 	private boolean processContexts(Collection<Context> contexts, List<ContextStatementSignaturesResponseMessage.Entry> contextStatementSignaturesEntryList,
 			List<SubscriptionSubContextsMessage.Entry> subscriptionSubContextsEntryList) throws InterruptedException
@@ -346,12 +346,12 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 			{
 				for (StatementAuthority statementAuthority : ctxAuth.signedDependenciesLocalAuthoritiesSet(getTransaction()))
 					try
-				{
+					{
 						statementMessageDataSet.add(new StatementAuthoritySubMessage(getTransaction(), statementAuthority));
-				}
-				catch (NoValidSignature e)
-				{
-				}
+					}
+					catch (NoValidSignature e)
+					{
+					}
 			}
 			contextStatementSignaturesEntryList.add(new ContextStatementSignaturesResponseMessage.Entry(ctx.getUuid(), statementMessageDataSet));
 			Set<UUID> contextUuids = new HashSet<UUID>();
@@ -412,7 +412,7 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 	}
 
 	private DelegateAuthorizerRequestMessage dialogateDelegateAuthorizerRequest(DelegateTreeInfoMessage delegateTreeInfoMessage) throws IOException,
-	InterruptedException, ProtocolException
+			InterruptedException, ProtocolException
 	{
 		sendMessage(new DelegateAuthorizerRequestMessage(getPersistenceManager(), getTransaction(), delegateTreeInfoMessage));
 		return recvMessage(DelegateAuthorizerRequestMessage.class);

@@ -473,7 +473,7 @@ public class EphemeralPhase extends SubRootPhase
 
 		@Override
 		protected boolean serverPhase(LoopEphemeralDialogType loopDialogType) throws IOException, ProtocolException, InterruptedException,
-		DialogStreamException
+				DialogStreamException
 		{
 			switch (loopDialogType)
 			{
@@ -505,7 +505,7 @@ public class EphemeralPhase extends SubRootPhase
 
 		@Override
 		protected boolean clientPhase(LoopSubPhase<LoopEphemeralDialogType>.Command<?> command) throws IOException, ProtocolException, InterruptedException,
-		DialogStreamException
+				DialogStreamException
 		{
 			switch (command.getLoopDialogType())
 			{
@@ -555,7 +555,7 @@ public class EphemeralPhase extends SubRootPhase
 		}
 
 		protected <C extends Command<C>> Command<C>.Result commandResult(Command<C> command, ListenableAborter aborter) throws InterruptedException,
-		CancelledCommandException, AbortException
+				CancelledCommandException, AbortException
 		{
 			return super.commandResult(command, aborter);
 		}
@@ -624,7 +624,7 @@ public class EphemeralPhase extends SubRootPhase
 		}
 
 		public Map<UUID, RootContext> obtainRootContexts(Collection<UUID> uuids, ListenableAborter aborter) throws InterruptedException,
-		CancelledCommandException, AbortException
+				CancelledCommandException, AbortException
 		{
 			return ((ObtainRootContextsCommand.Result) commandResult(new ObtainRootContextsCommand(uuids), aborter)).getRootContexts();
 		}
@@ -650,13 +650,13 @@ public class EphemeralPhase extends SubRootPhase
 		}
 
 		public boolean sendSignatureRequest(SignatureRequest signatureRequest, ListenableAborter aborter) throws InterruptedException,
-		CancelledCommandException, AbortException
+				CancelledCommandException, AbortException
 		{
 			return ((SendSignatureRequestCommand.Result) commandResult(new SendSignatureRequestCommand(signatureRequest), aborter)).isReceived();
 		}
 
 		public NodeAddress sendDeferredMessage(UUID recipientUuid, DeferredMessageContent content, ListenableAborter aborter) throws InterruptedException,
-		CancelledCommandException, AbortException
+				CancelledCommandException, AbortException
 		{
 			return ((SendDeferredMessageCommand.Result) commandResult(new SendDeferredMessageCommand(recipientUuid, content), aborter)).getRedirectAddress();
 		}
@@ -682,7 +682,7 @@ public class EphemeralPhase extends SubRootPhase
 		}
 
 		private void obtainRootContextsDialogClient(ObtainRootContextsCommand command) throws IOException, ProtocolException, InterruptedException,
-		DialogStreamException
+				DialogStreamException
 		{
 			try
 			{
@@ -702,7 +702,7 @@ public class EphemeralPhase extends SubRootPhase
 		}
 
 		private void transmitRootContextsDialogClient(TransmitRootContextsCommand command) throws IOException, ProtocolException, InterruptedException,
-		DialogStreamException
+				DialogStreamException
 		{
 			dialog(TransmitRootContextsDialogClient.class, this, command.getUuids());
 		}
@@ -713,7 +713,7 @@ public class EphemeralPhase extends SubRootPhase
 		}
 
 		private void sendSignatureRequestDialogClient(SendSignatureRequestCommand command) throws IOException, ProtocolException, InterruptedException,
-		DialogStreamException
+				DialogStreamException
 		{
 			try
 			{
@@ -733,7 +733,7 @@ public class EphemeralPhase extends SubRootPhase
 		}
 
 		private void sendDeferredMessageDialogClient(SendDeferredMessageCommand command) throws IOException, ProtocolException, InterruptedException,
-		DialogStreamException
+				DialogStreamException
 		{
 			try
 			{
@@ -754,7 +754,7 @@ public class EphemeralPhase extends SubRootPhase
 		}
 
 		private void transmitDeferredMessagesDialogClient(TransmitDeferredMessagesCommand command) throws IOException, ProtocolException, InterruptedException,
-		DialogStreamException
+				DialogStreamException
 		{
 			try
 			{
@@ -819,7 +819,7 @@ public class EphemeralPhase extends SubRootPhase
 	}
 
 	public Map<UUID, RootContext> obtainRootContexts(Collection<UUID> uuids, ListenableAborter aborter) throws InterruptedException, CancelledCommandException,
-	AbortException
+			AbortException
 	{
 		return loopEphemeralSubPhase.obtainRootContexts(uuids, aborter);
 	}
@@ -845,13 +845,13 @@ public class EphemeralPhase extends SubRootPhase
 	}
 
 	public boolean sendSignatureRequest(SignatureRequest signatureRequest, ListenableAborter aborter) throws InterruptedException, CancelledCommandException,
-	AbortException
+			AbortException
 	{
 		return loopEphemeralSubPhase.sendSignatureRequest(signatureRequest, aborter);
 	}
 
 	public NodeAddress sendDeferredMessage(UUID recipientUuid, DeferredMessageContent content, ListenableAborter aborter) throws InterruptedException,
-	CancelledCommandException, AbortException
+			CancelledCommandException, AbortException
 	{
 		return loopEphemeralSubPhase.sendDeferredMessage(recipientUuid, content, aborter);
 	}

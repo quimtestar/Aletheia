@@ -115,7 +115,7 @@ public class DeleteDelegateAuthorizer extends TransactionalCommand
 					throw new CommandParseException("Not a delegate on that prefix");
 				CloseableIterator<DelegateAuthorizer> iterator = new FilteredCloseableCollection<DelegateAuthorizer>(new NotNullFilter<DelegateAuthorizer>(),
 						new BijectionCloseableCollection<Person, DelegateAuthorizer>(new Bijection<Person, DelegateAuthorizer>()
-								{
+						{
 
 							@Override
 							public DelegateAuthorizer forward(Person delegate)
@@ -128,7 +128,7 @@ public class DeleteDelegateAuthorizer extends TransactionalCommand
 							{
 								throw new UnsupportedOperationException();
 							}
-								}, specToPersons(cliJPanel.getPersistenceManager(), transaction, split.get(0)))).iterator();
+						}, specToPersons(cliJPanel.getPersistenceManager(), transaction, split.get(0)))).iterator();
 				try
 				{
 					if (!iterator.hasNext())

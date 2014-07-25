@@ -261,9 +261,9 @@ public enum MessageCode implements ShortExportableEnum<MessageCode>
 	}
 
 	public Class<? extends MessageSubProtocol<? extends Message>> getSubProtocolClazz()
-			{
+	{
 		return subProtocolClazz;
-			}
+	}
 
 	public int getSubProtocolVersion(int version)
 	{

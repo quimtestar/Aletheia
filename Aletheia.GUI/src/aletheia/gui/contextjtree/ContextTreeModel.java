@@ -359,7 +359,7 @@ public class ContextTreeModel extends PersistentTreeModel
 	}
 
 	private class StatementListener implements Statement.StateListener, Nomenclator.Listener, RootContext.TopStateListener, ContextLocal.StateListener,
-	RootContextLocal.StateListener, StatementAuthority.StateListener
+			RootContextLocal.StateListener, StatementAuthority.StateListener
 	{
 
 		@Override

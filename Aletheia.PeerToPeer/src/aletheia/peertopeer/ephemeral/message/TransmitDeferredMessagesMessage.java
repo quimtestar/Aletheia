@@ -132,7 +132,7 @@ public class TransmitDeferredMessagesMessage extends NonPersistentMessage
 	public static TransmitDeferredMessagesMessage fromDeferredMessages(Collection<DeferredMessage> deferredMessages)
 	{
 		return new TransmitDeferredMessagesMessage(new BijectionCollection<DeferredMessage, Entry>(new Bijection<DeferredMessage, Entry>()
-				{
+		{
 
 			@Override
 			public Entry forward(DeferredMessage deferredMessage)
@@ -145,7 +145,7 @@ public class TransmitDeferredMessagesMessage extends NonPersistentMessage
 			{
 				throw new UnsupportedOperationException();
 			}
-				}, deferredMessages));
+		}, deferredMessages));
 
 	}
 

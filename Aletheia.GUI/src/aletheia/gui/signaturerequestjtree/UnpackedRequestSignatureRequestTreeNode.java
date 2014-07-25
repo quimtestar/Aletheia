@@ -78,7 +78,7 @@ public class UnpackedRequestSignatureRequestTreeNode extends RequestSignatureReq
 	protected Collection<StatementSignatureRequestTreeNode> childNodeCollection(Transaction transaction)
 	{
 		return new BijectionCollection<Statement, StatementSignatureRequestTreeNode>(new Bijection<Statement, StatementSignatureRequestTreeNode>()
-				{
+		{
 
 			@Override
 			public StatementSignatureRequestTreeNode forward(Statement statement)
@@ -91,7 +91,7 @@ public class UnpackedRequestSignatureRequestTreeNode extends RequestSignatureReq
 			{
 				throw new UnsupportedOperationException();
 			}
-				}, sortedStatements(transaction));
+		}, sortedStatements(transaction));
 	}
 
 	@Override

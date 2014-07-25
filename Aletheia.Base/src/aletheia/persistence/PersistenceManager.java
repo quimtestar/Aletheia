@@ -958,13 +958,13 @@ public abstract class PersistenceManager
 				return new PlainPrivateSignatory(this, (PlainPrivateSignatoryEntity) e);
 			else if (e instanceof EncryptedPrivateSignatoryEntity)
 				try
-			{
+				{
 					return new EncryptedPrivateSignatory(this, (EncryptedPrivateSignatoryEntity) e);
-			}
-			catch (EncryptedException e1)
-			{
-				return new Signatory(this, e);
-			}
+				}
+				catch (EncryptedException e1)
+				{
+					return new Signatory(this, e);
+				}
 			else
 				throw new Error();
 		}

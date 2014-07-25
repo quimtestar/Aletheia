@@ -69,7 +69,7 @@ public class NonBlockingSocketChannelOutputStream extends OutputStream implement
 	public void write(int b) throws IOException, TimeoutException, InterruptedException
 	{
 		write(new byte[]
-				{ (byte) b });
+		{ (byte) b });
 	}
 
 	@Override

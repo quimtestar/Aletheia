@@ -111,7 +111,7 @@ public class BerkeleyDBPersonsByNick extends AbstractCloseableMap<String, Closea
 		{
 			final EntityCursor<BerkeleyDBPersonEntity> cursor = transaction.entities(personEntityNickSecondaryIndex, nick, true, nick, true);
 			return new CloseableIterator<Person>()
-					{
+			{
 				BerkeleyDBPersonEntity next;
 				{
 					do
@@ -167,7 +167,7 @@ public class BerkeleyDBPersonsByNick extends AbstractCloseableMap<String, Closea
 					close();
 					super.finalize();
 				}
-					};
+			};
 		}
 
 		@Override
@@ -266,14 +266,14 @@ public class BerkeleyDBPersonsByNick extends AbstractCloseableMap<String, Closea
 	public CloseableSet<String> keySet()
 	{
 		return new AbstractCloseableSet<String>()
-				{
+		{
 
 			@Override
 			public CloseableIterator<String> iterator()
 			{
 				final EntityCursor<String> cursor = transaction.keys(personEntityNickSecondaryIndex, from, true, to, false);
 				return new CloseableIterator<String>()
-						{
+				{
 					private String advance()
 					{
 						String next = transaction.nextNoDup(cursor);
@@ -319,7 +319,7 @@ public class BerkeleyDBPersonsByNick extends AbstractCloseableMap<String, Closea
 						super.finalize();
 					}
 
-						};
+				};
 			}
 
 			@Override
@@ -353,7 +353,7 @@ public class BerkeleyDBPersonsByNick extends AbstractCloseableMap<String, Closea
 				}
 			}
 
-				};
+		};
 	}
 
 	@Override
@@ -361,14 +361,14 @@ public class BerkeleyDBPersonsByNick extends AbstractCloseableMap<String, Closea
 	{
 		final CloseableSet<String> keySet = keySet();
 		return new AbstractCloseableSet<Map.Entry<String, CloseableSet<Person>>>()
-				{
+		{
 
 			@Override
 			public CloseableIterator<Entry<String, CloseableSet<Person>>> iterator()
 			{
 				final CloseableIterator<String> iterator = keySet.iterator();
 				return new CloseableIterator<Map.Entry<String, CloseableSet<Person>>>()
-						{
+				{
 
 					@Override
 					public void remove()
@@ -381,7 +381,7 @@ public class BerkeleyDBPersonsByNick extends AbstractCloseableMap<String, Closea
 					{
 						final String key = iterator.next();
 						return new Entry<String, CloseableSet<Person>>()
-								{
+						{
 
 							@Override
 							public CloseableSet<Person> setValue(CloseableSet<Person> value)
@@ -400,7 +400,7 @@ public class BerkeleyDBPersonsByNick extends AbstractCloseableMap<String, Closea
 							{
 								return key;
 							}
-								};
+						};
 					}
 
 					@Override
@@ -414,7 +414,7 @@ public class BerkeleyDBPersonsByNick extends AbstractCloseableMap<String, Closea
 					{
 						iterator.close();
 					}
-						};
+				};
 			}
 
 			@Override
@@ -429,7 +429,7 @@ public class BerkeleyDBPersonsByNick extends AbstractCloseableMap<String, Closea
 				return keySet.isEmpty();
 			}
 
-				};
+		};
 	}
 
 }

@@ -94,7 +94,7 @@ public class BerkeleyDBSubContextsSet extends AbstractCloseableSet<Context> impl
 	{
 		final EntityCursor<BerkeleyDBContextEntity> cursor = transaction.entities(contextEntityContextSecondaryIndex, uuidKey, true, uuidKey, true);
 		return new CloseableIterator<Context>()
-				{
+		{
 			BerkeleyDBContextEntity next;
 			{
 				next = transaction.next(cursor);
@@ -140,7 +140,7 @@ public class BerkeleyDBSubContextsSet extends AbstractCloseableSet<Context> impl
 				transaction.close(cursor);
 			}
 
-				};
+		};
 
 	}
 

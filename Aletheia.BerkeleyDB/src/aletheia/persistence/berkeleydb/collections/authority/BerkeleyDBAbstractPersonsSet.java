@@ -149,7 +149,7 @@ public abstract class BerkeleyDBAbstractPersonsSet<K> extends AbstractCloseableS
 	{
 		final EntityCursor<BerkeleyDBPersonEntity> cursor = transaction.entities(index, fromKey, fromInclusive, toKey, toInclusive);
 		return new CloseableIterator<Person>()
-				{
+		{
 			private BerkeleyDBPersonEntity next;
 			{
 				next = transaction.first(cursor);
@@ -194,7 +194,7 @@ public abstract class BerkeleyDBAbstractPersonsSet<K> extends AbstractCloseableS
 				super.finalize();
 			}
 
-				};
+		};
 	}
 
 	@Override

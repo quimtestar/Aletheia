@@ -126,7 +126,7 @@ class DatabaseContentProtocol extends Protocol<Void>
 				break loop;
 			}
 		}
-	return null;
+		return null;
 	}
 
 	@Override

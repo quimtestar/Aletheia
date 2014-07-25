@@ -31,11 +31,11 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBSignedDependenciesLocalStatementAuthoritySet extends BerkeleyDBFlagLocalStatementAuthoritySet implements
-SignedDependenciesLocalStatementAuthoritySet
+		SignedDependenciesLocalStatementAuthoritySet
 {
 	private static SecondaryIndex<ContextFlagSecondaryKeyData, UUIDKey, BerkeleyDBStatementAuthorityEntity> secondaryIndex(
 			BerkeleyDBPersistenceManager persistenceManager)
-			{
+	{
 		try
 		{
 			return persistenceManager.getEntityStore().statementAuthorityEntityContextSignedDependenciesSecondaryIndex();
@@ -44,7 +44,7 @@ SignedDependenciesLocalStatementAuthoritySet
 		{
 			throw persistenceManager.convertDatabaseException(e);
 		}
-			}
+	}
 
 	public BerkeleyDBSignedDependenciesLocalStatementAuthoritySet(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction,
 			ContextAuthority contextAuthority)

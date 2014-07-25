@@ -114,7 +114,7 @@ public class ContextTreeNode extends StatementTreeNode implements BranchTreeNode
 		final Iterator<Statement> iterator = getStatementList().iterator();
 
 		return new Enumeration<AbstractTreeNode>()
-				{
+		{
 			boolean atEnd = false;
 
 			@Override
@@ -136,7 +136,7 @@ public class ContextTreeNode extends StatementTreeNode implements BranchTreeNode
 					return consequentTreeNode;
 				}
 			}
-				};
+		};
 	}
 
 	@Override

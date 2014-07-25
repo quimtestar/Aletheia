@@ -65,7 +65,7 @@ public class PeerToPeerStatementFollower extends PeerToPeerFollower
 	}
 
 	private class StatementStateListener implements RootContextLocal.StateListener, ContextLocal.StateListener, Context.StateListener,
-	StatementAuthority.StateListener, RootContext.TopStateListener
+			StatementAuthority.StateListener, RootContext.TopStateListener
 	{
 		@Override
 		public void subscribeStatementsChanged(Transaction transaction, RootContextLocal rootContextLocal, boolean subscribed)

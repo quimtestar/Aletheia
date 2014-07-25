@@ -172,7 +172,7 @@ public class DeferredMessageSet
 	public synchronized Map<UUID, Integer> recipientDistanceMap()
 	{
 		return Collections.unmodifiableMap(new BijectionMap<UUID, RecipientData, Integer>(new Bijection<RecipientData, Integer>()
-				{
+		{
 
 			@Override
 			public Integer forward(RecipientData recipientData)
@@ -185,7 +185,7 @@ public class DeferredMessageSet
 			{
 				throw new UnsupportedOperationException();
 			}
-				}, recipientDataMap));
+		}, recipientDataMap));
 	}
 
 	private void clearDeferredMessages(Transaction transaction)
@@ -362,7 +362,7 @@ public class DeferredMessageSet
 	private CloseableCollection<DeferredMessage> propagableDeferredMessagesByRecipientCollection(final Transaction transaction, UUID recipientUuid)
 	{
 		return new BijectionCloseableCollection<NodeDeferredMessage, DeferredMessage>(new Bijection<NodeDeferredMessage, DeferredMessage>()
-				{
+		{
 
 			@Override
 			public DeferredMessage forward(NodeDeferredMessage nodeDeferredMessage)
@@ -375,7 +375,7 @@ public class DeferredMessageSet
 			{
 				throw new UnsupportedOperationException();
 			}
-				}, propagableNodeDeferredMessagesByRecipientCollection(transaction, recipientUuid));
+		}, propagableNodeDeferredMessagesByRecipientCollection(transaction, recipientUuid));
 	}
 
 	private Date fromDate()
@@ -501,7 +501,7 @@ public class DeferredMessageSet
 	}
 
 	private synchronized void transmitDeferredMessages(PrivatePersonResource privatePersonResourceMetadata) throws IOException, ConnectException,
-	CancelledCommandException
+			CancelledCommandException
 	{
 		RecipientData recipientData = recipientDataMap.get(privatePersonResourceMetadata.getUuid());
 		if (recipientData != null && recipientData.distance == 0)

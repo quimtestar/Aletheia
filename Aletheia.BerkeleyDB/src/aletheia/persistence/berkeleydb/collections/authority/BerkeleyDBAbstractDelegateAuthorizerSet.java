@@ -90,7 +90,7 @@ public abstract class BerkeleyDBAbstractDelegateAuthorizerSet extends AbstractCl
 	{
 		final EntityCursor<BerkeleyDBDelegateAuthorizerEntity> cursor = transaction.entities(index());
 		return new CloseableIterator<DelegateAuthorizer>()
-				{
+		{
 			private DelegateAuthorizerEntity next;
 			{
 				next = transaction.first(cursor);
@@ -135,7 +135,7 @@ public abstract class BerkeleyDBAbstractDelegateAuthorizerSet extends AbstractCl
 				super.finalize();
 			}
 
-				};
+		};
 	}
 
 	@Override

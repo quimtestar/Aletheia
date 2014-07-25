@@ -30,7 +30,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.PrimaryIndex;
 
 public class BerkeleyDBSignatureRequestMap extends BerkeleyDBGenericSignatureRequestMap<SignatureRequest, BerkeleyDBSignatureRequestEntity> implements
-SignatureRequestMap
+		SignatureRequestMap
 {
 
 	private static PrimaryIndex<UUIDKey, BerkeleyDBSignatureRequestEntity> index(BerkeleyDBPersistenceManager persistenceManager)

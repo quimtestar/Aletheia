@@ -405,7 +405,7 @@ public class MiscUtilities
 	{
 		NumberFormat nf = new DecimalFormat("###0.##");
 		String[] units = new String[]
-				{ "B", "KiB", "MiB", "GiB" };
+		{ "B", "KiB", "MiB", "GiB" };
 		float value = size;
 		int m = (int) (Math.log(value) / Math.log(1 << 10));
 		if (m >= units.length)
@@ -563,7 +563,7 @@ public class MiscUtilities
 	 * @see #matchingConstructor(Class, Object...)
 	 */
 	public static <C> C construct(Class<C> clazz, Object... initArgs) throws InstantiationException, IllegalAccessException, IllegalArgumentException,
-	InvocationTargetException, NoConstructorException
+			InvocationTargetException, NoConstructorException
 	{
 		Constructor<C> constructor = matchingConstructor(clazz, initArgs);
 		if (constructor == null)

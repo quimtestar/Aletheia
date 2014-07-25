@@ -85,13 +85,13 @@ public abstract class Candidate
 					Term t_ = assignMap.get(v_);
 					if (t_ != null)
 						try
-					{
+						{
 							t = t.replace(v_, t_);
-					}
-					catch (ReplaceTypeException e)
-					{
-						throw new Error(e);
-					}
+						}
+						catch (ReplaceTypeException e)
+						{
+							throw new Error(e);
+						}
 					else if (fv.contains(v_))
 					{
 						antecedentDependentMap_.get(v_).add(v);

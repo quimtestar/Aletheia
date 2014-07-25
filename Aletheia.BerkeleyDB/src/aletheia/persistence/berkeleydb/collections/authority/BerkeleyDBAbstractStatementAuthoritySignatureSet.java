@@ -36,7 +36,7 @@ import com.sleepycat.persist.EntityIndex;
 import com.sleepycat.persist.SecondaryIndex;
 
 public abstract class BerkeleyDBAbstractStatementAuthoritySignatureSet<K> extends AbstractCloseableSet<StatementAuthoritySignature> implements
-StatementAuthoritySignatureSet
+		StatementAuthoritySignatureSet
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final SecondaryIndex<K, PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> secondaryIndex;
@@ -84,7 +84,7 @@ StatementAuthoritySignatureSet
 	{
 		final EntityCursor<BerkeleyDBStatementAuthoritySignatureEntity> cursor = transaction.entities(subIndex);
 		return new CloseableIterator<StatementAuthoritySignature>()
-				{
+		{
 			BerkeleyDBStatementAuthoritySignatureEntity nextEntity;
 			{
 				nextEntity = transaction.first(cursor);
@@ -129,7 +129,7 @@ StatementAuthoritySignatureSet
 				super.finalize();
 			}
 
-				};
+		};
 	}
 
 	@Override

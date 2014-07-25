@@ -55,7 +55,7 @@ public class RootCatalogTreeNode extends CatalogTreeNode
 	public TreePath path()
 	{
 		return new TreePath(new Object[]
-				{ getModel().getVirtualRootTreeNode(), this });
+		{ getModel().getVirtualRootTreeNode(), this });
 	}
 
 	@Override

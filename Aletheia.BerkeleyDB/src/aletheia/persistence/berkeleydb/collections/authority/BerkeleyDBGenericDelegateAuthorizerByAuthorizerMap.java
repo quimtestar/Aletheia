@@ -37,7 +37,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
 public abstract class BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<K> extends AbstractCloseableMap<Signatory, DelegateAuthorizer> implements
-DelegateAuthorizerByAuthorizerMap
+		DelegateAuthorizerByAuthorizerMap
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -78,7 +78,7 @@ DelegateAuthorizerByAuthorizerMap
 		{
 			final EntityCursor<BerkeleyDBDelegateAuthorizerEntity> cursor = transaction.entities(index, firstKey, true, lastKey, true);
 			return new CloseableIterator<Entry<Signatory, DelegateAuthorizer>>()
-					{
+			{
 				BerkeleyDBDelegateAuthorizerEntity next;
 				{
 					next = transaction.first(cursor);
@@ -102,7 +102,7 @@ DelegateAuthorizerByAuthorizerMap
 					if (next == null)
 						transaction.close(cursor);
 					return new Entry<Signatory, DelegateAuthorizer>()
-							{
+					{
 
 						@Override
 						public Signatory getKey()
@@ -122,7 +122,7 @@ DelegateAuthorizerByAuthorizerMap
 							throw new UnsupportedOperationException();
 						}
 
-							};
+					};
 				}
 
 				@Override
@@ -144,7 +144,7 @@ DelegateAuthorizerByAuthorizerMap
 					super.finalize();
 				}
 
-					};
+			};
 		}
 
 		@Override

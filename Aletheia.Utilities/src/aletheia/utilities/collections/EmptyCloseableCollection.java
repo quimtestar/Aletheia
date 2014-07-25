@@ -36,7 +36,7 @@ public class EmptyCloseableCollection<E> extends AbstractCloseableCollection<E>
 	public CloseableIterator<E> iterator()
 	{
 		return new CloseableIterator<E>()
-				{
+		{
 
 			@Override
 			public boolean hasNext()
@@ -61,7 +61,7 @@ public class EmptyCloseableCollection<E> extends AbstractCloseableCollection<E>
 			{
 			}
 
-				};
+		};
 	}
 
 	@Override

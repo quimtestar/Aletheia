@@ -155,7 +155,7 @@ public abstract class DelegateTreeNodeProtocol<D extends DelegateTreeNode> exten
 	public void send(DataOutput out, D delegateTreeNode) throws IOException
 	{
 		Collection<UUID> delegateUuids = new BijectionCollection<Person, UUID>(new Bijection<Person, UUID>()
-				{
+		{
 
 			@Override
 			public UUID forward(Person person)
@@ -168,7 +168,7 @@ public abstract class DelegateTreeNodeProtocol<D extends DelegateTreeNode> exten
 			{
 				throw new UnsupportedOperationException();
 			}
-				}, delegateTreeNode.localDelegateAuthorizerMap(getTransaction()).keySet());
+		}, delegateTreeNode.localDelegateAuthorizerMap(getTransaction()).keySet());
 		uuidCollectionProtocol.send(out, delegateUuids);
 		DelegateTreeSubNodeEntryCollectionProtocol delegateTreeSubNodeEntryCollectionProtocol = new DelegateTreeSubNodeEntryCollectionProtocol(0,
 				delegateTreeNode);
@@ -210,13 +210,13 @@ public abstract class DelegateTreeNodeProtocol<D extends DelegateTreeNode> exten
 			String name = ((NodeNamespace) ns).getName();
 			if (!names.contains(name))
 				try
-			{
+				{
 					delegateTreeNode.deleteSubNodeNoSign(getTransaction(), name);
-			}
-			catch (InvalidNameException e)
-			{
-				throw new ProtocolException(e);
-			}
+				}
+				catch (InvalidNameException e)
+				{
+					throw new ProtocolException(e);
+				}
 		}
 		try
 		{

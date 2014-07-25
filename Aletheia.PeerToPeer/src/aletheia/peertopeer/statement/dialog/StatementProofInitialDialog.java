@@ -64,7 +64,7 @@ public class StatementProofInitialDialog extends InitializeStatementProofDialog
 	}
 
 	private AvailableProofsMessage dialogateAvailableProofs(Collection<Statement> provedStatementsToSend) throws ProtocolException, IOException,
-	InterruptedException
+			InterruptedException
 	{
 		sendMessage(new AvailableProofsMessage(new BijectionCollection<>(getStatementUuidBijection(), provedStatementsToSend)));
 		return recvMessage(AvailableProofsMessage.class);

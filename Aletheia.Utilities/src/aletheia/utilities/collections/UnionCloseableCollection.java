@@ -36,9 +36,9 @@ public class UnionCloseableCollection<E> extends UnionCollection<E> implements C
 	@SuppressWarnings("unchecked")
 	@Override
 	protected CloseableCollection<? extends CloseableCollection<E>> getInner()
-			{
+	{
 		return (CloseableCollection<? extends CloseableCollection<E>>) super.getInner();
-			}
+	}
 
 	@Override
 	public CloseableIterator<E> iterator()

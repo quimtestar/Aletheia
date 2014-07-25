@@ -75,14 +75,14 @@ public class AdaptedMap<K, V> implements Map<K, V>
 	{
 		final Set<K> keys = keySet();
 		return new AbstractSet<Entry<K, V>>()
-				{
+		{
 
 			@Override
 			public Iterator<Entry<K, V>> iterator()
 			{
 				final Iterator<K> iterator = keys.iterator();
 				return new Iterator<Entry<K, V>>()
-						{
+				{
 
 					@Override
 					public boolean hasNext()
@@ -95,7 +95,7 @@ public class AdaptedMap<K, V> implements Map<K, V>
 					{
 						final K key = iterator.next();
 						return new Entry<K, V>()
-								{
+						{
 
 							@Override
 							public K getKey()
@@ -115,7 +115,7 @@ public class AdaptedMap<K, V> implements Map<K, V>
 								throw new UnsupportedOperationException();
 							}
 
-								};
+						};
 					}
 
 					@Override
@@ -124,7 +124,7 @@ public class AdaptedMap<K, V> implements Map<K, V>
 						throw new UnsupportedOperationException();
 					}
 
-						};
+				};
 			}
 
 			@Override
@@ -132,7 +132,7 @@ public class AdaptedMap<K, V> implements Map<K, V>
 			{
 				return inner.size();
 			}
-				};
+		};
 	}
 
 	@Override

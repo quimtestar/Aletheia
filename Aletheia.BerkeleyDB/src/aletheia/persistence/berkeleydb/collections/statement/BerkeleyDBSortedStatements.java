@@ -75,192 +75,192 @@ public abstract class BerkeleyDBSortedStatements<S extends Statement> extends Ab
 	}
 
 	private final static Comparator<Statement> comparator = new Comparator<Statement>()
-			{
+	{
 
 		@Override
 		public int compare(Statement st1, Statement st2)
 		{
 			return ((BerkeleyDBStatementEntity) st1.getEntity()).getLocalSortKey().compareTo(((BerkeleyDBStatementEntity) st2.getEntity()).getLocalSortKey());
 		}
-			};
+	};
 
-			@Override
-			public Comparator<? super S> comparator()
+	@Override
+	public Comparator<? super S> comparator()
+	{
+		return comparator;
+	}
+
+	protected abstract S entitytoStatement(BerkeleyDBStatementEntity entity);
+
+	@Override
+	public S first()
+	{
+		EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, true, to, false);
+		try
+		{
+			BerkeleyDBStatementEntity entity = transaction.first(cursor);
+			if (entity == null)
+				throw new NoSuchElementException();
+			return entitytoStatement(entity);
+		}
+		finally
+		{
+			transaction.close(cursor);
+		}
+	}
+
+	@Override
+	public S last()
+	{
+		EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, true, to, false);
+		try
+		{
+			BerkeleyDBStatementEntity entity = transaction.last(cursor);
+			if (entity == null)
+				throw new NoSuchElementException();
+			return entitytoStatement(entity);
+		}
+		finally
+		{
+			transaction.close(cursor);
+		}
+	}
+
+	@Override
+	public CloseableIterator<S> iterator()
+	{
+		final EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, true, to, false);
+		return new CloseableIterator<S>()
+		{
+			private BerkeleyDBStatementEntity next;
 			{
-				return comparator;
-			}
-
-			protected abstract S entitytoStatement(BerkeleyDBStatementEntity entity);
-
-			@Override
-			public S first()
-			{
-				EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, true, to, false);
-				try
-				{
-					BerkeleyDBStatementEntity entity = transaction.first(cursor);
-					if (entity == null)
-						throw new NoSuchElementException();
-					return entitytoStatement(entity);
-				}
-				finally
-				{
-					transaction.close(cursor);
-				}
-			}
-
-			@Override
-			public S last()
-			{
-				EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, true, to, false);
-				try
-				{
-					BerkeleyDBStatementEntity entity = transaction.last(cursor);
-					if (entity == null)
-						throw new NoSuchElementException();
-					return entitytoStatement(entity);
-				}
-				finally
-				{
-					transaction.close(cursor);
-				}
-			}
-
-			@Override
-			public CloseableIterator<S> iterator()
-			{
-				final EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, true, to, false);
-				return new CloseableIterator<S>()
-						{
-					private BerkeleyDBStatementEntity next;
-					{
-						next = transaction.next(cursor);
-					}
-
-					@Override
-					public boolean hasNext()
-					{
-						if (next == null)
-						{
-							transaction.close(cursor);
-							return false;
-						}
-						return true;
-					}
-
-					@Override
-					public S next()
-					{
-						if (!hasNext())
-							throw new NoSuchElementException();
-						BerkeleyDBStatementEntity entity = next;
-						next = transaction.next(cursor);
-						return entitytoStatement(entity);
-					}
-
-					@Override
-					public void remove()
-					{
-						throw new UnsupportedOperationException();
-					}
-
-					@Override
-					protected void finalize() throws Throwable
-					{
-						close();
-						super.finalize();
-					}
-
-					@Override
-					public void close()
-					{
-						transaction.close(cursor);
-					}
-
-						};
+				next = transaction.next(cursor);
 			}
 
 			@Override
-			public int size()
+			public boolean hasNext()
 			{
-				CloseableIterator<S> iterator = iterator();
-				try
-				{
-					int n = 0;
-					while (iterator.hasNext())
-					{
-						iterator.next();
-						n++;
-					}
-					return n;
-				}
-				finally
-				{
-					iterator.close();
-				}
-
-			}
-
-			@Override
-			public boolean isEmpty()
-			{
-				EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, true, to, false);
-				try
-				{
-					return transaction.first(cursor) == null;
-				}
-				finally
+				if (next == null)
 				{
 					transaction.close(cursor);
+					return false;
 				}
-			}
-
-			private LocalSortKey fromDependencySortKey(Statement statement)
-			{
-				LocalSortKey dsk = ((BerkeleyDBStatementEntity) statement.getEntity()).getLocalSortKey();
-				if (from.compareTo(dsk) > 0)
-					return dsk;
-				return from;
-			}
-
-			private LocalSortKey toDependencySortKey(Statement statement)
-			{
-				LocalSortKey dsk = ((BerkeleyDBStatementEntity) statement.getEntity()).getLocalSortKey();
-				if (to.compareTo(dsk) < 0)
-					return dsk;
-				return to;
-			}
-
-			protected abstract BerkeleyDBSortedStatements<S> newBerkeleyDBSortedStatementsBounds(LocalSortKey from, LocalSortKey to);
-
-			@Override
-			public BerkeleyDBSortedStatements<S> subSet(S fromElement, S toElement)
-			{
-				return newBerkeleyDBSortedStatementsBounds(fromDependencySortKey(fromElement), toDependencySortKey(toElement));
+				return true;
 			}
 
 			@Override
-			public BerkeleyDBSortedStatements<S> headSet(S toElement)
+			public S next()
 			{
-				return newBerkeleyDBSortedStatementsBounds(from, toDependencySortKey(toElement));
+				if (!hasNext())
+					throw new NoSuchElementException();
+				BerkeleyDBStatementEntity entity = next;
+				next = transaction.next(cursor);
+				return entitytoStatement(entity);
 			}
 
 			@Override
-			public BerkeleyDBSortedStatements<S> tailSet(S fromElement)
+			public void remove()
 			{
-				return newBerkeleyDBSortedStatementsBounds(fromDependencySortKey(fromElement), to);
+				throw new UnsupportedOperationException();
 			}
 
 			@Override
-			public Object[] toArray()
+			protected void finalize() throws Throwable
 			{
-				return MiscUtilities.iterableToArray(this);
+				close();
+				super.finalize();
 			}
 
 			@Override
-			public <T> T[] toArray(T[] a)
+			public void close()
 			{
-				return MiscUtilities.iterableToArray(this, a);
+				transaction.close(cursor);
 			}
+
+		};
+	}
+
+	@Override
+	public int size()
+	{
+		CloseableIterator<S> iterator = iterator();
+		try
+		{
+			int n = 0;
+			while (iterator.hasNext())
+			{
+				iterator.next();
+				n++;
+			}
+			return n;
+		}
+		finally
+		{
+			iterator.close();
+		}
+
+	}
+
+	@Override
+	public boolean isEmpty()
+	{
+		EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, true, to, false);
+		try
+		{
+			return transaction.first(cursor) == null;
+		}
+		finally
+		{
+			transaction.close(cursor);
+		}
+	}
+
+	private LocalSortKey fromDependencySortKey(Statement statement)
+	{
+		LocalSortKey dsk = ((BerkeleyDBStatementEntity) statement.getEntity()).getLocalSortKey();
+		if (from.compareTo(dsk) > 0)
+			return dsk;
+		return from;
+	}
+
+	private LocalSortKey toDependencySortKey(Statement statement)
+	{
+		LocalSortKey dsk = ((BerkeleyDBStatementEntity) statement.getEntity()).getLocalSortKey();
+		if (to.compareTo(dsk) < 0)
+			return dsk;
+		return to;
+	}
+
+	protected abstract BerkeleyDBSortedStatements<S> newBerkeleyDBSortedStatementsBounds(LocalSortKey from, LocalSortKey to);
+
+	@Override
+	public BerkeleyDBSortedStatements<S> subSet(S fromElement, S toElement)
+	{
+		return newBerkeleyDBSortedStatementsBounds(fromDependencySortKey(fromElement), toDependencySortKey(toElement));
+	}
+
+	@Override
+	public BerkeleyDBSortedStatements<S> headSet(S toElement)
+	{
+		return newBerkeleyDBSortedStatementsBounds(from, toDependencySortKey(toElement));
+	}
+
+	@Override
+	public BerkeleyDBSortedStatements<S> tailSet(S fromElement)
+	{
+		return newBerkeleyDBSortedStatementsBounds(fromDependencySortKey(fromElement), to);
+	}
+
+	@Override
+	public Object[] toArray()
+	{
+		return MiscUtilities.iterableToArray(this);
+	}
+
+	@Override
+	public <T> T[] toArray(T[] a)
+	{
+		return MiscUtilities.iterableToArray(this, a);
+	}
 
 }

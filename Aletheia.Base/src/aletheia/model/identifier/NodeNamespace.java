@@ -155,13 +155,13 @@ public class NodeNamespace extends Namespace
 			return this;
 		else if (right instanceof NodeNamespace)
 			try
-		{
+			{
 				return new NodeNamespace(concat(((NodeNamespace) right).getParent()), ((NodeNamespace) right).getName());
-		}
-		catch (InvalidNameException e)
-		{
-			throw new Error(e);
-		}
+			}
+			catch (InvalidNameException e)
+			{
+				throw new Error(e);
+			}
 		else
 			throw new Error();
 	}
@@ -296,13 +296,13 @@ public class NodeNamespace extends Namespace
 			return (Identifier) this;
 		else
 			try
-		{
+			{
 				return new Identifier(this);
-		}
-		catch (InvalidNameException e)
-		{
-			throw new Error(e);
-		}
+			}
+			catch (InvalidNameException e)
+			{
+				throw new Error(e);
+			}
 	}
 
 }

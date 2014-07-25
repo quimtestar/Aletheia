@@ -135,7 +135,7 @@ public class FemaleConjugalPhase extends GenderedConjugalPhase
 
 		@Override
 		protected boolean genderedServerPhase(LoopConjugalDialogType loopDialogType) throws IOException, ProtocolException, InterruptedException,
-		DialogStreamException
+				DialogStreamException
 		{
 			switch (loopDialogType)
 			{
@@ -177,7 +177,7 @@ public class FemaleConjugalPhase extends GenderedConjugalPhase
 		}
 
 		private void femaleOpenConnectionDialogFemale(FemaleOpenConnectionCommand command) throws IOException, ProtocolException, InterruptedException,
-		DialogStreamException
+				DialogStreamException
 		{
 			try
 			{
@@ -207,7 +207,7 @@ public class FemaleConjugalPhase extends GenderedConjugalPhase
 		}
 
 		public void femaleOpenConnection(SplicedConnectionId splicedConnectionId) throws InterruptedException, CancelledCommandException,
-		OpenConnectionException
+				OpenConnectionException
 		{
 			FemaleOpenConnectionCommand.Result result = (FemaleOpenConnectionCommand.Result) commandResult(new FemaleOpenConnectionCommand(splicedConnectionId));
 			if (result instanceof FemaleOpenConnectionCommand.AcceptedResult)

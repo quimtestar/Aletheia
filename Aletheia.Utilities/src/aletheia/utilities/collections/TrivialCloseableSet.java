@@ -44,7 +44,7 @@ public class TrivialCloseableSet<E> extends AbstractCloseableSet<E>
 	{
 		final Iterator<E> iterator = this.inner.iterator();
 		return new CloseableIterator<E>()
-				{
+		{
 
 			@Override
 			public boolean hasNext()
@@ -69,7 +69,7 @@ public class TrivialCloseableSet<E> extends AbstractCloseableSet<E>
 			{
 			}
 
-				};
+		};
 	}
 
 	@Override

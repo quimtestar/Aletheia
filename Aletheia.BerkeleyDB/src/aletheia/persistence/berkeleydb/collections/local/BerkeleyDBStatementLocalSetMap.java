@@ -89,14 +89,14 @@ public class BerkeleyDBStatementLocalSetMap extends AbstractCloseableMap<Context
 	public CloseableSet<Entry<ContextLocal, StatementLocalSet>> entrySet()
 	{
 		return new AbstractCloseableSet<Entry<ContextLocal, StatementLocalSet>>()
-				{
+		{
 
 			@Override
 			public CloseableIterator<Entry<ContextLocal, StatementLocalSet>> iterator()
 			{
 				final EntityCursor<BerkeleyDBStatementLocalEntity> cursor = transaction.entities(index);
 				return new CloseableIterator<Entry<ContextLocal, StatementLocalSet>>()
-						{
+				{
 					private BerkeleyDBStatementLocalEntity next;
 					{
 						next = transaction.first(cursor);
@@ -120,7 +120,7 @@ public class BerkeleyDBStatementLocalSetMap extends AbstractCloseableMap<Context
 						final ContextLocal contextLocal = (ContextLocal) persistenceManager.getStatementLocal(transaction, entity.getContextUuid());
 						final StatementLocalSet statementLocalSet = contextLocal.statementLocalSet(transaction);
 						return new Entry<ContextLocal, StatementLocalSet>()
-								{
+						{
 
 							@Override
 							public ContextLocal getKey()
@@ -140,7 +140,7 @@ public class BerkeleyDBStatementLocalSetMap extends AbstractCloseableMap<Context
 								throw new UnsupportedOperationException();
 							}
 
-								};
+						};
 					}
 
 					@Override
@@ -155,7 +155,7 @@ public class BerkeleyDBStatementLocalSetMap extends AbstractCloseableMap<Context
 						transaction.close(cursor);
 					}
 
-						};
+				};
 			}
 
 			@Override
@@ -170,7 +170,7 @@ public class BerkeleyDBStatementLocalSetMap extends AbstractCloseableMap<Context
 				return BerkeleyDBStatementLocalSetMap.this.isEmpty();
 			}
 
-				};
+		};
 
 	}
 

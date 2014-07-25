@@ -85,7 +85,7 @@ public class PackedSignatureRequest extends SignatureRequest
 
 	public static PackedSignatureRequest create(PersistenceManager persistenceManager, Transaction transaction, UUID uuid, Date creationDate,
 			List<UUID> contextUuidPath, Date packingDate, UUID rootContextSignatureUuid, Collection<UUID> dependencyUuids, byte[] data)
-					throws CollisionPackedSignatureRequestException
+			throws CollisionPackedSignatureRequestException
 	{
 		PackedSignatureRequest packedSignatureRequest = new PackedSignatureRequest(persistenceManager, uuid, creationDate, contextUuidPath, packingDate,
 				rootContextSignatureUuid, dependencyUuids, data);

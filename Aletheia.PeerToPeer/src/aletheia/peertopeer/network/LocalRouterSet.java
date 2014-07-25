@@ -52,7 +52,7 @@ public class LocalRouterSet implements RouterSet
 	private static class NeighbourEntry
 	{
 		private static final Bijection<NeighbourEntry, NetworkPhase> bijection = new Bijection<NeighbourEntry, NetworkPhase>()
-				{
+		{
 
 			@Override
 			public NetworkPhase forward(NeighbourEntry e)
@@ -65,10 +65,10 @@ public class LocalRouterSet implements RouterSet
 			{
 				throw new UnsupportedOperationException();
 			}
-				};
+		};
 
-				private boolean booked;
-				private NetworkPhase neighbour;
+		private boolean booked;
+		private NetworkPhase neighbour;
 
 	}
 
@@ -107,14 +107,14 @@ public class LocalRouterSet implements RouterSet
 		public Set<NetworkPhase> openNeighbours()
 		{
 			return new FilteredSet<NetworkPhase>(new Filter<NetworkPhase>()
-					{
+			{
 
 				@Override
 				public boolean filter(NetworkPhase neighbour)
 				{
 					return neighbour.isOpen();
 				}
-					}, neighbours);
+			}, neighbours);
 		}
 
 		@Override
@@ -372,7 +372,7 @@ public class LocalRouterSet implements RouterSet
 	}
 
 	public synchronized void bookNeighbourWait(int i, long timeout) throws NeighbourCollisionException, InterruptedException,
-	LocalRouterSetBookTimeoutException
+			LocalRouterSetBookTimeoutException
 	{
 		waitForUnbook(i, timeout);
 		try

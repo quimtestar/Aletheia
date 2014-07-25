@@ -60,7 +60,7 @@ public class MaleSalutationMessage extends SalutationMessage
 
 		@Override
 		protected MaleSalutationMessage recv(int protocolVersion, PeerToPeerConnection.Gender gender, UUID nodeUuid, DataInput in) throws IOException,
-		ProtocolException
+				ProtocolException
 		{
 			UUID expectedPeerNodeUuid = nullableUuidProtocol.recv(in);
 			return new MaleSalutationMessage(protocolVersion, gender, nodeUuid, expectedPeerNodeUuid);

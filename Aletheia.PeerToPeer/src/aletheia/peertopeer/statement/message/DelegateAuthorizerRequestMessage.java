@@ -138,7 +138,7 @@ public class DelegateAuthorizerRequestMessage extends AbstractUUIDInfoMessage<De
 			}
 
 			protected abstract I recv(Collection<UUID> delegateUuids, Map<String, DelegateTreeSubNodeInfo> subNodes, DataInput in) throws IOException,
-			ProtocolException;
+					ProtocolException;
 
 			@Override
 			public I recv(DataInput in) throws IOException, ProtocolException

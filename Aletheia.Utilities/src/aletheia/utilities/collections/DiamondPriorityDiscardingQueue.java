@@ -61,14 +61,14 @@ public class DiamondPriorityDiscardingQueue<E> implements Queue<E>
 	private static <E> Comparator<E> defaultComparator()
 	{
 		return new Comparator<E>()
-				{
+		{
 			@SuppressWarnings("unchecked")
 			@Override
 			public int compare(E e1, E e2) throws ClassCastException
 			{
 				return ((Comparable<? super E>) e1).compareTo(e2);
 			}
-				};
+		};
 	}
 
 	/**
@@ -124,7 +124,7 @@ public class DiamondPriorityDiscardingQueue<E> implements Queue<E>
 	public Iterator<E> iterator()
 	{
 		return new Iterator<E>()
-				{
+		{
 			int i = 0;
 
 			@Override
@@ -147,7 +147,7 @@ public class DiamondPriorityDiscardingQueue<E> implements Queue<E>
 				throw new UnsupportedOperationException();
 			}
 
-				};
+		};
 	}
 
 	@Override

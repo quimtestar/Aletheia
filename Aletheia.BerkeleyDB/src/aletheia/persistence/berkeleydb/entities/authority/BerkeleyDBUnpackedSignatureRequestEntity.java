@@ -68,7 +68,7 @@ public class BerkeleyDBUnpackedSignatureRequestEntity extends BerkeleyDBSignatur
 	public Set<UUID> getStatementUuids()
 	{
 		return new BijectionSet<UUIDKey, UUID>(new Bijection<UUIDKey, UUID>()
-				{
+		{
 
 			@Override
 			public UUID forward(UUIDKey input)
@@ -81,7 +81,7 @@ public class BerkeleyDBUnpackedSignatureRequestEntity extends BerkeleyDBSignatur
 			{
 				return new UUIDKey(output);
 			}
-				}, getStatementUuidKeys());
+		}, getStatementUuidKeys());
 	}
 
 }

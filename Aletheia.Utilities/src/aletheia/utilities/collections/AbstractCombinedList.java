@@ -153,7 +153,7 @@ public abstract class AbstractCombinedList<E> extends AbstractCombinedCollection
 		}
 
 		return new ListIterator<E>()
-				{
+		{
 
 			@Override
 			public boolean hasNext()
@@ -221,7 +221,7 @@ public abstract class AbstractCombinedList<E> extends AbstractCombinedCollection
 				throw new UnsupportedOperationException();
 			}
 
-				};
+		};
 	}
 
 	@Override

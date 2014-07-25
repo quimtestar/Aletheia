@@ -195,13 +195,13 @@ public abstract class PrivateSignatory extends Signatory
 		Person person = getPersistenceManager().getPerson(transaction, getUuid());
 		if (person != null)
 			try
-		{
+			{
 				person.toPrivatePerson(transaction, this);
-		}
-		catch (PersonCreationException e)
-		{
-			logger.warn("Updating private signatory", e);
-		}
+			}
+			catch (PersonCreationException e)
+			{
+				logger.warn("Updating private signatory", e);
+			}
 	}
 
 	public EncryptedPrivateSignatory encrypt(Transaction transaction, SecretKey secretKey)

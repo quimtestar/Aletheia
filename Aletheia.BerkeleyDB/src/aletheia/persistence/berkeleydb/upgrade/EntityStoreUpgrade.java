@@ -496,7 +496,7 @@ public abstract class EntityStoreUpgrade
 		}
 
 		protected Object partialConvertRawObject(EntityModel model, RawObject rawObject, Map<RawObject, Object> converted) throws ClassNotFoundException,
-		NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+				NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 		{
 			Object o = converted.get(rawObject);
 			if (o == null)
@@ -512,13 +512,13 @@ public abstract class EntityStoreUpgrade
 		}
 
 		protected Object partialConvertRawObject(EntityModel model, RawObject rawObject) throws ClassNotFoundException, NoSuchMethodException,
-		SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+				SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 		{
 			return partialConvertRawObject(model, rawObject, new IdentityHashMap<RawObject, Object>());
 		}
 
 		protected Object partialConvertRawObjectIfException(EntityModel model, RawObject rawObject) throws ClassNotFoundException, InstantiationException,
-		IllegalAccessException, NoSuchFieldException, SecurityException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException
+				IllegalAccessException, NoSuchFieldException, SecurityException, NoSuchMethodException, IllegalArgumentException, InvocationTargetException
 		{
 			try
 			{

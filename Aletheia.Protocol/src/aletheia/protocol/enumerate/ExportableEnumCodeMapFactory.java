@@ -123,12 +123,12 @@ public class ExportableEnumCodeMapFactory
 
 	protected static Collection<Integer> availableVersionsForEnum(@SuppressWarnings("rawtypes") Class<? extends ExportableEnum> exportableEnumClass)
 			throws MissingExportableEnumInfoException
-			{
+	{
 		ExportableEnumInfo exportableEnumInfo = exportableEnumClass.getAnnotation(ExportableEnumInfo.class);
 		if (exportableEnumInfo == null)
 			throw new MissingExportableEnumInfoException(exportableEnumClass);
 		return new ArrayAsList<Integer>(exportableEnumInfo.availableVersions());
-			}
+	}
 
 	public synchronized <C, E extends ExportableEnum<C, ?>> Map<C, E> codeMap(Class<? extends E> enumClass, int enumVersion) throws DuplicateCodeException
 	{

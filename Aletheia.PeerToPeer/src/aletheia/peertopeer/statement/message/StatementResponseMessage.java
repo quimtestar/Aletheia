@@ -44,7 +44,7 @@ import aletheia.utilities.collections.BijectionCollection;
 public class StatementResponseMessage extends AbstractUUIDPersistentInfoMessage<Statement>
 {
 	private final static Bijection<Statement, Entry<Statement>> entryBijection = new Bijection<Statement, Entry<Statement>>()
-			{
+	{
 
 		@Override
 		public Entry<Statement> forward(Statement statement)
@@ -57,94 +57,94 @@ public class StatementResponseMessage extends AbstractUUIDPersistentInfoMessage<
 		{
 			return entry.getValue();
 		}
-			};
+	};
 
-			public static StatementResponseMessage create(Collection<Statement> statements)
+	public static StatementResponseMessage create(Collection<Statement> statements)
+	{
+		return new StatementResponseMessage(new BijectionCollection<Statement, Entry<Statement>>(entryBijection, statements));
+	}
+
+	private StatementResponseMessage(Collection<Entry<Statement>> entries)
+	{
+		super(entries);
+	}
+
+	@ProtocolInfo(availableVersions = 0)
+	public static class SubProtocol extends AbstractUUIDPersistentInfoMessage.SubProtocol<Statement, StatementResponseMessage>
+	{
+		@ProtocolInfo(availableVersions = 0)
+		private static class StatementProtocolWithAuthority extends PersistentExportableProtocol<Statement>
+		{
+			private final StatementProtocol statementProtocol;
+			private final StatementAuthorityProtocol statementAuthorityProtocol;
+
+			public StatementProtocolWithAuthority(int requiredVersion, PersistenceManager persistenceManager, Transaction transaction)
 			{
-				return new StatementResponseMessage(new BijectionCollection<Statement, Entry<Statement>>(entryBijection, statements));
+				super(0, persistenceManager, transaction);
+				checkVersionAvailability(SubProtocol.class, requiredVersion);
+				this.statementProtocol = new StatementProtocol(0, persistenceManager, transaction);
+				this.statementAuthorityProtocol = new StatementAuthorityProtocol(0, persistenceManager, transaction);
 			}
 
-			private StatementResponseMessage(Collection<Entry<Statement>> entries)
+			@Override
+			public void send(DataOutput out, Statement statement) throws IOException
 			{
-				super(entries);
+				statementProtocol.send(out, statement);
+				StatementAuthority statementAuthority = statement.getAuthority(getTransaction());
+				statementAuthorityProtocol.send(out, statementAuthority);
 			}
 
-			@ProtocolInfo(availableVersions = 0)
-			public static class SubProtocol extends AbstractUUIDPersistentInfoMessage.SubProtocol<Statement, StatementResponseMessage>
+			@Override
+			public Statement recv(DataInput in) throws IOException, ProtocolException
 			{
-				@ProtocolInfo(availableVersions = 0)
-				private static class StatementProtocolWithAuthority extends PersistentExportableProtocol<Statement>
-				{
-					private final StatementProtocol statementProtocol;
-					private final StatementAuthorityProtocol statementAuthorityProtocol;
-
-					public StatementProtocolWithAuthority(int requiredVersion, PersistenceManager persistenceManager, Transaction transaction)
-					{
-						super(0, persistenceManager, transaction);
-						checkVersionAvailability(SubProtocol.class, requiredVersion);
-						this.statementProtocol = new StatementProtocol(0, persistenceManager, transaction);
-						this.statementAuthorityProtocol = new StatementAuthorityProtocol(0, persistenceManager, transaction);
-					}
-
-					@Override
-					public void send(DataOutput out, Statement statement) throws IOException
-					{
-						statementProtocol.send(out, statement);
-						StatementAuthority statementAuthority = statement.getAuthority(getTransaction());
-						statementAuthorityProtocol.send(out, statementAuthority);
-					}
-
-					@Override
-					public Statement recv(DataInput in) throws IOException, ProtocolException
-					{
-						Statement statement = statementProtocol.recv(in);
-						StatementAuthority statementAuthority = statementAuthorityProtocol.recv(in);
-						if (!statementAuthority.getStatementUuid().equals(statement.getUuid()))
-							throw new ProtocolException();
-						return statement;
-					}
-
-					@Override
-					public void skip(DataInput in) throws IOException, ProtocolException
-					{
-						statementProtocol.skip(in);
-						statementAuthorityProtocol.skip(in);
-					}
-				}
-
-				private final StatementProtocolWithAuthority statementProtocolWithAuthority;
-
-				public SubProtocol(int requiredVersion, PersistenceManager persistenceManager, Transaction transaction, MessageCode messageCode)
-				{
-					super(0, persistenceManager, transaction, messageCode);
-					checkVersionAvailability(SubProtocol.class, requiredVersion);
-					this.statementProtocolWithAuthority = new StatementProtocolWithAuthority(0, persistenceManager, transaction);
-				}
-
-				@Override
-				protected void sendValue(UUID uuid, DataOutput out, Statement statement) throws IOException
-				{
-					statementProtocolWithAuthority.send(out, statement);
-				}
-
-				@Override
-				protected Statement recvValue(UUID uuid, DataInput in) throws IOException, ProtocolException
-				{
-					return statementProtocolWithAuthority.recv(in);
-				}
-
-				@Override
-				protected void skipValue(DataInput in) throws IOException, ProtocolException
-				{
-					statementProtocolWithAuthority.skip(in);
-				}
-
-				@Override
-				public StatementResponseMessage recv(DataInput in) throws IOException, ProtocolException
-				{
-					return new StatementResponseMessage(recvEntries(in));
-				}
-
+				Statement statement = statementProtocol.recv(in);
+				StatementAuthority statementAuthority = statementAuthorityProtocol.recv(in);
+				if (!statementAuthority.getStatementUuid().equals(statement.getUuid()))
+					throw new ProtocolException();
+				return statement;
 			}
+
+			@Override
+			public void skip(DataInput in) throws IOException, ProtocolException
+			{
+				statementProtocol.skip(in);
+				statementAuthorityProtocol.skip(in);
+			}
+		}
+
+		private final StatementProtocolWithAuthority statementProtocolWithAuthority;
+
+		public SubProtocol(int requiredVersion, PersistenceManager persistenceManager, Transaction transaction, MessageCode messageCode)
+		{
+			super(0, persistenceManager, transaction, messageCode);
+			checkVersionAvailability(SubProtocol.class, requiredVersion);
+			this.statementProtocolWithAuthority = new StatementProtocolWithAuthority(0, persistenceManager, transaction);
+		}
+
+		@Override
+		protected void sendValue(UUID uuid, DataOutput out, Statement statement) throws IOException
+		{
+			statementProtocolWithAuthority.send(out, statement);
+		}
+
+		@Override
+		protected Statement recvValue(UUID uuid, DataInput in) throws IOException, ProtocolException
+		{
+			return statementProtocolWithAuthority.recv(in);
+		}
+
+		@Override
+		protected void skipValue(DataInput in) throws IOException, ProtocolException
+		{
+			statementProtocolWithAuthority.skip(in);
+		}
+
+		@Override
+		public StatementResponseMessage recv(DataInput in) throws IOException, ProtocolException
+		{
+			return new StatementResponseMessage(recvEntries(in));
+		}
+
+	}
 
 }

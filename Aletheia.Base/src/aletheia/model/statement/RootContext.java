@@ -172,7 +172,7 @@ public class RootContext extends Context
 	}
 
 	public static RootContext create(PersistenceManager persistenceManager, Transaction transaction, String termString) throws TermParserException,
-	StatementException
+			StatementException
 	{
 		return create(persistenceManager, transaction, AletheiaTermParser.parseTerm(termString));
 	}

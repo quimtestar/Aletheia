@@ -233,10 +233,10 @@ public class CompositionTerm extends SimpleTerm
 		{
 			if (((CompositionTerm) other).getTail() instanceof CompositionTerm)
 				return diffHead.toStringRight(variableToIdentifier, parameterNumerator) + " ("
-				+ diffTail.toStringRight(variableToIdentifier, parameterNumerator) + ")";
+						+ diffTail.toStringRight(variableToIdentifier, parameterNumerator) + ")";
 			else
 				return diffHead.toStringRight(variableToIdentifier, parameterNumerator) + " "
-				+ diffTail.toStringRight(variableToIdentifier, parameterNumerator);
+						+ diffTail.toStringRight(variableToIdentifier, parameterNumerator);
 		}
 	}
 

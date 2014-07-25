@@ -62,7 +62,7 @@ public abstract class ResourceResponseRouteableSubMessage extends ResponseRoutea
 		}
 
 		protected abstract M recv(UUID origin, int sequence, UUID target, int sequenceResponse, Resource resource, DataInput in) throws IOException,
-		ProtocolException;
+				ProtocolException;
 
 		@Override
 		public void send(DataOutput out, M m) throws IOException

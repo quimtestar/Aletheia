@@ -48,7 +48,7 @@ public abstract class PersonsDialog extends EphemeralDialog
 	protected Collection<PersonInfoMessage.Entry> dialogatePersonInfoSend(Collection<Person> persons) throws IOException, InterruptedException
 	{
 		Collection<PersonInfoMessage.Entry> entries = new BijectionCollection<Person, PersonInfoMessage.Entry>(new Bijection<Person, PersonInfoMessage.Entry>()
-				{
+		{
 
 			@Override
 			public PersonInfoMessage.Entry forward(Person person)
@@ -61,15 +61,15 @@ public abstract class PersonsDialog extends EphemeralDialog
 			{
 				throw new UnsupportedOperationException();
 			}
-				}, new FilteredCollection<Person>(new Filter<Person>()
-						{
+		}, new FilteredCollection<Person>(new Filter<Person>()
+		{
 
-					@Override
-					public boolean filter(Person person)
-					{
-						return person.isSigned();
-					}
-						}, persons));
+			@Override
+			public boolean filter(Person person)
+			{
+				return person.isSigned();
+			}
+		}, persons));
 
 		sendMessage(new PersonInfoMessage(entries));
 		return entries;
@@ -83,7 +83,7 @@ public abstract class PersonsDialog extends EphemeralDialog
 	protected Collection<UUID> dialogatePersonRequestSend(PersonInfoMessage personsInfoMessage) throws IOException, InterruptedException
 	{
 		Collection<UUID> requestUuids = new BijectionCollection<Map.Entry<UUID, PersonInfo>, UUID>(new Bijection<Map.Entry<UUID, PersonInfo>, UUID>()
-				{
+		{
 
 			@Override
 			public UUID forward(Map.Entry<UUID, PersonInfo> input)
@@ -96,23 +96,23 @@ public abstract class PersonsDialog extends EphemeralDialog
 			{
 				throw new UnsupportedOperationException();
 			}
-				}, new FilteredCollection<>(new Filter<Map.Entry<UUID, PersonInfo>>()
-						{
-					@Override
-					public boolean filter(Map.Entry<UUID, PersonInfo> e)
-					{
-						UUID uuid = e.getKey();
-						Person person = getPersistenceManager().getPerson(getTransaction(), uuid);
-						if (person == null)
-							return true;
-						if (!person.isSigned())
-							return true;
-						PersonInfo info = e.getValue();
-						if (person.getSignatureDate().compareTo(info.getSignatureDate()) < 0)
-							return true;
-						return false;
-					}
-						}, personsInfoMessage.getMap().entrySet()));
+		}, new FilteredCollection<>(new Filter<Map.Entry<UUID, PersonInfo>>()
+		{
+			@Override
+			public boolean filter(Map.Entry<UUID, PersonInfo> e)
+			{
+				UUID uuid = e.getKey();
+				Person person = getPersistenceManager().getPerson(getTransaction(), uuid);
+				if (person == null)
+					return true;
+				if (!person.isSigned())
+					return true;
+				PersonInfo info = e.getValue();
+				if (person.getSignatureDate().compareTo(info.getSignatureDate()) < 0)
+					return true;
+				return false;
+			}
+		}, personsInfoMessage.getMap().entrySet()));
 		sendMessage(new PersonRequestMessage(requestUuids));
 		return requestUuids;
 	}

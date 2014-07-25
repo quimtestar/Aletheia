@@ -546,7 +546,7 @@ public class StandAlonePeerToPeerNodeSubscriptions
 	private ConfigurationTree configurationTree;
 
 	public StandAlonePeerToPeerNodeSubscriptions(PersistenceManager persistenceManager, PeerToPeerNode peerToPeerNode) throws IOException,
-	ConfigurationException, InterruptedException
+			ConfigurationException, InterruptedException
 	{
 		this.persistenceManager = persistenceManager;
 		this.peerToPeerNode = peerToPeerNode;
