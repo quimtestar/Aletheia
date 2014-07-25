@@ -55,7 +55,7 @@ public class PersistenceSecretKeyManager
 	private final static String secretKeySpecAlgorithm = "AES";
 	private final static String messageDigestAlgorithm = "SHA1";
 	private final static int iterationCount = 1 << 12;
-	private final static int keyLength = 256;
+	private final static int keyLength = 128;
 	private final static int testLength = 16;
 	private final static int generatedVerificationVersion = 0;
 
