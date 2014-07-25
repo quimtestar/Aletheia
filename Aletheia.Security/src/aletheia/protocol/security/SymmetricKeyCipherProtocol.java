@@ -24,13 +24,11 @@ import java.io.DataInputStream;
 import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import java.security.GeneralSecurityException;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
 import aletheia.protocol.Protocol;
@@ -86,9 +84,9 @@ public class SymmetricKeyCipherProtocol<T> extends CipherProtocol<T>
 				byteArrayProtocol.send(out, data);
 			byteArrayProtocol.send(out, new byte[0]);
 		}
-		catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | IllegalBlockSizeException | BadPaddingException e)
+		catch (GeneralSecurityException e)
 		{
-			throw new RuntimeException(e);
+			throw new CipherException(e);
 		}
 		finally
 		{
@@ -152,9 +150,9 @@ public class SymmetricKeyCipherProtocol<T> extends CipherProtocol<T>
 			T t = getInner().recv(new DataInputStream(sis));
 			return t;
 		}
-		catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException e)
+		catch (GeneralSecurityException e)
 		{
-			throw new ProtocolException(e);
+			throw new CipherException(e);
 		}
 		catch (ExceptionCapsule e)
 		{

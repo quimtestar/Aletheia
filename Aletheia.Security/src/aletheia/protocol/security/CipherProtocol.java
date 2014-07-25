@@ -22,6 +22,7 @@ package aletheia.protocol.security;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.security.Key;
 
 import aletheia.protocol.Protocol;
@@ -61,17 +62,35 @@ public abstract class CipherProtocol<T> extends Protocol<T>
 	{
 		return inner;
 	}
+	
+	public static class CipherException extends RuntimeException
+	{
+		private static final long serialVersionUID = 6185585348650786411L;
+
+		CipherException(GeneralSecurityException cause)
+		{
+			super(cause);
+		}
+
+		@Override
+		public synchronized GeneralSecurityException getCause()
+		{
+			return (GeneralSecurityException) super.getCause();
+		}
+		
+	}
 
 	@Override
-	public void send(DataOutput out, T t) throws IOException
+	public void send(DataOutput out, T t) throws IOException, CipherException
 	{
 		stringProtocol.send(out, algorithm);
 	}
 
-	protected abstract T recv(String algorithm, DataInput in) throws IOException, ProtocolException;
+	protected abstract T recv(String algorithm, DataInput in) throws IOException, ProtocolException, CipherException;
 
+	
 	@Override
-	public final T recv(DataInput in) throws IOException, ProtocolException
+	public final T recv(DataInput in) throws IOException, ProtocolException, CipherException
 	{
 		String algorithm = stringProtocol.recv(in);
 		return recv(algorithm, in);

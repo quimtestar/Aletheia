@@ -22,15 +22,12 @@ package aletheia.protocol.security;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import java.security.InvalidKeyException;
+import java.security.GeneralSecurityException;
 import java.security.Key;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 
 import aletheia.protocol.Protocol;
@@ -87,9 +84,9 @@ public abstract class AsymmetricKeyCipherProtocol<T> extends CipherProtocol<T>
 			SymmetricKeyCipherProtocol<T> symmetricKeyCipherProtocol = new SymmetricKeyCipherProtocol<>(0, symmetricAlgorithm, secretKey, getInner());
 			symmetricKeyCipherProtocol.send(out, t);
 		}
-		catch (NoSuchPaddingException | NoSuchAlgorithmException | InvalidKeyException | IllegalBlockSizeException e)
+		catch (GeneralSecurityException e)
 		{
-			throw new RuntimeException(e);
+			throw new CipherException(e);
 		}
 	}
 
@@ -106,9 +103,9 @@ public abstract class AsymmetricKeyCipherProtocol<T> extends CipherProtocol<T>
 			SymmetricKeyCipherProtocol<T> symmetricKeyCipherProtocol = new SymmetricKeyCipherProtocol<>(0, null, secretKey, getInner());
 			return symmetricKeyCipherProtocol.recv(in);
 		}
-		catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException e)
+		catch (GeneralSecurityException e)
 		{
-			throw new ProtocolException(e);
+			throw new CipherException(e);
 		}
 		finally
 		{
