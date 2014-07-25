@@ -27,6 +27,15 @@ import aletheia.protocol.ProtocolInfo;
 @ProtocolInfo(availableVersions = 0)
 public class AESCipherProtocol<T> extends SymmetricKeyCipherProtocol<T>
 {
+	static
+	{
+		/*
+		 * If the AES key length is > 128, we can remove the Oracle's JRE default
+		 * restriction calling this. 
+		 */
+//		SecurityUtilities.instance.removeCryptographyRestrictions();
+	}
+
 	private final static String algorithm = "AES";
 
 	public AESCipherProtocol(int requiredVersion, SecretKey secretKey, Protocol<T> inner)
