@@ -63,14 +63,17 @@ public class SelectStatement extends TransactionalCommand
 			Statement statement;
 			if (split.size() > 0)
 			{
-				try
-				{
-					statement = cliJPanel.getPersistenceManager().getStatement(transaction, UUID.fromString(split.get(0)));
-				}
-				catch (IllegalArgumentException e)
-				{
-					statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(0));
-				}
+				if (split.get(0).startsWith("$"))
+					statement=cliJPanel.getActiveContext().getStatementByHexRef(transaction, split.get(0));
+				else
+					try
+					{
+						statement = cliJPanel.getPersistenceManager().getStatement(transaction, UUID.fromString(split.get(0)));
+					}
+					catch (IllegalArgumentException e)
+					{
+						statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(0));
+					}
 			}
 			else
 				statement = cliJPanel.getActiveContext();
