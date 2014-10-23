@@ -20,6 +20,7 @@
 package aletheia.gui.app;
 
 import java.awt.Toolkit;
+import java.util.Properties;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -86,6 +87,8 @@ public class AletheiaGUI
 	{
 		try
 		{
+			Properties props = System.getProperties();
+			props.setProperty("awt.useSystemAAFontSettings", "on");
 			LoggerManager.setUncaughtExceptionHandler();
 			LookAndFeel laf = new MyLookAndFeel();
 			UIManager.setLookAndFeel(laf);
