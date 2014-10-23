@@ -25,6 +25,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -41,7 +42,6 @@ import aletheia.utilities.aborter.Aborter.AbortException;
 
 import com.sleepycat.je.CursorConfig;
 import com.sleepycat.je.Transaction;
-import com.sleepycat.je.utilint.IdentityHashMap;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.PrimaryIndex;
 import com.sleepycat.persist.StoreConfig;
