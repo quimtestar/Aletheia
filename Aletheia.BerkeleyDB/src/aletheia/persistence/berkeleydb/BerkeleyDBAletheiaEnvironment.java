@@ -31,7 +31,7 @@ import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.utilities.collections.Filter;
@@ -51,7 +51,7 @@ import com.sleepycat.je.Transaction;
 
 public class BerkeleyDBAletheiaEnvironment extends Environment
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	public BerkeleyDBAletheiaEnvironment(BerkeleyDBPersistenceManager.Configuration configuration)
 	{

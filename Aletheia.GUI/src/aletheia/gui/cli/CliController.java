@@ -27,7 +27,7 @@ import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.cli.command.Command;
 import aletheia.gui.cli.command.gui.SimpleMessage;
@@ -37,7 +37,7 @@ import aletheia.log4j.LoggerManager;
 
 public class CliController extends Thread
 {
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	private class MemoryMonitorThread extends Thread
 	{

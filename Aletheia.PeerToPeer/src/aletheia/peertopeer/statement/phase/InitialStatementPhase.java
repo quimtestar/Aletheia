@@ -21,7 +21,7 @@ package aletheia.peertopeer.statement.phase;
 
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.base.dialog.Dialog.DialogStreamException;
@@ -31,7 +31,7 @@ import aletheia.protocol.ProtocolException;
 
 public class InitialStatementPhase extends StatementSubPhase
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	public InitialStatementPhase(StatementPhase statementPhase)
 	{

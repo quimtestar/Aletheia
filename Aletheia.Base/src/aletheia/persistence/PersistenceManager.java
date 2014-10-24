@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.backuprestore.BackupRestore;
 import aletheia.backuprestore.PrivateSignatoryBackupRestore;
@@ -167,7 +167,7 @@ import aletheia.utilities.collections.CombinedCloseableSet;
 public abstract class PersistenceManager
 {
 	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	public interface StartupProgressListener
 	{

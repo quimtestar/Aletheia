@@ -23,7 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBAletheiaEnvironment;
@@ -38,7 +38,7 @@ import com.sleepycat.persist.raw.RawObject;
 public class EntityStoreUpgrade_003 extends EntityStoreUpgrade_004
 {
 	@SuppressWarnings("unused")
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	public EntityStoreUpgrade_003()
 	{

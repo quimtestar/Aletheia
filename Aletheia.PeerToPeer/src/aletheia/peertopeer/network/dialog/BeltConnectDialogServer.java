@@ -21,7 +21,7 @@ package aletheia.peertopeer.network.dialog;
 
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.PeerToPeerNode.ConnectException;
@@ -33,7 +33,7 @@ import aletheia.utilities.io.NonBlockingSocketChannelStream.TimeoutException;
 
 public class BeltConnectDialogServer extends BeltConnectDialog
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	public BeltConnectDialogServer(Phase phase)
 	{

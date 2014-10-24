@@ -21,7 +21,7 @@ package aletheia.peertopeer.conjugal.dialog;
 
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.MalePeerToPeerNode;
@@ -35,7 +35,7 @@ import aletheia.utilities.io.NonBlockingSocketChannelStream.TimeoutException;
 
 public class FemaleOpenConnectionDialogMale extends FemaleOpenConnectionDialog
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	public FemaleOpenConnectionDialogMale(Phase phase)
 	{

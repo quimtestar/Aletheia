@@ -26,7 +26,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 
@@ -36,7 +36,7 @@ public class BerkeleyDBAletheiaMutations extends Mutations
 {
 	private static final long serialVersionUID = 7528815599542804717L;
 
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	//@formatter:off
 	private final static List<Class<? extends MutationSet>> mutationSetClasses=new ArrayList<Class<? extends MutationSet>>(Arrays.asList(

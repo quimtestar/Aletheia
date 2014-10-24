@@ -29,7 +29,7 @@ import java.util.UUID;
 
 import javax.crypto.SecretKey;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.Person.PersonCreationException;
@@ -43,7 +43,7 @@ import aletheia.security.utilities.SecurityUtilities;
 
 public abstract class PrivateSignatory extends Signatory
 {
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	private static final String creationKeyPairGenerationAlgorithm = "RSA";
 	private static final String creationSignatureAlgorithm = "SHA1withRSA";

@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.PeerToPeerConnection;
@@ -41,7 +41,7 @@ import aletheia.utilities.aborter.ListenableAborter;
 
 public abstract class RootPhase extends Phase
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 	private final static int localProtocolVersion = 1;
 
 	private int protocolVersion;

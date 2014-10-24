@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.gui;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.statement.NonOperationalCommand;
@@ -28,7 +28,7 @@ import aletheia.parser.TermParserException;
 
 public class TraceException extends NonOperationalCommand
 {
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	private final String message;
 	private final Exception exception;

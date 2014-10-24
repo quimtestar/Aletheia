@@ -81,7 +81,7 @@ import javax.swing.text.StyledEditorKit;
 import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.app.AletheiaJPanel;
 import aletheia.gui.catalogjtree.CatalogJTree;
@@ -111,7 +111,7 @@ import aletheia.utilities.gui.MyJSplitPane;
 public class CliJPanel extends JPanel
 {
 	private static final long serialVersionUID = -2211989098955644681L;
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	private class MyKeyListener implements KeyListener
 	{

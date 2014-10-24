@@ -20,8 +20,10 @@
 package aletheia.log4j;
 
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.Properties;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.LoggerContext;
 
 /**
  * Statically configures the Log4J library with a properties file named
@@ -34,49 +36,34 @@ import org.apache.log4j.Logger;
  */
 public class LoggerManager
 {
-	/* TODO migrate to a more pure log4j2 structure
-	private final static String xmlFileName = "aletheia/log4j/log4j2.xml";
-	private final static LoggerContext loggerContext=new LoggerContext("aletheia");
+	private final static String confFileSysProp = "log4j.configurationFile";
+	private final static String defaultConfFile = "aletheia.log4j2.xml";
 
-	static
+	private final LoggerContext loggerContext;
+
+	private LoggerManager()
 	{
-		InputStream is = ClassLoader.getSystemResourceAsStream(xmlFileName);
-		try
-		{
-			Configuration configuration=XmlConfigurationFactory.getInstance().getConfiguration(new ConfigurationSource(is));
-			loggerContext.start(configuration);
-		}
-		catch (Exception e)
-		{
-			logger().error(e.getMessage(), e);
-		}
-		finally
-		{
-			if (is != null)
-				try
-				{
-					is.close();
-				}
-				catch (IOException e)
-				{
-					logger().error(e.getMessage(), e);
-				}
-		}
+		Properties sysProps = System.getProperties();
+		if (sysProps.get(confFileSysProp) == null)
+			sysProps.put(confFileSysProp, defaultConfFile);
+		loggerContext = new LoggerContext("aletheia");
+		loggerContext.start();
 	}
-	 */
+
+	public static LoggerManager instance = new LoggerManager();
 
 	/**
 	 * Creates a new {@link Logger} object named after the class from which this
 	 * method is called. Meant to be called statically once for each class where
 	 * logging is needed.
 	 */
-	public static Logger logger()
+	public Logger logger()
 	{
 		String className = Thread.currentThread().getStackTrace()[2].getClassName();
-		return Logger.getLogger(className);
+		return loggerContext.getLogger(className);
 	}
 
-	private final static Logger logger = logger();
+	private final static Logger logger = instance.logger();
 
 	/**
 	 * Configures an {@link UncaughtExceptionHandler} that logs a fatal error
@@ -87,7 +74,7 @@ public class LoggerManager
 	 * @see Logger#fatal(Object, Throwable)
 	 * @see Exception#printStackTrace(java.io.PrintStream)
 	 */
-	public static void setUncaughtExceptionHandler()
+	public void setUncaughtExceptionHandler()
 	{
 		Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler()
 		{

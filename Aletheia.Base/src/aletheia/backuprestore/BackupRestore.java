@@ -35,7 +35,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.DelegateTreeRootNode;
@@ -85,7 +85,7 @@ import aletheia.utilities.collections.BufferedList;
  */
 public class BackupRestore
 {
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 	private static final int backupVersion = 0;
 
 	private final PersistenceManager persistenceManager;

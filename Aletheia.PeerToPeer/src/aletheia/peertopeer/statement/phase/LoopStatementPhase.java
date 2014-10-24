@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.Person;
@@ -63,7 +63,7 @@ import aletheia.utilities.aborter.ListenableAborter;
 public class LoopStatementPhase extends StatementSubPhase
 {
 	@SuppressWarnings("unused")
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private class LoopStatementSubPhase extends LoopSubPhase<LoopStatementDialogType>
 	{

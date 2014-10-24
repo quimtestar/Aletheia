@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.EnumSet;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.NodeAddress;
@@ -53,7 +53,7 @@ import aletheia.protocol.ProtocolException;
 
 public class InitialNetworkPhase extends NetworkSubPhase
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 	private final static float waitForJoinedToNetworkTimeout = PeerToPeerNodeProperties.instance.isDebug() ? 0f : 20f; // in secs;
 
 	private InitialNetworkPhaseType type;

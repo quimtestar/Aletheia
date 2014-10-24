@@ -33,7 +33,7 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.common.PersistentTreeModel;
 import aletheia.log4j.LoggerManager;
@@ -52,7 +52,7 @@ import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
 
 public class CatalogTreeModel extends PersistentTreeModel
 {
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	private class VirtualRootTreeNode implements TreeNode
 	{

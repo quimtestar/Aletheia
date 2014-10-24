@@ -22,14 +22,14 @@ package aletheia.peertopeer;
 import java.io.IOException;
 import java.util.Random;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.PeerToPeerNode.ConnectException;
 
 public class ConjugalNetworkJoinThread extends Thread
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final static int connectionIntervalBase = 600 * 1000;
 

@@ -22,14 +22,14 @@ package aletheia.persistence;
 import java.util.Date;
 import java.util.PriorityQueue;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.Person;
 
 public class PersistenceSchedulerThread extends Thread
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final PersistenceManager persistenceManager;
 

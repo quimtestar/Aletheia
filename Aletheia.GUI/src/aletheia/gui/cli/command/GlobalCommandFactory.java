@@ -32,7 +32,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.Command.CommandException;
@@ -62,7 +62,7 @@ import aletheia.utilities.collections.UnionCloseableIterable;
  */
 public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 {
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	public static final GlobalCommandFactory instance = new GlobalCommandFactory();
 

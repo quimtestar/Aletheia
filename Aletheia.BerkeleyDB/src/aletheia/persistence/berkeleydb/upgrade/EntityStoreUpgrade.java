@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBAletheiaEntityStore;
@@ -53,7 +53,7 @@ import com.sleepycat.persist.raw.RawType;
 
 public abstract class EntityStoreUpgrade
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	@SuppressWarnings("unchecked")
 	// @formatter:off

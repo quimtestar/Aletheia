@@ -24,7 +24,7 @@ import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Queue;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.PeerToPeerNodeProperties;
@@ -37,7 +37,7 @@ import aletheia.utilities.io.NonBlockingSocketChannelStream;
 
 public abstract class Dialog extends SubPhase
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final static float initialRemainingTime = PeerToPeerNodeProperties.instance.isDebug() ? 0f : 60f; // in seconds
 

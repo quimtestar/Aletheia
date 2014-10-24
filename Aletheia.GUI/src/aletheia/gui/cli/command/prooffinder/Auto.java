@@ -21,7 +21,7 @@ package aletheia.gui.cli.command.prooffinder;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
@@ -37,7 +37,7 @@ import aletheia.persistence.Transaction;
 public class Auto extends TransactionalCommand
 {
 	@SuppressWarnings("unused")
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final Context context;
 

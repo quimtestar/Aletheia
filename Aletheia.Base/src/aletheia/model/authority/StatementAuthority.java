@@ -32,7 +32,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.DelegateTreeRootNode.DateConsistenceException;
@@ -77,7 +77,7 @@ import aletheia.utilities.collections.TrivialCloseableCollection;
 
 public class StatementAuthority implements Exportable
 {
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	private final PersistenceManager persistenceManager;
 	private final StatementAuthorityEntity entity;

@@ -22,7 +22,7 @@ package aletheia.peertopeer.ephemeral.dialog;
 import java.io.IOException;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.peertopeer.deferredmessagecontent.DeferredMessageContent;
@@ -39,7 +39,7 @@ import aletheia.utilities.io.NonBlockingSocketChannelStream.TimeoutException;
 public class SendDeferredMessageDialogServer extends SendDeferredMessageDialog
 {
 	@SuppressWarnings("unused")
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	public SendDeferredMessageDialogServer(Phase phase)
 	{

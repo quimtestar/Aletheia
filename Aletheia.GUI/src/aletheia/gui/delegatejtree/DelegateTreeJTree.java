@@ -33,7 +33,7 @@ import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.authority.AuthorityJPanel;
 import aletheia.gui.cli.CliJPanel;
@@ -46,7 +46,7 @@ import aletheia.model.authority.StatementAuthority;
 public class DelegateTreeJTree extends PersistentJTree
 {
 	private static final long serialVersionUID = 5047015418425845594L;
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	private class MyTreeCellRenderer implements TreeCellRenderer
 	{

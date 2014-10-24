@@ -21,7 +21,7 @@ package aletheia.peertopeer.base.dialog;
 
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.PeerToPeerNode.ConnectException;
@@ -33,7 +33,7 @@ import aletheia.protocol.ProtocolException;
 
 public class SalutationDialogFemale extends SalutationDialog
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	public SalutationDialogFemale(Phase phase, int localProtocolVersion)
 	{

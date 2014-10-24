@@ -35,7 +35,7 @@ import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.app.AletheiaJPanel;
 import aletheia.gui.cli.command.authority.DeleteSignatureRequest;
@@ -57,7 +57,7 @@ public class SignatureRequestJTree extends PersistentJTree
 {
 	private static final long serialVersionUID = 8695555047460498899L;
 
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final AletheiaJPanel aletheiaJPanel;
 

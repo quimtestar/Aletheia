@@ -38,7 +38,7 @@ import java.util.SortedMap;
 import java.util.Stack;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.ContextAuthority;
@@ -120,7 +120,7 @@ import aletheia.utilities.collections.UnmodifiableCloseableMap;
  */
 public class Context extends Statement
 {
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	public abstract static class ContextException extends StatementException
 	{

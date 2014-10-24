@@ -22,7 +22,7 @@ package aletheia.gui.signaturerequestjtree;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.SignatureRequest;
@@ -31,7 +31,7 @@ public class RequestSignatureRequestTreeNodeRenderer extends SignatureRequestTre
 {
 	private static final long serialVersionUID = 4218146842946975144L;
 
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	protected class Listener extends SignatureRequestTreeNodeRenderer.Listener
 	{

@@ -25,7 +25,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Collection;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.base.phase.LoopSubPhase.CancelledCommandException;
@@ -39,7 +39,7 @@ import aletheia.utilities.AsynchronousInvoker;
 
 public class MalePeerToPeerNode extends PeerToPeerNode
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final InetSocketAddress surrogateAddress;
 

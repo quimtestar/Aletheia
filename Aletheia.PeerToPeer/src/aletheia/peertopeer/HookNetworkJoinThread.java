@@ -26,7 +26,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.peertopeer.Hook;
@@ -38,7 +38,7 @@ import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
 
 public class HookNetworkJoinThread extends Thread
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final static double factor = 0.8;
 	private final static int connectionIntervalBase = 600 * 1000;

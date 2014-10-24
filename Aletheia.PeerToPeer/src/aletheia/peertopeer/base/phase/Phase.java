@@ -30,7 +30,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.PeerToPeerConnection;
@@ -45,7 +45,7 @@ import aletheia.utilities.io.NonBlockingSocketChannelStream;
 
 public abstract class Phase
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final PeerToPeerConnection peerToPeerConnection;
 

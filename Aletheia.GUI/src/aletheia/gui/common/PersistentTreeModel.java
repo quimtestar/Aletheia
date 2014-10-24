@@ -31,7 +31,7 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.persistence.PersistenceManager;
@@ -40,7 +40,7 @@ import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
 
 public abstract class PersistentTreeModel implements TreeModel
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 	private final static int transactionTimeOut = 100;
 
 	private final PersistenceManager persistenceManager;

@@ -64,7 +64,7 @@ public class SelectStatement extends TransactionalCommand
 			if (split.size() > 0)
 			{
 				if (split.get(0).startsWith("$"))
-					statement=cliJPanel.getActiveContext().getStatementByHexRef(transaction, split.get(0));
+					statement = cliJPanel.getActiveContext().getStatementByHexRef(transaction, split.get(0));
 				else
 					try
 					{

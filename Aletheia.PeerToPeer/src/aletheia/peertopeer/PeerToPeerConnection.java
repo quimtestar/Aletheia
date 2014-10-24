@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.nio.channels.SocketChannel;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.base.phase.RootPhase;
@@ -44,7 +44,7 @@ import aletheia.utilities.io.NonBlockingSocketChannelStream;
 
 public abstract class PeerToPeerConnection extends Thread
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final static int socketChannelExtraTime = 100;
 

@@ -27,7 +27,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.peertopeer.DeferredMessage;
@@ -78,7 +78,7 @@ import aletheia.protocol.ProtocolException;
 
 public class LoopNetworkPhase extends NetworkSubPhase
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 	private final static int closestConnectRetryTime = 500;
 
 	private class LoopNetworkSubPhase extends LoopSubPhase<LoopNetworkDialogType>

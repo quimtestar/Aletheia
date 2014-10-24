@@ -23,7 +23,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JLabel;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.StatementAuthority;
@@ -34,7 +34,7 @@ import aletheia.persistence.Transaction;
 public class StatementSignatureRequestTreeNodeRenderer extends SignatureRequestTreeNodeRenderer
 {
 	private static final long serialVersionUID = -397830765452814828L;
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	protected class Listener extends SignatureRequestTreeNodeRenderer.Listener
 	{

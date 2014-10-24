@@ -26,7 +26,7 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.NodeAddress;
@@ -43,7 +43,7 @@ import aletheia.utilities.io.NonBlockingSocketChannelStream.TimeoutException;
 
 public class BeltDialogMale extends BeltDialog
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final EnumSet<Side> requestSides;
 

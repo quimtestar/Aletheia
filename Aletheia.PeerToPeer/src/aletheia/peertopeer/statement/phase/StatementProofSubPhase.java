@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Stack;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.base.dialog.Dialog.DialogStreamException;
@@ -35,7 +35,7 @@ import aletheia.protocol.ProtocolException;
 
 public class StatementProofSubPhase extends SubPhase
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final Constructor<? extends InitializeStatementProofDialog> initializeStatementProofDialogConstructor;
 

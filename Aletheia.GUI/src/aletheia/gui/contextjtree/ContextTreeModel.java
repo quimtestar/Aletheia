@@ -31,7 +31,7 @@ import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreePath;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.common.PersistentTreeModel;
 import aletheia.log4j.LoggerManager;
@@ -58,7 +58,7 @@ import aletheia.utilities.collections.CloseableIterator;
 
 public class ContextTreeModel extends PersistentTreeModel
 {
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	private final StatementTreeNodeMap nodeMap;
 	private final Set<ContextJTree.TreeModelListener> contextJTreeListeners;

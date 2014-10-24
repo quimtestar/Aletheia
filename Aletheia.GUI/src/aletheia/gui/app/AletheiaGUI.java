@@ -27,7 +27,7 @@ import javax.swing.JOptionPane;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.icons.IconManager;
 import aletheia.gui.lookandfeel.MyLookAndFeel;
@@ -36,7 +36,7 @@ import aletheia.utilities.MiscUtilities;
 
 public class AletheiaGUI
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final AletheiaEventQueue aletheiaEventQueue;
 
@@ -89,7 +89,7 @@ public class AletheiaGUI
 		{
 			Properties props = System.getProperties();
 			props.setProperty("awt.useSystemAAFontSettings", "on");
-			LoggerManager.setUncaughtExceptionHandler();
+			LoggerManager.instance.setUncaughtExceptionHandler();
 			LookAndFeel laf = new MyLookAndFeel();
 			UIManager.setLookAndFeel(laf);
 			AletheiaGUI aletheiaGUI = new AletheiaGUI();

@@ -30,7 +30,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.DelegateTreeRootNode;
@@ -76,7 +76,7 @@ import aletheia.utilities.io.NonBlockingSocketChannelStream.TimeoutException;
 
 public class IterationStatementProofDialog extends StatementProofDialog
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 	private final static int contextAmount = 100;
 	private final static float statementExtendTime = 0.3f; // in seconds
 

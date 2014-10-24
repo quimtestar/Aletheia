@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.EnumSet;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.NodeAddress;
@@ -39,7 +39,7 @@ import aletheia.utilities.io.NonBlockingSocketChannelStream.TimeoutException;
 
 public class BeltDialogFemale extends BeltDialog
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	public BeltDialogFemale(Phase phase)
 	{

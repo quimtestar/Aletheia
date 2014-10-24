@@ -42,7 +42,7 @@ import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.app.AletheiaJPanel;
 import aletheia.gui.cli.CliJPanel;
@@ -65,7 +65,7 @@ import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
 public class ContextJTree extends PersistentJTree
 {
 	private static final long serialVersionUID = -3960303519547692814L;
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	private abstract class CellComponentManager
 	{

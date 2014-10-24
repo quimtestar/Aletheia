@@ -22,7 +22,7 @@ package aletheia.persistence.berkeleydb;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
@@ -44,7 +44,7 @@ import com.sleepycat.persist.SecondaryIndex;
 public class BerkeleyDBAletheiaTemporaryEntityStore extends BerkeleyDBAletheiaAbstractEntityStore
 {
 	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	@SuppressWarnings("deprecation")
 	private static final Collection<Class<?>> registerClasses = Arrays.<Class<?>> asList(

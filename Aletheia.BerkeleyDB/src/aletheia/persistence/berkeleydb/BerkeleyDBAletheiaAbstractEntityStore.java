@@ -22,7 +22,7 @@ package aletheia.persistence.berkeleydb;
 import java.util.Collection;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.persistence.berkeleydb.mutations.BerkeleyDBAletheiaMutations;
@@ -45,7 +45,7 @@ import com.sleepycat.persist.raw.RawType;
 
 public abstract class BerkeleyDBAletheiaAbstractEntityStore extends EntityStore
 {
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	protected BerkeleyDBAletheiaAbstractEntityStore(BerkeleyDBAletheiaEnvironment env, String storeName, StoreConfig storeConfig) throws DatabaseException
 	{

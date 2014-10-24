@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.peertopeer.deferredmessagecontent.DeferredMessageContent;
@@ -56,7 +56,7 @@ import aletheia.utilities.MiscUtilities;
 public class RouteableSubMessageProcessor
 {
 	@SuppressWarnings("unused")
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final PeerToPeerNode peerToPeerNode;
 	private final LocalRouterSet localRouterSet;

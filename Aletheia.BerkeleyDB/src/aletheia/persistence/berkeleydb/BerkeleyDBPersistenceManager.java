@@ -37,7 +37,7 @@ import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.ContextAuthority;
@@ -225,7 +225,7 @@ import com.sleepycat.je.UniqueConstraintException;
  */
 public class BerkeleyDBPersistenceManager extends PersistenceManager
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final static String storeName = "aletheia";
 	private final static String temporaryStoreName = "aletheiaTemp";

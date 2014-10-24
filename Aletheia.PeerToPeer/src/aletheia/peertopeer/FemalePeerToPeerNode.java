@@ -26,7 +26,7 @@ import java.net.SocketAddress;
 import java.nio.channels.SocketChannel;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.persistence.PersistenceManager;
@@ -35,7 +35,7 @@ import aletheia.utilities.MiscUtilities;
 public class FemalePeerToPeerNode extends PeerToPeerNode
 {
 	@SuppressWarnings("unused")
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final HookNetworkJoinThread hookNetworkJoinThread;
 

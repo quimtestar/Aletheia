@@ -22,7 +22,7 @@ package aletheia.peertopeer.statement.phase;
 import java.io.IOException;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.statement.Context;
@@ -36,7 +36,7 @@ import aletheia.protocol.ProtocolException;
 
 public class StatementPhase extends SubRootPhase
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final InitialStatementPhase initialStatementPhase;
 	private final LoopStatementPhase loopStatementPhase;

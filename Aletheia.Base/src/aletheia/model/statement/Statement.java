@@ -34,7 +34,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.Person;
@@ -107,7 +107,7 @@ import aletheia.utilities.collections.NotNullFilter;
  */
 public abstract class Statement implements Exportable
 {
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	private final PersistenceManager persistenceManager;
 	private final StatementEntity entity;

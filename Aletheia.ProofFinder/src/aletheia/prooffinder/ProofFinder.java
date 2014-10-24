@@ -30,7 +30,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.statement.Context;
@@ -39,7 +39,7 @@ import aletheia.prooffinder.QueueEntry.UnsolvableQueueEntryException;
 
 public class ProofFinder
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final PersistenceManager persistenceManager;
 	private final ContextWatcher contextWatcher;

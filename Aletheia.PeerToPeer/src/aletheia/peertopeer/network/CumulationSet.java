@@ -33,7 +33,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.PeerToPeerNode;
@@ -55,7 +55,7 @@ import aletheia.utilities.collections.BufferedList;
 
 public class CumulationSet
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final PeerToPeerNode peerToPeerNode;
 	private final LocalRouterSet localRouterSet;

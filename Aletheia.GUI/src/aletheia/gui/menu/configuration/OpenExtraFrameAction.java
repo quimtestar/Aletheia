@@ -22,14 +22,14 @@ package aletheia.gui.menu.configuration;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.menu.AletheiaMenuAction;
 import aletheia.log4j.LoggerManager;
 
 public class OpenExtraFrameAction extends AletheiaMenuAction
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 	private static final long serialVersionUID = -6488350677927156996L;
 
 	public OpenExtraFrameAction(ConfigurationMenu configurationMenu)

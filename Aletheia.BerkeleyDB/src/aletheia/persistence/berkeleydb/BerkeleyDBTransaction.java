@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.persistence.Transaction;
@@ -42,7 +42,7 @@ import com.sleepycat.persist.PrimaryIndex;
 
 public class BerkeleyDBTransaction extends Transaction
 {
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	private final com.sleepycat.je.Transaction dbTransaction;
 	private final CursorConfig defaultCursorConfig;

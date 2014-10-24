@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.identifier.Identifier;
@@ -96,7 +96,7 @@ import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEntityStore
 {
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	private static final int storeVersion = 20;
 

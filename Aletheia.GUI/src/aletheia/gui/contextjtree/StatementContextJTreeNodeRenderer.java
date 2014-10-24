@@ -27,7 +27,7 @@ import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 import javax.swing.TransferHandler;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.log4j.LoggerManager;
@@ -46,7 +46,7 @@ import aletheia.persistence.Transaction;
 public abstract class StatementContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
 {
 	private static final long serialVersionUID = 8638570524486699014L;
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	private final Statement statement;
 	private final StatementAuthority statementAuthority;

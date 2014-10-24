@@ -22,7 +22,7 @@ package aletheia.gui.delegatejtree;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.common.PersistentJTreeNodeRenderer;
 import aletheia.log4j.LoggerManager;
@@ -30,7 +30,7 @@ import aletheia.log4j.LoggerManager;
 public abstract class DelegateTreeModelNodeRenderer extends PersistentJTreeNodeRenderer
 {
 	private static final long serialVersionUID = -7316932623303517961L;
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	private class Listener implements KeyListener
 	{

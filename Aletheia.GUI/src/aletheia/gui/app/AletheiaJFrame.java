@@ -34,7 +34,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.common.AletheiaConstants;
 import aletheia.gui.common.PassphraseDialog;
@@ -59,7 +59,7 @@ import aletheia.utilities.MiscUtilities;
 public class AletheiaJFrame extends JFrame
 {
 	private static final long serialVersionUID = 3366046447565592510L;
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	public static enum ExitState
 	{

@@ -29,7 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.base.dialog.Dialog.DialogStreamException;
@@ -42,7 +42,7 @@ import aletheia.utilities.aborter.ListenableAborter;
 
 public abstract class LoopSubPhase<T extends LoopDialogType<?>> extends SubPhase
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final Class<? extends LoopDialogTypeDialogActive<?>> loopDialogTypeDialogActiveClass;
 	private final Class<? extends LoopDialogTypeDialogPassive<?>> loopDialogTypeDialogPassiveClass;

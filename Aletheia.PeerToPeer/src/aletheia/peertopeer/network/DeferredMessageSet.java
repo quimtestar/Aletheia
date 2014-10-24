@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.peertopeer.DeferredMessage;
@@ -56,7 +56,7 @@ import aletheia.utilities.collections.CloseableCollection;
 
 public class DeferredMessageSet
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	public final static int maxDistance = 1;
 	public final static long maxAge = 7 * 24 * 60 * 60 * 1000; //millis

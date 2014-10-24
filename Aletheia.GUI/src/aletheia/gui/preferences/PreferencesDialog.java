@@ -52,7 +52,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.app.AletheiaJFrame;
 import aletheia.log4j.LoggerManager;
@@ -66,7 +66,7 @@ import aletheia.utilities.collections.UnionCollection;
 public class PreferencesDialog extends JDialog
 {
 	private static final long serialVersionUID = -7370115847771157684L;
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	private final AletheiaJFrame aletheiaJFrame;
 	private final GUIAletheiaPreferences preferences;

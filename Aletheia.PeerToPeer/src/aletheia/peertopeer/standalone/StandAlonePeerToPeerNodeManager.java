@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.FemalePeerToPeerNode;
@@ -40,7 +40,7 @@ import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 
 public class StandAlonePeerToPeerNodeManager
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 	private final static PeerToPeerNodeProperties properties = PeerToPeerNodeProperties.instance;
 
 	private final PersistenceManager persistenceManager;
@@ -167,7 +167,7 @@ public class StandAlonePeerToPeerNodeManager
 	{
 		try
 		{
-			LoggerManager.setUncaughtExceptionHandler();
+			LoggerManager.instance.setUncaughtExceptionHandler();
 			new StandAlonePeerToPeerNodeManager();
 		}
 		catch (Exception e)

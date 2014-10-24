@@ -22,7 +22,7 @@ package aletheia.utilities;
 import java.util.ArrayDeque;
 import java.util.Queue;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 
@@ -45,7 +45,7 @@ import aletheia.log4j.LoggerManager;
  */
 public class AsynchronousInvoker
 {
-	private final static Logger logger = LoggerManager.logger();
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	/**
 	 * Number of parallel tasks that might be executed in parallel.

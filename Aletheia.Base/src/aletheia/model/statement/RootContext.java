@@ -29,7 +29,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.UUID;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.Person;
@@ -66,7 +66,7 @@ import aletheia.utilities.collections.CloseableSet;
  */
 public class RootContext extends Context
 {
-	private static final Logger logger = LoggerManager.logger();
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	public static interface TopStateListener extends PersistenceListener
 	{
