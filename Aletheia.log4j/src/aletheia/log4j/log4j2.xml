@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Appenders>
+    <Console name="STDOUT" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{ISO8601}{UTC} %d{zzz}{UTC} [%t] %-5p %c - %m%n"/>
+    </Console>
+  </Appenders>
+  <Loggers>
+    <Logger name="aletheia" level="info"/>
+    <Root level="debug">
+      <AppenderRef ref="STDOUT"/>
+    </Root>
+  </Loggers>
+</Configuration>

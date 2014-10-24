@@ -19,16 +19,9 @@
  ******************************************************************************/
 package aletheia.log4j;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.Thread.UncaughtExceptionHandler;
-import java.util.Properties;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 /**
  * Statically configures the Log4J library with a properties file named
@@ -41,48 +34,20 @@ import org.apache.log4j.PropertyConfigurator;
  */
 public class LoggerManager
 {
-	private final static String propertiesFileName = "aletheia/log4j/configurator.properties";
+	/* TODO migrate to a more pure log4j2 structure
+	private final static String xmlFileName = "aletheia/log4j/log4j2.xml";
+	private final static LoggerContext loggerContext=new LoggerContext("aletheia");
 
 	static
 	{
-		Properties props = new Properties();
-		InputStream is = ClassLoader.getSystemResourceAsStream(propertiesFileName);
+		InputStream is = ClassLoader.getSystemResourceAsStream(xmlFileName);
 		try
 		{
-			if (is == null)
-				throw new Exception("Properties file not found:" + propertiesFileName);
-			props.load(is);
-			is.close();
-			is = null;
-			try
-			{
-				is = new FileInputStream("aletheia.log4j.properties");
-				if (is != null)
-				{
-					props.load(is);
-					is.close();
-					is = null;
-				}
-			}
-			catch (FileNotFoundException e)
-			{
-
-			}
-			for (Object okey : props.keySet())
-			{
-				if (okey instanceof String)
-				{
-					String key = (String) okey;
-					String value = System.getProperty(key);
-					if (value != null)
-						props.setProperty(key, value);
-				}
-			}
-			PropertyConfigurator.configure(props);
+			Configuration configuration=XmlConfigurationFactory.getInstance().getConfiguration(new ConfigurationSource(is));
+			loggerContext.start(configuration);
 		}
 		catch (Exception e)
 		{
-			BasicConfigurator.configure();
 			logger().error(e.getMessage(), e);
 		}
 		finally
@@ -98,6 +63,7 @@ public class LoggerManager
 				}
 		}
 	}
+	 */
 
 	/**
 	 * Creates a new {@link Logger} object named after the class from which this
