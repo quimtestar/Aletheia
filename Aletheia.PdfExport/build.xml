@@ -20,10 +20,11 @@
     <property name="target" value="1.7"/>
     <property name="source" value="1.7"/>
     <path id="ItextPdf Library.userclasspath">
-        <pathelement location="${Aletheia.PdfExport.location}/itextpdf-5.5.0.jar"/>
+        <pathelement location="${Aletheia.PdfExport.location}/itextpdf-5.5.3.jar"/>
     </path>
     <path id="Log4j Library.userclasspath">
-        <pathelement location="${Aletheia.log4j.location}/log4j-1.2.17.jar"/>
+        <pathelement location="${Aletheia.log4j.location}/log4j-api-2.0.2.jar"/>
+        <pathelement location="${Aletheia.log4j.location}/log4j-core-2.0.2.jar"/>
     </path>
     <path id="Aletheia.log4j.classpath">
         <pathelement location="${Aletheia.log4j.location}/bin"/>
@@ -55,7 +56,7 @@
         <path refid="Aletheia.Protocol.classpath"/>
     </path>
     <path id="Berkeley DB Library.userclasspath">
-        <pathelement location="${Aletheia.BerkeleyDB.location}/je-6.0.11.jar"/>
+        <pathelement location="${Aletheia.BerkeleyDB.location}/je-6.2.7.jar"/>
     </path>
     <path id="Aletheia.BerkeleyDB.classpath">
         <pathelement location="${Aletheia.BerkeleyDB.location}/bin"/>
