@@ -63,6 +63,7 @@ public class AletheiaGUI
 				aletheiaJFrame.pack();
 				aletheiaJFrame.setVisible(true);
 				AletheiaJFrame.ExitState state = aletheiaJFrame.waitForClose();
+				aletheiaJFrame.dispose();
 				switch (state)
 				{
 				case EXIT:
