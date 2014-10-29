@@ -26,7 +26,7 @@ import aletheia.model.catalog.RootCatalog;
 
 public class RootCatalogTreeNode extends CatalogTreeNode
 {
-	private final static String label = "⁂";
+	private final static String label = "\u2042";
 
 	public RootCatalogTreeNode(CatalogTreeModel model, RootCatalog catalog)
 	{

@@ -25,7 +25,7 @@ package aletheia.common;
 public class AletheiaConstants
 {
 	/**
-	 * Ἀλήθεια: aletheia in the greek alphabet for use as a window title.
+	 * 'Aletheia' in the greek alphabet for use as a window title.
 	 */
 	private static final String TITLE_default = "\u1f08\u03bb\u03ae\u03b8\u03b5\u03b9\u03b1";
 	public static final String TITLE;

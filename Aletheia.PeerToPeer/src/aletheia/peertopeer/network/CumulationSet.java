@@ -995,7 +995,7 @@ public class CumulationSet
 
 	public synchronized void updateNeighbourCumulationValue(NetworkPhase networkPhase, Cumulation.Value<?> cumulationValue)
 	{
-		logger.debug(getNodeUuid() + " updateNeighbourCumulationValue() -> networkPĥase: " + networkPhase.getPeerNodeUuid() + " cumulationValue:"
+		logger.debug(getNodeUuid() + " updateNeighbourCumulationValue() -> networkPhase: " + networkPhase.getPeerNodeUuid() + " cumulationValue:"
 				+ cumulationValue);
 		if (cumulations.contains(cumulationValue.getCumulation()))
 			synchronized (localRouterSet)
@@ -1079,7 +1079,7 @@ public class CumulationSet
 
 	public synchronized void removeRouterCumulationValue(NetworkPhase neighbour, int i, Cumulation<?> cumulation)
 	{
-		logger.debug(getNodeUuid() + " removeRouterCumulationValue() -> networkPĥase: " + neighbour.getPeerNodeUuid() + " i: " + i + " cumulation:"
+		logger.debug(getNodeUuid() + " removeRouterCumulationValue() -> networkPhase: " + neighbour.getPeerNodeUuid() + " i: " + i + " cumulation:"
 				+ cumulation);
 		if (cumulations.contains(cumulation))
 			synchronized (localRouterSet)
