@@ -2000,7 +2000,14 @@ public abstract class PeerToPeerNode
 			added = true;
 			return connection;
 		}
-		catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoConstructorException e)
+		catch (InvocationTargetException e)
+		{
+			if (e.getCause() instanceof IOException)
+				throw (IOException) e.getCause();
+			else
+				throw new RuntimeException(e.getCause());
+		}
+		catch (InstantiationException | IllegalAccessException | IllegalArgumentException | NoConstructorException e)
 		{
 			throw new RuntimeException(e);
 		}
