@@ -562,14 +562,20 @@ public class LoopStatementPhase extends StatementSubPhase
 
 		private synchronized void statementStateListenTo(Transaction transaction, final Statement statement)
 		{
-			transaction.runWhenCommit(new Transaction.Hook()
+			statement.addStateListener(statementStateListener);
+			statement.addAuthorityStateListener(statementStateListener);
+
+			transaction.runWhenClose(new Transaction.Hook()
 			{
 
 				@Override
 				public void run(Transaction closedTransaction)
 				{
-					statement.addStateListener(statementStateListener);
-					statement.addAuthorityStateListener(statementStateListener);
+					if (!closedTransaction.isCommited())
+					{
+						statement.addStateListener(statementStateListener);
+						statement.addAuthorityStateListener(statementStateListener);
+					}
 				}
 			});
 		}
