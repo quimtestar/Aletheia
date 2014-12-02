@@ -156,12 +156,13 @@ public abstract class PersistentDialog extends Dialog
 		}
 		catch (NonBlockingSocketChannelStream.StreamException e)
 		{
+			logger.debug("Exception caught", e);
 			transaction.commit();
 			throw new DialogStreamException(e);
 		}
 		catch (Exception e) //TODO
 		{
-			logger.debug(e);
+			logger.debug("Exception caught", e);
 			throw e;
 		}
 		finally
