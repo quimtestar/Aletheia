@@ -161,6 +161,7 @@ public abstract class PersistentDialog extends Dialog
 		}
 		catch (Exception e) //TODO
 		{
+			logger.debug(e);
 			throw e;
 		}
 		finally
