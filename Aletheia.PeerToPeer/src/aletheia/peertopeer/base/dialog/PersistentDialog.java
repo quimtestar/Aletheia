@@ -155,7 +155,6 @@ public abstract class PersistentDialog extends Dialog
 		}
 		catch (DialogStreamException e)
 		{
-			logger.debug("Exception caught", e.getCause());
 			transaction.commit();
 			throw e;
 		}
