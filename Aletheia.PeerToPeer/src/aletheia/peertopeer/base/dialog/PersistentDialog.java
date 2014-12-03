@@ -44,7 +44,6 @@ import aletheia.peertopeer.base.phase.Phase;
 import aletheia.peertopeer.base.protocol.PersistentMessageProtocol;
 import aletheia.persistence.Transaction;
 import aletheia.protocol.ProtocolException;
-import aletheia.utilities.io.NonBlockingSocketChannelStream;
 
 public abstract class PersistentDialog extends Dialog
 {
@@ -158,11 +157,6 @@ public abstract class PersistentDialog extends Dialog
 		{
 			logger.debug("Exception caught", e.getCause());
 			transaction.commit();
-			throw e;
-		}
-		catch (Exception e) //TODO
-		{
-			logger.debug("Exception caught", e);
 			throw e;
 		}
 		finally
