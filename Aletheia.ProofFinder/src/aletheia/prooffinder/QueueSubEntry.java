@@ -33,6 +33,7 @@ import aletheia.model.term.Term.UnprojectException;
 import aletheia.model.term.VariableTerm;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.MiscUtilities;
 
 public abstract class QueueSubEntry implements Comparable<QueueSubEntry>
 {
@@ -148,8 +149,8 @@ public abstract class QueueSubEntry implements Comparable<QueueSubEntry>
 				solvedCandidates.add(psc);
 			}
 			else
-				solvedCandidates.add(new Proof.ImpureSolvedCandidate(candidate, new ImpureQueueSubEntry(this, candidate, candidate.getAntecedentDependentMap()
-						.keySet().iterator().next())));
+				solvedCandidates.add(new Proof.ImpureSolvedCandidate(candidate, new ImpureQueueSubEntry(this, candidate, MiscUtilities
+						.firstFromIterable(candidate.getAntecedentDependentMap().keySet()))));
 		}
 		return solvedCandidates;
 	}

@@ -331,7 +331,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 		{
 			impures = new HashSet<ImpureCandidate>();
 			Term type = candidate.getAntecedentMap().get(variableDependent);
-			Term target = type.consequent();
+			Term target = type.dropIndependentParameters();
 			Collection<Statement> statements = statementCacheTree.getLocalStatementCollection(context);
 			synchronized (statements)
 			{
@@ -359,7 +359,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 	{
 		Set<ImpureCandidate> impures = new HashSet<ImpureCandidate>();
 		Term type = candidate.getAntecedentMap().get(variableDependent);
-		Term target = type.consequent();
+		Term target = type.dropIndependentParameters();
 		for (VirtualStatement vs : virtualStatements)
 		{
 			Term value = assignImpure(variable, target, vs.getTerm());
