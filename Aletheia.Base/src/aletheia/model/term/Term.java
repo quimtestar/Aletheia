@@ -26,6 +26,7 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
@@ -34,6 +35,7 @@ import aletheia.model.identifier.Identifier;
 import aletheia.protocol.Exportable;
 import aletheia.utilities.collections.BijectionSet;
 import aletheia.utilities.collections.CastBijection;
+import aletheia.utilities.collections.ReverseList;
 
 /**
  * <p>
@@ -499,6 +501,26 @@ public abstract class Term implements Serializable, Exportable
 	 * @return The consequent of this term.
 	 */
 	public abstract SimpleTerm consequent();
+
+	/**
+	 * If a {@link FunctionTerm}, takes out every parameter which is independent
+	 * from the body. If not, returns the same object unchanged.
+	 */
+	public Term dropIndependentParameters()
+	{
+		Term term = this;
+		List<ParameterVariableTerm> parameters = new LinkedList<ParameterVariableTerm>();
+		while (term instanceof FunctionTerm)
+		{
+			FunctionTerm function = (FunctionTerm) term;
+			parameters.add(function.getParameter());
+			term = function.getBody();
+		}
+		parameters.retainAll(term.freeVariables());
+		for (ParameterVariableTerm param : new ReverseList<>(parameters))
+			term = new FunctionTerm(param, term);
+		return term;
+	}
 
 	/**
 	 * Exception thrown when <i>unprojecting</i> a term.
