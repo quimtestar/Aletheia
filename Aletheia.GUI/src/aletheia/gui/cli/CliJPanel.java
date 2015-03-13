@@ -113,6 +113,78 @@ public class CliJPanel extends JPanel
 	private static final long serialVersionUID = -2211989098955644681L;
 	private static final Logger logger = LoggerManager.instance.logger();
 
+	private static class CommandHistory
+	{
+		private final static int sizeLimit = 1500;
+		private final static int sizePurge = 1000;
+
+		private final ArrayList<String> commandList;
+		private int position;
+
+		public CommandHistory()
+		{
+			commandList = new ArrayList<String>();
+			position = 0;
+		}
+
+		public synchronized void addAndPosition(String command)
+		{
+			add(command);
+			position = commandList.size();
+		}
+
+		public synchronized void add(String command)
+		{
+			commandList.add(command);
+			if (commandList.size() >= sizeLimit)
+				purge(sizePurge);
+		}
+
+		public synchronized boolean atEnd()
+		{
+			return position >= commandList.size();
+		}
+
+		public synchronized boolean isDecreaseable()
+		{
+			return position > 0;
+		}
+
+		public synchronized String decrease()
+		{
+			return commandList.get(--position);
+		}
+
+		public synchronized boolean isIncreseable()
+		{
+			return position < commandList.size() - 1;
+		}
+
+		public synchronized String increase()
+		{
+			if (++position >= commandList.size() - 1)
+				return commandList.remove(position);
+			else
+				return commandList.get(position);
+		}
+
+		public synchronized String current()
+		{
+			return commandList.get(position);
+		}
+
+		private synchronized void purge(int size)
+		{
+			int k = commandList.size() - size;
+			if (k >= 0)
+			{
+				commandList.subList(0, k).clear();
+				position -= k;
+			}
+		}
+
+	}
+
 	private class MyKeyListener implements KeyListener
 	{
 
@@ -148,18 +220,15 @@ public class CliJPanel extends JPanel
 			}
 			case KeyEvent.VK_UP:
 			{
-				if (historyPos > 0)
+				if (commandHistory.isDecreaseable())
 				{
 					try
 					{
+						String s = getCommand().replaceAll("\n", " ").trim();
+						if (commandHistory.atEnd() || !s.equals(commandHistory.current()))
+							commandHistory.add(s);
 						document.remove(minimalCaretPosition, document.getLength() - minimalCaretPosition);
-						if (historyPos >= history.size())
-						{
-							String text = getCommand().replaceAll("\n", " ").trim();
-							history.add(text);
-						}
-						historyPos--;
-						document.insertString(minimalCaretPosition, history.get(historyPos), defaultAttributeSet);
+						document.insertString(minimalCaretPosition, commandHistory.decrease(), defaultAttributeSet);
 						moveCaretToEnd();
 					}
 					catch (BadLocationException ex)
@@ -172,16 +241,15 @@ public class CliJPanel extends JPanel
 			}
 			case KeyEvent.VK_DOWN:
 			{
-				if (historyPos < history.size() - 1)
+				if (commandHistory.isIncreseable())
 				{
 					try
 					{
+						String s = getCommand().replaceAll("\n", " ").trim();
+						if (commandHistory.atEnd() || !s.equals(commandHistory.current()))
+							commandHistory.add(s);
 						document.remove(minimalCaretPosition, document.getLength() - minimalCaretPosition);
-						historyPos++;
-						if (historyPos == history.size() - 1)
-							document.insertString(minimalCaretPosition, history.remove(historyPos), defaultAttributeSet);
-						else
-							document.insertString(minimalCaretPosition, history.get(historyPos), defaultAttributeSet);
+						document.insertString(minimalCaretPosition, commandHistory.increase(), defaultAttributeSet);
 						moveCaretToEnd();
 					}
 					catch (BadLocationException ex)
@@ -358,7 +426,7 @@ public class CliJPanel extends JPanel
 			public void write(int b) throws IOException
 			{
 				write(new byte[]
-				{ (byte) b });
+						{ (byte) b });
 			}
 
 		}
@@ -831,13 +899,12 @@ public class CliJPanel extends JPanel
 	private final CatalogJTree catalogJTree;
 	private final PersistentJTreeLayerUI<CatalogJTree> catalogJTreeLayerUI;
 	private final JScrollPane catalogJTreeScrollPane;
-	private final List<String> history;
+	private final CommandHistory commandHistory;
 	private final BracketHighLightManager bracketHighLightManager;
 
 	private int minimalCaretPosition;
 	private boolean opened;
 	private Context activeContext;
-	private int historyPos;
 	private Command promptWhenDone;
 
 	public CliJPanel(AletheiaJPanel aletheiaJPanel, CliController controller) throws InterruptedException
@@ -883,8 +950,7 @@ public class CliJPanel extends JPanel
 		add(activeContextJLabel, BorderLayout.NORTH);
 		this.statementStateListener = new MyStatementStateListener();
 		aletheiaJPanel.getPersistenceManager().getListenerManager().getRootContextTopStateListeners().add(this.statementStateListener);
-		this.history = new ArrayList<String>();
-		this.historyPos = 0;
+		this.commandHistory = new CommandHistory();
 		Font font = FontManager.instance.defaultFont();
 		setFont(font);
 		textPane.setFont(font);
@@ -980,10 +1046,7 @@ public class CliJPanel extends JPanel
 	{
 		String c = consumeCommand();
 		if (!c.isEmpty())
-		{
-			history.add(c);
-			historyPos = history.size();
-		}
+			commandHistory.addAndPosition(c);
 		try
 		{
 			moveCaretToEnd();
@@ -1018,10 +1081,7 @@ public class CliJPanel extends JPanel
 	{
 		String s = consumeCommand(true);
 		if (!s.isEmpty())
-		{
-			history.add(s);
-			historyPos = history.size();
-		}
+			commandHistory.addAndPosition(s);
 		command(new EmptyCommand(this));
 	}
 
@@ -1041,10 +1101,7 @@ public class CliJPanel extends JPanel
 			command(new TraceException(this, e));
 		}
 		if (!s.isEmpty())
-		{
-			history.add(s);
-			historyPos = history.size();
-		}
+			commandHistory.addAndPosition(s);
 	}
 
 	public void command(Command command) throws InterruptedException
@@ -1819,10 +1876,7 @@ public class CliJPanel extends JPanel
 	{
 		String s = consumeCommand();
 		if (!s.isEmpty())
-		{
-			history.add(s);
-			historyPos = history.size();
-		}
+			commandHistory.addAndPosition(s);
 		command(new TraceException(this, message, exception));
 	}
 
@@ -1835,10 +1889,7 @@ public class CliJPanel extends JPanel
 	{
 		String s = consumeCommand();
 		if (!s.isEmpty())
-		{
-			history.add(s);
-			historyPos = history.size();
-		}
+			commandHistory.addAndPosition(s);
 		command(new SimpleMessage(this, message));
 	}
 
