@@ -59,7 +59,7 @@ public class StatementBuild extends TransactionalCommand
 		else if (statement instanceof Context)
 		{
 			Context ctx = (Context) statement;
-			String term = termToString(getFrom().getActiveContext(), getTransaction(), ctx.getTerm());
+			String term = termToString(getFrom().getActiveContext(), getTransaction(), ctx.getTerm(), ctx.assumptions(getTransaction()));
 			if (ctx instanceof UnfoldingContext)
 			{
 				UnfoldingContext unf = (UnfoldingContext) ctx;

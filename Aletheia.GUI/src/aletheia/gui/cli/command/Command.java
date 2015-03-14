@@ -20,13 +20,17 @@
 package aletheia.gui.cli.command;
 
 import java.io.PrintStream;
+import java.util.ArrayDeque;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
+import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
 import aletheia.model.term.CompositionTerm;
 import aletheia.model.term.FunctionTerm;
@@ -147,6 +151,11 @@ public abstract class Command
 
 	protected static String termToString(Context ctx, Transaction transaction, Term term)
 	{
+		return termToString(ctx, transaction, term, null);
+	}
+
+	protected static String termToString(Context ctx, Transaction transaction, Term term, List<Assumption> assumptions)
+	{
 		Map<VariableTerm, Identifier> baseMap;
 		if (ctx == null)
 			baseMap = Collections.emptyMap();
@@ -154,7 +163,7 @@ public abstract class Command
 			baseMap = new AdaptedMap<VariableTerm, Identifier>(ctx.variableToIdentifier(transaction));
 		Map<VariableTerm, Identifier> termMap = new HashMap<VariableTerm, Identifier>();
 		CombinedMap<VariableTerm, Identifier> combinedMap = new CombinedMap<VariableTerm, Identifier>(termMap, baseMap);
-		return termToString(term, combinedMap, termMap, new TermToStringData());
+		return termToString(term, combinedMap, termMap, new TermToStringData(), assumptions == null ? null : new ArrayDeque<Assumption>(assumptions));
 	}
 
 	private static class TermToStringData
@@ -164,6 +173,12 @@ public abstract class Command
 
 	private static String termToString(Term term, CombinedMap<VariableTerm, Identifier> combinedMap, Map<VariableTerm, Identifier> termMap,
 			TermToStringData termToStringData)
+	{
+		return termToString(term, combinedMap, termMap, termToStringData, null);
+	}
+
+	private static String termToString(Term term, CombinedMap<VariableTerm, Identifier> combinedMap, Map<VariableTerm, Identifier> termMap,
+			TermToStringData termToStringData, Deque<Assumption> assumptions)
 	{
 		if (term instanceof SimpleTerm)
 		{
@@ -204,9 +219,25 @@ public abstract class Command
 			Identifier newId;
 			try
 			{
+				Assumption a = null;
+				if (assumptions != null)
+				{
+					if (!assumptions.isEmpty())
+						a = assumptions.pollFirst();
+					else
+						assumptions = null;
+				}
 				if (func.getBody().freeVariables().contains(func.getParameter()))
 				{
-					newId = new Identifier(String.format("v%03d", termToStringData.n++));
+					/*
+					 * TODO: This can lead to name collisions and a string that does not parse back to the original term.
+					 * I'll leave it this way for now because this routine is not used in any critical task and
+					 * can't think of any simple and cheap solution.
+					 */
+					if (a != null && a.getIdentifier() != null)
+						newId = new Identifier(a.getIdentifier().getName());
+					else
+						newId = new Identifier(String.format("v%03d", termToStringData.n++));
 				}
 				else
 					newId = new Identifier("_");
@@ -216,7 +247,7 @@ public abstract class Command
 				throw new Error();
 			}
 			Identifier oldId = termMap.put(func.getParameter(), newId);
-			String sBody = termToString(func.getBody(), combinedMap, termMap, termToStringData);
+			String sBody = termToString(func.getBody(), combinedMap, termMap, termToStringData, assumptions);
 			if (oldId == null)
 				termMap.remove(func.getParameter());
 			else

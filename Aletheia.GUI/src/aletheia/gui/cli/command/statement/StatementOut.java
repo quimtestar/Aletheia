@@ -28,6 +28,7 @@ import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
+import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
 import aletheia.model.statement.UnfoldingContext;
@@ -57,7 +58,7 @@ public class StatementOut extends TransactionalCommand
 		{
 			Context context = (Context) statement;
 			Term term = context.getTerm();
-			String sterm = termToString(getFrom().getActiveContext(), getTransaction(), term);
+			String sterm = termToString(getFrom().getActiveContext(), getTransaction(), term, context.assumptions(getTransaction()));
 			if (context instanceof UnfoldingContext)
 			{
 				UnfoldingContext unfoldingContext = (UnfoldingContext) context;
@@ -65,6 +66,10 @@ public class StatementOut extends TransactionalCommand
 				if (iddec == null)
 					throw new Exception("Declaration is not identified");
 				getOut().println("unf \"" + sterm + "\" " + iddec.toString());
+			}
+			else if (context instanceof RootContext)
+			{
+				getOut().println("root \"" + sterm + "\"");
 			}
 			else
 			{
