@@ -34,6 +34,7 @@ import java.util.Set;
 import java.util.Stack;
 import java.util.UUID;
 
+import aletheia.model.authority.PrivatePerson.PrivateSignatoryException;
 import aletheia.model.authority.StatementAuthority.StateListener;
 import aletheia.model.identifier.RootNamespace;
 import aletheia.model.security.SignatureData;
@@ -377,7 +378,14 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 		PrivatePerson person = cutSuccessorEntriesToLastPrivatePerson(transaction);
 		if (getSuccessorIndex() >= getSuccessorEntries().size())
 			sign(transaction);
-		successorEntry.sign(person.getSignatory(transaction), transaction);
+		try
+		{
+			successorEntry.sign(person.getPrivateSignatory(transaction), transaction);
+		}
+		catch (PrivateSignatoryException e)
+		{
+			throw new NoPrivateDataForAuthorException(e);
+		}
 		addSuccessorEntry(transaction, successorEntry);
 		return successorEntry;
 	}
@@ -469,6 +477,11 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 			super(message);
 		}
 
+		private NoPrivateDataForSignatoryException(Throwable cause)
+		{
+			super(cause);
+		}
+
 	}
 
 	public class NoPrivateDataForAuthorException extends NoPrivateDataForSignatoryException
@@ -478,6 +491,11 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 		private NoPrivateDataForAuthorException()
 		{
 			super("Don't have the private data for this author");
+		}
+
+		private NoPrivateDataForAuthorException(Throwable cause)
+		{
+			super(cause);
 		}
 
 	}
@@ -585,7 +603,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 	{
 		try
 		{
-			Signer signer = cutSuccessorEntriesToLastPrivatePerson(transaction).getSignatory(transaction).signer();
+			Signer signer = cutSuccessorEntriesToLastPrivatePerson(transaction).getPrivateSignatory(transaction).signer();
 			setSuccessorIndex(getSuccessorEntries().size() - 1);
 			setSignatureDate();
 			changeSignatureVersion(transaction);
@@ -599,6 +617,10 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 				throw new Error("signingSignatureVersion must be supported", e);
 			}
 			setSignatureData(signer.sign());
+		}
+		catch (PrivateSignatoryException e)
+		{
+			throw new NoPrivateDataForAuthorException(e);
 		}
 		catch (InvalidKeyException e)
 		{

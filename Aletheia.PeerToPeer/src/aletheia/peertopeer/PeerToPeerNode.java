@@ -50,6 +50,7 @@ import org.apache.logging.log4j.Logger;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.PrivatePerson;
+import aletheia.model.authority.PrivatePerson.PrivateSignatoryException;
 import aletheia.model.authority.RootContextAuthority;
 import aletheia.model.authority.SignatureRequest;
 import aletheia.model.authority.SignatureVerifyException;
@@ -2252,10 +2253,10 @@ public abstract class PeerToPeerNode
 				return;
 			try
 			{
-				content.signatureRequest(persistenceManager, transaction, privatePerson.getSignatory(transaction).getPrivateKey());
+				content.signatureRequest(persistenceManager, transaction, privatePerson.getPrivateSignatory(transaction).getPrivateKey());
 				transaction.commit();
 			}
-			catch (DecipherException e)
+			catch (PrivateSignatoryException | DecipherException e)
 			{
 				logger.error("Couldn't decrypt signature request", e);
 			}
@@ -2276,10 +2277,10 @@ public abstract class PeerToPeerNode
 				return;
 			try
 			{
-				content.persons(persistenceManager, transaction, privatePerson.getSignatory(transaction).getPrivateKey());
+				content.persons(persistenceManager, transaction, privatePerson.getPrivateSignatory(transaction).getPrivateKey());
 				transaction.commit();
 			}
-			catch (DecipherException e)
+			catch (PrivateSignatoryException | DecipherException e)
 			{
 				logger.error("Couldn't decrypt signature request", e);
 			}

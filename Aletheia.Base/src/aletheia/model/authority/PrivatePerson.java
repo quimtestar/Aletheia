@@ -110,10 +110,23 @@ public class PrivatePerson extends Person
 		return (PrivatePersonEntity) super.getEntity();
 	}
 
-	@Override
-	public PrivateSignatory getSignatory(Transaction transaction)
+	public class PrivateSignatoryException extends AuthorityException
 	{
-		return (PrivateSignatory) super.getSignatory(transaction);
+		private static final long serialVersionUID = 8903545211803412856L;
+
+		private PrivateSignatoryException()
+		{
+			super("Private signatory's data not decrypted");
+		}
+
+	}
+
+	public PrivateSignatory getPrivateSignatory(Transaction transaction) throws PrivateSignatoryException
+	{
+		Signatory signatory = getSignatory(transaction);
+		if (!(signatory instanceof PrivateSignatory))
+			throw new PrivateSignatoryException();
+		return (PrivateSignatory) signatory;
 	}
 
 	private void setSignatureDate()
@@ -125,12 +138,16 @@ public class PrivatePerson extends Person
 	{
 		try
 		{
-			PrivateSignatory signatory = getSignatory(transaction);
+			PrivateSignatory signatory = getPrivateSignatory(transaction);
 			Signer signer = signatory.signer();
 			setSignatureDate();
 			setSignatureVersion(signingSignatureVersion);
 			signatureDataOut(signer.dataOutput());
 			setSignatureData(signer.sign());
+		}
+		catch (PrivateSignatoryException e)
+		{
+			throw new IncompleteDataSignatureException(e);
 		}
 		catch (InvalidKeyException e)
 		{

@@ -85,7 +85,7 @@ public class Sign extends TransactionalCommand
 		{
 			if (!delegate.equals(statementAuthority.getAuthor(getTransaction())))
 				throw new SignCommandException("Not the author");
-			authorizer = delegate.getSignatory(getTransaction());
+			authorizer = delegate.getPrivateSignatory(getTransaction());
 		}
 		else
 		{
