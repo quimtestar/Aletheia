@@ -69,21 +69,22 @@ public class TraceException extends NonOperationalCommand
 			if (exception.getMessage() != null)
 			{
 				getErr().println(exception.getMessage());
-				if (exception instanceof CommandParseTermParserException)
-				{
-					TermParserException tpe = ((CommandParseTermParserException) exception).getCause();
-					getErr().print(tpe.getInput().substring(0, tpe.getStartLocation().column - 1));
-					getErrB().print("\u00bb");
-					getErrB().print(tpe.getInput().substring(tpe.getStartLocation().column - 1, tpe.getStopLocation().column - 1));
-					getErrB().print("\u00ab");
-					getErr().println(tpe.getInput().substring(tpe.getStopLocation().column - 1));
-				}
 			}
 			else
 			{
 				logger.error("Exception " + exception.getClass() + " has no defined message; dumping stack trace to the CLI", exception);
 				exception.printStackTrace(getErr());
 			}
+			if (exception instanceof CommandParseTermParserException)
+			{
+				TermParserException tpe = ((CommandParseTermParserException) exception).getCause();
+				getErr().print(tpe.getInput().substring(0, tpe.getStartLocation().column - 1));
+				getErrB().print("\u00bb");
+				getErrB().print(tpe.getInput().substring(tpe.getStartLocation().column - 1, tpe.getStopLocation().column - 1));
+				getErrB().print("\u00ab");
+				getErr().println(tpe.getInput().substring(tpe.getStopLocation().column - 1));
+			}
+
 		}
 		getErr().flush();
 	}
