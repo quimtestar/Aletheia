@@ -73,7 +73,7 @@ public class ProjectionTerm extends AtomicTerm
 	{
 		Term bodyType = function.getBody().getType();
 		if (bodyType != null && bodyType.freeVariables().contains(function.getParameter()))
-			throw new ProjectionTypeException();
+			throw new ProjectionTypeException("Non projectable function: body's type depends on parameter");
 		return bodyType;
 	}
 
