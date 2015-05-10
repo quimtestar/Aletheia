@@ -31,6 +31,7 @@ import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
+import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 
@@ -54,14 +55,20 @@ public class Translate extends TransactionalCommand
 
 		Map<Statement, Statement> map = new HashMap<Statement, Statement>();
 
-		for (Statement st : ctx1.localStatements(getTransaction()).values())
+		while (!ctx1.isDescendent(getTransaction(), context))
 		{
-			Identifier id = st.identifier(getTransaction());
-			if (id != null)
+			for (Statement st : ctx1.localStatements(getTransaction()).values())
 			{
-				Statement st_ = context.identifierToStatement(getTransaction()).get(id);
-				map.put(st_, st);
+				Identifier id = st.identifier(getTransaction());
+				if (id != null)
+				{
+					Statement st_ = context.identifierToStatement(getTransaction()).get(id);
+					map.put(st_, st);
+				}
 			}
+			if (ctx1 instanceof RootContext)
+				break;
+			ctx1 = ctx1.getContext(getTransaction());
 		}
 
 		List<Statement> list = new ArrayList<Statement>();
@@ -71,7 +78,7 @@ public class Translate extends TransactionalCommand
 				list.add(st);
 		}
 
-		ctx1.copy(getTransaction(), list, map);
+		getFrom().getActiveContext().copy(getTransaction(), list, map);
 
 		return null;
 
