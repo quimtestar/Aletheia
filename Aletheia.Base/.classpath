@@ -5,7 +5,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.log4j"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.Utilities"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.Security"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.Protocol"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
