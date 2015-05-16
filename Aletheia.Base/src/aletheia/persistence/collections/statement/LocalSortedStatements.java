@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.persistence.collections.statement;
 
+import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Statement;
 
 public interface LocalSortedStatements extends SortedStatements<Statement>
@@ -31,5 +32,11 @@ public interface LocalSortedStatements extends SortedStatements<Statement>
 
 	@Override
 	LocalSortedStatements tailSet(Statement fromElement);
+
+	LocalSortedStatements subSet(Identifier from, Identifier to);
+
+	LocalSortedStatements headSet(Identifier to);
+
+	LocalSortedStatements tailSet(Identifier from);
 
 }

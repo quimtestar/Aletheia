@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.collections.statement;
 
+import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
@@ -69,6 +70,24 @@ public class BerkeleyDBLocalSortedStatements extends BerkeleyDBSortedStatements<
 	public BerkeleyDBLocalSortedStatements tailSet(Statement fromElement)
 	{
 		return (BerkeleyDBLocalSortedStatements) super.tailSet(fromElement);
+	}
+
+	@Override
+	public BerkeleyDBLocalSortedStatements subSet(Identifier from, Identifier to)
+	{
+		return (BerkeleyDBLocalSortedStatements) super.subSet(from, to);
+	}
+
+	@Override
+	public BerkeleyDBLocalSortedStatements headSet(Identifier to)
+	{
+		return (BerkeleyDBLocalSortedStatements) super.headSet(to);
+	}
+
+	@Override
+	public BerkeleyDBLocalSortedStatements tailSet(Identifier from)
+	{
+		return (BerkeleyDBLocalSortedStatements) super.tailSet(from);
 	}
 
 }

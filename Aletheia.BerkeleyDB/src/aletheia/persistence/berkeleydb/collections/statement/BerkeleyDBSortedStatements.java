@@ -22,6 +22,7 @@ package aletheia.persistence.berkeleydb.collections.statement;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
+import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
@@ -215,20 +216,42 @@ public abstract class BerkeleyDBSortedStatements<S extends Statement> extends Ab
 		}
 	}
 
-	private LocalSortKey fromDependencySortKey(Statement statement)
+	private LocalSortKey fromSortKey(Statement statement)
 	{
 		LocalSortKey dsk = ((BerkeleyDBStatementEntity) statement.getEntity()).getLocalSortKey();
 		if (from.compareTo(dsk) > 0)
-			return dsk;
-		return from;
+			return from;
+		return dsk;
 	}
 
-	private LocalSortKey toDependencySortKey(Statement statement)
+	private LocalSortKey toSortKey(Statement statement)
 	{
 		LocalSortKey dsk = ((BerkeleyDBStatementEntity) statement.getEntity()).getLocalSortKey();
 		if (to.compareTo(dsk) < 0)
-			return dsk;
-		return to;
+			return to;
+		return dsk;
+	}
+
+	private LocalSortKey fromSortKey(Identifier identifier)
+	{
+		LocalSortKey dsk = new LocalSortKey();
+		dsk.setUuidKeyContext(from.getUuidKeyContext());
+		dsk.setAssumptionOrder(Integer.MAX_VALUE);
+		dsk.setIdentifier(identifier);
+		if (from.compareTo(dsk) > 0)
+			return from;
+		return dsk;
+	}
+
+	private LocalSortKey toSortKey(Identifier identifier)
+	{
+		LocalSortKey dsk = new LocalSortKey();
+		dsk.setUuidKeyContext(to.getUuidKeyContext());
+		dsk.setAssumptionOrder(Integer.MAX_VALUE);
+		dsk.setIdentifier(identifier);
+		if (to.compareTo(dsk) < 0)
+			return to;
+		return dsk;
 	}
 
 	protected abstract BerkeleyDBSortedStatements<S> newBerkeleyDBSortedStatementsBounds(LocalSortKey from, LocalSortKey to);
@@ -236,19 +259,37 @@ public abstract class BerkeleyDBSortedStatements<S extends Statement> extends Ab
 	@Override
 	public BerkeleyDBSortedStatements<S> subSet(S fromElement, S toElement)
 	{
-		return newBerkeleyDBSortedStatementsBounds(fromDependencySortKey(fromElement), toDependencySortKey(toElement));
+		return newBerkeleyDBSortedStatementsBounds(fromSortKey(fromElement), toSortKey(toElement));
 	}
 
 	@Override
 	public BerkeleyDBSortedStatements<S> headSet(S toElement)
 	{
-		return newBerkeleyDBSortedStatementsBounds(from, toDependencySortKey(toElement));
+		return newBerkeleyDBSortedStatementsBounds(from, toSortKey(toElement));
 	}
 
 	@Override
 	public BerkeleyDBSortedStatements<S> tailSet(S fromElement)
 	{
-		return newBerkeleyDBSortedStatementsBounds(fromDependencySortKey(fromElement), to);
+		return newBerkeleyDBSortedStatementsBounds(fromSortKey(fromElement), to);
+	}
+
+	@Override
+	public BerkeleyDBSortedStatements<S> subSet(Identifier from, Identifier to)
+	{
+		return newBerkeleyDBSortedStatementsBounds(fromSortKey(from), toSortKey(to));
+	}
+
+	@Override
+	public BerkeleyDBSortedStatements<S> headSet(Identifier to)
+	{
+		return newBerkeleyDBSortedStatementsBounds(from, toSortKey(to));
+	}
+
+	@Override
+	public BerkeleyDBSortedStatements<S> tailSet(Identifier from)
+	{
+		return newBerkeleyDBSortedStatementsBounds(fromSortKey(from), to);
 	}
 
 	@Override

@@ -21,6 +21,7 @@ package aletheia.persistence.collections.statement;
 
 import java.util.Comparator;
 
+import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.collections.PersistenceManagerDataStructure;
 import aletheia.utilities.collections.CloseableSortedSet;
@@ -45,5 +46,12 @@ public interface SortedStatements<S extends Statement> extends PersistenceManage
 
 	@Override
 	SortedStatements<S> tailSet(S fromElement);
+	
+	SortedStatements<S> subSet(Identifier from, Identifier to);
+
+	SortedStatements<S> headSet(Identifier to);
+
+	SortedStatements<S> tailSet(Identifier from);
+
 
 }
