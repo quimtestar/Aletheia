@@ -90,6 +90,11 @@ public class Identifier extends NodeNamespace implements Exportable
 		return getParent();
 	}
 
+	public boolean hasRootNamespace()
+	{
+		return getNamespace().isRoot();
+	}
+
 	/**
 	 * Parse a string representing a fully qualified identifier into the
 	 * identifier it represents.

@@ -44,6 +44,8 @@ public abstract class Namespace implements Comparable<Namespace>, Serializable, 
 		super();
 	}
 
+	public abstract boolean isRoot();
+
 	/**
 	 * Builds a full string representation of this name space, using dots to
 	 * separate its components (if any).
