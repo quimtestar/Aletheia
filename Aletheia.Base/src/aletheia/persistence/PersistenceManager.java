@@ -497,17 +497,13 @@ public abstract class PersistenceManager
 	public abstract AssumptionList assumptionList(Transaction transaction, Context context);
 
 	/**
-	 * Creates a set view of the subcontexts of this context. That is, the set
-	 * that contains this context and every subcontext of any context that
-	 * belongs to the set.
+	 * The set of direct subcontexts of this context.
 	 *
 	 * @param transaction
-	 *            The transaction to be used in the operations on the set.
-	 * @param context
-	 *            The context.
-	 * @return The set of subcontexts.
+	 *            The persistence transaction across which the operations on
+	 *            this set will be performed.
+	 * @return The set.
 	 *
-	 * @see SubContextsSet
 	 */
 	public abstract SubContextsSet subContexts(Transaction transaction, Context context);
 
