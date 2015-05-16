@@ -141,6 +141,22 @@ public abstract class EntityStoreUpgrade
 
 	}
 
+	@SuppressWarnings("unchecked")
+	private static Class<Object> resolveClass(EntityModel model, String className) throws ClassNotFoundException
+	{
+		try
+		{
+			return model.resolveClass(className);
+		}
+		catch (ClassNotFoundException e)
+		{
+			Class<Object> c = (Class<Object>) MiscUtilities.resolvePrimitiveTypeWrapperClass(className);
+			if (c == null)
+				throw e;
+			return c;
+		}
+	}
+
 	protected abstract class UpgradeInstance
 	{
 		private final BerkeleyDBAletheiaEnvironment environment;
@@ -385,10 +401,8 @@ public abstract class EntityStoreUpgrade
 				RawType newRawType = aletheiaModel.getRawType(className);
 				if (newRawType != null)
 				{
-					@SuppressWarnings("unchecked")
-					Class<Object> entityClass = aletheiaModel.resolveClass(className);
-					@SuppressWarnings("unchecked")
-					Class<Object> primaryKeyClass = aletheiaModel.resolveClass(BerkeleyDBMiscUtilities.primaryKeyMetadata(newRawType).getClassName());
+					Class<Object> entityClass = resolveClass(aletheiaModel, className);
+					Class<Object> primaryKeyClass = resolveClass(aletheiaModel, BerkeleyDBMiscUtilities.primaryKeyMetadata(newRawType).getClassName());
 					PrimaryIndex<Object, Object> newPrimaryIndex = aletheiaStore.getPrimaryIndex(primaryKeyClass, entityClass);
 					PrimaryIndex<Object, RawObject> oldPrimaryIndex = oldStore.getPrimaryIndex(className);
 					EntityCursor<RawObject> cursor = oldPrimaryIndex.entities(tx, CursorConfig.DEFAULT);
