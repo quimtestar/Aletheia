@@ -101,6 +101,7 @@ import aletheia.utilities.collections.FilteredCloseableSet;
 import aletheia.utilities.collections.FilteredCollection;
 import aletheia.utilities.collections.NotNullFilter;
 import aletheia.utilities.collections.TrivialCloseableCollection;
+import aletheia.utilities.collections.TrivialCloseableIterable;
 import aletheia.utilities.collections.UnionCloseableCollection;
 import aletheia.utilities.collections.UnmodifiableCloseableMap;
 
@@ -448,6 +449,87 @@ public class Context extends Statement
 	public SubContextsSet subContexts(Transaction transaction)
 	{
 		return getPersistenceManager().subContexts(transaction, this);
+	}
+
+	/**
+	 * Returns an {@link Iterable} of Contexts that descend of this context
+	 * (including <b>this one</b>), in preorder
+	 *
+	 * @param transaction
+	 *            The transaction to be used in the operation.
+	 * @return The iterable.
+	 */
+	public CloseableIterable<Context> descendentContexts(final Transaction transaction)
+	{
+		return new CloseableIterable<Context>()
+		{
+			@Override
+			public CloseableIterator<Context> iterator()
+			{
+				return new CloseableIterator<Context>()
+				{
+					final Stack<CloseableIterator<Context>> stack;
+					{
+						stack = new Stack<CloseableIterator<Context>>();
+						stack.push(new TrivialCloseableIterable<>(Collections.singleton(Context.this)).iterator());
+					}
+					Context next = advance();
+
+					private Context advance()
+					{
+						while (!stack.isEmpty())
+						{
+							CloseableIterator<Context> iterator = stack.peek();
+							if (iterator.hasNext())
+							{
+								Context ctx = iterator.next();
+								stack.push(ctx.subContexts(transaction).iterator());
+								return ctx;
+							}
+							iterator.close();
+							stack.pop();
+						}
+						return null;
+					}
+
+					@Override
+					public Context next()
+					{
+						if (next == null)
+							throw new NoSuchElementException();
+						Context ctx = next;
+						next = advance();
+						return ctx;
+					}
+
+					@Override
+					public boolean hasNext()
+					{
+						return next != null;
+					}
+
+					@Override
+					public void close()
+					{
+						while (!stack.isEmpty())
+							stack.pop().close();
+					}
+
+					@Override
+					public void remove()
+					{
+						throw new UnsupportedOperationException();
+					}
+
+					@Override
+					protected void finalize() throws Throwable
+					{
+						close();
+						super.finalize();
+					}
+				};
+			}
+		};
 	}
 
 	/**
