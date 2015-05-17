@@ -203,6 +203,28 @@ public abstract class BerkeleyDBSortedStatements<S extends Statement> extends Ab
 	}
 
 	@Override
+	public boolean smaller(int size)
+	{
+		CloseableIterator<S> iterator = iterator();
+		try
+		{
+			int n = 0;
+			while (iterator.hasNext())
+			{
+				iterator.next();
+				n++;
+				if (n >= size)
+					return false;
+			}
+		}
+		finally
+		{
+			iterator.close();
+		}
+		return true;
+	}
+
+	@Override
 	public boolean isEmpty()
 	{
 		EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, true, to, false);

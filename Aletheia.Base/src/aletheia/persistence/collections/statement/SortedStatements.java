@@ -46,12 +46,13 @@ public interface SortedStatements<S extends Statement> extends PersistenceManage
 
 	@Override
 	SortedStatements<S> tailSet(S fromElement);
-	
+
 	SortedStatements<S> subSet(Identifier from, Identifier to);
 
 	SortedStatements<S> headSet(Identifier to);
 
 	SortedStatements<S> tailSet(Identifier from);
 
+	boolean smaller(int size);
 
 }
