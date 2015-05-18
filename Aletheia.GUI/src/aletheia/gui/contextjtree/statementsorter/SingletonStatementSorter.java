@@ -2,16 +2,16 @@ package aletheia.gui.contextjtree.statementsorter;
 
 import aletheia.model.statement.Statement;
 
-public class SingletonStatementSorter extends StatementSorter
+public class SingletonStatementSorter<S extends Statement> extends StatementSorter<S>
 {
-	private final Statement statement;
+	private final S statement;
 
-	public SingletonStatementSorter(Statement statement)
+	public SingletonStatementSorter(S statement)
 	{
 		this.statement = statement;
 	}
 
-	public Statement getStatement()
+	public S getStatement()
 	{
 		return statement;
 	}

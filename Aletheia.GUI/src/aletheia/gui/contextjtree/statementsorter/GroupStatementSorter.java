@@ -7,72 +7,72 @@ import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.RootNamespace;
 import aletheia.model.statement.Statement;
-import aletheia.persistence.collections.statement.LocalSortedStatements;
+import aletheia.persistence.collections.statement.SortedStatements;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCloseableIterable;
 import aletheia.utilities.collections.CloseableIterable;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CombinedCloseableIterable;
 
-public class GroupStatementSorter extends StatementSorter implements CloseableIterable<StatementSorter>
+public class GroupStatementSorter<S extends Statement> extends StatementSorter<S> implements CloseableIterable<StatementSorter<S>>
 {
 	private final static int minGroupingSize = 0;
 	private final static int minSubGroupSize = 2;
 
-	private final LocalSortedStatements localSortedStatements;
+	private final SortedStatements<S> sortedStatements;
+	private final Bijection<S, StatementSorter<S>> singletonBijection;
 
-	public GroupStatementSorter(LocalSortedStatements localSortedStatements)
+	public GroupStatementSorter(SortedStatements<S> sortedStatements)
 	{
-		this.localSortedStatements = localSortedStatements;
+		this.sortedStatements = sortedStatements;
+		this.singletonBijection = new Bijection<S, StatementSorter<S>>()
+				{
+
+			@Override
+			public StatementSorter<S> forward(S statement)
+			{
+				return new SingletonStatementSorter<S>(statement);
+			}
+
+			@Override
+			public S backward(StatementSorter<S> output)
+			{
+				throw new UnsupportedOperationException();
+			}
+		};
 	}
 
 	public Namespace commonPrefix()
 	{
-		Identifier i0 = localSortedStatements.first().getIdentifier();
+		Identifier i0 = sortedStatements.first().getIdentifier();
 		if (i0 == null)
 			return null;
-		Identifier i1 = localSortedStatements.last().getIdentifier();
+		Identifier i1 = sortedStatements.last().getIdentifier();
 		if (i1 == null)
 			return null;
 		return i0.commonPrefix(i1);
 	}
 
 	@Override
-	public CloseableIterator<StatementSorter> iterator()
+	public CloseableIterator<StatementSorter<S>> iterator()
 	{
-		Bijection<Statement, StatementSorter> singletonBijection = new Bijection<Statement, StatementSorter>()
-		{
-
-			@Override
-			public StatementSorter forward(Statement statement)
-			{
-				return new SingletonStatementSorter(statement);
-			}
-
-			@Override
-			public Statement backward(StatementSorter output)
-			{
-				throw new UnsupportedOperationException();
-			}
-		};
-
-		if (localSortedStatements.smaller(minGroupingSize + 1))
-					return new BijectionCloseableIterable<Statement, StatementSorter>(singletonBijection, localSortedStatements).iterator();
+		if (sortedStatements.smaller(minGroupingSize + 1))
+			return new BijectionCloseableIterable<S, StatementSorter<S>>(singletonBijection, sortedStatements).iterator();
 		else
 		{
-			CloseableIterable<StatementSorter> assumptionIterable = new BijectionCloseableIterable<Statement, StatementSorter>(singletonBijection,
-					localSortedStatements.headSet(RootNamespace.instance.initiator()));
-			LocalSortedStatements nonAssumptions = localSortedStatements.tailSet(RootNamespace.instance.initiator());
-			final LocalSortedStatements identified = nonAssumptions.headSet(RootNamespace.instance.terminator());
-			CloseableIterable<StatementSorter> identifiedIterable = new CloseableIterable<StatementSorter>()
+			CloseableIterable<StatementSorter<S>> assumptionIterable = new BijectionCloseableIterable<S, StatementSorter<S>>(singletonBijection,
+					sortedStatements.headSet(RootNamespace.instance.initiator()));
+			SortedStatements<S> nonAssumptions = sortedStatements.tailSet(RootNamespace.instance.initiator());
+			final SortedStatements<S> identified = nonAssumptions.headSet(RootNamespace.instance.terminator());
+			CloseableIterable<StatementSorter<S>> identifiedIterable = new CloseableIterable<StatementSorter<S>>()
 			{
 
 				@Override
-				public CloseableIterator<StatementSorter> iterator()
+				public CloseableIterator<StatementSorter<S>> iterator()
 				{
-					return new CloseableIterator<StatementSorter>()
+					return new CloseableIterator<StatementSorter<S>>()
 					{
-						Statement next;
+						S next;
 						{
 							if (identified.isEmpty())
 								next = null;
@@ -80,7 +80,7 @@ public class GroupStatementSorter extends StatementSorter implements CloseableIt
 								next = identified.first();
 						}
 						Statement prev = null;
-						CloseableIterator<Statement> iterator = null;
+						CloseableIterator<S> iterator = null;
 
 						@Override
 						public boolean hasNext()
@@ -89,14 +89,14 @@ public class GroupStatementSorter extends StatementSorter implements CloseableIt
 						}
 
 						@Override
-						public StatementSorter next()
+						public StatementSorter<S> next()
 						{
 							if (iterator != null)
 							{
-								Statement st = iterator.next();
+								S st = iterator.next();
 								if (!iterator.hasNext())
 									iterator = null;
-								return new SingletonStatementSorter(st);
+								return new SingletonStatementSorter<S>(st);
 							}
 							if (next == null)
 								throw new NoSuchElementException();
@@ -105,26 +105,26 @@ public class GroupStatementSorter extends StatementSorter implements CloseableIt
 							{
 								for (NodeNamespace prefix : id.prefixList())
 								{
-									LocalSortedStatements tail = identified.tailSet(prefix.terminator());
+									SortedStatements<S> tail = identified.tailSet(prefix.terminator());
 									if (!tail.isEmpty())
 									{
 										prev = next;
 										next = tail.first();
-										LocalSortedStatements sub = identified.subSet(id, prefix.terminator());
+										SortedStatements<S> sub = identified.subSet(id, prefix.terminator());
 										if (sub.smaller(minSubGroupSize))
 										{
 											iterator = sub.iterator();
-											Statement st = iterator.next();
+											S st = iterator.next();
 											if (!iterator.hasNext())
 												iterator = null;
-											return new SingletonStatementSorter(st);
+											return new SingletonStatementSorter<S>(st);
 										}
 										else
-											return new GroupStatementSorter(sub);
+											return new GroupStatementSorter<S>(sub);
 									}
 								}
-								Statement st = next;
-								CloseableIterator<Statement> iterator = identified.tailSet(next).iterator();
+								S st = next;
+								CloseableIterator<S> iterator = identified.tailSet(next).iterator();
 								try
 								{
 									iterator.next();
@@ -138,7 +138,7 @@ public class GroupStatementSorter extends StatementSorter implements CloseableIt
 								{
 									iterator.close();
 								}
-								return new SingletonStatementSorter(st);
+								return new SingletonStatementSorter<S>(st);
 							}
 							else
 							{
@@ -146,10 +146,10 @@ public class GroupStatementSorter extends StatementSorter implements CloseableIt
 								{
 									if (prefix.isPrefixOf(prev.getIdentifier()))
 										continue;
-									LocalSortedStatements sub = identified.subSet(id, prefix.terminator());
+									SortedStatements<S> sub = identified.subSet(id, prefix.terminator());
 									if (!sub.isEmpty())
 									{
-										LocalSortedStatements tail = identified.tailSet(prefix.terminator());
+										SortedStatements<S> tail = identified.tailSet(prefix.terminator());
 										prev = next;
 										if (tail.isEmpty())
 											next = null;
@@ -158,28 +158,28 @@ public class GroupStatementSorter extends StatementSorter implements CloseableIt
 										if (sub.smaller(minSubGroupSize))
 										{
 											iterator = sub.iterator();
-											Statement st = iterator.next();
+											S st = iterator.next();
 											if (!iterator.hasNext())
 												iterator = null;
-											return new SingletonStatementSorter(st);
+											return new SingletonStatementSorter<S>(st);
 										}
 										else
-											return new GroupStatementSorter(sub);
+											return new GroupStatementSorter<S>(sub);
 									}
 								}
 								prev = next;
 								next = null;
-								LocalSortedStatements tail = identified.tailSet(id);
+								SortedStatements<S> tail = identified.tailSet(id);
 								if (tail.smaller(minSubGroupSize))
 								{
 									iterator = tail.iterator();
-									Statement st = iterator.next();
+									S st = iterator.next();
 									if (!iterator.hasNext())
 										iterator = null;
-									return new SingletonStatementSorter(st);
+									return new SingletonStatementSorter<S>(st);
 								}
 								else
-									return new GroupStatementSorter(tail);
+									return new GroupStatementSorter<S>(tail);
 							}
 						}
 
@@ -194,9 +194,9 @@ public class GroupStatementSorter extends StatementSorter implements CloseableIt
 				}
 
 			};
-			CloseableIterable<StatementSorter> nonIdentifiedIterable = new BijectionCloseableIterable<Statement, StatementSorter>(singletonBijection,
+			CloseableIterable<StatementSorter<S>> nonIdentifiedIterable = new BijectionCloseableIterable<S, StatementSorter<S>>(singletonBijection,
 					nonAssumptions.tailSet(RootNamespace.instance.terminator()));
-			return new CombinedCloseableIterable<StatementSorter>(assumptionIterable, new CombinedCloseableIterable<StatementSorter>(identifiedIterable,
+			return new CombinedCloseableIterable<StatementSorter<S>>(assumptionIterable, new CombinedCloseableIterable<StatementSorter<S>>(identifiedIterable,
 					nonIdentifiedIterable)).iterator();
 		}
 	}

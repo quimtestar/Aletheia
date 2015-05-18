@@ -1,6 +1,8 @@
 package aletheia.gui.contextjtree.statementsorter;
 
-public abstract class StatementSorter
+import aletheia.model.statement.Statement;
+
+public abstract class StatementSorter<S extends Statement>
 {
 
 }
