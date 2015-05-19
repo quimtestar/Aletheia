@@ -6,8 +6,10 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.RootNamespace;
+import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.collections.statement.SortedStatements;
+import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCloseableIterable;
 import aletheia.utilities.collections.CloseableIterable;
@@ -19,14 +21,18 @@ public class GroupStatementSorter<S extends Statement> extends StatementSorter<S
 	private final static int minGroupingSize = 0;
 	private final static int minSubGroupSize = 2;
 
+	private final Context context;
+	private final Namespace prefix;
 	private final SortedStatements<S> sortedStatements;
 	private final Bijection<S, StatementSorter<S>> singletonBijection;
 
-	public GroupStatementSorter(SortedStatements<S> sortedStatements)
+	protected GroupStatementSorter(Context context, Namespace prefix, SortedStatements<S> sortedStatements)
 	{
+		this.context = context;
+		this.prefix = prefix;
 		this.sortedStatements = sortedStatements;
 		this.singletonBijection = new Bijection<S, StatementSorter<S>>()
-				{
+		{
 
 			@Override
 			public StatementSorter<S> forward(S statement)
@@ -42,15 +48,14 @@ public class GroupStatementSorter<S extends Statement> extends StatementSorter<S
 		};
 	}
 
-	public Namespace commonPrefix()
+	public Context getContext()
 	{
-		Identifier i0 = sortedStatements.first().getIdentifier();
-		if (i0 == null)
-			return null;
-		Identifier i1 = sortedStatements.last().getIdentifier();
-		if (i1 == null)
-			return null;
-		return i0.commonPrefix(i1);
+		return context;
+	}
+
+	public Namespace getPrefix()
+	{
+		return prefix;
 	}
 
 	@Override
@@ -79,7 +84,7 @@ public class GroupStatementSorter<S extends Statement> extends StatementSorter<S
 							else
 								next = identified.first();
 						}
-						Statement prev = null;
+						S prev = null;
 						CloseableIterator<S> iterator = null;
 
 						@Override
@@ -120,24 +125,15 @@ public class GroupStatementSorter<S extends Statement> extends StatementSorter<S
 											return new SingletonStatementSorter<S>(st);
 										}
 										else
-											return new GroupStatementSorter<S>(sub);
+											return new GroupStatementSorter<S>(context, prefix, sub);
 									}
 								}
-								S st = next;
-								CloseableIterator<S> iterator = identified.tailSet(next).iterator();
-								try
-								{
-									iterator.next();
-									prev = next;
-									if (iterator.hasNext())
-										next = iterator.next();
-									else
-										next = null;
-								}
-								finally
-								{
-									iterator.close();
-								}
+								iterator = identified.identifierSet(id).iterator();
+								S st = iterator.next();
+								if (!iterator.hasNext())
+									iterator = null;
+								prev = next;
+								next = MiscUtilities.firstFromCloseableIterable(identified.postIdentifierSet(id));
 								return new SingletonStatementSorter<S>(st);
 							}
 							else
@@ -164,22 +160,10 @@ public class GroupStatementSorter<S extends Statement> extends StatementSorter<S
 											return new SingletonStatementSorter<S>(st);
 										}
 										else
-											return new GroupStatementSorter<S>(sub);
+											return new GroupStatementSorter<S>(context, prefix, sub);
 									}
 								}
-								prev = next;
-								next = null;
-								SortedStatements<S> tail = identified.tailSet(id);
-								if (tail.smaller(minSubGroupSize))
-								{
-									iterator = tail.iterator();
-									S st = iterator.next();
-									if (!iterator.hasNext())
-										iterator = null;
-									return new SingletonStatementSorter<S>(st);
-								}
-								else
-									return new GroupStatementSorter<S>(tail);
+								throw new RuntimeException();
 							}
 						}
 
@@ -199,6 +183,44 @@ public class GroupStatementSorter<S extends Statement> extends StatementSorter<S
 			return new CombinedCloseableIterable<StatementSorter<S>>(assumptionIterable, new CombinedCloseableIterable<StatementSorter<S>>(identifiedIterable,
 					nonIdentifiedIterable)).iterator();
 		}
+	}
+
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((context == null) ? 0 : context.hashCode());
+		result = prime * result + ((prefix == null) ? 0 : prefix.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		@SuppressWarnings("rawtypes")
+		GroupStatementSorter other = (GroupStatementSorter) obj;
+		if (context == null)
+		{
+			if (other.context != null)
+				return false;
+		}
+		else if (!context.equals(other.context))
+			return false;
+		if (prefix == null)
+		{
+			if (other.prefix != null)
+				return false;
+		}
+		else if (!prefix.equals(other.prefix))
+			return false;
+		return true;
 	}
 
 }
