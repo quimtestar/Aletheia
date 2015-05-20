@@ -6,8 +6,9 @@ public class SingletonStatementSorter<S extends Statement> extends StatementSort
 {
 	private final S statement;
 
-	protected SingletonStatementSorter(S statement)
+	protected SingletonStatementSorter(GroupStatementSorter<S> group, S statement)
 	{
+		super(group, statement.getIdentifier());
 		this.statement = statement;
 	}
 

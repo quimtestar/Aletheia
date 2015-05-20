@@ -21,15 +21,12 @@ public class GroupStatementSorter<S extends Statement> extends StatementSorter<S
 	private final static int minGroupingSize = 0;
 	private final static int minSubGroupSize = 2;
 
-	private final Context context;
-	private final Namespace prefix;
 	private final SortedStatements<S> sortedStatements;
 	private final Bijection<S, StatementSorter<S>> singletonBijection;
 
-	protected GroupStatementSorter(Context context, Namespace prefix, SortedStatements<S> sortedStatements)
+	protected GroupStatementSorter(GroupStatementSorter<S> group, Namespace prefix, SortedStatements<S> sortedStatements)
 	{
-		this.context = context;
-		this.prefix = prefix;
+		super(group, prefix);
 		this.sortedStatements = sortedStatements;
 		this.singletonBijection = new Bijection<S, StatementSorter<S>>()
 		{
@@ -37,7 +34,7 @@ public class GroupStatementSorter<S extends Statement> extends StatementSorter<S
 			@Override
 			public StatementSorter<S> forward(S statement)
 			{
-				return new SingletonStatementSorter<S>(statement);
+				return new SingletonStatementSorter<S>(GroupStatementSorter.this, statement);
 			}
 
 			@Override
@@ -50,12 +47,7 @@ public class GroupStatementSorter<S extends Statement> extends StatementSorter<S
 
 	public Context getContext()
 	{
-		return context;
-	}
-
-	public Namespace getPrefix()
-	{
-		return prefix;
+		return getGroup().getContext();
 	}
 
 	@Override
@@ -101,7 +93,7 @@ public class GroupStatementSorter<S extends Statement> extends StatementSorter<S
 								S st = iterator.next();
 								if (!iterator.hasNext())
 									iterator = null;
-								return new SingletonStatementSorter<S>(st);
+								return new SingletonStatementSorter<S>(GroupStatementSorter.this, st);
 							}
 							if (next == null)
 								throw new NoSuchElementException();
@@ -122,10 +114,10 @@ public class GroupStatementSorter<S extends Statement> extends StatementSorter<S
 											S st = iterator.next();
 											if (!iterator.hasNext())
 												iterator = null;
-											return new SingletonStatementSorter<S>(st);
+											return new SingletonStatementSorter<S>(GroupStatementSorter.this, st);
 										}
 										else
-											return new GroupStatementSorter<S>(context, prefix, sub);
+											return new GroupStatementSorter<S>(GroupStatementSorter.this, prefix, sub);
 									}
 								}
 								iterator = identified.identifierSet(id).iterator();
@@ -134,7 +126,7 @@ public class GroupStatementSorter<S extends Statement> extends StatementSorter<S
 									iterator = null;
 								prev = next;
 								next = MiscUtilities.firstFromCloseableIterable(identified.postIdentifierSet(id));
-								return new SingletonStatementSorter<S>(st);
+								return new SingletonStatementSorter<S>(GroupStatementSorter.this, st);
 							}
 							else
 							{
@@ -157,10 +149,10 @@ public class GroupStatementSorter<S extends Statement> extends StatementSorter<S
 											S st = iterator.next();
 											if (!iterator.hasNext())
 												iterator = null;
-											return new SingletonStatementSorter<S>(st);
+											return new SingletonStatementSorter<S>(GroupStatementSorter.this, st);
 										}
 										else
-											return new GroupStatementSorter<S>(context, prefix, sub);
+											return new GroupStatementSorter<S>(GroupStatementSorter.this, prefix, sub);
 									}
 								}
 								throw new RuntimeException();
@@ -183,44 +175,6 @@ public class GroupStatementSorter<S extends Statement> extends StatementSorter<S
 			return new CombinedCloseableIterable<StatementSorter<S>>(assumptionIterable, new CombinedCloseableIterable<StatementSorter<S>>(identifiedIterable,
 					nonIdentifiedIterable)).iterator();
 		}
-	}
-
-	@Override
-	public int hashCode()
-	{
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((context == null) ? 0 : context.hashCode());
-		result = prime * result + ((prefix == null) ? 0 : prefix.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		@SuppressWarnings("rawtypes")
-		GroupStatementSorter other = (GroupStatementSorter) obj;
-		if (context == null)
-		{
-			if (other.context != null)
-				return false;
-		}
-		else if (!context.equals(other.context))
-			return false;
-		if (prefix == null)
-		{
-			if (other.prefix != null)
-				return false;
-		}
-		else if (!prefix.equals(other.prefix))
-			return false;
-		return true;
 	}
 
 }

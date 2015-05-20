@@ -4,12 +4,12 @@ import aletheia.model.statement.RootContext;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 
-public class RootContextGroupStatementSorter extends GroupStatementSorter<RootContext>
+public class RootContextGroupStatementSorter extends RootGroupStatementSorter<RootContext>
 {
 
 	public RootContextGroupStatementSorter(PersistenceManager persistenceManager, Transaction transaction)
 	{
-		super(null, null, persistenceManager.sortedRootContexts(transaction));
+		super(null, persistenceManager.sortedRootContexts(transaction));
 	}
 
 }
