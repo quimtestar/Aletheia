@@ -17,62 +17,44 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree;
+package aletheia.gui.contextjtree.node;
 
+import aletheia.gui.contextjtree.ContextJTree;
+import aletheia.gui.contextjtree.ContextTreeModel;
+import aletheia.gui.contextjtree.StatementContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.statementsorter.GroupStatementSorter;
+import aletheia.gui.contextjtree.statementsorter.RootContextGroupStatementSorter;
+import aletheia.gui.contextjtree.statementsorter.RootGroupStatementSorter;
+import aletheia.gui.contextjtree.statementsorter.SingletonStatementSorter;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 
-public class StatementTreeNode extends AbstractTreeNode
+public class StatementTreeNode extends StatementSorterTreeNode
 {
-	private final ContextTreeModel model;
-	private final BranchTreeNode parent;
-	private final Statement statement;
-
-	public StatementTreeNode(ContextTreeModel model, Statement statement)
+	public StatementTreeNode(ContextTreeModel model, SingletonStatementSorter<?> singletonStatementSorter)
 	{
-		this.model = model;
-		if (statement instanceof RootContext)
-			this.parent = model.getRootTreeNode();
-		else
-		{
-			Transaction transaction = model.beginTransaction();
-			try
-			{
-				this.parent = (ContextTreeNode) model.nodeMap().get(statement.getContext(transaction));
-			}
-			finally
-			{
-				transaction.abort();
-			}
-		}
-		this.statement = statement;
+		super(model,singletonStatementSorter);
 	}
-
-	public ContextTreeModel getModel()
+	
+	public SingletonStatementSorter<?> getStatementSorter()
 	{
-		return model;
+		return (SingletonStatementSorter<?>) super.getStatementSorter();
 	}
-
+	
 	public Statement getStatement()
 	{
-		return statement;
-	}
-
-	@Override
-	public BranchTreeNode getParent()
-	{
-		return parent;
+		return getStatementSorter().getStatement();
 	}
 
 	@Override
 	protected StatementContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree)
 	{
-		Transaction transaction = model.beginTransaction();
+		Transaction transaction = getModel().beginTransaction();
 		try
 		{
-			return StatementContextJTreeNodeRenderer.renderer(contextJTree, statement.refresh(transaction));
+			return StatementContextJTreeNodeRenderer.renderer(contextJTree, getStatement().refresh(transaction));
 		}
 		finally
 		{
@@ -83,12 +65,12 @@ public class StatementTreeNode extends AbstractTreeNode
 	@Override
 	public String toString()
 	{
-		Transaction transaction = model.getPersistenceManager().beginDirtyTransaction();
+		Transaction transaction = getModel().getPersistenceManager().beginDirtyTransaction();
 		try
 		{
-			Identifier id = statement.identifier(transaction);
+			Identifier id = getStatement().identifier(transaction);
 			if (id == null)
-				return statement.getVariable().toString();
+				return getStatement().getVariable().toString();
 			return id.toString();
 		}
 		catch (RuntimeException e)

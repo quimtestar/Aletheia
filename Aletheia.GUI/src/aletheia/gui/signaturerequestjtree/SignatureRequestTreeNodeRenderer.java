@@ -130,7 +130,7 @@ public abstract class SignatureRequestTreeNodeRenderer extends PersistentJTreeNo
 	}
 
 	@Override
-	protected SignatureRequestJTree getPersistentJTree()
+	public SignatureRequestJTree getPersistentJTree()
 	{
 		return (SignatureRequestJTree) super.getPersistentJTree();
 	}

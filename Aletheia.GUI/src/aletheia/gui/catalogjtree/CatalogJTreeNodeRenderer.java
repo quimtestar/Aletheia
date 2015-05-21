@@ -80,7 +80,7 @@ public abstract class CatalogJTreeNodeRenderer extends PersistentJTreeNodeRender
 	}
 
 	@Override
-	protected CatalogJTree getPersistentJTree()
+	public CatalogJTree getPersistentJTree()
 	{
 		return (CatalogJTree) super.getPersistentJTree();
 	}

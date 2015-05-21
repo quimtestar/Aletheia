@@ -17,8 +17,11 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree;
+package aletheia.gui.contextjtree.node;
 
+import aletheia.gui.contextjtree.ConsequentContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.ContextJTree;
+import aletheia.gui.contextjtree.ContextTreeModel;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.persistence.Transaction;

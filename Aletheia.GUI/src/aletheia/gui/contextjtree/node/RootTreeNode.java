@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree;
+package aletheia.gui.contextjtree.node;
 
 import java.util.Collections;
 import java.util.Enumeration;
@@ -27,6 +27,11 @@ import java.util.NoSuchElementException;
 
 import javax.swing.tree.TreePath;
 
+import aletheia.gui.contextjtree.BranchNodeStatementListManager;
+import aletheia.gui.contextjtree.ContextJTree;
+import aletheia.gui.contextjtree.ContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.ContextTreeModel;
+import aletheia.gui.contextjtree.EmptyContextJTreeNodeRenderer;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;

@@ -28,12 +28,13 @@ import java.util.UUID;
 import aletheia.model.statement.Statement;
 import aletheia.utilities.collections.BufferedList;
 
-class BranchNodeStatementListManager<S extends Statement>
+@Deprecated
+public class BranchNodeStatementListManager<S extends Statement>
 {
 	private final BufferedList<S> statementList;
 	private final Map<UUID, Integer> uuidIndexes;
 
-	BranchNodeStatementListManager(Collection<? extends S> statements)
+	public BranchNodeStatementListManager(Collection<? extends S> statements)
 	{
 		statementList = new BufferedList<S>(statements);
 		uuidIndexes = new HashMap<UUID, Integer>();
@@ -46,7 +47,7 @@ class BranchNodeStatementListManager<S extends Statement>
 		}
 	}
 
-	boolean checkStatementInsert(Statement statement)
+	public boolean checkStatementInsert(Statement statement)
 	{
 		Integer index = uuidIndexes.get(statement.getUuid());
 		if (index == null)
@@ -59,7 +60,7 @@ class BranchNodeStatementListManager<S extends Statement>
 		return true;
 	}
 
-	boolean checkStatementRemove(Statement statement)
+	public boolean checkStatementRemove(Statement statement)
 	{
 		Integer index = uuidIndexes.get(statement.getUuid());
 		if (index == null)
@@ -67,7 +68,7 @@ class BranchNodeStatementListManager<S extends Statement>
 		return false;
 	}
 
-	BufferedList<S> getStatementList()
+	public BufferedList<S> getStatementList()
 	{
 		return statementList;
 	}

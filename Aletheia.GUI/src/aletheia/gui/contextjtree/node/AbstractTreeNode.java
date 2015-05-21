@@ -17,13 +17,17 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree;
+package aletheia.gui.contextjtree.node;
 
 import java.lang.ref.SoftReference;
 import java.util.Enumeration;
 
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
+
+import aletheia.gui.contextjtree.ContextJTree;
+import aletheia.gui.contextjtree.ContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.EmptyContextJTreeNodeRenderer;
 
 public abstract class AbstractTreeNode implements MyTreeNode
 {

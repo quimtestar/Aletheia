@@ -73,12 +73,12 @@ public abstract class ContextJTreeNodeRenderer extends PersistentJTreeNodeRender
 	}
 
 	@Override
-	protected ContextJTree getPersistentJTree()
+	public ContextJTree getPersistentJTree()
 	{
 		return (ContextJTree) super.getPersistentJTree();
 	}
 
-	protected ContextJTree getContextJTree()
+	public ContextJTree getContextJTree()
 	{
 		return getPersistentJTree();
 	}

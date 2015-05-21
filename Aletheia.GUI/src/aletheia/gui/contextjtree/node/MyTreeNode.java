@@ -17,35 +17,18 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree;
+package aletheia.gui.contextjtree.node;
 
-public class EmptyTreeNode extends AbstractTreeNode
+import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
+
+interface MyTreeNode extends TreeNode
 {
+	public TreePath path();
 
-	private final BranchTreeNode parent;
-
-	public EmptyTreeNode(BranchTreeNode parent)
-	{
-		this.parent = parent;
-
-	}
+	public void cleanRenderer();
 
 	@Override
-	public BranchTreeNode getParent()
-	{
-		return parent;
-	}
-
-	@Override
-	protected ContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree)
-	{
-		return new EmptyContextJTreeNodeRenderer(contextJTree);
-	}
-
-	@Override
-	public boolean getAllowsChildren()
-	{
-		return false;
-	}
+	public BranchTreeNode getParent();
 
 }

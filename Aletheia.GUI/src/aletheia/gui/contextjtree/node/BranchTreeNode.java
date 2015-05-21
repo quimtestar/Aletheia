@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree;
+package aletheia.gui.contextjtree.node;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +26,7 @@ import java.util.Map;
 
 import aletheia.model.statement.Statement;
 
-interface BranchTreeNode extends MyTreeNode
+public interface BranchTreeNode extends MyTreeNode
 {
 	public class Changes
 	{
