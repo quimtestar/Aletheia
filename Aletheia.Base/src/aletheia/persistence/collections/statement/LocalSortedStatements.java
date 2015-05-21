@@ -33,10 +33,19 @@ public interface LocalSortedStatements extends SortedStatements<Statement>
 	@Override
 	LocalSortedStatements tailSet(Statement fromElement);
 
+	@Override
 	LocalSortedStatements subSet(Identifier from, Identifier to);
 
+	@Override
 	LocalSortedStatements headSet(Identifier to);
 
+	@Override
 	LocalSortedStatements tailSet(Identifier from);
+
+	@Override
+	LocalSortedStatements identifierSet(Identifier identifier);
+
+	@Override
+	LocalSortedStatements postIdentifierSet(Identifier identifier);
 
 }

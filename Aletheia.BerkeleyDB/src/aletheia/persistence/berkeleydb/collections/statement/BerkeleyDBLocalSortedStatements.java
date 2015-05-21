@@ -32,6 +32,12 @@ public class BerkeleyDBLocalSortedStatements extends BerkeleyDBSortedStatements<
 {
 
 	protected BerkeleyDBLocalSortedStatements(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction, LocalSortKey from,
+			boolean fromInclusive, LocalSortKey to, boolean toInclusive)
+	{
+		super(persistenceManager, transaction, from, fromInclusive, to, toInclusive);
+	}
+
+	protected BerkeleyDBLocalSortedStatements(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction, LocalSortKey from,
 			LocalSortKey to)
 	{
 		super(persistenceManager, transaction, from, to);
@@ -49,9 +55,9 @@ public class BerkeleyDBLocalSortedStatements extends BerkeleyDBSortedStatements<
 	}
 
 	@Override
-	protected BerkeleyDBLocalSortedStatements newBerkeleyDBSortedStatementsBounds(LocalSortKey from, LocalSortKey to)
+	protected BerkeleyDBLocalSortedStatements newBerkeleyDBSortedStatementsBounds(LocalSortKey from, boolean fromInclusive, LocalSortKey to, boolean toInclusive)
 	{
-		return new BerkeleyDBLocalSortedStatements(getPersistenceManager(), getTransaction(), from, to);
+		return new BerkeleyDBLocalSortedStatements(getPersistenceManager(), getTransaction(), from, fromInclusive, to, toInclusive);
 	}
 
 	@Override
@@ -88,6 +94,18 @@ public class BerkeleyDBLocalSortedStatements extends BerkeleyDBSortedStatements<
 	public BerkeleyDBLocalSortedStatements tailSet(Identifier from)
 	{
 		return (BerkeleyDBLocalSortedStatements) super.tailSet(from);
+	}
+
+	@Override
+	public BerkeleyDBLocalSortedStatements identifierSet(Identifier identifier)
+	{
+		return (BerkeleyDBLocalSortedStatements) super.identifierSet(identifier);
+	}
+
+	@Override
+	public BerkeleyDBLocalSortedStatements postIdentifierSet(Identifier identifier)
+	{
+		return (BerkeleyDBLocalSortedStatements) super.postIdentifierSet(identifier);
 	}
 
 }

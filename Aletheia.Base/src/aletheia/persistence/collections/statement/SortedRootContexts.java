@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.persistence.collections.statement;
 
+import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.RootContext;
 
 public interface SortedRootContexts extends SortedStatements<RootContext>
@@ -32,4 +33,18 @@ public interface SortedRootContexts extends SortedStatements<RootContext>
 	@Override
 	SortedRootContexts tailSet(RootContext fromElement);
 
+	@Override
+	SortedRootContexts subSet(Identifier from, Identifier to);
+
+	@Override
+	SortedRootContexts headSet(Identifier to);
+
+	@Override
+	SortedRootContexts tailSet(Identifier from);
+
+	@Override
+	SortedRootContexts identifierSet(Identifier identifier);
+
+	@Override
+	SortedRootContexts postIdentifierSet(Identifier identifier);
 }
