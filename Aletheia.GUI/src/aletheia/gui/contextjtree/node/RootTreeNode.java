@@ -29,9 +29,9 @@ import javax.swing.tree.TreePath;
 
 import aletheia.gui.contextjtree.BranchNodeStatementListManager;
 import aletheia.gui.contextjtree.ContextJTree;
-import aletheia.gui.contextjtree.ContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.ContextTreeModel;
-import aletheia.gui.contextjtree.EmptyContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.renderer.EmptyContextJTreeNodeRenderer;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;

@@ -17,21 +17,22 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree;
+package aletheia.gui.contextjtree.renderer;
 
-import aletheia.model.statement.Context;
+import aletheia.gui.contextjtree.ContextJTree;
+import aletheia.model.statement.RootContext;
 
-public class ContextContextJTreeNodeRenderer extends StatementContextJTreeNodeRenderer
+public class RootContextContextJTreeNodeRenderer extends ContextContextJTreeNodeRenderer
 {
-	private static final long serialVersionUID = -722490351732400121L;
+	private static final long serialVersionUID = 2931816812478769992L;
 
-	protected ContextContextJTreeNodeRenderer(ContextJTree contextJTree, Context context)
+	protected RootContextContextJTreeNodeRenderer(ContextJTree contextJTree, RootContext rootContext)
 	{
-		super(contextJTree, context);
+		super(contextJTree, rootContext);
 		setActiveFont(getItalicFont());
 		addSpaceLabel();
 		addOpenBracket();
-		addContextLabel();
+		addRootLabel();
 		addCloseBracket();
 	}
 

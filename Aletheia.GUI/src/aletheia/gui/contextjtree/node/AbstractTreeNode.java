@@ -26,8 +26,8 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import aletheia.gui.contextjtree.ContextJTree;
-import aletheia.gui.contextjtree.ContextJTreeNodeRenderer;
-import aletheia.gui.contextjtree.EmptyContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.renderer.EmptyContextJTreeNodeRenderer;
 
 public abstract class AbstractTreeNode implements MyTreeNode
 {

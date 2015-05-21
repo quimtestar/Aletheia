@@ -17,38 +17,23 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree;
+package aletheia.gui.contextjtree.renderer;
 
-import aletheia.model.statement.Declaration;
-import aletheia.persistence.Transaction;
+import aletheia.gui.contextjtree.ContextJTree;
+import aletheia.model.statement.Context;
 
-public class DeclarationContextJTreeNodeRenderer extends StatementContextJTreeNodeRenderer
+public class ContextContextJTreeNodeRenderer extends StatementContextJTreeNodeRenderer
 {
-	private static final long serialVersionUID = 6841890763302299054L;
+	private static final long serialVersionUID = -722490351732400121L;
 
-	protected DeclarationContextJTreeNodeRenderer(ContextJTree contextJTree, Declaration declaration)
+	protected ContextContextJTreeNodeRenderer(ContextJTree contextJTree, Context context)
 	{
-		super(contextJTree, declaration);
-		Transaction transaction = contextJTree.getModel().beginTransaction();
-		try
-		{
-			setActiveFont(getItalicFont());
-			addSpaceLabel();
-			addOpenBracket();
-			addDeclarationLabel();
-			addColonLabel();
-			addTerm(declaration.parentVariableToIdentifier(transaction), declaration.getValue());
-			addCloseBracket();
-		}
-		finally
-		{
-			transaction.abort();
-		}
-
+		super(contextJTree, context);
+		setActiveFont(getItalicFont());
+		addSpaceLabel();
+		addOpenBracket();
+		addContextLabel();
+		addCloseBracket();
 	}
 
-	public Declaration getDeclaration()
-	{
-		return (Declaration) getStatement();
-	}
 }

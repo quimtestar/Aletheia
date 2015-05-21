@@ -17,15 +17,39 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree;
+package aletheia.gui.contextjtree.renderer;
 
-public class EmptyContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
+import aletheia.gui.contextjtree.ContextJTree;
+import aletheia.model.statement.Declaration;
+import aletheia.persistence.Transaction;
+
+public class DeclarationContextJTreeNodeRenderer extends StatementContextJTreeNodeRenderer
 {
-	private static final long serialVersionUID = -5370932002340837040L;
+	private static final long serialVersionUID = 6841890763302299054L;
 
-	public EmptyContextJTreeNodeRenderer(ContextJTree contextJTree)
+	protected DeclarationContextJTreeNodeRenderer(ContextJTree contextJTree, Declaration declaration)
 	{
-		super(contextJTree);
+		super(contextJTree, declaration);
+		Transaction transaction = contextJTree.getModel().beginTransaction();
+		try
+		{
+			setActiveFont(getItalicFont());
+			addSpaceLabel();
+			addOpenBracket();
+			addDeclarationLabel();
+			addColonLabel();
+			addTerm(declaration.parentVariableToIdentifier(transaction), declaration.getValue());
+			addCloseBracket();
+		}
+		finally
+		{
+			transaction.abort();
+		}
+
 	}
 
+	public Declaration getDeclaration()
+	{
+		return (Declaration) getStatement();
+	}
 }

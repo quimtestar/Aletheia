@@ -55,6 +55,9 @@ import aletheia.gui.contextjtree.node.BranchTreeNode;
 import aletheia.gui.contextjtree.node.ConsequentTreeNode;
 import aletheia.gui.contextjtree.node.ContextTreeNode;
 import aletheia.gui.contextjtree.node.StatementTreeNode;
+import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.renderer.EmptyContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.renderer.StatementContextJTreeNodeRenderer;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
@@ -460,7 +463,7 @@ public class ContextJTree extends PersistentJTree
 		return new TreeModelListener();
 	}
 
-	protected AletheiaJPanel getAletheiaJPanel()
+	public AletheiaJPanel getAletheiaJPanel()
 	{
 		return aletheiaJPanel;
 	}

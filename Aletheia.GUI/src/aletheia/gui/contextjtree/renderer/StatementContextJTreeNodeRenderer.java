@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree;
+package aletheia.gui.contextjtree.renderer;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -30,6 +30,7 @@ import javax.swing.TransferHandler;
 import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.local.ContextLocal;

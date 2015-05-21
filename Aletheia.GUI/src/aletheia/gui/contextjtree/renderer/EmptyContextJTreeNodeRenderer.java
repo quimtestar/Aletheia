@@ -17,29 +17,17 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree;
+package aletheia.gui.contextjtree.renderer;
 
-import aletheia.model.statement.Assumption;
+import aletheia.gui.contextjtree.ContextJTree;
 
-public class AssumptionContextJTreeNodeRenderer extends StatementContextJTreeNodeRenderer
+public class EmptyContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
 {
-	private static final long serialVersionUID = -1306644843764913368L;
+	private static final long serialVersionUID = -5370932002340837040L;
 
-	protected AssumptionContextJTreeNodeRenderer(ContextJTree contextJTree, Assumption assumption)
+	public EmptyContextJTreeNodeRenderer(ContextJTree contextJTree)
 	{
-		super(contextJTree, assumption);
-		setActiveFont(getItalicFont());
-		addSpaceLabel();
-		addOpenBracket();
-		addAssumptionLabel();
-		addColonLabel();
-		addIntLabel(assumption.getOrder());
-		addCloseBracket();
-	}
-
-	protected Assumption getAssumption()
-	{
-		return (Assumption) getStatement();
+		super(contextJTree);
 	}
 
 }

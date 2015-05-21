@@ -17,22 +17,34 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree;
+package aletheia.gui.contextjtree.renderer;
 
-import aletheia.model.statement.RootContext;
+import aletheia.gui.contextjtree.ContextJTree;
+import aletheia.model.statement.UnfoldingContext;
+import aletheia.persistence.Transaction;
 
-public class RootContextContextJTreeNodeRenderer extends ContextContextJTreeNodeRenderer
+public class UnfoldingContextContextJTreeNodeRenderer extends ContextContextJTreeNodeRenderer
 {
-	private static final long serialVersionUID = 2931816812478769992L;
+	private static final long serialVersionUID = 5051767441682012846L;
 
-	protected RootContextContextJTreeNodeRenderer(ContextJTree contextJTree, RootContext rootContext)
+	protected UnfoldingContextContextJTreeNodeRenderer(ContextJTree contextJTree, UnfoldingContext context)
 	{
-		super(contextJTree, rootContext);
-		setActiveFont(getItalicFont());
-		addSpaceLabel();
-		addOpenBracket();
-		addRootLabel();
-		addCloseBracket();
+		super(contextJTree, context);
+		Transaction transaction = contextJTree.getModel().beginTransaction();
+		try
+		{
+			setActiveFont(getItalicFont());
+			addSpaceLabel();
+			addOpenBracket();
+			addUnfoldingLabel();
+			addColonLabel();
+			addTerm(context.parentVariableToIdentifier(transaction), context.getDeclaration(transaction).getVariable());
+			addCloseBracket();
+		}
+		finally
+		{
+			transaction.abort();
+		}
 	}
 
 }

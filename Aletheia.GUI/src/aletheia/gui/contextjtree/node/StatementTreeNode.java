@@ -21,7 +21,7 @@ package aletheia.gui.contextjtree.node;
 
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextTreeModel;
-import aletheia.gui.contextjtree.StatementContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.renderer.StatementContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.statementsorter.GroupStatementSorter;
 import aletheia.gui.contextjtree.statementsorter.RootContextGroupStatementSorter;
 import aletheia.gui.contextjtree.statementsorter.RootGroupStatementSorter;

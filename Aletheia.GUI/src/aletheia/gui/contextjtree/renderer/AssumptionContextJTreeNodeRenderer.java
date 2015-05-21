@@ -17,33 +17,30 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree;
+package aletheia.gui.contextjtree.renderer;
 
-import aletheia.model.statement.UnfoldingContext;
-import aletheia.persistence.Transaction;
+import aletheia.gui.contextjtree.ContextJTree;
+import aletheia.model.statement.Assumption;
 
-public class UnfoldingContextContextJTreeNodeRenderer extends ContextContextJTreeNodeRenderer
+public class AssumptionContextJTreeNodeRenderer extends StatementContextJTreeNodeRenderer
 {
-	private static final long serialVersionUID = 5051767441682012846L;
+	private static final long serialVersionUID = -1306644843764913368L;
 
-	protected UnfoldingContextContextJTreeNodeRenderer(ContextJTree contextJTree, UnfoldingContext context)
+	protected AssumptionContextJTreeNodeRenderer(ContextJTree contextJTree, Assumption assumption)
 	{
-		super(contextJTree, context);
-		Transaction transaction = contextJTree.getModel().beginTransaction();
-		try
-		{
-			setActiveFont(getItalicFont());
-			addSpaceLabel();
-			addOpenBracket();
-			addUnfoldingLabel();
-			addColonLabel();
-			addTerm(context.parentVariableToIdentifier(transaction), context.getDeclaration(transaction).getVariable());
-			addCloseBracket();
-		}
-		finally
-		{
-			transaction.abort();
-		}
+		super(contextJTree, assumption);
+		setActiveFont(getItalicFont());
+		addSpaceLabel();
+		addOpenBracket();
+		addAssumptionLabel();
+		addColonLabel();
+		addIntLabel(assumption.getOrder());
+		addCloseBracket();
+	}
+
+	protected Assumption getAssumption()
+	{
+		return (Assumption) getStatement();
 	}
 
 }

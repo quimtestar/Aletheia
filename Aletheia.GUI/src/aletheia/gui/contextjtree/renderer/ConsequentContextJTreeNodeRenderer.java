@@ -17,40 +17,36 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree;
+package aletheia.gui.contextjtree.renderer;
 
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
 
-import aletheia.gui.common.PersistentJTreeNodeRenderer;
+import aletheia.gui.contextjtree.ContextJTree;
+import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
-import aletheia.model.term.VariableTerm;
 import aletheia.persistence.Transaction;
 
-public abstract class ContextJTreeNodeRenderer extends PersistentJTreeNodeRenderer
+public class ConsequentContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
 {
-	private static final long serialVersionUID = -5450326554560954995L;
+	private static final long serialVersionUID = 8932737516919384939L;
 
-	private class TreeNodeRendererKeyListener implements KeyListener
+	private final Context context;
+
+	private class MyKeyListener implements KeyListener
 	{
+
 		@Override
 		public void keyPressed(KeyEvent ev)
 		{
 			switch (ev.getKeyCode())
 			{
-			case KeyEvent.VK_UP:
-			case KeyEvent.VK_DOWN:
-			case KeyEvent.VK_LEFT:
-			case KeyEvent.VK_RIGHT:
-			case KeyEvent.VK_PAGE_UP:
-			case KeyEvent.VK_PAGE_DOWN:
-			case KeyEvent.VK_HOME:
-			case KeyEvent.VK_END:
-				getContextJTree().cancelEditing();
-				Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(ev);
+			case KeyEvent.VK_F3:
+			{
+				getContextJTree().getAletheiaJPanel().getCliJPanel().setActiveContext(context);
 				break;
+			}
+
 			}
 		}
 
@@ -66,38 +62,38 @@ public abstract class ContextJTreeNodeRenderer extends PersistentJTreeNodeRender
 
 	}
 
-	public ContextJTreeNodeRenderer(ContextJTree contextJTree)
+	public ConsequentContextJTreeNodeRenderer(ContextJTree contextJTree, Context context)
 	{
-		super(contextJTree, true);
-		addKeyListener(new TreeNodeRendererKeyListener());
-	}
-
-	@Override
-	public ContextJTree getPersistentJTree()
-	{
-		return (ContextJTree) super.getPersistentJTree();
-	}
-
-	public ContextJTree getContextJTree()
-	{
-		return getPersistentJTree();
-	}
-
-	@Override
-	protected void mouseClickedOnVariableReference(VariableTerm variable, MouseEvent ev)
-	{
-		Transaction transaction = getPersistenceManager().beginTransaction();
+		super(contextJTree);
+		Transaction transaction = contextJTree.getModel().beginTransaction();
 		try
 		{
-			Statement statement = getPersistenceManager().statements(transaction).get(variable);
-			if (statement != null)
-				getContextJTree().selectStatement(statement, true);
+			this.context = context;
+			addTurnstileLabel();
+			addSpaceLabel();
+			addTerm(context.variableToIdentifier(transaction), context.getConsequent());
+			setActiveFont(getItalicFont());
+			addSpaceLabel();
+			addOpenBracket();
+			boolean first = true;
+			for (Statement st : context.solvers(transaction))
+			{
+				if (!first)
+				{
+					addCommaLabel();
+					addSpaceLabel();
+				}
+				else
+					first = false;
+				addTerm(context.variableToIdentifier(transaction), st.getVariable());
+			}
+			addCloseBracket();
+			addKeyListener(new MyKeyListener());
 		}
 		finally
 		{
 			transaction.abort();
 		}
-
 	}
 
 }
