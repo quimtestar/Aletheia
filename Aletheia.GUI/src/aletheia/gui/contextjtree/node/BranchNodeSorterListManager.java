@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree;
+package aletheia.gui.contextjtree.node;
 
 import aletheia.gui.contextjtree.sorter.GroupSorter;
 import aletheia.gui.contextjtree.sorter.Sorter;

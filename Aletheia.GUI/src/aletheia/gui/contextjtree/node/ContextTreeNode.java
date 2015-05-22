@@ -25,7 +25,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import aletheia.gui.contextjtree.BranchNodeSorterListManager;
 import aletheia.gui.contextjtree.ContextTreeModel;
 import aletheia.gui.contextjtree.sorter.StatementRootGroupSorter;
 import aletheia.gui.contextjtree.sorter.SingletonSorter;

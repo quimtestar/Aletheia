@@ -27,7 +27,6 @@ import java.util.NoSuchElementException;
 
 import javax.swing.tree.TreePath;
 
-import aletheia.gui.contextjtree.BranchNodeStatementListManager;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextTreeModel;
 import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
