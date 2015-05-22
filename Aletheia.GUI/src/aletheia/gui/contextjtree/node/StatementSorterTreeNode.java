@@ -1,42 +1,42 @@
 package aletheia.gui.contextjtree.node;
 
 import aletheia.gui.contextjtree.ContextTreeModel;
-import aletheia.gui.contextjtree.statementsorter.GroupStatementSorter;
-import aletheia.gui.contextjtree.statementsorter.RootContextGroupStatementSorter;
-import aletheia.gui.contextjtree.statementsorter.RootGroupStatementSorter;
-import aletheia.gui.contextjtree.statementsorter.StatementSorter;
+import aletheia.gui.contextjtree.sorter.GroupSorter;
+import aletheia.gui.contextjtree.sorter.RootContextRootGroupSorter;
+import aletheia.gui.contextjtree.sorter.RootGroupSorter;
+import aletheia.gui.contextjtree.sorter.Sorter;
 
 public abstract class StatementSorterTreeNode extends AbstractTreeNode
 {
 	private final ContextTreeModel model;
-	private final StatementSorter<?> statementSorter;
+	private final Sorter sorter;
 	private final BranchTreeNode parent;
-	
-	public StatementSorterTreeNode(ContextTreeModel model, StatementSorter<?> statementSorter)
+
+	public StatementSorterTreeNode(ContextTreeModel model, Sorter sorter)
 	{
 		super();
 		this.model = model;
-		this.statementSorter = statementSorter;
-		GroupStatementSorter<?> group=statementSorter.getGroup();
-		if (group instanceof RootGroupStatementSorter)
+		this.sorter = sorter;
+		GroupSorter<?> group = sorter.getGroup();
+		if (group instanceof RootGroupSorter)
 		{
-			if (group instanceof RootContextGroupStatementSorter)
-				this.parent=model.getRootTreeNode();
+			if (group instanceof RootContextRootGroupSorter)
+				this.parent = model.getRootTreeNode();
 			else
-				this.parent=(ContextTreeNode) model.nodeMap().get(group.getContext());
+				this.parent = (ContextTreeNode) model.nodeMap().get(group.getContext());
 		}
 		else
-			this.parent= (GroupStatementSorterTreeNode) model.nodeMap().get(group);
+			this.parent = (GroupStatementSorterTreeNode) model.nodeMap().get(group);
 	}
 
 	public ContextTreeModel getModel()
 	{
 		return model;
 	}
-	
-	public StatementSorter<?> getStatementSorter()
+
+	public Sorter getSorter()
 	{
-		return statementSorter;
+		return sorter;
 	}
 
 	@Override

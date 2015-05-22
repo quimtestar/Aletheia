@@ -41,8 +41,7 @@ import aletheia.gui.contextjtree.node.ContextTreeNode;
 import aletheia.gui.contextjtree.node.RootTreeNode;
 import aletheia.gui.contextjtree.node.StatementSorterTreeNode;
 import aletheia.gui.contextjtree.node.StatementTreeNode;
-import aletheia.gui.contextjtree.statementsorter.GroupStatementSorter;
-import aletheia.gui.contextjtree.statementsorter.StatementSorter;
+import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.Signatory;
@@ -79,7 +78,7 @@ public class ContextTreeModel extends PersistentTreeModel
 	public ContextTreeModel(PersistenceManager persistenceManager)
 	{
 		super(persistenceManager);
-		this.nodeMap=new StatementSorterTreeNodeMap(this);
+		this.nodeMap = new StatementSorterTreeNodeMap(this);
 		this.contextJTreeListeners = Collections.synchronizedSet(new HashSet<ContextJTree.TreeModelListener>());
 		this.statementListener = new StatementListener();
 		persistenceManager.getListenerManager().getRootContextTopStateListeners().add(statementListener);
@@ -97,11 +96,10 @@ public class ContextTreeModel extends PersistentTreeModel
 		return rootTreeNode;
 	}
 
-	public Map<StatementSorter<?>, StatementSorterTreeNode> nodeMap()
+	public Map<Sorter, StatementSorterTreeNode> nodeMap()
 	{
 		return Collections.unmodifiableMap(nodeMap);
 	}
-	
 
 	@Override
 	public void addTreeModelListener(TreeModelListener l)

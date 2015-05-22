@@ -22,30 +22,27 @@ package aletheia.gui.contextjtree.node;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextTreeModel;
 import aletheia.gui.contextjtree.renderer.StatementContextJTreeNodeRenderer;
-import aletheia.gui.contextjtree.statementsorter.GroupStatementSorter;
-import aletheia.gui.contextjtree.statementsorter.RootContextGroupStatementSorter;
-import aletheia.gui.contextjtree.statementsorter.RootGroupStatementSorter;
-import aletheia.gui.contextjtree.statementsorter.SingletonStatementSorter;
+import aletheia.gui.contextjtree.sorter.SingletonSorter;
 import aletheia.model.identifier.Identifier;
-import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 
 public class StatementTreeNode extends StatementSorterTreeNode
 {
-	public StatementTreeNode(ContextTreeModel model, SingletonStatementSorter<?> singletonStatementSorter)
+	public StatementTreeNode(ContextTreeModel model, SingletonSorter singletonSorter)
 	{
-		super(model,singletonStatementSorter);
+		super(model, singletonSorter);
 	}
-	
-	public SingletonStatementSorter<?> getStatementSorter()
+
+	@Override
+	public SingletonSorter getSorter()
 	{
-		return (SingletonStatementSorter<?>) super.getStatementSorter();
+		return (SingletonSorter) super.getSorter();
 	}
-	
+
 	public Statement getStatement()
 	{
-		return getStatementSorter().getStatement();
+		return getSorter().getStatement();
 	}
 
 	@Override

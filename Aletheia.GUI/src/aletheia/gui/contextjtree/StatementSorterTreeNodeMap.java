@@ -19,43 +19,38 @@
  ******************************************************************************/
 package aletheia.gui.contextjtree;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-
 import aletheia.gui.contextjtree.node.ContextTreeNode;
 import aletheia.gui.contextjtree.node.GroupStatementSorterTreeNode;
 import aletheia.gui.contextjtree.node.StatementSorterTreeNode;
 import aletheia.gui.contextjtree.node.StatementTreeNode;
-import aletheia.gui.contextjtree.statementsorter.GroupStatementSorter;
-import aletheia.gui.contextjtree.statementsorter.SingletonStatementSorter;
-import aletheia.gui.contextjtree.statementsorter.StatementSorter;
+import aletheia.gui.contextjtree.sorter.GroupSorter;
+import aletheia.gui.contextjtree.sorter.SingletonSorter;
+import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
-import aletheia.utilities.collections.AbstractReadOnlyMap;
-import aletheia.utilities.collections.SoftCacheWithCleanerMap;
 
-public class StatementSorterTreeNodeMap extends GenericTreeNodeMap<StatementSorter<?>, StatementSorterTreeNode>
+public class StatementSorterTreeNodeMap extends GenericTreeNodeMap<Sorter, StatementSorterTreeNode>
 {
-	private final Map<Statement,StatementTreeNode> statementTreeNodeMap;
+	private final Map<Statement, StatementTreeNode> statementTreeNodeMap;
 
 	public StatementSorterTreeNodeMap(ContextTreeModel model)
 	{
 		super(model);
-		this.statementTreeNodeMap=new HashMap<Statement,StatementTreeNode>();
+		this.statementTreeNodeMap = new HashMap<Statement, StatementTreeNode>();
 	}
 
 	@Override
-	protected synchronized StatementSorterTreeNode buildNode(StatementSorter<?> statementSorter)
+	protected synchronized StatementSorterTreeNode buildNode(Sorter sorter)
 	{
-		if (statementSorter instanceof GroupStatementSorter)
-			return new GroupStatementSorterTreeNode(getModel(), (GroupStatementSorter<?>)statementSorter);
-		else if (statementSorter instanceof SingletonStatementSorter<?>)
+		if (sorter instanceof GroupSorter)
+			return new GroupStatementSorterTreeNode(getModel(), (GroupSorter<?>) sorter);
+		else if (sorter instanceof SingletonSorter)
 		{
-			SingletonStatementSorter<?> singletonStatementSorter=(SingletonStatementSorter<?>)statementSorter;
-			Statement statement=singletonStatementSorter.getStatement();
+			SingletonSorter singletonSorter = (SingletonSorter) sorter;
+			Statement statement = singletonSorter.getStatement();
 			statement.addStateListener(getModel().getStatementListener());
 			statement.addAuthorityStateListener(getModel().getStatementListener());
 			StatementTreeNode node;
@@ -69,10 +64,10 @@ public class StatementSorterTreeNodeMap extends GenericTreeNodeMap<StatementSort
 					RootContext rootCtx = (RootContext) ctx;
 					rootCtx.addRootNomenclatorListener(getModel().getStatementListener());
 				}
-				node=new ContextTreeNode(getModel(), singletonStatementSorter);
+				node = new ContextTreeNode(getModel(), singletonSorter);
 			}
 			else
-				node=new StatementTreeNode(getModel(),singletonStatementSorter);
+				node = new StatementTreeNode(getModel(), singletonSorter);
 			statementTreeNodeMap.put(statement, node);
 			return node;
 		}
@@ -81,11 +76,11 @@ public class StatementSorterTreeNodeMap extends GenericTreeNodeMap<StatementSort
 	}
 
 	@Override
-	protected synchronized void keyRemoved(StatementSorter<?> statementSorter)
+	protected synchronized void keyRemoved(Sorter sorter)
 	{
-		if (statementSorter instanceof SingletonStatementSorter)
+		if (sorter instanceof SingletonSorter)
 		{
-			Statement statement=((SingletonStatementSorter<?>) statementSorter).getStatement();
+			Statement statement = ((SingletonSorter) sorter).getStatement();
 			statement.removeStateListener(getModel().getStatementListener());
 			statement.removeAuthorityStateListener(getModel().getStatementListener());
 			if (statement instanceof Context)
@@ -102,27 +97,23 @@ public class StatementSorterTreeNodeMap extends GenericTreeNodeMap<StatementSort
 			statementTreeNodeMap.remove(statement);
 		}
 	}
-	
-	
+
 	public synchronized StatementTreeNode getStatementTreeNode(Statement statement)
 	{
 		return statementTreeNodeMap.get(statement);
 	}
-	
+
 	public synchronized StatementTreeNode removeStatement(Statement statement)
 	{
-		StatementTreeNode node=statementTreeNodeMap.get(statement);
-		if (node!=null)
-			removeKey(node.getStatementSorter());
+		StatementTreeNode node = statementTreeNodeMap.get(statement);
+		if (node != null)
+			removeKey(node.getSorter());
 		return node;
 	}
-	
+
 	public synchronized boolean cachedStatement(Statement statement)
 	{
 		return statementTreeNodeMap.containsKey(statement);
 	}
-
-
-
 
 }

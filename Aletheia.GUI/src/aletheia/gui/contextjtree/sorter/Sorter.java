@@ -1,14 +1,14 @@
-package aletheia.gui.contextjtree.statementsorter;
+package aletheia.gui.contextjtree.sorter;
 
 import aletheia.model.identifier.Namespace;
 import aletheia.model.statement.Statement;
 
-public abstract class StatementSorter<S extends Statement>
+public abstract class Sorter
 {
-	private final GroupStatementSorter<S> group;
+	private final GroupSorter<? extends Statement> group;
 	private final Namespace prefix;
 
-	public StatementSorter(GroupStatementSorter<S> group, Namespace prefix)
+	public Sorter(GroupSorter<? extends Statement> group, Namespace prefix)
 	{
 		if (group != null && group.getPrefix() != null && (prefix == null || !group.getPrefix().isPrefixOf(prefix)))
 			throw new IllegalArgumentException("Inconsistent prefix.");
@@ -16,7 +16,7 @@ public abstract class StatementSorter<S extends Statement>
 		this.prefix = prefix;
 	}
 
-	public GroupStatementSorter<S> getGroup()
+	public GroupSorter<? extends Statement> getGroup()
 	{
 		return group;
 	}
@@ -45,8 +45,7 @@ public abstract class StatementSorter<S extends Statement>
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		@SuppressWarnings("rawtypes")
-		StatementSorter other = (StatementSorter) obj;
+		Sorter other = (Sorter) obj;
 		if (group == null)
 		{
 			if (other.group != null)

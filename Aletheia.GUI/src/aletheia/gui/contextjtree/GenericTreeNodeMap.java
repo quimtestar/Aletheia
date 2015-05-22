@@ -24,13 +24,11 @@ import java.util.Map;
 import java.util.Set;
 
 import aletheia.gui.contextjtree.node.StatementSorterTreeNode;
-import aletheia.model.statement.Context;
-import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
 import aletheia.utilities.collections.AbstractReadOnlyMap;
 import aletheia.utilities.collections.SoftCacheWithCleanerMap;
 
-public abstract class GenericTreeNodeMap<K,N extends StatementSorterTreeNode> extends AbstractReadOnlyMap<K, N>
+public abstract class GenericTreeNodeMap<K, N extends StatementSorterTreeNode> extends AbstractReadOnlyMap<K, N>
 {
 	private final SoftCacheWithCleanerMap<K, N> map;
 	private final ContextTreeModel model;
@@ -52,7 +50,7 @@ public abstract class GenericTreeNodeMap<K,N extends StatementSorterTreeNode> ex
 		this.map.addListener(new CacheListener());
 		this.model = model;
 	}
-	
+
 	protected ContextTreeModel getModel()
 	{
 		return model;
@@ -62,34 +60,35 @@ public abstract class GenericTreeNodeMap<K,N extends StatementSorterTreeNode> ex
 	{
 		return map.containsKey(statement);
 	}
-	
+
 	protected abstract N buildNode(K key);
-	
+
 	protected abstract void keyRemoved(K key);
 
+	@Override
 	public synchronized N get(Object oKey)
 	{
 		try
 		{
 			@SuppressWarnings("unchecked")
-			K key=(K) oKey;
+			K key = (K) oKey;
 			synchronized (map)
 			{
 				N node = map.get(key);
 				if (node == null)
 				{
-					node=buildNode(key);
+					node = buildNode(key);
 					map.put(key, node);
 				}
 				return node;
 			}
-			
+
 		}
 		catch (ClassCastException e)
 		{
 			return null;
 		}
-		
+
 	}
 
 	@Override

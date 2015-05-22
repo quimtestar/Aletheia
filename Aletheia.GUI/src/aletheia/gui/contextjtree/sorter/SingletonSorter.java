@@ -1,18 +1,18 @@
-package aletheia.gui.contextjtree.statementsorter;
+package aletheia.gui.contextjtree.sorter;
 
 import aletheia.model.statement.Statement;
 
-public class SingletonStatementSorter<S extends Statement> extends StatementSorter<S>
+public class SingletonSorter extends Sorter
 {
-	private final S statement;
+	private final Statement statement;
 
-	protected SingletonStatementSorter(GroupStatementSorter<S> group, S statement)
+	protected SingletonSorter(GroupSorter<? extends Statement> group, Statement statement)
 	{
 		super(group, statement.getIdentifier());
 		this.statement = statement;
 	}
 
-	public S getStatement()
+	public Statement getStatement()
 	{
 		return statement;
 	}
@@ -35,8 +35,7 @@ public class SingletonStatementSorter<S extends Statement> extends StatementSort
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		@SuppressWarnings("rawtypes")
-		SingletonStatementSorter other = (SingletonStatementSorter) obj;
+		SingletonSorter other = (SingletonSorter) obj;
 		if (statement == null)
 		{
 			if (other.statement != null)

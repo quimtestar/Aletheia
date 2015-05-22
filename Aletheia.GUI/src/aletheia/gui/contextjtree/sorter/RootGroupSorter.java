@@ -1,14 +1,14 @@
-package aletheia.gui.contextjtree.statementsorter;
+package aletheia.gui.contextjtree.sorter;
 
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.collections.statement.SortedStatements;
 
-public abstract class RootGroupStatementSorter<S extends Statement> extends GroupStatementSorter<S>
+public abstract class RootGroupSorter<S extends Statement> extends GroupSorter<S>
 {
 	private final Context context;
 
-	protected RootGroupStatementSorter(Context context, SortedStatements<S> sortedStatements)
+	protected RootGroupSorter(Context context, SortedStatements<S> sortedStatements)
 	{
 		super(null, null, sortedStatements);
 		this.context = context;
@@ -39,7 +39,7 @@ public abstract class RootGroupStatementSorter<S extends Statement> extends Grou
 		if (getClass() != obj.getClass())
 			return false;
 		@SuppressWarnings("rawtypes")
-		RootGroupStatementSorter other = (RootGroupStatementSorter) obj;
+		RootGroupSorter other = (RootGroupSorter) obj;
 		if (context == null)
 		{
 			if (other.context != null)

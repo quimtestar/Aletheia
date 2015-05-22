@@ -19,33 +19,30 @@
  ******************************************************************************/
 package aletheia.gui.contextjtree;
 
-import java.util.Collection;
-
-import aletheia.gui.contextjtree.statementsorter.GroupStatementSorter;
-import aletheia.gui.contextjtree.statementsorter.StatementSorter;
+import aletheia.gui.contextjtree.sorter.GroupSorter;
+import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.model.statement.Statement;
 import aletheia.utilities.collections.BufferedList;
 
-public class BranchNodeStatementSorterListManager<S extends Statement>
+public class BranchNodeSorterListManager<S extends Statement>
 {
-	private final GroupStatementSorter<S> groupStatementSorter;
-	private final BufferedList<StatementSorter<S>> statementSorterList;
+	private final GroupSorter<S> groupSorter;
+	private final BufferedList<Sorter> sorterList;
 
-	public BranchNodeStatementSorterListManager(GroupStatementSorter<S> groupStatementSorter)
+	public BranchNodeSorterListManager(GroupSorter<S> groupStatementSorter)
 	{
-		this.groupStatementSorter=groupStatementSorter;
-		this.statementSorterList = new BufferedList<StatementSorter<S>>(groupStatementSorter);
+		this.groupSorter = groupStatementSorter;
+		this.sorterList = new BufferedList<Sorter>(groupStatementSorter);
 	}
 
-	
-	GroupStatementSorter<S> getGroupStatementSorter()
+	GroupSorter<S> getGroupSorter()
 	{
-		return groupStatementSorter;
+		return groupSorter;
 	}
 
-	public BufferedList<StatementSorter<S>> getStatementSorterList()
+	public BufferedList<Sorter> getSorterList()
 	{
-		return statementSorterList;
+		return sorterList;
 	}
 
 	public boolean checkStatementInsert(Statement statement)
@@ -59,7 +56,5 @@ public class BranchNodeStatementSorterListManager<S extends Statement>
 		//TODO
 		return false;
 	}
-
-	
 
 }

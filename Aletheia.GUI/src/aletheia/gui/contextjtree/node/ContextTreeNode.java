@@ -25,36 +25,35 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import aletheia.gui.contextjtree.BranchNodeStatementSorterListManager;
+import aletheia.gui.contextjtree.BranchNodeSorterListManager;
 import aletheia.gui.contextjtree.ContextTreeModel;
-import aletheia.gui.contextjtree.statementsorter.ContextGroupStatementSorter;
-import aletheia.gui.contextjtree.statementsorter.GroupStatementSorter;
-import aletheia.gui.contextjtree.statementsorter.SingletonStatementSorter;
-import aletheia.gui.contextjtree.statementsorter.StatementSorter;
+import aletheia.gui.contextjtree.sorter.StatementRootGroupSorter;
+import aletheia.gui.contextjtree.sorter.SingletonSorter;
+import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 
 public class ContextTreeNode extends StatementTreeNode implements BranchTreeNode
 {
-	private BranchNodeStatementSorterListManager<Statement> statementSorterListManager;
+	private BranchNodeSorterListManager<Statement> sorterListManager;
 	private final ConsequentTreeNode consequentTreeNode;
 
-	public ContextTreeNode(ContextTreeModel model, SingletonStatementSorter<?> singletonStatementSorter)
+	public ContextTreeNode(ContextTreeModel model, SingletonSorter singletonSorter)
 	{
-		super(model, singletonStatementSorter);
-		if (!(singletonStatementSorter.getStatement() instanceof Context))
+		super(model, singletonSorter);
+		if (!(singletonSorter.getStatement() instanceof Context))
 			throw new IllegalArgumentException();
-		this.statementSorterListManager = null;
+		this.sorterListManager = null;
 		this.consequentTreeNode = new ConsequentTreeNode(model, getContext());
 	}
 
-	private BranchNodeStatementSorterListManager<Statement> newStatementSorterListManager()
+	private BranchNodeSorterListManager<Statement> newSorterListManager()
 	{
 		Transaction transaction = getModel().beginTransaction();
 		try
 		{
-			return new BranchNodeStatementSorterListManager<Statement>(new ContextGroupStatementSorter(transaction,getContext()));
+			return new BranchNodeSorterListManager<Statement>(new StatementRootGroupSorter(transaction, getContext()));
 		}
 		finally
 		{
@@ -62,43 +61,43 @@ public class ContextTreeNode extends StatementTreeNode implements BranchTreeNode
 		}
 	}
 
-	private synchronized BranchNodeStatementSorterListManager<Statement> getStatementSorterListManager()
+	private synchronized BranchNodeSorterListManager<Statement> getSorterListManager()
 	{
-		if (statementSorterListManager == null)
-			statementSorterListManager = newStatementSorterListManager();
-		return statementSorterListManager;
+		if (sorterListManager == null)
+			sorterListManager = newSorterListManager();
+		return sorterListManager;
 	}
 
-	private List<StatementSorter<Statement>> getStatementSorterList()
+	private List<Sorter> getSorterList()
 	{
-		return getStatementSorterListManager().getStatementSorterList();
+		return getSorterListManager().getSorterList();
 	}
 
 	@Override
 	public synchronized Changes changeStatementList()
 	{
-		if (statementSorterListManager == null)
+		if (sorterListManager == null)
 			return new Changes();
-		List<StatementSorter<Statement>> oldStatementSorterList = statementSorterListManager.getStatementSorterList();
-		statementSorterListManager = newStatementSorterListManager();
-		List<StatementSorter<Statement>> newStatementSorterList = statementSorterListManager.getStatementSorterList();
-		return new Changes(oldStatementSorterList, newStatementSorterList);
+		List<Sorter> oldSorterList = sorterListManager.getSorterList();
+		sorterListManager = newSorterListManager();
+		List<Sorter> newSorterList = sorterListManager.getSorterList();
+		return new Changes(oldSorterList, newSorterList);
 	}
 
 	@Override
 	public synchronized boolean checkStatementInsert(Statement statement)
 	{
-		if (statementSorterListManager == null)
+		if (sorterListManager == null)
 			return false;
-		return statementSorterListManager.checkStatementInsert(statement);
+		return sorterListManager.checkStatementInsert(statement);
 	}
 
 	@Override
 	public synchronized boolean checkStatementRemove(Statement statement)
 	{
-		if (statementSorterListManager == null)
+		if (sorterListManager == null)
 			return false;
-		return statementSorterListManager.checkStatementRemove(statement);
+		return sorterListManager.checkStatementRemove(statement);
 	}
 
 	public Context getContext()
@@ -111,15 +110,15 @@ public class ContextTreeNode extends StatementTreeNode implements BranchTreeNode
 		return consequentTreeNode;
 	}
 
-	public List<StatementSorter<Statement>> statementSorterList()
+	public List<Sorter> sorterList()
 	{
-		return Collections.unmodifiableList(getStatementSorterList());
+		return Collections.unmodifiableList(getSorterList());
 	}
 
 	@Override
 	public Enumeration<AbstractTreeNode> children()
 	{
-		final Iterator<StatementSorter<Statement>> iterator = getStatementSorterList().iterator();
+		final Iterator<Sorter> iterator = getSorterList().iterator();
 
 		return new Enumeration<AbstractTreeNode>()
 		{
@@ -151,10 +150,10 @@ public class ContextTreeNode extends StatementTreeNode implements BranchTreeNode
 	public AbstractTreeNode getChildAt(int childIndex)
 	{
 		AbstractTreeNode node;
-		List<StatementSorter<Statement>> list = getStatementSorterList();
+		List<Sorter> list = getSorterList();
 		if (childIndex < list.size())
 			node = getModel().nodeMap().get(list.get(childIndex));
-		else if (childIndex == getStatementSorterList().size())
+		else if (childIndex == getSorterList().size())
 			node = consequentTreeNode;
 		else
 			node = new EmptyTreeNode(this);
@@ -164,7 +163,7 @@ public class ContextTreeNode extends StatementTreeNode implements BranchTreeNode
 	@Override
 	public int getChildCount()
 	{
-		return getStatementSorterList().size() + 1;
+		return getSorterList().size() + 1;
 	}
 
 	@Override
@@ -185,13 +184,13 @@ public class ContextTreeNode extends StatementTreeNode implements BranchTreeNode
 
 	public int getIndex(StatementTreeNode node)
 	{
-		return getStatementSorterList().indexOf(node.getStatement()); //TODO
+		return getSorterList().indexOf(node.getStatement()); //TODO
 	}
 
 	public int getIndex(ConsequentTreeNode node)
 	{
 		if (consequentTreeNode.equals(node))
-			return getStatementSorterList().size();
+			return getSorterList().size();
 		else
 			return -1;
 	}

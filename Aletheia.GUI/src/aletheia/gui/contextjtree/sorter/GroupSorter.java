@@ -1,4 +1,4 @@
-package aletheia.gui.contextjtree.statementsorter;
+package aletheia.gui.contextjtree.sorter;
 
 import java.util.NoSuchElementException;
 
@@ -16,29 +16,29 @@ import aletheia.utilities.collections.CloseableIterable;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CombinedCloseableIterable;
 
-public class GroupStatementSorter<S extends Statement> extends StatementSorter<S> implements CloseableIterable<StatementSorter<S>>
+public class GroupSorter<S extends Statement> extends Sorter implements CloseableIterable<Sorter>
 {
 	private final static int minGroupingSize = 0;
 	private final static int minSubGroupSize = 2;
 
 	private final SortedStatements<S> sortedStatements;
-	private final Bijection<S, StatementSorter<S>> singletonBijection;
+	private final Bijection<S, Sorter> singletonBijection;
 
-	protected GroupStatementSorter(GroupStatementSorter<S> group, Namespace prefix, SortedStatements<S> sortedStatements)
+	protected GroupSorter(GroupSorter<S> group, Namespace prefix, SortedStatements<S> sortedStatements)
 	{
 		super(group, prefix);
 		this.sortedStatements = sortedStatements;
-		this.singletonBijection = new Bijection<S, StatementSorter<S>>()
+		this.singletonBijection = new Bijection<S, Sorter>()
 		{
 
 			@Override
-			public StatementSorter<S> forward(S statement)
+			public Sorter forward(S statement)
 			{
-				return new SingletonStatementSorter<S>(GroupStatementSorter.this, statement);
+				return new SingletonSorter(GroupSorter.this, statement);
 			}
 
 			@Override
-			public S backward(StatementSorter<S> output)
+			public S backward(Sorter output)
 			{
 				throw new UnsupportedOperationException();
 			}
@@ -51,23 +51,23 @@ public class GroupStatementSorter<S extends Statement> extends StatementSorter<S
 	}
 
 	@Override
-	public CloseableIterator<StatementSorter<S>> iterator()
+	public CloseableIterator<Sorter> iterator()
 	{
 		if (sortedStatements.smaller(minGroupingSize + 1))
-			return new BijectionCloseableIterable<S, StatementSorter<S>>(singletonBijection, sortedStatements).iterator();
+			return new BijectionCloseableIterable<S, Sorter>(singletonBijection, sortedStatements).iterator();
 		else
 		{
-			CloseableIterable<StatementSorter<S>> assumptionIterable = new BijectionCloseableIterable<S, StatementSorter<S>>(singletonBijection,
+			CloseableIterable<Sorter> assumptionIterable = new BijectionCloseableIterable<S, Sorter>(singletonBijection,
 					sortedStatements.headSet(RootNamespace.instance.initiator()));
 			SortedStatements<S> nonAssumptions = sortedStatements.tailSet(RootNamespace.instance.initiator());
 			final SortedStatements<S> identified = nonAssumptions.headSet(RootNamespace.instance.terminator());
-			CloseableIterable<StatementSorter<S>> identifiedIterable = new CloseableIterable<StatementSorter<S>>()
+			CloseableIterable<Sorter> identifiedIterable = new CloseableIterable<Sorter>()
 			{
 
 				@Override
-				public CloseableIterator<StatementSorter<S>> iterator()
+				public CloseableIterator<Sorter> iterator()
 				{
-					return new CloseableIterator<StatementSorter<S>>()
+					return new CloseableIterator<Sorter>()
 					{
 						S next;
 						{
@@ -86,14 +86,14 @@ public class GroupStatementSorter<S extends Statement> extends StatementSorter<S
 						}
 
 						@Override
-						public StatementSorter<S> next()
+						public Sorter next()
 						{
 							if (iterator != null)
 							{
 								S st = iterator.next();
 								if (!iterator.hasNext())
 									iterator = null;
-								return new SingletonStatementSorter<S>(GroupStatementSorter.this, st);
+								return new SingletonSorter(GroupSorter.this, st);
 							}
 							if (next == null)
 								throw new NoSuchElementException();
@@ -114,19 +114,19 @@ public class GroupStatementSorter<S extends Statement> extends StatementSorter<S
 											S st = iterator.next();
 											if (!iterator.hasNext())
 												iterator = null;
-											return new SingletonStatementSorter<S>(GroupStatementSorter.this, st);
+											return new SingletonSorter(GroupSorter.this, st);
 										}
 										else
-											return new GroupStatementSorter<S>(GroupStatementSorter.this, prefix, sub);
+											return new GroupSorter<S>(GroupSorter.this, prefix, sub);
 									}
 								}
 								iterator = identified.identifierSet(id).iterator();
-								S st = iterator.next();
+								Statement st = iterator.next();
 								if (!iterator.hasNext())
 									iterator = null;
 								prev = next;
 								next = MiscUtilities.firstFromCloseableIterable(identified.postIdentifierSet(id));
-								return new SingletonStatementSorter<S>(GroupStatementSorter.this, st);
+								return new SingletonSorter(GroupSorter.this, st);
 							}
 							else
 							{
@@ -149,10 +149,10 @@ public class GroupStatementSorter<S extends Statement> extends StatementSorter<S
 											S st = iterator.next();
 											if (!iterator.hasNext())
 												iterator = null;
-											return new SingletonStatementSorter<S>(GroupStatementSorter.this, st);
+											return new SingletonSorter(GroupSorter.this, st);
 										}
 										else
-											return new GroupStatementSorter<S>(GroupStatementSorter.this, prefix, sub);
+											return new GroupSorter<S>(GroupSorter.this, prefix, sub);
 									}
 								}
 								throw new RuntimeException();
@@ -170,9 +170,9 @@ public class GroupStatementSorter<S extends Statement> extends StatementSorter<S
 				}
 
 			};
-			CloseableIterable<StatementSorter<S>> nonIdentifiedIterable = new BijectionCloseableIterable<S, StatementSorter<S>>(singletonBijection,
+			CloseableIterable<Sorter> nonIdentifiedIterable = new BijectionCloseableIterable<S, Sorter>(singletonBijection,
 					nonAssumptions.tailSet(RootNamespace.instance.terminator()));
-			return new CombinedCloseableIterable<StatementSorter<S>>(assumptionIterable, new CombinedCloseableIterable<StatementSorter<S>>(identifiedIterable,
+			return new CombinedCloseableIterable<Sorter>(assumptionIterable, new CombinedCloseableIterable<Sorter>(identifiedIterable,
 					nonIdentifiedIterable)).iterator();
 		}
 	}

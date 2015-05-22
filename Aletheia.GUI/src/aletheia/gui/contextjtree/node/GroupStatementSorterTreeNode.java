@@ -3,23 +3,20 @@ package aletheia.gui.contextjtree.node;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextTreeModel;
 import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
-import aletheia.gui.contextjtree.statementsorter.GroupStatementSorter;
-import aletheia.gui.contextjtree.statementsorter.RootContextGroupStatementSorter;
-import aletheia.gui.contextjtree.statementsorter.RootGroupStatementSorter;
-import aletheia.model.statement.RootContext;
+import aletheia.gui.contextjtree.sorter.GroupSorter;
 import aletheia.model.statement.Statement;
-import aletheia.persistence.Transaction;
 
 public class GroupStatementSorterTreeNode extends StatementSorterTreeNode implements BranchTreeNode
 {
-	public GroupStatementSorterTreeNode(ContextTreeModel model, GroupStatementSorter<?> groupStatementSorter)
+	public GroupStatementSorterTreeNode(ContextTreeModel model, GroupSorter<?> groupSorter)
 	{
-		super(model,groupStatementSorter);
+		super(model, groupSorter);
 	}
 
-	public GroupStatementSorter<?> getStatementSorter()
+	@Override
+	public GroupSorter<?> getSorter()
 	{
-		return (GroupStatementSorter<?>) super.getStatementSorter();
+		return (GroupSorter<?>) super.getSorter();
 	}
 
 	@Override
