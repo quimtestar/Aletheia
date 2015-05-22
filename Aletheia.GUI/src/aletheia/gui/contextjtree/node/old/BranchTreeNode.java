@@ -17,13 +17,17 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree.node;
+package aletheia.gui.contextjtree.node.old;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import aletheia.gui.contextjtree.sorter.GroupSorter;
+import aletheia.gui.contextjtree.sorter.SingletonSorter;
+import aletheia.gui.contextjtree.sorter.Sorter;
+import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Statement;
 
 public interface BranchTreeNode extends MyTreeNode
@@ -152,10 +156,26 @@ public interface BranchTreeNode extends MyTreeNode
 
 	}
 
-	public Changes changeStatementList();
+	public Changes changeSorterList();
 
+	//TODO remove
+	@Deprecated
 	public boolean checkStatementInsert(Statement statement);
 
+	//TODO remove
+	@Deprecated
 	public boolean checkStatementRemove(Statement statement);
+	
+	
+	public BranchTreeNode findStatementParentNode(Statement statement);
+	public BranchTreeNode findStatementParentNode(Identifier identifier);
+
+	public boolean hasStatement(Statement statement);
+	public boolean hasStatement(Identifier statement);
+	
+	public BranchTreeNode findStatementDeleteNode(Statement statement);
+	
+	public BranchTreeNode findStatementInsertNode(Statement statement);
+
 
 }

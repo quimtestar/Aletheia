@@ -21,10 +21,11 @@ package aletheia.gui.contextjtree;
 
 import java.util.HashMap;
 import java.util.Map;
-import aletheia.gui.contextjtree.node.ContextTreeNode;
-import aletheia.gui.contextjtree.node.GroupStatementSorterTreeNode;
-import aletheia.gui.contextjtree.node.StatementSorterTreeNode;
-import aletheia.gui.contextjtree.node.StatementTreeNode;
+
+import aletheia.gui.contextjtree.node.old.ContextTreeNode;
+import aletheia.gui.contextjtree.node.old.GroupSorterTreeNode;
+import aletheia.gui.contextjtree.node.old.SorterTreeNode;
+import aletheia.gui.contextjtree.node.old.StatementTreeNode;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
 import aletheia.gui.contextjtree.sorter.SingletonSorter;
 import aletheia.gui.contextjtree.sorter.Sorter;
@@ -32,21 +33,21 @@ import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
 
-public class StatementSorterTreeNodeMap extends GenericTreeNodeMap<Sorter, StatementSorterTreeNode>
+public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterTreeNode>
 {
 	private final Map<Statement, StatementTreeNode> statementTreeNodeMap;
 
-	public StatementSorterTreeNodeMap(ContextTreeModel model)
+	public SorterTreeNodeMap(ContextTreeModel model)
 	{
 		super(model);
 		this.statementTreeNodeMap = new HashMap<Statement, StatementTreeNode>();
 	}
 
 	@Override
-	protected synchronized StatementSorterTreeNode buildNode(Sorter sorter)
+	protected synchronized SorterTreeNode buildNode(Sorter sorter)
 	{
 		if (sorter instanceof GroupSorter)
-			return new GroupStatementSorterTreeNode(getModel(), (GroupSorter<?>) sorter);
+			return new GroupSorterTreeNode(getModel(), (GroupSorter<?>) sorter);
 		else if (sorter instanceof SingletonSorter)
 		{
 			SingletonSorter singletonSorter = (SingletonSorter) sorter;

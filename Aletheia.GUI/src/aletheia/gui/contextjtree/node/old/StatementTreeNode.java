@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree.node;
+package aletheia.gui.contextjtree.node.old;
 
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextTreeModel;
@@ -27,7 +27,7 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 
-public class StatementTreeNode extends StatementSorterTreeNode
+public class StatementTreeNode extends SorterTreeNode
 {
 	public StatementTreeNode(ContextTreeModel model, SingletonSorter singletonSorter)
 	{

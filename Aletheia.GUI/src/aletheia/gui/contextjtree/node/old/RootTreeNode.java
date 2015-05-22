@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree.node;
+package aletheia.gui.contextjtree.node.old;
 
 import java.util.Collections;
 import java.util.Enumeration;
@@ -31,20 +31,26 @@ import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextTreeModel;
 import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.EmptyContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.sorter.GroupSorter;
+import aletheia.gui.contextjtree.sorter.RootContextRootGroupSorter;
+import aletheia.gui.contextjtree.sorter.SingletonSorter;
+import aletheia.gui.contextjtree.sorter.Sorter;
+import aletheia.gui.contextjtree.sorter.StatementRootGroupSorter;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.collections.BufferedList;
 
 public class RootTreeNode extends AbstractTreeNode implements BranchTreeNode
 {
 	private final ContextTreeModel model;
-	private BranchNodeStatementListManager<RootContext> rootContextListManager;
+	private BranchNodeSorterListManager<RootContext> sorterListManager;
 
 	public RootTreeNode(ContextTreeModel model)
 	{
 		super();
 		this.model = model;
-		this.rootContextListManager = null;
+		this.sorterListManager = null;
 	}
 
 	public ContextTreeModel getModel()
@@ -52,12 +58,12 @@ public class RootTreeNode extends AbstractTreeNode implements BranchTreeNode
 		return model;
 	}
 
-	private BranchNodeStatementListManager<RootContext> newRootContextListManager()
+	private BranchNodeSorterListManager<RootContext> newRootContextListManager()
 	{
 		Transaction transaction = getModel().beginTransaction();
 		try
 		{
-			return new BranchNodeStatementListManager<RootContext>(getModel().getPersistenceManager().sortedRootContexts(transaction));
+			return new BranchNodeSorterListManager<RootContext>(new RootContextRootGroupSorter(getModel().getPersistenceManager(),transaction));
 		}
 		finally
 		{
@@ -65,54 +71,71 @@ public class RootTreeNode extends AbstractTreeNode implements BranchTreeNode
 		}
 	}
 
-	private synchronized BranchNodeStatementListManager<RootContext> getRootContextListManager()
+	private synchronized BranchNodeSorterListManager<RootContext> getSorterListManager()
 	{
-		if (rootContextListManager == null)
-			rootContextListManager = newRootContextListManager();
-		return rootContextListManager;
+		if (sorterListManager == null)
+			sorterListManager = newRootContextListManager();
+		return sorterListManager;
 	}
 
-	private List<RootContext> getRootContextList()
+	private BufferedList<Sorter> getSorterList()
 	{
-		return getRootContextListManager().getStatementList();
+		return getSorterListManager().getSorterList();
 	}
 
 	@Override
-	public synchronized Changes changeStatementList()
+	public synchronized Changes changeSorterList()
 	{
-		if (rootContextListManager == null)
+		if (sorterListManager == null)
 			return new Changes();
-		List<RootContext> oldStatementList = rootContextListManager.getStatementList();
-		rootContextListManager = newRootContextListManager();
-		List<RootContext> newStatementList = rootContextListManager.getStatementList();
-		return new Changes(oldStatementList, newStatementList);
+		List<Sorter> oldSorterList = sorterListManager.getSorterList();
+		sorterListManager = newRootContextListManager();
+		List<Sorter> newSorterList = sorterListManager.getSorterList();
+		return new Changes(oldSorterList, newSorterList);
 	}
 
 	@Override
 	public synchronized boolean checkStatementInsert(Statement statement)
 	{
-		if (rootContextListManager == null)
+		if (sorterListManager == null)
 			return false;
-		return rootContextListManager.checkStatementInsert(statement);
+		return sorterListManager.checkStatementInsert(statement);
 	}
 
 	@Override
 	public synchronized boolean checkStatementRemove(Statement statement)
 	{
-		if (rootContextListManager == null)
+		if (sorterListManager == null)
 			return false;
-		return rootContextListManager.checkStatementRemove(statement);
+		return sorterListManager.checkStatementRemove(statement);
+	}
+	
+	public synchronized BranchTreeNode findStatementInsertNode(Statement statement)
+	{
+		if (sorterListManager==null)
+			return null;
+		Sorter sorter=sorterListManager.findSorter(statement);
+		if (sorter instanceof SingletonSorter)
+			return null;
+		else if (sorter instanceof GroupSorter)
+		{
+			GroupSorterTreeNode node=(GroupSorterTreeNode) getModel().nodeMap().get(sorter);
+			return node.findStatementInsertNode(statement);
+		}
+		else
+			throw new Error();
 	}
 
-	public List<RootContext> rootContextList()
+
+	public List<Sorter> rootContextList()
 	{
-		return Collections.unmodifiableList(getRootContextList());
+		return Collections.unmodifiableList(getSorterList());
 	}
 
 	@Override
 	public Enumeration<AbstractTreeNode> children()
 	{
-		final Iterator<RootContext> iterator = getRootContextList().iterator();
+		final Iterator<Sorter> iterator = getSorterList().iterator();
 
 		return new Enumeration<AbstractTreeNode>()
 		{
@@ -136,7 +159,7 @@ public class RootTreeNode extends AbstractTreeNode implements BranchTreeNode
 	public AbstractTreeNode getChildAt(int childIndex)
 	{
 		AbstractTreeNode node;
-		List<RootContext> list = getRootContextList();
+		List<Sorter> list = getSorterList();
 		if (childIndex < list.size())
 			node = getModel().nodeMap().get(list.get(childIndex));
 		else
@@ -147,7 +170,7 @@ public class RootTreeNode extends AbstractTreeNode implements BranchTreeNode
 	@Override
 	public int getChildCount()
 	{
-		return getRootContextList().size();
+		return getSorterList().size();
 	}
 
 	@Override
@@ -166,7 +189,7 @@ public class RootTreeNode extends AbstractTreeNode implements BranchTreeNode
 
 	public int getIndex(StatementTreeNode node)
 	{
-		return getRootContextList().indexOf(node.getStatement());
+		return getSorterList().indexOf(node.getStatement());
 	}
 
 	@Override

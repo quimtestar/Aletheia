@@ -17,43 +17,38 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree.node;
+package aletheia.gui.contextjtree.node.old;
 
-import aletheia.gui.contextjtree.sorter.GroupSorter;
-import aletheia.gui.contextjtree.sorter.Sorter;
-import aletheia.model.statement.Statement;
-import aletheia.utilities.collections.BufferedList;
+import aletheia.gui.contextjtree.ContextJTree;
+import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.renderer.EmptyContextJTreeNodeRenderer;
 
-public class BranchNodeSorterListManager<S extends Statement>
+public class EmptyTreeNode extends AbstractTreeNode
 {
-	private final GroupSorter<S> groupSorter;
-	private final BufferedList<Sorter> sorterList;
 
-	public BranchNodeSorterListManager(GroupSorter<S> groupStatementSorter)
+	private final BranchTreeNode parent;
+
+	public EmptyTreeNode(BranchTreeNode parent)
 	{
-		this.groupSorter = groupStatementSorter;
-		this.sorterList = new BufferedList<Sorter>(groupStatementSorter);
+		this.parent = parent;
+
 	}
 
-	GroupSorter<S> getGroupSorter()
+	@Override
+	public BranchTreeNode getParent()
 	{
-		return groupSorter;
+		return parent;
 	}
 
-	public BufferedList<Sorter> getSorterList()
+	@Override
+	protected ContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree)
 	{
-		return sorterList;
+		return new EmptyContextJTreeNodeRenderer(contextJTree);
 	}
 
-	public boolean checkStatementInsert(Statement statement)
+	@Override
+	public boolean getAllowsChildren()
 	{
-		//TODO
-		return false;
-	}
-
-	public boolean checkStatementRemove(Statement statement)
-	{
-		//TODO
 		return false;
 	}
 

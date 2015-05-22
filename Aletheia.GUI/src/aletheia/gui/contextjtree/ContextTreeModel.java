@@ -34,13 +34,13 @@ import javax.swing.tree.TreePath;
 import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.common.PersistentTreeModel;
-import aletheia.gui.contextjtree.node.AbstractTreeNode;
-import aletheia.gui.contextjtree.node.BranchTreeNode;
-import aletheia.gui.contextjtree.node.ConsequentTreeNode;
-import aletheia.gui.contextjtree.node.ContextTreeNode;
-import aletheia.gui.contextjtree.node.RootTreeNode;
-import aletheia.gui.contextjtree.node.StatementSorterTreeNode;
-import aletheia.gui.contextjtree.node.StatementTreeNode;
+import aletheia.gui.contextjtree.node.old.AbstractTreeNode;
+import aletheia.gui.contextjtree.node.old.BranchTreeNode;
+import aletheia.gui.contextjtree.node.old.ConsequentTreeNode;
+import aletheia.gui.contextjtree.node.old.ContextTreeNode;
+import aletheia.gui.contextjtree.node.old.RootTreeNode;
+import aletheia.gui.contextjtree.node.old.SorterTreeNode;
+import aletheia.gui.contextjtree.node.old.StatementTreeNode;
 import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.Person;
@@ -68,7 +68,7 @@ public class ContextTreeModel extends PersistentTreeModel
 {
 	private static final Logger logger = LoggerManager.instance.logger();
 
-	private final StatementSorterTreeNodeMap nodeMap;
+	private final SorterTreeNodeMap nodeMap;
 	private final Set<ContextJTree.TreeModelListener> contextJTreeListeners;
 	private final StatementListener statementListener;
 	private final BlockingQueue<StatementStateChange> statementStateChangeQueue;
@@ -78,7 +78,7 @@ public class ContextTreeModel extends PersistentTreeModel
 	public ContextTreeModel(PersistenceManager persistenceManager)
 	{
 		super(persistenceManager);
-		this.nodeMap = new StatementSorterTreeNodeMap(this);
+		this.nodeMap = new SorterTreeNodeMap(this);
 		this.contextJTreeListeners = Collections.synchronizedSet(new HashSet<ContextJTree.TreeModelListener>());
 		this.statementListener = new StatementListener();
 		persistenceManager.getListenerManager().getRootContextTopStateListeners().add(statementListener);
@@ -96,7 +96,7 @@ public class ContextTreeModel extends PersistentTreeModel
 		return rootTreeNode;
 	}
 
-	public Map<Sorter, StatementSorterTreeNode> nodeMap()
+	public Map<Sorter, SorterTreeNode> nodeMap()
 	{
 		return Collections.unmodifiableMap(nodeMap);
 	}
@@ -172,10 +172,11 @@ public class ContextTreeModel extends PersistentTreeModel
 		return stNode.getParent();
 	}
 
+	@Deprecated
 	private synchronized StatementTreeNode addStatement(Statement statement)
 	{
 		//return statementTreeNodeMap.get(statement);
-		throw new RuntimeException(); //TODO
+		throw new RuntimeException(); //TODO Això ha d'anar a fora.
 	}
 
 	private abstract class StatementStateChange
@@ -261,34 +262,44 @@ public class ContextTreeModel extends PersistentTreeModel
 
 	private abstract class IdentifierStateChange extends StatementStateChange
 	{
-		public IdentifierStateChange(Transaction transaction, Statement statement)
+		private final Identifier oldId;
+		
+		public IdentifierStateChange(Transaction transaction, Statement statement, Identifier oldId)
 		{
 			super(transaction, statement);
+			this.oldId=oldId;
 		}
+
+		public Identifier getOldId()
+		{
+			return oldId;
+		}
+		
+		
 	}
 
 	private class StatementIdentifiedChange extends IdentifierStateChange
 	{
-		private final Identifier identifier;
+		private final Identifier newId;
 
-		public StatementIdentifiedChange(Transaction transaction, Statement statement, Identifier identifier)
+		public StatementIdentifiedChange(Transaction transaction, Statement statement, Identifier newId, Identifier oldId)
 		{
-			super(transaction, statement);
-			this.identifier = identifier;
+			super(transaction, statement,oldId);
+			this.newId = newId;
 		}
 
-		public Identifier getIdentifier()
+		public Identifier getNewId()
 		{
-			return identifier;
+			return newId;
 		}
 	}
 
 	private class StatementUnidentifiedChange extends IdentifierStateChange
 	{
 
-		public StatementUnidentifiedChange(Transaction transaction, Statement statement)
+		public StatementUnidentifiedChange(Transaction transaction, Statement statement, Identifier oldId)
 		{
-			super(transaction, statement);
+			super(transaction, statement, oldId);
 		}
 
 	}
@@ -411,11 +422,11 @@ public class ContextTreeModel extends PersistentTreeModel
 		}
 
 		@Override
-		public void statementIdentified(Transaction transaction, Statement statement, Identifier identifier)
+		public void statementIdentified(Transaction transaction, Statement statement, Identifier newId, Identifier oldId)
 		{
 			try
 			{
-				statementStateChangeQueue.put(new StatementIdentifiedChange(transaction, statement, identifier));
+				statementStateChangeQueue.put(new StatementIdentifiedChange(transaction, statement, newId,oldId));
 			}
 			catch (InterruptedException e)
 			{
@@ -424,11 +435,11 @@ public class ContextTreeModel extends PersistentTreeModel
 		}
 
 		@Override
-		public void statementUnidentified(Transaction transaction, Statement statement, Identifier identifier)
+		public void statementUnidentified(Transaction transaction, Statement statement, Identifier oldId)
 		{
 			try
 			{
-				statementStateChangeQueue.put(new StatementUnidentifiedChange(transaction, statement));
+				statementStateChangeQueue.put(new StatementUnidentifiedChange(transaction, statement,oldId));
 			}
 			catch (InterruptedException e)
 			{
@@ -767,19 +778,16 @@ public class ContextTreeModel extends PersistentTreeModel
 
 		private void statementAddedToContext(Context context, Statement statement, Transaction transaction)
 		{
-			statementAddedToContext(statement, transaction);
-		}
-
-		private void statementAddedToContext(final Statement statement, Transaction transaction)
-		{
-			StatementTreeNode node = addStatement(statement);
-			BranchTreeNode pNode = node.getParent();
-			if (!pNode.checkStatementInsert(statement.refresh(transaction)))
-				nodeStructureChanged(pNode);
-
-			if (pNode instanceof ContextTreeNode)
+			ContextTreeNode ctxNode=(ContextTreeNode)nodeMap.getStatementTreeNode(context);
+			if (ctxNode!=null)
 			{
-				ContextTreeNode ctxNode = (ContextTreeNode) pNode;
+				BranchTreeNode btNode=ctxNode.findStatementInsertNode(statement.refresh(transaction));
+				if (btNode!=null)
+					nodeStructureChanged(btNode);
+			}
+		
+			if (statement.getTerm() instanceof SimpleTerm)
+			{
 				CloseableIterator<Context> iterator = ctxNode.getContext().descendantContextsByConsequent(transaction, statement.getTerm()).iterator();
 				try
 				{
@@ -800,28 +808,45 @@ public class ContextTreeModel extends PersistentTreeModel
 			}
 		}
 
+
 		private void statementIdentified(StatementIdentifiedChange c, Transaction transaction)
 		{
-			statementIdentified(c.getStatement(), c.getIdentifier(), transaction);
+			statementIdentified(c.getStatement(), c.getNewId(), c.getOldId(), transaction);
 		}
 
-		private void statementIdentified(Statement statement, Identifier identifier, Transaction transaction)
+		private void statementIdentified(Statement statement, Identifier newId, Identifier oldId, Transaction transaction)
 		{
-			statementIdentifierChanged(statement, transaction);
+			statementIdentifierChanged(statement, newId, oldId, transaction);
 		}
 
 		private void statementUnidentified(StatementUnidentifiedChange c, Transaction transaction)
 		{
-			statementUnidentified(c.getStatement(), transaction);
+			statementUnidentified(c.getStatement(), c.getOldId(), transaction);
 		}
 
-		private void statementUnidentified(Statement statement, Transaction transaction)
+		private void statementUnidentified(Statement statement, Identifier oldId, Transaction transaction)
 		{
-			statementIdentifierChanged(statement, transaction);
+			statementIdentifierChanged(statement, null, oldId, transaction);
 		}
 
-		private void statementIdentifierChanged(final Statement statement, Transaction transaction)
+		
+		//TODO 
+		private void statementIdentifierChanged(final Statement statement, Identifier newId, Identifier oldId, Transaction transaction)
 		{
+			Context context=statement.getContext(transaction);
+			ContextTreeNode ctxNode=(ContextTreeNode)nodeMap.getStatementTreeNode(context);
+			if (ctxNode!=null)
+			{
+				BranchTreeNode btNode=ctxNode.findStatementDeleteNode(statement.refresh(transaction));
+				if (btNode!=null)
+					nodeStructureChanged(btNode);
+				
+			}
+
+			
+			
+			
+			
 			StatementTreeNode node = nodeMap.getStatementTreeNode(statement);
 			nodeChanged(node);
 			if (!node.getParent().checkStatementInsert(statement))
@@ -936,10 +961,14 @@ public class ContextTreeModel extends PersistentTreeModel
 				}
 			}
 
-			BranchTreeNode pNode = deleteStatement(statement);
-
-			if ((pNode != null) && !pNode.checkStatementRemove(statement))
-				nodeStructureChanged(pNode);
+			ContextTreeNode ctxNode=(ContextTreeNode)nodeMap.getStatementTreeNode(context);
+			if (ctxNode!=null)
+			{
+				BranchTreeNode btNode=ctxNode.findStatementDeleteNode(statement.refresh(transaction));
+				if (btNode!=null)
+					nodeStructureChanged(btNode);
+				
+			}
 
 		}
 
@@ -1006,7 +1035,7 @@ public class ContextTreeModel extends PersistentTreeModel
 	@Override
 	public void cleanRenderers()
 	{
-		for (StatementSorterTreeNode node : nodeMap.values())
+		for (SorterTreeNode node : nodeMap.values())
 		{
 			node.cleanRenderer();
 			if (node instanceof ContextTreeNode)
@@ -1038,7 +1067,7 @@ public class ContextTreeModel extends PersistentTreeModel
 	private void nodeStructureChanged(BranchTreeNode node)
 	{
 		node.cleanRenderer();
-		BranchTreeNode.Changes changes = node.changeStatementList();
+		BranchTreeNode.Changes changes = node.changeSorterList();
 		final TreeModelEvent eRemoves;
 		if (changes.getRemovedIndexes().length > 0)
 			eRemoves = new TreeModelEvent(this, node.path(), changes.getRemovedIndexes(), null);

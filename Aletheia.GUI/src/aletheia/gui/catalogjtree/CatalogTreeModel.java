@@ -373,11 +373,11 @@ public class CatalogTreeModel extends PersistentTreeModel
 		}
 
 		@Override
-		public void statementIdentified(Transaction transaction, Statement statement, Identifier identifier)
+		public void statementIdentified(Transaction transaction, Statement statement, Identifier newId, Identifier oldId)
 		{
 			try
 			{
-				statementStateChangeQueue.put(new StatementIdentifiedChange(transaction, statement, identifier));
+				statementStateChangeQueue.put(new StatementIdentifiedChange(transaction, statement, newId));
 			}
 			catch (InterruptedException e)
 			{
@@ -386,11 +386,11 @@ public class CatalogTreeModel extends PersistentTreeModel
 		}
 
 		@Override
-		public void statementUnidentified(Transaction transaction, Statement statement, Identifier identifier)
+		public void statementUnidentified(Transaction transaction, Statement statement, Identifier oldId)
 		{
 			try
 			{
-				statementStateChangeQueue.put(new StatementUnidentifiedChange(transaction, statement, identifier));
+				statementStateChangeQueue.put(new StatementUnidentifiedChange(transaction, statement, oldId));
 			}
 			catch (InterruptedException e)
 			{

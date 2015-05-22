@@ -340,13 +340,13 @@ public class SignatureRequestTreeModel extends PersistentTreeModel
 		}
 
 		@Override
-		public void statementIdentified(Transaction transaction, Statement statement, Identifier identifier)
+		public void statementIdentified(Transaction transaction, Statement statement, Identifier newId, Identifier oldId)
 		{
 			clearStatementRenderers(transaction, statement);
 		}
 
 		@Override
-		public void statementUnidentified(Transaction transaction, Statement statement, Identifier identifier)
+		public void statementUnidentified(Transaction transaction, Statement statement, Identifier oldId)
 		{
 			clearStatementRenderers(transaction, statement);
 		}

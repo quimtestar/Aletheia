@@ -1,4 +1,4 @@
-package aletheia.gui.contextjtree.node;
+package aletheia.gui.contextjtree.node.old;
 
 import aletheia.gui.contextjtree.ContextTreeModel;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
@@ -6,13 +6,13 @@ import aletheia.gui.contextjtree.sorter.RootContextRootGroupSorter;
 import aletheia.gui.contextjtree.sorter.RootGroupSorter;
 import aletheia.gui.contextjtree.sorter.Sorter;
 
-public abstract class StatementSorterTreeNode extends AbstractTreeNode
+public abstract class SorterTreeNode extends AbstractTreeNode
 {
 	private final ContextTreeModel model;
 	private final Sorter sorter;
 	private final BranchTreeNode parent;
 
-	public StatementSorterTreeNode(ContextTreeModel model, Sorter sorter)
+	public SorterTreeNode(ContextTreeModel model, Sorter sorter)
 	{
 		super();
 		this.model = model;
@@ -26,7 +26,7 @@ public abstract class StatementSorterTreeNode extends AbstractTreeNode
 				this.parent = (ContextTreeNode) model.nodeMap().get(group.getContext());
 		}
 		else
-			this.parent = (GroupStatementSorterTreeNode) model.nodeMap().get(group);
+			this.parent = (GroupSorterTreeNode) model.nodeMap().get(group);
 	}
 
 	public ContextTreeModel getModel()

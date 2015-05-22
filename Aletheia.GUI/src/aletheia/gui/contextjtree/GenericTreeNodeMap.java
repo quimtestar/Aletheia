@@ -23,12 +23,12 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import aletheia.gui.contextjtree.node.StatementSorterTreeNode;
+import aletheia.gui.contextjtree.node.old.SorterTreeNode;
 import aletheia.model.statement.Statement;
 import aletheia.utilities.collections.AbstractReadOnlyMap;
 import aletheia.utilities.collections.SoftCacheWithCleanerMap;
 
-public abstract class GenericTreeNodeMap<K, N extends StatementSorterTreeNode> extends AbstractReadOnlyMap<K, N>
+public abstract class GenericTreeNodeMap<K, N extends SorterTreeNode> extends AbstractReadOnlyMap<K, N>
 {
 	private final SoftCacheWithCleanerMap<K, N> map;
 	private final ContextTreeModel model;

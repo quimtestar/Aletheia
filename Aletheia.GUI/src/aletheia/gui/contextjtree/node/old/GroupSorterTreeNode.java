@@ -1,14 +1,16 @@
-package aletheia.gui.contextjtree.node;
+package aletheia.gui.contextjtree.node.old;
 
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextTreeModel;
 import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
+import aletheia.gui.contextjtree.sorter.SingletonSorter;
+import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.model.statement.Statement;
 
-public class GroupStatementSorterTreeNode extends StatementSorterTreeNode implements BranchTreeNode
+public class GroupSorterTreeNode extends SorterTreeNode implements BranchTreeNode
 {
-	public GroupStatementSorterTreeNode(ContextTreeModel model, GroupSorter<?> groupSorter)
+	public GroupSorterTreeNode(ContextTreeModel model, GroupSorter<?> groupSorter)
 	{
 		super(model, groupSorter);
 	}
@@ -20,7 +22,7 @@ public class GroupStatementSorterTreeNode extends StatementSorterTreeNode implem
 	}
 
 	@Override
-	public Changes changeStatementList()
+	public Changes changeSorterList()
 	{
 		// TODO Auto-generated method stub
 		return null;
@@ -46,5 +48,6 @@ public class GroupStatementSorterTreeNode extends StatementSorterTreeNode implem
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
 
 }
