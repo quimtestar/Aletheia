@@ -9,7 +9,7 @@ public class RootContextRootGroupSorter extends RootGroupSorter<RootContext>
 
 	public RootContextRootGroupSorter(PersistenceManager persistenceManager, Transaction transaction)
 	{
-		super(null, persistenceManager.sortedRootContexts(transaction));
+		super(persistenceManager.sortedRootContexts(transaction));
 	}
 
 }

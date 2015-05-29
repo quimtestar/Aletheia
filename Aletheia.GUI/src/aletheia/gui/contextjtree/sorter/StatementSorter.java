@@ -2,11 +2,11 @@ package aletheia.gui.contextjtree.sorter;
 
 import aletheia.model.statement.Statement;
 
-public class SingletonSorter extends Sorter
+public class StatementSorter extends Sorter
 {
 	private final Statement statement;
 
-	protected SingletonSorter(GroupSorter<? extends Statement> group, Statement statement)
+	protected StatementSorter(GroupSorter<? extends Statement> group, Statement statement)
 	{
 		super(group, statement.getIdentifier());
 		this.statement = statement;
@@ -35,7 +35,7 @@ public class SingletonSorter extends Sorter
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SingletonSorter other = (SingletonSorter) obj;
+		StatementSorter other = (StatementSorter) obj;
 		if (statement == null)
 		{
 			if (other.statement != null)

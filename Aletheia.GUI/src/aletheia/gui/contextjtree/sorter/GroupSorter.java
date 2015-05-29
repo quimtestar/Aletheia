@@ -34,7 +34,7 @@ public class GroupSorter<S extends Statement> extends Sorter implements Closeabl
 			@Override
 			public Sorter forward(S statement)
 			{
-				return new SingletonSorter(GroupSorter.this, statement);
+				return new StatementSorter(GroupSorter.this, statement);
 			}
 
 			@Override
@@ -43,11 +43,6 @@ public class GroupSorter<S extends Statement> extends Sorter implements Closeabl
 				throw new UnsupportedOperationException();
 			}
 		};
-	}
-
-	public Context getContext()
-	{
-		return getGroup().getContext();
 	}
 
 	@Override
@@ -93,7 +88,7 @@ public class GroupSorter<S extends Statement> extends Sorter implements Closeabl
 								S st = iterator.next();
 								if (!iterator.hasNext())
 									iterator = null;
-								return new SingletonSorter(GroupSorter.this, st);
+								return new StatementSorter(GroupSorter.this, st);
 							}
 							if (next == null)
 								throw new NoSuchElementException();
@@ -114,7 +109,7 @@ public class GroupSorter<S extends Statement> extends Sorter implements Closeabl
 											S st = iterator.next();
 											if (!iterator.hasNext())
 												iterator = null;
-											return new SingletonSorter(GroupSorter.this, st);
+											return new StatementSorter(GroupSorter.this, st);
 										}
 										else
 											return new GroupSorter<S>(GroupSorter.this, prefix, sub);
@@ -126,7 +121,7 @@ public class GroupSorter<S extends Statement> extends Sorter implements Closeabl
 									iterator = null;
 								prev = next;
 								next = MiscUtilities.firstFromCloseableIterable(identified.postIdentifierSet(id));
-								return new SingletonSorter(GroupSorter.this, st);
+								return new StatementSorter(GroupSorter.this, st);
 							}
 							else
 							{
@@ -149,7 +144,7 @@ public class GroupSorter<S extends Statement> extends Sorter implements Closeabl
 											S st = iterator.next();
 											if (!iterator.hasNext())
 												iterator = null;
-											return new SingletonSorter(GroupSorter.this, st);
+											return new StatementSorter(GroupSorter.this, st);
 										}
 										else
 											return new GroupSorter<S>(GroupSorter.this, prefix, sub);

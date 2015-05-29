@@ -6,10 +6,20 @@ import aletheia.persistence.Transaction;
 
 public class StatementRootGroupSorter extends RootGroupSorter<Statement>
 {
+	private final Context context;
 
 	public StatementRootGroupSorter(Transaction transaction, Context context)
 	{
-		super(context, context.localSortedStatements(transaction));
+		super(context.localSortedStatements(transaction));
+		this.context=context;
 	}
+
+	public Context getContext()
+	{
+		return context;
+	}
+	
+	
+	
 
 }
