@@ -25,10 +25,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import aletheia.gui.contextjtree.ContextTreeModel;
+import aletheia.gui.contextjtree.ContextJTreeModel;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
 import aletheia.gui.contextjtree.sorter.StatementRootGroupSorter;
-import aletheia.gui.contextjtree.sorter.SingletonSorter;
+import aletheia.gui.contextjtree.sorter.StatementSorter;
 import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
@@ -40,7 +40,7 @@ public class ContextTreeNode extends StatementTreeNode implements BranchTreeNode
 	private BranchNodeSorterListManager<Statement> sorterListManager;
 	private final ConsequentTreeNode consequentTreeNode;
 
-	public ContextTreeNode(ContextTreeModel model, SingletonSorter singletonSorter)
+	public ContextTreeNode(ContextJTreeModel model, StatementSorter singletonSorter)
 	{
 		super(model, singletonSorter);
 		if (!(singletonSorter.getStatement() instanceof Context))
@@ -112,7 +112,7 @@ public class ContextTreeNode extends StatementTreeNode implements BranchTreeNode
 		if (sorterListManager==null)
 			return null;
 		Sorter sorter=sorterListManager.findSorter(statement);
-		if (sorter==null || sorter instanceof SingletonSorter)
+		if (sorter==null || sorter instanceof StatementSorter)
 			return this;
 		else if (sorter instanceof GroupSorter)
 		{
@@ -128,7 +128,7 @@ public class ContextTreeNode extends StatementTreeNode implements BranchTreeNode
 		if (sorterListManager==null)
 			return null;
 		Sorter sorter=sorterListManager.findSorter(identifier);
-		if (sorter==null || sorter instanceof SingletonSorter)
+		if (sorter==null || sorter instanceof StatementSorter)
 			return this;
 		else if (sorter instanceof GroupSorter)
 		{

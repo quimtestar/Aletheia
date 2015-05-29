@@ -23,15 +23,16 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import aletheia.gui.contextjtree.node.SorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.old.SorterTreeNode;
 import aletheia.model.statement.Statement;
 import aletheia.utilities.collections.AbstractReadOnlyMap;
 import aletheia.utilities.collections.SoftCacheWithCleanerMap;
 
-public abstract class GenericTreeNodeMap<K, N extends SorterTreeNode> extends AbstractReadOnlyMap<K, N>
+public abstract class GenericTreeNodeMap<K, N> extends AbstractReadOnlyMap<K, N>
 {
 	private final SoftCacheWithCleanerMap<K, N> map;
-	private final ContextTreeModel model;
+	private final ContextJTreeModel model;
 
 	private class CacheListener implements SoftCacheWithCleanerMap.Listener<K>
 	{
@@ -44,14 +45,14 @@ public abstract class GenericTreeNodeMap<K, N extends SorterTreeNode> extends Ab
 
 	}
 
-	public GenericTreeNodeMap(ContextTreeModel model)
+	public GenericTreeNodeMap(ContextJTreeModel model)
 	{
 		this.map = new SoftCacheWithCleanerMap<K, N>();
 		this.map.addListener(new CacheListener());
 		this.model = model;
 	}
 
-	protected ContextTreeModel getModel()
+	protected ContextJTreeModel getModel()
 	{
 		return model;
 	}

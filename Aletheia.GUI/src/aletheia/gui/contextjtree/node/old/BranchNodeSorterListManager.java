@@ -27,7 +27,7 @@ import java.util.TreeMap;
 import java.util.UUID;
 
 import aletheia.gui.contextjtree.sorter.GroupSorter;
-import aletheia.gui.contextjtree.sorter.SingletonSorter;
+import aletheia.gui.contextjtree.sorter.StatementSorter;
 import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
@@ -49,8 +49,8 @@ public class BranchNodeSorterListManager<S extends Statement>
 		{
 			int i=iterator.nextIndex();
 			Sorter sorter=iterator.next();
-			if (sorter instanceof SingletonSorter)
-				uuidIndexes.put(((SingletonSorter) sorter).getStatement().getUuid(), i);
+			if (sorter instanceof StatementSorter)
+				uuidIndexes.put(((StatementSorter) sorter).getStatement().getUuid(), i);
 			if (sorter.getPrefix()!=null)
 				prefixIndexes.put(sorter.getPrefix(),i);
 		}
@@ -75,12 +75,12 @@ public class BranchNodeSorterListManager<S extends Statement>
 		return false;
 	}
 
-	public SingletonSorter findSingletonSorter(Statement statement)
+	public StatementSorter findSingletonSorter(Statement statement)
 	{
 		Integer index = uuidIndexes.get(statement.getUuid());
 		if (index==null)
 			return null;
-		SingletonSorter singletonSorter=(SingletonSorter)sorterList.get(index);
+		StatementSorter singletonSorter=(StatementSorter)sorterList.get(index);
 		Statement statement_ = singletonSorter.getStatement();
 		if ((statement_.getIdentifier() == null) != (statement.getIdentifier() == null))
 			return null;
@@ -113,7 +113,7 @@ public class BranchNodeSorterListManager<S extends Statement>
 	
 	public Sorter findSorter(Statement statement)
 	{
-		SingletonSorter singletonSorter=findSingletonSorter(statement);
+		StatementSorter singletonSorter=findSingletonSorter(statement);
 		if (singletonSorter!=null)
 			return singletonSorter;
 		

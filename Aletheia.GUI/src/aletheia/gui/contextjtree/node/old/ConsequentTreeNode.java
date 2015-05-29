@@ -20,7 +20,7 @@
 package aletheia.gui.contextjtree.node.old;
 
 import aletheia.gui.contextjtree.ContextJTree;
-import aletheia.gui.contextjtree.ContextTreeModel;
+import aletheia.gui.contextjtree.ContextJTreeModel;
 import aletheia.gui.contextjtree.renderer.ConsequentContextJTreeNodeRenderer;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
@@ -28,16 +28,16 @@ import aletheia.persistence.Transaction;
 
 public class ConsequentTreeNode extends AbstractTreeNode
 {
-	private final ContextTreeModel model;
+	private final ContextJTreeModel model;
 	private final Context context;
 
-	public ConsequentTreeNode(ContextTreeModel model, Context context)
+	public ConsequentTreeNode(ContextJTreeModel model, Context context)
 	{
 		this.model = model;
 		this.context = context;
 	}
 
-	public ContextTreeModel getModel()
+	public ContextJTreeModel getModel()
 	{
 		return model;
 	}

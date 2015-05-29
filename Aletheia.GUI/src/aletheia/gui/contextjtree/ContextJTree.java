@@ -346,7 +346,7 @@ public class ContextJTree extends PersistentJTree
 
 	public ContextJTree(AletheiaJPanel aletheiaJPanel)
 	{
-		super(new ContextTreeModel(aletheiaJPanel.getPersistenceManager()));
+		super(new ContextJTreeModel(aletheiaJPanel.getPersistenceManager()));
 		this.setLargeModel(true);
 		this.setTransferHandler(new MyTransferHandler());
 		this.aletheiaJPanel = aletheiaJPanel;
@@ -469,9 +469,9 @@ public class ContextJTree extends PersistentJTree
 	}
 
 	@Override
-	public ContextTreeModel getModel()
+	public ContextJTreeModel getModel()
 	{
-		return (ContextTreeModel) super.getModel();
+		return (ContextJTreeModel) super.getModel();
 	}
 
 	public void editStatementName(Statement statement, String newName) throws InvalidNameException, StatementNotInContextException, NomenclatorException

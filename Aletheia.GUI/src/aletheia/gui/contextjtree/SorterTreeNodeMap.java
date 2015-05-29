@@ -22,39 +22,43 @@ package aletheia.gui.contextjtree;
 import java.util.HashMap;
 import java.util.Map;
 
-import aletheia.gui.contextjtree.node.old.ContextTreeNode;
-import aletheia.gui.contextjtree.node.old.GroupSorterTreeNode;
-import aletheia.gui.contextjtree.node.old.SorterTreeNode;
-import aletheia.gui.contextjtree.node.old.StatementTreeNode;
+import aletheia.gui.contextjtree.node.ContextContextJTreeNode;
+import aletheia.gui.contextjtree.node.GroupSorterContextJTreeNode;
+import aletheia.gui.contextjtree.node.SorterContextJTreeNode;
+import aletheia.gui.contextjtree.node.StatementContextJTreeNode;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
-import aletheia.gui.contextjtree.sorter.SingletonSorter;
+import aletheia.gui.contextjtree.sorter.StatementRootGroupSorter;
+import aletheia.gui.contextjtree.sorter.StatementSorter;
 import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
 
-public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterTreeNode>
+public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterContextJTreeNode>
 {
-	private final Map<Statement, StatementTreeNode> statementTreeNodeMap;
-
-	public SorterTreeNodeMap(ContextTreeModel model)
+	public SorterTreeNodeMap(ContextJTreeModel model)
 	{
 		super(model);
-		this.statementTreeNodeMap = new HashMap<Statement, StatementTreeNode>();
 	}
 
 	@Override
-	protected synchronized SorterTreeNode buildNode(Sorter sorter)
+	protected synchronized SorterContextJTreeNode buildNode(Sorter sorter)
 	{
 		if (sorter instanceof GroupSorter)
-			return new GroupSorterTreeNode(getModel(), (GroupSorter<?>) sorter);
-		else if (sorter instanceof SingletonSorter)
 		{
-			SingletonSorter singletonSorter = (SingletonSorter) sorter;
+			if (sorter instanceof StatementRootGroupSorter)
+			{
+				Context context=((StatementRootGroupSorter) sorter).getContext();
+				
+			}
+		}
+			return new GroupSorterContextJTreeNode<Statement>(getModel(), (GroupSorter<?>) sorter);
+		else if (sorter instanceof StatementSorter)
+		{
+			StatementSorter singletonSorter = (StatementSorter) sorter;
 			Statement statement = singletonSorter.getStatement();
 			statement.addStateListener(getModel().getStatementListener());
 			statement.addAuthorityStateListener(getModel().getStatementListener());
-			StatementTreeNode node;
 			if (statement instanceof Context)
 			{
 				Context ctx = (Context) statement;
@@ -65,12 +69,11 @@ public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterTreeNode
 					RootContext rootCtx = (RootContext) ctx;
 					rootCtx.addRootNomenclatorListener(getModel().getStatementListener());
 				}
-				node = new ContextTreeNode(getModel(), singletonSorter);
+				return new ContextContextJTreeNode(getModel(), new StatementRootGroupSorter(, ctx));
 			}
 			else
-				node = new StatementTreeNode(getModel(), singletonSorter);
-			statementTreeNodeMap.put(statement, node);
-			return node;
+				return new StatementContextJTreeNode(getModel(), singletonSorter);
+			
 		}
 		else
 			throw new Error();
@@ -79,9 +82,9 @@ public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterTreeNode
 	@Override
 	protected synchronized void keyRemoved(Sorter sorter)
 	{
-		if (sorter instanceof SingletonSorter)
+		if (sorter instanceof StatementSorter)
 		{
-			Statement statement = ((SingletonSorter) sorter).getStatement();
+			Statement statement = ((StatementSorter) sorter).getStatement();
 			statement.removeStateListener(getModel().getStatementListener());
 			statement.removeAuthorityStateListener(getModel().getStatementListener());
 			if (statement instanceof Context)

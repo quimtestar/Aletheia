@@ -34,6 +34,7 @@ import javax.swing.tree.TreePath;
 import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.common.PersistentTreeModel;
+import aletheia.gui.contextjtree.node.SorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.old.AbstractTreeNode;
 import aletheia.gui.contextjtree.node.old.BranchTreeNode;
 import aletheia.gui.contextjtree.node.old.ConsequentTreeNode;
@@ -64,7 +65,7 @@ import aletheia.persistence.Transaction;
 import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
 import aletheia.utilities.collections.CloseableIterator;
 
-public class ContextTreeModel extends PersistentTreeModel
+public class ContextJTreeModel extends PersistentTreeModel
 {
 	private static final Logger logger = LoggerManager.instance.logger();
 
@@ -75,7 +76,7 @@ public class ContextTreeModel extends PersistentTreeModel
 	private final StatementStateProcessorThread statementStateProcessorThread;
 	private RootTreeNode rootTreeNode;
 
-	public ContextTreeModel(PersistenceManager persistenceManager)
+	public ContextJTreeModel(PersistenceManager persistenceManager)
 	{
 		super(persistenceManager);
 		this.nodeMap = new SorterTreeNodeMap(this);
@@ -96,7 +97,7 @@ public class ContextTreeModel extends PersistentTreeModel
 		return rootTreeNode;
 	}
 
-	public Map<Sorter, SorterTreeNode> nodeMap()
+	public Map<Sorter, SorterContextJTreeNode> nodeMap()
 	{
 		return Collections.unmodifiableMap(nodeMap);
 	}
@@ -664,7 +665,7 @@ public class ContextTreeModel extends PersistentTreeModel
 					StatementStateChange c = statementStateChangeQueue.take();
 					if (c.getTransaction() != null)
 						c.getTransaction().waitForClose();
-					synchronized (ContextTreeModel.this)
+					synchronized (ContextJTreeModel.this)
 					{
 						if (c.getTransaction() == null || c.getTransaction().isCommited())
 						{
@@ -1035,7 +1036,7 @@ public class ContextTreeModel extends PersistentTreeModel
 	@Override
 	public void cleanRenderers()
 	{
-		for (SorterTreeNode node : nodeMap.values())
+		for (SorterContextJTreeNode node : nodeMap.values())
 		{
 			node.cleanRenderer();
 			if (node instanceof ContextTreeNode)
