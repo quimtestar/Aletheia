@@ -1,4 +1,4 @@
-package aletheia.gui.contextjtree.sorter.old;
+package aletheia.gui.contextjtree.sorter;
 
 import aletheia.model.identifier.Namespace;
 import aletheia.model.statement.Statement;

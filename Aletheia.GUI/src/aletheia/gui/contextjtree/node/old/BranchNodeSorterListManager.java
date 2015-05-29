@@ -26,9 +26,9 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.UUID;
 
-import aletheia.gui.contextjtree.sorter.old.GroupSorter;
-import aletheia.gui.contextjtree.sorter.old.Sorter;
-import aletheia.gui.contextjtree.sorter.old.StatementSorter;
+import aletheia.gui.contextjtree.sorter.GroupSorter;
+import aletheia.gui.contextjtree.sorter.StatementSorter;
+import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.statement.Statement;

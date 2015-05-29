@@ -42,7 +42,7 @@ import aletheia.gui.contextjtree.node.old.ContextTreeNode;
 import aletheia.gui.contextjtree.node.old.RootTreeNode;
 import aletheia.gui.contextjtree.node.old.SorterTreeNode;
 import aletheia.gui.contextjtree.node.old.StatementTreeNode;
-import aletheia.gui.contextjtree.sorter.old.Sorter;
+import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.Signatory;

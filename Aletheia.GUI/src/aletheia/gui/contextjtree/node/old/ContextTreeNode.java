@@ -26,10 +26,10 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import aletheia.gui.contextjtree.ContextJTreeModel;
-import aletheia.gui.contextjtree.sorter.old.GroupSorter;
-import aletheia.gui.contextjtree.sorter.old.Sorter;
-import aletheia.gui.contextjtree.sorter.old.StatementRootGroupSorter;
-import aletheia.gui.contextjtree.sorter.old.StatementSorter;
+import aletheia.gui.contextjtree.sorter.GroupSorter;
+import aletheia.gui.contextjtree.sorter.StatementRootGroupSorter;
+import aletheia.gui.contextjtree.sorter.StatementSorter;
+import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
