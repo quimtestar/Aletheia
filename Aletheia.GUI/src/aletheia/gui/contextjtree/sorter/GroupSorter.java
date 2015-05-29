@@ -6,7 +6,6 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.RootNamespace;
-import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.collections.statement.SortedStatements;
 import aletheia.utilities.MiscUtilities;
