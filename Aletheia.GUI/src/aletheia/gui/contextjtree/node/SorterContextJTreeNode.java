@@ -1,8 +1,8 @@
 package aletheia.gui.contextjtree.node;
 
 import aletheia.gui.contextjtree.ContextJTreeModel;
-import aletheia.gui.contextjtree.sorter.GroupSorter;
-import aletheia.gui.contextjtree.sorter.Sorter;
+import aletheia.gui.contextjtree.sorter.old.GroupSorter;
+import aletheia.gui.contextjtree.sorter.old.Sorter;
 import aletheia.model.statement.Statement;
 
 public abstract class SorterContextJTreeNode extends ContextJTreeNode

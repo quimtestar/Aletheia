@@ -4,7 +4,7 @@ import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeModel;
 import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.StatementContextJTreeNodeRenderer;
-import aletheia.gui.contextjtree.sorter.StatementSorter;
+import aletheia.gui.contextjtree.sorter.old.StatementSorter;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 

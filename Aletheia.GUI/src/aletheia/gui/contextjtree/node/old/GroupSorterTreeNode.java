@@ -3,9 +3,9 @@ package aletheia.gui.contextjtree.node.old;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeModel;
 import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
-import aletheia.gui.contextjtree.sorter.GroupSorter;
-import aletheia.gui.contextjtree.sorter.StatementSorter;
-import aletheia.gui.contextjtree.sorter.Sorter;
+import aletheia.gui.contextjtree.sorter.old.GroupSorter;
+import aletheia.gui.contextjtree.sorter.old.Sorter;
+import aletheia.gui.contextjtree.sorter.old.StatementSorter;
 import aletheia.model.statement.Statement;
 
 public class GroupSorterTreeNode extends SorterTreeNode implements BranchTreeNode

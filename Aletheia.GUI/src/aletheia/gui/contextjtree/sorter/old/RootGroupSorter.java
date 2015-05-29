@@ -1,4 +1,4 @@
-package aletheia.gui.contextjtree.sorter;
+package aletheia.gui.contextjtree.sorter.old;
 
 import aletheia.model.statement.Statement;
 import aletheia.persistence.collections.statement.SortedStatements;
