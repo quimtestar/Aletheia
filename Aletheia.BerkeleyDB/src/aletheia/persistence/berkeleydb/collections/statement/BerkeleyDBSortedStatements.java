@@ -86,272 +86,272 @@ public abstract class BerkeleyDBSortedStatements<S extends Statement> extends Ab
 	}
 
 	private final static Comparator<Statement> comparator = new Comparator<Statement>()
-			{
+	{
 
 		@Override
 		public int compare(Statement st1, Statement st2)
 		{
 			return ((BerkeleyDBStatementEntity) st1.getEntity()).getLocalSortKey().compareTo(((BerkeleyDBStatementEntity) st2.getEntity()).getLocalSortKey());
 		}
-			};
+	};
 
-			@Override
-			public Comparator<? super S> comparator()
+	@Override
+	public Comparator<? super S> comparator()
+	{
+		return comparator;
+	}
+
+	protected abstract S entitytoStatement(BerkeleyDBStatementEntity entity);
+
+	@Override
+	public S first()
+	{
+		EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, fromInclusive, to, toInclusive);
+		try
+		{
+			BerkeleyDBStatementEntity entity = transaction.first(cursor);
+			if (entity == null)
+				throw new NoSuchElementException();
+			return entitytoStatement(entity);
+		}
+		finally
+		{
+			transaction.close(cursor);
+		}
+	}
+
+	@Override
+	public S last()
+	{
+		EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, fromInclusive, to, toInclusive);
+		try
+		{
+			BerkeleyDBStatementEntity entity = transaction.last(cursor);
+			if (entity == null)
+				throw new NoSuchElementException();
+			return entitytoStatement(entity);
+		}
+		finally
+		{
+			transaction.close(cursor);
+		}
+	}
+
+	@Override
+	public CloseableIterator<S> iterator()
+	{
+		final EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, fromInclusive, to, toInclusive);
+		return new CloseableIterator<S>()
+		{
+			private BerkeleyDBStatementEntity next;
 			{
-				return comparator;
+				next = transaction.next(cursor);
 			}
 
-			protected abstract S entitytoStatement(BerkeleyDBStatementEntity entity);
-
 			@Override
-			public S first()
+			public boolean hasNext()
 			{
-				EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, fromInclusive, to, toInclusive);
-				try
-				{
-					BerkeleyDBStatementEntity entity = transaction.first(cursor);
-					if (entity == null)
-						throw new NoSuchElementException();
-					return entitytoStatement(entity);
-				}
-				finally
+				if (next == null)
 				{
 					transaction.close(cursor);
-				}
-			}
-
-			@Override
-			public S last()
-			{
-				EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, fromInclusive, to, toInclusive);
-				try
-				{
-					BerkeleyDBStatementEntity entity = transaction.last(cursor);
-					if (entity == null)
-						throw new NoSuchElementException();
-					return entitytoStatement(entity);
-				}
-				finally
-				{
-					transaction.close(cursor);
-				}
-			}
-
-			@Override
-			public CloseableIterator<S> iterator()
-			{
-				final EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, fromInclusive, to, toInclusive);
-				return new CloseableIterator<S>()
-						{
-					private BerkeleyDBStatementEntity next;
-					{
-						next = transaction.next(cursor);
-					}
-
-					@Override
-					public boolean hasNext()
-					{
-						if (next == null)
-						{
-							transaction.close(cursor);
-							return false;
-						}
-						return true;
-					}
-
-					@Override
-					public S next()
-					{
-						if (!hasNext())
-							throw new NoSuchElementException();
-						BerkeleyDBStatementEntity entity = next;
-						next = transaction.next(cursor);
-						return entitytoStatement(entity);
-					}
-
-					@Override
-					public void remove()
-					{
-						throw new UnsupportedOperationException();
-					}
-
-					@Override
-					protected void finalize() throws Throwable
-					{
-						close();
-						super.finalize();
-					}
-
-					@Override
-					public void close()
-					{
-						transaction.close(cursor);
-					}
-
-						};
-			}
-
-			@Override
-			public int size()
-			{
-				CloseableIterator<S> iterator = iterator();
-				try
-				{
-					int n = 0;
-					while (iterator.hasNext())
-					{
-						iterator.next();
-						n++;
-					}
-					return n;
-				}
-				finally
-				{
-					iterator.close();
-				}
-
-			}
-
-			@Override
-			public boolean smaller(int size)
-			{
-				CloseableIterator<S> iterator = iterator();
-				try
-				{
-					int n = 0;
-					while (iterator.hasNext())
-					{
-						iterator.next();
-						n++;
-						if (n >= size)
-							return false;
-					}
-				}
-				finally
-				{
-					iterator.close();
+					return false;
 				}
 				return true;
 			}
 
 			@Override
-			public boolean isEmpty()
+			public S next()
 			{
-				EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, fromInclusive, to, toInclusive);
-				try
-				{
-					return transaction.first(cursor) == null;
-				}
-				finally
-				{
-					transaction.close(cursor);
-				}
+				if (!hasNext())
+					throw new NoSuchElementException();
+				BerkeleyDBStatementEntity entity = next;
+				next = transaction.next(cursor);
+				return entitytoStatement(entity);
 			}
 
-			private LocalSortKey fromSortKey(Statement statement)
+			@Override
+			public void remove()
 			{
-				LocalSortKey dsk = ((BerkeleyDBStatementEntity) statement.getEntity()).getLocalSortKey();
-				if (from.compareTo(dsk) > 0)
-					return from;
-				return dsk;
+				throw new UnsupportedOperationException();
 			}
 
-			private LocalSortKey toSortKey(Statement statement)
+			@Override
+			protected void finalize() throws Throwable
 			{
-				LocalSortKey dsk = ((BerkeleyDBStatementEntity) statement.getEntity()).getLocalSortKey();
-				if (to.compareTo(dsk) < 0)
-					return to;
-				return dsk;
+				close();
+				super.finalize();
 			}
 
-			private LocalSortKey fromSortKey(Identifier identifier)
+			@Override
+			public void close()
 			{
-				LocalSortKey dsk = new LocalSortKey();
-				dsk.setUuidKeyContext(from.getUuidKeyContext());
-				dsk.setAssumptionOrder(Integer.MAX_VALUE);
-				dsk.setIdentifier(identifier);
-				if (from.compareTo(dsk) > 0)
-					return from;
-				return dsk;
+				transaction.close(cursor);
 			}
 
-			private LocalSortKey toSortKey(Identifier identifier)
-			{
-				LocalSortKey dsk = new LocalSortKey();
-				dsk.setUuidKeyContext(to.getUuidKeyContext());
-				dsk.setAssumptionOrder(Integer.MAX_VALUE);
-				dsk.setIdentifier(identifier);
-				if (to.compareTo(dsk) < 0)
-					return to;
-				return dsk;
-			}
+		};
+	}
 
-			protected abstract BerkeleyDBSortedStatements<S> newBerkeleyDBSortedStatementsBounds(LocalSortKey from, boolean fromInclusive, LocalSortKey to,
+	@Override
+	public int size()
+	{
+		CloseableIterator<S> iterator = iterator();
+		try
+		{
+			int n = 0;
+			while (iterator.hasNext())
+			{
+				iterator.next();
+				n++;
+			}
+			return n;
+		}
+		finally
+		{
+			iterator.close();
+		}
+
+	}
+
+	@Override
+	public boolean smaller(int size)
+	{
+		CloseableIterator<S> iterator = iterator();
+		try
+		{
+			int n = 0;
+			while (iterator.hasNext())
+			{
+				iterator.next();
+				n++;
+				if (n >= size)
+					return false;
+			}
+		}
+		finally
+		{
+			iterator.close();
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isEmpty()
+	{
+		EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, fromInclusive, to, toInclusive);
+		try
+		{
+			return transaction.first(cursor) == null;
+		}
+		finally
+		{
+			transaction.close(cursor);
+		}
+	}
+
+	private LocalSortKey fromSortKey(Statement statement)
+	{
+		LocalSortKey dsk = ((BerkeleyDBStatementEntity) statement.getEntity()).getLocalSortKey();
+		if (from.compareTo(dsk) > 0)
+			return from;
+		return dsk;
+	}
+
+	private LocalSortKey toSortKey(Statement statement)
+	{
+		LocalSortKey dsk = ((BerkeleyDBStatementEntity) statement.getEntity()).getLocalSortKey();
+		if (to.compareTo(dsk) < 0)
+			return to;
+		return dsk;
+	}
+
+	private LocalSortKey fromSortKey(Identifier identifier)
+	{
+		LocalSortKey dsk = new LocalSortKey();
+		dsk.setUuidKeyContext(from.getUuidKeyContext());
+		dsk.setAssumptionOrder(Integer.MAX_VALUE);
+		dsk.setIdentifier(identifier);
+		if (from.compareTo(dsk) > 0)
+			return from;
+		return dsk;
+	}
+
+	private LocalSortKey toSortKey(Identifier identifier)
+	{
+		LocalSortKey dsk = new LocalSortKey();
+		dsk.setUuidKeyContext(to.getUuidKeyContext());
+		dsk.setAssumptionOrder(Integer.MAX_VALUE);
+		dsk.setIdentifier(identifier);
+		if (to.compareTo(dsk) < 0)
+			return to;
+		return dsk;
+	}
+
+	protected abstract BerkeleyDBSortedStatements<S> newBerkeleyDBSortedStatementsBounds(LocalSortKey from, boolean fromInclusive, LocalSortKey to,
 			boolean toInclusive);
 
 	protected BerkeleyDBSortedStatements<S> newBerkeleyDBSortedStatementsBounds(LocalSortKey from, LocalSortKey to)
-			{
-				return newBerkeleyDBSortedStatementsBounds(from, true, to, false);
-			}
+	{
+		return newBerkeleyDBSortedStatementsBounds(from, true, to, false);
+	}
 
 	@Override
-			public BerkeleyDBSortedStatements<S> subSet(S fromElement, S toElement)
-			{
-				return newBerkeleyDBSortedStatementsBounds(fromSortKey(fromElement), toSortKey(toElement));
-			}
-
-			@Override
-			public BerkeleyDBSortedStatements<S> headSet(S toElement)
-			{
-				return newBerkeleyDBSortedStatementsBounds(from, toSortKey(toElement));
-			}
-
-			@Override
-			public BerkeleyDBSortedStatements<S> tailSet(S fromElement)
-			{
-				return newBerkeleyDBSortedStatementsBounds(fromSortKey(fromElement), to);
-			}
-
-			@Override
-			public BerkeleyDBSortedStatements<S> subSet(Identifier from, Identifier to)
-			{
-				return newBerkeleyDBSortedStatementsBounds(fromSortKey(from), toSortKey(to));
-			}
-
-			@Override
-			public BerkeleyDBSortedStatements<S> headSet(Identifier to)
-			{
-				return newBerkeleyDBSortedStatementsBounds(from, toSortKey(to));
-			}
-
-			@Override
-			public BerkeleyDBSortedStatements<S> tailSet(Identifier from)
-			{
-				return newBerkeleyDBSortedStatementsBounds(fromSortKey(from), to);
-			}
+	public BerkeleyDBSortedStatements<S> subSet(S fromElement, S toElement)
+	{
+		return newBerkeleyDBSortedStatementsBounds(fromSortKey(fromElement), toSortKey(toElement));
+	}
 
 	@Override
-			public SortedStatements<S> identifierSet(Identifier identifier)
-			{
-				return newBerkeleyDBSortedStatementsBounds(fromSortKey(identifier), true, toSortKey(identifier), true);
-			}
+	public BerkeleyDBSortedStatements<S> headSet(S toElement)
+	{
+		return newBerkeleyDBSortedStatementsBounds(from, toSortKey(toElement));
+	}
 
 	@Override
-			public SortedStatements<S> postIdentifierSet(Identifier identifier)
-			{
-				return newBerkeleyDBSortedStatementsBounds(fromSortKey(identifier), false, to, false);
-			}
+	public BerkeleyDBSortedStatements<S> tailSet(S fromElement)
+	{
+		return newBerkeleyDBSortedStatementsBounds(fromSortKey(fromElement), to);
+	}
 
 	@Override
-			public Object[] toArray()
-			{
-				return MiscUtilities.iterableToArray(this);
-			}
+	public BerkeleyDBSortedStatements<S> subSet(Identifier from, Identifier to)
+	{
+		return newBerkeleyDBSortedStatementsBounds(fromSortKey(from), toSortKey(to));
+	}
 
-			@Override
-			public <T> T[] toArray(T[] a)
-			{
-				return MiscUtilities.iterableToArray(this, a);
-			}
+	@Override
+	public BerkeleyDBSortedStatements<S> headSet(Identifier to)
+	{
+		return newBerkeleyDBSortedStatementsBounds(from, toSortKey(to));
+	}
+
+	@Override
+	public BerkeleyDBSortedStatements<S> tailSet(Identifier from)
+	{
+		return newBerkeleyDBSortedStatementsBounds(fromSortKey(from), to);
+	}
+
+	@Override
+	public SortedStatements<S> identifierSet(Identifier identifier)
+	{
+		return newBerkeleyDBSortedStatementsBounds(fromSortKey(identifier), true, toSortKey(identifier), true);
+	}
+
+	@Override
+	public SortedStatements<S> postIdentifierSet(Identifier identifier)
+	{
+		return newBerkeleyDBSortedStatementsBounds(fromSortKey(identifier), false, to, false);
+	}
+
+	@Override
+	public Object[] toArray()
+	{
+		return MiscUtilities.iterableToArray(this);
+	}
+
+	@Override
+	public <T> T[] toArray(T[] a)
+	{
+		return MiscUtilities.iterableToArray(this, a);
+	}
 
 }
