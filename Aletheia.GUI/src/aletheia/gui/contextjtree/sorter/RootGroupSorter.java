@@ -1,14 +1,13 @@
 package aletheia.gui.contextjtree.sorter;
 
-import aletheia.model.statement.Statement;
-import aletheia.persistence.collections.statement.SortedStatements;
+import aletheia.persistence.PersistenceManager;
 
-public abstract class RootGroupSorter<S extends Statement> extends GroupSorter<S>
+public class RootGroupSorter extends RootContextGroupSorter
 {
-	protected RootGroupSorter(SortedStatements<S> sortedStatements)
-	{
-		super(null, null, sortedStatements);
-	}
 
+	public RootGroupSorter(PersistenceManager persistenceManager)
+	{
+		super(null, null, persistenceManager);
+	}
 
 }
