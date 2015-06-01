@@ -4,6 +4,7 @@ import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeModel;
 import aletheia.gui.contextjtree.renderer.ConsequentContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
+import aletheia.model.statement.Context;
 
 public class ConsequentContextJTreeNode extends ContextJTreeNode
 {
@@ -19,6 +20,11 @@ public class ConsequentContextJTreeNode extends ContextJTreeNode
 	public ContextGroupSorterContextJTreeNode getParent()
 	{
 		return parent;
+	}
+	
+	public Context getContext()
+	{
+		return getParent().getContext();
 	}
 
 	@Override

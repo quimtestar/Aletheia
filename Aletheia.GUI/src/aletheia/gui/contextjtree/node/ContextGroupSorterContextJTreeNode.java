@@ -13,14 +13,14 @@ import aletheia.gui.contextjtree.sorter.ContextGroupSorter;
 import aletheia.model.statement.Context;
 import aletheia.persistence.Transaction;
 
-public class ContextGroupSorterContextJTreeNode extends StatementGroupSorterContextJTreeNode
+public class ContextGroupSorterContextJTreeNode extends StatementGroupSorterContextJTreeNode implements StatementContextJTreeNode
 {
-	private final ConsequentContextJTreeNode consequentContextJTreeNode;
+	private final ConsequentContextJTreeNode consequentNode;
 
 	public ContextGroupSorterContextJTreeNode(ContextJTreeModel model, ContextGroupSorter sorter)
 	{
 		super(model, sorter);
-		this.consequentContextJTreeNode = new ConsequentContextJTreeNode(model, this);
+		this.consequentNode = new ConsequentContextJTreeNode(model, this);
 	}
 
 	@Override
@@ -39,9 +39,9 @@ public class ContextGroupSorterContextJTreeNode extends StatementGroupSorterCont
 		return getContext();
 	}
 
-	public ConsequentContextJTreeNode getConsequentContextJTreeNode()
+	public ConsequentContextJTreeNode getConsequentNode()
 	{
-		return consequentContextJTreeNode;
+		return consequentNode;
 	}
 
 	@Override
@@ -50,7 +50,7 @@ public class ContextGroupSorterContextJTreeNode extends StatementGroupSorterCont
 		if (childIndex < super.getChildCount())
 			return super.getChildAt(childIndex);
 		else if (childIndex == super.getChildCount())
-			return consequentContextJTreeNode;
+			return consequentNode;
 		else
 			return null;
 	}
@@ -64,7 +64,7 @@ public class ContextGroupSorterContextJTreeNode extends StatementGroupSorterCont
 	@Override
 	public int getIndex(TreeNode node)
 	{
-		if (consequentContextJTreeNode.equals(node))
+		if (consequentNode.equals(node))
 			return super.getChildCount();
 		else
 			return super.getIndex(node);
@@ -95,7 +95,7 @@ public class ContextGroupSorterContextJTreeNode extends StatementGroupSorterCont
 				else if (pendingConsequent)
 				{
 					pendingConsequent = false;
-					return consequentContextJTreeNode;
+					return consequentNode;
 				}
 				else
 					throw new NoSuchElementException();

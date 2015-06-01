@@ -23,8 +23,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import aletheia.gui.contextjtree.node.SorterContextJTreeNode;
-import aletheia.gui.contextjtree.node.old.SorterTreeNode;
 import aletheia.model.statement.Statement;
 import aletheia.utilities.collections.AbstractReadOnlyMap;
 import aletheia.utilities.collections.SoftCacheWithCleanerMap;

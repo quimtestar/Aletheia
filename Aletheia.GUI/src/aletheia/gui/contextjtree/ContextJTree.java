@@ -50,11 +50,12 @@ import aletheia.gui.cli.command.statement.DeleteStatement;
 import aletheia.gui.cli.command.statement.DeleteStatementCascade;
 import aletheia.gui.common.PersistentJTree;
 import aletheia.gui.common.StatementTransferable;
-import aletheia.gui.contextjtree.node.old.AbstractTreeNode;
-import aletheia.gui.contextjtree.node.old.BranchTreeNode;
-import aletheia.gui.contextjtree.node.old.ConsequentTreeNode;
-import aletheia.gui.contextjtree.node.old.ContextTreeNode;
-import aletheia.gui.contextjtree.node.old.StatementTreeNode;
+import aletheia.gui.contextjtree.node.ConsequentContextJTreeNode;
+import aletheia.gui.contextjtree.node.ContextGroupSorterContextJTreeNode;
+import aletheia.gui.contextjtree.node.ContextJTreeNode;
+import aletheia.gui.contextjtree.node.SorterContextJTreeNode;
+import aletheia.gui.contextjtree.node.StatementContextJTreeNode;
+import aletheia.gui.contextjtree.node.StatementSorterContextJTreeNode;
 import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.EmptyContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.StatementContextJTreeNodeRenderer;
@@ -79,9 +80,9 @@ public class ContextJTree extends PersistentJTree
 	{
 		public ContextJTreeNodeRenderer getComponent(Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus)
 		{
-			if (!(value instanceof AbstractTreeNode))
+			if (!(value instanceof ContextJTreeNode))
 				throw new Error();
-			AbstractTreeNode node = (AbstractTreeNode) value;
+			ContextJTreeNode node = (ContextJTreeNode) value;
 			ContextJTreeNodeRenderer renderer = getNodeRenderer(node);
 			if (renderer != null)
 			{
@@ -91,7 +92,7 @@ public class ContextJTree extends PersistentJTree
 			return renderer;
 		}
 
-		public ContextJTreeNodeRenderer getNodeRenderer(AbstractTreeNode node)
+		public ContextJTreeNodeRenderer getNodeRenderer(ContextJTreeNode node)
 		{
 			try
 			{
@@ -146,7 +147,7 @@ public class ContextJTree extends PersistentJTree
 			TreePath treePath = getSelectionPath();
 			if (treePath != null)
 			{
-				AbstractTreeNode node = (AbstractTreeNode) treePath.getLastPathComponent();
+				ContextJTreeNode node = (ContextJTreeNode) treePath.getLastPathComponent();
 				if (node != null)
 				{
 					TreeCellRenderer renderer = getCellRenderer();
@@ -160,7 +161,7 @@ public class ContextJTree extends PersistentJTree
 		@Override
 		public boolean stopCellEditing()
 		{
-			AbstractTreeNode node = (AbstractTreeNode) getSelectionPath().getLastPathComponent();
+			ContextJTreeNode node = (ContextJTreeNode) getSelectionPath().getLastPathComponent();
 			if (node != null)
 			{
 				TreeCellRenderer renderer = getCellRenderer();
@@ -193,7 +194,7 @@ public class ContextJTree extends PersistentJTree
 					@Override
 					public void run()
 					{
-						AbstractTreeNode node = (AbstractTreeNode) selectionModel.getSelectionPath().getLastPathComponent();
+						ContextJTreeNode node = (ContextJTreeNode) selectionModel.getSelectionPath().getLastPathComponent();
 						ContextJTreeNodeRenderer nodeRenderer = renderer.getNodeRenderer(node);
 						if (nodeRenderer instanceof StatementContextJTreeNodeRenderer)
 							((StatementContextJTreeNodeRenderer) nodeRenderer).editName();
@@ -286,16 +287,19 @@ public class ContextJTree extends PersistentJTree
 		@Override
 		public void valueChanged(TreeSelectionEvent ev)
 		{
-			AbstractTreeNode node = (AbstractTreeNode) ev.getPath().getLastPathComponent();
-			if (node instanceof StatementTreeNode)
+			ContextJTreeNode node = (ContextJTreeNode) ev.getPath().getLastPathComponent();
+			if (node instanceof SorterContextJTreeNode)
 			{
-				Statement statement = ((StatementTreeNode) node).getStatement();
-				for (SelectionListener sl : selectionListeners)
-					sl.statementSelected(statement);
+				if (node instanceof StatementSorterContextJTreeNode)
+				{
+					Statement statement = ((StatementSorterContextJTreeNode) node).getStatement();
+					for (SelectionListener sl : selectionListeners)
+						sl.statementSelected(statement);
+				}
 			}
-			else if (node instanceof ConsequentTreeNode)
+			else if (node instanceof ConsequentContextJTreeNode)
 			{
-				Context ctx = ((ConsequentTreeNode) node).getContext();
+				Context ctx = ((ConsequentContextJTreeNode) node).getContext();
 				for (SelectionListener sl : selectionListeners)
 					sl.consequentSelected(ctx);
 			}
@@ -390,16 +394,16 @@ public class ContextJTree extends PersistentJTree
 			if (path != null)
 			{
 				Object o = path.getLastPathComponent();
-				if (o instanceof ConsequentTreeNode)
+				if (o instanceof ConsequentContextJTreeNode)
 				{
-					ContextTreeNode ctxTn1 = ((ConsequentTreeNode) o).getParent();
+					ContextGroupSorterContextJTreeNode ctxTn1 = ((ConsequentContextJTreeNode) o).getParent();
 					if (e.getChildren() != null)
 					{
 						for (Object c : e.getChildren())
 						{
-							if (c instanceof StatementTreeNode)
+							if (c instanceof StatementSorterContextJTreeNode)
 							{
-								BranchTreeNode ctxTn2 = ((StatementTreeNode) c).getParent();
+								ContextJTreeNode ctxTn2 = ((StatementSorterContextJTreeNode) c).getParent();
 								if (ctxTn1 == ctxTn2)
 								{
 									cancelEditing();
@@ -523,7 +527,7 @@ public class ContextJTree extends PersistentJTree
 		TreePath treePath = getEditingPath();
 		if (treePath != null)
 		{
-			AbstractTreeNode node = (AbstractTreeNode) getEditingPath().getLastPathComponent();
+			ContextJTreeNode node = (ContextJTreeNode) getEditingPath().getLastPathComponent();
 			if (node != null)
 			{
 				TreeCellRenderer renderer = getCellRenderer();
@@ -549,13 +553,13 @@ public class ContextJTree extends PersistentJTree
 		TreePath path = getSelectionModel().getSelectionPath();
 		if (path == null)
 			return null;
-		AbstractTreeNode node = (AbstractTreeNode) path.getLastPathComponent();
-		if (node instanceof StatementTreeNode)
-			return ((StatementTreeNode) node).getStatement();
-		else if (node instanceof ConsequentTreeNode)
-			return ((ConsequentTreeNode) node).getContext();
+		ContextJTreeNode node = (ContextJTreeNode) path.getLastPathComponent();
+		if (node instanceof StatementContextJTreeNode)
+			return ((StatementContextJTreeNode) node).getStatement();
+		else if (node instanceof ConsequentContextJTreeNode)
+			return ((ConsequentContextJTreeNode) node).getContext();
 		else
-			throw new Error();
+			return null;
 
 	}
 

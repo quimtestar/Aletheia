@@ -8,6 +8,7 @@ import javax.swing.tree.TreeNode;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeModel;
 import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.renderer.GroupSorterContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
 import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.model.statement.Statement;
@@ -27,10 +28,11 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 		this.sorterList = null;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public GroupSorter<S> getSorter()
 	{
-		return getSorter();
+		return (GroupSorter<S>) super.getSorter();
 	}
 
 	private synchronized List<Sorter> getSorterList()
@@ -106,8 +108,7 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 	@Override
 	protected ContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree)
 	{
-		getSorter().getPrefix();
-		throw new UnsupportedOperationException(); //TODO
+		return new GroupSorterContextJTreeNodeRenderer(contextJTree, getSorter());
 	}
 
 }
