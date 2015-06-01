@@ -9,31 +9,34 @@ import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeModel;
 import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.StatementContextJTreeNodeRenderer;
-import aletheia.gui.contextjtree.sorter.GroupSorter;
-import aletheia.gui.contextjtree.sorter.StatementRootGroupSorter;
+import aletheia.gui.contextjtree.sorter.ContextGroupSorter;
 import aletheia.model.statement.Context;
-import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 
-public class ContextContextJTreeNode extends RootGroupSorterContextJTreeNode<Statement>
+public class ContextGroupSorterContextJTreeNode extends StatementGroupSorterContextJTreeNode
 {
 	private final ConsequentContextJTreeNode consequentContextJTreeNode;
 
-	public ContextContextJTreeNode(ContextJTreeModel model, StatementRootGroupSorter statementRootGroupSorter)
+	public ContextGroupSorterContextJTreeNode(ContextJTreeModel model, ContextGroupSorter sorter)
 	{
-		super(model, statementRootGroupSorter);
-		this.consequentContextJTreeNode=new ConsequentContextJTreeNode(model, this);
+		super(model, sorter);
+		this.consequentContextJTreeNode = new ConsequentContextJTreeNode(model, this);
 	}
-	
+
 	@Override
-	public StatementRootGroupSorter getSorter()
+	public ContextGroupSorter getSorter()
 	{
-		return (StatementRootGroupSorter)super.getSorter();
+		return (ContextGroupSorter) super.getSorter();
 	}
 
 	public Context getContext()
 	{
 		return getSorter().getContext();
+	}
+
+	public Context getStatement()
+	{
+		return getContext();
 	}
 
 	public ConsequentContextJTreeNode getConsequentContextJTreeNode()
@@ -44,9 +47,9 @@ public class ContextContextJTreeNode extends RootGroupSorterContextJTreeNode<Sta
 	@Override
 	public ContextJTreeNode getChildAt(int childIndex)
 	{
-		if (childIndex<super.getChildCount())
+		if (childIndex < super.getChildCount())
 			return super.getChildAt(childIndex);
-		else if (childIndex==super.getChildCount())
+		else if (childIndex == super.getChildCount())
 			return consequentContextJTreeNode;
 		else
 			return null;
@@ -70,52 +73,49 @@ public class ContextContextJTreeNode extends RootGroupSorterContextJTreeNode<Sta
 	@Override
 	public Enumeration<? extends ContextJTreeNode> children()
 	{
-		final Enumeration<? extends ContextJTreeNode> enumeration=super.children();
+		final Enumeration<? extends ContextJTreeNode> enumeration = super.children();
 		return new Enumeration<ContextJTreeNode>()
+		{
+			boolean pendingConsequent = true;
+
+			@Override
+			public boolean hasMoreElements()
+			{
+				if (enumeration.hasMoreElements())
+					return true;
+				else
+					return pendingConsequent;
+			}
+
+			@Override
+			public ContextJTreeNode nextElement()
+			{
+				if (enumeration.hasMoreElements())
+					return enumeration.nextElement();
+				else if (pendingConsequent)
 				{
-					boolean pendingConsequent=true;
+					pendingConsequent = false;
+					return consequentContextJTreeNode;
+				}
+				else
+					throw new NoSuchElementException();
+			}
 
-					@Override
-					public boolean hasMoreElements()
-					{
-						if (enumeration.hasMoreElements())
-							return true;
-						else
-							return pendingConsequent;
-					}
-
-					@Override
-					public ContextJTreeNode nextElement()
-					{
-						if (enumeration.hasMoreElements())
-							return enumeration.nextElement();
-						else if (pendingConsequent)
-						{
-							pendingConsequent=false;
-							return consequentContextJTreeNode;
-						}
-						else
-							throw new NoSuchElementException();
-					}
-			
-				};
+		};
 	}
-	
-	
+
 	@Override
 	protected ContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree)
 	{
 		Transaction transaction = getModel().beginTransaction();
 		try
 		{
-			return StatementContextJTreeNodeRenderer.renderer(contextJTree, getContext().refresh(transaction));
+			return StatementContextJTreeNodeRenderer.renderer(contextJTree, getStatement().refresh(transaction));
 		}
 		finally
 		{
 			transaction.abort();
 		}
 	}
-
-	
 
 }

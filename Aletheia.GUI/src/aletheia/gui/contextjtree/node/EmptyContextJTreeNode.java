@@ -13,7 +13,7 @@ public class EmptyContextJTreeNode extends ContextJTreeNode
 	public EmptyContextJTreeNode(ContextJTreeModel model, GroupSorterContextJTreeNode<? extends Statement> parent)
 	{
 		super(model);
-		this.parent=parent;
+		this.parent = parent;
 	}
 
 	@Override

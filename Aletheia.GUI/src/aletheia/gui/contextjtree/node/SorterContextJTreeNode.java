@@ -12,7 +12,7 @@ public abstract class SorterContextJTreeNode extends ContextJTreeNode
 	public SorterContextJTreeNode(ContextJTreeModel model, Sorter sorter)
 	{
 		super(model);
-		this.sorter=sorter;
+		this.sorter = sorter;
 	}
 
 	public Sorter getSorter()
@@ -24,13 +24,10 @@ public abstract class SorterContextJTreeNode extends ContextJTreeNode
 	@Override
 	public GroupSorterContextJTreeNode<? extends Statement> getParent()
 	{
-		GroupSorter<? extends Statement> group=sorter.getGroup();
-		if (group==null)
+		GroupSorter<? extends Statement> group = sorter.getGroup();
+		if (group == null)
 			return null;
 		return (GroupSorterContextJTreeNode<? extends Statement>) getModel().nodeMap().get(group);
 	}
-	
-	
-
 
 }

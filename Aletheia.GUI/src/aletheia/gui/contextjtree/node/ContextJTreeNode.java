@@ -1,6 +1,5 @@
 package aletheia.gui.contextjtree.node;
 
-
 import java.lang.ref.SoftReference;
 import java.util.Enumeration;
 
@@ -17,14 +16,13 @@ import aletheia.model.statement.Statement;
 public abstract class ContextJTreeNode implements TreeNode
 {
 	private final ContextJTreeModel model;
-	
+
 	private SoftReference<ContextJTreeNodeRenderer> rendererRef;
 
-	
 	public ContextJTreeNode(ContextJTreeModel model)
 	{
-		this.model=model;
-		this.rendererRef=null;
+		this.model = model;
+		this.rendererRef = null;
 	}
 
 	public ContextJTreeModel getModel()
@@ -32,7 +30,6 @@ public abstract class ContextJTreeNode implements TreeNode
 		return model;
 	}
 
-	
 	@Override
 	public int getIndex(TreeNode node)
 	{
@@ -107,9 +104,5 @@ public abstract class ContextJTreeNode implements TreeNode
 	{
 		return getParent().path().pathByAddingChild(this);
 	}
-
-
-	
-
 
 }

@@ -15,19 +15,17 @@ public class StatementContextJTreeNode extends SorterContextJTreeNode
 	{
 		super(model, statementSorter);
 	}
-	
-	
+
 	@Override
 	public StatementSorter getSorter()
 	{
 		return (StatementSorter) super.getSorter();
 	}
-	
+
 	public Statement getStatement()
 	{
 		return getSorter().getStatement();
 	}
-
 
 	@Override
 	protected ContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree)
@@ -42,7 +40,5 @@ public class StatementContextJTreeNode extends SorterContextJTreeNode
 			transaction.abort();
 		}
 	}
-
-
 
 }
