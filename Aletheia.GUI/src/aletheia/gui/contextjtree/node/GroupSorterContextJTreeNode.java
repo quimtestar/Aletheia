@@ -11,6 +11,7 @@ import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.GroupSorterContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
 import aletheia.gui.contextjtree.sorter.Sorter;
+import aletheia.gui.contextjtree.sorter.SorterDependencyFilter;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.Bijection;
@@ -42,7 +43,7 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 			Transaction transaction = getModel().beginTransaction();
 			try
 			{
-				sorterList = new BufferedList<Sorter>(getSorter().iterable(transaction));
+				sorterList = new BufferedList<Sorter>(new SorterDependencyFilter<Sorter>(getSorter().iterable(transaction),transaction));
 			}
 			finally
 			{
