@@ -53,12 +53,14 @@ import aletheia.gui.common.StatementTransferable;
 import aletheia.gui.contextjtree.node.ConsequentContextJTreeNode;
 import aletheia.gui.contextjtree.node.ContextGroupSorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.ContextJTreeNode;
+import aletheia.gui.contextjtree.node.GroupSorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.SorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.StatementContextJTreeNode;
 import aletheia.gui.contextjtree.node.StatementSorterContextJTreeNode;
 import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.EmptyContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.StatementContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.sorter.GroupSorter;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
@@ -290,12 +292,20 @@ public class ContextJTree extends PersistentJTree
 			ContextJTreeNode node = (ContextJTreeNode) ev.getPath().getLastPathComponent();
 			if (node instanceof SorterContextJTreeNode)
 			{
-				if (node instanceof StatementSorterContextJTreeNode)
+				if (node instanceof StatementContextJTreeNode)
 				{
-					Statement statement = ((StatementSorterContextJTreeNode) node).getStatement();
+					Statement statement = ((StatementContextJTreeNode) node).getStatement();
 					for (SelectionListener sl : selectionListeners)
 						sl.statementSelected(statement);
 				}
+				else if (node instanceof GroupSorterContextJTreeNode)
+				{
+					GroupSorter<?> groupSorter=((GroupSorterContextJTreeNode<?>) node).getSorter();
+					for (SelectionListener sl : selectionListeners)
+						sl.groupSorterSelected(groupSorter);
+				}
+				else
+					throw new Error();
 			}
 			else if (node instanceof ConsequentContextJTreeNode)
 			{
@@ -314,6 +324,8 @@ public class ContextJTree extends PersistentJTree
 		public void statementSelected(Statement statement);
 
 		public void consequentSelected(Context context);
+		
+		public void groupSorterSelected(GroupSorter<?> groupSorter);
 	}
 
 	private final AletheiaJPanel aletheiaJPanel;

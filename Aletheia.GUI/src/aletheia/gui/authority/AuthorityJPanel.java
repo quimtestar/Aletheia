@@ -31,6 +31,7 @@ import aletheia.gui.app.AletheiaJFrame;
 import aletheia.gui.common.PersistentJTreeLayerUI;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeJPanel;
+import aletheia.gui.contextjtree.sorter.GroupSorter;
 import aletheia.gui.delegatejtree.DelegateTreeJTree;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.Signatory;
@@ -86,6 +87,12 @@ public class AuthorityJPanel extends JPanel
 
 		@Override
 		public void consequentSelected(Context context)
+		{
+			setStatement(null);
+		}
+
+		@Override
+		public void groupSorterSelected(GroupSorter<?> groupSorter)
 		{
 			setStatement(null);
 		}
