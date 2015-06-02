@@ -9,7 +9,7 @@ public class IteratorEnumeration<E> implements Enumeration<E>
 
 	public IteratorEnumeration(Iterator<? extends E> iterator)
 	{
-		this.iterator=iterator;
+		this.iterator = iterator;
 	}
 
 	@Override
