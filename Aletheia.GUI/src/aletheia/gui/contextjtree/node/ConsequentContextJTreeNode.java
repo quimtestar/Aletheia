@@ -21,7 +21,7 @@ public class ConsequentContextJTreeNode extends ContextJTreeNode
 	{
 		return parent;
 	}
-	
+
 	public Context getContext()
 	{
 		return getParent().getContext();

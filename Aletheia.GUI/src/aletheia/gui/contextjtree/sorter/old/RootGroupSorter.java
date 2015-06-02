@@ -10,5 +10,4 @@ public abstract class RootGroupSorter<S extends Statement> extends GroupSorter<S
 		super(null, null, sortedStatements);
 	}
 
-
 }

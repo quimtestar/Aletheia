@@ -48,6 +48,5 @@ public class GroupSorterTreeNode extends SorterTreeNode implements BranchTreeNod
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
 
 }

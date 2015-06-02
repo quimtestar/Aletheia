@@ -34,6 +34,7 @@ public class ContextGroupSorterContextJTreeNode extends StatementGroupSorterCont
 		return getSorter().getContext();
 	}
 
+	@Override
 	public Context getStatement()
 	{
 		return getContext();

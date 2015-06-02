@@ -11,15 +11,12 @@ public class StatementRootGroupSorter extends RootGroupSorter<Statement>
 	public StatementRootGroupSorter(Transaction transaction, Context context)
 	{
 		super(context.localSortedStatements(transaction));
-		this.context=context;
+		this.context = context;
 	}
 
 	public Context getContext()
 	{
 		return context;
 	}
-	
-	
-	
 
 }

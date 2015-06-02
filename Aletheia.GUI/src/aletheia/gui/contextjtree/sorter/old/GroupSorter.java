@@ -166,8 +166,8 @@ public class GroupSorter<S extends Statement> extends Sorter implements Closeabl
 			};
 			CloseableIterable<Sorter> nonIdentifiedIterable = new BijectionCloseableIterable<S, Sorter>(singletonBijection,
 					nonAssumptions.tailSet(RootNamespace.instance.terminator()));
-			return new CombinedCloseableIterable<Sorter>(assumptionIterable, new CombinedCloseableIterable<Sorter>(identifiedIterable,
-					nonIdentifiedIterable)).iterator();
+			return new CombinedCloseableIterable<Sorter>(assumptionIterable, new CombinedCloseableIterable<Sorter>(identifiedIterable, nonIdentifiedIterable))
+					.iterator();
 		}
 	}
 

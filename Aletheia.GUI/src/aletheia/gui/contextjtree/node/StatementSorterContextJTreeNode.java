@@ -22,6 +22,7 @@ public class StatementSorterContextJTreeNode extends SorterContextJTreeNode impl
 		return (StatementSorter) super.getSorter();
 	}
 
+	@Override
 	public Statement getStatement()
 	{
 		return getSorter().getStatement();

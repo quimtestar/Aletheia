@@ -43,7 +43,7 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 			Transaction transaction = getModel().beginTransaction();
 			try
 			{
-				sorterList = new BufferedList<Sorter>(new SorterDependencyFilter<Sorter>(getSorter().iterable(transaction),transaction));
+				sorterList = new BufferedList<Sorter>(new SorterDependencyFilter<Sorter>(getSorter().iterable(transaction), transaction));
 			}
 			finally
 			{

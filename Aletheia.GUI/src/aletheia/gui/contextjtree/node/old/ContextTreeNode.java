@@ -27,7 +27,6 @@ import java.util.NoSuchElementException;
 
 import aletheia.gui.contextjtree.ContextJTreeModel;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
-import aletheia.gui.contextjtree.sorter.StatementRootGroupSorter;
 import aletheia.gui.contextjtree.sorter.StatementSorter;
 import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.model.identifier.Identifier;
@@ -94,7 +93,7 @@ public class ContextTreeNode extends StatementTreeNode implements BranchTreeNode
 			return false;
 		return sorterListManager.checkStatementInsert(statement);
 	}
-	
+
 	//TODO remove
 	@Deprecated
 	@Override
@@ -105,88 +104,87 @@ public class ContextTreeNode extends StatementTreeNode implements BranchTreeNode
 		return sorterListManager.checkStatementRemove(statement);
 	}
 
-
-	
+	@Override
 	public synchronized BranchTreeNode findStatementParentNode(Statement statement)
 	{
-		if (sorterListManager==null)
+		if (sorterListManager == null)
 			return null;
-		Sorter sorter=sorterListManager.findSorter(statement);
-		if (sorter==null || sorter instanceof StatementSorter)
+		Sorter sorter = sorterListManager.findSorter(statement);
+		if (sorter == null || sorter instanceof StatementSorter)
 			return this;
 		else if (sorter instanceof GroupSorter)
 		{
-			GroupSorterTreeNode node=(GroupSorterTreeNode) getModel().nodeMap().get(sorter);
+			GroupSorterTreeNode node = (GroupSorterTreeNode) getModel().nodeMap().get(sorter);
 			return node.findStatementParentNode(statement);
 		}
 		else
 			throw new Error();
 	}
-	
+
+	@Override
 	public synchronized BranchTreeNode findStatementParentNode(Identifier identifier)
 	{
-		if (sorterListManager==null)
+		if (sorterListManager == null)
 			return null;
-		Sorter sorter=sorterListManager.findSorter(identifier);
-		if (sorter==null || sorter instanceof StatementSorter)
+		Sorter sorter = sorterListManager.findSorter(identifier);
+		if (sorter == null || sorter instanceof StatementSorter)
 			return this;
 		else if (sorter instanceof GroupSorter)
 		{
-			GroupSorterTreeNode node=(GroupSorterTreeNode) getModel().nodeMap().get(sorter);
+			GroupSorterTreeNode node = (GroupSorterTreeNode) getModel().nodeMap().get(sorter);
 			return node.findStatementParentNode(identifier);
 		}
 		else
 			throw new Error();
 	}
 
-
+	@Override
 	public synchronized boolean hasStatement(Statement statement)
 	{
-		if (sorterListManager==null)
+		if (sorterListManager == null)
 			return false;
-		return sorterListManager.findSingletonSorter(statement)!=null;
-	}
-	
-	public synchronized boolean hasStatement(Identifier identifier)
-	{
-		if (sorterListManager==null)
-			return false;
-		return sorterListManager.findSingletonSorter(statement)!=null;
+		return sorterListManager.findSingletonSorter(statement) != null;
 	}
 
-	
+	@Override
+	public synchronized boolean hasStatement(Identifier identifier)
+	{
+		if (sorterListManager == null)
+			return false;
+		return sorterListManager.findSingletonSorter(statement) != null;
+	}
+
+	@Override
 	public synchronized BranchTreeNode findStatementInsertNode(Statement statement)
 	{
-		BranchTreeNode pNode=findStatementParentNode(statement);
-		if (pNode==null)
+		BranchTreeNode pNode = findStatementParentNode(statement);
+		if (pNode == null)
 			return null;
 		if (pNode.hasStatement(statement))
 			return null;
 		return pNode;
 	}
-	
+
+	@Override
 	public synchronized BranchTreeNode findStatementDeleteNode(Statement statement)
 	{
-		BranchTreeNode pNode=findStatementParentNode(statement);
-		if (pNode==null)
+		BranchTreeNode pNode = findStatementParentNode(statement);
+		if (pNode == null)
 			return null;
 		if (!pNode.hasStatement(statement))
 			return null;
 		return pNode;
 	}
-	
+
 	public synchronized BranchTreeNode findStatementDeleteNode(Identifier identifier)
 	{
-		BranchTreeNode pNode=findStatementParentNode(identifier);
-		if (pNode==null)
+		BranchTreeNode pNode = findStatementParentNode(identifier);
+		if (pNode == null)
 			return null;
 		if (!pNode.hasStatement(identifier))
 			return null;
 		return pNode;
 	}
-
-
-
 
 	public Context getContext()
 	{
@@ -294,7 +292,5 @@ public class ContextTreeNode extends StatementTreeNode implements BranchTreeNode
 	{
 		return true;
 	}
-
-
 
 }

@@ -38,21 +38,21 @@ public class BranchNodeSorterListManager<S extends Statement>
 {
 	private final BufferedList<Sorter> sorterList;
 	private final Map<UUID, Integer> uuidIndexes;
-	private final SortedMap<Namespace,Integer> prefixIndexes;
+	private final SortedMap<Namespace, Integer> prefixIndexes;
 
 	public BranchNodeSorterListManager(GroupSorter<S> groupStatementSorter)
 	{
 		sorterList = new BufferedList<Sorter>(groupStatementSorter);
-		uuidIndexes=new HashMap<UUID,Integer>();
-		prefixIndexes=new TreeMap<Namespace,Integer>();
-		for (ListIterator<Sorter> iterator=sorterList.listIterator();iterator.hasNext();)
+		uuidIndexes = new HashMap<UUID, Integer>();
+		prefixIndexes = new TreeMap<Namespace, Integer>();
+		for (ListIterator<Sorter> iterator = sorterList.listIterator(); iterator.hasNext();)
 		{
-			int i=iterator.nextIndex();
-			Sorter sorter=iterator.next();
+			int i = iterator.nextIndex();
+			Sorter sorter = iterator.next();
 			if (sorter instanceof StatementSorter)
 				uuidIndexes.put(((StatementSorter) sorter).getStatement().getUuid(), i);
-			if (sorter.getPrefix()!=null)
-				prefixIndexes.put(sorter.getPrefix(),i);
+			if (sorter.getPrefix() != null)
+				prefixIndexes.put(sorter.getPrefix(), i);
 		}
 	}
 
@@ -78,9 +78,9 @@ public class BranchNodeSorterListManager<S extends Statement>
 	public StatementSorter findSingletonSorter(Statement statement)
 	{
 		Integer index = uuidIndexes.get(statement.getUuid());
-		if (index==null)
+		if (index == null)
 			return null;
-		StatementSorter singletonSorter=(StatementSorter)sorterList.get(index);
+		StatementSorter singletonSorter = (StatementSorter) sorterList.get(index);
 		Statement statement_ = singletonSorter.getStatement();
 		if ((statement_.getIdentifier() == null) != (statement.getIdentifier() == null))
 			return null;
@@ -88,41 +88,39 @@ public class BranchNodeSorterListManager<S extends Statement>
 			return null;
 		return singletonSorter;
 	}
-	
+
 	public Sorter findSorter(Identifier identifier)
 	{
-		SortedMap<Namespace, Integer> head=prefixIndexes.headMap(identifier);
+		SortedMap<Namespace, Integer> head = prefixIndexes.headMap(identifier);
 		if (head.isEmpty())
 			return null;
 		return sorterList.get(head.get(head.lastKey()));
 	}
-	
+
 	public GroupSorter<?> findGroupSorter(Statement statement)
 	{
-		Identifier identifier=statement.getIdentifier();
-		if (identifier==null)
+		Identifier identifier = statement.getIdentifier();
+		if (identifier == null)
 			return null;
-		Sorter sorter=findSorter(identifier);
-		if (sorter==null)
+		Sorter sorter = findSorter(identifier);
+		if (sorter == null)
 			return null;
 		if (!(sorter instanceof GroupSorter))
 			return null;
 		return (GroupSorter<?>) sorter;
 	}
-	
-	
+
 	public Sorter findSorter(Statement statement)
 	{
-		StatementSorter singletonSorter=findSingletonSorter(statement);
-		if (singletonSorter!=null)
+		StatementSorter singletonSorter = findSingletonSorter(statement);
+		if (singletonSorter != null)
 			return singletonSorter;
-		
-		GroupSorter<?> groupSorter=findGroupSorter(statement);
-		if (groupSorter!=null)
+
+		GroupSorter<?> groupSorter = findGroupSorter(statement);
+		if (groupSorter != null)
 			return groupSorter;
-		
+
 		return null;
 	}
 
-	
 }

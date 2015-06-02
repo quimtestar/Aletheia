@@ -32,10 +32,8 @@ import aletheia.gui.contextjtree.ContextJTreeModel;
 import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.EmptyContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
-import aletheia.gui.contextjtree.sorter.RootContextRootGroupSorter;
 import aletheia.gui.contextjtree.sorter.StatementSorter;
 import aletheia.gui.contextjtree.sorter.Sorter;
-import aletheia.gui.contextjtree.sorter.StatementRootGroupSorter;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
@@ -63,7 +61,7 @@ public class RootTreeNode extends AbstractTreeNode implements BranchTreeNode
 		Transaction transaction = getModel().beginTransaction();
 		try
 		{
-			return new BranchNodeSorterListManager<RootContext>(new RootContextRootGroupSorter(getModel().getPersistenceManager(),transaction));
+			return new BranchNodeSorterListManager<RootContext>(new RootContextRootGroupSorter(getModel().getPersistenceManager(), transaction));
 		}
 		finally
 		{
@@ -109,23 +107,23 @@ public class RootTreeNode extends AbstractTreeNode implements BranchTreeNode
 			return false;
 		return sorterListManager.checkStatementRemove(statement);
 	}
-	
+
+	@Override
 	public synchronized BranchTreeNode findStatementInsertNode(Statement statement)
 	{
-		if (sorterListManager==null)
+		if (sorterListManager == null)
 			return null;
-		Sorter sorter=sorterListManager.findSorter(statement);
+		Sorter sorter = sorterListManager.findSorter(statement);
 		if (sorter instanceof StatementSorter)
 			return null;
 		else if (sorter instanceof GroupSorter)
 		{
-			GroupSorterTreeNode node=(GroupSorterTreeNode) getModel().nodeMap().get(sorter);
+			GroupSorterTreeNode node = (GroupSorterTreeNode) getModel().nodeMap().get(sorter);
 			return node.findStatementInsertNode(statement);
 		}
 		else
 			throw new Error();
 	}
-
 
 	public List<Sorter> rootContextList()
 	{

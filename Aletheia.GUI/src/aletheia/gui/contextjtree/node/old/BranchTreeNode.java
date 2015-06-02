@@ -24,9 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import aletheia.gui.contextjtree.sorter.GroupSorter;
-import aletheia.gui.contextjtree.sorter.StatementSorter;
-import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Statement;
 
@@ -165,17 +162,17 @@ public interface BranchTreeNode extends MyTreeNode
 	//TODO remove
 	@Deprecated
 	public boolean checkStatementRemove(Statement statement);
-	
-	
+
 	public BranchTreeNode findStatementParentNode(Statement statement);
+
 	public BranchTreeNode findStatementParentNode(Identifier identifier);
 
 	public boolean hasStatement(Statement statement);
-	public boolean hasStatement(Identifier statement);
-	
-	public BranchTreeNode findStatementDeleteNode(Statement statement);
-	
-	public BranchTreeNode findStatementInsertNode(Statement statement);
 
+	public boolean hasStatement(Identifier statement);
+
+	public BranchTreeNode findStatementDeleteNode(Statement statement);
+
+	public BranchTreeNode findStatementInsertNode(Statement statement);
 
 }
