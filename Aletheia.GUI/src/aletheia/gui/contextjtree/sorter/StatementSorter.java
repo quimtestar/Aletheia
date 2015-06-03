@@ -1,6 +1,7 @@
 package aletheia.gui.contextjtree.sorter;
 
 import aletheia.model.statement.Statement;
+import aletheia.persistence.Transaction;
 
 public class StatementSorter extends Sorter
 {
@@ -13,6 +14,12 @@ public class StatementSorter extends Sorter
 	}
 
 	public Statement getStatement()
+	{
+		return statement;
+	}
+
+	@Override
+	public Statement getStatement(Transaction transaction)
 	{
 		return statement;
 	}

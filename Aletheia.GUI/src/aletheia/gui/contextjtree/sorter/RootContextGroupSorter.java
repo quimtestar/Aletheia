@@ -2,9 +2,12 @@ package aletheia.gui.contextjtree.sorter;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.RootContext;
+import aletheia.model.statement.Statement;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
+import aletheia.persistence.collections.statement.GenericRootContextsMap;
 import aletheia.persistence.collections.statement.SortedRootContexts;
+import aletheia.utilities.MiscUtilities;
 
 public class RootContextGroupSorter extends GroupSorter<RootContext>
 {
@@ -25,6 +28,19 @@ public class RootContextGroupSorter extends GroupSorter<RootContext>
 	public RootContextGroupSorter getGroup()
 	{
 		return (RootContextGroupSorter) super.getGroup();
+	}
+
+	@Override
+	public Statement getStatement(Transaction transaction)
+	{
+		if (getPrefix() == null)
+			return null;
+		GenericRootContextsMap rcMap = persistenceManager.identifierToRootContexts(transaction).get(getPrefix());
+		if (rcMap == null)
+			return null;
+		if (rcMap.size() != 1)
+			return null;
+		return MiscUtilities.firstFromCloseableIterable(rcMap.values());
 	}
 
 	@Override

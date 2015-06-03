@@ -2,6 +2,7 @@ package aletheia.gui.contextjtree.sorter;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Statement;
+import aletheia.persistence.Transaction;
 
 public abstract class Sorter
 {
@@ -25,6 +26,8 @@ public abstract class Sorter
 	{
 		return prefix;
 	}
+
+	public abstract Statement getStatement(Transaction transaction);
 
 	@Override
 	public int hashCode()

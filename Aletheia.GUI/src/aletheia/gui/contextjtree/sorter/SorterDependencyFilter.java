@@ -63,13 +63,12 @@ public class SorterDependencyFilter<S extends Sorter> implements Iterable<S>
 	{
 		if (sorter instanceof StatementSorter)
 			return ((StatementSorter) sorter).getStatement();
-		else if (sorter instanceof StatementGroupSorter && sorter.getPrefix() != null)
+		else if (sorter instanceof StatementGroupSorter)
 		{
-			Statement st = ((StatementGroupSorter) sorter).getContext().localIdentifierToStatement(transaction).get(sorter.getPrefix());
+			Statement st = sorter.getStatement(transaction);
 			if (st instanceof Assumption)
 				return null;
-			else
-				return st;
+			return st;
 		}
 		else
 			return null;

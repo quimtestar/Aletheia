@@ -28,6 +28,14 @@ public class StatementGroupSorter extends GroupSorter<Statement>
 	}
 
 	@Override
+	public Statement getStatement(Transaction transaction)
+	{
+		if (getPrefix() == null)
+			return null;
+		return context.localIdentifierToStatement(transaction).get(getPrefix());
+	}
+
+	@Override
 	protected LocalSortedStatements sortedStatements(Transaction transaction)
 	{
 		LocalSortedStatements sortedStatements = context.localSortedStatements(transaction);
