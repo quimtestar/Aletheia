@@ -1,10 +1,19 @@
 package aletheia.gui.contextjtree.sorter;
 
+import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 
 public class StatementSorter extends Sorter
 {
+	protected static StatementSorter newStatementSorter(GroupSorter<? extends Statement> group, Statement statement)
+	{
+		if (statement instanceof Context)
+			return new ContextSorter(group, (Context) statement);
+		else
+			return new StatementSorter(group, statement);
+	}
+
 	private final Statement statement;
 
 	protected StatementSorter(GroupSorter<? extends Statement> group, Statement statement)

@@ -22,10 +22,10 @@ public abstract class SorterTreeNode extends AbstractTreeNode
 			if (group instanceof RootContextRootGroupSorter)
 				this.parent = model.getRootTreeNode();
 			else
-				this.parent = (ContextTreeNode) model.nodeMap().get(group.getContext());
+				this.parent = (ContextTreeNode) model.getNodeMap().get(group.getContext());
 		}
 		else
-			this.parent = (GroupSorterTreeNode) model.nodeMap().get(group);
+			this.parent = (GroupSorterTreeNode) model.getNodeMap().get(group);
 	}
 
 	public ContextJTreeModel getModel()

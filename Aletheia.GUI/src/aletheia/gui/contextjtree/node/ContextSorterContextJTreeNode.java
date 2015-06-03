@@ -10,16 +10,18 @@ import aletheia.gui.contextjtree.ContextJTreeModel;
 import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.StatementContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.sorter.ContextGroupSorter;
+import aletheia.gui.contextjtree.sorter.ContextSorter;
+import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.model.statement.Context;
 import aletheia.persistence.Transaction;
 
-public class ContextGroupSorterContextJTreeNode extends StatementGroupSorterContextJTreeNode implements StatementContextJTreeNode
+public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJTreeNode implements StatementContextJTreeNode
 {
 	private final ConsequentContextJTreeNode consequentNode;
 
-	public ContextGroupSorterContextJTreeNode(ContextJTreeModel model, ContextGroupSorter sorter)
+	public ContextSorterContextJTreeNode(ContextJTreeModel model, ContextSorter contextSorter)
 	{
-		super(model, sorter);
+		super(model, contextSorter.makeContextGroupSorter());
 		this.consequentNode = new ConsequentContextJTreeNode(model, this);
 	}
 
@@ -38,6 +40,12 @@ public class ContextGroupSorterContextJTreeNode extends StatementGroupSorterCont
 	public Context getStatement()
 	{
 		return getContext();
+	}
+
+	@Override
+	protected Sorter parentSorter()
+	{
+		return getSorter().getContextSorter().getGroup();
 	}
 
 	public ConsequentContextJTreeNode getConsequentNode()

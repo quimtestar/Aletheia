@@ -21,7 +21,6 @@ package aletheia.gui.contextjtree;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -34,13 +33,12 @@ import javax.swing.tree.TreePath;
 import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.common.PersistentTreeModel;
-import aletheia.gui.contextjtree.node.ContextGroupSorterContextJTreeNode;
+import aletheia.gui.contextjtree.node.ContextSorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.ContextJTreeNode;
 import aletheia.gui.contextjtree.node.RootContextJTreeNode;
 import aletheia.gui.contextjtree.node.SorterContextJTreeNode;
+import aletheia.gui.contextjtree.node.StatementContextJTreeNode;
 import aletheia.gui.contextjtree.node.StatementSorterContextJTreeNode;
-import aletheia.gui.contextjtree.sorter.RootGroupSorter;
-import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.Signatory;
@@ -87,13 +85,13 @@ public class ContextJTreeModel extends PersistentTreeModel
 	public RootContextJTreeNode getRootTreeNode()
 	{
 		if (rootTreeNode == null)
-			rootTreeNode = new RootContextJTreeNode(this, new RootGroupSorter(getPersistenceManager()));
+			rootTreeNode = new RootContextJTreeNode(this);
 		return rootTreeNode;
 	}
 
-	public Map<Sorter, SorterContextJTreeNode> nodeMap()
+	public SorterTreeNodeMap getNodeMap()
 	{
-		return Collections.unmodifiableMap(nodeMap);
+		return nodeMap;
 	}
 
 	@Override
@@ -153,14 +151,10 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 	public synchronized TreePath pathForStatement(Statement statement)
 	{
-		//TODO
-		throw new UnsupportedOperationException();
-		/*
-		StatementTreeNode node = nodeMap.getStatementTreeNode(statement);
+		StatementContextJTreeNode node = nodeMap.getStatementContextJTreeNode(statement);
 		if (node == null)
 			return null;
 		return node.path();
-		 */
 	}
 
 	private synchronized ContextJTreeNode deleteStatement(Statement statement)
@@ -1058,11 +1052,14 @@ public class ContextJTreeModel extends PersistentTreeModel
 	@Override
 	public void cleanRenderers()
 	{
-		for (SorterContextJTreeNode node : nodeMap.values())
+		synchronized (nodeMap)
 		{
-			node.cleanRenderer();
-			if (node instanceof ContextGroupSorterContextJTreeNode)
-				((ContextGroupSorterContextJTreeNode) node).getConsequentNode().cleanRenderer();
+			for (SorterContextJTreeNode node : nodeMap.values())
+			{
+				node.cleanRenderer();
+				if (node instanceof ContextSorterContextJTreeNode)
+					((ContextSorterContextJTreeNode) node).getConsequentNode().cleanRenderer();
+			}
 		}
 	}
 

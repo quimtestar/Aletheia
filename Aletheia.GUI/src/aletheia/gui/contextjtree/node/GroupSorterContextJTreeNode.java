@@ -56,7 +56,7 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 	@Override
 	public ContextJTreeNode getChildAt(int childIndex)
 	{
-		return getModel().nodeMap().get(getSorterList().get(childIndex));
+		return getModel().getNodeMap().get(getSorterList().get(childIndex));
 	}
 
 	@Override
@@ -95,7 +95,7 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 					@Override
 					public SorterContextJTreeNode forward(Sorter sorter)
 					{
-						return getModel().nodeMap().get(sorter);
+						return getModel().getNodeMap().get(sorter);
 					}
 
 					@Override

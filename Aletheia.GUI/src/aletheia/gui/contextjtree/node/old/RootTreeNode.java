@@ -118,7 +118,7 @@ public class RootTreeNode extends AbstractTreeNode implements BranchTreeNode
 			return null;
 		else if (sorter instanceof GroupSorter)
 		{
-			GroupSorterTreeNode node = (GroupSorterTreeNode) getModel().nodeMap().get(sorter);
+			GroupSorterTreeNode node = (GroupSorterTreeNode) getModel().getNodeMap().get(sorter);
 			return node.findStatementInsertNode(statement);
 		}
 		else
@@ -148,7 +148,7 @@ public class RootTreeNode extends AbstractTreeNode implements BranchTreeNode
 			{
 				if (!iterator.hasNext())
 					throw new NoSuchElementException();
-				return getModel().nodeMap().get(iterator.next());
+				return getModel().getNodeMap().get(iterator.next());
 			}
 		};
 	}
@@ -159,7 +159,7 @@ public class RootTreeNode extends AbstractTreeNode implements BranchTreeNode
 		AbstractTreeNode node;
 		List<Sorter> list = getSorterList();
 		if (childIndex < list.size())
-			node = getModel().nodeMap().get(list.get(childIndex));
+			node = getModel().getNodeMap().get(list.get(childIndex));
 		else
 			node = new EmptyTreeNode(this);
 		return node;

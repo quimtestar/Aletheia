@@ -9,9 +9,9 @@ import aletheia.gui.contextjtree.sorter.RootGroupSorter;
 public class RootContextJTreeNode extends RootContextGroupSorterContextJTreeNode
 {
 
-	public RootContextJTreeNode(ContextJTreeModel model, RootGroupSorter sorter)
+	public RootContextJTreeNode(ContextJTreeModel model)
 	{
-		super(model, sorter);
+		super(model, new RootGroupSorter(model.getPersistenceManager()));
 	}
 
 	@Override
@@ -24,6 +24,12 @@ public class RootContextJTreeNode extends RootContextGroupSorterContextJTreeNode
 	protected ContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree)
 	{
 		return new EmptyContextJTreeNodeRenderer(contextJTree);
+	}
+
+	@Override
+	public RootContextJTreeNode getParent()
+	{
+		return null;
 	}
 
 }

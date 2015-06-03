@@ -50,7 +50,7 @@ public class ConsequentTreeNode extends AbstractTreeNode
 	@Override
 	public ContextTreeNode getParent()
 	{
-		return (ContextTreeNode) model.nodeMap().get(context);
+		return (ContextTreeNode) model.getNodeMap().get(context);
 	}
 
 	@Override

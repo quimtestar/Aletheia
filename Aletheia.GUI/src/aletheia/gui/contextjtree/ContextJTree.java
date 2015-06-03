@@ -51,7 +51,7 @@ import aletheia.gui.cli.command.statement.DeleteStatementCascade;
 import aletheia.gui.common.PersistentJTree;
 import aletheia.gui.common.StatementTransferable;
 import aletheia.gui.contextjtree.node.ConsequentContextJTreeNode;
-import aletheia.gui.contextjtree.node.ContextGroupSorterContextJTreeNode;
+import aletheia.gui.contextjtree.node.ContextSorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.ContextJTreeNode;
 import aletheia.gui.contextjtree.node.GroupSorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.SorterContextJTreeNode;
@@ -300,7 +300,7 @@ public class ContextJTree extends PersistentJTree
 				}
 				else if (node instanceof GroupSorterContextJTreeNode)
 				{
-					GroupSorter<?> groupSorter=((GroupSorterContextJTreeNode<?>) node).getSorter();
+					GroupSorter<?> groupSorter = ((GroupSorterContextJTreeNode<?>) node).getSorter();
 					for (SelectionListener sl : selectionListeners)
 						sl.groupSorterSelected(groupSorter);
 				}
@@ -324,7 +324,7 @@ public class ContextJTree extends PersistentJTree
 		public void statementSelected(Statement statement);
 
 		public void consequentSelected(Context context);
-		
+
 		public void groupSorterSelected(GroupSorter<?> groupSorter);
 	}
 
@@ -408,7 +408,7 @@ public class ContextJTree extends PersistentJTree
 				Object o = path.getLastPathComponent();
 				if (o instanceof ConsequentContextJTreeNode)
 				{
-					ContextGroupSorterContextJTreeNode ctxTn1 = ((ConsequentContextJTreeNode) o).getParent();
+					ContextSorterContextJTreeNode ctxTn1 = ((ConsequentContextJTreeNode) o).getParent();
 					if (e.getChildren() != null)
 					{
 						for (Object c : e.getChildren())

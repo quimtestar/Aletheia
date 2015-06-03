@@ -114,7 +114,7 @@ public class ContextTreeNode extends StatementTreeNode implements BranchTreeNode
 			return this;
 		else if (sorter instanceof GroupSorter)
 		{
-			GroupSorterTreeNode node = (GroupSorterTreeNode) getModel().nodeMap().get(sorter);
+			GroupSorterTreeNode node = (GroupSorterTreeNode) getModel().getNodeMap().get(sorter);
 			return node.findStatementParentNode(statement);
 		}
 		else
@@ -131,7 +131,7 @@ public class ContextTreeNode extends StatementTreeNode implements BranchTreeNode
 			return this;
 		else if (sorter instanceof GroupSorter)
 		{
-			GroupSorterTreeNode node = (GroupSorterTreeNode) getModel().nodeMap().get(sorter);
+			GroupSorterTreeNode node = (GroupSorterTreeNode) getModel().getNodeMap().get(sorter);
 			return node.findStatementParentNode(identifier);
 		}
 		else
@@ -220,7 +220,7 @@ public class ContextTreeNode extends StatementTreeNode implements BranchTreeNode
 			public AbstractTreeNode nextElement()
 			{
 				if (iterator.hasNext())
-					return getModel().nodeMap().get(iterator.next());
+					return getModel().getNodeMap().get(iterator.next());
 				else
 				{
 					if (atEnd)
@@ -238,7 +238,7 @@ public class ContextTreeNode extends StatementTreeNode implements BranchTreeNode
 		AbstractTreeNode node;
 		List<Sorter> list = getSorterList();
 		if (childIndex < list.size())
-			node = getModel().nodeMap().get(list.get(childIndex));
+			node = getModel().getNodeMap().get(list.get(childIndex));
 		else if (childIndex == getSorterList().size())
 			node = consequentTreeNode;
 		else

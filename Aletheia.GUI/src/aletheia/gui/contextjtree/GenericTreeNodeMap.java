@@ -30,7 +30,6 @@ import aletheia.utilities.collections.SoftCacheWithCleanerMap;
 public abstract class GenericTreeNodeMap<K, N> extends AbstractReadOnlyMap<K, N>
 {
 	private final SoftCacheWithCleanerMap<K, N> map;
-	private final ContextJTreeModel model;
 
 	private class CacheListener implements SoftCacheWithCleanerMap.Listener<K>
 	{
@@ -38,21 +37,18 @@ public abstract class GenericTreeNodeMap<K, N> extends AbstractReadOnlyMap<K, N>
 		@Override
 		public void keyCleaned(K key)
 		{
-			keyRemoved(key);
+			synchronized (map)
+			{
+				keyRemoved(key);
+			}
 		}
 
 	}
 
-	public GenericTreeNodeMap(ContextJTreeModel model)
+	public GenericTreeNodeMap()
 	{
 		this.map = new SoftCacheWithCleanerMap<K, N>();
 		this.map.addListener(new CacheListener());
-		this.model = model;
-	}
-
-	protected ContextJTreeModel getModel()
-	{
-		return model;
 	}
 
 	public synchronized boolean cached(Statement statement)
@@ -134,10 +130,13 @@ public abstract class GenericTreeNodeMap<K, N> extends AbstractReadOnlyMap<K, N>
 
 	public synchronized N removeKey(K key)
 	{
-		N node = map.remove(key);
-		if (node != null)
-			keyRemoved(key);
-		return node;
+		synchronized (map)
+		{
+			N node = map.remove(key);
+			if (node != null)
+				keyRemoved(key);
+			return node;
+		}
 	}
 
 }

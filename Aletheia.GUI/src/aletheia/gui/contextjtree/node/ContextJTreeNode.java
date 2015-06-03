@@ -2,6 +2,7 @@ package aletheia.gui.contextjtree.node;
 
 import java.lang.ref.SoftReference;
 import java.util.Enumeration;
+import java.util.Stack;
 
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
@@ -12,6 +13,7 @@ import aletheia.gui.contextjtree.node.old.AbstractTreeNode;
 import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.EmptyContextJTreeNodeRenderer;
 import aletheia.model.statement.Statement;
+import aletheia.utilities.collections.ReverseList;
 
 public abstract class ContextJTreeNode implements TreeNode
 {
@@ -102,7 +104,14 @@ public abstract class ContextJTreeNode implements TreeNode
 
 	public TreePath path()
 	{
-		return getParent().path().pathByAddingChild(this);
+		Stack<ContextJTreeNode> stack = new Stack<ContextJTreeNode>();
+		ContextJTreeNode node = this;
+		while (node != null)
+		{
+			stack.push(node);
+			node = node.getParent();
+		}
+		return new TreePath(new ReverseList<ContextJTreeNode>(stack).toArray());
 	}
 
 }

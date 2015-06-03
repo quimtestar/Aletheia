@@ -10,4 +10,10 @@ public class RootGroupSorter extends RootContextGroupSorter
 		super(null, null, persistenceManager);
 	}
 
+	@Override
+	public RootContextGroupSorter getGroup()
+	{
+		throw new UnsupportedOperationException();
+	}
+
 }

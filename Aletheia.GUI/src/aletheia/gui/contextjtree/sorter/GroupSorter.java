@@ -20,18 +20,18 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 	private final static int minGroupingSize = 0;
 	private final static int minSubGroupSize = 2;
 
-	private final Bijection<S, Sorter> singletonBijection;
+	private final Bijection<S, Sorter> statementSorterBijection;
 
 	protected GroupSorter(GroupSorter<S> group, Identifier prefix)
 	{
 		super(group, prefix);
-		this.singletonBijection = new Bijection<S, Sorter>()
+		this.statementSorterBijection = new Bijection<S, Sorter>()
 		{
 
 			@Override
 			public Sorter forward(S statement)
 			{
-				return new StatementSorter(GroupSorter.this, statement);
+				return newStatementSorter(statement);
 			}
 
 			@Override
@@ -40,6 +40,11 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 				throw new UnsupportedOperationException();
 			}
 		};
+	}
+
+	private StatementSorter newStatementSorter(Statement statement)
+	{
+		return StatementSorter.newStatementSorter(this, statement);
 	}
 
 	protected abstract SortedStatements<S> sortedStatements(Transaction transaction);
@@ -56,10 +61,10 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 			public CloseableIterator<Sorter> iterator()
 			{
 				if (sortedStatements.smaller(minGroupingSize + 1))
-					return new BijectionCloseableIterable<S, Sorter>(singletonBijection, sortedStatements).iterator();
+					return new BijectionCloseableIterable<S, Sorter>(statementSorterBijection, sortedStatements).iterator();
 				else
 				{
-					CloseableIterable<Sorter> assumptionIterable = new BijectionCloseableIterable<S, Sorter>(singletonBijection,
+					CloseableIterable<Sorter> assumptionIterable = new BijectionCloseableIterable<S, Sorter>(statementSorterBijection,
 							sortedStatements.headSet(RootNamespace.instance.initiator()));
 					SortedStatements<S> nonAssumptions = sortedStatements.tailSet(RootNamespace.instance.initiator());
 					final SortedStatements<S> identified = nonAssumptions.headSet(RootNamespace.instance.terminator());
@@ -95,7 +100,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 										S st = iterator.next();
 										if (!iterator.hasNext())
 											iterator = null;
-										return new StatementSorter(GroupSorter.this, st);
+										return newStatementSorter(st);
 									}
 									if (next == null)
 										throw new NoSuchElementException();
@@ -116,7 +121,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 													S st = iterator.next();
 													if (!iterator.hasNext())
 														iterator = null;
-													return new StatementSorter(GroupSorter.this, st);
+													return newStatementSorter(st);
 												}
 												else
 													return subGroupSorter(prefix.asIdentifier());
@@ -128,7 +133,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 											iterator = null;
 										prev = next;
 										next = MiscUtilities.firstFromCloseableIterable(identified.postIdentifierSet(id));
-										return new StatementSorter(GroupSorter.this, st);
+										return newStatementSorter(st);
 									}
 									else
 									{
@@ -152,7 +157,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 													S st = iterator.next();
 													if (!iterator.hasNext())
 														iterator = null;
-													return new StatementSorter(GroupSorter.this, st);
+													return newStatementSorter(st);
 												}
 												else
 													return subGroupSorter(prefix.asIdentifier());
@@ -173,7 +178,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 						}
 
 					};
-					CloseableIterable<Sorter> nonIdentifiedIterable = new BijectionCloseableIterable<S, Sorter>(singletonBijection,
+					CloseableIterable<Sorter> nonIdentifiedIterable = new BijectionCloseableIterable<S, Sorter>(statementSorterBijection,
 							nonAssumptions.tailSet(RootNamespace.instance.terminator()));
 					return new CombinedCloseableIterable<Sorter>(assumptionIterable, new CombinedCloseableIterable<Sorter>(identifiedIterable,
 							nonIdentifiedIterable)).iterator();

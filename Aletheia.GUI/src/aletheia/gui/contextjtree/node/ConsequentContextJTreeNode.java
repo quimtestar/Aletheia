@@ -8,16 +8,16 @@ import aletheia.model.statement.Context;
 
 public class ConsequentContextJTreeNode extends ContextJTreeNode
 {
-	private final ContextGroupSorterContextJTreeNode parent;
+	private final ContextSorterContextJTreeNode parent;
 
-	public ConsequentContextJTreeNode(ContextJTreeModel model, ContextGroupSorterContextJTreeNode parent)
+	public ConsequentContextJTreeNode(ContextJTreeModel model, ContextSorterContextJTreeNode parent)
 	{
 		super(model);
 		this.parent = parent;
 	}
 
 	@Override
-	public ContextGroupSorterContextJTreeNode getParent()
+	public ContextSorterContextJTreeNode getParent()
 	{
 		return parent;
 	}

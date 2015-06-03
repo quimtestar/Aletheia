@@ -18,4 +18,10 @@ public class RootContextGroupSorterContextJTreeNode extends GroupSorterContextJT
 		return (RootContextGroupSorter) super.getSorter();
 	}
 
+	@Override
+	public RootContextGroupSorterContextJTreeNode getParent()
+	{
+		return (RootContextGroupSorterContextJTreeNode) super.getParent();
+	}
+
 }
