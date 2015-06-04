@@ -151,7 +151,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 	public synchronized TreePath pathForStatement(Statement statement)
 	{
-		StatementContextJTreeNode node = nodeMap.getStatementContextJTreeNode(statement);
+		StatementContextJTreeNode node = nodeMap.getByStatement(statement);
 		if (node == null)
 			return null;
 		return node.path();

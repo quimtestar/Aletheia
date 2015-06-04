@@ -5,6 +5,7 @@ import java.util.NoSuchElementException;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.RootNamespace;
+import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.collections.statement.SortedStatements;
@@ -31,7 +32,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 			@Override
 			public Sorter forward(S statement)
 			{
-				return newStatementSorter(statement);
+				return statementSorter(statement);
 			}
 
 			@Override
@@ -42,7 +43,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 		};
 	}
 
-	private StatementSorter newStatementSorter(Statement statement)
+	private StatementSorter statementSorter(Statement statement)
 	{
 		return StatementSorter.newStatementSorter(this, statement);
 	}
@@ -100,7 +101,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 										S st = iterator.next();
 										if (!iterator.hasNext())
 											iterator = null;
-										return newStatementSorter(st);
+										return statementSorter(st);
 									}
 									if (next == null)
 										throw new NoSuchElementException();
@@ -121,7 +122,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 													S st = iterator.next();
 													if (!iterator.hasNext())
 														iterator = null;
-													return newStatementSorter(st);
+													return statementSorter(st);
 												}
 												else
 													return subGroupSorter(prefix.asIdentifier());
@@ -133,7 +134,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 											iterator = null;
 										prev = next;
 										next = MiscUtilities.firstFromCloseableIterable(identified.postIdentifierSet(id));
-										return newStatementSorter(st);
+										return statementSorter(st);
 									}
 									else
 									{
@@ -157,7 +158,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 													S st = iterator.next();
 													if (!iterator.hasNext())
 														iterator = null;
-													return newStatementSorter(st);
+													return statementSorter(st);
 												}
 												else
 													return subGroupSorter(prefix.asIdentifier());
@@ -186,6 +187,58 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 			};
 
 		};
+	}
+
+	private Sorter getByStatementByPrefix(Transaction transaction, Statement statement)
+	{
+		SortedStatements<S> set = sortedStatements(transaction).subSet(RootNamespace.instance.initiator(), RootNamespace.instance.terminator());
+		for (NodeNamespace prefix : statement.getIdentifier().prefixList())
+		{
+			Identifier iPrefix = prefix.asIdentifier();
+			if (!set.headSet(iPrefix).isEmpty() || !set.tailSet(iPrefix.terminator()).isEmpty())
+			{
+				GroupSorter<S> subGroupSorter = subGroupSorter(iPrefix);
+				if (subGroupSorter.sortedStatements(transaction).smaller(minSubGroupSize))
+					return statementSorter(statement);
+				return subGroupSorter;
+			}
+		}
+		return null;
+	}
+
+	public Sorter getByStatement(Transaction transaction, Statement statement)
+	{
+		SortedStatements<S> set = sortedStatements(transaction);
+		if (!set.contains(statement))
+			return null;
+		if (set.smaller(minGroupingSize + 1))
+			return statementSorter(statement);
+		if (statement instanceof Assumption || statement.getIdentifier() == null)
+			return statementSorter(statement);
+		return getByStatementByPrefix(transaction, statement);
+	}
+
+	@SuppressWarnings("unchecked")
+	public StatementSorter getByStatementDeep(Transaction transaction, Statement statement)
+	{
+		SortedStatements<S> set = sortedStatements(transaction);
+		if (!set.contains(statement))
+			return null;
+		if (set.smaller(minGroupingSize + 1))
+			return statementSorter(statement);
+		if (statement instanceof Assumption || statement.getIdentifier() == null)
+			return statementSorter(statement);
+		GroupSorter<S> groupSorter = this;
+		while (true)
+		{
+			Sorter sorter = groupSorter.getByStatementByPrefix(transaction, statement);
+			if (sorter instanceof StatementSorter)
+				return (StatementSorter) sorter;
+			else if (sorter instanceof GroupSorter)
+				groupSorter = (GroupSorter<S>) sorter;
+			else
+				throw new Error();
+		}
 	}
 
 }
