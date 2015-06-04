@@ -35,10 +35,10 @@ import org.apache.logging.log4j.Logger;
 import aletheia.gui.common.PersistentTreeModel;
 import aletheia.gui.contextjtree.node.ContextSorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.ContextJTreeNode;
+import aletheia.gui.contextjtree.node.GroupSorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.RootContextJTreeNode;
 import aletheia.gui.contextjtree.node.SorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.StatementContextJTreeNode;
-import aletheia.gui.contextjtree.node.StatementSorterContextJTreeNode;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.Signatory;
@@ -157,23 +157,17 @@ public class ContextJTreeModel extends PersistentTreeModel
 		return node.path();
 	}
 
-	private synchronized ContextJTreeNode deleteStatement(Statement statement)
+	private synchronized GroupSorterContextJTreeNode<? extends Statement> deleteStatement(Statement statement)
 	{
-		//TODO
-		throw new UnsupportedOperationException();
-		/*
-		StatementTreeNode stNode = nodeMap.removeStatement(statement);
+		StatementContextJTreeNode stNode = nodeMap.removeByStatement(statement);
 		if (stNode == null)
 			return null;
 		return stNode.getParent();
-		 */
 	}
 
-	@Deprecated
-	private synchronized StatementSorterContextJTreeNode addStatement(Statement statement)
+	private synchronized StatementContextJTreeNode addStatement(Statement statement)
 	{
-		//return statementTreeNodeMap.get(statement);
-		throw new RuntimeException(); //TODO Això ha d'anar a fora.
+		return nodeMap.getByStatement(statement);
 	}
 
 	private abstract class StatementStateChange
