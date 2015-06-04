@@ -138,6 +138,26 @@ public abstract class BerkeleyDBSortedStatements<S extends Statement> extends Ab
 	}
 
 	@Override
+	public boolean contains(Object o)
+	{
+		try
+		{
+			@SuppressWarnings("unchecked")
+			S statement = (S) o;
+			LocalSortKey key = ((BerkeleyDBStatementEntity) statement.getEntity()).getLocalSortKey();
+			int cf = from.compareTo(key);
+			int ct = to.compareTo(key);
+			if (!((cf < 0 || (fromInclusive && cf <= 0)) && (ct > 0 || (toInclusive && ct >= 0))))
+				return false;
+			return transaction.contains(index.subIndex(key), new UUIDKey(statement.getUuid()));
+		}
+		catch (ClassCastException e)
+		{
+			return false;
+		}
+	}
+
+	@Override
 	public CloseableIterator<S> iterator()
 	{
 		final EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, fromInclusive, to, toInclusive);
