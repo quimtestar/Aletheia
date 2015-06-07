@@ -163,7 +163,7 @@ public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterContextJ
 		StatementContextJTreeNode node = byStatementMap.get(statement);
 		if (node == null)
 			return null;
-		return (StatementContextJTreeNode) removeKey(node.getSorter());
+		return (StatementContextJTreeNode) removeKey(node.getNodeMapSorter());
 	}
 
 }

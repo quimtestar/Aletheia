@@ -59,4 +59,10 @@ public class ContextGroupSorter extends StatementGroupSorter
 		return true;
 	}
 
+	@Override
+	public boolean degenerate(Transaction transaction)
+	{
+		return false;
+	}
+
 }

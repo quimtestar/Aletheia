@@ -29,6 +29,12 @@ public class StatementSorterContextJTreeNode extends SorterContextJTreeNode impl
 	}
 
 	@Override
+	public StatementSorter getNodeMapSorter()
+	{
+		return getSorter();
+	}
+
+	@Override
 	protected ContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree)
 	{
 		Transaction transaction = getModel().beginTransaction();

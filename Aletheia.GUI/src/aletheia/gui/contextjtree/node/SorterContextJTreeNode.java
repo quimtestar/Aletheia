@@ -2,6 +2,7 @@ package aletheia.gui.contextjtree.node;
 
 import aletheia.gui.contextjtree.ContextJTreeModel;
 import aletheia.gui.contextjtree.sorter.ContextGroupSorter;
+import aletheia.gui.contextjtree.sorter.GroupSorter;
 import aletheia.gui.contextjtree.sorter.RootGroupSorter;
 import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.model.statement.Statement;
@@ -21,7 +22,7 @@ public abstract class SorterContextJTreeNode extends ContextJTreeNode
 		return sorter;
 	}
 
-	protected Sorter parentSorter()
+	protected GroupSorter<? extends Statement> parentSorter()
 	{
 		return getSorter().getGroup();
 	}
@@ -30,6 +31,7 @@ public abstract class SorterContextJTreeNode extends ContextJTreeNode
 	@Override
 	public GroupSorterContextJTreeNode<? extends Statement> getParent()
 	{
+
 		Sorter parentSorter = parentSorter();
 		if (parentSorter instanceof RootGroupSorter)
 			return getModel().getRootTreeNode();

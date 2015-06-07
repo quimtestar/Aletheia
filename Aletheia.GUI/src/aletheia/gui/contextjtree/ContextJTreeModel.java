@@ -39,6 +39,7 @@ import aletheia.gui.contextjtree.node.GroupSorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.RootContextJTreeNode;
 import aletheia.gui.contextjtree.node.SorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.StatementContextJTreeNode;
+import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.Signatory;
@@ -709,13 +710,15 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 		private void rootContextAdded(RootContext rootContext, Transaction transaction)
 		{
-			//TODO
-			/*
-			StatementTreeNode node = addStatement(rootContext);
-			BranchTreeNode pNode = node.getParent();
-			if (!pNode.checkStatementInsert(rootContext))
-				nodeStructureChanged(pNode);
-			 */
+			StatementContextJTreeNode node = addStatement(rootContext.refresh(transaction));
+			if (node != null)
+			{
+				GroupSorterContextJTreeNode<? extends Statement> pNode = node.getParent();
+				if (!pNode.checkStatementInsert(rootContext))
+					nodeStructureChanged(pNode);
+				if (!(pNode instanceof RootContextJTreeNode))
+					nodeStructureChanged(pNode.getParent());
+			}
 		}
 
 		private void rootContextDeleted(RootContextDeletedChange c, Transaction transaction)
@@ -725,12 +728,17 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 		private void rootContextDeleted(RootContext rootContext, Transaction transaction)
 		{
-			//TODO
-			/*
-			BranchTreeNode pNode = deleteStatement(rootContext);
+			GroupSorterContextJTreeNode<? extends Statement> pNode = deleteStatement(rootContext);
 			if ((pNode != null) && !pNode.checkStatementRemove(rootContext))
+			{
 				nodeStructureChanged(pNode);
-			 */
+				if (pNode.isDegenerate())
+				{
+					GroupSorterContextJTreeNode<? extends Statement> ppNode = pNode.getParent();
+					if (ppNode != null)
+						nodeStructureChanged(ppNode);
+				}
+			}
 		}
 
 		private void provedStateChanged(ProvedStateChange c, Transaction transaction)
@@ -833,9 +841,10 @@ public class ContextJTreeModel extends PersistentTreeModel
 		private void statementIdentifierChanged(final Statement statement, Identifier newId, Identifier oldId, Transaction transaction)
 		{
 			//TODO
+			System.out.println("statementIdentifierChanged");
 			/*
 			Context context=statement.getContext(transaction);
-			ContextTreeNode ctxNode=(ContextTreeNode)nodeMap.getStatementTreeNode(context);
+			ContextSorterContextJTreeNode ctxNode=(ContextSorterContextJTreeNode)nodeMap.getByStatement(context);
 			if (ctxNode!=null)
 			{
 				BranchTreeNode btNode=ctxNode.findStatementDeleteNode(statement.refresh(transaction));
@@ -931,8 +940,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 					iterator2.close();
 				}
 			}
-			 */
-
+			*/
 		}
 
 		private void statementDeletedFromContext(StatementDeletedFromContextChange c, Transaction transaction)
@@ -1078,12 +1086,12 @@ public class ContextJTreeModel extends PersistentTreeModel
 		});
 	}
 
-	private void nodeStructureChanged(ContextJTreeNode node)
+	private void nodeStructureChanged(GroupSorterContextJTreeNode<? extends Statement> node)
 	{
-		//TODO
-		/*
 		node.cleanRenderer();
-		BranchTreeNode.Changes changes = node.changeSorterList();
+		GroupSorterContextJTreeNode.Changes changes = node.changeSorterList();
+		for (Object o : changes.getRemovedObjects())
+			nodeMap.removeKey((Sorter) o);
 		final TreeModelEvent eRemoves;
 		if (changes.getRemovedIndexes().length > 0)
 			eRemoves = new TreeModelEvent(this, node.path(), changes.getRemovedIndexes(), null);
@@ -1129,8 +1137,6 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 			});
 		}
-		 */
-
 	}
 
 }

@@ -203,7 +203,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 				return subGroupSorter;
 			}
 		}
-		return null;
+		return statementSorter(statement);
 	}
 
 	public Sorter getByStatement(Transaction transaction, Statement statement)
@@ -239,6 +239,11 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 			else
 				throw new Error();
 		}
+	}
+
+	public boolean degenerate(Transaction transaction)
+	{
+		return sortedStatements(transaction).smaller(minSubGroupSize);
 	}
 
 }
