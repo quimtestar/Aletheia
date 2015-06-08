@@ -120,6 +120,11 @@ public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterContextJ
 		}
 	}
 
+	public synchronized boolean cachedByStatement(Statement statement)
+	{
+		return byStatementMap.containsKey(statement);
+	}
+
 	public synchronized StatementContextJTreeNode getByStatement(Statement statement)
 	{
 		StatementContextJTreeNode node = byStatementMap.get(statement);

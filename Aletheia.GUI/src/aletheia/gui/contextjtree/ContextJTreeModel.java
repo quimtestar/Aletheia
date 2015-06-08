@@ -52,12 +52,16 @@ import aletheia.model.local.RootContextLocal;
 import aletheia.model.local.StatementLocal;
 import aletheia.model.nomenclator.Nomenclator;
 import aletheia.model.statement.Context;
+import aletheia.model.statement.Declaration;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
+import aletheia.model.statement.UnfoldingContext;
+import aletheia.model.term.SimpleTerm;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
 import aletheia.utilities.ListChanges;
+import aletheia.utilities.collections.CloseableIterator;
 
 public class ContextJTreeModel extends PersistentTreeModel
 {
@@ -840,25 +844,8 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 		private void statementIdentifierChanged(final Statement statement, Identifier newId, Identifier oldId, Transaction transaction)
 		{
-			//TODO
-			System.out.println("statementIdentifierChanged");
-			/*
-			Context context=statement.getContext(transaction);
-			ContextSorterContextJTreeNode ctxNode=(ContextSorterContextJTreeNode)nodeMap.getByStatement(context);
-			if (ctxNode!=null)
-			{
-				BranchTreeNode btNode=ctxNode.findStatementDeleteNode(statement.refresh(transaction));
-				if (btNode!=null)
-					nodeStructureChanged(btNode);
-
-			}
-
-
-
-
-
-			StatementTreeNode node = nodeMap.getStatementTreeNode(statement);
-			nodeChanged(node);
+			StatementContextJTreeNode node = nodeMap.getByStatement(statement);
+			nodeChanged((ContextJTreeNode) node);
 			if (!node.getParent().checkStatementInsert(statement))
 				nodeStructureChanged(node.getParent());
 			if (statement instanceof RootContext)
@@ -866,14 +853,14 @@ public class ContextJTreeModel extends PersistentTreeModel
 			else
 			{
 				Context ctx = statement.getContext(transaction);
-				if (nodeMap.cachedStatement(ctx))
+				if (nodeMap.cachedByStatement(ctx))
 				{
-					StatementTreeNode node_ = nodeMap.getStatementTreeNode(ctx);
-					nodeChanged(node_);
+					StatementContextJTreeNode node_ = nodeMap.getByStatement(ctx);
+					nodeChanged((ContextJTreeNode) node_);
 					if (ctx.getConsequent().freeVariables().contains(statement.getVariable()) || ctx.getConsequent().equals(statement.getTerm()))
 					{
-						ContextTreeNode node__ = (ContextTreeNode) nodeMap.getStatementTreeNode(ctx);
-						nodeChanged(node__.getConsequentTreeNode());
+						ContextSorterContextJTreeNode node__ = (ContextSorterContextJTreeNode) nodeMap.getByStatement(ctx);
+						nodeChanged(node__.getConsequentNode());
 					}
 				}
 			}
@@ -883,17 +870,17 @@ public class ContextJTreeModel extends PersistentTreeModel
 				while (iterator.hasNext())
 				{
 					Statement user = iterator.next();
-					if (nodeMap.cachedStatement(user))
+					if (nodeMap.cachedByStatement(user))
 					{
-						StatementTreeNode node_ = nodeMap.getStatementTreeNode(user);
-						nodeChanged(node_);
+						StatementContextJTreeNode node_ = nodeMap.getByStatement(user);
+						nodeChanged((ContextJTreeNode) node_);
 						if (user instanceof Context)
 						{
 							Context ctx_ = (Context) user;
 							if (ctx_.getConsequent().freeVariables().contains(statement.getVariable()) || ctx_.getConsequent().equals(statement.getTerm()))
 							{
-								ContextTreeNode node__ = (ContextTreeNode) nodeMap.getStatementTreeNode(ctx_);
-								nodeChanged(node__.getConsequentTreeNode());
+								ContextSorterContextJTreeNode node__ = (ContextSorterContextJTreeNode) nodeMap.getByStatement(ctx_);
+								nodeChanged(node__.getConsequentNode());
 							}
 						}
 						else if (user instanceof Declaration)
@@ -901,13 +888,13 @@ public class ContextJTreeModel extends PersistentTreeModel
 							Declaration dec = (Declaration) user;
 							for (UnfoldingContext unf : dec.unfoldingContexts(transaction))
 							{
-								if (nodeMap.cachedStatement(unf))
+								if (nodeMap.cachedByStatement(unf))
 								{
 									if (unf.getConsequent().freeVariables().contains(statement.getVariable())
 											|| unf.getConsequent().equals(statement.getTerm()))
 									{
-										ContextTreeNode node__ = (ContextTreeNode) nodeMap.getStatementTreeNode(unf);
-										nodeChanged(node__.getConsequentTreeNode());
+										ContextSorterContextJTreeNode node__ = (ContextSorterContextJTreeNode) nodeMap.getByStatement(unf);
+										nodeChanged(node__.getConsequentNode());
 									}
 								}
 							}
@@ -921,17 +908,20 @@ public class ContextJTreeModel extends PersistentTreeModel
 			}
 			if (statement.getTerm() instanceof SimpleTerm)
 			{
-				CloseableIterator<Context> iterator2 = statement.getContext(transaction).descendantContextsByConsequent(transaction, statement.getTerm())
-						.iterator();
+				CloseableIterator<Context> iterator2;
+				if (statement instanceof RootContext)
+					iterator2 = ((RootContext) statement).descendantContextsByConsequent(transaction, statement.getTerm()).iterator();
+				else
+					iterator2 = statement.getContext(transaction).descendantContextsByConsequent(transaction, statement.getTerm()).iterator();
 				try
 				{
 					while (iterator2.hasNext())
 					{
 						Context ctx_ = iterator2.next();
-						if (nodeMap.cachedStatement(ctx_))
+						if (nodeMap.cachedByStatement(ctx_))
 						{
-							ContextTreeNode ctxNode_ = (ContextTreeNode) nodeMap.getStatementTreeNode(ctx_);
-							nodeChanged(ctxNode_.getConsequentTreeNode());
+							ContextSorterContextJTreeNode ctxNode_ = (ContextSorterContextJTreeNode) nodeMap.getByStatement(ctx_);
+							nodeChanged(ctxNode_.getConsequentNode());
 						}
 					}
 				}
@@ -940,7 +930,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 					iterator2.close();
 				}
 			}
-			*/
+
 		}
 
 		private void statementDeletedFromContext(StatementDeletedFromContextChange c, Transaction transaction)

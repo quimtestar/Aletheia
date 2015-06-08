@@ -23,7 +23,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import aletheia.model.statement.Statement;
 import aletheia.utilities.collections.AbstractReadOnlyMap;
 import aletheia.utilities.collections.SoftCacheWithCleanerMap;
 
@@ -51,9 +50,9 @@ public abstract class GenericTreeNodeMap<K, N> extends AbstractReadOnlyMap<K, N>
 		this.map.addListener(new CacheListener());
 	}
 
-	public synchronized boolean cached(Statement statement)
+	public synchronized boolean cachedKey(K key)
 	{
-		return map.containsKey(statement);
+		return map.containsKey(key);
 	}
 
 	protected abstract N buildNode(K key);
