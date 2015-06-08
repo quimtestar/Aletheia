@@ -735,9 +735,8 @@ public class ContextJTreeModel extends PersistentTreeModel
 				nodeStructureChanged(pNode);
 				if (pNode.isDegenerate())
 				{
-					GroupSorterContextJTreeNode<? extends Statement> ppNode = pNode.getParent();
-					if (ppNode != null)
-						nodeStructureChanged(ppNode);
+					if (!(pNode instanceof RootContextJTreeNode))
+						nodeStructureChanged(pNode.getParent());
 				}
 			}
 		}
