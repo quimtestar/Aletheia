@@ -57,6 +57,7 @@ import aletheia.model.statement.Statement;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
+import aletheia.utilities.ListChanges;
 
 public class ContextJTreeModel extends PersistentTreeModel
 {
@@ -1089,21 +1090,36 @@ public class ContextJTreeModel extends PersistentTreeModel
 	private void nodeStructureChanged(GroupSorterContextJTreeNode<? extends Statement> node)
 	{
 		node.cleanRenderer();
-		GroupSorterContextJTreeNode.Changes changes = node.changeSorterList();
-		for (Object o : changes.getRemovedObjects())
-			nodeMap.removeKey((Sorter) o);
+		ListChanges<Sorter> changes = node.changeSorterList();
+		for (ListChanges<Sorter>.Element e : changes.removedElements())
+			nodeMap.removeKey(e.object);
 		final TreeModelEvent eRemoves;
-		if (changes.getRemovedIndexes().length > 0)
-			eRemoves = new TreeModelEvent(this, node.path(), changes.getRemovedIndexes(), null);
+		if (!changes.removedElements().isEmpty())
+		{
+			int indexes[] = new int[changes.removedElements().size()];
+			int i = 0;
+			for (ListChanges<Sorter>.Element e : changes.removedElements())
+			{
+				indexes[i] = e.index;
+				i++;
+			}
+			eRemoves = new TreeModelEvent(this, node.path(), indexes, null);
+		}
 		else
 			eRemoves = null;
 		final TreeModelEvent eInserts;
-		if (changes.getInsertedIndexes().length > 0)
+		if (!changes.insertedElements().isEmpty())
 		{
-			Object[] insertedObjects = new Object[changes.getInsertedIndexes().length];
-			for (int i = 0; i < changes.getInsertedObjects().length; i++)
-				insertedObjects[i] = nodeMap.get(changes.getInsertedObjects()[i]);
-			eInserts = new TreeModelEvent(this, node.path(), changes.getInsertedIndexes(), insertedObjects);
+			int indexes[] = new int[changes.insertedElements().size()];
+			Object objects[] = new Object[changes.insertedElements().size()];
+			int i = 0;
+			for (ListChanges<Sorter>.Element e : changes.insertedElements())
+			{
+				indexes[i] = e.index;
+				objects[i] = e.object;
+				i++;
+			}
+			eInserts = new TreeModelEvent(this, node.path(), indexes, objects);
 		}
 		else
 			eInserts = null;
