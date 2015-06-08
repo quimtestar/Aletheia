@@ -27,27 +27,13 @@ import aletheia.utilities.collections.IteratorEnumeration;
 
 public abstract class GroupSorterContextJTreeNode<S extends Statement> extends SorterContextJTreeNode
 {
-	private BufferedList<Sorter> sorterList;
-	private boolean degenerate;
-	private Map<UUID, Integer> uuidIndexes;
-
-	public GroupSorterContextJTreeNode(ContextJTreeModel model, GroupSorter<S> sorter)
+	private class SorterListManager
 	{
-		super(model, sorter);
-		this.degenerate = false;
-		this.sorterList = null;
-	}
+		private final BufferedList<Sorter> sorterList;
+		private final boolean degenerate;
+		private final Map<UUID, Integer> uuidIndexes;
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public GroupSorter<S> getSorter()
-	{
-		return (GroupSorter<S>) super.getSorter();
-	}
-
-	private synchronized List<Sorter> getSorterList()
-	{
-		if (sorterList == null)
+		public SorterListManager()
 		{
 			Transaction transaction = getModel().beginTransaction();
 			try
@@ -73,47 +59,121 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 				transaction.abort();
 			}
 		}
-		return sorterList;
+
+		public BufferedList<Sorter> getSorterList()
+		{
+			return sorterList;
+		}
+
+		public boolean isDegenerate()
+		{
+			return degenerate;
+		}
+
+		@SuppressWarnings("unused")
+		public Map<UUID, Integer> getUuidIndexes()
+		{
+			return uuidIndexes;
+		}
+
+		public synchronized boolean checkStatementInsert(Statement statement)
+		{
+			Integer index = uuidIndexes.get(statement.getUuid());
+			if (index == null)
+				return false;
+			StatementSorter sorter = (StatementSorter) sorterList.get(index);
+			Statement statement_ = sorter.getStatement();
+			if ((statement_.getIdentifier() == null) != (statement.getIdentifier() == null))
+				return false;
+			if ((statement_.getIdentifier() != null && !statement_.getIdentifier().equals(statement.getIdentifier())))
+				return false;
+			return true;
+		}
+
+		public synchronized boolean checkStatementRemove(Statement statement)
+		{
+			return !uuidIndexes.containsKey(statement.getUuid());
+		}
+
+	}
+
+	private SorterListManager sorterListManager;
+
+	public GroupSorterContextJTreeNode(ContextJTreeModel model, GroupSorter<S> sorter)
+	{
+		super(model, sorter);
+		sorterListManager = null;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public GroupSorter<S> getSorter()
+	{
+		return (GroupSorter<S>) super.getSorter();
+	}
+
+	private synchronized SorterListManager getSorterListManager()
+	{
+		return sorterListManager;
+	}
+
+	private synchronized SorterListManager obtainSorterListManager()
+	{
+		if (sorterListManager == null)
+			sorterListManager = new SorterListManager();
+		return sorterListManager;
+	}
+
+	private synchronized void clearSorterListManager()
+	{
+		sorterListManager = null;
+	}
+
+	private synchronized List<Sorter> obtainSorterList()
+	{
+		return obtainSorterListManager().getSorterList();
+	}
+
+	private synchronized List<Sorter> getSorterList()
+	{
+		SorterListManager manager = getSorterListManager();
+		if (manager == null)
+			return null;
+		return manager.getSorterList();
 	}
 
 	public synchronized boolean isDegenerate()
 	{
-		return degenerate;
+		SorterListManager manager = getSorterListManager();
+		return manager != null && manager.isDegenerate();
 	}
 
 	public synchronized boolean checkStatementInsert(Statement statement)
 	{
-		if (uuidIndexes == null)
+		SorterListManager manager = getSorterListManager();
+		if (manager == null)
 			return true;
-		Integer index = uuidIndexes.get(statement.getUuid());
-		if (index == null)
-			return false;
-		StatementSorter sorter = (StatementSorter) sorterList.get(index);
-		Statement statement_ = sorter.getStatement();
-		if ((statement_.getIdentifier() == null) != (statement.getIdentifier() == null))
-			return false;
-		if ((statement_.getIdentifier() != null && !statement_.getIdentifier().equals(statement.getIdentifier())))
-			return false;
-		return true;
+		return manager.checkStatementInsert(statement);
 	}
 
 	public synchronized boolean checkStatementRemove(Statement statement)
 	{
-		if (uuidIndexes == null)
+		SorterListManager manager = getSorterListManager();
+		if (manager == null)
 			return true;
-		return !uuidIndexes.containsKey(statement.getUuid());
+		return manager.checkStatementRemove(statement);
 	}
 
 	@Override
 	public ContextJTreeNode getChildAt(int childIndex)
 	{
-		return getModel().getNodeMap().get(getSorterList().get(childIndex));
+		return getModel().getNodeMap().get(obtainSorterList().get(childIndex));
 	}
 
 	@Override
 	public int getChildCount()
 	{
-		return getSorterList().size();
+		return obtainSorterList().size();
 	}
 
 	@Override
@@ -121,7 +181,7 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 	{
 		if (!(node instanceof SorterContextJTreeNode))
 			return -1;
-		return getSorterList().indexOf(node);
+		return obtainSorterList().indexOf(node);
 	}
 
 	@Override
@@ -154,7 +214,7 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 					{
 						return sorterContextJTreeNode.getSorter();
 					}
-				}, getSorterList().iterator()));
+				}, obtainSorterList().iterator()));
 	}
 
 	@Override
@@ -165,11 +225,11 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 
 	public synchronized ListChanges<Sorter> changeSorterList()
 	{
-		if (sorterList == null)
-			return new ListChanges<Sorter>();
-		List<Sorter> oldSorterList = sorterList;
-		sorterList = null;
-		List<Sorter> newSorterList = getSorterList();
+		List<Sorter> oldSorterList = getSorterList();
+		if (oldSorterList == null)
+			return null;
+		clearSorterListManager();
+		List<Sorter> newSorterList = obtainSorterList();
 		return new ListChanges<Sorter>(oldSorterList, newSorterList);
 	}
 

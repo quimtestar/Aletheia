@@ -1091,67 +1091,70 @@ public class ContextJTreeModel extends PersistentTreeModel
 	{
 		node.cleanRenderer();
 		ListChanges<Sorter> changes = node.changeSorterList();
-		for (ListChanges<Sorter>.Element e : changes.removedElements())
-			nodeMap.removeKey(e.object);
-		final TreeModelEvent eRemoves;
-		if (!changes.removedElements().isEmpty())
+		if (changes != null)
 		{
-			int indexes[] = new int[changes.removedElements().size()];
-			int i = 0;
 			for (ListChanges<Sorter>.Element e : changes.removedElements())
+				nodeMap.removeKey(e.object);
+			final TreeModelEvent eRemoves;
+			if (!changes.removedElements().isEmpty())
 			{
-				indexes[i] = e.index;
-				i++;
-			}
-			eRemoves = new TreeModelEvent(this, node.path(), indexes, null);
-		}
-		else
-			eRemoves = null;
-		final TreeModelEvent eInserts;
-		if (!changes.insertedElements().isEmpty())
-		{
-			int indexes[] = new int[changes.insertedElements().size()];
-			Object objects[] = new Object[changes.insertedElements().size()];
-			int i = 0;
-			for (ListChanges<Sorter>.Element e : changes.insertedElements())
-			{
-				indexes[i] = e.index;
-				objects[i] = e.object;
-				i++;
-			}
-			eInserts = new TreeModelEvent(this, node.path(), indexes, objects);
-		}
-		else
-			eInserts = null;
-		if (eRemoves != null || eInserts != null)
-		{
-			final TreeModelEvent eStructure = new TreeModelEvent(this, node.path());
-
-			SwingUtilities.invokeLater(new Runnable()
-			{
-				@Override
-				public void run()
+				int indexes[] = new int[changes.removedElements().size()];
+				int i = 0;
+				for (ListChanges<Sorter>.Element e : changes.removedElements())
 				{
-					synchronized (getListeners())
+					indexes[i] = e.index;
+					i++;
+				}
+				eRemoves = new TreeModelEvent(this, node.path(), indexes, null);
+			}
+			else
+				eRemoves = null;
+			final TreeModelEvent eInserts;
+			if (!changes.insertedElements().isEmpty())
+			{
+				int indexes[] = new int[changes.insertedElements().size()];
+				Object objects[] = new Object[changes.insertedElements().size()];
+				int i = 0;
+				for (ListChanges<Sorter>.Element e : changes.insertedElements())
+				{
+					indexes[i] = e.index;
+					objects[i] = e.object;
+					i++;
+				}
+				eInserts = new TreeModelEvent(this, node.path(), indexes, objects);
+			}
+			else
+				eInserts = null;
+			if (eRemoves != null || eInserts != null)
+			{
+				final TreeModelEvent eStructure = new TreeModelEvent(this, node.path());
+
+				SwingUtilities.invokeLater(new Runnable()
+				{
+					@Override
+					public void run()
 					{
-						for (TreeModelListener l : getListeners())
+						synchronized (getListeners())
 						{
-							try
+							for (TreeModelListener l : getListeners())
 							{
-								if (eRemoves != null)
-									l.treeNodesRemoved(eRemoves);
-								if (eInserts != null)
-									l.treeNodesInserted(eInserts);
-							}
-							catch (PersistenceLockTimeoutException e)
-							{
-								persistenceLockTimeoutSwingInvokeLaterTreeStructureChanged(l, eStructure);
+								try
+								{
+									if (eRemoves != null)
+										l.treeNodesRemoved(eRemoves);
+									if (eInserts != null)
+										l.treeNodesInserted(eInserts);
+								}
+								catch (PersistenceLockTimeoutException e)
+								{
+									persistenceLockTimeoutSwingInvokeLaterTreeStructureChanged(l, eStructure);
+								}
 							}
 						}
 					}
-				}
 
-			});
+				});
+			}
 		}
 	}
 
