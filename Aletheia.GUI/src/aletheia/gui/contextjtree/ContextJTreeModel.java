@@ -264,7 +264,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 		{
 			super(transaction, statement);
 		}
-		
+
 	}
 
 	private class StatementIdentifiedChange extends IdentifierStateChange
@@ -782,28 +782,28 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 		private void statementAddedToContext(Context context, Statement statement, Transaction transaction)
 		{
-			//TODO
-			/*
-			ContextTreeNode ctxNode=(ContextTreeNode)nodeMap.getStatementTreeNode(context);
-			if (ctxNode!=null)
+			StatementContextJTreeNode node = addStatement(statement.refresh(transaction));
+			if (node != null)
 			{
-				BranchTreeNode btNode=ctxNode.findStatementInsertNode(statement.refresh(transaction));
-				if (btNode!=null)
-					nodeStructureChanged(btNode);
+				GroupSorterContextJTreeNode<? extends Statement> pNode = node.getParent();
+				if (!pNode.checkStatementInsert(statement))
+					nodeStructureChanged(pNode);
+				if (!(pNode instanceof ContextSorterContextJTreeNode))
+					nodeStructureChanged(pNode.getParent());
 			}
-
+			Context ctx = statement.getContext(transaction);
 			if (statement.getTerm() instanceof SimpleTerm)
 			{
-				CloseableIterator<Context> iterator = ctxNode.getContext().descendantContextsByConsequent(transaction, statement.getTerm()).iterator();
+				CloseableIterator<Context> iterator = ctx.descendantContextsByConsequent(transaction, statement.getTerm()).iterator();
 				try
 				{
 					while (iterator.hasNext())
 					{
 						Context ctx_ = iterator.next();
-						if (nodeMap.cachedStatement(ctx_))
+						if (nodeMap.cachedByStatement(ctx_))
 						{
-							ContextTreeNode ctxNode_ = (ContextTreeNode) nodeMap.getStatementTreeNode(ctx_);
-							nodeChanged(ctxNode_.getConsequentTreeNode());
+							ContextSorterContextJTreeNode ctxNode_ = (ContextSorterContextJTreeNode) nodeMap.getByStatement(ctx_);
+							nodeChanged(ctxNode_.getConsequentNode());
 						}
 					}
 				}
@@ -812,7 +812,6 @@ public class ContextJTreeModel extends PersistentTreeModel
 					iterator.close();
 				}
 			}
-			 */
 		}
 
 		private void statementIdentified(StatementIdentifiedChange c, Transaction transaction)
@@ -840,7 +839,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 			if (nodeMap.cachedByStatement(statement))
 			{
 				StatementContextJTreeNode node = nodeMap.getByStatement(statement);
-				GroupSorterContextJTreeNode<?> pNode=node.getParent();
+				GroupSorterContextJTreeNode<?> pNode = node.getParent();
 				if ((pNode != null) && !pNode.checkStatementRemove(statement))
 				{
 					nodeStructureChanged(pNode);
@@ -953,8 +952,6 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 		private void statementDeletedFromContext(Context context, Statement statement, Transaction transaction)
 		{
-			//TODO
-			/*
 			if (statement.getTerm() instanceof SimpleTerm)
 			{
 				CloseableIterator<Context> iterator = context.descendantContextsByConsequent(transaction, statement.getTerm()).iterator();
@@ -963,10 +960,10 @@ public class ContextJTreeModel extends PersistentTreeModel
 					while (iterator.hasNext())
 					{
 						Context ctx_ = iterator.next();
-						if (nodeMap.cachedStatement(ctx_))
+						if (nodeMap.cachedByStatement(ctx_))
 						{
-							ContextTreeNode ctxNode_ = (ContextTreeNode) nodeMap.getStatementTreeNode(ctx_);
-							nodeChanged(ctxNode_.getConsequentTreeNode());
+							ContextSorterContextJTreeNode ctxNode_ = (ContextSorterContextJTreeNode) nodeMap.getByStatement(ctx_);
+							nodeChanged(ctxNode_.getConsequentNode());
 						}
 					}
 				}
@@ -976,16 +973,16 @@ public class ContextJTreeModel extends PersistentTreeModel
 				}
 			}
 
-			ContextTreeNode ctxNode=(ContextTreeNode)nodeMap.getStatementTreeNode(context);
-			if (ctxNode!=null)
+			GroupSorterContextJTreeNode<? extends Statement> pNode = deleteStatement(statement);
+			if ((pNode != null) && !pNode.checkStatementRemove(statement))
 			{
-				BranchTreeNode btNode=ctxNode.findStatementDeleteNode(statement.refresh(transaction));
-				if (btNode!=null)
-					nodeStructureChanged(btNode);
-
+				nodeStructureChanged(pNode);
+				if (pNode.isDegenerate())
+				{
+					if (!(pNode instanceof ContextSorterContextJTreeNode))
+						nodeStructureChanged(pNode.getParent());
+				}
 			}
-			 */
-
 		}
 
 		private void statementSelect(StatementSelect c, Transaction transaction)
