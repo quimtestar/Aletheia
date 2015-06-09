@@ -62,4 +62,10 @@ public class StatementSorter extends Sorter
 		return true;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "StatementSorter [statement=" + statement + "]";
+	}
+
 }
