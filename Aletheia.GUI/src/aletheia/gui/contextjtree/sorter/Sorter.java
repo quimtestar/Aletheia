@@ -66,4 +66,10 @@ public abstract class Sorter
 		return true;
 	}
 
+	@Override
+	public String toString()
+	{
+		return "Sorter [prefix=" + prefix + "]";
+	}
+
 }
