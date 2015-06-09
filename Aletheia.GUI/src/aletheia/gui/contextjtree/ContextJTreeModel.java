@@ -33,6 +33,7 @@ import javax.swing.tree.TreePath;
 import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.common.PersistentTreeModel;
+import aletheia.gui.contextjtree.node.ConsequentContextJTreeNode;
 import aletheia.gui.contextjtree.node.ContextSorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.ContextJTreeNode;
 import aletheia.gui.contextjtree.node.GroupSorterContextJTreeNode;
@@ -745,34 +746,31 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 		private void provedStateChanged(Statement statement, boolean proved, Transaction transaction)
 		{
-			//TODO
-			/*
 			statement = statement.refresh(transaction);
 			if (statement != null)
 			{
-				StatementTreeNode node = nodeMap.getStatementTreeNode(statement);
-				nodeChanged(node);
+				StatementContextJTreeNode node = nodeMap.getByStatement(statement);
+				nodeChanged((ContextJTreeNode) node);
 				CloseableIterator<Statement> iterator = statement.dependents(transaction).iterator();
 				try
 				{
 					while (iterator.hasNext())
 					{
 						Statement dep = iterator.next();
-						if (nodeMap.cachedStatement(dep))
-							nodeChanged(nodeMap.getStatementTreeNode(dep));
+						if (nodeMap.cachedByStatement(dep))
+							nodeChanged((ContextJTreeNode) nodeMap.getByStatement(dep));
 					}
 				}
 				finally
 				{
 					iterator.close();
 				}
-				if (node instanceof ContextTreeNode)
+				if (node instanceof ContextSorterContextJTreeNode)
 				{
-					ConsequentTreeNode nodecons = ((ContextTreeNode) node).getConsequentTreeNode();
+					ConsequentContextJTreeNode nodecons = ((ContextSorterContextJTreeNode) node).getConsequentNode();
 					nodeChanged(nodecons);
 				}
 			}
-			 */
 		}
 
 		private void statementAddedToContext(StatementAddedToContextChange c, Transaction transaction)
@@ -1020,15 +1018,12 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 		private void subscribedStateChange(Statement statement, Transaction transaction)
 		{
-			//TODO
-			/*
 			statement = statement.refresh(transaction);
 			if (statement != null)
 			{
-				StatementTreeNode node = nodeMap.getStatementTreeNode(statement);
-				nodeChanged(node);
+				StatementContextJTreeNode node = nodeMap.getByStatement(statement);
+				nodeChanged((ContextJTreeNode) node);
 			}
-			 */
 		}
 
 		private void authorityStateChange(AuthorityStateChange c, Transaction transaction)
@@ -1038,15 +1033,12 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 		private void authorityStateChange(Statement statement, Transaction transaction)
 		{
-			//TODO
-			/*
 			statement = statement.refresh(transaction);
 			if (statement != null)
 			{
-				StatementTreeNode node = nodeMap.getStatementTreeNode(statement);
-				nodeChanged(node);
+				StatementContextJTreeNode node = nodeMap.getByStatement(statement);
+				nodeChanged((ContextJTreeNode) node);
 			}
-			 */
 		}
 
 	}
