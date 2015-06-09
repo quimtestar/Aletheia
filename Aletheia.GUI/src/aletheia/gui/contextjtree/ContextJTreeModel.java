@@ -259,43 +259,36 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 	private abstract class IdentifierStateChange extends StatementStateChange
 	{
-		private final Identifier oldId;
 
-		public IdentifierStateChange(Transaction transaction, Statement statement, Identifier oldId)
+		public IdentifierStateChange(Transaction transaction, Statement statement)
 		{
 			super(transaction, statement);
-			this.oldId = oldId;
 		}
-
-		public Identifier getOldId()
-		{
-			return oldId;
-		}
-
+		
 	}
 
 	private class StatementIdentifiedChange extends IdentifierStateChange
 	{
-		private final Identifier newId;
+		private final Identifier identifier;
 
-		public StatementIdentifiedChange(Transaction transaction, Statement statement, Identifier newId, Identifier oldId)
+		public StatementIdentifiedChange(Transaction transaction, Statement statement, Identifier identifier)
 		{
-			super(transaction, statement, oldId);
-			this.newId = newId;
+			super(transaction, statement);
+			this.identifier = identifier;
 		}
 
-		public Identifier getNewId()
+		public Identifier getIdentifier()
 		{
-			return newId;
+			return identifier;
 		}
 	}
 
 	private class StatementUnidentifiedChange extends IdentifierStateChange
 	{
 
-		public StatementUnidentifiedChange(Transaction transaction, Statement statement, Identifier oldId)
+		public StatementUnidentifiedChange(Transaction transaction, Statement statement)
 		{
-			super(transaction, statement, oldId);
+			super(transaction, statement);
 		}
 
 	}
@@ -418,11 +411,11 @@ public class ContextJTreeModel extends PersistentTreeModel
 		}
 
 		@Override
-		public void statementIdentified(Transaction transaction, Statement statement, Identifier newId, Identifier oldId)
+		public void statementIdentified(Transaction transaction, Statement statement, Identifier identifier)
 		{
 			try
 			{
-				statementStateChangeQueue.put(new StatementIdentifiedChange(transaction, statement, newId, oldId));
+				statementStateChangeQueue.put(new StatementIdentifiedChange(transaction, statement, identifier));
 			}
 			catch (InterruptedException e)
 			{
@@ -431,11 +424,11 @@ public class ContextJTreeModel extends PersistentTreeModel
 		}
 
 		@Override
-		public void statementUnidentified(Transaction transaction, Statement statement, Identifier oldId)
+		public void statementUnidentified(Transaction transaction, Statement statement, Identifier identifier)
 		{
 			try
 			{
-				statementStateChangeQueue.put(new StatementUnidentifiedChange(transaction, statement, oldId));
+				statementStateChangeQueue.put(new StatementUnidentifiedChange(transaction, statement));
 			}
 			catch (InterruptedException e)
 			{
@@ -824,30 +817,50 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 		private void statementIdentified(StatementIdentifiedChange c, Transaction transaction)
 		{
-			statementIdentified(c.getStatement(), c.getNewId(), c.getOldId(), transaction);
+			statementIdentified(c.getStatement(), c.getIdentifier(), transaction);
 		}
 
-		private void statementIdentified(Statement statement, Identifier newId, Identifier oldId, Transaction transaction)
+		private void statementIdentified(Statement statement, Identifier identifier, Transaction transaction)
 		{
-			statementIdentifierChanged(statement, newId, oldId, transaction);
+			statementIdentifierChanged(statement, transaction);
 		}
 
 		private void statementUnidentified(StatementUnidentifiedChange c, Transaction transaction)
 		{
-			statementUnidentified(c.getStatement(), c.getOldId(), transaction);
+			statementUnidentified(c.getStatement(), transaction);
 		}
 
-		private void statementUnidentified(Statement statement, Identifier oldId, Transaction transaction)
+		private void statementUnidentified(Statement statement, Transaction transaction)
 		{
-			statementIdentifierChanged(statement, null, oldId, transaction);
+			statementIdentifierChanged(statement, transaction);
 		}
 
-		private void statementIdentifierChanged(final Statement statement, Identifier newId, Identifier oldId, Transaction transaction)
+		private void statementIdentifierChanged(final Statement statement, Transaction transaction)
 		{
-			StatementContextJTreeNode node = nodeMap.getByStatement(statement);
-			nodeChanged((ContextJTreeNode) node);
-			if (!node.getParent().checkStatementInsert(statement))
-				nodeStructureChanged(node.getParent());
+			if (nodeMap.cachedByStatement(statement))
+			{
+				StatementContextJTreeNode node = nodeMap.getByStatement(statement);
+				GroupSorterContextJTreeNode<?> pNode=node.getParent();
+				if ((pNode != null) && !pNode.checkStatementRemove(statement))
+				{
+					nodeStructureChanged(pNode);
+					if (pNode.isDegenerate())
+					{
+						if (!(pNode instanceof RootContextJTreeNode))
+							nodeStructureChanged(pNode.getParent());
+					}
+				}
+			}
+			StatementContextJTreeNode node = addStatement(statement.refresh(transaction));
+			if (node != null)
+			{
+				nodeChanged((ContextJTreeNode) node);
+				GroupSorterContextJTreeNode<? extends Statement> pNode = node.getParent();
+				if (!pNode.checkStatementInsert(statement))
+					nodeStructureChanged(pNode);
+				if (!(pNode instanceof RootContextJTreeNode))
+					nodeStructureChanged(pNode.getParent());
+			}
 			if (statement instanceof RootContext)
 				nodeChanged(rootTreeNode);
 			else

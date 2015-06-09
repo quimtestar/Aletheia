@@ -95,9 +95,9 @@ public abstract class Nomenclator implements Serializable, Exportable
 
 	public interface Listener extends PersistenceListener
 	{
-		public void statementIdentified(Transaction transaction, Statement statement, Identifier newId, Identifier oldId);
+		public void statementIdentified(Transaction transaction, Statement statement, Identifier identifier);
 
-		public void statementUnidentified(Transaction transaction, Statement statement, Identifier oldId);
+		public void statementUnidentified(Transaction transaction, Statement statement, Identifier identifier);
 	}
 
 	/**
@@ -243,13 +243,12 @@ public abstract class Nomenclator implements Serializable, Exportable
 		if (getLocalStatementToIdentifier().containsKey(statement))
 			throw new AlreadyIdentifiedStatementException(getTransaction(), statement);
 		Statement statement_ = statement.refresh(getTransaction());
-		Identifier oldId = statement.getIdentifier();
 		statement_.setIdentifier(getTransaction(), identifier);
 		Iterable<Listener> listeners = listeners();
 		synchronized (listeners)
 		{
 			for (Listener listener : listeners)
-				listener.statementIdentified(transaction, statement_, identifier, oldId);
+				listener.statementIdentified(transaction, statement_, identifier);
 		}
 	}
 

@@ -463,13 +463,13 @@ public class StandAlonePeerToPeerNodeSubscriptions
 		}
 
 		@Override
-		public void statementIdentified(Transaction transaction, Statement statement, Identifier newId, Identifier oldId)
+		public void statementIdentified(Transaction transaction, Statement statement, Identifier identifier)
 		{
 			statementAddedToContext(transaction, statement.getContext(transaction), statement);
 		}
 
 		@Override
-		public void statementUnidentified(Transaction transaction, Statement statement, Identifier oldId)
+		public void statementUnidentified(Transaction transaction, Statement statement, Identifier identifier)
 		{
 		}
 
