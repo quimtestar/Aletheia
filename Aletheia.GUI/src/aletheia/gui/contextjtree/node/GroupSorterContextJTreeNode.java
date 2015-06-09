@@ -7,8 +7,6 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.swing.tree.TreeNode;
-
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeModel;
 import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
@@ -177,11 +175,12 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 	}
 
 	@Override
-	public int getIndex(TreeNode node)
+	public int getIndex(ContextJTreeNode node)
 	{
-		if (!(node instanceof SorterContextJTreeNode))
-			return -1;
-		return obtainSorterList().indexOf(node);
+		if (node instanceof SorterContextJTreeNode)
+			return obtainSorterList().indexOf(((SorterContextJTreeNode) node).getSorter());
+		else
+			return super.getIndex(node);
 	}
 
 	@Override

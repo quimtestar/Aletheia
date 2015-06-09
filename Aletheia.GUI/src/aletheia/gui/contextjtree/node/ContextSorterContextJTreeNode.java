@@ -3,8 +3,6 @@ package aletheia.gui.contextjtree.node;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 
-import javax.swing.tree.TreeNode;
-
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeModel;
 import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
@@ -78,7 +76,7 @@ public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJT
 	}
 
 	@Override
-	public int getIndex(TreeNode node)
+	public int getIndex(ContextJTreeNode node)
 	{
 		if (consequentNode.equals(node))
 			return super.getChildCount();

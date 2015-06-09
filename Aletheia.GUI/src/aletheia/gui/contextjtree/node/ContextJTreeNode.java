@@ -9,7 +9,6 @@ import javax.swing.tree.TreePath;
 
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeModel;
-import aletheia.gui.contextjtree.node.old.AbstractTreeNode;
 import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.EmptyContextJTreeNodeRenderer;
 import aletheia.model.statement.Statement;
@@ -35,8 +34,8 @@ public abstract class ContextJTreeNode implements TreeNode
 	@Override
 	public int getIndex(TreeNode node)
 	{
-		if (node instanceof AbstractTreeNode)
-			return getIndex((AbstractTreeNode) node);
+		if (node instanceof ContextJTreeNode)
+			return getIndex((ContextJTreeNode) node);
 		else
 			return -1;
 	}
@@ -68,7 +67,7 @@ public abstract class ContextJTreeNode implements TreeNode
 		return true;
 	}
 
-	public int getIndex(AbstractTreeNode node)
+	public int getIndex(ContextJTreeNode node)
 	{
 		return -1;
 	}
