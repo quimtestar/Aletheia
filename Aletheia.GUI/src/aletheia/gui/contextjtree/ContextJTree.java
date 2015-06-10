@@ -643,19 +643,28 @@ public class ContextJTree extends PersistentJTree
 				Transaction transaction = getPersistenceManager().beginTransaction();
 				try
 				{
-					Stack<Context> stack = new Stack<Context>();
-					stack.push(context);
+					Stack<ContextLocal> stack = new Stack<ContextLocal>();
+					stack.push(context.getLocal(transaction));
 					while (!stack.isEmpty())
 					{
-						Context ctx = stack.pop();
-						ContextLocal ctxLocal = ctx.getLocal(transaction);
-						if (ctxLocal != null && ctxLocal.isSubscribeStatements())
+						ContextLocal ctxLocal = stack.pop();
+						ContextSorterContextJTreeNode node = (ContextSorterContextJTreeNode) getModel().getNodeMap().getByStatement(
+								ctxLocal.getStatement(transaction));
+						for (ContextLocal ctxLocal_ : ctxLocal.subscribeStatementsContextLocalSet(transaction))
 						{
-							expandPath(getModel().pathForStatement(ctx));
-							stack.addAll(ctx.subContexts(transaction));
+							StatementContextJTreeNode node_ = getModel().getNodeMap().getByStatement(ctxLocal_.getStatement(transaction));
+							GroupSorterContextJTreeNode<?> parent = node_.getParent();
+							while (true)
+							{
+								for (ContextJTreeNode n : parent.childrenIterable())
+									collapsePath(n.path());
+								if (parent.equals(node))
+									break;
+								parent = parent.getParent();
+							}
+							expandPath(node_.path());
+							stack.push(ctxLocal_);
 						}
-						else
-							collapsePath(getModel().pathForStatement(ctx));
 					}
 				}
 				finally
