@@ -2,21 +2,21 @@ package aletheia.utilities.collections;
 
 public class CombinedCloseableIterator<E> extends CombinedIterator<E> implements CloseableIterator<E>
 {
-	protected CombinedCloseableIterator(CloseableIterator<E> frontIterator, CloseableIterator<E> backIterator)
+	public CombinedCloseableIterator(CloseableIterator<? extends E> frontIterator, CloseableIterator<? extends E> backIterator)
 	{
 		super(frontIterator, backIterator);
 	}
 
 	@Override
-	protected CloseableIterator<E> getFrontIterator()
+	protected CloseableIterator<? extends E> getFrontIterator()
 	{
-		return (CloseableIterator<E>) super.getFrontIterator();
+		return (CloseableIterator<? extends E>) super.getFrontIterator();
 	}
 
 	@Override
-	protected CloseableIterator<E> getBackIterator()
+	protected CloseableIterator<? extends E> getBackIterator()
 	{
-		return (CloseableIterator<E>) super.getBackIterator();
+		return (CloseableIterator<? extends E>) super.getBackIterator();
 	}
 
 	@Override

@@ -5,13 +5,13 @@ import java.util.NoSuchElementException;
 
 public class CombinedIterator<E> extends AbstractReadOnlyIterator<E>
 {
-	private final Iterator<E> frontIterator;
-	private final Iterator<E> backIterator;
+	private final Iterator<? extends E> frontIterator;
+	private final Iterator<? extends E> backIterator;
 
 	private E next;
 	private boolean hasNext;
 
-	protected CombinedIterator(Iterator<E> frontIterator, Iterator<E> backIterator)
+	public CombinedIterator(Iterator<? extends E> frontIterator, Iterator<? extends E> backIterator)
 	{
 		this.frontIterator = frontIterator;
 		this.backIterator = backIterator;
@@ -41,12 +41,12 @@ public class CombinedIterator<E> extends AbstractReadOnlyIterator<E>
 		return next;
 	}
 
-	protected Iterator<E> getFrontIterator()
+	protected Iterator<? extends E> getFrontIterator()
 	{
 		return frontIterator;
 	}
 
-	protected Iterator<E> getBackIterator()
+	protected Iterator<? extends E> getBackIterator()
 	{
 		return backIterator;
 	}
