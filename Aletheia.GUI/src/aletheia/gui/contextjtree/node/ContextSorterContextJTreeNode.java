@@ -1,8 +1,7 @@
 package aletheia.gui.contextjtree.node;
 
-import java.util.Enumeration;
-import java.util.NoSuchElementException;
-
+import java.util.Collections;
+import java.util.Iterator;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeModel;
 import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
@@ -13,6 +12,7 @@ import aletheia.gui.contextjtree.sorter.GroupSorter;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.collections.CombinedIterator;
 
 public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJTreeNode implements StatementContextJTreeNode
 {
@@ -85,37 +85,9 @@ public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJT
 	}
 
 	@Override
-	public Enumeration<? extends ContextJTreeNode> children()
+	public Iterator<? extends ContextJTreeNode> childrenIterator()
 	{
-		final Enumeration<? extends ContextJTreeNode> enumeration = super.children();
-		return new Enumeration<ContextJTreeNode>()
-		{
-			boolean pendingConsequent = true;
-
-			@Override
-			public boolean hasMoreElements()
-			{
-				if (enumeration.hasMoreElements())
-					return true;
-				else
-					return pendingConsequent;
-			}
-
-			@Override
-			public ContextJTreeNode nextElement()
-			{
-				if (enumeration.hasMoreElements())
-					return enumeration.nextElement();
-				else if (pendingConsequent)
-				{
-					pendingConsequent = false;
-					return consequentNode;
-				}
-				else
-					throw new NoSuchElementException();
-			}
-
-		};
+		return new CombinedIterator<ContextJTreeNode>(super.childrenIterator(), Collections.<ContextJTreeNode> singleton(consequentNode).iterator());
 	}
 
 	@Override

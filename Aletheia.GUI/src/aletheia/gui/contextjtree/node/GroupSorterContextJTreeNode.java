@@ -2,6 +2,7 @@ package aletheia.gui.contextjtree.node;
 
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -195,25 +196,29 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 		return false;
 	}
 
-	@Override
-	public Enumeration<? extends ContextJTreeNode> children()
+	public Iterator<? extends ContextJTreeNode> childrenIterator()
 	{
-		return new IteratorEnumeration<SorterContextJTreeNode>(new BijectionIterator<Sorter, SorterContextJTreeNode>(
-				new Bijection<Sorter, SorterContextJTreeNode>()
-				{
+		return new BijectionIterator<Sorter, SorterContextJTreeNode>(new Bijection<Sorter, SorterContextJTreeNode>()
+		{
 
-					@Override
-					public SorterContextJTreeNode forward(Sorter sorter)
-					{
-						return getModel().getNodeMap().get(sorter);
-					}
+			@Override
+			public SorterContextJTreeNode forward(Sorter sorter)
+			{
+				return getModel().getNodeMap().get(sorter);
+			}
 
-					@Override
-					public Sorter backward(SorterContextJTreeNode sorterContextJTreeNode)
-					{
-						return sorterContextJTreeNode.getSorter();
-					}
-				}, obtainSorterList().iterator()));
+			@Override
+			public Sorter backward(SorterContextJTreeNode sorterContextJTreeNode)
+			{
+				return sorterContextJTreeNode.getSorter();
+			}
+		}, obtainSorterList().iterator());
+	}
+
+	@Override
+	public Enumeration<ContextJTreeNode> children()
+	{
+		return new IteratorEnumeration<ContextJTreeNode>(childrenIterator());
 	}
 
 	@Override
