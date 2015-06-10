@@ -19,6 +19,7 @@ import aletheia.gui.contextjtree.sorter.StatementSorter;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.ListChanges;
+import aletheia.utilities.collections.AdaptedIterator;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionIterator;
 import aletheia.utilities.collections.BufferedList;
@@ -213,6 +214,19 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 				return sorterContextJTreeNode.getSorter();
 			}
 		}, obtainSorterList().iterator());
+	}
+
+	public Iterable<? extends ContextJTreeNode> childrenIterable()
+	{
+		return new Iterable<ContextJTreeNode>()
+		{
+
+			@Override
+			public Iterator<ContextJTreeNode> iterator()
+			{
+				return new AdaptedIterator<ContextJTreeNode>(childrenIterator());
+			}
+		};
 	}
 
 	@Override
