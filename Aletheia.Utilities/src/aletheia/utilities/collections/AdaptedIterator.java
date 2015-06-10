@@ -19,27 +19,54 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
+import java.util.Iterator;
+
 /**
- * An {@link AdaptedIterable} for {@link CloseableIterable}s.
+ * Gives a read-only view of an {@link Iterator} as an {@link Iterator} with a
+ * type parameter that is a superclass of the original's.
+ *
+ * @param <E>
+ *            The type of the resulting {@link Iterator} view.
+ *
+ * @author Quim Testar
  */
-public class AdaptedCloseableIterable<E> extends AdaptedIterable<E> implements CloseableIterable<E>
+public class AdaptedIterator<E> implements Iterator<E>
 {
 
-	public AdaptedCloseableIterable(CloseableIterable<? extends E> inner)
+	private final Iterator<? extends E> inner;
+
+	public AdaptedIterator(Iterator<? extends E> inner)
 	{
-		super(inner);
+		super();
+		this.inner = inner;
+	}
+
+	/**
+	 * The original iterator this collection is a view of.
+	 *
+	 * @return The original collection.
+	 */
+	protected Iterator<? extends E> getInner()
+	{
+		return inner;
 	}
 
 	@Override
-	protected CloseableIterable<? extends E> getInner()
+	public boolean hasNext()
 	{
-		return (CloseableIterable<? extends E>) super.getInner();
+		return inner.hasNext();
 	}
 
 	@Override
-	public CloseableIterator<E> iterator()
+	public E next()
 	{
-		return new AdaptedCloseableIterator<E>(getInner().iterator());
+		return inner.next();
+	}
+
+	@Override
+	public void remove()
+	{
+		throw new UnsupportedOperationException();
 	}
 
 }

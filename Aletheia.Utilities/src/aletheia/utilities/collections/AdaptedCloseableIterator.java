@@ -20,26 +20,26 @@
 package aletheia.utilities.collections;
 
 /**
- * An {@link AdaptedIterable} for {@link CloseableIterable}s.
+ * An {@link AdaptedIterator} for {@link CloseableIterator}s.
  */
-public class AdaptedCloseableIterable<E> extends AdaptedIterable<E> implements CloseableIterable<E>
+public class AdaptedCloseableIterator<E> extends AdaptedIterator<E> implements CloseableIterator<E>
 {
 
-	public AdaptedCloseableIterable(CloseableIterable<? extends E> inner)
+	public AdaptedCloseableIterator(CloseableIterator<? extends E> inner)
 	{
 		super(inner);
 	}
 
 	@Override
-	protected CloseableIterable<? extends E> getInner()
+	protected CloseableIterator<? extends E> getInner()
 	{
-		return (CloseableIterable<? extends E>) super.getInner();
+		return (CloseableIterator<? extends E>) super.getInner();
 	}
 
 	@Override
-	public CloseableIterator<E> iterator()
+	public void close()
 	{
-		return new AdaptedCloseableIterator<E>(getInner().iterator());
+		getInner().close();
 	}
 
 }
