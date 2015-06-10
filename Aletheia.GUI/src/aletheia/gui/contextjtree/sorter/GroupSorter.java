@@ -11,10 +11,10 @@ import aletheia.persistence.Transaction;
 import aletheia.persistence.collections.statement.SortedStatements;
 import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.collections.Bijection;
-import aletheia.utilities.collections.BijectionCloseableIterable;
+import aletheia.utilities.collections.BijectionCloseableIterator;
 import aletheia.utilities.collections.CloseableIterable;
 import aletheia.utilities.collections.CloseableIterator;
-import aletheia.utilities.collections.CombinedCloseableIterable;
+import aletheia.utilities.collections.CombinedCloseableIterator;
 
 public abstract class GroupSorter<S extends Statement> extends Sorter
 {
@@ -62,127 +62,118 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 			public CloseableIterator<Sorter> iterator()
 			{
 				if (sortedStatements.smaller(minGroupingSize + 1))
-					return new BijectionCloseableIterable<S, Sorter>(statementSorterBijection, sortedStatements).iterator();
+					return new BijectionCloseableIterator<S, Sorter>(statementSorterBijection, sortedStatements.iterator());
 				else
 				{
-					CloseableIterable<Sorter> assumptionIterable = new BijectionCloseableIterable<S, Sorter>(statementSorterBijection,
-							sortedStatements.headSet(RootNamespace.instance.initiator()));
+					CloseableIterator<Sorter> assumptionIterator = new BijectionCloseableIterator<S, Sorter>(statementSorterBijection, sortedStatements
+							.headSet(RootNamespace.instance.initiator()).iterator());
 					SortedStatements<S> nonAssumptions = sortedStatements.tailSet(RootNamespace.instance.initiator());
 					final SortedStatements<S> identified = nonAssumptions.headSet(RootNamespace.instance.terminator());
-					CloseableIterable<Sorter> identifiedIterable = new CloseableIterable<Sorter>()
+					CloseableIterator<Sorter> identifiedIterator = new CloseableIterator<Sorter>()
 					{
+						S next;
+						{
+							if (identified.isEmpty())
+								next = null;
+							else
+								next = identified.first();
+						}
+						S prev = null;
+						CloseableIterator<S> iterator = null;
 
 						@Override
-						public CloseableIterator<Sorter> iterator()
+						public boolean hasNext()
 						{
-							return new CloseableIterator<Sorter>()
+							return next != null || (iterator != null && iterator.hasNext());
+						}
+
+						@Override
+						public Sorter next()
+						{
+							if (iterator != null)
 							{
-								S next;
+								S st = iterator.next();
+								if (!iterator.hasNext())
+									iterator = null;
+								return statementSorter(st);
+							}
+							if (next == null)
+								throw new NoSuchElementException();
+							Identifier id = next.getIdentifier();
+							if (prev == null)
+							{
+								for (NodeNamespace prefix : id.prefixList())
 								{
-									if (identified.isEmpty())
-										next = null;
-									else
-										next = identified.first();
-								}
-								S prev = null;
-								CloseableIterator<S> iterator = null;
-
-								@Override
-								public boolean hasNext()
-								{
-									return next != null || (iterator != null && iterator.hasNext());
-								}
-
-								@Override
-								public Sorter next()
-								{
-									if (iterator != null)
+									SortedStatements<S> tail = identified.tailSet(prefix.terminator());
+									if (!tail.isEmpty())
 									{
-										S st = iterator.next();
-										if (!iterator.hasNext())
-											iterator = null;
-										return statementSorter(st);
-									}
-									if (next == null)
-										throw new NoSuchElementException();
-									Identifier id = next.getIdentifier();
-									if (prev == null)
-									{
-										for (NodeNamespace prefix : id.prefixList())
-										{
-											SortedStatements<S> tail = identified.tailSet(prefix.terminator());
-											if (!tail.isEmpty())
-											{
-												prev = next;
-												next = tail.first();
-												SortedStatements<S> sub = identified.subSet(id, prefix.terminator());
-												if (sub.smaller(minSubGroupSize))
-												{
-													iterator = sub.iterator();
-													S st = iterator.next();
-													if (!iterator.hasNext())
-														iterator = null;
-													return statementSorter(st);
-												}
-												else
-													return subGroupSorter(prefix.asIdentifier());
-											}
-										}
-										iterator = identified.identifierSet(id).iterator();
-										Statement st = iterator.next();
-										if (!iterator.hasNext())
-											iterator = null;
 										prev = next;
-										next = MiscUtilities.firstFromCloseableIterable(identified.postIdentifierSet(id));
-										return statementSorter(st);
-									}
-									else
-									{
-										for (NodeNamespace prefix : id.prefixList())
+										next = tail.first();
+										SortedStatements<S> sub = identified.subSet(id, prefix.terminator());
+										if (sub.smaller(minSubGroupSize))
 										{
-											prefix.asIdentifier();
-											if (prefix.isPrefixOf(prev.getIdentifier()))
-												continue;
-											SortedStatements<S> sub = identified.subSet(id, prefix.terminator());
-											if (!sub.isEmpty())
-											{
-												SortedStatements<S> tail = identified.tailSet(prefix.terminator());
-												prev = next;
-												if (tail.isEmpty())
-													next = null;
-												else
-													next = tail.first();
-												if (sub.smaller(minSubGroupSize))
-												{
-													iterator = sub.iterator();
-													S st = iterator.next();
-													if (!iterator.hasNext())
-														iterator = null;
-													return statementSorter(st);
-												}
-												else
-													return subGroupSorter(prefix.asIdentifier());
-											}
+											iterator = sub.iterator();
+											S st = iterator.next();
+											if (!iterator.hasNext())
+												iterator = null;
+											return statementSorter(st);
 										}
-										throw new RuntimeException();
+										else
+											return subGroupSorter(prefix.asIdentifier());
 									}
 								}
-
-								@Override
-								public void close()
+								iterator = identified.identifierSet(id).iterator();
+								Statement st = iterator.next();
+								if (!iterator.hasNext())
+									iterator = null;
+								prev = next;
+								next = MiscUtilities.firstFromCloseableIterable(identified.postIdentifierSet(id));
+								return statementSorter(st);
+							}
+							else
+							{
+								for (NodeNamespace prefix : id.prefixList())
 								{
-									if (iterator != null)
-										iterator.close();
+									prefix.asIdentifier();
+									if (prefix.isPrefixOf(prev.getIdentifier()))
+										continue;
+									SortedStatements<S> sub = identified.subSet(id, prefix.terminator());
+									if (!sub.isEmpty())
+									{
+										SortedStatements<S> tail = identified.tailSet(prefix.terminator());
+										prev = next;
+										if (tail.isEmpty())
+											next = null;
+										else
+											next = tail.first();
+										if (sub.smaller(minSubGroupSize))
+										{
+											iterator = sub.iterator();
+											S st = iterator.next();
+											if (!iterator.hasNext())
+												iterator = null;
+											return statementSorter(st);
+										}
+										else
+											return subGroupSorter(prefix.asIdentifier());
+									}
 								}
+								throw new RuntimeException();
+							}
+						}
 
-							};
+						@Override
+						public void close()
+						{
+							if (iterator != null)
+								iterator.close();
 						}
 
 					};
-					CloseableIterable<Sorter> nonIdentifiedIterable = new BijectionCloseableIterable<S, Sorter>(statementSorterBijection,
-							nonAssumptions.tailSet(RootNamespace.instance.terminator()));
-					return new CombinedCloseableIterable<Sorter>(assumptionIterable, new CombinedCloseableIterable<Sorter>(identifiedIterable,
-							nonIdentifiedIterable)).iterator();
+					CloseableIterator<Sorter> nonIdentifiedIterator = new BijectionCloseableIterator<S, Sorter>(statementSorterBijection, nonAssumptions
+							.tailSet(RootNamespace.instance.terminator()).iterator());
+					return new CombinedCloseableIterator<Sorter>(assumptionIterator, new CombinedCloseableIterator<Sorter>(identifiedIterator,
+							nonIdentifiedIterator));
 				}
 			};
 
