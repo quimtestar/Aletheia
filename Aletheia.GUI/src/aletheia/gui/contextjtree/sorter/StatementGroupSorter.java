@@ -81,4 +81,10 @@ public class StatementGroupSorter extends GroupSorter<Statement>
 		return true;
 	}
 
+	@Override
+	public String toString()
+	{
+		return super.toString() + "[context:" + context.label() + "]";
+	}
+
 }

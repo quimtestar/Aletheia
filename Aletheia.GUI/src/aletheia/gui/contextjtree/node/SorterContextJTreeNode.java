@@ -40,4 +40,10 @@ public abstract class SorterContextJTreeNode extends ContextJTreeNode
 		return (GroupSorterContextJTreeNode<? extends Statement>) getModel().getNodeMap().get(parentSorter);
 	}
 
+	@Override
+	public String toString()
+	{
+		return super.toString() + "[Sorter: " + getSorter() + "]";
+	}
+
 }

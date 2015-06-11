@@ -33,4 +33,10 @@ public class ConsequentContextJTreeNode extends ContextJTreeNode
 		return new ConsequentContextJTreeNodeRenderer(contextJTree, parent.getContext());
 	}
 
+	@Override
+	public String toString()
+	{
+		return super.toString() + "[Consequent: " + getContext().label() + "]";
+	}
+
 }

@@ -113,4 +113,10 @@ public abstract class ContextJTreeNode implements TreeNode
 		return new TreePath(new ReverseList<ContextJTreeNode>(stack).toArray());
 	}
 
+	@Override
+	public String toString()
+	{
+		return "[" + Integer.toHexString(hashCode()) + "]";
+	}
+
 }

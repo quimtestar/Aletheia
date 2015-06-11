@@ -28,4 +28,10 @@ public class EmptyContextJTreeNode extends ContextJTreeNode
 		return new EmptyContextJTreeNodeRenderer(contextJTree);
 	}
 
+	@Override
+	public String toString()
+	{
+		return super.toString() + "[Empty]";
+	}
+
 }

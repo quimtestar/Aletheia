@@ -65,7 +65,7 @@ public class StatementSorter extends Sorter
 	@Override
 	public String toString()
 	{
-		return "StatementSorter [statement=" + statement + "]";
+		return super.toString() + "[statement:" + statement.label() + "]";
 	}
 
 }

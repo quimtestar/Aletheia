@@ -28,7 +28,6 @@ import java.awt.event.MouseListener;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
-
 import javax.swing.AbstractCellEditor;
 import javax.swing.JComponent;
 import javax.swing.JTree;
