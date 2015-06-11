@@ -940,6 +940,11 @@ public abstract class Statement implements Exportable
 		return getVariable().toString(variableToIdentifier) + ":" + getTerm().toString(variableToIdentifier) + " [proved:" + isProved() + "]";
 	}
 
+	public String label()
+	{
+		return getIdentifier() != null ? getIdentifier().qualifiedName() : getVariable().hexRef();
+	}
+
 	protected void trace(Transaction transaction, PrintStream out, String indent)
 	{
 		out.println(indent + toString());
