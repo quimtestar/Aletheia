@@ -2,9 +2,9 @@ package aletheia.gui.contextjtree.node;
 
 import java.util.Collections;
 import java.util.Iterator;
+
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeModel;
-import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.StatementContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.sorter.ContextGroupSorter;
 import aletheia.gui.contextjtree.sorter.ContextSorter;
@@ -91,7 +91,7 @@ public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJT
 	}
 
 	@Override
-	protected ContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree)
+	protected StatementContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree)
 	{
 		Transaction transaction = getModel().beginTransaction();
 		try
@@ -102,6 +102,12 @@ public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJT
 		{
 			transaction.abort();
 		}
+	}
+
+	@Override
+	protected synchronized StatementContextJTreeNodeRenderer getRenderer()
+	{
+		return (StatementContextJTreeNodeRenderer) super.getRenderer();
 	}
 
 }

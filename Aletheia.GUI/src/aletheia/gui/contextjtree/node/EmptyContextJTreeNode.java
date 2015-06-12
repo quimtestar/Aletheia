@@ -2,7 +2,6 @@ package aletheia.gui.contextjtree.node;
 
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeModel;
-import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.EmptyContextJTreeNodeRenderer;
 import aletheia.model.statement.Statement;
 
@@ -23,9 +22,15 @@ public class EmptyContextJTreeNode extends ContextJTreeNode
 	}
 
 	@Override
-	protected ContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree)
+	protected EmptyContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree)
 	{
 		return new EmptyContextJTreeNodeRenderer(contextJTree);
+	}
+
+	@Override
+	protected synchronized EmptyContextJTreeNodeRenderer getRenderer()
+	{
+		return (EmptyContextJTreeNodeRenderer) super.getRenderer();
 	}
 
 	@Override

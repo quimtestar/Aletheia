@@ -3,7 +3,6 @@ package aletheia.gui.contextjtree.node;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeModel;
 import aletheia.gui.contextjtree.renderer.ConsequentContextJTreeNodeRenderer;
-import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
 import aletheia.model.statement.Context;
 
 public class ConsequentContextJTreeNode extends ContextJTreeNode
@@ -28,9 +27,15 @@ public class ConsequentContextJTreeNode extends ContextJTreeNode
 	}
 
 	@Override
-	protected ContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree)
+	protected ConsequentContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree)
 	{
 		return new ConsequentContextJTreeNodeRenderer(contextJTree, parent.getContext());
+	}
+
+	@Override
+	protected synchronized ConsequentContextJTreeNodeRenderer getRenderer()
+	{
+		return (ConsequentContextJTreeNodeRenderer) super.getRenderer();
 	}
 
 	@Override

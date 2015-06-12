@@ -251,4 +251,17 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 		return new ListChanges<Sorter>(oldSorterList, newSorterList);
 	}
 
+	@Override
+	protected synchronized ContextJTreeNodeRenderer getRenderer()
+	{
+		return super.getRenderer();
+	}
+
+	public void setExpanded(boolean expanded)
+	{
+		ContextJTreeNodeRenderer renderer = getRenderer();
+		if (renderer instanceof GroupSorterContextJTreeNodeRenderer)
+			((GroupSorterContextJTreeNodeRenderer) renderer).setExpanded(expanded);
+	}
+
 }

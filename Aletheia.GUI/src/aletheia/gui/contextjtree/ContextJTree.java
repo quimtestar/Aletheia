@@ -28,11 +28,14 @@ import java.awt.event.MouseListener;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
+
 import javax.swing.AbstractCellEditor;
 import javax.swing.JComponent;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -359,6 +362,34 @@ public class ContextJTree extends PersistentJTree
 
 	}
 
+	private class MyTreeExpansionListener implements TreeExpansionListener
+	{
+
+		private void stateUpdate(TreePath path)
+		{
+			Object o = path.getLastPathComponent();
+			if (o instanceof GroupSorterContextJTreeNode)
+			{
+				@SuppressWarnings("unchecked")
+				GroupSorterContextJTreeNode<? extends Statement> node = (GroupSorterContextJTreeNode<? extends Statement>) o;
+				node.setExpanded(isExpanded(path));
+			}
+		}
+
+		@Override
+		public void treeExpanded(TreeExpansionEvent event)
+		{
+			stateUpdate(event.getPath());
+		}
+
+		@Override
+		public void treeCollapsed(TreeExpansionEvent event)
+		{
+			stateUpdate(event.getPath());
+		}
+
+	}
+
 	public ContextJTree(AletheiaJPanel aletheiaJPanel)
 	{
 		super(new ContextJTreeModel(aletheiaJPanel.getPersistenceManager()));
@@ -378,6 +409,7 @@ public class ContextJTree extends PersistentJTree
 		this.selectionListeners = new HashSet<SelectionListener>();
 		this.setRootVisible(false);
 		this.setShowsRootHandles(true);
+		this.addTreeExpansionListener(new MyTreeExpansionListener());
 	}
 
 	public class TreeModelListener extends TreeModelHandler

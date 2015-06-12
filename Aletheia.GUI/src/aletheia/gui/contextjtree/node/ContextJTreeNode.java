@@ -99,6 +99,14 @@ public abstract class ContextJTreeNode implements TreeNode
 		return renderer;
 	}
 
+	protected synchronized ContextJTreeNodeRenderer getRenderer()
+	{
+		if (rendererRef != null)
+			return rendererRef.get();
+		else
+			return null;
+	}
+
 	protected abstract ContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree);
 
 	public TreePath path()
