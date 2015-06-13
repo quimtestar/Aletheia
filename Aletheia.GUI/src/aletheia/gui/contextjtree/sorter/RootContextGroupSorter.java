@@ -2,7 +2,6 @@ package aletheia.gui.contextjtree.sorter;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.RootContext;
-import aletheia.model.statement.Statement;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.collections.statement.GenericRootContextsMap;
@@ -31,7 +30,7 @@ public class RootContextGroupSorter extends GroupSorter<RootContext>
 	}
 
 	@Override
-	public Statement getStatement(Transaction transaction)
+	public RootContext getStatement(Transaction transaction)
 	{
 		if (getPrefix() == null)
 			return null;

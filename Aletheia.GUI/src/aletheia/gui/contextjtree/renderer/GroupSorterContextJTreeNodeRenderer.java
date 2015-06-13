@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
 import aletheia.model.statement.Statement;
+import aletheia.persistence.Transaction;
 
 public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
 {
@@ -31,10 +32,38 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 
 		private static final long serialVersionUID = -4978670531069281792L;
 
+		private final StatementContextJTreeNodeRenderer statementRenderer;
+
 		public CollapsedRenderer(ContextJTree contextJTree)
 		{
 			super(contextJTree);
-			addTextLabel(sorter.getPrefix().qualifiedName(), Color.red);
+			Transaction transaction = getContextJTree().getModel().beginTransaction();
+			try
+			{
+				Statement statement = sorter.getStatement(transaction);
+				if (statement != null)
+				{
+					statementRenderer = StatementContextJTreeNodeRenderer.renderer(contextJTree, statement);
+					add(statementRenderer);
+				}
+				else
+				{
+					statementRenderer = null;
+					addTextLabel(sorter.getPrefix().qualifiedName(), Color.blue);
+				}
+			}
+			finally
+			{
+				transaction.abort();
+			}
+		}
+
+		@Override
+		public void setSelected(boolean selected)
+		{
+			super.setSelected(selected);
+			if (statementRenderer != null)
+				statementRenderer.setSelected(selected);
 		}
 
 	}
@@ -46,7 +75,7 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 	private final static String cardExpanded = "expanded";
 	private final static String cardCollapsed = "collapsed";
 
-	public GroupSorterContextJTreeNodeRenderer(ContextJTree contextJTree, GroupSorter<? extends Statement> sorter)
+	public GroupSorterContextJTreeNodeRenderer(ContextJTree contextJTree, GroupSorter<? extends Statement> sorter, boolean expanded)
 	{
 		super(contextJTree);
 		this.sorter = sorter;
@@ -56,8 +85,8 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 		this.panel.add(this.expandedRenderer, cardExpanded);
 		this.collapsedRenderer = new CollapsedRenderer(contextJTree);
 		this.panel.add(this.collapsedRenderer, cardCollapsed);
-		this.layout.show(this.panel, cardCollapsed);
 		add(this.panel);
+		setExpanded(expanded);
 	}
 
 	public GroupSorter<? extends Statement> getSorter()

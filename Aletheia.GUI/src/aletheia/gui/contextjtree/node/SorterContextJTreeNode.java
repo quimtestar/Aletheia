@@ -22,7 +22,7 @@ public abstract class SorterContextJTreeNode extends ContextJTreeNode
 		return sorter;
 	}
 
-	protected GroupSorter<? extends Statement> parentSorter()
+	public GroupSorter<? extends Statement> parentSorter()
 	{
 		return getSorter().getGroup();
 	}

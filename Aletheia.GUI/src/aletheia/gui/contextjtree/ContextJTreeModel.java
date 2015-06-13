@@ -1057,7 +1057,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 		}
 	}
 
-	void nodeChanged(ContextJTreeNode node)
+	private void nodeChangedNoDep(ContextJTreeNode node)
 	{
 		node.cleanRenderer();
 		final TreeModelEvent e = new TreeModelEvent(this, node.path());
@@ -1076,6 +1076,19 @@ public class ContextJTreeModel extends PersistentTreeModel
 			}
 
 		});
+	}
+
+	void nodeChanged(ContextJTreeNode node)
+	{
+		nodeChangedNoDep(node);
+
+		if (node instanceof StatementContextJTreeNode)
+		{
+			StatementContextJTreeNode statementNode = (StatementContextJTreeNode) node;
+			Identifier prefix = statementNode.parentSorter().getPrefix();
+			if (prefix != null && prefix.equals(statementNode.getStatement().getIdentifier()))
+				nodeChangedNoDep(statementNode.getParent());
+		}
 	}
 
 	private void nodeStructureChanged(GroupSorterContextJTreeNode<? extends Statement> node)

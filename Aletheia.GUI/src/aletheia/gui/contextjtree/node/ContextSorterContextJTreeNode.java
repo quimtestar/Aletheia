@@ -48,7 +48,7 @@ public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJT
 	}
 
 	@Override
-	protected GroupSorter<? extends Statement> parentSorter()
+	public GroupSorter<? extends Statement> parentSorter()
 	{
 		return getNodeMapSorter().getGroup();
 	}
