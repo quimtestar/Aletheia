@@ -1,7 +1,12 @@
 package aletheia.gui.contextjtree.renderer;
 
+import java.awt.AWTEvent;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
@@ -66,6 +71,12 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 				statementRenderer.setSelected(selected);
 		}
 
+		public void passEvent(AWTEvent e)
+		{
+			if (statementRenderer != null)
+				statementRenderer.dispatchEvent(e);
+		}
+
 	}
 
 	private final CardLayout layout;
@@ -74,6 +85,66 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 	private final CollapsedRenderer collapsedRenderer;
 	private final static String cardExpanded = "expanded";
 	private final static String cardCollapsed = "collapsed";
+	private boolean expanded;
+
+	private class Listener implements MouseListener, KeyListener
+	{
+
+		private void passEvent(AWTEvent e)
+		{
+			if (!expanded)
+				collapsedRenderer.passEvent(e);
+		}
+
+		@Override
+		public void keyTyped(KeyEvent e)
+		{
+			passEvent(e);
+		}
+
+		@Override
+		public void keyPressed(KeyEvent e)
+		{
+			passEvent(e);
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e)
+		{
+			passEvent(e);
+		}
+
+		@Override
+		public void mouseClicked(MouseEvent e)
+		{
+			passEvent(e);
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e)
+		{
+			passEvent(e);
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e)
+		{
+			passEvent(e);
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e)
+		{
+			passEvent(e);
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e)
+		{
+			passEvent(e);
+		}
+
+	}
 
 	public GroupSorterContextJTreeNodeRenderer(ContextJTree contextJTree, GroupSorter<? extends Statement> sorter, boolean expanded)
 	{
@@ -87,6 +158,9 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 		this.panel.add(this.collapsedRenderer, cardCollapsed);
 		add(this.panel);
 		setExpanded(expanded);
+		Listener listener = new Listener();
+		addKeyListener(listener);
+		addMouseListener(listener);
 	}
 
 	public GroupSorter<? extends Statement> getSorter()
@@ -97,6 +171,12 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 	public void setExpanded(boolean expanded)
 	{
 		layout.show(panel, expanded ? cardExpanded : cardCollapsed);
+		this.expanded = expanded;
+	}
+
+	public boolean isExpanded()
+	{
+		return expanded;
 	}
 
 	@Override
