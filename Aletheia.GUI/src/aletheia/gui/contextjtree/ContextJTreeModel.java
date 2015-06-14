@@ -785,7 +785,12 @@ public class ContextJTreeModel extends PersistentTreeModel
 			{
 				GroupSorterContextJTreeNode<? extends Statement> pNode = node.getParent();
 				if (!pNode.checkStatementInsert(statement))
+				{
 					nodeStructureChanged(pNode);
+					Identifier prefix = node.parentSorter().getPrefix();
+					if (prefix != null && prefix.equals(statement.getIdentifier()))
+						nodeChangedNoDep(pNode);
+				}
 				if (!(pNode instanceof ContextSorterContextJTreeNode))
 					nodeStructureChanged(pNode.getParent());
 			}
@@ -846,6 +851,9 @@ public class ContextJTreeModel extends PersistentTreeModel
 						if (!(pNode instanceof RootContextJTreeNode))
 							nodeStructureChanged(pNode.getParent());
 					}
+					Identifier prefix = pNode.getSorter().getPrefix();
+					if (prefix != null && prefix.equals(statement.getIdentifier()))
+						nodeChangedNoDep(pNode);
 				}
 			}
 			StatementContextJTreeNode node = addStatement(statement.refresh(transaction));
@@ -854,7 +862,12 @@ public class ContextJTreeModel extends PersistentTreeModel
 				nodeChanged((ContextJTreeNode) node);
 				GroupSorterContextJTreeNode<? extends Statement> pNode = node.getParent();
 				if (!pNode.checkStatementInsert(statement))
+				{
 					nodeStructureChanged(pNode);
+					Identifier prefix = pNode.getSorter().getPrefix();
+					if (prefix != null && prefix.equals(statement.getIdentifier()))
+						nodeChangedNoDep(pNode);
+				}
 				if (!(pNode instanceof RootContextJTreeNode))
 					nodeStructureChanged(pNode.getParent());
 			}
@@ -975,6 +988,10 @@ public class ContextJTreeModel extends PersistentTreeModel
 			if ((pNode != null) && !pNode.checkStatementRemove(statement))
 			{
 				nodeStructureChanged(pNode);
+				Identifier prefix = pNode.getSorter().getPrefix();
+				if (prefix != null && prefix.equals(statement.getIdentifier()))
+					nodeChangedNoDep(pNode);
+
 				if (pNode.isDegenerate())
 				{
 					if (!(pNode instanceof ContextSorterContextJTreeNode))
