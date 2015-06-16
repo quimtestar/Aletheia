@@ -36,7 +36,7 @@ public class StatementGroupSorter extends GroupSorter<Statement>
 	}
 
 	@Override
-	protected LocalSortedStatements sortedStatements(Transaction transaction)
+	public LocalSortedStatements sortedStatements(Transaction transaction)
 	{
 		LocalSortedStatements sortedStatements = context.localSortedStatements(transaction);
 		if (getPrefix() != null)

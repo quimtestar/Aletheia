@@ -1,8 +1,12 @@
 package aletheia.gui.contextjtree.sorter;
 
+import java.util.Collections;
+
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.collections.CloseableSet;
+import aletheia.utilities.collections.TrivialCloseableSet;
 
 public class StatementSorter extends Sorter
 {
@@ -31,6 +35,12 @@ public class StatementSorter extends Sorter
 	public Statement getStatement(Transaction transaction)
 	{
 		return statement;
+	}
+
+	@Override
+	public CloseableSet<Statement> statements(Transaction transaction)
+	{
+		return new TrivialCloseableSet<Statement>(Collections.singleton(statement));
 	}
 
 	@Override

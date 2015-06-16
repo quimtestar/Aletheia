@@ -26,9 +26,9 @@ public class AssumptionContextJTreeNodeRenderer extends StatementContextJTreeNod
 {
 	private static final long serialVersionUID = -1306644843764913368L;
 
-	protected AssumptionContextJTreeNodeRenderer(ContextJTree contextJTree, Assumption assumption)
+	protected AssumptionContextJTreeNodeRenderer(ContextJTree contextJTree, Assumption assumption, EditableTextLabelComponent editableTextLabelComponent)
 	{
-		super(contextJTree, assumption);
+		super(contextJTree, assumption, editableTextLabelComponent);
 		setActiveFont(getItalicFont());
 		addSpaceLabel();
 		addOpenBracket();

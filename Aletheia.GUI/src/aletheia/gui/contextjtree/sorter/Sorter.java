@@ -3,6 +3,7 @@ package aletheia.gui.contextjtree.sorter;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.collections.CloseableSet;
 
 public abstract class Sorter
 {
@@ -28,6 +29,8 @@ public abstract class Sorter
 	}
 
 	public abstract Statement getStatement(Transaction transaction);
+
+	public abstract CloseableSet<? extends Statement> statements(Transaction transaction);
 
 	@Override
 	public int hashCode()

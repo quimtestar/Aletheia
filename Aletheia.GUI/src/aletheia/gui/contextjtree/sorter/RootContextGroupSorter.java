@@ -43,7 +43,7 @@ public class RootContextGroupSorter extends GroupSorter<RootContext>
 	}
 
 	@Override
-	protected SortedRootContexts sortedStatements(Transaction transaction)
+	public SortedRootContexts sortedStatements(Transaction transaction)
 	{
 		SortedRootContexts sortedStatements = persistenceManager.sortedRootContexts(transaction);
 		if (getPrefix() != null)

@@ -51,7 +51,13 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 		return StatementSorter.newStatementSorter(this, statement);
 	}
 
-	protected abstract SortedStatements<S> sortedStatements(Transaction transaction);
+	public abstract SortedStatements<S> sortedStatements(Transaction transaction);
+
+	@Override
+	public SortedStatements<S> statements(Transaction transaction)
+	{
+		return sortedStatements(transaction);
+	}
 
 	protected abstract GroupSorter<S> subGroupSorter(Identifier prefix);
 

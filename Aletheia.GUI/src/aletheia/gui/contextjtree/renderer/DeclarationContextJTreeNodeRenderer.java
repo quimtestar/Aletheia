@@ -27,9 +27,9 @@ public class DeclarationContextJTreeNodeRenderer extends StatementContextJTreeNo
 {
 	private static final long serialVersionUID = 6841890763302299054L;
 
-	protected DeclarationContextJTreeNodeRenderer(ContextJTree contextJTree, Declaration declaration)
+	protected DeclarationContextJTreeNodeRenderer(ContextJTree contextJTree, Declaration declaration, EditableTextLabelComponent editableTextLabelComponent)
 	{
-		super(contextJTree, declaration);
+		super(contextJTree, declaration, editableTextLabelComponent);
 		Transaction transaction = contextJTree.getModel().beginTransaction();
 		try
 		{

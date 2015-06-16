@@ -27,9 +27,10 @@ public class UnfoldingContextContextJTreeNodeRenderer extends ContextContextJTre
 {
 	private static final long serialVersionUID = 5051767441682012846L;
 
-	protected UnfoldingContextContextJTreeNodeRenderer(ContextJTree contextJTree, UnfoldingContext context)
+	protected UnfoldingContextContextJTreeNodeRenderer(ContextJTree contextJTree, UnfoldingContext context,
+			EditableTextLabelComponent editableTextLabelComponent)
 	{
-		super(contextJTree, context);
+		super(contextJTree, context, editableTextLabelComponent);
 		Transaction transaction = contextJTree.getModel().beginTransaction();
 		try
 		{

@@ -23,7 +23,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.JLabel;
 import javax.swing.TransferHandler;
 
@@ -33,6 +32,7 @@ import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.StatementAuthority;
+import aletheia.model.identifier.Identifier;
 import aletheia.model.local.ContextLocal;
 import aletheia.model.local.StatementLocal;
 import aletheia.model.statement.Assumption;
@@ -52,7 +52,81 @@ public abstract class StatementContextJTreeNodeRenderer extends ContextJTreeNode
 	private final Statement statement;
 	private final StatementAuthority statementAuthority;
 	private final StatementLocal statementLocal;
-	private final EditableVariableNameComponent editableVariableNameComponent;
+
+	protected class EditableStatementIdentifierComponent extends EditableTextLabelComponent implements EditableComponent
+	{
+		private static final long serialVersionUID = -4548549900954285255L;
+
+		public EditableStatementIdentifierComponent()
+		{
+			super(getDefaultColor());
+			Transaction transaction = beginTransaction();
+			try
+			{
+				Identifier id = statement.identifier(transaction);
+				String idString;
+				if (id != null)
+					idString = id.toString();
+				else
+					idString = statement.getVariable().toString();
+				setLabelText(idString);
+				if (id != null)
+					setFieldText(id.toString());
+			}
+			finally
+			{
+				transaction.abort();
+			}
+		}
+
+		private void resetTextField()
+		{
+			Transaction transaction = getPersistenceManager().beginTransaction();
+			try
+			{
+				Identifier id = statement.identifier(transaction);
+				if (id != null)
+					setFieldText(id.toString());
+				else
+					setFieldText("");
+			}
+			finally
+			{
+				transaction.abort();
+			}
+		}
+
+		@Override
+		public void keyPressed(KeyEvent ev)
+		{
+			switch (ev.getKeyCode())
+			{
+			case KeyEvent.VK_ENTER:
+				try
+				{
+					getContextJTree().editStatementName(statement, getFieldText().trim());
+				}
+				catch (Exception e)
+				{
+					try
+					{
+						getContextJTree().getAletheiaJPanel().getCliJPanel().exception(e);
+					}
+					catch (InterruptedException e1)
+					{
+						logger.error(e1.getMessage(), e1);
+					}
+				}
+				break;
+			case KeyEvent.VK_ESCAPE:
+				resetTextField();
+				break;
+			}
+		}
+
+	}
+
+	private final EditableTextLabelComponent editableTextLabelComponent;
 	@SuppressWarnings("unused")
 	private final JLabel localLabel;
 
@@ -269,7 +343,7 @@ public abstract class StatementContextJTreeNodeRenderer extends ContextJTreeNode
 
 	private final Listener listener;
 
-	protected StatementContextJTreeNodeRenderer(ContextJTree contextJTree, Statement statement)
+	protected StatementContextJTreeNodeRenderer(ContextJTree contextJTree, Statement statement, EditableTextLabelComponent editableTextLabelComponent)
 	{
 		super(contextJTree);
 		Transaction transaction = contextJTree.getModel().beginTransaction();
@@ -282,7 +356,7 @@ public abstract class StatementContextJTreeNodeRenderer extends ContextJTreeNode
 			addAuthorityLabel();
 			this.localLabel = addLocalLabel();
 			addSpaceLabel();
-			this.editableVariableNameComponent = addEditableVariableNameComponent(statement);
+			this.editableTextLabelComponent = addEditableTextLabelComponent(editableTextLabelComponent);
 			addColonLabel();
 			addTerm(statement.parentVariableToIdentifier(transaction), statement.getTerm());
 
@@ -301,67 +375,54 @@ public abstract class StatementContextJTreeNodeRenderer extends ContextJTreeNode
 		return statement;
 	}
 
+	protected EditableTextLabelComponent addEditableTextLabelComponent(EditableTextLabelComponent editableTextLabelComponent)
+	{
+		if (editableTextLabelComponent == null)
+			editableTextLabelComponent = new EditableStatementIdentifierComponent();
+		addEditableComponent(editableTextLabelComponent);
+		add(editableTextLabelComponent);
+		return editableTextLabelComponent;
+	}
+
 	public static StatementContextJTreeNodeRenderer renderer(ContextJTree contextJTree, Statement statement)
+	{
+		return renderer(contextJTree, statement, null);
+	}
+
+	protected static StatementContextJTreeNodeRenderer renderer(ContextJTree contextJTree, Statement statement,
+			EditableTextLabelComponent editableTextLabelComponent)
 	{
 		if (statement == null)
 			return null;
 		else if (statement instanceof Assumption)
-			return new AssumptionContextJTreeNodeRenderer(contextJTree, (Assumption) statement);
+			return new AssumptionContextJTreeNodeRenderer(contextJTree, (Assumption) statement, editableTextLabelComponent);
 		else if (statement instanceof UnfoldingContext)
-			return new UnfoldingContextContextJTreeNodeRenderer(contextJTree, (UnfoldingContext) statement);
+			return new UnfoldingContextContextJTreeNodeRenderer(contextJTree, (UnfoldingContext) statement, editableTextLabelComponent);
 		else if (statement instanceof RootContext)
-			return new RootContextContextJTreeNodeRenderer(contextJTree, (RootContext) statement);
+			return new RootContextContextJTreeNodeRenderer(contextJTree, (RootContext) statement, editableTextLabelComponent);
 		else if (statement instanceof Context)
-			return new ContextContextJTreeNodeRenderer(contextJTree, (Context) statement);
+			return new ContextContextJTreeNodeRenderer(contextJTree, (Context) statement, editableTextLabelComponent);
 		else if (statement instanceof Declaration)
-			return new DeclarationContextJTreeNodeRenderer(contextJTree, (Declaration) statement);
+			return new DeclarationContextJTreeNodeRenderer(contextJTree, (Declaration) statement, editableTextLabelComponent);
 		else if (statement instanceof Specialization)
-			return new SpecializationContextJTreeNodeRenderer(contextJTree, (Specialization) statement);
+			return new SpecializationContextJTreeNodeRenderer(contextJTree, (Specialization) statement, editableTextLabelComponent);
 		else
 			throw new Error();
 	}
 
 	public void editName()
 	{
-		editableVariableNameComponent.edit();
+		editableTextLabelComponent.edit();
 	}
 
-	public void delete() throws InterruptedException
+	private void delete() throws InterruptedException
 	{
 		getContextJTree().deleteStatement(statement);
 	}
 
-	public void deleteCascade() throws InterruptedException
+	private void deleteCascade() throws InterruptedException
 	{
 		getContextJTree().deleteStatementCascade(statement);
-	}
-
-	@Override
-	protected void keyPressedOnEditableVariableName(Statement statement, KeyEvent ev, String text)
-	{
-		switch (ev.getKeyCode())
-		{
-		case KeyEvent.VK_ENTER:
-			try
-			{
-				getContextJTree().editStatementName(statement, text.trim());
-			}
-			catch (Exception e)
-			{
-				try
-				{
-					getContextJTree().getAletheiaJPanel().getCliJPanel().exception(e);
-				}
-				catch (InterruptedException e1)
-				{
-					logger.error(e1.getMessage(), e1);
-				}
-			}
-			break;
-		case KeyEvent.VK_ESCAPE:
-			editableVariableNameComponent.resetTextField();
-			break;
-		}
 	}
 
 }
