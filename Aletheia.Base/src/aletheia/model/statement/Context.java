@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -86,6 +87,7 @@ import aletheia.utilities.collections.AdaptedList;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCloseableSet;
 import aletheia.utilities.collections.BijectionList;
+import aletheia.utilities.collections.BufferedList;
 import aletheia.utilities.collections.CastBijection;
 import aletheia.utilities.collections.CloseableCollection;
 import aletheia.utilities.collections.CloseableIterable;
@@ -100,6 +102,7 @@ import aletheia.utilities.collections.Filter;
 import aletheia.utilities.collections.FilteredCloseableSet;
 import aletheia.utilities.collections.FilteredCollection;
 import aletheia.utilities.collections.NotNullFilter;
+import aletheia.utilities.collections.ReverseList;
 import aletheia.utilities.collections.TrivialCloseableCollection;
 import aletheia.utilities.collections.TrivialCloseableIterable;
 import aletheia.utilities.collections.UnionCloseableCollection;
@@ -892,9 +895,9 @@ public class Context extends Statement
 		return getPersistenceManager().localSortedStatements(transaction, this);
 	}
 
-	public CloseableCollection<Statement> localDependencySortedStatements(final Transaction transaction)
+	private static CloseableCollection<Statement> dependencySortedStatements(final Transaction transaction,
+			final CloseableCollection<? extends Statement> collection, final Comparator<? super Statement> comparator)
 	{
-		final LocalSortedStatements localSortedStatements = localSortedStatements(transaction);
 		return new UnionCloseableCollection<Statement>(new AbstractCloseableCollection<CloseableCollection<Statement>>()
 		{
 
@@ -903,7 +906,7 @@ public class Context extends Statement
 			{
 				return new CloseableIterator<CloseableCollection<Statement>>()
 				{
-					final CloseableIterator<Statement> iterator = localSortedStatements.iterator();
+					final CloseableIterator<? extends Statement> iterator = collection.iterator();
 					final Set<Statement> visited = new HashSet<Statement>();
 
 					@Override
@@ -931,10 +934,11 @@ public class Context extends Statement
 									@Override
 									public boolean filter(Statement e)
 									{
-										return !visited.contains(e);
+										return !visited.contains(e) && collection.contains(e);
 									}
-								}, st.localDependencies(transaction)));
-								Collections.sort(list, localSortedStatements.comparator());
+								}, st.dependencies(transaction)));
+								if (comparator != null)
+									Collections.sort(list, comparator);
 								dependencyMap.put(st, list);
 							}
 							stack.addAll(list);
@@ -970,9 +974,34 @@ public class Context extends Statement
 			@Override
 			public int size()
 			{
-				return localSortedStatements.size();
+				return collection.size();
 			}
+
+			@Override
+			public boolean isEmpty()
+			{
+				return collection.isEmpty();
+			}
+
+			@Override
+			public boolean contains(Object o)
+			{
+				return collection.contains(o);
+			}
+
 		});
+
+	}
+
+	private static CloseableCollection<Statement> dependencySortedStatements(Transaction transaction, CloseableCollection<? extends Statement> iterable)
+	{
+		return dependencySortedStatements(transaction, iterable, null);
+	}
+
+	public CloseableCollection<Statement> localDependencySortedStatements(Transaction transaction)
+	{
+		LocalSortedStatements localSortedStatements = localSortedStatements(transaction);
+		return dependencySortedStatements(transaction, localSortedStatements, localSortedStatements.comparator());
 	}
 
 	/**
@@ -1261,19 +1290,11 @@ public class Context extends Statement
 		}
 	}
 
-	public void deleteStatements(Transaction transaction, CloseableIterable<? extends Statement> statements) throws StatementNotInContextException,
+	public void deleteStatements(Transaction transaction, CloseableCollection<? extends Statement> statements) throws StatementNotInContextException,
 			StatementHasDependentsException, CantDeleteAssumptionException, DependentUnpackedSignatureRequests
 	{
-		CloseableIterator<? extends Statement> iterator = statements.iterator();
-		try
-		{
-			while (iterator.hasNext())
-				deleteStatement(transaction, iterator.next());
-		}
-		finally
-		{
-			iterator.close();
-		}
+		for (Statement st : new ReverseList<Statement>(new BufferedList<Statement>(dependencySortedStatements(transaction, statements))))
+			deleteStatement(transaction, st);
 	}
 
 	/**

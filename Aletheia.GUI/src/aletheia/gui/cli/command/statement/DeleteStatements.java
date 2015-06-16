@@ -24,14 +24,14 @@ import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
-import aletheia.utilities.collections.CloseableIterable;
+import aletheia.utilities.collections.CloseableCollection;
 
 public class DeleteStatements extends TransactionalCommand
 {
 	private final Context context;
-	private final CloseableIterable<Statement> statements;
+	private final CloseableCollection<Statement> statements;
 
-	public DeleteStatements(CliJPanel from, Transaction transaction, Context context, CloseableIterable<Statement> statements)
+	public DeleteStatements(CliJPanel from, Transaction transaction, Context context, CloseableCollection<Statement> statements)
 	{
 		super(from, transaction);
 		this.context = context;
@@ -43,7 +43,7 @@ public class DeleteStatements extends TransactionalCommand
 		return context;
 	}
 
-	public CloseableIterable<Statement> getStatements()
+	public CloseableCollection<Statement> getStatements()
 	{
 		return statements;
 	}
