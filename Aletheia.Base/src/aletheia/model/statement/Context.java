@@ -1261,6 +1261,21 @@ public class Context extends Statement
 		}
 	}
 
+	public void deleteStatements(Transaction transaction, CloseableIterable<? extends Statement> statements) throws StatementNotInContextException,
+			StatementHasDependentsException, CantDeleteAssumptionException, DependentUnpackedSignatureRequests
+	{
+		CloseableIterator<? extends Statement> iterator = statements.iterator();
+		try
+		{
+			while (iterator.hasNext())
+				deleteStatement(transaction, iterator.next());
+		}
+		finally
+		{
+			iterator.close();
+		}
+	}
+
 	/**
 	 * Recursively clears the proven flags of this context.
 	 *
@@ -1427,11 +1442,28 @@ public class Context extends Statement
 	 */
 	public void deleteStatementCascade(Transaction transaction, Statement statement) throws StatementNotInContextException
 	{
+		deleteStatementsCascade(transaction, new TrivialCloseableCollection<Statement>(Collections.singleton(statement)));
+	}
+
+	public void deleteStatementsCascade(Transaction transaction, CloseableIterable<? extends Statement> statements) throws StatementNotInContextException
+	{
 		Stack<Statement> stack = new Stack<Statement>();
-		if (statement instanceof Assumption)
-			stack.push(statement.getContext(transaction));
-		else
-			stack.push(statement);
+		CloseableIterator<? extends Statement> iterator = statements.iterator();
+		try
+		{
+			while (iterator.hasNext())
+			{
+				Statement statement = iterator.next();
+				if (statement instanceof Assumption)
+					stack.push(statement.getContext(transaction));
+				else
+					stack.push(statement);
+			}
+		}
+		finally
+		{
+			iterator.close();
+		}
 		Set<Statement> visited = new HashSet<Statement>();
 		while (!stack.isEmpty())
 		{

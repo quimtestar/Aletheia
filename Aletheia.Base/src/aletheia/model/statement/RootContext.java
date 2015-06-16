@@ -50,6 +50,8 @@ import aletheia.persistence.PersistenceListenerManager.Listeners;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.entities.statement.RootContextEntity;
+import aletheia.utilities.collections.CloseableIterable;
+import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableMap;
 import aletheia.utilities.collections.CloseableSet;
 
@@ -274,6 +276,25 @@ public class RootContext extends Context
 	public void deleteCascade(Transaction transaction)
 	{
 		delete(transaction);
+	}
+
+	public static void delete(Transaction transaction, CloseableIterable<? extends RootContext> rootContexts)
+	{
+		CloseableIterator<? extends RootContext> iterator = rootContexts.iterator();
+		try
+		{
+			while (iterator.hasNext())
+				iterator.next().delete(transaction);
+		}
+		finally
+		{
+			iterator.close();
+		}
+	}
+
+	public static void deleteCascade(Transaction transaction, CloseableIterable<? extends RootContext> rootContexts)
+	{
+		delete(transaction, rootContexts);
 	}
 
 	public RootNomenclator getRootNomenclator(Transaction transaction)
