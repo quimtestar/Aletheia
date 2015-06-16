@@ -222,9 +222,17 @@ public abstract class AbstractRenderer extends JPanel
 		return addTextLabel("\u22a2", turnstileColor);
 	}
 
+	protected JLabel addSpaceLabel(int l)
+	{
+		StringBuilder b = new StringBuilder();
+		for (int i = 0; i < l; i++)
+			b.append(' ');
+		return addTextLabel(b.toString());
+	}
+
 	protected JLabel addSpaceLabel()
 	{
-		return addTextLabel(" ");
+		return addSpaceLabel(1);
 	}
 
 	protected JLabel addOpenBracket()
@@ -397,6 +405,16 @@ public abstract class AbstractRenderer extends JPanel
 	protected JLabel addClosedBoxLabel(Color color)
 	{
 		return addTextLabel("\u25a3", color);
+	}
+
+	protected JLabel addGroupSorterLabel(Color color)
+	{
+		return addTextLabel("\u229e", color);
+	}
+
+	protected JLabel addGroupSorterLabel()
+	{
+		return addGroupSorterLabel(getGroupSorterColor());
 	}
 
 	public void setSelected(boolean selected)

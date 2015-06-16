@@ -84,6 +84,8 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 		public ExpandedRenderer(ContextJTree contextJTree)
 		{
 			super(contextJTree);
+			addGroupSorterLabel();
+			addSpaceLabel(3);
 			this.editableSorterPrefixComponent = new EditableSorterPrefixComponent();
 			addEditableComponent(editableSorterPrefixComponent);
 			add(editableSorterPrefixComponent);
