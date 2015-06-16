@@ -20,21 +20,38 @@
 package aletheia.gui.cli.command.statement;
 
 import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.TransactionalCommand;
+import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.collections.CloseableIterable;
 
-public class DeleteStatementCascade extends DeleteStatement
+public class DeleteStatements extends TransactionalCommand
 {
+	private final Context context;
+	private final CloseableIterable<Statement> statements;
 
-	public DeleteStatementCascade(CliJPanel from, Transaction transaction, Statement statement)
+	public DeleteStatements(CliJPanel from, Transaction transaction, Context context, CloseableIterable<Statement> statements)
 	{
-		super(from, transaction, statement);
+		super(from, transaction);
+		this.context = context;
+		this.statements = statements;
+	}
+
+	public Context getContext()
+	{
+		return context;
+	}
+
+	public CloseableIterable<Statement> getStatements()
+	{
+		return statements;
 	}
 
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		getStatement().deleteCascade(getTransaction());
+		context.deleteStatements(getTransaction(), statements);
 		return null;
 	}
 

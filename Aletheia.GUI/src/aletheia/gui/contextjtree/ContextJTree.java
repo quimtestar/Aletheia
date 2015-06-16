@@ -48,8 +48,12 @@ import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.app.AletheiaJPanel;
 import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.statement.DeleteRootContexts;
+import aletheia.gui.cli.command.statement.DeleteRootContextsCascade;
 import aletheia.gui.cli.command.statement.DeleteStatement;
 import aletheia.gui.cli.command.statement.DeleteStatementCascade;
+import aletheia.gui.cli.command.statement.DeleteStatements;
+import aletheia.gui.cli.command.statement.DeleteStatementsCascade;
 import aletheia.gui.common.PersistentJTree;
 import aletheia.gui.common.StatementTransferable;
 import aletheia.gui.contextjtree.node.ConsequentContextJTreeNode;
@@ -64,6 +68,7 @@ import aletheia.gui.contextjtree.renderer.EmptyContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.GroupSorterContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.StatementContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
+import aletheia.gui.contextjtree.sorter.RootContextGroupSorter;
 import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.gui.contextjtree.sorter.StatementGroupSorter;
 import aletheia.log4j.LoggerManager;
@@ -233,15 +238,16 @@ public class ContextJTree extends PersistentJTree
 				else
 				{
 					Sorter sorter = getSelectedSorter();
-					if (sorter != null)
+					if (sorter instanceof GroupSorter)
 					{
+						@SuppressWarnings("unchecked")
+						GroupSorter<? extends Statement> groupSorter = (GroupSorter<? extends Statement>) sorter;
 						try
 						{
 							if (ev.isShiftDown())
-								deleteSorterCascade(sorter);
+								deleteSorterCascade(groupSorter);
 							else
-								deleteSorter(sorter);
-
+								deleteSorter(groupSorter);
 						}
 						catch (InterruptedException e1)
 						{
@@ -706,24 +712,44 @@ public class ContextJTree extends PersistentJTree
 				false);
 	}
 
-	public void deleteSorter(Sorter sorter) throws InterruptedException
+	public void deleteSorter(GroupSorter<? extends Statement> sorter) throws InterruptedException
 	{
-		/* TODO
-		Transaction transaction=getModel().beginTransaction();
-		getAletheiaJPanel().getCliJPanel().command(
-				new DeleteStatement(getAletheiaJPanel().getCliJPanel(), transaction, sorter.statements(transaction)), false);
-		*/
-		throw new RuntimeException();
+		Transaction transaction = getModel().beginTransaction();
+		if (sorter instanceof StatementGroupSorter)
+		{
+			StatementGroupSorter statementGroupSorter = (StatementGroupSorter) sorter;
+			getAletheiaJPanel().getCliJPanel().command(
+					new DeleteStatements(getAletheiaJPanel().getCliJPanel(), transaction, statementGroupSorter.getContext(),
+							statementGroupSorter.statements(transaction)), false);
+		}
+		else if (sorter instanceof RootContextGroupSorter)
+		{
+			RootContextGroupSorter rootContextGroupSorter = (RootContextGroupSorter) sorter;
+			getAletheiaJPanel().getCliJPanel().command(
+					new DeleteRootContexts(getAletheiaJPanel().getCliJPanel(), transaction, rootContextGroupSorter.statements(transaction)), false);
+		}
+		else
+			throw new Error();
 	}
 
-	public void deleteSorterCascade(Sorter sorter) throws InterruptedException
+	public void deleteSorterCascade(GroupSorter<? extends Statement> sorter) throws InterruptedException
 	{
-		/* TODO
-		Transaction transaction=getModel().beginTransaction();
-		getAletheiaJPanel().getCliJPanel().command(
-				new DeleteStatementCascade(getAletheiaJPanel().getCliJPanel(), transaction, sorter.statements(transaction)), false);
-		*/
-		throw new RuntimeException();
+		Transaction transaction = getModel().beginTransaction();
+		if (sorter instanceof StatementGroupSorter)
+		{
+			StatementGroupSorter statementGroupSorter = (StatementGroupSorter) sorter;
+			getAletheiaJPanel().getCliJPanel().command(
+					new DeleteStatementsCascade(getAletheiaJPanel().getCliJPanel(), transaction, statementGroupSorter.getContext(),
+							statementGroupSorter.statements(transaction)), false);
+		}
+		else if (sorter instanceof RootContextGroupSorter)
+		{
+			RootContextGroupSorter rootContextGroupSorter = (RootContextGroupSorter) sorter;
+			getAletheiaJPanel().getCliJPanel().command(
+					new DeleteRootContextsCascade(getAletheiaJPanel().getCliJPanel(), transaction, rootContextGroupSorter.statements(transaction)), false);
+		}
+		else
+			throw new Error();
 	}
 
 	public Listener getListener()
