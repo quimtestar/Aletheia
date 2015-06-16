@@ -1237,13 +1237,14 @@ public abstract class Statement implements Exportable
 		getParentNomenclator(transaction).identifyStatement(identifier, this);
 	}
 
-	public void unidentify(Transaction transaction)
+	public Identifier unidentify(Transaction transaction)
 	{
 		try
 		{
 			Identifier identifier = identifier(transaction);
 			if (identifier != null)
 				getParentNomenclator(transaction).unidentifyStatement(identifier);
+			return identifier;
 		}
 		catch (UnknownIdentifierException e)
 		{
