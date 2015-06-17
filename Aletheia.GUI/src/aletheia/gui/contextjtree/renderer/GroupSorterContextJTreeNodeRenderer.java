@@ -8,6 +8,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
+import javax.swing.TransferHandler;
+
 import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.cli.CliJPanel;
@@ -158,34 +160,36 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 			passEvent(e);
 		}
 
+		boolean draggable = false;
+
 		@Override
 		public void mouseClicked(MouseEvent e)
 		{
-			passEvent(e);
 		}
 
 		@Override
 		public void mousePressed(MouseEvent e)
 		{
-			passEvent(e);
+			draggable = true;
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e)
 		{
-			passEvent(e);
+			draggable = false;
 		}
 
 		@Override
 		public void mouseEntered(MouseEvent e)
 		{
-			passEvent(e);
+			draggable = false;
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e)
 		{
-			passEvent(e);
+			if ((draggable && (e.getModifiers() & MouseEvent.MOUSE_PRESSED) != 0))
+				getContextJTree().getTransferHandler().exportAsDrag(getContextJTree(), e, TransferHandler.COPY);
 		}
 
 	}

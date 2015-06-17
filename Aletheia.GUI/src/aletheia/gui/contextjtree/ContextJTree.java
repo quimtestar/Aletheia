@@ -54,7 +54,9 @@ import aletheia.gui.cli.command.statement.DeleteStatement;
 import aletheia.gui.cli.command.statement.DeleteStatementCascade;
 import aletheia.gui.cli.command.statement.DeleteStatements;
 import aletheia.gui.cli.command.statement.DeleteStatementsCascade;
+import aletheia.gui.common.AletheiaTransferable;
 import aletheia.gui.common.PersistentJTree;
+import aletheia.gui.common.SorterTransferable;
 import aletheia.gui.common.StatementTransferable;
 import aletheia.gui.contextjtree.node.ConsequentContextJTreeNode;
 import aletheia.gui.contextjtree.node.ContextSorterContextJTreeNode;
@@ -384,12 +386,15 @@ public class ContextJTree extends PersistentJTree
 		}
 
 		@Override
-		protected StatementTransferable createTransferable(JComponent c)
+		protected AletheiaTransferable createTransferable(JComponent c)
 		{
 			Statement statement = getSelectedStatement();
-			if (statement == null)
-				return null;
-			return new StatementTransferable(statement);
+			if (statement != null)
+				return new StatementTransferable(statement);
+			Sorter sorter = getSelectedSorter();
+			if (sorter != null)
+				return new SorterTransferable(getPersistenceManager(), sorter);
+			return null;
 		}
 
 		@Override
@@ -680,19 +685,26 @@ public class ContextJTree extends PersistentJTree
 
 	public Statement getSelectedStatement()
 	{
-		Sorter sorter = getSelectedSorter();
-		if (sorter instanceof StatementContextJTreeNode)
-			return ((StatementContextJTreeNode) sorter).getStatement();
+		ContextJTreeNode node = getSelectedNode();
+		if (node instanceof StatementContextJTreeNode)
+			return ((StatementContextJTreeNode) node).getStatement();
 		else
 			return null;
 	}
 
-	public Sorter getSelectedSorter()
+	public ContextJTreeNode getSelectedNode()
 	{
 		TreePath path = getSelectionModel().getSelectionPath();
 		if (path == null)
 			return null;
-		ContextJTreeNode node = (ContextJTreeNode) path.getLastPathComponent();
+		if (path.getLastPathComponent() instanceof ContextJTreeNode)
+			return (ContextJTreeNode) path.getLastPathComponent();
+		return null;
+	}
+
+	public Sorter getSelectedSorter()
+	{
+		ContextJTreeNode node = getSelectedNode();
 		if (node instanceof SorterContextJTreeNode)
 			return ((SorterContextJTreeNode) node).getSorter();
 		else if (node instanceof ConsequentContextJTreeNode)
