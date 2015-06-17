@@ -19,14 +19,14 @@
  ******************************************************************************/
 package aletheia.gui.contextjtree;
 
+import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import aletheia.utilities.collections.AbstractReadOnlyMap;
 import aletheia.utilities.collections.SoftCacheWithCleanerMap;
 
-public abstract class GenericTreeNodeMap<K, N> extends AbstractReadOnlyMap<K, N>
+public abstract class GenericTreeNodeMap<K, N> extends AbstractMap<K, N>
 {
 	private final SoftCacheWithCleanerMap<K, N> map;
 
@@ -127,15 +127,45 @@ public abstract class GenericTreeNodeMap<K, N> extends AbstractReadOnlyMap<K, N>
 		return map.values();
 	}
 
-	public synchronized N removeKey(K key)
+	@Override
+	public synchronized N remove(Object oKey)
 	{
-		synchronized (map)
+		try
 		{
-			N node = map.remove(key);
-			if (node != null)
-				keyRemoved(key);
-			return node;
+			@SuppressWarnings("unchecked")
+			K key = (K) oKey;
+			synchronized (map)
+			{
+				N node = map.remove(key);
+				if (node != null)
+					keyRemoved(key);
+				return node;
+			}
 		}
+		catch (ClassCastException e)
+		{
+			return null;
+		}
+	}
+
+	@Override
+	public synchronized void clear()
+	{
+		for (K k : keySet())
+			keyRemoved(k);
+		map.clear();
+	}
+
+	@Override
+	public final N put(K key, N value)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public final void putAll(Map<? extends K, ? extends N> m)
+	{
+		throw new UnsupportedOperationException();
 	}
 
 }

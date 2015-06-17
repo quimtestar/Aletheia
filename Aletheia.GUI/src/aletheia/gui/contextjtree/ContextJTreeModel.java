@@ -83,10 +83,40 @@ public class ContextJTreeModel extends PersistentTreeModel
 		this.statementListener = new StatementListener();
 		persistenceManager.getListenerManager().getRootContextTopStateListeners().add(statementListener);
 		persistenceManager.getListenerManager().getRootContextLocalStateListeners().add(statementListener);
+		listenRootContextNomenclators();
 		this.statementStateChangeQueue = new LinkedBlockingQueue<StatementStateChange>();
 		this.statementStateProcessorThread = new StatementStateProcessorThread();
 		this.statementStateProcessorThread.start();
 		this.rootTreeNode = null;
+	}
+
+	private void listenRootContextNomenclators()
+	{
+		Transaction transaction = beginTransaction();
+		try
+		{
+			for (RootContext rootCtx : getPersistenceManager().rootContexts(transaction).values())
+				rootCtx.getParentNomenclator(transaction).addListener(statementListener);
+		}
+		finally
+		{
+			transaction.abort();
+		}
+	}
+
+	private void unlistenRootContextNomenclators()
+	{
+		Transaction transaction = beginTransaction();
+		try
+		{
+			for (RootContext rootCtx : getPersistenceManager().rootContexts(transaction).values())
+				rootCtx.getParentNomenclator(transaction).removeListener(statementListener);
+		}
+		finally
+		{
+			transaction.abort();
+		}
+
 	}
 
 	public RootContextJTreeNode getRootTreeNode()
@@ -623,6 +653,8 @@ public class ContextJTreeModel extends PersistentTreeModel
 		getPersistenceManager().getListenerManager().getRootContextLocalStateListeners().remove(statementListener);
 		statementStateProcessorThread.shutdown();
 		statementStateProcessorThread.join();
+		unlistenRootContextNomenclators();
+		nodeMap.clear();
 	}
 
 	private class StatementStateProcessorThread extends Thread
@@ -1158,7 +1190,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 		if (changes != null)
 		{
 			for (ListChanges<Sorter>.Element e : changes.removedElements())
-				nodeMap.removeKey(e.object);
+				nodeMap.remove(e.object);
 			final TreeModelEvent eRemoves;
 			if (!changes.removedElements().isEmpty())
 			{
