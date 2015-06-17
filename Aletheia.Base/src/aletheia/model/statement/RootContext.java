@@ -297,7 +297,7 @@ public class RootContext extends Context
 		delete(transaction, rootContexts);
 	}
 
-	public RootNomenclator getRootNomenclator(Transaction transaction)
+	private RootNomenclator rootNomenclator(Transaction transaction)
 	{
 		return new RootNomenclator(getPersistenceManager(), transaction, this);
 	}
@@ -305,7 +305,7 @@ public class RootContext extends Context
 	@Override
 	public RootNomenclator getParentNomenclator(Transaction transaction)
 	{
-		return getRootNomenclator(transaction);
+		return rootNomenclator(transaction);
 	}
 
 	@Override
