@@ -164,12 +164,9 @@ public class ContextJTreeModel extends PersistentTreeModel
 		return node.path();
 	}
 
-	private synchronized GroupSorterContextJTreeNode<? extends Statement> deleteStatement(Statement statement)
+	private synchronized StatementContextJTreeNode deleteStatement(Statement statement)
 	{
-		StatementContextJTreeNode stNode = nodeMap.removeByStatement(statement);
-		if (stNode == null)
-			return null;
-		return stNode.getParent();
+		return nodeMap.removeByStatement(statement);
 	}
 
 	private synchronized StatementContextJTreeNode addStatement(Statement statement)
@@ -727,7 +724,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 		private void rootContextDeleted(RootContext rootContext, Transaction transaction)
 		{
-			GroupSorterContextJTreeNode<? extends Statement> pNode = deleteStatement(rootContext);
+			GroupSorterContextJTreeNode<? extends Statement> pNode = deleteStatement(null, rootContext);
 			if ((pNode != null) && !pNode.checkStatementRemove(rootContext))
 			{
 				nodeStructureChanged(pNode);
@@ -961,6 +958,52 @@ public class ContextJTreeModel extends PersistentTreeModel
 			statementDeletedFromContext(c.getContext(), c.getStatement(), transaction);
 		}
 
+		private GroupSorterContextJTreeNode<? extends Statement> deleteStatement(Context context, Statement statement)
+		{
+			StatementContextJTreeNode node = ContextJTreeModel.this.deleteStatement(statement);
+			if (node != null)
+				return node.getParent();
+			else
+			{
+				GroupSorterContextJTreeNode<? extends Statement> pNode;
+				if (context == null)
+					pNode = getRootTreeNode();
+				else
+				{
+					if (!nodeMap.cachedByStatement(context))
+						return null;
+					pNode = (ContextSorterContextJTreeNode) nodeMap.getByStatement(context);
+				}
+				Identifier id = statement.getIdentifier();
+				if (id == null)
+					return pNode;
+				loop: while (true)
+				{
+					synchronized (pNode)
+					{
+						if (pNode.computedSorterList())
+						{
+							for (ContextJTreeNode n : pNode.childrenIterable())
+							{
+								if (n instanceof GroupSorterContextJTreeNode && !(n instanceof StatementContextJTreeNode))
+								{
+									@SuppressWarnings("unchecked")
+									GroupSorterContextJTreeNode<? extends Statement> n_ = (GroupSorterContextJTreeNode<? extends Statement>) n;
+									if (n_.getSorter().getPrefix().isPrefixOf(id))
+									{
+										pNode = n_;
+										continue loop;
+									}
+								}
+							}
+						}
+						break loop;
+					}
+				}
+				return pNode;
+			}
+		}
+
 		private void statementDeletedFromContext(Context context, Statement statement, Transaction transaction)
 		{
 			if (statement.getTerm() instanceof SimpleTerm)
@@ -984,7 +1027,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 				}
 			}
 
-			GroupSorterContextJTreeNode<? extends Statement> pNode = deleteStatement(statement);
+			GroupSorterContextJTreeNode<? extends Statement> pNode = deleteStatement(context, statement);
 			if ((pNode != null) && !pNode.checkStatementRemove(statement))
 			{
 				nodeStructureChanged(pNode);

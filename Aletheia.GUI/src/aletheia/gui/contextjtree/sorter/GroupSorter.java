@@ -200,7 +200,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 		};
 	}
 
-	private Sorter getByStatementByPrefix(Transaction transaction, Statement statement)
+	private GroupSorter<S> getByPrefix(Transaction transaction, NodeNamespace nodeNamespace)
 	{
 		SortedStatements<S> sortedStatements = sortedStatements(transaction);
 		SortedStatements<S> assumptions = sortedStatements.headSet(RootNamespace.instance.initiator());
@@ -214,17 +214,27 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 			if (prefix instanceof NodeNamespace)
 				return subGroupSorter(((NodeNamespace) prefix).asIdentifier());
 		}
-		for (NodeNamespace prefix : statement.getIdentifier().prefixList())
+		for (NodeNamespace prefix : nodeNamespace.prefixList())
 		{
 			Identifier iPrefix = prefix.asIdentifier();
 			if (!identified.headSet(iPrefix).isEmpty() || !identified.tailSet(iPrefix.terminator()).isEmpty())
 			{
 				GroupSorter<S> subGroupSorter = subGroupSorter(iPrefix);
 				if (subGroupSorter.sortedStatements(transaction).smaller(minSubGroupSize))
-					return statementSorter(statement);
+					return null;
 				return subGroupSorter;
 			}
 		}
+		return null;
+	}
+
+	private Sorter getByStatementByPrefix(Transaction transaction, Statement statement)
+	{
+		GroupSorter<S> groupSorter = null;
+		if (statement.getIdentifier() != null)
+			groupSorter = getByPrefix(transaction, statement.getIdentifier());
+		if (groupSorter != null)
+			return groupSorter;
 		return statementSorter(statement);
 	}
 

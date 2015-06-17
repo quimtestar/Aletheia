@@ -117,6 +117,11 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 		return sorterListManager;
 	}
 
+	public boolean computedSorterList()
+	{
+		return sorterListManager != null;
+	}
+
 	private synchronized SorterListManager obtainSorterListManager()
 	{
 		if (sorterListManager == null)
@@ -145,7 +150,7 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 	public synchronized boolean isDegenerate()
 	{
 		SorterListManager manager = getSorterListManager();
-		return manager != null && manager.isDegenerate();
+		return manager == null || manager.isDegenerate();
 	}
 
 	public synchronized boolean checkStatementInsert(Statement statement)
@@ -160,7 +165,7 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 	{
 		SorterListManager manager = getSorterListManager();
 		if (manager == null)
-			return true;
+			return false;
 		return manager.checkStatementRemove(statement);
 	}
 
