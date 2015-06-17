@@ -8,7 +8,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
-
 import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.cli.CliJPanel;
@@ -27,7 +26,7 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 
 	private final GroupSorter<? extends Statement> sorter;
 
-	protected class EditableSorterPrefixComponent extends EditableTextLabelComponent implements EditableComponent
+	private class EditableSorterPrefixComponent extends EditableTextLabelComponent implements EditableComponent
 	{
 
 		private static final long serialVersionUID = -8199917497226360702L;
@@ -253,9 +252,9 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 
 	public void editName()
 	{
-		if (expanded)
+		if (expanded || collapsedEditableSorterPrefixComponent == null)
 			expandedRenderer.editName();
-		else if (collapsedEditableSorterPrefixComponent != null)
+		else
 			collapsedEditableSorterPrefixComponent.edit();
 	}
 

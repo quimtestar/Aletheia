@@ -53,7 +53,7 @@ public abstract class StatementContextJTreeNodeRenderer extends ContextJTreeNode
 	private final StatementAuthority statementAuthority;
 	private final StatementLocal statementLocal;
 
-	protected class EditableStatementIdentifierComponent extends EditableTextLabelComponent implements EditableComponent
+	private class EditableStatementIdentifierComponent extends EditableTextLabelComponent implements EditableComponent
 	{
 		private static final long serialVersionUID = -4548549900954285255L;
 
