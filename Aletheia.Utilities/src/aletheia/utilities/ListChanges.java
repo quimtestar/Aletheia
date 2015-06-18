@@ -25,6 +25,12 @@ public class ListChanges<E>
 			this(index, list.get(index));
 		}
 
+		@Override
+		public String toString()
+		{
+			return "[" + index + ": " + object + "]";
+		}
+
 	}
 
 	private final ArrayList<Element> removedElements;
@@ -61,14 +67,14 @@ public class ListChanges<E>
 			newMap.put(newSt, newI);
 			while (!oldMap.containsKey(newSt_) && !newMap.containsKey(oldSt_))
 			{
-				oldMap.put(oldSt_, oldJ);
-				newMap.put(newSt_, newJ);
 				oldJ++;
 				newJ++;
 				if (oldJ >= oldList.size() || newJ >= newList.size())
 					break;
 				oldSt_ = oldList.get(oldJ);
 				newSt_ = newList.get(newJ);
+				oldMap.put(oldSt_, oldJ);
+				newMap.put(newSt_, newJ);
 			}
 			Integer newK = newMap.get(oldSt_);
 			if (newJ >= newList.size() || newK != null)
