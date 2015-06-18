@@ -1219,7 +1219,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 				for (ListChanges<Sorter>.Element e : changes.insertedElements())
 				{
 					indexes[i] = e.index;
-					objects[i] = e.object;
+					objects[i] = nodeMap.get(e.object);
 					i++;
 				}
 				eInserts = new TreeModelEvent(this, node.path(), indexes, objects);
