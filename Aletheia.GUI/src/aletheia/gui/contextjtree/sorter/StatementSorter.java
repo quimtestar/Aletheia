@@ -47,7 +47,7 @@ public class StatementSorter extends Sorter
 	public int hashCode()
 	{
 		final int prime = 31;
-		int result = super.hashCode();
+		int result = 1;
 		result = prime * result + ((statement == null) ? 0 : statement.hashCode());
 		return result;
 	}
@@ -57,8 +57,6 @@ public class StatementSorter extends Sorter
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		StatementSorter other = (StatementSorter) obj;

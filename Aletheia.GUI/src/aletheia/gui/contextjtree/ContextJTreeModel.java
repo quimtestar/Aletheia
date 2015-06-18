@@ -868,10 +868,11 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 		private void statementIdentifierChanged(final Statement statement, Transaction transaction)
 		{
+			GroupSorterContextJTreeNode<?> pNode = null;
 			if (nodeMap.cachedByStatement(statement))
 			{
 				StatementContextJTreeNode node = nodeMap.getByStatement(statement);
-				GroupSorterContextJTreeNode<?> pNode = node.getParent();
+				pNode = node.getParent();
 				if ((pNode != null) && !pNode.checkStatementRemove(statement))
 				{
 					nodeStructureChanged(pNode);
@@ -889,16 +890,20 @@ public class ContextJTreeModel extends PersistentTreeModel
 			if (node != null)
 			{
 				nodeChanged((ContextJTreeNode) node);
-				GroupSorterContextJTreeNode<? extends Statement> pNode = node.getParent();
-				if (!pNode.checkStatementInsert(statement))
+				GroupSorterContextJTreeNode<? extends Statement> pNode_ = node.getParent();
+				if (!pNode_.equals(pNode))
 				{
-					nodeStructureChanged(pNode);
-					Identifier prefix = pNode.getSorter().getPrefix();
-					if (prefix != null && prefix.equals(statement.getIdentifier()))
-						nodeChangedNoDep(pNode);
+					pNode = pNode_;
+					if (!pNode.checkStatementInsert(statement))
+					{
+						nodeStructureChanged(pNode);
+						Identifier prefix = pNode.getSorter().getPrefix();
+						if (prefix != null && prefix.equals(statement.getIdentifier()))
+							nodeChangedNoDep(pNode);
+					}
+					if (!(pNode instanceof RootContextJTreeNode))
+						nodeStructureChanged(pNode.getParent());
 				}
-				if (!(pNode instanceof RootContextJTreeNode))
-					nodeStructureChanged(pNode.getParent());
 			}
 			if (statement instanceof RootContext)
 				nodeChanged(rootTreeNode);
