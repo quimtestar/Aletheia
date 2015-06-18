@@ -8,14 +8,10 @@ import aletheia.utilities.collections.CloseableSet;
 public abstract class Sorter
 {
 	private final GroupSorter<? extends Statement> group;
-	private final Identifier prefix;
 
-	public Sorter(GroupSorter<? extends Statement> group, Identifier prefix)
+	public Sorter(GroupSorter<? extends Statement> group)
 	{
-		if (group != null && group.getPrefix() != null && (prefix == null || !group.getPrefix().isPrefixOf(prefix)))
-			throw new IllegalArgumentException("Inconsistent prefix.");
 		this.group = group;
-		this.prefix = prefix;
 	}
 
 	public GroupSorter<? extends Statement> getGroup()
@@ -23,10 +19,7 @@ public abstract class Sorter
 		return group;
 	}
 
-	public Identifier getPrefix()
-	{
-		return prefix;
-	}
+	public abstract Identifier getPrefix();
 
 	public abstract Statement getStatement(Transaction transaction);
 
@@ -38,7 +31,6 @@ public abstract class Sorter
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((group == null) ? 0 : group.hashCode());
-		result = prime * result + ((prefix == null) ? 0 : prefix.hashCode());
 		return result;
 	}
 
@@ -59,20 +51,7 @@ public abstract class Sorter
 		}
 		else if (!group.equals(other.group))
 			return false;
-		if (prefix == null)
-		{
-			if (other.prefix != null)
-				return false;
-		}
-		else if (!prefix.equals(other.prefix))
-			return false;
 		return true;
-	}
-
-	@Override
-	public String toString()
-	{
-		return "[prefix:" + prefix + "]";
 	}
 
 }

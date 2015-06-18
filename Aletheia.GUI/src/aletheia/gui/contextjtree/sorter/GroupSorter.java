@@ -24,11 +24,16 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 	private final static int minGroupingSize = 0;
 	private final static int minSubGroupSize = 2;
 
+	private final Identifier prefix;
+
 	private final Bijection<S, Sorter> statementSorterBijection;
 
 	protected GroupSorter(GroupSorter<S> group, Identifier prefix)
 	{
-		super(group, prefix);
+		super(group);
+		this.prefix = prefix;
+		if (group != null && group.getPrefix() != null && (prefix == null || !group.getPrefix().isPrefixOf(prefix)))
+			throw new IllegalArgumentException("Inconsistent prefix.");
 		this.statementSorterBijection = new Bijection<S, Sorter>()
 		{
 
@@ -44,6 +49,47 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 				throw new UnsupportedOperationException();
 			}
 		};
+	}
+
+	@Override
+	public Identifier getPrefix()
+	{
+		return prefix;
+	}
+
+	@Override
+	public String toString()
+	{
+		return "[prefix:" + prefix + "]";
+	}
+
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((prefix == null) ? 0 : prefix.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		GroupSorter<? extends Statement> other = (GroupSorter<?>) obj;
+		if (prefix == null)
+		{
+			if (other.prefix != null)
+				return false;
+		}
+		else if (!prefix.equals(other.prefix))
+			return false;
+		return true;
 	}
 
 	private StatementSorter statementSorter(Statement statement)
