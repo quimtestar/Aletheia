@@ -25,6 +25,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
@@ -333,26 +334,22 @@ public class ContextJTree extends PersistentJTree
 			ContextJTreeNode node = (ContextJTreeNode) ev.getPath().getLastPathComponent();
 			if (node instanceof SorterContextJTreeNode)
 			{
+				boolean expanded = isExpanded(ev.getPath());
 				if (node instanceof StatementContextJTreeNode)
-				{
-					Statement statement = ((StatementContextJTreeNode) node).getStatement();
-					for (SelectionListener sl : selectionListeners)
-						sl.statementSelected(statement);
-				}
+					fireStatementSelected(((StatementContextJTreeNode) node).getStatement(), expanded);
 				else if (node instanceof GroupSorterContextJTreeNode)
-				{
-					GroupSorter<?> groupSorter = ((GroupSorterContextJTreeNode<?>) node).getSorter();
-					for (SelectionListener sl : selectionListeners)
-						sl.groupSorterSelected(groupSorter);
-				}
+					fireGroupSorterSelected(((GroupSorterContextJTreeNode<?>) node).getSorter(), expanded);
 				else
 					throw new Error();
 			}
 			else if (node instanceof ConsequentContextJTreeNode)
 			{
 				Context ctx = ((ConsequentContextJTreeNode) node).getContext();
-				for (SelectionListener sl : selectionListeners)
-					sl.consequentSelected(ctx);
+				synchronized (selectionListeners)
+				{
+					for (SelectionListener sl : selectionListeners)
+						sl.consequentSelected(ctx);
+				}
 			}
 			else
 				throw new Error();
@@ -362,11 +359,11 @@ public class ContextJTree extends PersistentJTree
 
 	public interface SelectionListener
 	{
-		public void statementSelected(Statement statement);
+		public void statementSelected(Statement statement, boolean expanded);
 
 		public void consequentSelected(Context context);
 
-		public void groupSorterSelected(GroupSorter<?> groupSorter);
+		public void groupSorterSelected(GroupSorter<? extends Statement> groupSorter, boolean expanded);
 	}
 
 	private final AletheiaJPanel aletheiaJPanel;
@@ -409,13 +406,27 @@ public class ContextJTree extends PersistentJTree
 
 		private void stateUpdate(TreePath path)
 		{
+			boolean expanded = isExpanded(path);
 			Object o = path.getLastPathComponent();
 			if (o instanceof GroupSorterContextJTreeNode)
 			{
-				@SuppressWarnings("unchecked")
-				GroupSorterContextJTreeNode<? extends Statement> node = (GroupSorterContextJTreeNode<? extends Statement>) o;
-				node.setExpanded(isExpanded(path));
+				GroupSorterContextJTreeNode<?> node = (GroupSorterContextJTreeNode<?>) o;
+				node.setExpanded(expanded);
 			}
+			if (o.equals(getSelectedNode()))
+			{
+				if (o instanceof StatementContextJTreeNode)
+				{
+					StatementContextJTreeNode node = (StatementContextJTreeNode) o;
+					fireStatementSelected(node.getStatement(), expanded);
+				}
+				else if (o instanceof GroupSorterContextJTreeNode)
+				{
+					GroupSorterContextJTreeNode<?> node = (GroupSorterContextJTreeNode<?>) o;
+					fireGroupSorterSelected(node.getSorter(), expanded);
+				}
+			}
+
 		}
 
 		@Override
@@ -448,7 +459,7 @@ public class ContextJTree extends PersistentJTree
 		this.addMouseListener(listener);
 		this.selectionModel.addTreeSelectionListener(listener);
 		this.setEditable(true);
-		this.selectionListeners = new HashSet<SelectionListener>();
+		this.selectionListeners = Collections.synchronizedSet(new HashSet<SelectionListener>());
 		this.setRootVisible(false);
 		this.setShowsRootHandles(true);
 		this.addTreeExpansionListener(new MyTreeExpansionListener());
@@ -827,6 +838,7 @@ public class ContextJTree extends PersistentJTree
 						ContextLocal ctxLocal = stack.pop();
 						ContextSorterContextJTreeNode node = (ContextSorterContextJTreeNode) getModel().getNodeMap().getByStatement(
 								ctxLocal.getStatement(transaction));
+						boolean pushed = false;
 						for (ContextLocal ctxLocal_ : ctxLocal.subscribeStatementsContextLocalSet(transaction))
 						{
 							StatementContextJTreeNode node_ = getModel().getNodeMap().getByStatement(ctxLocal_.getStatement(transaction));
@@ -841,6 +853,12 @@ public class ContextJTree extends PersistentJTree
 							}
 							expandPath(node_.path());
 							stack.push(ctxLocal_);
+							pushed = true;
+						}
+						if (!pushed)
+						{
+							for (ContextJTreeNode n : node.childrenIterable())
+								collapsePath(n.path());
 						}
 					}
 				}
@@ -867,6 +885,24 @@ public class ContextJTree extends PersistentJTree
 	public void close() throws InterruptedException
 	{
 		getModel().shutdown();
+	}
+
+	private void fireStatementSelected(Statement statement, boolean expanded)
+	{
+		synchronized (selectionListeners)
+		{
+			for (SelectionListener sl : selectionListeners)
+				sl.statementSelected(statement, expanded);
+		}
+	}
+
+	private void fireGroupSorterSelected(GroupSorter<?> groupSorter, boolean expanded)
+	{
+		synchronized (selectionListeners)
+		{
+			for (SelectionListener sl : selectionListeners)
+				sl.groupSorterSelected(groupSorter, expanded);
+		}
 	}
 
 }
