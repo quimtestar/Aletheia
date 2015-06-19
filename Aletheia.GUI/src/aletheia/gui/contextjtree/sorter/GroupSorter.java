@@ -235,6 +235,12 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 									iterator.close();
 							}
 
+							@Override
+							public void remove()
+							{
+								throw new UnsupportedOperationException();
+							}
+
 						};
 					CloseableIterator<Sorter> nonIdentifiedIterator = new BijectionCloseableIterator<S, Sorter>(statementSorterBijection,
 							nonIdentified.iterator());
