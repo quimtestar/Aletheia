@@ -343,7 +343,8 @@ public abstract class StatementContextJTreeNodeRenderer extends ContextJTreeNode
 
 	private final Listener listener;
 
-	protected StatementContextJTreeNodeRenderer(ContextJTree contextJTree, Statement statement, EditableTextLabelComponent editableTextLabelComponent)
+	protected StatementContextJTreeNodeRenderer(ContextJTree contextJTree, Statement statement, EditableTextLabelComponent editableTextLabelComponent,
+			boolean collapsedGroupSorterLabel)
 	{
 		super(contextJTree);
 		Transaction transaction = contextJTree.getModel().beginTransaction();
@@ -355,7 +356,10 @@ public abstract class StatementContextJTreeNodeRenderer extends ContextJTreeNode
 			addProofLabel();
 			addAuthorityLabel();
 			this.localLabel = addLocalLabel();
-			addSpaceLabel();
+			if (collapsedGroupSorterLabel)
+				addCollapsedGroupSorterLabel();
+			else
+				addSpaceLabel();
 			this.editableTextLabelComponent = addEditableTextLabelComponent(editableTextLabelComponent);
 			addColonLabel();
 			addTerm(statement.parentVariableToIdentifier(transaction), statement.getTerm());
@@ -386,26 +390,27 @@ public abstract class StatementContextJTreeNodeRenderer extends ContextJTreeNode
 
 	public static StatementContextJTreeNodeRenderer renderer(ContextJTree contextJTree, Statement statement)
 	{
-		return renderer(contextJTree, statement, null);
+		return renderer(contextJTree, statement, null, false);
 	}
 
 	protected static StatementContextJTreeNodeRenderer renderer(ContextJTree contextJTree, Statement statement,
-			EditableTextLabelComponent editableTextLabelComponent)
+			EditableTextLabelComponent editableTextLabelComponent, boolean collapsedGroupSorterLabel)
 	{
 		if (statement == null)
 			return null;
 		else if (statement instanceof Assumption)
-			return new AssumptionContextJTreeNodeRenderer(contextJTree, (Assumption) statement, editableTextLabelComponent);
+			return new AssumptionContextJTreeNodeRenderer(contextJTree, (Assumption) statement, editableTextLabelComponent, collapsedGroupSorterLabel);
 		else if (statement instanceof UnfoldingContext)
-			return new UnfoldingContextContextJTreeNodeRenderer(contextJTree, (UnfoldingContext) statement, editableTextLabelComponent);
+			return new UnfoldingContextContextJTreeNodeRenderer(contextJTree, (UnfoldingContext) statement, editableTextLabelComponent,
+					collapsedGroupSorterLabel);
 		else if (statement instanceof RootContext)
-			return new RootContextContextJTreeNodeRenderer(contextJTree, (RootContext) statement, editableTextLabelComponent);
+			return new RootContextContextJTreeNodeRenderer(contextJTree, (RootContext) statement, editableTextLabelComponent, collapsedGroupSorterLabel);
 		else if (statement instanceof Context)
-			return new ContextContextJTreeNodeRenderer(contextJTree, (Context) statement, editableTextLabelComponent);
+			return new ContextContextJTreeNodeRenderer(contextJTree, (Context) statement, editableTextLabelComponent, collapsedGroupSorterLabel);
 		else if (statement instanceof Declaration)
-			return new DeclarationContextJTreeNodeRenderer(contextJTree, (Declaration) statement, editableTextLabelComponent);
+			return new DeclarationContextJTreeNodeRenderer(contextJTree, (Declaration) statement, editableTextLabelComponent, collapsedGroupSorterLabel);
 		else if (statement instanceof Specialization)
-			return new SpecializationContextJTreeNodeRenderer(contextJTree, (Specialization) statement, editableTextLabelComponent);
+			return new SpecializationContextJTreeNodeRenderer(contextJTree, (Specialization) statement, editableTextLabelComponent, collapsedGroupSorterLabel);
 		else
 			throw new Error();
 	}

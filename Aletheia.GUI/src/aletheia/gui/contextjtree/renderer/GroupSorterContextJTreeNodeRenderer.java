@@ -1,6 +1,5 @@
 package aletheia.gui.contextjtree.renderer;
 
-import java.awt.AWTEvent;
 import java.awt.CardLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -85,8 +84,8 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 		public ExpandedRenderer(ContextJTree contextJTree)
 		{
 			super(contextJTree);
-			addGroupSorterLabel();
 			addSpaceLabel(3);
+			addExpandedGroupSorterLabel();
 			this.editableSorterPrefixComponent = new EditableSorterPrefixComponent();
 			addEditableComponent(editableSorterPrefixComponent);
 			add(editableSorterPrefixComponent);
@@ -99,11 +98,61 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 
 	}
 
+	private class CollapsedRenderer extends ContextJTreeNodeRenderer
+	{
+		private static final long serialVersionUID = -1379926465808260318L;
+
+		private final EditableSorterPrefixComponent editableSorterPrefixComponent;
+		private final StatementContextJTreeNodeRenderer statementContextJTreeNodeRenderer;
+
+		public CollapsedRenderer(ContextJTree contextJTree)
+		{
+			super(contextJTree);
+			this.editableSorterPrefixComponent = new EditableSorterPrefixComponent();
+			Transaction transaction = getContextJTree().getModel().beginTransaction();
+			try
+			{
+				Statement statement = sorter.getStatement(transaction);
+				if (statement != null)
+				{
+					this.statementContextJTreeNodeRenderer = StatementContextJTreeNodeRenderer.renderer(contextJTree, statement, editableSorterPrefixComponent,
+							true);
+					add(statementContextJTreeNodeRenderer);
+				}
+				else
+				{
+					this.statementContextJTreeNodeRenderer = null;
+					addSpaceLabel(3);
+					addCollapsedGroupSorterLabel();
+					addEditableComponent(editableSorterPrefixComponent);
+					add(editableSorterPrefixComponent);
+				}
+			}
+			finally
+			{
+				transaction.abort();
+			}
+		}
+
+		public void editName()
+		{
+			editableSorterPrefixComponent.edit();
+		}
+
+		@Override
+		public void setSelected(boolean selected)
+		{
+			super.setSelected(selected);
+			if (statementContextJTreeNodeRenderer != null)
+				statementContextJTreeNodeRenderer.setSelected(selected);
+		}
+
+	}
+
 	private final CardLayout layout;
 	private final JPanel panel;
 	private final ExpandedRenderer expandedRenderer;
-	private final EditableSorterPrefixComponent collapsedEditableSorterPrefixComponent;
-	private final StatementContextJTreeNodeRenderer collapsedRenderer;
+	private final CollapsedRenderer collapsedRenderer;
 	private final static String cardExpanded = "expanded";
 	private final static String cardCollapsed = "collapsed";
 	private boolean expanded;
@@ -111,16 +160,9 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 	private class Listener implements MouseListener, KeyListener
 	{
 
-		private void passEvent(AWTEvent e)
-		{
-			if (!expanded && collapsedRenderer != null)
-				collapsedRenderer.dispatchEvent(e);
-		}
-
 		@Override
 		public void keyTyped(KeyEvent e)
 		{
-			passEvent(e);
 		}
 
 		@Override
@@ -157,7 +199,6 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 		@Override
 		public void keyReleased(KeyEvent e)
 		{
-			passEvent(e);
 		}
 
 		boolean draggable = false;
@@ -202,26 +243,8 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 		this.panel = new JPanel(this.layout);
 		this.expandedRenderer = new ExpandedRenderer(contextJTree);
 		this.panel.add(this.expandedRenderer, cardExpanded);
-		Transaction transaction = getContextJTree().getModel().beginTransaction();
-		try
-		{
-			Statement statement = sorter.getStatement(transaction);
-			if (statement != null)
-			{
-				this.collapsedEditableSorterPrefixComponent = new EditableSorterPrefixComponent();
-				this.collapsedRenderer = StatementContextJTreeNodeRenderer.renderer(contextJTree, statement, collapsedEditableSorterPrefixComponent);
-				this.panel.add(this.collapsedRenderer, cardCollapsed);
-			}
-			else
-			{
-				this.collapsedEditableSorterPrefixComponent = null;
-				this.collapsedRenderer = null;
-			}
-		}
-		finally
-		{
-			transaction.abort();
-		}
+		this.collapsedRenderer = new CollapsedRenderer(contextJTree);
+		this.panel.add(this.collapsedRenderer, cardCollapsed);
 		add(this.panel);
 		setExpanded(expanded);
 		Listener listener = new Listener();
@@ -236,7 +259,7 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 
 	public void setExpanded(boolean expanded)
 	{
-		layout.show(panel, expanded || cardCollapsed == null ? cardExpanded : cardCollapsed);
+		layout.show(panel, expanded ? cardExpanded : cardCollapsed);
 		this.expanded = expanded;
 	}
 
@@ -250,16 +273,15 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 	{
 		super.setSelected(selected);
 		expandedRenderer.setSelected(selected);
-		if (collapsedRenderer != null)
-			collapsedRenderer.setSelected(selected);
+		collapsedRenderer.setSelected(selected);
 	}
 
 	public void editName()
 	{
-		if (expanded || collapsedEditableSorterPrefixComponent == null)
+		if (expanded)
 			expandedRenderer.editName();
 		else
-			collapsedEditableSorterPrefixComponent.edit();
+			collapsedRenderer.editName();
 	}
 
 	private void delete() throws InterruptedException

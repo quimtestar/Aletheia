@@ -26,9 +26,10 @@ public class AssumptionContextJTreeNodeRenderer extends StatementContextJTreeNod
 {
 	private static final long serialVersionUID = -1306644843764913368L;
 
-	protected AssumptionContextJTreeNodeRenderer(ContextJTree contextJTree, Assumption assumption, EditableTextLabelComponent editableTextLabelComponent)
+	protected AssumptionContextJTreeNodeRenderer(ContextJTree contextJTree, Assumption assumption, EditableTextLabelComponent editableTextLabelComponent,
+			boolean collapsedGroupSorterLabel)
 	{
-		super(contextJTree, assumption, editableTextLabelComponent);
+		super(contextJTree, assumption, editableTextLabelComponent, collapsedGroupSorterLabel);
 		setActiveFont(getItalicFont());
 		addSpaceLabel();
 		addOpenBracket();

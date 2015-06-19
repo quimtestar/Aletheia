@@ -28,9 +28,9 @@ public class SpecializationContextJTreeNodeRenderer extends StatementContextJTre
 	private static final long serialVersionUID = 8330012958934365101L;
 
 	protected SpecializationContextJTreeNodeRenderer(ContextJTree contextJTree, Specialization specialization,
-			EditableTextLabelComponent editableTextLabelComponent)
+			EditableTextLabelComponent editableTextLabelComponent, boolean collapsedGroupSorterLabel)
 	{
-		super(contextJTree, specialization, editableTextLabelComponent);
+		super(contextJTree, specialization, editableTextLabelComponent, collapsedGroupSorterLabel);
 		Transaction transaction = contextJTree.getModel().beginTransaction();
 		try
 		{

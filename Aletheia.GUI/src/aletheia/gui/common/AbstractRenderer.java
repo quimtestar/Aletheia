@@ -407,14 +407,24 @@ public abstract class AbstractRenderer extends JPanel
 		return addTextLabel("\u25a3", color);
 	}
 
-	protected JLabel addGroupSorterLabel(Color color)
+	protected JLabel addExpandedGroupSorterLabel(Color color)
 	{
-		return addTextLabel("\u229e", color);
+		return addTextLabel("\u21b3", color);
 	}
 
-	protected JLabel addGroupSorterLabel()
+	protected JLabel addExpandedGroupSorterLabel()
 	{
-		return addGroupSorterLabel(getGroupSorterColor());
+		return addExpandedGroupSorterLabel(getGroupSorterColor());
+	}
+
+	protected JLabel addCollapsedGroupSorterLabel(Color color)
+	{
+		return addTextLabel("\u2192", color);
+	}
+
+	protected JLabel addCollapsedGroupSorterLabel()
+	{
+		return addCollapsedGroupSorterLabel(getGroupSorterColor());
 	}
 
 	public void setSelected(boolean selected)
