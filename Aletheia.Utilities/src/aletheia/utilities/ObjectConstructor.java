@@ -9,17 +9,17 @@ public class ObjectConstructor<C>
 {
 	private final Constructor<C> constructor;
 	private final Object[] args;
-	
+
 	public ObjectConstructor(Class<C> clazz, Object... args) throws NoConstructorException
 	{
 		this.constructor = MiscUtilities.matchingConstructor(clazz, args);
 		if (this.constructor == null)
 			throw new NoConstructorException();
 		this.constructor.setAccessible(true);
-		this.args=args;
+		this.args = args;
 	}
-	
-	public C construct() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException 
+
+	public C construct() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
 		return constructor.newInstance(args);
 	}
