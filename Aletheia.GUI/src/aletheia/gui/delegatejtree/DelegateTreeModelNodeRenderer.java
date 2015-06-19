@@ -76,7 +76,7 @@ public abstract class DelegateTreeModelNodeRenderer extends PersistentJTreeNodeR
 	}
 
 	@Override
-	protected DelegateTreeJTree getPersistentJTree()
+	public DelegateTreeJTree getPersistentJTree()
 	{
 		return (DelegateTreeJTree) super.getPersistentJTree();
 	}

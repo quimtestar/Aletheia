@@ -62,6 +62,7 @@ public abstract class AbstractRenderer extends JPanel
 	private static final Color darkCyan = new Color(0x008080);
 	private static final Color subscribeSymbolColor = darkCyan;
 	private static final Color privatePersonColor = darkGreen;
+	private static final Color groupSorterColor = Color.blue;
 	private static final Border normalBorder = BorderFactory.createEmptyBorder(1, 1, 1, 1);
 	private static final Border focusBorder = BorderFactory.createLineBorder(Color.blue, 1);
 	private static final Color defaultNormalBackgroundColor = Color.white;
@@ -221,9 +222,17 @@ public abstract class AbstractRenderer extends JPanel
 		return addTextLabel("\u22a2", turnstileColor);
 	}
 
+	protected JLabel addSpaceLabel(int l)
+	{
+		StringBuilder b = new StringBuilder();
+		for (int i = 0; i < l; i++)
+			b.append(' ');
+		return addTextLabel(b.toString());
+	}
+
 	protected JLabel addSpaceLabel()
 	{
-		return addTextLabel(" ");
+		return addSpaceLabel(1);
 	}
 
 	protected JLabel addOpenBracket()
@@ -398,6 +407,26 @@ public abstract class AbstractRenderer extends JPanel
 		return addTextLabel("\u25a3", color);
 	}
 
+	protected JLabel addExpandedGroupSorterLabel(Color color)
+	{
+		return addTextLabel("\u21b3", color);
+	}
+
+	protected JLabel addExpandedGroupSorterLabel()
+	{
+		return addExpandedGroupSorterLabel(getGroupSorterColor());
+	}
+
+	protected JLabel addCollapsedGroupSorterLabel(Color color)
+	{
+		return addTextLabel("\u2192", color);
+	}
+
+	protected JLabel addCollapsedGroupSorterLabel()
+	{
+		return addCollapsedGroupSorterLabel(getGroupSorterColor());
+	}
+
 	public void setSelected(boolean selected)
 	{
 		if (selected)
@@ -444,6 +473,11 @@ public abstract class AbstractRenderer extends JPanel
 	protected static Color getPrivatePersonColor()
 	{
 		return privatePersonColor;
+	}
+
+	protected static Color getGroupSorterColor()
+	{
+		return groupSorterColor;
 	}
 
 	protected JLabel addUUIDLabel(UUID uuid)

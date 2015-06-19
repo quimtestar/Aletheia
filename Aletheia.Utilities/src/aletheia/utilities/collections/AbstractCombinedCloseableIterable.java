@@ -43,38 +43,10 @@ public abstract class AbstractCombinedCloseableIterable<E> extends AbstractCombi
 	@Override
 	protected abstract CloseableIterable<E> getBack();
 
-	protected class CombinedCloseableIterator extends CombinedIterator implements CloseableIterator<E>
-	{
-		protected CombinedCloseableIterator(CloseableIterator<E> frontIterator, CloseableIterator<E> backIterator)
-		{
-			super(frontIterator, backIterator);
-		}
-
-		@Override
-		protected CloseableIterator<E> getFrontIterator()
-		{
-			return (CloseableIterator<E>) super.getFrontIterator();
-		}
-
-		@Override
-		protected CloseableIterator<E> getBackIterator()
-		{
-			return (CloseableIterator<E>) super.getBackIterator();
-		}
-
-		@Override
-		public void close()
-		{
-			getFrontIterator().close();
-			getBackIterator().close();
-		}
-
-	}
-
 	@Override
 	public CloseableIterator<E> iterator()
 	{
-		return new CombinedCloseableIterator(getFront().iterator(), getBack().iterator());
+		return new CombinedCloseableIterator<E>(getFront().iterator(), getBack().iterator());
 	}
 
 }

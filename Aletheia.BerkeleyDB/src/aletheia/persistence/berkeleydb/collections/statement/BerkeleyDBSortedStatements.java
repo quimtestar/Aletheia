@@ -22,6 +22,7 @@ package aletheia.persistence.berkeleydb.collections.statement;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
+import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
@@ -43,9 +44,12 @@ public abstract class BerkeleyDBSortedStatements<S extends Statement> extends Ab
 	private final BerkeleyDBTransaction transaction;
 	private final SecondaryIndex<LocalSortKey, UUIDKey, BerkeleyDBStatementEntity> index;
 	private final LocalSortKey from;
+	private final boolean fromInclusive;
 	private final LocalSortKey to;
+	private final boolean toInclusive;
 
-	protected BerkeleyDBSortedStatements(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction, LocalSortKey from, LocalSortKey to)
+	protected BerkeleyDBSortedStatements(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction, LocalSortKey from,
+			boolean fromInclusive, LocalSortKey to, boolean toInclusive)
 	{
 		super();
 		try
@@ -54,12 +58,19 @@ public abstract class BerkeleyDBSortedStatements<S extends Statement> extends Ab
 			this.transaction = transaction;
 			this.index = persistenceManager.getEntityStore().statementEntityLocalSortKeySecondaryIndex();
 			this.from = from;
+			this.fromInclusive = fromInclusive;
 			this.to = to;
+			this.toInclusive = toInclusive;
 		}
 		catch (DatabaseException e)
 		{
 			throw persistenceManager.convertDatabaseException(e);
 		}
+	}
+
+	protected BerkeleyDBSortedStatements(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction, LocalSortKey from, LocalSortKey to)
+	{
+		this(persistenceManager, transaction, from, true, to, false);
 	}
 
 	@Override
@@ -95,7 +106,7 @@ public abstract class BerkeleyDBSortedStatements<S extends Statement> extends Ab
 	@Override
 	public S first()
 	{
-		EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, true, to, false);
+		EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, fromInclusive, to, toInclusive);
 		try
 		{
 			BerkeleyDBStatementEntity entity = transaction.first(cursor);
@@ -112,7 +123,7 @@ public abstract class BerkeleyDBSortedStatements<S extends Statement> extends Ab
 	@Override
 	public S last()
 	{
-		EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, true, to, false);
+		EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, fromInclusive, to, toInclusive);
 		try
 		{
 			BerkeleyDBStatementEntity entity = transaction.last(cursor);
@@ -127,9 +138,29 @@ public abstract class BerkeleyDBSortedStatements<S extends Statement> extends Ab
 	}
 
 	@Override
+	public boolean contains(Object o)
+	{
+		try
+		{
+			@SuppressWarnings("unchecked")
+			S statement = (S) o;
+			LocalSortKey key = ((BerkeleyDBStatementEntity) statement.getEntity()).getLocalSortKey();
+			int cf = from.compareTo(key);
+			int ct = to.compareTo(key);
+			if (!((cf < 0 || (fromInclusive && cf <= 0)) && (ct > 0 || (toInclusive && ct >= 0))))
+				return false;
+			return transaction.contains(index.subIndex(key), new UUIDKey(statement.getUuid()));
+		}
+		catch (ClassCastException e)
+		{
+			return false;
+		}
+	}
+
+	@Override
 	public CloseableIterator<S> iterator()
 	{
-		final EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, true, to, false);
+		final EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, fromInclusive, to, toInclusive);
 		return new CloseableIterator<S>()
 		{
 			private BerkeleyDBStatementEntity next;
@@ -202,9 +233,31 @@ public abstract class BerkeleyDBSortedStatements<S extends Statement> extends Ab
 	}
 
 	@Override
+	public boolean smaller(int size)
+	{
+		CloseableIterator<S> iterator = iterator();
+		try
+		{
+			int n = 0;
+			while (iterator.hasNext())
+			{
+				iterator.next();
+				n++;
+				if (n >= size)
+					return false;
+			}
+		}
+		finally
+		{
+			iterator.close();
+		}
+		return true;
+	}
+
+	@Override
 	public boolean isEmpty()
 	{
-		EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, true, to, false);
+		EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, fromInclusive, to, toInclusive);
 		try
 		{
 			return transaction.first(cursor) == null;
@@ -215,40 +268,98 @@ public abstract class BerkeleyDBSortedStatements<S extends Statement> extends Ab
 		}
 	}
 
-	private LocalSortKey fromDependencySortKey(Statement statement)
+	private LocalSortKey fromSortKey(Statement statement)
 	{
 		LocalSortKey dsk = ((BerkeleyDBStatementEntity) statement.getEntity()).getLocalSortKey();
 		if (from.compareTo(dsk) > 0)
-			return dsk;
-		return from;
+			return from;
+		return dsk;
 	}
 
-	private LocalSortKey toDependencySortKey(Statement statement)
+	private LocalSortKey toSortKey(Statement statement)
 	{
 		LocalSortKey dsk = ((BerkeleyDBStatementEntity) statement.getEntity()).getLocalSortKey();
 		if (to.compareTo(dsk) < 0)
-			return dsk;
-		return to;
+			return to;
+		return dsk;
 	}
 
-	protected abstract BerkeleyDBSortedStatements<S> newBerkeleyDBSortedStatementsBounds(LocalSortKey from, LocalSortKey to);
+	private LocalSortKey fromSortKey(Identifier identifier)
+	{
+		LocalSortKey dsk = new LocalSortKey();
+		dsk.setUuidKeyContext(from.getUuidKeyContext());
+		dsk.setAssumptionOrder(Integer.MAX_VALUE);
+		dsk.setIdentifier(identifier);
+		if (from.compareTo(dsk) > 0)
+			return from;
+		return dsk;
+	}
+
+	private LocalSortKey toSortKey(Identifier identifier)
+	{
+		LocalSortKey dsk = new LocalSortKey();
+		dsk.setUuidKeyContext(to.getUuidKeyContext());
+		dsk.setAssumptionOrder(Integer.MAX_VALUE);
+		dsk.setIdentifier(identifier);
+		if (to.compareTo(dsk) < 0)
+			return to;
+		return dsk;
+	}
+
+	protected abstract BerkeleyDBSortedStatements<S> newBerkeleyDBSortedStatementsBounds(LocalSortKey from, boolean fromInclusive, LocalSortKey to,
+			boolean toInclusive);
+
+	protected BerkeleyDBSortedStatements<S> newBerkeleyDBSortedStatementsBounds(LocalSortKey from, LocalSortKey to)
+	{
+		return newBerkeleyDBSortedStatementsBounds(from, true, to, false);
+	}
 
 	@Override
 	public BerkeleyDBSortedStatements<S> subSet(S fromElement, S toElement)
 	{
-		return newBerkeleyDBSortedStatementsBounds(fromDependencySortKey(fromElement), toDependencySortKey(toElement));
+		return newBerkeleyDBSortedStatementsBounds(fromSortKey(fromElement), toSortKey(toElement));
 	}
 
 	@Override
 	public BerkeleyDBSortedStatements<S> headSet(S toElement)
 	{
-		return newBerkeleyDBSortedStatementsBounds(from, toDependencySortKey(toElement));
+		return newBerkeleyDBSortedStatementsBounds(from, toSortKey(toElement));
 	}
 
 	@Override
 	public BerkeleyDBSortedStatements<S> tailSet(S fromElement)
 	{
-		return newBerkeleyDBSortedStatementsBounds(fromDependencySortKey(fromElement), to);
+		return newBerkeleyDBSortedStatementsBounds(fromSortKey(fromElement), to);
+	}
+
+	@Override
+	public BerkeleyDBSortedStatements<S> subSet(Identifier from, Identifier to)
+	{
+		return newBerkeleyDBSortedStatementsBounds(fromSortKey(from), toSortKey(to));
+	}
+
+	@Override
+	public BerkeleyDBSortedStatements<S> headSet(Identifier to)
+	{
+		return newBerkeleyDBSortedStatementsBounds(from, toSortKey(to));
+	}
+
+	@Override
+	public BerkeleyDBSortedStatements<S> tailSet(Identifier from)
+	{
+		return newBerkeleyDBSortedStatementsBounds(fromSortKey(from), to);
+	}
+
+	@Override
+	public SortedStatements<S> identifierSet(Identifier identifier)
+	{
+		return newBerkeleyDBSortedStatementsBounds(fromSortKey(identifier), true, toSortKey(identifier), true);
+	}
+
+	@Override
+	public SortedStatements<S> postIdentifierSet(Identifier identifier)
+	{
+		return newBerkeleyDBSortedStatementsBounds(fromSortKey(identifier), false, to, false);
 	}
 
 	@Override

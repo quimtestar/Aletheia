@@ -200,17 +200,12 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 		addVariableReferenceComponent(statement.parentVariableToIdentifier(transaction), null, statement.getVariable());
 	}
 
-	protected void keyPressedOnEditableVariableName(Statement statement, KeyEvent ev, String text)
-	{
-	}
-
-	protected class EditableVariableNameComponent extends JPanel implements EditableComponent
+	protected abstract class EditableTextLabelComponent extends JPanel implements EditableComponent
 	{
 		private static final long serialVersionUID = 4545382106986717075L;
 		private static final String constLabel = "Label";
 		private static final String constTextField = "TextField";
 
-		private final Statement statement;
 		private final JLabel label;
 		private final JTextField textField;
 
@@ -232,7 +227,7 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 			@Override
 			public void keyPressed(KeyEvent ev)
 			{
-				keyPressedOnEditableVariableName(statement, ev, textField.getText());
+				EditableTextLabelComponent.this.keyPressed(ev);
 			}
 
 			@Override
@@ -247,52 +242,45 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 
 		}
 
-		public EditableVariableNameComponent(Statement statement)
+		public EditableTextLabelComponent(Color color)
 		{
 			super();
-			Transaction transaction = beginTransaction();
-			try
-			{
-				this.statement = statement;
-				Identifier id = statement.identifier(transaction);
-				String idString;
-				if (id != null)
-					idString = id.toString();
-				else
-					idString = statement.getVariable().toString();
-				this.label = new JLabel(idString);
-				this.label.setFont(getActiveFont());
-				this.label.setForeground(getDefaultColor());
-				this.textField = new JTextField();
-				if (id != null)
-					this.textField.setText(id.toString());
-				this.textField.setFont(getActiveFont());
-				this.textField.setForeground(getDefaultColor());
-				MyListener listener = new MyListener();
-				this.textField.addFocusListener(listener);
-				this.textField.addKeyListener(listener);
-				this.textField.setColumns(20);
-				CardLayout layout = new CardLayout();
-				this.setLayout(layout);
-				this.add(this.label, constLabel);
-				this.add(this.textField, constTextField);
-				layout.show(this, constLabel);
-				this.setOpaque(false);
-			}
-			finally
-			{
-				transaction.abort();
-			}
+			this.label = new JLabel();
+			this.label.setFont(getActiveFont());
+			this.label.setForeground(color);
+			this.textField = new JTextField();
+			this.textField.setFont(getActiveFont());
+			this.textField.setForeground(color);
+			MyListener listener = new MyListener();
+			this.textField.addFocusListener(listener);
+			this.textField.addKeyListener(listener);
+			this.textField.setColumns(20);
+			CardLayout layout = new CardLayout();
+			this.setLayout(layout);
+			this.add(this.label, constLabel);
+			this.add(this.textField, constTextField);
+			layout.show(this, constLabel);
+			this.setOpaque(false);
 		}
 
-		protected Statement getStatement()
+		protected String getLabelText()
 		{
-			return statement;
+			return label.getText();
 		}
 
-		protected VariableTerm getVariable()
+		protected void setLabelText(String labelText)
 		{
-			return statement.getVariable();
+			label.setText(labelText);
+		}
+
+		protected String getFieldText()
+		{
+			return textField.getText();
+		}
+
+		protected void setFieldText(String fieldText)
+		{
+			textField.setText(fieldText);
 		}
 
 		@Override
@@ -319,31 +307,8 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 			getLayout().show(this, constLabel);
 		}
 
-		public void resetTextField()
-		{
-			Transaction transaction = getPersistenceManager().beginTransaction();
-			try
-			{
-				Identifier id = statement.identifier(transaction);
-				if (id != null)
-					textField.setText(id.toString());
-				else
-					textField.setText("");
-			}
-			finally
-			{
-				transaction.abort();
-			}
-		}
+		public abstract void keyPressed(KeyEvent ev);
 
-	}
-
-	protected EditableVariableNameComponent addEditableVariableNameComponent(Statement statement)
-	{
-		EditableVariableNameComponent c = new EditableVariableNameComponent(statement);
-		addEditableComponent(c);
-		add(c);
-		return c;
 	}
 
 	protected void addTerm(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term term)

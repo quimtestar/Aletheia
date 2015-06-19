@@ -44,11 +44,6 @@ public class DeleteStatement extends TransactionalCommand
 		return statement;
 	}
 
-	protected boolean isCascade()
-	{
-		return false;
-	}
-
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{

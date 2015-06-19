@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.collections.statement;
 
+import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.RootContext;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
@@ -28,6 +29,12 @@ import aletheia.persistence.collections.statement.SortedRootContexts;
 
 public class BerkeleyDBSortedRootContexts extends BerkeleyDBSortedStatements<RootContext> implements SortedRootContexts
 {
+
+	protected BerkeleyDBSortedRootContexts(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction, LocalSortKey from,
+			boolean fromInclusive, LocalSortKey to, boolean toInclusive)
+	{
+		super(persistenceManager, transaction, from, fromInclusive, to, toInclusive);
+	}
 
 	protected BerkeleyDBSortedRootContexts(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction, LocalSortKey from,
 			LocalSortKey to)
@@ -47,9 +54,9 @@ public class BerkeleyDBSortedRootContexts extends BerkeleyDBSortedStatements<Roo
 	}
 
 	@Override
-	protected BerkeleyDBSortedRootContexts newBerkeleyDBSortedStatementsBounds(LocalSortKey from, LocalSortKey to)
+	protected BerkeleyDBSortedRootContexts newBerkeleyDBSortedStatementsBounds(LocalSortKey from, boolean fromInclusive, LocalSortKey to, boolean toInclusive)
 	{
-		return new BerkeleyDBSortedRootContexts(getPersistenceManager(), getTransaction(), from, to);
+		return new BerkeleyDBSortedRootContexts(getPersistenceManager(), getTransaction(), from, fromInclusive, to, toInclusive);
 	}
 
 	@Override
@@ -68,6 +75,36 @@ public class BerkeleyDBSortedRootContexts extends BerkeleyDBSortedStatements<Roo
 	public BerkeleyDBSortedRootContexts tailSet(RootContext fromElement)
 	{
 		return (BerkeleyDBSortedRootContexts) super.tailSet(fromElement);
+	}
+
+	@Override
+	public BerkeleyDBSortedRootContexts subSet(Identifier from, Identifier to)
+	{
+		return (BerkeleyDBSortedRootContexts) super.subSet(from, to);
+	}
+
+	@Override
+	public BerkeleyDBSortedRootContexts headSet(Identifier to)
+	{
+		return (BerkeleyDBSortedRootContexts) super.headSet(to);
+	}
+
+	@Override
+	public BerkeleyDBSortedRootContexts tailSet(Identifier from)
+	{
+		return (BerkeleyDBSortedRootContexts) super.tailSet(from);
+	}
+
+	@Override
+	public BerkeleyDBSortedRootContexts identifierSet(Identifier identifier)
+	{
+		return (BerkeleyDBSortedRootContexts) super.identifierSet(identifier);
+	}
+
+	@Override
+	public BerkeleyDBSortedRootContexts postIdentifierSet(Identifier identifier)
+	{
+		return (BerkeleyDBSortedRootContexts) super.postIdentifierSet(identifier);
 	}
 
 }

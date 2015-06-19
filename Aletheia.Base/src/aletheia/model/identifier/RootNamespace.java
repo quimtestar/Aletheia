@@ -41,6 +41,12 @@ public class RootNamespace extends Namespace
 	}
 
 	@Override
+	public boolean isRoot()
+	{
+		return true;
+	}
+
+	@Override
 	public String qualifiedName()
 	{
 		return "";

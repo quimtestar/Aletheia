@@ -25,6 +25,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
@@ -34,6 +35,8 @@ import javax.swing.JComponent;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeExpansionListener;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -46,21 +49,43 @@ import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.app.AletheiaJPanel;
 import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.statement.DeleteRootContexts;
+import aletheia.gui.cli.command.statement.DeleteRootContextsCascade;
 import aletheia.gui.cli.command.statement.DeleteStatement;
 import aletheia.gui.cli.command.statement.DeleteStatementCascade;
+import aletheia.gui.cli.command.statement.DeleteStatements;
+import aletheia.gui.cli.command.statement.DeleteStatementsCascade;
+import aletheia.gui.common.AletheiaTransferable;
 import aletheia.gui.common.PersistentJTree;
+import aletheia.gui.common.SorterTransferable;
 import aletheia.gui.common.StatementTransferable;
+import aletheia.gui.contextjtree.node.ConsequentContextJTreeNode;
+import aletheia.gui.contextjtree.node.ContextSorterContextJTreeNode;
+import aletheia.gui.contextjtree.node.ContextJTreeNode;
+import aletheia.gui.contextjtree.node.GroupSorterContextJTreeNode;
+import aletheia.gui.contextjtree.node.SorterContextJTreeNode;
+import aletheia.gui.contextjtree.node.StatementContextJTreeNode;
+import aletheia.gui.contextjtree.node.StatementSorterContextJTreeNode;
+import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.renderer.EmptyContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.renderer.GroupSorterContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.renderer.StatementContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.sorter.GroupSorter;
+import aletheia.gui.contextjtree.sorter.RootContextGroupSorter;
+import aletheia.gui.contextjtree.sorter.Sorter;
+import aletheia.gui.contextjtree.sorter.StatementGroupSorter;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.identifier.Identifier;
+import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.local.ContextLocal;
 import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
 import aletheia.model.statement.Context;
-import aletheia.model.statement.Context.StatementNotInContextException;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
+import aletheia.utilities.collections.BufferedList;
 
 public class ContextJTree extends PersistentJTree
 {
@@ -71,9 +96,9 @@ public class ContextJTree extends PersistentJTree
 	{
 		public ContextJTreeNodeRenderer getComponent(Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus)
 		{
-			if (!(value instanceof AbstractTreeNode))
+			if (!(value instanceof ContextJTreeNode))
 				throw new Error();
-			AbstractTreeNode node = (AbstractTreeNode) value;
+			ContextJTreeNode node = (ContextJTreeNode) value;
 			ContextJTreeNodeRenderer renderer = getNodeRenderer(node);
 			if (renderer != null)
 			{
@@ -83,7 +108,7 @@ public class ContextJTree extends PersistentJTree
 			return renderer;
 		}
 
-		public ContextJTreeNodeRenderer getNodeRenderer(AbstractTreeNode node)
+		public ContextJTreeNodeRenderer getNodeRenderer(ContextJTreeNode node)
 		{
 			try
 			{
@@ -138,7 +163,7 @@ public class ContextJTree extends PersistentJTree
 			TreePath treePath = getSelectionPath();
 			if (treePath != null)
 			{
-				AbstractTreeNode node = (AbstractTreeNode) treePath.getLastPathComponent();
+				ContextJTreeNode node = (ContextJTreeNode) treePath.getLastPathComponent();
 				if (node != null)
 				{
 					TreeCellRenderer renderer = getCellRenderer();
@@ -152,7 +177,7 @@ public class ContextJTree extends PersistentJTree
 		@Override
 		public boolean stopCellEditing()
 		{
-			AbstractTreeNode node = (AbstractTreeNode) getSelectionPath().getLastPathComponent();
+			ContextJTreeNode node = (ContextJTreeNode) getSelectionPath().getLastPathComponent();
 			if (node != null)
 			{
 				TreeCellRenderer renderer = getCellRenderer();
@@ -185,10 +210,12 @@ public class ContextJTree extends PersistentJTree
 					@Override
 					public void run()
 					{
-						AbstractTreeNode node = (AbstractTreeNode) selectionModel.getSelectionPath().getLastPathComponent();
+						ContextJTreeNode node = (ContextJTreeNode) selectionModel.getSelectionPath().getLastPathComponent();
 						ContextJTreeNodeRenderer nodeRenderer = renderer.getNodeRenderer(node);
 						if (nodeRenderer instanceof StatementContextJTreeNodeRenderer)
 							((StatementContextJTreeNodeRenderer) nodeRenderer).editName();
+						else if (nodeRenderer instanceof GroupSorterContextJTreeNodeRenderer)
+							((GroupSorterContextJTreeNodeRenderer) nodeRenderer).editName();
 					}
 				});
 				break;
@@ -211,14 +238,34 @@ public class ContextJTree extends PersistentJTree
 						logger.error(e1.getMessage(), e1);
 					}
 				}
+				else
+				{
+					Sorter sorter = getSelectedSorter();
+					if (sorter instanceof GroupSorter)
+					{
+						@SuppressWarnings("unchecked")
+						GroupSorter<? extends Statement> groupSorter = (GroupSorter<? extends Statement>) sorter;
+						try
+						{
+							if (ev.isShiftDown())
+								deleteSorterCascade(groupSorter);
+							else
+								deleteSorter(groupSorter);
+						}
+						catch (InterruptedException e1)
+						{
+							logger.error(e1.getMessage(), e1);
+						}
+					}
+				}
 				break;
 			}
 			case KeyEvent.VK_F3:
 			{
+				CliJPanel cliJPanel = getAletheiaJPanel().getCliJPanel();
 				Statement statement = getSelectedStatement();
 				if (statement != null)
 				{
-					CliJPanel cliJPanel = getAletheiaJPanel().getCliJPanel();
 					if (statement instanceof RootContext)
 						cliJPanel.setActiveContext((RootContext) statement);
 					else
@@ -233,6 +280,12 @@ public class ContextJTree extends PersistentJTree
 							transaction.abort();
 						}
 					}
+				}
+				else
+				{
+					Sorter sorter = getSelectedSorter();
+					if (sorter instanceof StatementGroupSorter)
+						cliJPanel.setActiveContext(((StatementGroupSorter) sorter).getContext());
 				}
 				break;
 			}
@@ -278,18 +331,25 @@ public class ContextJTree extends PersistentJTree
 		@Override
 		public void valueChanged(TreeSelectionEvent ev)
 		{
-			AbstractTreeNode node = (AbstractTreeNode) ev.getPath().getLastPathComponent();
-			if (node instanceof StatementTreeNode)
+			ContextJTreeNode node = (ContextJTreeNode) ev.getPath().getLastPathComponent();
+			if (node instanceof SorterContextJTreeNode)
 			{
-				Statement statement = ((StatementTreeNode) node).getStatement();
-				for (SelectionListener sl : selectionListeners)
-					sl.statementSelected(statement);
+				boolean expanded = isExpanded(ev.getPath());
+				if (node instanceof StatementContextJTreeNode)
+					fireStatementSelected(((StatementContextJTreeNode) node).getStatement(), expanded);
+				else if (node instanceof GroupSorterContextJTreeNode)
+					fireGroupSorterSelected(((GroupSorterContextJTreeNode<?>) node).getSorter(), expanded);
+				else
+					throw new Error();
 			}
-			else if (node instanceof ConsequentTreeNode)
+			else if (node instanceof ConsequentContextJTreeNode)
 			{
-				Context ctx = ((ConsequentTreeNode) node).getContext();
-				for (SelectionListener sl : selectionListeners)
-					sl.consequentSelected(ctx);
+				Context ctx = ((ConsequentContextJTreeNode) node).getContext();
+				synchronized (selectionListeners)
+				{
+					for (SelectionListener sl : selectionListeners)
+						sl.consequentSelected(ctx);
+				}
 			}
 			else
 				throw new Error();
@@ -299,9 +359,11 @@ public class ContextJTree extends PersistentJTree
 
 	public interface SelectionListener
 	{
-		public void statementSelected(Statement statement);
+		public void statementSelected(Statement statement, boolean expanded);
 
 		public void consequentSelected(Context context);
+
+		public void groupSorterSelected(GroupSorter<? extends Statement> groupSorter, boolean expanded);
 	}
 
 	private final AletheiaJPanel aletheiaJPanel;
@@ -321,12 +383,15 @@ public class ContextJTree extends PersistentJTree
 		}
 
 		@Override
-		protected StatementTransferable createTransferable(JComponent c)
+		protected AletheiaTransferable createTransferable(JComponent c)
 		{
 			Statement statement = getSelectedStatement();
-			if (statement == null)
-				return null;
-			return new StatementTransferable(statement);
+			if (statement != null)
+				return new StatementTransferable(statement);
+			Sorter sorter = getSelectedSorter();
+			if (sorter != null)
+				return new SorterTransferable(getPersistenceManager(), sorter);
+			return null;
 		}
 
 		@Override
@@ -336,9 +401,51 @@ public class ContextJTree extends PersistentJTree
 
 	}
 
+	private class MyTreeExpansionListener implements TreeExpansionListener
+	{
+
+		private void stateUpdate(TreePath path)
+		{
+			boolean expanded = isExpanded(path);
+			Object o = path.getLastPathComponent();
+			if (o instanceof GroupSorterContextJTreeNode)
+			{
+				GroupSorterContextJTreeNode<?> node = (GroupSorterContextJTreeNode<?>) o;
+				node.setExpanded(expanded);
+			}
+			if (o.equals(getSelectedNode()))
+			{
+				if (o instanceof StatementContextJTreeNode)
+				{
+					StatementContextJTreeNode node = (StatementContextJTreeNode) o;
+					fireStatementSelected(node.getStatement(), expanded);
+				}
+				else if (o instanceof GroupSorterContextJTreeNode)
+				{
+					GroupSorterContextJTreeNode<?> node = (GroupSorterContextJTreeNode<?>) o;
+					fireGroupSorterSelected(node.getSorter(), expanded);
+				}
+			}
+
+		}
+
+		@Override
+		public void treeExpanded(TreeExpansionEvent event)
+		{
+			stateUpdate(event.getPath());
+		}
+
+		@Override
+		public void treeCollapsed(TreeExpansionEvent event)
+		{
+			stateUpdate(event.getPath());
+		}
+
+	}
+
 	public ContextJTree(AletheiaJPanel aletheiaJPanel)
 	{
-		super(new ContextTreeModel(aletheiaJPanel.getPersistenceManager()));
+		super(new ContextJTreeModel(aletheiaJPanel.getPersistenceManager()));
 		this.setLargeModel(true);
 		this.setTransferHandler(new MyTransferHandler());
 		this.aletheiaJPanel = aletheiaJPanel;
@@ -352,9 +459,10 @@ public class ContextJTree extends PersistentJTree
 		this.addMouseListener(listener);
 		this.selectionModel.addTreeSelectionListener(listener);
 		this.setEditable(true);
-		this.selectionListeners = new HashSet<SelectionListener>();
+		this.selectionListeners = Collections.synchronizedSet(new HashSet<SelectionListener>());
 		this.setRootVisible(false);
 		this.setShowsRootHandles(true);
+		this.addTreeExpansionListener(new MyTreeExpansionListener());
 	}
 
 	public class TreeModelListener extends TreeModelHandler
@@ -382,16 +490,16 @@ public class ContextJTree extends PersistentJTree
 			if (path != null)
 			{
 				Object o = path.getLastPathComponent();
-				if (o instanceof ConsequentTreeNode)
+				if (o instanceof ConsequentContextJTreeNode)
 				{
-					ContextTreeNode ctxTn1 = ((ConsequentTreeNode) o).getParent();
+					ContextSorterContextJTreeNode ctxTn1 = ((ConsequentContextJTreeNode) o).getParent();
 					if (e.getChildren() != null)
 					{
 						for (Object c : e.getChildren())
 						{
-							if (c instanceof StatementTreeNode)
+							if (c instanceof StatementSorterContextJTreeNode)
 							{
-								BranchTreeNode ctxTn2 = ((StatementTreeNode) c).getParent();
+								ContextJTreeNode ctxTn2 = ((StatementSorterContextJTreeNode) c).getParent();
 								if (ctxTn1 == ctxTn2)
 								{
 									cancelEditing();
@@ -455,18 +563,18 @@ public class ContextJTree extends PersistentJTree
 		return new TreeModelListener();
 	}
 
-	protected AletheiaJPanel getAletheiaJPanel()
+	public AletheiaJPanel getAletheiaJPanel()
 	{
 		return aletheiaJPanel;
 	}
 
 	@Override
-	public ContextTreeModel getModel()
+	public ContextJTreeModel getModel()
 	{
-		return (ContextTreeModel) super.getModel();
+		return (ContextJTreeModel) super.getModel();
 	}
 
-	public void editStatementName(Statement statement, String newName) throws InvalidNameException, StatementNotInContextException, NomenclatorException
+	public void editStatementName(Statement statement, String newName) throws InvalidNameException, NomenclatorException
 	{
 		Identifier newId = null;
 		if (!newName.isEmpty())
@@ -482,6 +590,56 @@ public class ContextJTree extends PersistentJTree
 					statement.unidentify(transaction);
 				if (newId != null)
 					statement.identify(transaction, newId);
+			}
+			transaction.commit();
+		}
+		finally
+		{
+			transaction.abort();
+		}
+		stopEditing();
+	}
+
+	public void editSorterPrefix(GroupSorter<? extends Statement> sorter, String newName) throws InvalidNameException, NomenclatorException
+	{
+		Identifier newPrefix = null;
+		if (!newName.isEmpty())
+			newPrefix = Identifier.parse(newName);
+		Identifier oldPrefix = sorter.getPrefix();
+		Transaction transaction = getModel().beginTransaction();
+		try
+		{
+			for (Statement statement : new BufferedList<>(sorter.sortedStatements(transaction)))
+			{
+				Identifier id = statement.identifier(transaction);
+				Namespace suffix = null;
+				if (oldPrefix != null)
+				{
+					if (id != null)
+					{
+						suffix = id.makeSuffix(oldPrefix);
+						if (suffix == null)
+							throw new RuntimeException();
+						else if (suffix.isRoot())
+							suffix = null;
+					}
+					else
+						throw new RuntimeException();
+				}
+				else
+					suffix = id;
+				Identifier newId;
+				if (suffix != null)
+					newId = newPrefix.concat(suffix).asIdentifier();
+				else
+					newId = newPrefix;
+				if ((id == null && newId != null) || (id != null && newId == null) || (id != null && newId != null && !id.equals(newId)))
+				{
+					if (id != null)
+						statement.unidentify(transaction);
+					if (newId != null)
+						statement.identify(transaction, newId);
+				}
 			}
 			transaction.commit();
 		}
@@ -515,7 +673,7 @@ public class ContextJTree extends PersistentJTree
 		TreePath treePath = getEditingPath();
 		if (treePath != null)
 		{
-			AbstractTreeNode node = (AbstractTreeNode) getEditingPath().getLastPathComponent();
+			ContextJTreeNode node = (ContextJTreeNode) getEditingPath().getLastPathComponent();
 			if (node != null)
 			{
 				TreeCellRenderer renderer = getCellRenderer();
@@ -538,29 +696,83 @@ public class ContextJTree extends PersistentJTree
 
 	public Statement getSelectedStatement()
 	{
+		ContextJTreeNode node = getSelectedNode();
+		if (node instanceof StatementContextJTreeNode)
+			return ((StatementContextJTreeNode) node).getStatement();
+		else
+			return null;
+	}
+
+	public ContextJTreeNode getSelectedNode()
+	{
 		TreePath path = getSelectionModel().getSelectionPath();
 		if (path == null)
 			return null;
-		AbstractTreeNode node = (AbstractTreeNode) path.getLastPathComponent();
-		if (node instanceof StatementTreeNode)
-			return ((StatementTreeNode) node).getStatement();
-		else if (node instanceof ConsequentTreeNode)
-			return ((ConsequentTreeNode) node).getContext();
-		else
-			throw new Error();
+		if (path.getLastPathComponent() instanceof ContextJTreeNode)
+			return (ContextJTreeNode) path.getLastPathComponent();
+		return null;
+	}
 
+	public Sorter getSelectedSorter()
+	{
+		ContextJTreeNode node = getSelectedNode();
+		if (node instanceof SorterContextJTreeNode)
+			return ((SorterContextJTreeNode) node).getSorter();
+		else if (node instanceof ConsequentContextJTreeNode)
+			return node.getParent().getSorter();
+		else
+			return null;
 	}
 
 	public void deleteStatement(Statement statement) throws InterruptedException
 	{
-		getAletheiaJPanel().getCliJPanel().command(
-				new DeleteStatement(getAletheiaJPanel().getCliJPanel(), getPersistenceManager().beginTransaction(), statement), false);
+		getAletheiaJPanel().getCliJPanel().command(new DeleteStatement(getAletheiaJPanel().getCliJPanel(), getModel().beginTransaction(), statement), false);
 	}
 
 	public void deleteStatementCascade(Statement statement) throws InterruptedException
 	{
-		getAletheiaJPanel().getCliJPanel().command(
-				new DeleteStatementCascade(getAletheiaJPanel().getCliJPanel(), getPersistenceManager().beginTransaction(), statement), false);
+		getAletheiaJPanel().getCliJPanel().command(new DeleteStatementCascade(getAletheiaJPanel().getCliJPanel(), getModel().beginTransaction(), statement),
+				false);
+	}
+
+	public void deleteSorter(GroupSorter<? extends Statement> sorter) throws InterruptedException
+	{
+		Transaction transaction = getModel().beginTransaction();
+		if (sorter instanceof StatementGroupSorter)
+		{
+			StatementGroupSorter statementGroupSorter = (StatementGroupSorter) sorter;
+			getAletheiaJPanel().getCliJPanel().command(
+					new DeleteStatements(getAletheiaJPanel().getCliJPanel(), transaction, statementGroupSorter.getContext(),
+							statementGroupSorter.statements(transaction)), false);
+		}
+		else if (sorter instanceof RootContextGroupSorter)
+		{
+			RootContextGroupSorter rootContextGroupSorter = (RootContextGroupSorter) sorter;
+			getAletheiaJPanel().getCliJPanel().command(
+					new DeleteRootContexts(getAletheiaJPanel().getCliJPanel(), transaction, rootContextGroupSorter.statements(transaction)), false);
+		}
+		else
+			throw new Error();
+	}
+
+	public void deleteSorterCascade(GroupSorter<? extends Statement> sorter) throws InterruptedException
+	{
+		Transaction transaction = getModel().beginTransaction();
+		if (sorter instanceof StatementGroupSorter)
+		{
+			StatementGroupSorter statementGroupSorter = (StatementGroupSorter) sorter;
+			getAletheiaJPanel().getCliJPanel().command(
+					new DeleteStatementsCascade(getAletheiaJPanel().getCliJPanel(), transaction, statementGroupSorter.getContext(),
+							statementGroupSorter.statements(transaction)), false);
+		}
+		else if (sorter instanceof RootContextGroupSorter)
+		{
+			RootContextGroupSorter rootContextGroupSorter = (RootContextGroupSorter) sorter;
+			getAletheiaJPanel().getCliJPanel().command(
+					new DeleteRootContextsCascade(getAletheiaJPanel().getCliJPanel(), transaction, rootContextGroupSorter.statements(transaction)), false);
+		}
+		else
+			throw new Error();
 	}
 
 	public Listener getListener()
@@ -619,19 +831,35 @@ public class ContextJTree extends PersistentJTree
 				Transaction transaction = getPersistenceManager().beginTransaction();
 				try
 				{
-					Stack<Context> stack = new Stack<Context>();
-					stack.push(context);
+					Stack<ContextLocal> stack = new Stack<ContextLocal>();
+					stack.push(context.getLocal(transaction));
 					while (!stack.isEmpty())
 					{
-						Context ctx = stack.pop();
-						ContextLocal ctxLocal = ctx.getLocal(transaction);
-						if (ctxLocal != null && ctxLocal.isSubscribeStatements())
+						ContextLocal ctxLocal = stack.pop();
+						ContextSorterContextJTreeNode node = (ContextSorterContextJTreeNode) getModel().getNodeMap().getByStatement(
+								ctxLocal.getStatement(transaction));
+						boolean pushed = false;
+						for (ContextLocal ctxLocal_ : ctxLocal.subscribeStatementsContextLocalSet(transaction))
 						{
-							expandPath(getModel().pathForStatement(ctx));
-							stack.addAll(ctx.subContexts(transaction));
+							StatementContextJTreeNode node_ = getModel().getNodeMap().getByStatement(ctxLocal_.getStatement(transaction));
+							GroupSorterContextJTreeNode<?> parent = node_.getParent();
+							while (true)
+							{
+								for (ContextJTreeNode n : parent.childrenIterable())
+									collapsePath(n.path());
+								if (parent.equals(node))
+									break;
+								parent = parent.getParent();
+							}
+							expandPath(node_.path());
+							stack.push(ctxLocal_);
+							pushed = true;
 						}
-						else
-							collapsePath(getModel().pathForStatement(ctx));
+						if (!pushed)
+						{
+							for (ContextJTreeNode n : node.childrenIterable())
+								collapsePath(n.path());
+						}
 					}
 				}
 				finally
@@ -657,6 +885,24 @@ public class ContextJTree extends PersistentJTree
 	public void close() throws InterruptedException
 	{
 		getModel().shutdown();
+	}
+
+	private void fireStatementSelected(Statement statement, boolean expanded)
+	{
+		synchronized (selectionListeners)
+		{
+			for (SelectionListener sl : selectionListeners)
+				sl.statementSelected(statement, expanded);
+		}
+	}
+
+	private void fireGroupSorterSelected(GroupSorter<?> groupSorter, boolean expanded)
+	{
+		synchronized (selectionListeners)
+		{
+			for (SelectionListener sl : selectionListeners)
+				sl.groupSorterSelected(groupSorter, expanded);
+		}
 	}
 
 }

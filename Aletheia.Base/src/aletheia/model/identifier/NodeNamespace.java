@@ -80,6 +80,12 @@ public class NodeNamespace extends Namespace
 		this.name = name;
 	}
 
+	@Override
+	public boolean isRoot()
+	{
+		return false;
+	}
+
 	/**
 	 * Creates a direct descendant of the root name space with the specified
 	 * name.

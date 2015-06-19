@@ -22,7 +22,6 @@ package aletheia.utilities.collections;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 /**
  * Abstract implementation of a combined {@link Iterable}. A combined
@@ -73,89 +72,13 @@ public abstract class AbstractCombinedIterable<E> implements Serializable, Itera
 	protected abstract Iterable<E> getBack();
 
 	/**
-	 * Moves a pair of iterators one position and returns the next element
-	 * found. If the front iterator still can be moved forward, we move it and
-	 * return the element found; if not we use the back iterator. we advance it
-	 * one position
-	 *
-	 * @param frontIterator
-	 * @param backIterator
-	 * @return The next element found in either iterator.
-	 */
-	protected E moveIteratorForward(Iterator<E> frontIterator, Iterator<E> backIterator)
-	{
-		if (frontIterator.hasNext())
-			return frontIterator.next();
-		E next = backIterator.next();
-		return next;
-	}
-
-	protected class CombinedIterator extends AbstractReadOnlyIterator<E>
-	{
-		private final Iterator<E> frontIterator;
-		private final Iterator<E> backIterator;
-
-		private E next;
-		private boolean hasNext;
-
-		protected CombinedIterator(Iterator<E> frontIterator, Iterator<E> backIterator)
-		{
-			this.frontIterator = frontIterator;
-			this.backIterator = backIterator;
-			try
-			{
-				next = moveIteratorForward(frontIterator, backIterator);
-				hasNext = true;
-			}
-			catch (NoSuchElementException e)
-			{
-				hasNext = false;
-			}
-		}
-
-		protected Iterator<E> getFrontIterator()
-		{
-			return frontIterator;
-		}
-
-		protected Iterator<E> getBackIterator()
-		{
-			return backIterator;
-		}
-
-		@Override
-		public boolean hasNext()
-		{
-			return hasNext;
-		}
-
-		@Override
-		public E next()
-		{
-			if (!hasNext)
-				throw new NoSuchElementException();
-			E pre = next;
-			try
-			{
-				next = moveIteratorForward(frontIterator, backIterator);
-			}
-			catch (NoSuchElementException e)
-			{
-				hasNext = false;
-			}
-			return pre;
-		}
-
-	}
-
-	/**
 	 * We first iterate across the front collection and when finished, we
 	 * iterate across the back collection.
 	 */
 	@Override
 	public Iterator<E> iterator()
 	{
-		return new CombinedIterator(front.iterator(), getBack().iterator());
+		return new CombinedIterator<E>(front.iterator(), getBack().iterator());
 	}
 
 }

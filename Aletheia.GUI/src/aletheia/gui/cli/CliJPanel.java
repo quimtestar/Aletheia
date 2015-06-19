@@ -426,7 +426,7 @@ public class CliJPanel extends JPanel
 			public void write(int b) throws IOException
 			{
 				write(new byte[]
-						{ (byte) b });
+				{ (byte) b });
 			}
 
 		}

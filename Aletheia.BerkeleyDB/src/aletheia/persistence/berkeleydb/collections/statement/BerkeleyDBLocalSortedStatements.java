@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.collections.statement;
 
+import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
@@ -29,6 +30,12 @@ import aletheia.persistence.collections.statement.LocalSortedStatements;
 
 public class BerkeleyDBLocalSortedStatements extends BerkeleyDBSortedStatements<Statement> implements LocalSortedStatements
 {
+
+	protected BerkeleyDBLocalSortedStatements(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction, LocalSortKey from,
+			boolean fromInclusive, LocalSortKey to, boolean toInclusive)
+	{
+		super(persistenceManager, transaction, from, fromInclusive, to, toInclusive);
+	}
 
 	protected BerkeleyDBLocalSortedStatements(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction, LocalSortKey from,
 			LocalSortKey to)
@@ -48,9 +55,9 @@ public class BerkeleyDBLocalSortedStatements extends BerkeleyDBSortedStatements<
 	}
 
 	@Override
-	protected BerkeleyDBLocalSortedStatements newBerkeleyDBSortedStatementsBounds(LocalSortKey from, LocalSortKey to)
+	protected BerkeleyDBLocalSortedStatements newBerkeleyDBSortedStatementsBounds(LocalSortKey from, boolean fromInclusive, LocalSortKey to, boolean toInclusive)
 	{
-		return new BerkeleyDBLocalSortedStatements(getPersistenceManager(), getTransaction(), from, to);
+		return new BerkeleyDBLocalSortedStatements(getPersistenceManager(), getTransaction(), from, fromInclusive, to, toInclusive);
 	}
 
 	@Override
@@ -69,6 +76,36 @@ public class BerkeleyDBLocalSortedStatements extends BerkeleyDBSortedStatements<
 	public BerkeleyDBLocalSortedStatements tailSet(Statement fromElement)
 	{
 		return (BerkeleyDBLocalSortedStatements) super.tailSet(fromElement);
+	}
+
+	@Override
+	public BerkeleyDBLocalSortedStatements subSet(Identifier from, Identifier to)
+	{
+		return (BerkeleyDBLocalSortedStatements) super.subSet(from, to);
+	}
+
+	@Override
+	public BerkeleyDBLocalSortedStatements headSet(Identifier to)
+	{
+		return (BerkeleyDBLocalSortedStatements) super.headSet(to);
+	}
+
+	@Override
+	public BerkeleyDBLocalSortedStatements tailSet(Identifier from)
+	{
+		return (BerkeleyDBLocalSortedStatements) super.tailSet(from);
+	}
+
+	@Override
+	public BerkeleyDBLocalSortedStatements identifierSet(Identifier identifier)
+	{
+		return (BerkeleyDBLocalSortedStatements) super.identifierSet(identifier);
+	}
+
+	@Override
+	public BerkeleyDBLocalSortedStatements postIdentifierSet(Identifier identifier)
+	{
+		return (BerkeleyDBLocalSortedStatements) super.postIdentifierSet(identifier);
 	}
 
 }

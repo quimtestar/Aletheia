@@ -25,7 +25,6 @@ import java.util.UUID;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
-import aletheia.model.identifier.NamespaceTerminator;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.identifier.RootNamespace;
@@ -289,9 +288,12 @@ public abstract class BerkeleyDBStatementEntity implements StatementEntity
 
 	private int dependencyLevel;
 
-	@Persistent
+	@Persistent(version = 1)
 	public static class LocalSortKey implements Comparable<LocalSortKey>
 	{
+
+		private static final String globalMaxStrIdentifier = "~~";
+
 		@KeyField(1)
 		private long uuidContextmostSigBits;
 
@@ -366,6 +368,16 @@ public abstract class BerkeleyDBStatementEntity implements StatementEntity
 				this.strIdentifier = identifier.qualifiedName();
 		}
 
+		private void setIdentifierGlobalMax()
+		{
+			this.strIdentifier = globalMaxStrIdentifier;
+		}
+
+		private boolean isIdentifierGlobalMax()
+		{
+			return globalMaxStrIdentifier.equals(strIdentifier);
+		}
+
 		@Override
 		public int compareTo(LocalSortKey o)
 		{
@@ -384,11 +396,11 @@ public abstract class BerkeleyDBStatementEntity implements StatementEntity
 			c = Integer.compare(getAssumptionOrder(), o.getAssumptionOrder());
 			if (c != 0)
 				return c;
-			Identifier id1 = getIdentifier();
-			Identifier id2 = o.getIdentifier();
-			c = Boolean.compare(id1 instanceof NamespaceTerminator, id2 instanceof NamespaceTerminator);
+			c = Boolean.compare(isIdentifierGlobalMax(), o.isIdentifierGlobalMax());
 			if (c != 0)
 				return c;
+			Identifier id1 = getIdentifier();
+			Identifier id2 = o.getIdentifier();
 			c = Boolean.compare(id1 == null, id2 == null);
 			if (c != 0)
 				return c;
@@ -406,7 +418,6 @@ public abstract class BerkeleyDBStatementEntity implements StatementEntity
 			LocalSortKey dependencySortKey = new LocalSortKey();
 			dependencySortKey.setUuidKeyContext(contextUuidKey);
 			dependencySortKey.setAssumptionOrder(Integer.MIN_VALUE);
-			dependencySortKey.setIdentifier(RootNamespace.instance.initiator());
 			return dependencySortKey;
 		}
 
@@ -425,7 +436,7 @@ public abstract class BerkeleyDBStatementEntity implements StatementEntity
 			LocalSortKey dependencySortKey = new LocalSortKey();
 			dependencySortKey.setUuidKeyContext(contextUuidKey);
 			dependencySortKey.setAssumptionOrder(Integer.MAX_VALUE);
-			dependencySortKey.setIdentifier(RootNamespace.instance.terminator());
+			dependencySortKey.setIdentifierGlobalMax();
 			return dependencySortKey;
 		}
 

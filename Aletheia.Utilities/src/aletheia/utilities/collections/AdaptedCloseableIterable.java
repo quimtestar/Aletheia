@@ -39,35 +39,7 @@ public class AdaptedCloseableIterable<E> extends AdaptedIterable<E> implements C
 	@Override
 	public CloseableIterator<E> iterator()
 	{
-		final CloseableIterator<? extends E> iterator = getInner().iterator();
-		return new CloseableIterator<E>()
-		{
-
-			@Override
-			public boolean hasNext()
-			{
-				return iterator.hasNext();
-			}
-
-			@Override
-			public E next()
-			{
-				return iterator.next();
-			}
-
-			@Override
-			public void remove()
-			{
-				throw new UnsupportedOperationException();
-			}
-
-			@Override
-			public void close()
-			{
-				iterator.close();
-			}
-
-		};
+		return new AdaptedCloseableIterator<E>(getInner().iterator());
 	}
 
 }

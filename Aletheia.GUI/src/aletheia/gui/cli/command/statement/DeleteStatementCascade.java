@@ -32,12 +32,6 @@ public class DeleteStatementCascade extends DeleteStatement
 	}
 
 	@Override
-	protected boolean isCascade()
-	{
-		return true;
-	}
-
-	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
 		getStatement().deleteCascade(getTransaction());

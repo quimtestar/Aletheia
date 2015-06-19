@@ -626,7 +626,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 		}
 		catch (PersistenceLockTimeoutException e)
 		{
-			authorityJPanel.setStatement(null);
+			authorityJPanel.clear();
 			return new Dimension(1, 1);
 		}
 	}

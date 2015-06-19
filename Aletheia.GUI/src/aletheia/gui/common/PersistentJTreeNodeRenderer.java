@@ -33,7 +33,7 @@ public abstract class PersistentJTreeNodeRenderer extends AbstractPersistentRend
 		this.persistentJTree = persistentJTree;
 	}
 
-	protected PersistentJTree getPersistentJTree()
+	public PersistentJTree getPersistentJTree()
 	{
 		return persistentJTree;
 	}

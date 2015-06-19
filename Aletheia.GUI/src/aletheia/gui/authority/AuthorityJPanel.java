@@ -31,6 +31,7 @@ import aletheia.gui.app.AletheiaJFrame;
 import aletheia.gui.common.PersistentJTreeLayerUI;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeJPanel;
+import aletheia.gui.contextjtree.sorter.GroupSorter;
 import aletheia.gui.delegatejtree.DelegateTreeJTree;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.Signatory;
@@ -49,6 +50,8 @@ import aletheia.utilities.gui.MyJSplitPane;
 public class AuthorityJPanel extends JPanel
 {
 	private static final long serialVersionUID = 7732434741412425374L;
+
+	private final static int transactionTimeOut = 100;
 
 	private final static String emptyComponentName = "empty";
 	private final static String contentComponentName = "content";
@@ -79,7 +82,7 @@ public class AuthorityJPanel extends JPanel
 		}
 
 		@Override
-		public void statementSelected(Statement statement)
+		public void statementSelected(Statement statement, boolean expanded)
 		{
 			setStatement(statement);
 		}
@@ -87,7 +90,16 @@ public class AuthorityJPanel extends JPanel
 		@Override
 		public void consequentSelected(Context context)
 		{
-			setStatement(null);
+			clear();
+		}
+
+		@Override
+		public void groupSorterSelected(GroupSorter<? extends Statement> groupSorter, boolean expanded)
+		{
+			if (!expanded)
+				setGroupSorter(groupSorter);
+			else
+				clear();
 		}
 
 		@Override
@@ -239,26 +251,61 @@ public class AuthorityJPanel extends JPanel
 		return contextJTreeJPanel.getPersistenceManager();
 	}
 
-	public void setStatement(Statement statement)
+	private Transaction beginTransaction()
 	{
-		if (statement == null)
-			setStatementAuthority(statement, null);
-		else
+		return getPersistenceManager().beginTransaction(transactionTimeOut);
+	}
+
+	private void setStatement(Statement statement)
+	{
+		Transaction transaction = beginTransaction();
+		try
 		{
-			Transaction transaction = getPersistenceManager().beginTransaction(100);
-			try
-			{
-				StatementAuthority stAuth = statement.getAuthority(transaction);
-				setStatementAuthority(statement, stAuth);
-			}
-			catch (PersistenceLockTimeoutException e)
-			{
-			}
-			finally
-			{
-				transaction.abort();
-			}
+			setStatement(transaction, statement);
 		}
+		catch (PersistenceLockTimeoutException e)
+		{
+		}
+		finally
+		{
+			transaction.abort();
+		}
+	}
+
+	private void setStatement(Transaction transaction, Statement statement)
+	{
+		StatementAuthority stAuth = statement.getAuthority(transaction);
+		setStatementAuthority(statement, stAuth);
+	}
+
+	private void setGroupSorter(GroupSorter<? extends Statement> sorter)
+	{
+		Transaction transaction = beginTransaction();
+		try
+		{
+			setGroupSorter(transaction, sorter);
+		}
+		catch (PersistenceLockTimeoutException e)
+		{
+		}
+		finally
+		{
+			transaction.abort();
+		}
+	}
+
+	private void setGroupSorter(Transaction transaction, GroupSorter<? extends Statement> sorter)
+	{
+		Statement statement = sorter.getStatement(transaction);
+		if (statement != null)
+			setStatement(transaction, statement);
+		else
+			clear();
+	}
+
+	public void clear()
+	{
+		setStatementAuthority(null, null);
 	}
 
 	private void removeAuthorityHeaderJPanel()
