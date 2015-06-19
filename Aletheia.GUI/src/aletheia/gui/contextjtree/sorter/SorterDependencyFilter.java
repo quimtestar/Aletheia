@@ -141,6 +141,12 @@ public class SorterDependencyFilter<S extends Sorter> implements Iterable<S>
 						return list;
 					}
 
+					@Override
+					public void remove()
+					{
+						throw new UnsupportedOperationException();
+					}
+
 				};
 			}
 		};
