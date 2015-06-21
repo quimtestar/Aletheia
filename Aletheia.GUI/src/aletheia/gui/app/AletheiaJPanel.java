@@ -56,6 +56,8 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 	private final MyJSplitPane splitPane;
 	private final ProofFinder proofFinder;
 
+	private boolean closed;
+
 	public AletheiaJPanel(AletheiaJFrame aletheiaJFrame, PersistenceManager persistenceManager) throws InterruptedException
 	{
 		super();
@@ -82,6 +84,8 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 		this.cliController.start();
 		this.proofFinder = new ProofFinder(persistenceManager);
 		this.proofFinder.addListener(new ProofFinderExecutor(persistenceManager, cliJPanel));
+
+		this.closed = false;
 	}
 
 	public AletheiaJFrame getAletheiaJFrame()
@@ -141,13 +145,17 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 	}
 
 	@Override
-	public void close() throws InterruptedException, IOException
+	public synchronized void close() throws InterruptedException, IOException
 	{
-		cliJPanel.close();
-		cliController.shutdown(cliJPanel);
-		contextJTreeJPanel.close();
-		signatureRequestJTree.close();
-		proofFinder.shutdown();
+		if (!closed)
+		{
+			closed = true;
+			cliJPanel.close();
+			cliController.shutdown(cliJPanel);
+			contextJTreeJPanel.close();
+			signatureRequestJTree.close();
+			proofFinder.shutdown();
+		}
 	}
 
 	@Override
