@@ -32,16 +32,11 @@ import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.StatementAuthority;
-import aletheia.model.identifier.Identifier;
 import aletheia.model.local.ContextLocal;
 import aletheia.model.local.StatementLocal;
-import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
-import aletheia.model.statement.Declaration;
 import aletheia.model.statement.RootContext;
-import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
-import aletheia.model.statement.UnfoldingContext;
 import aletheia.persistence.Transaction;
 
 public abstract class StatementContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
@@ -52,79 +47,6 @@ public abstract class StatementContextJTreeNodeRenderer extends ContextJTreeNode
 	private final Statement statement;
 	private final StatementAuthority statementAuthority;
 	private final StatementLocal statementLocal;
-
-	private class EditableStatementIdentifierComponent extends EditableTextLabelComponent implements EditableComponent
-	{
-		private static final long serialVersionUID = -4548549900954285255L;
-
-		public EditableStatementIdentifierComponent()
-		{
-			super(getDefaultColor());
-			Transaction transaction = beginTransaction();
-			try
-			{
-				Identifier id = statement.identifier(transaction);
-				String idString;
-				if (id != null)
-					idString = id.toString();
-				else
-					idString = statement.getVariable().toString();
-				setLabelText(idString);
-				if (id != null)
-					setFieldText(id.toString());
-			}
-			finally
-			{
-				transaction.abort();
-			}
-		}
-
-		private void resetTextField()
-		{
-			Transaction transaction = getPersistenceManager().beginTransaction();
-			try
-			{
-				Identifier id = statement.identifier(transaction);
-				if (id != null)
-					setFieldText(id.toString());
-				else
-					setFieldText("");
-			}
-			finally
-			{
-				transaction.abort();
-			}
-		}
-
-		@Override
-		public void keyPressed(KeyEvent ev)
-		{
-			switch (ev.getKeyCode())
-			{
-			case KeyEvent.VK_ENTER:
-				try
-				{
-					getContextJTree().editStatementName(statement, getFieldText().trim());
-				}
-				catch (Exception e)
-				{
-					try
-					{
-						getContextJTree().getAletheiaJPanel().getCliJPanel().exception(e);
-					}
-					catch (InterruptedException e1)
-					{
-						logger.error(e1.getMessage(), e1);
-					}
-				}
-				break;
-			case KeyEvent.VK_ESCAPE:
-				resetTextField();
-				break;
-			}
-		}
-
-	}
 
 	private final EditableTextLabelComponent editableTextLabelComponent;
 	@SuppressWarnings("unused")
@@ -343,8 +265,7 @@ public abstract class StatementContextJTreeNodeRenderer extends ContextJTreeNode
 
 	private final Listener listener;
 
-	protected StatementContextJTreeNodeRenderer(ContextJTree contextJTree, Statement statement, EditableTextLabelComponent editableTextLabelComponent,
-			boolean collapsedGroupSorterLabel)
+	protected StatementContextJTreeNodeRenderer(ContextJTree contextJTree, Statement statement)
 	{
 		super(contextJTree);
 		Transaction transaction = contextJTree.getModel().beginTransaction();
@@ -356,11 +277,7 @@ public abstract class StatementContextJTreeNodeRenderer extends ContextJTreeNode
 			addProofLabel();
 			addAuthorityLabel();
 			this.localLabel = addLocalLabel();
-			if (collapsedGroupSorterLabel)
-				addCollapsedGroupSorterLabel();
-			else
-				addSpaceLabel();
-			this.editableTextLabelComponent = addEditableTextLabelComponent(editableTextLabelComponent);
+			this.editableTextLabelComponent = addEditableTextLabelComponent();
 			addColonLabel();
 			addTerm(statement.parentVariableToIdentifier(transaction), statement.getTerm());
 
@@ -379,41 +296,7 @@ public abstract class StatementContextJTreeNodeRenderer extends ContextJTreeNode
 		return statement;
 	}
 
-	protected EditableTextLabelComponent addEditableTextLabelComponent(EditableTextLabelComponent editableTextLabelComponent)
-	{
-		if (editableTextLabelComponent == null)
-			editableTextLabelComponent = new EditableStatementIdentifierComponent();
-		addEditableComponent(editableTextLabelComponent);
-		add(editableTextLabelComponent);
-		return editableTextLabelComponent;
-	}
-
-	public static StatementContextJTreeNodeRenderer renderer(ContextJTree contextJTree, Statement statement)
-	{
-		return renderer(contextJTree, statement, null, false);
-	}
-
-	protected static StatementContextJTreeNodeRenderer renderer(ContextJTree contextJTree, Statement statement,
-			EditableTextLabelComponent editableTextLabelComponent, boolean collapsedGroupSorterLabel)
-	{
-		if (statement == null)
-			return null;
-		else if (statement instanceof Assumption)
-			return new AssumptionContextJTreeNodeRenderer(contextJTree, (Assumption) statement, editableTextLabelComponent, collapsedGroupSorterLabel);
-		else if (statement instanceof UnfoldingContext)
-			return new UnfoldingContextContextJTreeNodeRenderer(contextJTree, (UnfoldingContext) statement, editableTextLabelComponent,
-					collapsedGroupSorterLabel);
-		else if (statement instanceof RootContext)
-			return new RootContextContextJTreeNodeRenderer(contextJTree, (RootContext) statement, editableTextLabelComponent, collapsedGroupSorterLabel);
-		else if (statement instanceof Context)
-			return new ContextContextJTreeNodeRenderer(contextJTree, (Context) statement, editableTextLabelComponent, collapsedGroupSorterLabel);
-		else if (statement instanceof Declaration)
-			return new DeclarationContextJTreeNodeRenderer(contextJTree, (Declaration) statement, editableTextLabelComponent, collapsedGroupSorterLabel);
-		else if (statement instanceof Specialization)
-			return new SpecializationContextJTreeNodeRenderer(contextJTree, (Specialization) statement, editableTextLabelComponent, collapsedGroupSorterLabel);
-		else
-			throw new Error();
-	}
+	protected abstract EditableTextLabelComponent addEditableTextLabelComponent();
 
 	public void editName()
 	{

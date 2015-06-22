@@ -23,14 +23,13 @@ import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.model.statement.Declaration;
 import aletheia.persistence.Transaction;
 
-public class DeclarationContextJTreeNodeRenderer extends StatementContextJTreeNodeRenderer
+public class DeclarationContextJTreeNodeRenderer extends ProperStatementContextJTreeNodeRenderer
 {
 	private static final long serialVersionUID = 6841890763302299054L;
 
-	protected DeclarationContextJTreeNodeRenderer(ContextJTree contextJTree, Declaration declaration, EditableTextLabelComponent editableTextLabelComponent,
-			boolean collapsedGroupSorterLabel)
+	protected DeclarationContextJTreeNodeRenderer(ContextJTree contextJTree, Declaration declaration)
 	{
-		super(contextJTree, declaration, editableTextLabelComponent, collapsedGroupSorterLabel);
+		super(contextJTree, declaration);
 		Transaction transaction = contextJTree.getModel().beginTransaction();
 		try
 		{

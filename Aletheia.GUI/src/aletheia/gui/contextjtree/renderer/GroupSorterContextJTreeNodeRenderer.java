@@ -127,6 +127,26 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 		@SuppressWarnings("unused")
 		private final StatementContextJTreeNode statementContextJTreeNode;
 
+		private class MyStatementContextJTreeNodeRenderer extends StatementContextJTreeNodeRenderer
+		{
+			private static final long serialVersionUID = 2182247478964360918L;
+
+			protected MyStatementContextJTreeNodeRenderer(ContextJTree contextJTree, Statement statement)
+			{
+				super(contextJTree, statement);
+			}
+
+			@Override
+			protected EditableSorterPrefixComponent addEditableTextLabelComponent()
+			{
+				addCollapsedGroupSorterLabel();
+				addEditableComponent(editableSorterPrefixComponent);
+				add(editableSorterPrefixComponent);
+				return editableSorterPrefixComponent;
+
+			}
+		}
+
 		public CollapsedRenderer(ContextJTree contextJTree)
 		{
 			super(contextJTree);
@@ -137,8 +157,7 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 				Statement statement = sorter.getStatement(transaction);
 				if (statement != null)
 				{
-					this.statementContextJTreeNodeRenderer = StatementContextJTreeNodeRenderer.renderer(contextJTree, statement, editableSorterPrefixComponent,
-							true);
+					this.statementContextJTreeNodeRenderer = new MyStatementContextJTreeNodeRenderer(contextJTree, statement);
 					statementContextJTreeNode = contextJTree.getModel().getNodeMap().getByStatement(statement);
 					add(statementContextJTreeNodeRenderer);
 				}

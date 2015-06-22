@@ -22,14 +22,13 @@ package aletheia.gui.contextjtree.renderer;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.model.statement.Assumption;
 
-public class AssumptionContextJTreeNodeRenderer extends StatementContextJTreeNodeRenderer
+public class AssumptionContextJTreeNodeRenderer extends ProperStatementContextJTreeNodeRenderer
 {
 	private static final long serialVersionUID = -1306644843764913368L;
 
-	protected AssumptionContextJTreeNodeRenderer(ContextJTree contextJTree, Assumption assumption, EditableTextLabelComponent editableTextLabelComponent,
-			boolean collapsedGroupSorterLabel)
+	protected AssumptionContextJTreeNodeRenderer(ContextJTree contextJTree, Assumption assumption)
 	{
-		super(contextJTree, assumption, editableTextLabelComponent, collapsedGroupSorterLabel);
+		super(contextJTree, assumption);
 		setActiveFont(getItalicFont());
 		addSpaceLabel();
 		addOpenBracket();

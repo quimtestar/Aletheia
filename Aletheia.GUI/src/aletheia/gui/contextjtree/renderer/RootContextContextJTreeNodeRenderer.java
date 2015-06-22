@@ -26,10 +26,9 @@ public class RootContextContextJTreeNodeRenderer extends ContextContextJTreeNode
 {
 	private static final long serialVersionUID = 2931816812478769992L;
 
-	protected RootContextContextJTreeNodeRenderer(ContextJTree contextJTree, RootContext rootContext, EditableTextLabelComponent editableTextLabelComponent,
-			boolean collapsedGroupSorterLabel)
+	protected RootContextContextJTreeNodeRenderer(ContextJTree contextJTree, RootContext rootContext)
 	{
-		super(contextJTree, rootContext, editableTextLabelComponent, collapsedGroupSorterLabel);
+		super(contextJTree, rootContext);
 		setActiveFont(getItalicFont());
 		addSpaceLabel();
 		addOpenBracket();

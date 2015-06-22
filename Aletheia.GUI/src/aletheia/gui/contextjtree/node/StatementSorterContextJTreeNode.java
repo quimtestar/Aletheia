@@ -21,6 +21,7 @@ package aletheia.gui.contextjtree.node;
 
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeModel;
+import aletheia.gui.contextjtree.renderer.ProperStatementContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.StatementContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.sorter.StatementSorter;
 import aletheia.model.statement.Statement;
@@ -58,7 +59,7 @@ public class StatementSorterContextJTreeNode extends SorterContextJTreeNode impl
 		Transaction transaction = getModel().beginTransaction();
 		try
 		{
-			return StatementContextJTreeNodeRenderer.renderer(contextJTree, getStatement().refresh(transaction));
+			return ProperStatementContextJTreeNodeRenderer.renderer(contextJTree, getStatement().refresh(transaction));
 		}
 		finally
 		{
