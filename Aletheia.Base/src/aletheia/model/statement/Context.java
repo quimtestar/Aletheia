@@ -1253,7 +1253,7 @@ public class Context extends Statement
 									identifier = st.identifier(transaction);
 									first = false;
 								}
-								listener.statementDeletedFromContext(transaction, this, st, identifier);
+								listener.statementDeletedFromContext(transaction, ctx_, st, identifier);
 							}
 						}
 					}
