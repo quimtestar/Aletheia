@@ -52,26 +52,6 @@ public class StatementSorter extends Sorter
 	}
 
 	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		StatementSorter other = (StatementSorter) obj;
-		if (statement == null)
-		{
-			if (other.statement != null)
-				return false;
-		}
-		else if (!statement.equals(other.statement))
-			return false;
-		return true;
-	}
-
-	@Override
 	public String toString()
 	{
 		return super.toString() + "[statement:" + statement.label() + "]";
@@ -93,6 +73,26 @@ public class StatementSorter extends Sorter
 	public CloseableSet<Statement> statements(Transaction transaction)
 	{
 		return new TrivialCloseableSet<Statement>(Collections.singleton(statement));
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StatementSorter other = (StatementSorter) obj;
+		if (statement == null)
+		{
+			if (other.statement != null)
+				return false;
+		}
+		else if (!statement.equals(other.statement))
+			return false;
+		return true;
 	}
 
 	@Override

@@ -158,7 +158,7 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 		return obtainSorterListManager().getSorterList();
 	}
 
-	private synchronized List<Sorter> getSorterList()
+	public synchronized List<Sorter> getSorterList()
 	{
 		SorterListManager manager = getSorterListManager();
 		if (manager == null)

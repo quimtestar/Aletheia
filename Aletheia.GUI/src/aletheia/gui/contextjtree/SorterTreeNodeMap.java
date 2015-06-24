@@ -19,7 +19,9 @@
  ******************************************************************************/
 package aletheia.gui.contextjtree;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Stack;
 
@@ -39,17 +41,62 @@ import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.MiscUtilities;
+import aletheia.utilities.collections.BufferedList;
 
 public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterContextJTreeNode>
 {
 	private final ContextJTreeModel model;
-	private final Map<Statement, StatementContextJTreeNode> byStatementMap;
+	private final Map<Statement, Map<StatementSorter, StatementContextJTreeNode>> byStatementMap;
 
 	public SorterTreeNodeMap(ContextJTreeModel model)
 	{
 		super();
 		this.model = model;
-		this.byStatementMap = new HashMap<Statement, StatementContextJTreeNode>();
+		this.byStatementMap = new HashMap<Statement, Map<StatementSorter, StatementContextJTreeNode>>();
+	}
+
+	private synchronized void byStatementMapPut(Statement statement, StatementContextJTreeNode node)
+	{
+		Map<StatementSorter, StatementContextJTreeNode> map = byStatementMap.get(statement);
+		if (map == null)
+		{
+			map = new LinkedHashMap<StatementSorter, StatementContextJTreeNode>();
+			byStatementMap.put(statement, map);
+		}
+		map.put(node.getNodeMapSorter(), node);
+	}
+
+	private synchronized StatementContextJTreeNode byStatementMapGetFirst(Statement statement)
+	{
+		Map<StatementSorter, StatementContextJTreeNode> map = byStatementMap.get(statement);
+		if (map == null)
+			return null;
+		return MiscUtilities.firstFromIterable(map.values());
+	}
+
+	private synchronized Collection<StatementContextJTreeNode> byStatementMapGet(Statement statement)
+	{
+		Map<StatementSorter, StatementContextJTreeNode> map = byStatementMap.get(statement);
+		if (map == null)
+			return null;
+		return map.values();
+	}
+
+	private synchronized boolean byStatementMapContainsKey(Statement statement)
+	{
+		return byStatementMap.containsKey(statement);
+	}
+
+	private synchronized StatementContextJTreeNode byStatementMapRemove(StatementSorter statementSorter)
+	{
+		Map<StatementSorter, StatementContextJTreeNode> map = byStatementMap.get(statementSorter.getStatement());
+		if (map == null)
+			return null;
+		StatementContextJTreeNode node = map.remove(statementSorter);
+		if (map.isEmpty())
+			byStatementMap.remove(statementSorter.getStatement());
+		return node;
 	}
 
 	public ContextJTreeModel getModel()
@@ -72,25 +119,29 @@ public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterContextJ
 		else if (sorter instanceof StatementSorter)
 		{
 			StatementSorter statementSorter = (StatementSorter) sorter;
-			SorterContextJTreeNode node;
 			Statement statement = statementSorter.getStatement();
-			statement.addStateListener(getModel().getStatementListener());
-			statement.addAuthorityStateListener(getModel().getStatementListener());
+			SorterContextJTreeNode node;
 			if (statementSorter instanceof ContextSorter)
-			{
-				Context ctx = (Context) statement;
-				ctx.addNomenclatorListener(getModel().getStatementListener());
-				ctx.addLocalStateListener(getModel().getStatementListener());
-				if (ctx instanceof RootContext)
-				{
-					RootContext rootCtx = (RootContext) ctx;
-					rootCtx.addRootNomenclatorListener(getModel().getStatementListener());
-				}
 				node = new ContextSorterContextJTreeNode(getModel(), (ContextSorter) statementSorter);
-			}
 			else
 				node = new StatementSorterContextJTreeNode(getModel(), statementSorter);
-			byStatementMap.put(statement, (StatementContextJTreeNode) node);
+			if (!byStatementMapContainsKey(statement))
+			{
+				statement.addStateListener(getModel().getStatementListener());
+				statement.addAuthorityStateListener(getModel().getStatementListener());
+				if (statementSorter instanceof ContextSorter)
+				{
+					Context ctx = (Context) statement;
+					ctx.addNomenclatorListener(getModel().getStatementListener());
+					ctx.addLocalStateListener(getModel().getStatementListener());
+					if (ctx instanceof RootContext)
+					{
+						RootContext rootCtx = (RootContext) ctx;
+						rootCtx.addRootNomenclatorListener(getModel().getStatementListener());
+					}
+				}
+			}
+			byStatementMapPut(statement, (StatementContextJTreeNode) node);
 			return node;
 		}
 		else
@@ -102,32 +153,36 @@ public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterContextJ
 	{
 		if (sorter instanceof StatementSorter)
 		{
-			Statement statement = ((StatementSorter) sorter).getStatement();
-			statement.removeStateListener(getModel().getStatementListener());
-			statement.removeAuthorityStateListener(getModel().getStatementListener());
-			if (statement instanceof Context)
+			StatementSorter statementSorter = (StatementSorter) sorter;
+			byStatementMapRemove(statementSorter);
+			Statement statement = statementSorter.getStatement();
+			if (!byStatementMapContainsKey(statement))
 			{
-				Context ctx = (Context) statement;
-				ctx.removeNomenclatorListener(getModel().getStatementListener());
-				ctx.removeLocalStateListener(getModel().getStatementListener());
-				if (ctx instanceof RootContext)
+				statement.removeStateListener(getModel().getStatementListener());
+				statement.removeAuthorityStateListener(getModel().getStatementListener());
+				if (statement instanceof Context)
 				{
-					RootContext rootCtx = (RootContext) ctx;
-					rootCtx.removeRootNomenclatorListener(getModel().getStatementListener());
+					Context ctx = (Context) statement;
+					ctx.removeNomenclatorListener(getModel().getStatementListener());
+					ctx.removeLocalStateListener(getModel().getStatementListener());
+					if (ctx instanceof RootContext)
+					{
+						RootContext rootCtx = (RootContext) ctx;
+						rootCtx.removeRootNomenclatorListener(getModel().getStatementListener());
+					}
 				}
 			}
-			byStatementMap.remove(statement);
 		}
 	}
 
 	public synchronized boolean cachedByStatement(Statement statement)
 	{
-		return byStatementMap.containsKey(statement);
+		return byStatementMapContainsKey(statement);
 	}
 
 	public synchronized StatementContextJTreeNode getByStatement(Statement statement)
 	{
-		StatementContextJTreeNode node = byStatementMap.get(statement);
+		StatementContextJTreeNode node = byStatementMapGetFirst(statement);
 		if (node != null)
 			return node;
 		Transaction transaction = getModel().beginTransaction();
@@ -141,7 +196,7 @@ public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterContextJ
 				if (statement instanceof RootContext)
 					break;
 				statement = statement.getContext(transaction);
-				node = byStatementMap.get(statement);
+				node = byStatementMapGetFirst(statement);
 			}
 			while (!stack.isEmpty())
 			{
@@ -165,10 +220,13 @@ public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterContextJ
 
 	public synchronized StatementContextJTreeNode removeByStatement(Statement statement)
 	{
-		StatementContextJTreeNode node = byStatementMap.get(statement);
-		if (node == null)
+		Collection<StatementContextJTreeNode> nodes = byStatementMapGet(statement);
+		if (nodes == null)
 			return null;
-		return (StatementContextJTreeNode) remove(node.getNodeMapSorter());
+		BufferedList<StatementContextJTreeNode> nodes_ = new BufferedList<>(nodes);
+		for (StatementContextJTreeNode node : nodes_)
+			remove(node.getNodeMapSorter());
+		return MiscUtilities.firstFromIterable(nodes_);
 	}
 
 }

@@ -21,7 +21,9 @@ package aletheia.gui.contextjtree;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -1188,6 +1190,24 @@ public class ContextJTreeModel extends PersistentTreeModel
 		}
 	}
 
+	private void nodeMapRemoveRecursive(Sorter sorter)
+	{
+		Stack<Sorter> stack = new Stack<>();
+		stack.push(sorter);
+		while (!stack.isEmpty())
+		{
+			Sorter s = stack.pop();
+			SorterContextJTreeNode n = nodeMap.remove(s);
+			if (n instanceof GroupSorterContextJTreeNode)
+			{
+				GroupSorterContextJTreeNode<?> gn = (GroupSorterContextJTreeNode<?>) n;
+				List<Sorter> sl = gn.getSorterList();
+				if (sl != null)
+					stack.addAll(sl);
+			}
+		}
+	}
+
 	private void nodeStructureChanged(GroupSorterContextJTreeNode<? extends Statement> node)
 	{
 		node.cleanRenderer();
@@ -1195,7 +1215,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 		if (changes != null)
 		{
 			for (ListChanges<Sorter>.Element e : changes.removedElements())
-				nodeMap.remove(e.object);
+				nodeMapRemoveRecursive(e.object);
 			final TreeModelEvent eRemoves;
 			if (!changes.removedElements().isEmpty())
 			{
