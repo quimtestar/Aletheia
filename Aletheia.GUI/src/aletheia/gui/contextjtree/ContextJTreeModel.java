@@ -815,15 +815,19 @@ public class ContextJTreeModel extends PersistentTreeModel
 			if (node != null)
 			{
 				GroupSorterContextJTreeNode<? extends Statement> pNode = node.getParent();
+				boolean changed = false;
 				if (!pNode.checkStatementInsert(statement))
 				{
-					nodeStructureChanged(pNode);
+					changed = nodeStructureChanged(pNode);
 					Identifier prefix = node.parentSorter().getPrefix();
 					if (prefix != null && prefix.equals(statement.getIdentifier()))
 						nodeChangedNoDep(pNode);
 				}
-				if (!(pNode instanceof ContextSorterContextJTreeNode))
-					nodeStructureChanged(pNode.getParent());
+				while (!changed && !(pNode instanceof ContextSorterContextJTreeNode))
+				{
+					pNode = pNode.getParent();
+					changed = nodeStructureChanged(pNode);
+				}
 			}
 			Context ctx = statement.getContext(transaction);
 			if (statement.getTerm() instanceof SimpleTerm)
@@ -1208,7 +1212,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 		}
 	}
 
-	private void nodeStructureChanged(GroupSorterContextJTreeNode<? extends Statement> node)
+	private boolean nodeStructureChanged(GroupSorterContextJTreeNode<? extends Statement> node)
 	{
 		node.cleanRenderer();
 		ListChanges<Sorter> changes = node.changeSorterList();
@@ -1275,8 +1279,10 @@ public class ContextJTreeModel extends PersistentTreeModel
 					}
 
 				});
+				return true;
 			}
 		}
+		return false;
 	}
 
 }
