@@ -20,6 +20,7 @@
 package aletheia.gui.app;
 
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -256,7 +257,8 @@ public class AletheiaJFrame extends JFrame
 		{
 			if (!state.equals(exitLock.state))
 			{
-				preferences.appearance().aletheiaJFrameBounds().setPreferredSize(getSize());
+				
+				preferences.appearance().aletheiaJFrameBounds().setPreferredSize(new Dimension(getWidth()+2,getHeight()+2));
 				preferences.appearance().aletheiaJFrameBounds().setLocation(getLocation());
 				shutdown();
 				dispose();
