@@ -17,38 +17,11 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree.node;
+package aletheia.gui.contextjtree.sorter;
 
-import aletheia.gui.contextjtree.ContextJTree;
-import aletheia.gui.contextjtree.ContextJTreeModel;
-import aletheia.gui.contextjtree.renderer.EmptyContextJTreeNodeRenderer;
-import aletheia.gui.contextjtree.sorter.RootGroupSorter;
-import aletheia.model.statement.RootContext;
+import aletheia.model.statement.Statement;
 
-public class RootContextJTreeNode extends RootContextGroupSorterContextJTreeNode implements TopGroupSorterContextJTreeNode<RootContext>
+public interface TopGroupSorter<S extends Statement>
 {
-
-	public RootContextJTreeNode(ContextJTreeModel model)
-	{
-		super(model, new RootGroupSorter(model.getPersistenceManager()));
-	}
-
-	@Override
-	public RootGroupSorter getSorter()
-	{
-		return (RootGroupSorter) super.getSorter();
-	}
-
-	@Override
-	protected EmptyContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree)
-	{
-		return new EmptyContextJTreeNodeRenderer(contextJTree);
-	}
-
-	@Override
-	public RootContextJTreeNode getParent()
-	{
-		return null;
-	}
 
 }

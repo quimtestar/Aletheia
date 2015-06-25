@@ -42,6 +42,7 @@ import aletheia.gui.contextjtree.node.GroupSorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.RootContextJTreeNode;
 import aletheia.gui.contextjtree.node.SorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.StatementContextJTreeNode;
+import aletheia.gui.contextjtree.node.TopGroupSorterContextJTreeNode;
 import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.Person;
@@ -740,14 +741,24 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 		private void rootContextAdded(RootContext rootContext, Transaction transaction)
 		{
-			StatementContextJTreeNode node = addStatement(rootContext.refresh(transaction));
+			rootContext = rootContext.refresh(transaction);
+			StatementContextJTreeNode node = addStatement(rootContext);
 			if (node != null)
 			{
 				GroupSorterContextJTreeNode<? extends Statement> pNode = node.getParent();
+				boolean changed = false;
 				if (!pNode.checkStatementInsert(rootContext))
-					nodeStructureChanged(pNode);
-				if (!(pNode instanceof RootContextJTreeNode))
-					nodeStructureChanged(pNode.getParent());
+				{
+					changed = nodeStructureChanged(pNode);
+					Identifier prefix = node.parentSorter().getPrefix();
+					if (prefix != null && prefix.equals(rootContext.getIdentifier()))
+						nodeChangedNoDep(pNode);
+				}
+				while (!changed && !(pNode instanceof RootContextJTreeNode))
+				{
+					pNode = pNode.getParent();
+					changed = nodeStructureChanged(pNode);
+				}
 			}
 		}
 
@@ -762,12 +773,17 @@ public class ContextJTreeModel extends PersistentTreeModel
 			if ((pNode != null) && !pNode.checkStatementRemove(rootContext))
 			{
 				nodeStructureChanged(pNode);
-				if (pNode.isDegenerate())
+				Identifier prefix = pNode.getSorter().getPrefix();
+				if (prefix != null && prefix.equals(rootContext.getIdentifier()))
+					nodeChangedNoDep(pNode);
+				boolean changed = true;
+				while (changed && !(pNode instanceof RootContextJTreeNode) && pNode.isDegenerate())
 				{
-					if (!(pNode instanceof RootContextJTreeNode))
-						nodeStructureChanged(pNode.getParent());
+					pNode = pNode.getParent();
+					changed = nodeStructureChanged(pNode);
 				}
 			}
+
 		}
 
 		private void provedStateChanged(ProvedStateChange c, Transaction transaction)
@@ -883,14 +899,15 @@ public class ContextJTreeModel extends PersistentTreeModel
 				if ((pNode != null) && !pNode.checkStatementRemove(statement))
 				{
 					nodeStructureChanged(pNode);
-					if (pNode.isDegenerate())
-					{
-						if (!(pNode instanceof RootContextJTreeNode))
-							nodeStructureChanged(pNode.getParent());
-					}
 					Identifier prefix = pNode.getSorter().getPrefix();
 					if (prefix != null && prefix.equals(statement.getIdentifier()))
 						nodeChangedNoDep(pNode);
+					boolean changed = true;
+					while (changed && !(pNode instanceof TopGroupSorterContextJTreeNode) && pNode.isDegenerate())
+					{
+						pNode = pNode.getParent();
+						changed = nodeStructureChanged(pNode);
+					}
 				}
 			}
 			statement = statement.refresh(transaction);
@@ -903,15 +920,19 @@ public class ContextJTreeModel extends PersistentTreeModel
 				if (!pNode_.equals(pNode))
 				{
 					pNode = pNode_;
+					boolean changed = false;
 					if (!pNode.checkStatementInsert(statement))
 					{
-						nodeStructureChanged(pNode);
+						changed = nodeStructureChanged(pNode);
 						Identifier prefix = pNode.getSorter().getPrefix();
 						if (prefix != null && prefix.equals(statement.getIdentifier()))
 							nodeChangedNoDep(pNode);
 					}
-					if (!(pNode instanceof RootContextJTreeNode))
-						nodeStructureChanged(pNode.getParent());
+					while (!changed && !(pNode instanceof TopGroupSorterContextJTreeNode))
+					{
+						pNode = pNode.getParent();
+						changed = nodeStructureChanged(pNode);
+					}
 				}
 			}
 			if (statement instanceof RootContext)
@@ -1080,11 +1101,11 @@ public class ContextJTreeModel extends PersistentTreeModel
 				Identifier prefix = pNode.getSorter().getPrefix();
 				if (prefix != null && prefix.equals(statement.getIdentifier()))
 					nodeChangedNoDep(pNode);
-
-				if (pNode.isDegenerate())
+				boolean changed = true;
+				while (changed && !(pNode instanceof ContextSorterContextJTreeNode) && pNode.isDegenerate())
 				{
-					if (!(pNode instanceof ContextSorterContextJTreeNode))
-						nodeStructureChanged(pNode.getParent());
+					pNode = pNode.getParent();
+					changed = nodeStructureChanged(pNode);
 				}
 			}
 		}

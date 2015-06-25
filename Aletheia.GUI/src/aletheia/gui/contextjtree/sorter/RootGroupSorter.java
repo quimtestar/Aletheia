@@ -19,10 +19,11 @@
  ******************************************************************************/
 package aletheia.gui.contextjtree.sorter;
 
+import aletheia.model.statement.RootContext;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 
-public class RootGroupSorter extends RootContextGroupSorter
+public class RootGroupSorter extends RootContextGroupSorter implements TopGroupSorter<RootContext>
 {
 
 	public RootGroupSorter(PersistenceManager persistenceManager)

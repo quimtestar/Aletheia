@@ -35,7 +35,8 @@ import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.CombinedIterator;
 
-public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJTreeNode implements StatementContextJTreeNode
+public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJTreeNode implements StatementContextJTreeNode,
+		TopGroupSorterContextJTreeNode<Statement>
 {
 	private final ConsequentContextJTreeNode consequentNode;
 
