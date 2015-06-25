@@ -257,8 +257,7 @@ public class AletheiaJFrame extends JFrame
 		{
 			if (!state.equals(exitLock.state))
 			{
-				
-				preferences.appearance().aletheiaJFrameBounds().setPreferredSize(new Dimension(getWidth()+2,getHeight()+2));
+				preferences.appearance().aletheiaJFrameBounds().setPreferredSize(new Dimension(getWidth() + 2, getHeight() + 2));
 				preferences.appearance().aletheiaJFrameBounds().setLocation(getLocation());
 				shutdown();
 				dispose();
