@@ -29,6 +29,7 @@ import aletheia.gui.contextjtree.renderer.StatementContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.sorter.ContextGroupSorter;
 import aletheia.gui.contextjtree.sorter.ContextSorter;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
+import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
@@ -59,6 +60,12 @@ public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJT
 	public Context getStatement()
 	{
 		return getContext();
+	}
+
+	@Override
+	public Identifier getIdentifier()
+	{
+		return getSorter().getContextSorter().getIdentifier();
 	}
 
 	@Override

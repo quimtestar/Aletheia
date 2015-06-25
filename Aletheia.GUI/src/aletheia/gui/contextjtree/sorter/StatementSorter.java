@@ -40,15 +40,28 @@ public class StatementSorter extends Sorter
 
 	private final Statement statement;
 
+	private Identifier identifier;
+
 	protected StatementSorter(GroupSorter<? extends Statement> group, Statement statement)
 	{
 		super(group);
 		this.statement = statement;
+		this.identifier = statement.getIdentifier();
 	}
 
 	public Statement getStatement()
 	{
 		return statement;
+	}
+
+	public Identifier getIdentifier()
+	{
+		return identifier;
+	}
+
+	public void setIdentifier(Identifier identifier)
+	{
+		this.identifier = identifier;
 	}
 
 	@Override
@@ -60,13 +73,13 @@ public class StatementSorter extends Sorter
 	@Override
 	public Identifier getPrefix()
 	{
-		return statement.getIdentifier();
+		return getIdentifier();
 	}
 
 	@Override
 	public Statement getStatement(Transaction transaction)
 	{
-		return statement;
+		return statement.refresh(transaction);
 	}
 
 	@Override

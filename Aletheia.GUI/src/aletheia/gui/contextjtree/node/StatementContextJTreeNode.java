@@ -24,11 +24,14 @@ import javax.swing.tree.TreePath;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
 import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.gui.contextjtree.sorter.StatementSorter;
+import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Statement;
 
 public interface StatementContextJTreeNode
 {
 	public Statement getStatement();
+
+	public Identifier getIdentifier();
 
 	public TreePath path();
 

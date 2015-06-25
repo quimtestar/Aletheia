@@ -811,7 +811,8 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 		private void statementAddedToContext(Context context, Statement statement, Transaction transaction)
 		{
-			StatementContextJTreeNode node = addStatement(statement.refresh(transaction));
+			statement = statement.refresh(transaction);
+			StatementContextJTreeNode node = addStatement(statement);
 			if (node != null)
 			{
 				GroupSorterContextJTreeNode<? extends Statement> pNode = node.getParent();
@@ -872,7 +873,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 			statementIdentifierChanged(statement, transaction);
 		}
 
-		private void statementIdentifierChanged(final Statement statement, Transaction transaction)
+		private void statementIdentifierChanged(Statement statement, Transaction transaction)
 		{
 			GroupSorterContextJTreeNode<?> pNode = null;
 			if (nodeMap.cachedByStatement(statement))
@@ -892,9 +893,11 @@ public class ContextJTreeModel extends PersistentTreeModel
 						nodeChangedNoDep(pNode);
 				}
 			}
-			StatementContextJTreeNode node = addStatement(statement.refresh(transaction));
+			statement = statement.refresh(transaction);
+			StatementContextJTreeNode node = addStatement(statement);
 			if (node != null)
 			{
+				node.getNodeMapSorter().setIdentifier(statement.getIdentifier());
 				nodeChanged((ContextJTreeNode) node);
 				GroupSorterContextJTreeNode<? extends Statement> pNode_ = node.getParent();
 				if (!pNode_.equals(pNode))
@@ -1189,7 +1192,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 		{
 			StatementContextJTreeNode statementNode = (StatementContextJTreeNode) node;
 			Identifier prefix = statementNode.parentSorter().getPrefix();
-			if (prefix != null && prefix.equals(statementNode.getStatement().getIdentifier()))
+			if (prefix != null && prefix.equals(statementNode.getIdentifier()))
 				nodeChangedNoDep(statementNode.getParent());
 		}
 	}
