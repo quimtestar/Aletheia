@@ -660,7 +660,7 @@ public class CliJPanel extends JPanel
 
 		}
 
-		public void updateActiveContext(Context activeContext)
+		public void updateActiveContext(Transaction transaction, Context activeContext)
 		{
 			if (activeContext != context)
 			{
@@ -670,19 +670,13 @@ public class CliJPanel extends JPanel
 				if (activeContext != null)
 				{
 					Context ctx = activeContext;
-					Transaction transaction = aletheiaJPanel.getPersistenceManager().beginTransaction();
-					try
+					while (!(ctx instanceof RootContext))
 					{
-						while (!(ctx instanceof RootContext))
-						{
-							ctx = ctx.getContext(transaction);
-							ancestorContexts.add(ctx);
-							ctx.addStateListener(this);
-						}
-					}
-					finally
-					{
-						transaction.abort();
+						ctx = ctx.getContext(transaction);
+						if (ctx == null)
+							break;
+						ancestorContexts.add(ctx);
+						ctx.addStateListener(this);
 					}
 				}
 				context = activeContext;
@@ -984,21 +978,35 @@ public class CliJPanel extends JPanel
 	{
 		if (((activeContext == null) != (this.activeContext == null)) || (activeContext != null && !activeContext.equals(this.activeContext)))
 		{
-			this.activeContext = activeContext;
-			updateActiveContextJLabel();
-			if (activeContext != null)
-				this.catalogJTree.setRootCatalog(activeContext.catalog());
-			else
-				this.catalogJTree.setRootCatalog(null);
-			statementStateListener.updateActiveContext(activeContext);
-			SwingUtilities.invokeLater(new Runnable()
+			Transaction transaction = getPersistenceManager().beginTransaction();
+			try
 			{
-				@Override
-				public void run()
+				if (activeContext != null)
 				{
-					textPane.requestFocusInWindow();
+					activeContext = activeContext.refresh(transaction);
+					if (activeContext == null)
+						return;
 				}
-			});
+				this.activeContext = activeContext;
+				updateActiveContextJLabel();
+				if (activeContext != null)
+					this.catalogJTree.setRootCatalog(activeContext.catalog());
+				else
+					this.catalogJTree.setRootCatalog(null);
+				statementStateListener.updateActiveContext(transaction, activeContext);
+				SwingUtilities.invokeLater(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						textPane.requestFocusInWindow();
+					}
+				});
+			}
+			finally
+			{
+				transaction.abort();
+			}
 		}
 
 	}
