@@ -284,6 +284,12 @@ public class CliJPanel extends JPanel
 				e.consume();
 				break;
 			}
+			case KeyEvent.VK_F2:
+			case KeyEvent.VK_F3:
+			{
+				getAletheiaJPanel().getContextJTree().dispatchEvent(e);
+				break;
+			}
 			}
 		}
 
