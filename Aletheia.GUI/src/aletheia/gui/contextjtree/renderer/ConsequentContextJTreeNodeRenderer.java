@@ -21,8 +21,15 @@ package aletheia.gui.contextjtree.renderer;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+import javax.swing.TransferHandler;
+
+import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.contextjtree.ContextJTree;
+import aletheia.log4j.LoggerManager;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
@@ -30,10 +37,11 @@ import aletheia.persistence.Transaction;
 public class ConsequentContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
 {
 	private static final long serialVersionUID = 8932737516919384939L;
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	private final Context context;
 
-	private class MyKeyListener implements KeyListener
+	private class Listener implements KeyListener, MouseListener
 	{
 
 		@Override
@@ -46,7 +54,21 @@ public class ConsequentContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
 				getContextJTree().getAletheiaJPanel().getCliJPanel().setActiveContext(context);
 				break;
 			}
-
+			case KeyEvent.VK_DELETE:
+			{
+				try
+				{
+					if (ev.isShiftDown())
+						deleteCascade();
+					else
+						delete();
+				}
+				catch (InterruptedException e1)
+				{
+					logger.error(e1.getMessage(), e1);
+				}
+				break;
+			}
 			}
 		}
 
@@ -58,6 +80,38 @@ public class ConsequentContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
 		@Override
 		public void keyTyped(KeyEvent ev)
 		{
+		}
+
+		boolean draggable = false;
+
+		@Override
+		public void mouseClicked(MouseEvent e)
+		{
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e)
+		{
+			draggable = true;
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e)
+		{
+			draggable = false;
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e)
+		{
+			draggable = false;
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e)
+		{
+			if ((draggable && (e.getModifiers() & MouseEvent.MOUSE_PRESSED) != 0))
+				getContextJTree().getTransferHandler().exportAsDrag(getContextJTree(), e, TransferHandler.COPY);
 		}
 
 	}
@@ -88,12 +142,24 @@ public class ConsequentContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
 				addTerm(context.variableToIdentifier(transaction), st.getVariable());
 			}
 			addCloseBracket();
-			addKeyListener(new MyKeyListener());
+			Listener listener = new Listener();
+			addKeyListener(listener);
+			addMouseListener(listener);
 		}
 		finally
 		{
 			transaction.abort();
 		}
+	}
+
+	private void delete() throws InterruptedException
+	{
+		getContextJTree().deleteStatement(context);
+	}
+
+	private void deleteCascade() throws InterruptedException
+	{
+		getContextJTree().deleteStatementCascade(context);
 	}
 
 }

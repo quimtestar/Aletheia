@@ -95,6 +95,7 @@ import aletheia.gui.cli.command.gui.TraceException;
 import aletheia.gui.common.NamespaceDataFlavor;
 import aletheia.gui.common.PersistentJTreeLayerUI;
 import aletheia.gui.common.StatementDataFlavor;
+import aletheia.gui.common.TermDataFlavor;
 import aletheia.gui.common.UUIDDataFlavor;
 import aletheia.gui.font.FontManager;
 import aletheia.log4j.LoggerManager;
@@ -104,6 +105,7 @@ import aletheia.model.identifier.Namespace;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
+import aletheia.model.term.Term;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.gui.MyJSplitPane;
@@ -839,6 +841,30 @@ public class CliJPanel extends JPanel
 					return false;
 				}
 
+			}
+			else if (t.isDataFlavorSupported(TermDataFlavor.instance))
+			{
+				try
+				{
+					Term term = (Term) t.getTransferData(TermDataFlavor.instance);
+					Transaction transaction = getPersistenceManager().beginTransaction(100);
+					try
+					{
+						Context context = getActiveContext();
+						if (context == null)
+							return importText(comp, term.toString());
+						else
+							return importText(comp, term.toString(context.variableToIdentifier(transaction)));
+					}
+					finally
+					{
+						transaction.abort();
+					}
+				}
+				catch (Exception e)
+				{
+					return false;
+				}
 			}
 			else
 				return oldTransferHandler.importData(comp, t);

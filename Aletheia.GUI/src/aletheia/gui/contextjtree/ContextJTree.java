@@ -59,6 +59,7 @@ import aletheia.gui.common.AletheiaTransferable;
 import aletheia.gui.common.PersistentJTree;
 import aletheia.gui.common.SorterTransferable;
 import aletheia.gui.common.StatementTransferable;
+import aletheia.gui.common.TermTransferable;
 import aletheia.gui.contextjtree.node.ConsequentContextJTreeNode;
 import aletheia.gui.contextjtree.node.ContextSorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.ContextJTreeNode;
@@ -223,6 +224,8 @@ public class ContextJTree extends PersistentJTree
 			case KeyEvent.VK_DELETE:
 			{
 				Statement statement = getSelectedStatement();
+				if (statement == null)
+					statement = getSelectedConsequent();
 				if (statement != null)
 				{
 					try
@@ -283,9 +286,15 @@ public class ContextJTree extends PersistentJTree
 				}
 				else
 				{
-					Sorter sorter = getSelectedSorter();
-					if (sorter instanceof StatementGroupSorter)
-						cliJPanel.setActiveContext(((StatementGroupSorter) sorter).getContext());
+					Context context = getSelectedConsequent();
+					if (context != null)
+						cliJPanel.setActiveContext(context);
+					else
+					{
+						Sorter sorter = getSelectedSorter();
+						if (sorter instanceof StatementGroupSorter)
+							cliJPanel.setActiveContext(((StatementGroupSorter) sorter).getContext());
+					}
 				}
 				break;
 			}
@@ -391,6 +400,11 @@ public class ContextJTree extends PersistentJTree
 			Sorter sorter = getSelectedSorter();
 			if (sorter != null)
 				return new SorterTransferable(getPersistenceManager(), sorter);
+			Context context = getSelectedConsequent();
+			if (context != null)
+			{
+				return new TermTransferable(context.getConsequent());
+			}
 			return null;
 		}
 
@@ -694,6 +708,17 @@ public class ContextJTree extends PersistentJTree
 		selectionListeners.remove(selectionListener);
 	}
 
+	public ContextJTreeNode getSelectedNode()
+	{
+		TreePath path = getSelectionModel().getSelectionPath();
+		if (path == null)
+			return null;
+		if (path.getLastPathComponent() instanceof ContextJTreeNode)
+			return (ContextJTreeNode) path.getLastPathComponent();
+		else
+			return null;
+	}
+
 	public Statement getSelectedStatement()
 	{
 		ContextJTreeNode node = getSelectedNode();
@@ -703,23 +728,21 @@ public class ContextJTree extends PersistentJTree
 			return null;
 	}
 
-	public ContextJTreeNode getSelectedNode()
-	{
-		TreePath path = getSelectionModel().getSelectionPath();
-		if (path == null)
-			return null;
-		if (path.getLastPathComponent() instanceof ContextJTreeNode)
-			return (ContextJTreeNode) path.getLastPathComponent();
-		return null;
-	}
-
 	public Sorter getSelectedSorter()
 	{
 		ContextJTreeNode node = getSelectedNode();
 		if (node instanceof SorterContextJTreeNode)
 			return ((SorterContextJTreeNode) node).getSorter();
-		else if (node instanceof ConsequentContextJTreeNode)
-			return node.getParent().getSorter();
+		else
+			return null;
+	}
+
+	public Context getSelectedConsequent()
+	{
+
+		ContextJTreeNode node = getSelectedNode();
+		if (node instanceof ConsequentContextJTreeNode)
+			return ((ConsequentContextJTreeNode) node).getContext();
 		else
 			return null;
 	}
