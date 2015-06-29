@@ -20,6 +20,7 @@
 package aletheia.gui.contextjtree.sorter;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
@@ -51,7 +52,10 @@ public class StatementGroupSorter extends GroupSorter<Statement>
 	{
 		if (getPrefix() == null)
 			return null;
-		return context.localIdentifierToStatement(transaction).get(getPrefix());
+		Statement statement = context.localIdentifierToStatement(transaction).get(getPrefix());
+		if (statement instanceof Assumption)
+			return null;
+		return statement;
 	}
 
 	@Override
