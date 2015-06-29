@@ -31,8 +31,8 @@ import aletheia.gui.preferences.GUIAletheiaPreferences;
 
 public class FontManager
 {
-	private static String fontPath="dejavu-fonts-ttf-2.35";
-	
+	private static String fontPath = "dejavu-fonts-ttf-2.35";
+
 	private static String baseFontFile = fontPath + "/ttf/DejaVuSansMono.ttf";
 	private static String baseBoldFontFile = fontPath + "/ttf/DejaVuSansMono-Bold.ttf";
 	private static String baseItalicFontFile = fontPath + "/ttf/DejaVuSansMono-Oblique.ttf";
