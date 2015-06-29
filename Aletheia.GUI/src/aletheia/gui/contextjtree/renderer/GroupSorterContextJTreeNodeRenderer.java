@@ -104,7 +104,7 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 		public ExpandedRenderer(ContextJTree contextJTree)
 		{
 			super(contextJTree);
-			addSpaceLabel(3);
+			addSpaceLabel(4);
 			addExpandedGroupSorterLabel();
 			this.editableSorterPrefixComponent = new EditableSorterPrefixComponent();
 			addEditableComponent(editableSorterPrefixComponent);
@@ -165,7 +165,7 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 				{
 					this.statementContextJTreeNodeRenderer = null;
 					statementContextJTreeNode = null;
-					addSpaceLabel(3);
+					addSpaceLabel(4);
 					addCollapsedGroupSorterLabel();
 					addEditableComponent(editableSorterPrefixComponent);
 					add(editableSorterPrefixComponent);

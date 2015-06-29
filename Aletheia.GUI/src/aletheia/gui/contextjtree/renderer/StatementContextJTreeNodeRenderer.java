@@ -277,6 +277,7 @@ public abstract class StatementContextJTreeNodeRenderer extends ContextJTreeNode
 			addProofLabel();
 			addAuthorityLabel();
 			this.localLabel = addLocalLabel();
+			addSpaceLabel();
 			this.editableTextLabelComponent = addEditableTextLabelComponent();
 			addColonLabel();
 			addTerm(statement.parentVariableToIdentifier(transaction), statement.getTerm());
