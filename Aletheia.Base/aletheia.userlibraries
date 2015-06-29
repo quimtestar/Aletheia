@@ -7,7 +7,7 @@
         <archive javadoc="jar:file:/mnt/vlb0/quim/Software/iText/5.5.3/itextpdf-5.5.3-javadoc.jar!/" path="/Aletheia.PdfExport/itextpdf-5.5.3.jar" source="/mnt/vlb0/quim/Software/iText/5.5.3/itextpdf-5.5.3-sources.jar"/>
     </library>
     <library name="Log4j Library" systemlibrary="false">
-        <archive javadoc="jar:file:/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.0.2-bin/log4j-core-2.0.2-javadoc.jar!/" path="/Aletheia.log4j/log4j-core-2.0.2.jar" source="/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.0.2-bin/log4j-core-2.0.2-sources.jar"/>
-        <archive javadoc="jar:file:/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.0.2-bin/log4j-api-2.0.2-javadoc.jar!/" path="/Aletheia.log4j/log4j-api-2.0.2.jar" source="/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.0.2-bin/log4j-api-2.0.2-sources.jar"/>
+        <archive javadoc="jar:file:/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.3-bin/log4j-api-2.3-javadoc.jar!/" path="/Aletheia.log4j/log4j-api-2.3.jar" source="/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.3-bin/log4j-api-2.3-sources.jar"/>
+        <archive javadoc="jar:file:/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.3-bin/log4j-core-2.3-javadoc.jar!/" path="/Aletheia.log4j/log4j-core-2.3.jar" source="/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.3-bin/log4j-core-2.3-sources.jar"/>
     </library>
 </eclipse-userlibraries>
