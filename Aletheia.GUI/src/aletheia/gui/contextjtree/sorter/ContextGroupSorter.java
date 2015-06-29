@@ -51,35 +51,6 @@ public class ContextGroupSorter extends StatementGroupSorter implements TopGroup
 	}
 
 	@Override
-	public int hashCode()
-	{
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((contextSorter == null) ? 0 : contextSorter.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ContextGroupSorter other = (ContextGroupSorter) obj;
-		if (contextSorter == null)
-		{
-			if (other.contextSorter != null)
-				return false;
-		}
-		else if (!contextSorter.equals(other.contextSorter))
-			return false;
-		return true;
-	}
-
-	@Override
 	public boolean degenerate(Transaction transaction)
 	{
 		return false;
