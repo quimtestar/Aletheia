@@ -31,10 +31,12 @@ import aletheia.gui.preferences.GUIAletheiaPreferences;
 
 public class FontManager
 {
-	private static String baseFontFile = "dejavu-fonts-ttf-2.34/ttf/DejaVuSansMono.ttf";
-	private static String baseBoldFontFile = "dejavu-fonts-ttf-2.34/ttf/DejaVuSansMono-Bold.ttf";
-	private static String baseItalicFontFile = "dejavu-fonts-ttf-2.34/ttf/DejaVuSansMono-Oblique.ttf";
-	private static String baseExpandFontFile = "dejavu-fonts-ttf-2.34/ttf/DejaVuSans.ttf";
+	private static String fontPath="dejavu-fonts-ttf-2.35";
+	
+	private static String baseFontFile = fontPath + "/ttf/DejaVuSansMono.ttf";
+	private static String baseBoldFontFile = fontPath + "/ttf/DejaVuSansMono-Bold.ttf";
+	private static String baseItalicFontFile = fontPath + "/ttf/DejaVuSansMono-Oblique.ttf";
+	private static String baseExpandFontFile = fontPath + "/ttf/DejaVuSans.ttf";
 
 	public static FontManager instance = new FontManager();
 
