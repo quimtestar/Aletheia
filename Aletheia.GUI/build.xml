@@ -68,7 +68,7 @@
         <path refid="Aletheia.Protocol.classpath"/>
     </path>
     <path id="ItextPdf Library.userclasspath">
-        <pathelement location="${Aletheia.PdfExport.location}/itextpdf-5.5.3.jar"/>
+        <pathelement location="${Aletheia.PdfExport.location}/itextpdf-5.5.6.jar"/>
     </path>
     <path id="Aletheia.PdfExport.classpath">
         <pathelement location="${Aletheia.PdfExport.location}/bin"/>

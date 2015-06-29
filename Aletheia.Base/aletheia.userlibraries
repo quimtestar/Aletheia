@@ -4,7 +4,7 @@
         <archive javadoc="file:/mnt/vlb0/quim/Software/BerkeleyDB/je-6.3.8/docs/java/" path="/Aletheia.BerkeleyDB/je-6.3.8.jar" source="/mnt/vlb0/quim/Software/BerkeleyDB/je-6.3.8/src"/>
     </library>
     <library name="ItextPdf Library" systemlibrary="false">
-        <archive javadoc="jar:file:/mnt/vlb0/quim/Software/iText/5.5.3/itextpdf-5.5.3-javadoc.jar!/" path="/Aletheia.PdfExport/itextpdf-5.5.3.jar" source="/mnt/vlb0/quim/Software/iText/5.5.3/itextpdf-5.5.3-sources.jar"/>
+        <archive javadoc="jar:file:/mnt/vlb0/quim/Software/iText/5.5.6/itextpdf-5.5.6-javadoc.jar!/" path="/Aletheia.PdfExport/itextpdf-5.5.6.jar" source="/mnt/vlb0/quim/Software/iText/5.5.6/itextpdf-5.5.6-sources.jar"/>
     </library>
     <library name="Log4j Library" systemlibrary="false">
         <archive javadoc="jar:file:/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.3-bin/log4j-api-2.3-javadoc.jar!/" path="/Aletheia.log4j/log4j-api-2.3.jar" source="/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.3-bin/log4j-api-2.3-sources.jar"/>
