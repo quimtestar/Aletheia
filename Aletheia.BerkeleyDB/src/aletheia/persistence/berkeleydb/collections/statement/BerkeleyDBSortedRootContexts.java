@@ -27,7 +27,7 @@ import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBStatementEnt
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBStatementEntity.LocalSortKey;
 import aletheia.persistence.collections.statement.SortedRootContexts;
 
-public class BerkeleyDBSortedRootContexts extends BerkeleyDBSortedStatements<RootContext> implements SortedRootContexts
+public class BerkeleyDBSortedRootContexts extends BerkeleyDBSortedStatements<RootContext>implements SortedRootContexts
 {
 
 	protected BerkeleyDBSortedRootContexts(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction, LocalSortKey from,

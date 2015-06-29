@@ -78,8 +78,8 @@ public class NewStatementsLoopDialogClient extends NewStatementsLoopDialog
 
 	private void dialogatePersonResponseSend(PersonRequestMessage personRequestMessage) throws IOException, ProtocolException, InterruptedException
 	{
-		Collection<Person> persons = new FilteredCollection<Person>(new NotNullFilter<Person>(), new BijectionCollection<UUID, Person>(
-				new Bijection<UUID, Person>()
+		Collection<Person> persons = new FilteredCollection<Person>(new NotNullFilter<Person>(),
+				new BijectionCollection<UUID, Person>(new Bijection<UUID, Person>()
 				{
 
 					@Override

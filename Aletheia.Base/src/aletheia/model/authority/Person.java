@@ -163,8 +163,8 @@ public class Person implements Exportable
 		if (this instanceof PrivatePerson)
 			return (PrivatePerson) this;
 		else
-			return PrivatePerson.create(persistenceManager, transaction, signatory, getNick(), getName(), getEmail(), getSignatureDate(),
-					getSignatureVersion(), getSignatureData());
+			return PrivatePerson.create(persistenceManager, transaction, signatory, getNick(), getName(), getEmail(), getSignatureDate(), getSignatureVersion(),
+					getSignatureData());
 	}
 
 	public UUID getUuid()

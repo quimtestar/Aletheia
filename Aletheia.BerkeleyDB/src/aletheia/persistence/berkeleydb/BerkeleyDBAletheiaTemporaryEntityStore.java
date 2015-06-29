@@ -56,7 +56,7 @@ public class BerkeleyDBAletheiaTemporaryEntityStore extends BerkeleyDBAletheiaAb
 			aletheia.persistence.berkeleydb.proxies.peertopeer.deferredmessagecontent.DummyDeferredMessageContentProxy.class,
 			BerkeleyDBDeferredMessageEntity.class
 			// @formatter:on
-			);
+	);
 
 	protected BerkeleyDBAletheiaTemporaryEntityStore(BerkeleyDBAletheiaEnvironment env, String storeName, boolean bulkLoad) throws DatabaseException
 	{

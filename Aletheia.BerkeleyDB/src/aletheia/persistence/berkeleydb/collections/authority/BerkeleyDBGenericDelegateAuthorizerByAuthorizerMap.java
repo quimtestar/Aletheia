@@ -36,8 +36,8 @@ import aletheia.utilities.collections.CloseableSet;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
-public abstract class BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<K> extends AbstractCloseableMap<Signatory, DelegateAuthorizer> implements
-		DelegateAuthorizerByAuthorizerMap
+public abstract class BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<K> extends AbstractCloseableMap<Signatory, DelegateAuthorizer>
+		implements DelegateAuthorizerByAuthorizerMap
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -80,6 +80,7 @@ public abstract class BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<K> exte
 			return new CloseableIterator<Entry<Signatory, DelegateAuthorizer>>()
 			{
 				BerkeleyDBDelegateAuthorizerEntity next;
+
 				{
 					next = transaction.first(cursor);
 					if (next == null)

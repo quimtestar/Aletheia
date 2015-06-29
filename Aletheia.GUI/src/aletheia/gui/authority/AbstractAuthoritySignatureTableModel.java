@@ -175,8 +175,8 @@ public abstract class AbstractAuthoritySignatureTableModel implements TableModel
 			final Transaction transaction = beginTransaction();
 			try
 			{
-				rowDataList = new BufferedList<RowData>(new BijectionCollection<StatementAuthoritySignature, RowData>(
-						new Bijection<StatementAuthoritySignature, RowData>()
+				rowDataList = new BufferedList<RowData>(
+						new BijectionCollection<StatementAuthoritySignature, RowData>(new Bijection<StatementAuthoritySignature, RowData>()
 						{
 
 							@Override

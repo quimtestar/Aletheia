@@ -39,7 +39,7 @@ import java.util.Set;
  *
  * @author Quim Testar
  */
-public abstract class AbstractCombinedMap<K, V> extends AbstractReadOnlyMap<K, V> implements Serializable
+public abstract class AbstractCombinedMap<K, V> extends AbstractReadOnlyMap<K, V>implements Serializable
 {
 	private static final long serialVersionUID = 6151843791136257958L;
 

@@ -123,8 +123,8 @@ public abstract class MessageProtocol extends ExportableProtocol<Message>
 	{
 		try
 		{
-			return (M) recv(in, new UnionCollection<>(new BijectionCollection<Class<? extends M>, Set<MessageCode>>(
-					new Bijection<Class<? extends M>, Set<MessageCode>>()
+			return (M) recv(in,
+					new UnionCollection<>(new BijectionCollection<Class<? extends M>, Set<MessageCode>>(new Bijection<Class<? extends M>, Set<MessageCode>>()
 					{
 
 						@Override

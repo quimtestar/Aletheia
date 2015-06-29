@@ -39,16 +39,16 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBStatementAuthoritySignatureDateSortedSet extends AbstractCloseableSet<StatementAuthoritySignature> implements
-		StatementAuthoritySignatureDateSortedSet
+public class BerkeleyDBStatementAuthoritySignatureDateSortedSet extends AbstractCloseableSet<StatementAuthoritySignature>
+		implements StatementAuthoritySignatureDateSortedSet
 {
 	private final static Comparator<StatementAuthoritySignature> comparator = new Comparator<StatementAuthoritySignature>()
 	{
 		@Override
 		public int compare(StatementAuthoritySignature o1, StatementAuthoritySignature o2)
 		{
-			return ((BerkeleyDBStatementAuthoritySignatureEntity) o1.getEntity()).getStatementSignatureDateKeyData().compareTo(
-					((BerkeleyDBStatementAuthoritySignatureEntity) o2.getEntity()).getStatementSignatureDateKeyData());
+			return ((BerkeleyDBStatementAuthoritySignatureEntity) o1.getEntity()).getStatementSignatureDateKeyData()
+					.compareTo(((BerkeleyDBStatementAuthoritySignatureEntity) o2.getEntity()).getStatementSignatureDateKeyData());
 		}
 	};
 

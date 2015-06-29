@@ -280,8 +280,8 @@ public class Automaton implements Serializable
 	{
 		AutomatonState s0 = new AutomatonState();
 		AutomatonState s1 = new AutomatonState();
-		return new Automaton(Collections.singleton(s0), Collections.singleton(s1), Collections.singletonMap(s0,
-				Collections.singletonMap(c, Collections.singleton(s1))));
+		return new Automaton(Collections.singleton(s0), Collections.singleton(s1),
+				Collections.singletonMap(s0, Collections.singletonMap(c, Collections.singleton(s1))));
 	}
 
 	/**

@@ -27,7 +27,7 @@ import java.util.Map;
  *
  * @author Quim Testar
  */
-public abstract class AbstractCombinedCloseableMap<K, V> extends AbstractCombinedMap<K, V> implements CloseableMap<K, V>
+public abstract class AbstractCombinedCloseableMap<K, V> extends AbstractCombinedMap<K, V>implements CloseableMap<K, V>
 {
 	private static final long serialVersionUID = 9092716975104998675L;
 

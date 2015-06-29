@@ -31,8 +31,8 @@ public abstract class LoopDialogTypeAcknowledgeMessage<T extends LoopDialogType<
 	}
 
 	@ProtocolInfo(availableVersions = 0)
-	public static abstract class SubProtocol<T extends LoopDialogType<?>, M extends LoopDialogTypeAcknowledgeMessage<T>> extends
-			SymmetricSelectionAcknowledgeMessage.SubProtocol<Byte, T, M>
+	public static abstract class SubProtocol<T extends LoopDialogType<?>, M extends LoopDialogTypeAcknowledgeMessage<T>>
+			extends SymmetricSelectionAcknowledgeMessage.SubProtocol<Byte, T, M>
 	{
 
 		public SubProtocol(int requiredVersion, MessageCode messageCode, LoopDialogType.Protocol<T> loopDialogTypeProtocol)

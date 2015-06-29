@@ -34,7 +34,7 @@ import java.util.ListIterator;
  *
  * @author Quim Testar
  */
-public abstract class AbstractCombinedList<E> extends AbstractCombinedCollection<E> implements List<E>
+public abstract class AbstractCombinedList<E> extends AbstractCombinedCollection<E>implements List<E>
 {
 	private static final long serialVersionUID = -699888443928184976L;
 

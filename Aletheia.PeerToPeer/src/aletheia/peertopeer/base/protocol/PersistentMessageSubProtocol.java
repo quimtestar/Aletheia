@@ -31,7 +31,7 @@ import aletheia.protocol.PersistentExportableProtocol;
 import aletheia.protocol.ProtocolInfo;
 
 @ProtocolInfo(availableVersions = 0)
-public abstract class PersistentMessageSubProtocol<M extends PersistentMessage> extends PersistentExportableProtocol<M> implements MessageSubProtocol<M>
+public abstract class PersistentMessageSubProtocol<M extends PersistentMessage> extends PersistentExportableProtocol<M>implements MessageSubProtocol<M>
 {
 	private final MessageCode messageCode;
 

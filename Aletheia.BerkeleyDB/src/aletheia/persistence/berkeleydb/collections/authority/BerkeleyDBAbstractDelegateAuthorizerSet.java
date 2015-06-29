@@ -37,7 +37,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 import com.sleepycat.persist.PrimaryIndex;
 
-public abstract class BerkeleyDBAbstractDelegateAuthorizerSet extends AbstractCloseableSet<DelegateAuthorizer> implements DelegateAuthorizerSet
+public abstract class BerkeleyDBAbstractDelegateAuthorizerSet extends AbstractCloseableSet<DelegateAuthorizer>implements DelegateAuthorizerSet
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -92,6 +92,7 @@ public abstract class BerkeleyDBAbstractDelegateAuthorizerSet extends AbstractCl
 		return new CloseableIterator<DelegateAuthorizer>()
 		{
 			private DelegateAuthorizerEntity next;
+
 			{
 				next = transaction.first(cursor);
 				if (next == null)

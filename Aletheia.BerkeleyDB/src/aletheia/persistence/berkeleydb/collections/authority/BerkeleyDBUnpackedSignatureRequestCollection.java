@@ -27,9 +27,9 @@ import aletheia.persistence.collections.authority.UnpackedSignatureRequestCollec
 
 import com.sleepycat.persist.EntityIndex;
 
-public abstract class BerkeleyDBUnpackedSignatureRequestCollection<K> extends
-		BerkeleyDBGenericSignatureRequestCollection<UnpackedSignatureRequest, K, BerkeleyDBUnpackedSignatureRequestEntity> implements
-		UnpackedSignatureRequestCollection
+public abstract class BerkeleyDBUnpackedSignatureRequestCollection<K>
+		extends BerkeleyDBGenericSignatureRequestCollection<UnpackedSignatureRequest, K, BerkeleyDBUnpackedSignatureRequestEntity>
+		implements UnpackedSignatureRequestCollection
 {
 
 	public BerkeleyDBUnpackedSignatureRequestCollection(BerkeleyDBPersistenceManager persistenceManager,

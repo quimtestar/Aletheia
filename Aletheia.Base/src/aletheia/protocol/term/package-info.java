@@ -3,4 +3,3 @@
  * subclasses.
  */
 package aletheia.protocol.term;
-

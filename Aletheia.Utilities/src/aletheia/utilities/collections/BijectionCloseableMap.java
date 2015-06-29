@@ -27,7 +27,7 @@ import java.util.Map;
  *
  * @author Quim Testar
  */
-public class BijectionCloseableMap<K, I, O> extends BijectionMap<K, I, O> implements CloseableMap<K, O>
+public class BijectionCloseableMap<K, I, O> extends BijectionMap<K, I, O>implements CloseableMap<K, O>
 {
 
 	public BijectionCloseableMap(Bijection<I, O> bijection, CloseableMap<K, I> inner)

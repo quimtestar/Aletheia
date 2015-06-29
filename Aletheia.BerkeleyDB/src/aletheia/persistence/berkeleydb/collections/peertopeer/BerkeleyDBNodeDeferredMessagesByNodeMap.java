@@ -43,8 +43,8 @@ import aletheia.utilities.collections.CloseableSet;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBNodeDeferredMessagesByNodeMap extends AbstractCloseableMap<UUID, NodeDeferredMessagesByRecipientCollection> implements
-		NodeDeferredMessagesByNodeMap
+public class BerkeleyDBNodeDeferredMessagesByNodeMap extends AbstractCloseableMap<UUID, NodeDeferredMessagesByRecipientCollection>
+		implements NodeDeferredMessagesByNodeMap
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -96,6 +96,7 @@ public class BerkeleyDBNodeDeferredMessagesByNodeMap extends AbstractCloseableMa
 				return new CloseableIterator<UUID>()
 				{
 					private NodeDeferredMessageRecipientSecondaryKeyData next;
+
 					{
 						next = transaction.first(cursor);
 						if (next == null)

@@ -30,8 +30,8 @@ import aletheia.persistence.collections.authority.SignedDependenciesLocalStateme
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBSignedDependenciesLocalStatementAuthoritySet extends BerkeleyDBFlagLocalStatementAuthoritySet implements
-		SignedDependenciesLocalStatementAuthoritySet
+public class BerkeleyDBSignedDependenciesLocalStatementAuthoritySet extends BerkeleyDBFlagLocalStatementAuthoritySet
+		implements SignedDependenciesLocalStatementAuthoritySet
 {
 	private static SecondaryIndex<ContextFlagSecondaryKeyData, UUIDKey, BerkeleyDBStatementAuthorityEntity> secondaryIndex(
 			BerkeleyDBPersistenceManager persistenceManager)

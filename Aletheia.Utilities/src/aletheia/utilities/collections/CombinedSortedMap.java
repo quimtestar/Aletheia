@@ -32,7 +32,7 @@ import java.util.SortedMap;
  *
  * @author Quim Testar
  */
-public class CombinedSortedMap<K, V> extends AbstractCombinedSortedMap<K, V> implements SortedMap<K, V>
+public class CombinedSortedMap<K, V> extends AbstractCombinedSortedMap<K, V>implements SortedMap<K, V>
 {
 	private static final long serialVersionUID = 7809913304487413172L;
 

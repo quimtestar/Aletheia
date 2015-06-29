@@ -34,9 +34,9 @@ import aletheia.model.identifier.Identifier;
  * <i>parameter</i> variable may or may not occur.
  * </p>
  * <p>
- * A function is textually represented by the schema
- * <b>"<<i>parameter</i>:<i>type</i> -> <i>body</i>>"</b> where <i>type</i> is
- * the type term of the parameter variable.
+ * A function is textually represented by the schema <b>
+ * "<<i>parameter</i>:<i>type</i> -> <i>body</i>>"</b> where <i>type</i> is the
+ * type term of the parameter variable.
  * </p>
  *
  */
@@ -155,8 +155,8 @@ public class FunctionTerm extends Term
 	}
 
 	/**
-	 * A function is textually represented by the schema
-	 * <b>"<<i>parameter</i>:<i>type</i> -> <i>body</i>>"</b>.
+	 * A function is textually represented by the schema <b>
+	 * "<<i>parameter</i>:<i>type</i> -> <i>body</i>>"</b>.
 	 */
 	@Override
 	public String toString(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)

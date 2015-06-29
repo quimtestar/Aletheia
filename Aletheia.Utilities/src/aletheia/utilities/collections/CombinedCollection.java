@@ -35,7 +35,7 @@ import java.util.Collection;
  *
  * @author Quim Testar
  */
-public class CombinedCollection<E> extends AbstractCombinedCollection<E> implements Serializable
+public class CombinedCollection<E> extends AbstractCombinedCollection<E>implements Serializable
 {
 	private static final long serialVersionUID = -3737647852678501284L;
 

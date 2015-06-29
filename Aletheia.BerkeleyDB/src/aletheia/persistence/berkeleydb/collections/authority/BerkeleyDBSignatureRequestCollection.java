@@ -27,8 +27,8 @@ import aletheia.persistence.collections.authority.SignatureRequestCollection;
 
 import com.sleepycat.persist.EntityIndex;
 
-public abstract class BerkeleyDBSignatureRequestCollection<K> extends
-		BerkeleyDBGenericSignatureRequestCollection<SignatureRequest, K, BerkeleyDBSignatureRequestEntity> implements SignatureRequestCollection
+public abstract class BerkeleyDBSignatureRequestCollection<K>
+		extends BerkeleyDBGenericSignatureRequestCollection<SignatureRequest, K, BerkeleyDBSignatureRequestEntity>implements SignatureRequestCollection
 {
 
 	public BerkeleyDBSignatureRequestCollection(BerkeleyDBPersistenceManager persistenceManager, EntityIndex<K, BerkeleyDBSignatureRequestEntity> index,

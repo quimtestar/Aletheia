@@ -32,8 +32,8 @@ import aletheia.persistence.collections.authority.PackedSignatureRequestContextP
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBPackedSignatureRequestContextPackingDateCollection extends
-		BerkeleyDBPackedSignatureRequestCollection<ContextPackingDateSecondaryKeyData> implements PackedSignatureRequestContextPackingDateCollection
+public class BerkeleyDBPackedSignatureRequestContextPackingDateCollection extends BerkeleyDBPackedSignatureRequestCollection<ContextPackingDateSecondaryKeyData>
+		implements PackedSignatureRequestContextPackingDateCollection
 {
 	private static SecondaryIndex<ContextPackingDateSecondaryKeyData, UUIDKey, BerkeleyDBPackedSignatureRequestEntity> index(
 			BerkeleyDBPersistenceManager persistenceManager)
@@ -54,8 +54,8 @@ public class BerkeleyDBPackedSignatureRequestContextPackingDateCollection extend
 	public BerkeleyDBPackedSignatureRequestContextPackingDateCollection(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction,
 			UUID contextUuid)
 	{
-		super(persistenceManager, index(persistenceManager), transaction, ContextPackingDateSecondaryKeyData.class, ContextPackingDateSecondaryKeyData
-				.min(contextUuid), true, ContextPackingDateSecondaryKeyData.max(contextUuid), true);
+		super(persistenceManager, index(persistenceManager), transaction, ContextPackingDateSecondaryKeyData.class,
+				ContextPackingDateSecondaryKeyData.min(contextUuid), true, ContextPackingDateSecondaryKeyData.max(contextUuid), true);
 		this.contextUuid = contextUuid;
 	}
 

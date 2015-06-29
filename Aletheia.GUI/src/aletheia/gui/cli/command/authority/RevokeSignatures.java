@@ -59,8 +59,8 @@ public class RevokeSignatures extends TransactionalCommand
 					ContextAuthority contextAuthority = statement.getContext(getTransaction()).getAuthority(getTransaction());
 					if (contextAuthority != null)
 					{
-						DelegateAuthorizer da = contextAuthority.delegateAuthorizerByAuthorizerMap(getTransaction(), statement.prefix(getTransaction())).get(
-								signature.getAuthorizer(getTransaction()));
+						DelegateAuthorizer da = contextAuthority.delegateAuthorizerByAuthorizerMap(getTransaction(), statement.prefix(getTransaction()))
+								.get(signature.getAuthorizer(getTransaction()));
 						if (da != null)
 						{
 							if (da.isSigned() && (da.getDelegate(getTransaction()) instanceof PrivatePerson))

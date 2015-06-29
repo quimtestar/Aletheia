@@ -30,7 +30,7 @@ import java.util.Set;
  *
  * @author Quim Testar
  */
-public class AdaptedSet<E> extends AdaptedCollection<E> implements Set<E>
+public class AdaptedSet<E> extends AdaptedCollection<E>implements Set<E>
 {
 
 	public AdaptedSet(Set<? extends E> inner)

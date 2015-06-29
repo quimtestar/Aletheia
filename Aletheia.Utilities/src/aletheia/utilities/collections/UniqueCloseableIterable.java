@@ -24,7 +24,7 @@ package aletheia.utilities.collections;
  *
  * @author Quim Testar
  */
-public class UniqueCloseableIterable<E> extends UniqueIterable<E> implements CloseableIterable<E>
+public class UniqueCloseableIterable<E> extends UniqueIterable<E>implements CloseableIterable<E>
 {
 
 	public UniqueCloseableIterable(CloseableIterable<E> inner)
@@ -38,7 +38,7 @@ public class UniqueCloseableIterable<E> extends UniqueIterable<E> implements Clo
 		return (CloseableIterable<E>) super.getInner();
 	}
 
-	protected static class UniqueCloseableIterator<E> extends UniqueIterator<E> implements CloseableIterator<E>
+	protected static class UniqueCloseableIterator<E> extends UniqueIterator<E>implements CloseableIterator<E>
 	{
 
 		protected UniqueCloseableIterator(CloseableIterator<E> inner)

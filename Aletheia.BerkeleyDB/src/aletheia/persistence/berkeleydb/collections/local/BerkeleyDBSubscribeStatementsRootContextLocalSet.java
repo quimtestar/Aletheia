@@ -27,8 +27,8 @@ import aletheia.persistence.collections.local.SubscribeStatementsRootContextLoca
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCloseableSet;
 
-public class BerkeleyDBSubscribeStatementsRootContextLocalSet extends BijectionCloseableSet<ContextLocal, RootContextLocal> implements
-		SubscribeStatementsRootContextLocalSet
+public class BerkeleyDBSubscribeStatementsRootContextLocalSet extends BijectionCloseableSet<ContextLocal, RootContextLocal>
+		implements SubscribeStatementsRootContextLocalSet
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;

@@ -30,7 +30,7 @@ import java.util.Collection;
  *
  * @author Quim Testar
  */
-public class AdaptedCollection<E> extends AdaptedIterable<E> implements Collection<E>
+public class AdaptedCollection<E> extends AdaptedIterable<E>implements Collection<E>
 {
 
 	public AdaptedCollection(Collection<? extends E> inner)

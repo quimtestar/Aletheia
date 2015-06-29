@@ -137,8 +137,8 @@ public class DelegateAuthorizerRequestMessage extends AbstractUUIDInfoMessage<De
 				subNodesMapProtocol.send(out, delegateTreeNodeInfo.getSubNodes());
 			}
 
-			protected abstract I recv(Collection<UUID> delegateUuids, Map<String, DelegateTreeSubNodeInfo> subNodes, DataInput in) throws IOException,
-					ProtocolException;
+			protected abstract I recv(Collection<UUID> delegateUuids, Map<String, DelegateTreeSubNodeInfo> subNodes, DataInput in)
+					throws IOException, ProtocolException;
 
 			@Override
 			public I recv(DataInput in) throws IOException, ProtocolException
@@ -241,7 +241,8 @@ public class DelegateAuthorizerRequestMessage extends AbstractUUIDInfoMessage<De
 		super(entries);
 	}
 
-	private static Collection<Entry> makeEntries(PersistenceManager persistenceManager, Transaction transaction, DelegateTreeInfoMessage delegateTreeInfoMessage)
+	private static Collection<Entry> makeEntries(PersistenceManager persistenceManager, Transaction transaction,
+			DelegateTreeInfoMessage delegateTreeInfoMessage)
 	{
 		Collection<Entry> entries = new ArrayList<Entry>();
 		for (AbstractUUIDInfoMessage.Entry<DelegateTreeInfoMessage.DelegateTreeRootNodeInfo> e : delegateTreeInfoMessage.getEntries())

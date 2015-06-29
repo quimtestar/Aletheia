@@ -190,8 +190,8 @@ public class MaleConjugalPhase extends GenderedConjugalPhase
 		}
 
 		@Override
-		protected boolean genderedServerPhase(LoopConjugalDialogType loopDialogType) throws IOException, ProtocolException, InterruptedException,
-				DialogStreamException
+		protected boolean genderedServerPhase(LoopConjugalDialogType loopDialogType)
+				throws IOException, ProtocolException, InterruptedException, DialogStreamException
 		{
 			switch (loopDialogType)
 			{
@@ -228,8 +228,8 @@ public class MaleConjugalPhase extends GenderedConjugalPhase
 			getMalePeerToPeerNode().setExternalBindSocketPort(updateBindPortLoopDialogServer.getBindPort());
 		}
 
-		private void maleOpenConnectionDialogMale(MaleOpenConnectionCommand command) throws IOException, ProtocolException, InterruptedException,
-				DialogStreamException
+		private void maleOpenConnectionDialogMale(MaleOpenConnectionCommand command)
+				throws IOException, ProtocolException, InterruptedException, DialogStreamException
 		{
 			try
 			{
@@ -250,8 +250,8 @@ public class MaleConjugalPhase extends GenderedConjugalPhase
 			}
 		}
 
-		private void updateMaleNodeUuidsDialogMale(UpdateMaleNodeUuidsCommand command) throws IOException, ProtocolException, InterruptedException,
-				DialogStreamException
+		private void updateMaleNodeUuidsDialogMale(UpdateMaleNodeUuidsCommand command)
+				throws IOException, ProtocolException, InterruptedException, DialogStreamException
 		{
 			dialog(UpdateMaleNodeUuidsDialogMale.class, this, command.getAddUuids(), command.getRemoveUuids());
 		}
@@ -261,11 +261,11 @@ public class MaleConjugalPhase extends GenderedConjugalPhase
 			dialog(FemaleOpenConnectionDialogMale.class, this);
 		}
 
-		public SplicedConnectionId maleOpenConnection(InetSocketAddress socketAddress, UUID expectedPeerNodeUuid) throws InterruptedException,
-				CancelledCommandException, OpenConnectionException
+		public SplicedConnectionId maleOpenConnection(InetSocketAddress socketAddress, UUID expectedPeerNodeUuid)
+				throws InterruptedException, CancelledCommandException, OpenConnectionException
 		{
-			MaleOpenConnectionCommand.Result result = (MaleOpenConnectionCommand.Result) commandResult(new MaleOpenConnectionCommand(socketAddress,
-					expectedPeerNodeUuid));
+			MaleOpenConnectionCommand.Result result = (MaleOpenConnectionCommand.Result) commandResult(
+					new MaleOpenConnectionCommand(socketAddress, expectedPeerNodeUuid));
 			if (result instanceof MaleOpenConnectionCommand.ConnectedResult)
 			{
 				MaleOpenConnectionCommand.ConnectedResult connectedResult = (MaleOpenConnectionCommand.ConnectedResult) result;
@@ -313,8 +313,8 @@ public class MaleConjugalPhase extends GenderedConjugalPhase
 		return maleLoopConjugalSubPhase;
 	}
 
-	public SplicedConnectionId maleOpenConnection(InetSocketAddress socketAddress, UUID expectedPeerNodeUuid) throws InterruptedException,
-			CancelledCommandException, OpenConnectionException
+	public SplicedConnectionId maleOpenConnection(InetSocketAddress socketAddress, UUID expectedPeerNodeUuid)
+			throws InterruptedException, CancelledCommandException, OpenConnectionException
 	{
 		return maleLoopConjugalSubPhase.maleOpenConnection(socketAddress, expectedPeerNodeUuid);
 	}

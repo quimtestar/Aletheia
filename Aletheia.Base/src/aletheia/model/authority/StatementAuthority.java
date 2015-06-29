@@ -631,8 +631,8 @@ public class StatementAuthority implements Exportable
 
 	public CloseableMap<Person, DelegateAuthorizer> delegateAuthorizerMap(Transaction transaction, Namespace namespace)
 	{
-		return new CombinedCloseableMap<Person, DelegateAuthorizer>(localDelegateAuthorizerMap(transaction, namespace), getContextAuthority(transaction)
-				.delegateAuthorizerMap(transaction, namespace));
+		return new CombinedCloseableMap<Person, DelegateAuthorizer>(localDelegateAuthorizerMap(transaction, namespace),
+				getContextAuthority(transaction).delegateAuthorizerMap(transaction, namespace));
 	}
 
 	public void deleteDelegateTree(Transaction transaction)
@@ -669,8 +669,8 @@ public class StatementAuthority implements Exportable
 
 	public CloseableMap<Signatory, DelegateAuthorizer> delegateAuthorizerByAuthorizerMap(Transaction transaction, Namespace prefix)
 	{
-		return new CombinedCloseableMap<>(localDelegateAuthorizerByAuthorizerMapPrefixes(transaction, prefix), getContextAuthority(transaction)
-				.delegateAuthorizerByAuthorizerMap(transaction, prefix));
+		return new CombinedCloseableMap<>(localDelegateAuthorizerByAuthorizerMapPrefixes(transaction, prefix),
+				getContextAuthority(transaction).delegateAuthorizerByAuthorizerMap(transaction, prefix));
 	}
 
 	public boolean isDelegateTreeRootNodeSigned(Transaction transaction)
@@ -1174,7 +1174,7 @@ public class StatementAuthority implements Exportable
 
 	public static enum SignatureStatus
 	{
-		NotValid("Not valid"), Valid("Valid"), Dependencies("Signed dependencies"), Proof("Signed proof"), ;
+		NotValid("Not valid"), Valid("Valid"), Dependencies("Signed dependencies"), Proof("Signed proof"),;
 
 		private final String text;
 

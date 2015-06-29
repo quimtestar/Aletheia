@@ -24,7 +24,7 @@ package aletheia.utilities.collections;
  *
  * @author Quim Testar
  */
-public class FilteredCloseableIterable<E> extends FilteredIterable<E> implements CloseableIterable<E>
+public class FilteredCloseableIterable<E> extends FilteredIterable<E>implements CloseableIterable<E>
 {
 
 	public FilteredCloseableIterable(Filter<E> filter, CloseableIterable<E> inner)

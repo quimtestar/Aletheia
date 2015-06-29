@@ -51,7 +51,8 @@ public class TransmitRootContextsDialogServer extends TransmitRootContextsDialog
 	@Override
 	protected void dialogate() throws IOException, ProtocolException, InterruptedException, TimeoutException
 	{
-		RootContextStatementSignaturesResponseMessage rootContextStatementSignaturesResponseMessage = recvMessage(RootContextStatementSignaturesResponseMessage.class);
+		RootContextStatementSignaturesResponseMessage rootContextStatementSignaturesResponseMessage = recvMessage(
+				RootContextStatementSignaturesResponseMessage.class);
 		dialogatePersonStatementRequestMessage(rootContextStatementSignaturesResponseMessage, rootContexts);
 		recvMessage(PersonResponseMessage.class);
 		StatementResponseMessage statementResponseMessage = recvMessage(StatementResponseMessage.class);

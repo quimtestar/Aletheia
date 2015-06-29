@@ -29,7 +29,7 @@ import aletheia.persistence.collections.PersistenceManagerDataStructure;
  * The map from {@link Identifier}s to multiple {@link Statement}s.
  *
  */
-public interface IdentifierToMultiStatement<S extends Statement, M extends GenericStatementsMap<S>> extends PersistenceManagerDataStructure,
-		SortedMap<Identifier, M>
+public interface IdentifierToMultiStatement<S extends Statement, M extends GenericStatementsMap<S>>
+		extends PersistenceManagerDataStructure, SortedMap<Identifier, M>
 {
 }

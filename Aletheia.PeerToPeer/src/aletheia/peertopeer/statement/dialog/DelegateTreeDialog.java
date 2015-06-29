@@ -51,8 +51,8 @@ public abstract class DelegateTreeDialog extends StatementDialog
 		super(phase);
 	}
 
-	protected DelegateTreeInfoMessage dialogateDelegateTreeInfoSend(Collection<DelegateTreeRootNode> delegateTreeRootNodes) throws IOException,
-			InterruptedException
+	protected DelegateTreeInfoMessage dialogateDelegateTreeInfoSend(Collection<DelegateTreeRootNode> delegateTreeRootNodes)
+			throws IOException, InterruptedException
 	{
 		Collection<DelegateTreeInfoMessage.Entry> entries = new ArrayList<DelegateTreeInfoMessage.Entry>();
 		for (DelegateTreeRootNode delegateTreeRootNode : delegateTreeRootNodes)
@@ -71,8 +71,7 @@ public abstract class DelegateTreeDialog extends StatementDialog
 		return recvMessage(DelegateTreeInfoMessage.class);
 	}
 
-	protected void dialogateDelegateTreeSuccessorDependencyRequestSend(DelegateTreeInfoMessage delegateTreeInfoMessage) throws InterruptedException,
-			IOException
+	protected void dialogateDelegateTreeSuccessorDependencyRequestSend(DelegateTreeInfoMessage delegateTreeInfoMessage) throws InterruptedException, IOException
 	{
 		Collection<UUID> successorUuids = delegateTreeInfoMessage.successorUuidDependencies(getPersistenceManager(), getTransaction());
 		sendMessage(new DelegateTreeSuccessorDependencyRequestMessage(successorUuids));
@@ -117,8 +116,8 @@ public abstract class DelegateTreeDialog extends StatementDialog
 		sendMessage(new DelegateTreeSuccessorDependencyResponseMessage(successorEntryList));
 	}
 
-	protected void dialogateDelegateTreeDelegateDependencyResponseSend(DelegateTreeDelegateDependencyRequestMessage delegateTreeDelegateDependencyRequestMessage)
-			throws InterruptedException, IOException
+	protected void dialogateDelegateTreeDelegateDependencyResponseSend(
+			DelegateTreeDelegateDependencyRequestMessage delegateTreeDelegateDependencyRequestMessage) throws InterruptedException, IOException
 	{
 		List<AbstractUUIDPersistentInfoMessage.Entry<Person>> delegateEntryList = new ArrayList<AbstractUUIDPersistentInfoMessage.Entry<Person>>();
 		for (UUID uuid : delegateTreeDelegateDependencyRequestMessage.getUuids())
@@ -130,8 +129,8 @@ public abstract class DelegateTreeDialog extends StatementDialog
 		sendMessage(new DelegateTreeDelegateDependencyResponseMessage(delegateEntryList));
 	}
 
-	protected void dialogateDelegateAuthorizerResponseSend(DelegateAuthorizerRequestMessage delegateAuthorizerRequestMessage) throws IOException,
-			InterruptedException
+	protected void dialogateDelegateAuthorizerResponseSend(DelegateAuthorizerRequestMessage delegateAuthorizerRequestMessage)
+			throws IOException, InterruptedException
 	{
 		sendMessage(new DelegateAuthorizerResponseMessage(getPersistenceManager(), getTransaction(), delegateAuthorizerRequestMessage));
 	}

@@ -70,8 +70,7 @@ import aletheia.utilities.collections.BufferedList;
  * The data is arranged in the following way, starting from the root context:
  * <ul>
  * <li>The statement is placed via the {@link StatementProtocol}.</li>
- * <li>If the statement is a {@link Context}:</li>
- * <blockquote>
+ * <li>If the statement is a {@link Context}:</li> <blockquote>
  * <li>The number of statements of the context is placed via the
  * {@link IntegerProtocol}</li>
  * <li>The statements in the context are placed (in the same way described here,

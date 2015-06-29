@@ -852,8 +852,8 @@ public class SignatureRequestTreeModel extends PersistentTreeModel
 				if (removeFromStatementReverseCachedNodesMap(statementCacheKey))
 				{
 					getPersistenceManager().getListenerManager().getStatementStateListeners().remove(statementCacheKey.statementUuid, nodeStateListener);
-					getPersistenceManager().getListenerManager().getStatementAuthorityStateListeners()
-							.remove(statementCacheKey.statementUuid, nodeStateListener);
+					getPersistenceManager().getListenerManager().getStatementAuthorityStateListeners().remove(statementCacheKey.statementUuid,
+							nodeStateListener);
 				}
 			}
 			else

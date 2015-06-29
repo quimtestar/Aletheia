@@ -40,8 +40,8 @@ public class DeletePassphraseAction extends AletheiaMenuAction
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		int option = JOptionPane.showConfirmDialog(getAletheiaJFrame(), MiscUtilities.wrapText(
-				"This action might take some minutes, since all the private keys must be decrypted.\nAre you sure you want to continue?", 80));
+		int option = JOptionPane.showConfirmDialog(getAletheiaJFrame(), MiscUtilities
+				.wrapText("This action might take some minutes, since all the private keys must be decrypted.\nAre you sure you want to continue?", 80));
 		if (JOptionPane.OK_OPTION == option)
 			try
 			{

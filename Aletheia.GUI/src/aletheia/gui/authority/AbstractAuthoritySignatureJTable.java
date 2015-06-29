@@ -590,13 +590,8 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 
 	private void deleteSignatures(Collection<StatementAuthoritySignature> signatures) throws InterruptedException
 	{
-		getAuthorityJPanel()
-				.getContextJTreeJPanel()
-				.getAletheiaJPanel()
-				.getCliJPanel()
-				.command(
-						new DeleteSignatures(getAuthorityJPanel().getContextJTreeJPanel().getAletheiaJPanel().getCliJPanel(), getModel().beginTransaction(),
-								signatures), false);
+		getAuthorityJPanel().getContextJTreeJPanel().getAletheiaJPanel().getCliJPanel().command(new DeleteSignatures(
+				getAuthorityJPanel().getContextJTreeJPanel().getAletheiaJPanel().getCliJPanel(), getModel().beginTransaction(), signatures), false);
 	}
 
 	public void updateFontSize()

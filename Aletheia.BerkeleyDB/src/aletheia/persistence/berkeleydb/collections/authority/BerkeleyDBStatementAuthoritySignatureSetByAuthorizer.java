@@ -30,8 +30,8 @@ import aletheia.persistence.collections.authority.StatementAuthoritySignatureSet
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBStatementAuthoritySignatureSetByAuthorizer extends BerkeleyDBAbstractStatementAuthoritySignatureSet<UUIDKey> implements
-		StatementAuthoritySignatureSetByAuthorizer
+public class BerkeleyDBStatementAuthoritySignatureSetByAuthorizer extends BerkeleyDBAbstractStatementAuthoritySignatureSet<UUIDKey>
+		implements StatementAuthoritySignatureSetByAuthorizer
 {
 	private final Signatory authorizer;
 

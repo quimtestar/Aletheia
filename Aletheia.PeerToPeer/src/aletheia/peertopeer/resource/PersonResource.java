@@ -116,7 +116,7 @@ public class PersonResource extends AbstractPersonResource
 				@ExportableEnumInfo(availableVersions = 0)
 				private enum Type implements ByteExportableEnum<Type>
 				{
-					Unsigned((byte) 0), Signed((byte) 1), ;
+					Unsigned((byte) 0), Signed((byte) 1),;
 
 					private final byte code;
 

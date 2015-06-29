@@ -129,8 +129,8 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 		return recvMessage(SubscriptionContextsMessage.class);
 	}
 
-	private Map<UUID, StatementAuthoritySubMessage> dialogateSubscriptionContexts(Collection<Context> contexts) throws IOException, ProtocolException,
-			InterruptedException
+	private Map<UUID, StatementAuthoritySubMessage> dialogateSubscriptionContexts(Collection<Context> contexts)
+			throws IOException, ProtocolException, InterruptedException
 	{
 		SubscriptionContextsMessage sended = dialogateSubscriptionContextsSend(contexts);
 		SubscriptionContextsMessage received = dialogateSubscriptionContextsRecv();
@@ -143,14 +143,14 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 	}
 
 	private ContextStatementSignaturesResponseMessage dialogateContextStatementSignaturesResponse(
-			List<ContextStatementSignaturesResponseMessage.Entry> contextStatementSignaturesEntryList) throws IOException, ProtocolException,
-			InterruptedException
+			List<ContextStatementSignaturesResponseMessage.Entry> contextStatementSignaturesEntryList)
+					throws IOException, ProtocolException, InterruptedException
 	{
 		ContextStatementSignaturesResponseMessage sended = new ContextStatementSignaturesResponseMessage(contextStatementSignaturesEntryList);
 		sendMessage(sended);
 		ContextStatementSignaturesResponseMessage received = recvMessage(ContextStatementSignaturesResponseMessage.class);
-		extendRemainingTime((long) (1000 * statementExtendTime * Math.max(new UnionCollection<>(sended.getMap().values()).size(), new UnionCollection<>(
-				received.getMap().values()).size())));
+		extendRemainingTime((long) (1000 * statementExtendTime
+				* Math.max(new UnionCollection<>(sended.getMap().values()).size(), new UnionCollection<>(received.getMap().values()).size())));
 		return received;
 	}
 
@@ -213,25 +213,24 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 		}, statementAuthoritySubMessages));
 	}
 
-	private StatementRequestMessage dialogateStatementRequest(Collection<StatementAuthoritySubMessage> statementAuthoritySubMessages) throws IOException,
-			ProtocolException, InterruptedException
+	private StatementRequestMessage dialogateStatementRequest(Collection<StatementAuthoritySubMessage> statementAuthoritySubMessages)
+			throws IOException, ProtocolException, InterruptedException
 	{
-		Collection<UUID> statementRequestUuids = new BijectionCollection<StatementAuthoritySubMessage, UUID>(
-				new Bijection<StatementAuthoritySubMessage, UUID>()
-				{
+		Collection<UUID> statementRequestUuids = new BijectionCollection<StatementAuthoritySubMessage, UUID>(new Bijection<StatementAuthoritySubMessage, UUID>()
+		{
 
-					@Override
-					public UUID forward(StatementAuthoritySubMessage statementAuthoritySubMessage)
-					{
-						return statementAuthoritySubMessage.getStatementUuid();
-					}
+			@Override
+			public UUID forward(StatementAuthoritySubMessage statementAuthoritySubMessage)
+			{
+				return statementAuthoritySubMessage.getStatementUuid();
+			}
 
-					@Override
-					public StatementAuthoritySubMessage backward(UUID output)
-					{
-						throw new UnsupportedOperationException();
-					}
-				}, statementAuthoritySubMessages);
+			@Override
+			public StatementAuthoritySubMessage backward(UUID output)
+			{
+				throw new UnsupportedOperationException();
+			}
+		}, statementAuthoritySubMessages);
 		StatementRequestMessage sent = new StatementRequestMessage(statementRequestUuids);
 		sendMessage(sent);
 		StatementRequestMessage received = recvMessage(StatementRequestMessage.class);
@@ -239,11 +238,11 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 		return received;
 	}
 
-	private PersonRequestMessage dialogatePersonRequest(Collection<StatementAuthoritySubMessage> statementAuthoritySubMessages) throws IOException,
-			ProtocolException, InterruptedException
+	private PersonRequestMessage dialogatePersonRequest(Collection<StatementAuthoritySubMessage> statementAuthoritySubMessages)
+			throws IOException, ProtocolException, InterruptedException
 	{
-		Collection<UUID> personRequestUuids = new UnionCollection<UUID>(new BijectionCollection<StatementAuthoritySubMessage, Collection<UUID>>(
-				new Bijection<StatementAuthoritySubMessage, Collection<UUID>>()
+		Collection<UUID> personRequestUuids = new UnionCollection<UUID>(
+				new BijectionCollection<StatementAuthoritySubMessage, Collection<UUID>>(new Bijection<StatementAuthoritySubMessage, Collection<UUID>>()
 				{
 
 					@Override
@@ -273,11 +272,10 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 		return received;
 	}
 
-	private PersonResponseMessage dialogatePersonResponse(PersonRequestMessage personRequestMessage) throws IOException, ProtocolException,
-			InterruptedException
+	private PersonResponseMessage dialogatePersonResponse(PersonRequestMessage personRequestMessage) throws IOException, ProtocolException, InterruptedException
 	{
-		Collection<Person> persons = new FilteredCollection<Person>(new NotNullFilter<Person>(), new BijectionCollection<UUID, Person>(
-				new Bijection<UUID, Person>()
+		Collection<Person> persons = new FilteredCollection<Person>(new NotNullFilter<Person>(),
+				new BijectionCollection<UUID, Person>(new Bijection<UUID, Person>()
 				{
 
 					@Override
@@ -297,8 +295,8 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 		return recvMessage(PersonResponseMessage.class);
 	}
 
-	private StatementResponseMessage dialogateStatementResponse(StatementRequestMessage statementRequestMessage) throws IOException, InterruptedException,
-			ProtocolException
+	private StatementResponseMessage dialogateStatementResponse(StatementRequestMessage statementRequestMessage)
+			throws IOException, InterruptedException, ProtocolException
 	{
 		Collection<Statement> statements = responseStatementListDependencySorted(getTransaction(), statementRequestMessage.getUuids());
 		extendRemainingTime((long) (statementExtendTime * 1000 * statements.size()));
@@ -411,16 +409,16 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 		return recvMessage(DelegateTreeDelegateDependencyRequestMessage.class);
 	}
 
-	private DelegateAuthorizerRequestMessage dialogateDelegateAuthorizerRequest(DelegateTreeInfoMessage delegateTreeInfoMessage) throws IOException,
-			InterruptedException, ProtocolException
+	private DelegateAuthorizerRequestMessage dialogateDelegateAuthorizerRequest(DelegateTreeInfoMessage delegateTreeInfoMessage)
+			throws IOException, InterruptedException, ProtocolException
 	{
 		sendMessage(new DelegateAuthorizerRequestMessage(getPersistenceManager(), getTransaction(), delegateTreeInfoMessage));
 		return recvMessage(DelegateAuthorizerRequestMessage.class);
 	}
 
 	private DelegateTreeSuccessorDependencyResponseMessage dialogateDelegateTreeSuccessorDependencyResponse(
-			DelegateTreeSuccessorDependencyRequestMessage delegateTreeSuccessorDependencyRequestMessage) throws InterruptedException, IOException,
-			ProtocolException
+			DelegateTreeSuccessorDependencyRequestMessage delegateTreeSuccessorDependencyRequestMessage)
+					throws InterruptedException, IOException, ProtocolException
 	{
 		List<AbstractUUIDPersistentInfoMessage.Entry<Person>> successorEntryList = new ArrayList<AbstractUUIDPersistentInfoMessage.Entry<Person>>();
 		for (UUID uuid : delegateTreeSuccessorDependencyRequestMessage.getUuids())
@@ -434,8 +432,8 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 	}
 
 	private DelegateTreeDelegateDependencyResponseMessage dialogateDelegateTreeDelegateDependencyResponse(
-			DelegateTreeDelegateDependencyRequestMessage delegateTreeDelegateDependencyRequestMessage) throws InterruptedException, IOException,
-			ProtocolException
+			DelegateTreeDelegateDependencyRequestMessage delegateTreeDelegateDependencyRequestMessage)
+					throws InterruptedException, IOException, ProtocolException
 	{
 		List<AbstractUUIDPersistentInfoMessage.Entry<Person>> delegateEntryList = new ArrayList<AbstractUUIDPersistentInfoMessage.Entry<Person>>();
 		for (UUID uuid : delegateTreeDelegateDependencyRequestMessage.getUuids())
@@ -460,8 +458,8 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 		Map<UUID, StatementAuthoritySubMessage> statementAuthoritySubMessages = dialogateSubscriptionContexts(contexts);
 		Collection<UUID> uuids = statementAuthoritySubMessages.keySet();
 		{
-			Collection<StatementAuthoritySubMessage> filterRequestableStatementAuthoritySubMessages = filterRequestableStatementAuthoritySubMessages(statementAuthoritySubMessages
-					.values());
+			Collection<StatementAuthoritySubMessage> filterRequestableStatementAuthoritySubMessages = filterRequestableStatementAuthoritySubMessages(
+					statementAuthoritySubMessages.values());
 			PersonRequestMessage personRequestMessage = dialogatePersonRequest(filterRequestableStatementAuthoritySubMessages);
 			dialogatePersonResponse(personRequestMessage);
 			StatementRequestMessage statementRequestMessage = dialogateStatementRequest(filterRequestableStatementAuthoritySubMessages);
@@ -472,13 +470,15 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 		}
 		while (!uuids.isEmpty())
 		{
-			contexts = new FilteredCollection<>(new NotNullFilter<Context>(), new BijectionCollection<UUID, Context>(
-					new ComposedBijection<UUID, Statement, Context>(new CastBijection<Statement, Context>(), new InverseBijection<UUID, Statement>(
-							statementUuidBijection)), uuids));
+			contexts = new FilteredCollection<>(new NotNullFilter<Context>(),
+					new BijectionCollection<UUID, Context>(new ComposedBijection<UUID, Statement, Context>(new CastBijection<Statement, Context>(),
+							new InverseBijection<UUID, Statement>(statementUuidBijection)), uuids));
 
 			DelegateTreeInfoMessage delegateTreeInfoMessage = dialogateDelegateTreeInfo(contexts);
-			DelegateTreeSuccessorDependencyRequestMessage delegateTreeSuccessorDependencyRequestMessage = dialogateDelegateTreeSuccessorDependencyRequest(delegateTreeInfoMessage);
-			DelegateTreeDelegateDependencyRequestMessage delegateTreeDelegateDependencyRequestMessage = dialogateDelegateTreeDelegateDependencyRequest(delegateTreeInfoMessage);
+			DelegateTreeSuccessorDependencyRequestMessage delegateTreeSuccessorDependencyRequestMessage = dialogateDelegateTreeSuccessorDependencyRequest(
+					delegateTreeInfoMessage);
+			DelegateTreeDelegateDependencyRequestMessage delegateTreeDelegateDependencyRequestMessage = dialogateDelegateTreeDelegateDependencyRequest(
+					delegateTreeInfoMessage);
 			dialogateDelegateTreeSuccessorDependencyResponse(delegateTreeSuccessorDependencyRequestMessage);
 			dialogateDelegateTreeDelegateDependencyResponse(delegateTreeDelegateDependencyRequestMessage);
 			try
@@ -498,10 +498,11 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 			if (!processed)
 				break;
 
-			ContextStatementSignaturesResponseMessage contextStatementSignaturesResponseMessage = dialogateContextStatementSignaturesResponse(contextStatementSignaturesEntryList);
+			ContextStatementSignaturesResponseMessage contextStatementSignaturesResponseMessage = dialogateContextStatementSignaturesResponse(
+					contextStatementSignaturesEntryList);
 
-			Collection<StatementAuthoritySubMessage> filterRequestableStatementAuthoritySubMessages = filterRequestableStatementAuthoritySubMessages(new UnionCollection<>(
-					contextStatementSignaturesResponseMessage.getMap().values()));
+			Collection<StatementAuthoritySubMessage> filterRequestableStatementAuthoritySubMessages = filterRequestableStatementAuthoritySubMessages(
+					new UnionCollection<>(contextStatementSignaturesResponseMessage.getMap().values()));
 			PersonRequestMessage personRequestMessage = dialogatePersonRequest(filterRequestableStatementAuthoritySubMessages);
 			dialogatePersonResponse(personRequestMessage);
 			StatementRequestMessage statementRequestMessage = dialogateStatementRequest(filterRequestableStatementAuthoritySubMessages);

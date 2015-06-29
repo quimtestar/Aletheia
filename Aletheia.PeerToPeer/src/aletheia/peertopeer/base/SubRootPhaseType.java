@@ -49,6 +49,7 @@ public enum SubRootPhaseType implements ByteExportableEnum<SubRootPhaseType>
 	private final Class<? extends SubRootPhase> subRootPhaseClass;
 
 	private final static Map<Class<? extends SubRootPhase>, SubRootPhaseType> classTypeMap;
+
 	static
 	{
 		classTypeMap = new HashMap<Class<? extends SubRootPhase>, SubRootPhaseType>();

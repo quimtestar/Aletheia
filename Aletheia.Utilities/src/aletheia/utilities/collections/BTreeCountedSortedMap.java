@@ -36,8 +36,8 @@ import aletheia.utilities.CastComparator;
 import aletheia.utilities.MiscUtilities;
 
 /**
- * Implementation of a {@link CountedSortedMap} with a <a
- * href="http://en.wikipedia.org/wiki/Btree">B-tree</a>.
+ * Implementation of a {@link CountedSortedMap} with a
+ * <a href="http://en.wikipedia.org/wiki/Btree">B-tree</a>.
  *
  * @author Quim Testar
  */
@@ -605,7 +605,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 
 		}
 
-		private class Branch extends ArrayDeque<BranchStep> implements Comparable<Branch>
+		private class Branch extends ArrayDeque<BranchStep>implements Comparable<Branch>
 		{
 			private static final long serialVersionUID = -6415836596967802045L;
 
@@ -1611,8 +1611,8 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 				{
 					BranchNode bnode = (BranchNode) se.node;
 					for (int i = bnode.getNKeys(); i >= 0; i--)
-						stack.push(new StackEntry(bnode.getChild(i), se.depth + 1, i > 0 ? bnode.getKey(i - 1) : null, i < bnode.getNKeys() ? bnode.getKey(i)
-								: null));
+						stack.push(new StackEntry(bnode.getChild(i), se.depth + 1, i > 0 ? bnode.getKey(i - 1) : null,
+								i < bnode.getNKeys() ? bnode.getKey(i) : null));
 				}
 			}
 		}
@@ -2005,7 +2005,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 	@Override
 	public CountedIteratorSet<Entry<K, V>> entrySet()
 	{
-		class EntrySet extends GeneralViewCollection<Entry<K, V>> implements CountedIteratorSet<Entry<K, V>>
+		class EntrySet extends GeneralViewCollection<Entry<K, V>>implements CountedIteratorSet<Entry<K, V>>
 		{
 			private Bijection<BTree.Branch, Entry<K, V>> branchBijection = new Bijection<BTree.Branch, Entry<K, V>>()
 			{
@@ -2058,7 +2058,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 	@Override
 	public CountedIteratorSet<K> keySet()
 	{
-		class KeySet extends GeneralViewCollection<K> implements CountedIteratorSet<K>
+		class KeySet extends GeneralViewCollection<K>implements CountedIteratorSet<K>
 		{
 			private Bijection<BTree.Branch, K> branchBijection = new Bijection<BTree.Branch, K>()
 			{
@@ -2098,7 +2098,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 	@Override
 	public CountedIteratorCollection<V> values()
 	{
-		class Values extends GeneralViewCollection<V> implements CountedIteratorCollection<V>
+		class Values extends GeneralViewCollection<V>implements CountedIteratorCollection<V>
 		{
 
 			private Bijection<BTree.Branch, V> branchBijection = new Bijection<BTree.Branch, V>()
@@ -2251,7 +2251,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 		@Override
 		public CountedIteratorSet<Entry<K, V>> entrySet()
 		{
-			class EntrySet extends IntervalViewCollection<Entry<K, V>> implements CountedIteratorSet<Entry<K, V>>
+			class EntrySet extends IntervalViewCollection<Entry<K, V>>implements CountedIteratorSet<Entry<K, V>>
 			{
 				private Bijection<BTree.Branch, Entry<K, V>> branchBijection = new Bijection<BTree.Branch, Entry<K, V>>()
 				{
@@ -2304,7 +2304,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 		@Override
 		public CountedIteratorSet<K> keySet()
 		{
-			class KeySet extends IntervalViewCollection<K> implements CountedIteratorSet<K>
+			class KeySet extends IntervalViewCollection<K>implements CountedIteratorSet<K>
 			{
 				private Bijection<BTree.Branch, K> branchBijection = new Bijection<BTree.Branch, K>()
 				{
@@ -2344,7 +2344,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 		@Override
 		public CountedIteratorCollection<V> values()
 		{
-			class Values extends IntervalViewCollection<V> implements CountedIteratorCollection<V>
+			class Values extends IntervalViewCollection<V>implements CountedIteratorCollection<V>
 			{
 
 				private Bijection<BTree.Branch, V> branchBijection = new Bijection<BTree.Branch, V>()

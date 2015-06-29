@@ -35,7 +35,7 @@ public class LockResponseMessage extends LockMessage
 	@ExportableEnumInfo(availableVersions = 0)
 	public enum Response implements ByteExportableEnum<Response>
 	{
-		ACKNOWLEDGE((byte) 0), REFUSE((byte) 1), ;
+		ACKNOWLEDGE((byte) 0), REFUSE((byte) 1),;
 
 		private final byte code;
 

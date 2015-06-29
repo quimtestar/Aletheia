@@ -371,8 +371,7 @@ public class LocalRouterSet implements RouterSet
 		}
 	}
 
-	public synchronized void bookNeighbourWait(int i, long timeout) throws NeighbourCollisionException, InterruptedException,
-			LocalRouterSetBookTimeoutException
+	public synchronized void bookNeighbourWait(int i, long timeout) throws NeighbourCollisionException, InterruptedException, LocalRouterSetBookTimeoutException
 	{
 		waitForUnbook(i, timeout);
 		try
@@ -471,8 +470,8 @@ public class LocalRouterSet implements RouterSet
 	public synchronized Collection<NetworkPhase> neighbourCollection(int i)
 	{
 		if (i >= 0 && i < neighbours.size())
-			return new FilteredCollection<NetworkPhase>(new NotNullFilter<NetworkPhase>(), new BijectionCollection<>(NeighbourEntry.bijection,
-					neighbours.subList(i, neighbours.size())));
+			return new FilteredCollection<NetworkPhase>(new NotNullFilter<NetworkPhase>(),
+					new BijectionCollection<>(NeighbourEntry.bijection, neighbours.subList(i, neighbours.size())));
 		else
 			return Collections.emptyList();
 	}

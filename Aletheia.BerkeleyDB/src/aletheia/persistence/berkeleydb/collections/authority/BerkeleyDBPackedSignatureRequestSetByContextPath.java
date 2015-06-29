@@ -30,8 +30,8 @@ import aletheia.persistence.collections.authority.PackedSignatureRequestSetByCon
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityIndex;
 
-public class BerkeleyDBPackedSignatureRequestSetByContextPath extends BerkeleyDBPackedSignatureRequestUUIDKeySet implements
-		PackedSignatureRequestSetByContextPath
+public class BerkeleyDBPackedSignatureRequestSetByContextPath extends BerkeleyDBPackedSignatureRequestUUIDKeySet
+		implements PackedSignatureRequestSetByContextPath
 {
 
 	private static EntityIndex<UUIDKey, BerkeleyDBPackedSignatureRequestEntity> index(BerkeleyDBPersistenceManager persistenceManager, UUID contextUuid)
@@ -49,7 +49,8 @@ public class BerkeleyDBPackedSignatureRequestSetByContextPath extends BerkeleyDB
 
 	private final UUID contextUuid;
 
-	public BerkeleyDBPackedSignatureRequestSetByContextPath(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction, UUID contextUuid)
+	public BerkeleyDBPackedSignatureRequestSetByContextPath(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction,
+			UUID contextUuid)
 	{
 		super(persistenceManager, index(persistenceManager, contextUuid), transaction);
 		this.contextUuid = contextUuid;

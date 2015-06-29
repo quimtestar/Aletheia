@@ -40,11 +40,11 @@ import aletheia.protocol.primitive.StringProtocol;
  * <ul>
  * <li>First, the code for the specific class is placed via the
  * {@link NamespaceCodeProtocol}.</li>
- * <li>If it's a {@link NodeNamespace}:</li>
- * <blockquote>
- * <li>Send the parent namespace recursively, in the same way described here.</li>
- * <li>Send the name of this namespace, via the {@link StringProtocol}.</li>
- * </blockquote>
+ * <li>If it's a {@link NodeNamespace}:</li> <blockquote>
+ * <li>Send the parent namespace recursively, in the same way described here.
+ * </li>
+ * <li>Send the name of this namespace, via the {@link StringProtocol}.
+ * </li> </blockquote>
  * </ul>
  *
  * @see NamespaceCodeProtocol

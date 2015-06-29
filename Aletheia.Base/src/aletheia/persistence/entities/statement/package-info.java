@@ -8,4 +8,3 @@
  * @see aletheia.persistence.PersistenceManager#instantiateStatementEntity(Class)
  */
 package aletheia.persistence.entities.statement;
-

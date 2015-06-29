@@ -32,7 +32,7 @@ import java.util.SortedSet;
  *
  * @author Quim Testar
  */
-public class CombinedSortedSet<E> extends CombinedSetSortedIterator<E> implements SortedSet<E>
+public class CombinedSortedSet<E> extends CombinedSetSortedIterator<E>implements SortedSet<E>
 {
 	private static final long serialVersionUID = 5196602047719292556L;
 

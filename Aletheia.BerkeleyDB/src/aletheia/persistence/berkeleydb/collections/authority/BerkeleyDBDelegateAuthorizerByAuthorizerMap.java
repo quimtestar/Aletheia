@@ -31,8 +31,8 @@ import aletheia.persistence.collections.authority.DelegateAuthorizerByAuthorizer
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBDelegateAuthorizerByAuthorizerMap extends BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<UUIDKey> implements
-		DelegateAuthorizerByAuthorizerMap
+public class BerkeleyDBDelegateAuthorizerByAuthorizerMap extends BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<UUIDKey>
+		implements DelegateAuthorizerByAuthorizerMap
 {
 
 	private static SecondaryIndex<UUIDKey, PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> makeIndex(BerkeleyDBPersistenceManager persistenceManager)

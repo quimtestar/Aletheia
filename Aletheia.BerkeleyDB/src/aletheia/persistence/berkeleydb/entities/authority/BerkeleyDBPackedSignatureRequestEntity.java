@@ -169,7 +169,7 @@ public class BerkeleyDBPackedSignatureRequestEntity extends BerkeleyDBSignatureR
 	@SecondaryKey(name = contextPackingDateSecondaryKeyDataList_FieldName, relate = Relationship.MANY_TO_MANY)
 	private final List<ContextPackingDateSecondaryKeyData> contextPackingDateSecondaryKeyDataList;
 
-	private class ContextUuidKeyPathView extends AbstractList<UUIDKey> implements List<UUIDKey>
+	private class ContextUuidKeyPathView extends AbstractList<UUIDKey>implements List<UUIDKey>
 	{
 
 		@Override

@@ -562,8 +562,8 @@ public class MiscUtilities
 	 *
 	 * @see #matchingConstructor(Class, Object...)
 	 */
-	public static <C> C construct(Class<C> clazz, Object... initArgs) throws InstantiationException, IllegalAccessException, IllegalArgumentException,
-			InvocationTargetException, NoConstructorException
+	public static <C> C construct(Class<C> clazz, Object... initArgs)
+			throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoConstructorException
 	{
 		Constructor<C> constructor = matchingConstructor(clazz, initArgs);
 		if (constructor == null)

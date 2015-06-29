@@ -33,6 +33,7 @@ public class PeerToPeerNodeProperties extends Properties
 	private static final long serialVersionUID = -5327860583875855798L;
 	private static final String propertiesFileName_Default = "aletheia.p2pnode.properties";
 	private static final String propertiesFileName;
+
 	static
 	{
 		String s = System.getProperty("aletheia.p2pnode.properties.file");
@@ -61,6 +62,7 @@ public class PeerToPeerNodeProperties extends Properties
 	private static final String standalone_subscriptions = "aletheia.p2pnode.standalone.subscriptions";
 
 	private static final Properties defaults;
+
 	static
 	{
 		defaults = new Properties();

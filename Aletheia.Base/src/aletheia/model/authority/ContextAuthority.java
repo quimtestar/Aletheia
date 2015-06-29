@@ -38,8 +38,8 @@ public class ContextAuthority extends StatementAuthority
 		super(persistenceManager, entity);
 	}
 
-	protected ContextAuthority(PersistenceManager persistenceManager, Class<? extends ContextAuthorityEntity> entityClass, Statement statement,
-			UUID authorUuid, Date creationDate)
+	protected ContextAuthority(PersistenceManager persistenceManager, Class<? extends ContextAuthorityEntity> entityClass, Statement statement, UUID authorUuid,
+			Date creationDate)
 	{
 		super(persistenceManager, entityClass, statement, authorUuid, creationDate);
 	}

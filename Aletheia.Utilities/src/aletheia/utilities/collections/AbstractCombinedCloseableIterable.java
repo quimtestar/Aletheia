@@ -24,7 +24,7 @@ package aletheia.utilities.collections;
  *
  * @author Quim Testar
  */
-public abstract class AbstractCombinedCloseableIterable<E> extends AbstractCombinedIterable<E> implements CloseableIterable<E>
+public abstract class AbstractCombinedCloseableIterable<E> extends AbstractCombinedIterable<E>implements CloseableIterable<E>
 {
 
 	private static final long serialVersionUID = 4890877631059836451L;

@@ -29,7 +29,7 @@ import java.util.Set;
  *
  * @author Quim Testar
  */
-public class FilteredSet<E> extends FilteredCollection<E> implements Set<E>
+public class FilteredSet<E> extends FilteredCollection<E>implements Set<E>
 {
 
 	public FilteredSet(Filter<E> filter, Set<E> inner)

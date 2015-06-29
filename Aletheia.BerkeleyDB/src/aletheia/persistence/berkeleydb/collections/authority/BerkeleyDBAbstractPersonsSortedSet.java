@@ -31,7 +31,7 @@ import aletheia.utilities.collections.CloseableSortedSet;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
-public abstract class BerkeleyDBAbstractPersonsSortedSet<K> extends BerkeleyDBAbstractPersonsSet<K> implements CloseableSortedSet<Person>
+public abstract class BerkeleyDBAbstractPersonsSortedSet<K> extends BerkeleyDBAbstractPersonsSet<K>implements CloseableSortedSet<Person>
 {
 	private class MyComparator implements Comparator<Person>
 	{

@@ -95,29 +95,28 @@ public class NewStatementsLoopDialogServer extends NewStatementsLoopDialog
 
 	private void dialogateStatementRequestSend(Collection<StatementAuthoritySubMessage> statementAuthoritySubMessages) throws IOException, InterruptedException
 	{
-		Collection<UUID> statementRequestUuids = new BijectionCollection<StatementAuthoritySubMessage, UUID>(
-				new Bijection<StatementAuthoritySubMessage, UUID>()
-				{
+		Collection<UUID> statementRequestUuids = new BijectionCollection<StatementAuthoritySubMessage, UUID>(new Bijection<StatementAuthoritySubMessage, UUID>()
+		{
 
-					@Override
-					public UUID forward(StatementAuthoritySubMessage statementAuthoritySubMessage)
-					{
-						return statementAuthoritySubMessage.getStatementUuid();
-					}
+			@Override
+			public UUID forward(StatementAuthoritySubMessage statementAuthoritySubMessage)
+			{
+				return statementAuthoritySubMessage.getStatementUuid();
+			}
 
-					@Override
-					public StatementAuthoritySubMessage backward(UUID output)
-					{
-						throw new UnsupportedOperationException();
-					}
-				}, statementAuthoritySubMessages);
+			@Override
+			public StatementAuthoritySubMessage backward(UUID output)
+			{
+				throw new UnsupportedOperationException();
+			}
+		}, statementAuthoritySubMessages);
 		sendMessage(new StatementRequestMessage(statementRequestUuids));
 	}
 
 	private void dialogatePersonRequestSend(Collection<StatementAuthoritySubMessage> statementAuthoritySubMessages) throws IOException, InterruptedException
 	{
-		Collection<UUID> personRequestUuids = new UnionCollection<UUID>(new BijectionCollection<StatementAuthoritySubMessage, Collection<UUID>>(
-				new Bijection<StatementAuthoritySubMessage, Collection<UUID>>()
+		Collection<UUID> personRequestUuids = new UnionCollection<UUID>(
+				new BijectionCollection<StatementAuthoritySubMessage, Collection<UUID>>(new Bijection<StatementAuthoritySubMessage, Collection<UUID>>()
 				{
 
 					@Override
@@ -162,8 +161,9 @@ public class NewStatementsLoopDialogServer extends NewStatementsLoopDialog
 			}
 		};
 
-		Collection<StatementAuthoritySubMessage> filterRequestableStatementAuthoritySubMessages = filterRequestableStatementAuthoritySubMessages(new BijectionCollection<AbstractUUIDInfoMessage.Entry<StatementAuthoritySubMessage>, StatementAuthoritySubMessage>(
-				bijection, subscriptionContextsMessage.getEntries()));
+		Collection<StatementAuthoritySubMessage> filterRequestableStatementAuthoritySubMessages = filterRequestableStatementAuthoritySubMessages(
+				new BijectionCollection<AbstractUUIDInfoMessage.Entry<StatementAuthoritySubMessage>, StatementAuthoritySubMessage>(bijection,
+						subscriptionContextsMessage.getEntries()));
 
 		dialogatePersonRequestSend(filterRequestableStatementAuthoritySubMessages);
 		dialogateStatementRequestSend(filterRequestableStatementAuthoritySubMessages);

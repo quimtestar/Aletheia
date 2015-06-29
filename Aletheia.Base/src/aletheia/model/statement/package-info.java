@@ -6,4 +6,3 @@
  * </p>
  */
 package aletheia.model.statement;
-

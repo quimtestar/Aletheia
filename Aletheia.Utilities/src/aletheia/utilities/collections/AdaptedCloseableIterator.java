@@ -22,7 +22,7 @@ package aletheia.utilities.collections;
 /**
  * An {@link AdaptedIterator} for {@link CloseableIterator}s.
  */
-public class AdaptedCloseableIterator<E> extends AdaptedIterator<E> implements CloseableIterator<E>
+public class AdaptedCloseableIterator<E> extends AdaptedIterator<E>implements CloseableIterator<E>
 {
 
 	public AdaptedCloseableIterator(CloseableIterator<? extends E> inner)

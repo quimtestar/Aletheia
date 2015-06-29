@@ -353,8 +353,8 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 		return false;
 	}
 
-	private synchronized void addSuccessorEntry(Transaction transaction, SuccessorEntry successorEntry) throws DateConsistenceException,
-			DuplicateSuccessorException
+	private synchronized void addSuccessorEntry(Transaction transaction, SuccessorEntry successorEntry)
+			throws DateConsistenceException, DuplicateSuccessorException
 	{
 		if (duplicateSuccessorUuid(transaction, successorEntry.getSuccessorUuid()))
 			throw new DuplicateSuccessorException();
@@ -371,8 +371,8 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 		notifyListenersSuccessorEntriesChanged(transaction);
 	}
 
-	private synchronized SuccessorEntry addSuccessorEntry(Transaction transaction, UUID successorUuid) throws NoPrivateDataForSignatoryException,
-			DateConsistenceException, DuplicateSuccessorException
+	private synchronized SuccessorEntry addSuccessorEntry(Transaction transaction, UUID successorUuid)
+			throws NoPrivateDataForSignatoryException, DateConsistenceException, DuplicateSuccessorException
 	{
 		SuccessorEntry successorEntry = new SuccessorEntry(successorUuid);
 		PrivatePerson person = cutSuccessorEntriesToLastPrivatePerson(transaction);
@@ -400,16 +400,16 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 	}
 
 	public synchronized SuccessorEntry updateSuccessorEntriesSet(Transaction transaction, int position, UUID successorUuid, Date signatureDate,
-			int signatureVersion, SignatureData signatureData) throws SignatureVerifyException, DateConsistenceException, DuplicateSuccessorException,
-			SignatureVersionException
+			int signatureVersion, SignatureData signatureData)
+					throws SignatureVerifyException, DateConsistenceException, DuplicateSuccessorException, SignatureVersionException
 	{
 		List<SuccessorEntry> successorEntries = getSuccessorEntries();
 		successorEntries.subList(position, successorEntries.size()).clear();
 		return updateSuccessorEntriesAdd(transaction, successorUuid, signatureDate, signatureVersion, signatureData);
 	}
 
-	public SuccessorEntry addSuccessorEntry(Transaction transaction, Person successor) throws NoPrivateDataForSignatoryException, DateConsistenceException,
-			DuplicateSuccessorException
+	public SuccessorEntry addSuccessorEntry(Transaction transaction, Person successor)
+			throws NoPrivateDataForSignatoryException, DateConsistenceException, DuplicateSuccessorException
 	{
 		return addSuccessorEntry(transaction, successor.getUuid());
 	}
@@ -901,8 +901,8 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 	{
 		Collection<UUID> successorUuids = successorUuids();
 		if (oldSuccessorUuids != null)
-			successorUuids = new CombinedCollection<UUID>(new DifferenceCollection<UUID>(successorUuids, oldSuccessorUuids), new DifferenceCollection<UUID>(
-					oldSuccessorUuids, successorUuids));
+			successorUuids = new CombinedCollection<UUID>(new DifferenceCollection<UUID>(successorUuids, oldSuccessorUuids),
+					new DifferenceCollection<UUID>(oldSuccessorUuids, successorUuids));
 		for (UUID successorUuid : successorUuids)
 		{
 			Person successor = getPersistenceManager().getPerson(transaction, successorUuid);

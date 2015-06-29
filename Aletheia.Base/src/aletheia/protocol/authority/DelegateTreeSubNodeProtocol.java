@@ -35,7 +35,8 @@ public class DelegateTreeSubNodeProtocol extends DelegateTreeNodeProtocol<Delega
 
 	private DelegateTreeSubNode delegateTreeSubNode;
 
-	public DelegateTreeSubNodeProtocol(int requiredVersion, PersistenceManager persistenceManager, Transaction transaction, DelegateTreeNode parent, String name)
+	public DelegateTreeSubNodeProtocol(int requiredVersion, PersistenceManager persistenceManager, Transaction transaction, DelegateTreeNode parent,
+			String name)
 	{
 		super(0, persistenceManager, transaction);
 		checkVersionAvailability(DelegateTreeSubNodeProtocol.class, requiredVersion);

@@ -34,7 +34,7 @@ import aletheia.utilities.collections.CloseableIterator;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBHookList extends AbstractCloseableList<Hook> implements HookList
+public class BerkeleyDBHookList extends AbstractCloseableList<Hook>implements HookList
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -65,6 +65,7 @@ public class BerkeleyDBHookList extends AbstractCloseableList<Hook> implements H
 		return new CloseableIterator<Hook>()
 		{
 			private BerkeleyDBHookEntity next;
+
 			{
 				next = transaction.first(cursor);
 				if (next == null)

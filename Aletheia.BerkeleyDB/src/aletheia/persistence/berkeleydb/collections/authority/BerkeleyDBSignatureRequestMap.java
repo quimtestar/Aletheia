@@ -29,8 +29,8 @@ import aletheia.persistence.collections.authority.SignatureRequestMap;
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.PrimaryIndex;
 
-public class BerkeleyDBSignatureRequestMap extends BerkeleyDBGenericSignatureRequestMap<SignatureRequest, BerkeleyDBSignatureRequestEntity> implements
-		SignatureRequestMap
+public class BerkeleyDBSignatureRequestMap extends BerkeleyDBGenericSignatureRequestMap<SignatureRequest, BerkeleyDBSignatureRequestEntity>
+		implements SignatureRequestMap
 {
 
 	private static PrimaryIndex<UUIDKey, BerkeleyDBSignatureRequestEntity> index(BerkeleyDBPersistenceManager persistenceManager)

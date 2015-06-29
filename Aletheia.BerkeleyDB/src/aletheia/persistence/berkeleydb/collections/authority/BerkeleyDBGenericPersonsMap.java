@@ -37,8 +37,8 @@ import aletheia.utilities.collections.CloseableIterator;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
-public class BerkeleyDBGenericPersonsMap<S extends Signatory, SE extends SignatoryEntity, P extends Person, PE extends PersonEntity> extends
-		AbstractCloseableMap<S, P> implements GenericPersonsMap<S, P>
+public class BerkeleyDBGenericPersonsMap<S extends Signatory, SE extends SignatoryEntity, P extends Person, PE extends PersonEntity>
+		extends AbstractCloseableMap<S, P>implements GenericPersonsMap<S, P>
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final EntityIndex<UUIDKey, PE> entityIndex;
@@ -219,6 +219,7 @@ public class BerkeleyDBGenericPersonsMap<S extends Signatory, SE extends Signato
 			return new CloseableIterator<Map.Entry<S, P>>()
 			{
 				PE next;
+
 				{
 					next = transaction.next(cursor);
 				}

@@ -29,7 +29,7 @@ import java.util.Iterator;
  *
  * @see AbstractCombinedQueue
  */
-public abstract class AbstractCombinedDeque<E> extends AbstractCombinedQueue<E> implements Deque<E>
+public abstract class AbstractCombinedDeque<E> extends AbstractCombinedQueue<E>implements Deque<E>
 {
 
 	private static final long serialVersionUID = -160606245218215715L;

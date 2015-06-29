@@ -243,13 +243,11 @@ public class DelegateTreeJTree extends PersistentJTree
 	{
 		CliJPanel cliJPanel = authorityJPanel.getContextJTreeJPanel().getAletheiaJPanel().getCliJPanel();
 		if (node instanceof DelegateTreeModelBranchNode)
-			cliJPanel.command(
-					new DeleteDelegateTreeNode(cliJPanel, getPersistenceManager().beginTransaction(), ((DelegateTreeModelBranchNode) node)
-							.getDelegateTreeNode()), false);
+			cliJPanel.command(new DeleteDelegateTreeNode(cliJPanel, getPersistenceManager().beginTransaction(),
+					((DelegateTreeModelBranchNode) node).getDelegateTreeNode()), false);
 		else if (node instanceof DelegateTreeModelLeafNode)
-			cliJPanel.command(
-					new DeleteDelegateAuthorizer(cliJPanel, getPersistenceManager().beginTransaction(), ((DelegateTreeModelLeafNode) node)
-							.getDelegateAuthorizer()), false);
+			cliJPanel.command(new DeleteDelegateAuthorizer(cliJPanel, getPersistenceManager().beginTransaction(),
+					((DelegateTreeModelLeafNode) node).getDelegateAuthorizer()), false);
 		else
 			throw new Error();
 	}

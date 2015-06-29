@@ -36,7 +36,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
-public class BerkeleyDBSubscribeProofStatementLocalSet extends AbstractCloseableSet<StatementLocal> implements SubscribeProofStatementLocalSet
+public class BerkeleyDBSubscribeProofStatementLocalSet extends AbstractCloseableSet<StatementLocal>implements SubscribeProofStatementLocalSet
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -103,6 +103,7 @@ public class BerkeleyDBSubscribeProofStatementLocalSet extends AbstractCloseable
 		{
 
 			private BerkeleyDBStatementLocalEntity next;
+
 			{
 				next = transaction.first(cursor);
 				if (next == null)

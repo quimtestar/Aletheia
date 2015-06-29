@@ -58,38 +58,30 @@ import aletheia.protocol.primitive.UUIDProtocol;
  * Data is arranged as follows:
  * <ul>
  * <li>The code for the actual {@link Term} class.</li>
- * <li>If it's a {@link CompositionTerm}:</li>
- * <blockquote>
+ * <li>If it's a {@link CompositionTerm}:</li> <blockquote>
  * <li>The head {@link SimpleTerm}, following recursively this very arrangement
  * description.</li>
  * <li>The tail {@link Term}, following recursively this very arrangement
- * description.</li>
- * </blockquote>
- * <li>If it's a {@link FunctionTerm}:</li>
- * <blockquote>
+ * description.</li> </blockquote>
+ * <li>If it's a {@link FunctionTerm}:</li> <blockquote>
  * <li>The parameter's type {@link Term} , following recursively this very
  * arrangement description.</li>
  * <li>An integer identifying the parameter {@link VariableTerm}, using the
  * {@link IntegerProtocol}.</li>
  * <li>The body {@link Term}, following recursively this very arrangement
- * description.</li>
- * </blockquote>
- * <li>If it's a {@link VariableTerm} (not a {@link IdentifiableVariableTerm}):</li>
- * <blockquote>
+ * description.</li> </blockquote>
+ * <li>If it's a {@link VariableTerm} (not a {@link IdentifiableVariableTerm}):
+ * </li> <blockquote>
  * <li>The integer that we associated to this {@link VariableTerm} when
  * processing the {@link FunctionTerm} that has this {@link VariableTerm} as a
  * parameter (every {@link VariableTerm} not a {@link IdentifiableVariableTerm}
- * must be a parameter of a {@link FunctionTerm}).</li>
- * </blockquote>
- * <li>If it's a {@link IdentifiableVariableTerm}:</li>
- * <blockquote>
- * <li>The {@link UUID} of the variable, using the {@link UUIDProtocol}.</li>
- * </blockquote>
- * <li>If it's a {@link ProjectionTerm}:</li>
- * <blockquote>
+ * must be a parameter of a {@link FunctionTerm}).</li> </blockquote>
+ * <li>If it's a {@link IdentifiableVariableTerm}:</li> <blockquote>
+ * <li>The {@link UUID} of the variable, using the {@link UUIDProtocol}.
+ * </li> </blockquote>
+ * <li>If it's a {@link ProjectionTerm}:</li> <blockquote>
  * <li>The projected {@link FunctionTerm}, following recursively this very
- * arrangement description.</li>
- * </blockquote>
+ * arrangement description.</li> </blockquote>
  * </ul>
  * </p>
  */

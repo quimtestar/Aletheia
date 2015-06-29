@@ -3,4 +3,3 @@
  * {@link aletheia.model.statement.Statement} subclasses.
  */
 package aletheia.protocol.statement;
-

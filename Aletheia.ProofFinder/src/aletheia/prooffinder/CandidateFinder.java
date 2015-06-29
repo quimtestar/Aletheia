@@ -278,8 +278,8 @@ public class CandidateFinder implements StatementCacheTree.Listener
 
 		Collection<VirtualStatementCandidate> virtualStatementCandidates = virtualStatementCandidatesFor(virtualStatements, target);
 
-		return new CombinedCollection<PureCandidate>(new AdaptedCollection<PureCandidate>(virtualStatementCandidates), new AdaptedCollection<PureCandidate>(
-				statementCandidates));
+		return new CombinedCollection<PureCandidate>(new AdaptedCollection<PureCandidate>(virtualStatementCandidates),
+				new AdaptedCollection<PureCandidate>(statementCandidates));
 	}
 
 	private Term assignImpure(VariableTerm variable, Term target, Term term)
@@ -389,7 +389,8 @@ public class CandidateFinder implements StatementCacheTree.Listener
 		}
 		Set<ImpureCandidate> impureCandidates = localImpureCandidatesFor(context, candidate, variable, variableDependent);
 		while (!stack.isEmpty())
-			impureCandidates = new CombinedSet<ImpureCandidate>(localImpureCandidatesFor(stack.pop(), candidate, variable, variableDependent), impureCandidates);
+			impureCandidates = new CombinedSet<ImpureCandidate>(localImpureCandidatesFor(stack.pop(), candidate, variable, variableDependent),
+					impureCandidates);
 		impureCandidates = new CombinedSet<ImpureCandidate>(virtualImpureCandidatesFor(virtualStatements, candidate, variable, variableDependent),
 				impureCandidates);
 		return impureCandidates;

@@ -164,7 +164,7 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 
 			BerkeleyDBPersistenceSecretKeySingletonEntity.class
 			// @formatter:on
-			);
+	);
 
 	protected BerkeleyDBAletheiaEntityStore(BerkeleyDBAletheiaEnvironment env, String storeName, boolean bulkLoad) throws DatabaseException
 	{

@@ -132,8 +132,8 @@ public class IterationStatementProofDialog extends StatementProofDialog
 		return recvMessage(ContextProofRequestMessage.class);
 	}
 
-	private void dialogatePersonStatementRequisiteSend(ContextProofRequestMessage contextDescendentsDependenciesRequestMessage) throws IOException,
-			InterruptedException
+	private void dialogatePersonStatementRequisiteSend(ContextProofRequestMessage contextDescendentsDependenciesRequestMessage)
+			throws IOException, InterruptedException
 	{
 		Collection<PersonRequisiteMessage.Entry> personRequisiteMessageEntries = new ArrayList<PersonRequisiteMessage.Entry>();
 		Collection<StatementRequisiteMessage.Entry> statementRequisiteMessageEntries = new ArrayList<StatementRequisiteMessage.Entry>();
@@ -174,8 +174,8 @@ public class IterationStatementProofDialog extends StatementProofDialog
 
 	private boolean filterDelegateTreeInfoMessageContextUuid(DelegateTreeInfoMessage delegateTreeInfoMessage, UUID contextUuid)
 	{
-		Set<UUID> filteredContextUuids = new DifferenceSet<>(delegateTreeInfoMessage.getMap().keySet(), delegateTreeInfoMessage.filterFullyUpdatedMap(
-				getPersistenceManager(), getTransaction()).keySet());
+		Set<UUID> filteredContextUuids = new DifferenceSet<>(delegateTreeInfoMessage.getMap().keySet(),
+				delegateTreeInfoMessage.filterFullyUpdatedMap(getPersistenceManager(), getTransaction()).keySet());
 		Context context = getPersistenceManager().getContext(getTransaction(), contextUuid);
 		if (context == null)
 			return false;
@@ -252,8 +252,8 @@ public class IterationStatementProofDialog extends StatementProofDialog
 
 	private void dialogatePersonResponseSend(PersonRequestMessage personRequestMessage) throws IOException, InterruptedException
 	{
-		Collection<Person> persons = new FilteredCollection<Person>(new NotNullFilter<Person>(), new BijectionCollection<UUID, Person>(
-				new Bijection<UUID, Person>()
+		Collection<Person> persons = new FilteredCollection<Person>(new NotNullFilter<Person>(),
+				new BijectionCollection<UUID, Person>(new Bijection<UUID, Person>()
 				{
 
 					@Override
@@ -288,8 +288,7 @@ public class IterationStatementProofDialog extends StatementProofDialog
 		return recvMessage(StatementResponseMessage.class);
 	}
 
-	private void dialogateDelegateTreeInfoSend(ContextProofRequestMessage contextDescendentsDependenciesRequestMessage) throws IOException,
-			InterruptedException
+	private void dialogateDelegateTreeInfoSend(ContextProofRequestMessage contextDescendentsDependenciesRequestMessage) throws IOException, InterruptedException
 	{
 		Collection<DelegateTreeInfoMessage.Entry> entries = new ArrayList<DelegateTreeInfoMessage.Entry>();
 		for (UUID uuid : contextDescendentsDependenciesRequestMessage.getUuids())
@@ -377,8 +376,8 @@ public class IterationStatementProofDialog extends StatementProofDialog
 		sendMessage(new DelegateTreeDelegateDependencyResponseMessage(delegateEntryList));
 	}
 
-	private void dialogateDelegateAuthorizerResponseSend(DelegateAuthorizerRequestMessage delegateAuthorizerRequestMessage) throws IOException,
-			InterruptedException
+	private void dialogateDelegateAuthorizerResponseSend(DelegateAuthorizerRequestMessage delegateAuthorizerRequestMessage)
+			throws IOException, InterruptedException
 	{
 		sendMessage(new DelegateAuthorizerResponseMessage(getPersistenceManager(), getTransaction(), delegateAuthorizerRequestMessage));
 	}

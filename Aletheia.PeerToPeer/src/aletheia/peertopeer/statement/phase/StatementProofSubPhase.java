@@ -39,7 +39,8 @@ public class StatementProofSubPhase extends SubPhase
 
 	private final Constructor<? extends InitializeStatementProofDialog> initializeStatementProofDialogConstructor;
 
-	public StatementProofSubPhase(StatementSubPhase parentPhase, Constructor<? extends InitializeStatementProofDialog> initializeStatementProofDialogConstructor)
+	public StatementProofSubPhase(StatementSubPhase parentPhase,
+			Constructor<? extends InitializeStatementProofDialog> initializeStatementProofDialogConstructor)
 	{
 		super(parentPhase);
 		this.initializeStatementProofDialogConstructor = initializeStatementProofDialogConstructor;

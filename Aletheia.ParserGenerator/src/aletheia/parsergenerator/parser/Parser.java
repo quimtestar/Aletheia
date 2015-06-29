@@ -96,8 +96,8 @@ public abstract class Parser implements Serializable
 
 		public UnexpectedTokenException(Token<?> token, State state)
 		{
-			super(token.getStartLocation(), token.getStopLocation(), "Unexpected token " + token.toString() + " (expecting:"
-					+ transitionTable.nextTerminals(state) + ")");
+			super(token.getStartLocation(), token.getStopLocation(),
+					"Unexpected token " + token.toString() + " (expecting:" + transitionTable.nextTerminals(state) + ")");
 		}
 
 	}

@@ -37,7 +37,7 @@ import aletheia.utilities.MiscUtilities;
  *
  * @author Quim Testar
  */
-public class DifferenceCollection<E> extends AbstractReadOnlyCollection<E> implements Collection<E>
+public class DifferenceCollection<E> extends AbstractReadOnlyCollection<E>implements Collection<E>
 {
 	private final Collection<E> minuend;
 	private final Collection<E> subtrahend;

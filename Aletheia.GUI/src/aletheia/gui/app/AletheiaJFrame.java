@@ -354,7 +354,7 @@ public class AletheiaJFrame extends JFrame
 			{
 				/*
 				 * Capture exception notifications and forward'em to the GUI
-
+				
 					peerToPeerNode.addListener(new PeerToPeerNode.Listener()
 					{
 						@Override

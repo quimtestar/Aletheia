@@ -55,8 +55,8 @@ public class BerkeleyDBSignatureRequestContextCreationDateCollection extends Ber
 	public BerkeleyDBSignatureRequestContextCreationDateCollection(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction,
 			UUID contextUuid)
 	{
-		super(persistenceManager, index(persistenceManager), transaction, ContextCreationDateSecondaryKeyData.class, ContextCreationDateSecondaryKeyData
-				.min(contextUuid), true, ContextCreationDateSecondaryKeyData.max(contextUuid), true);
+		super(persistenceManager, index(persistenceManager), transaction, ContextCreationDateSecondaryKeyData.class,
+				ContextCreationDateSecondaryKeyData.min(contextUuid), true, ContextCreationDateSecondaryKeyData.max(contextUuid), true);
 		this.contextUuid = contextUuid;
 	}
 

@@ -149,8 +149,8 @@ public abstract class QueueSubEntry implements Comparable<QueueSubEntry>
 				solvedCandidates.add(psc);
 			}
 			else
-				solvedCandidates.add(new Proof.ImpureSolvedCandidate(candidate, new ImpureQueueSubEntry(this, candidate, MiscUtilities
-						.firstFromIterable(candidate.getAntecedentDependentMap().keySet()))));
+				solvedCandidates.add(new Proof.ImpureSolvedCandidate(candidate,
+						new ImpureQueueSubEntry(this, candidate, MiscUtilities.firstFromIterable(candidate.getAntecedentDependentMap().keySet()))));
 		}
 		return solvedCandidates;
 	}

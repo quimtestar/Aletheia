@@ -40,8 +40,8 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
-public class BerkeleyDBStatementAuthoritySignatureMap extends AbstractCloseableMap<Signatory, StatementAuthoritySignature> implements
-		StatementAuthoritySignatureMap
+public class BerkeleyDBStatementAuthoritySignatureMap extends AbstractCloseableMap<Signatory, StatementAuthoritySignature>
+		implements StatementAuthoritySignatureMap
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -117,8 +117,8 @@ public class BerkeleyDBStatementAuthoritySignatureMap extends AbstractCloseableM
 		return new StatementAuthoritySignature(persistenceManager, entity);
 	}
 
-	private class EntrySet extends AbstractSet<Entry<Signatory, StatementAuthoritySignature>> implements
-			CloseableSet<Entry<Signatory, StatementAuthoritySignature>>
+	private class EntrySet extends AbstractSet<Entry<Signatory, StatementAuthoritySignature>>
+			implements CloseableSet<Entry<Signatory, StatementAuthoritySignature>>
 	{
 		private EntrySet()
 		{
@@ -133,6 +133,7 @@ public class BerkeleyDBStatementAuthoritySignatureMap extends AbstractCloseableM
 			{
 
 				BerkeleyDBStatementAuthoritySignatureEntity nextEntity;
+
 				{
 					nextEntity = transaction.first(cursor);
 					if (nextEntity == null)

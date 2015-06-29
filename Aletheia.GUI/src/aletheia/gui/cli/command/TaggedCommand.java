@@ -32,6 +32,6 @@ public @interface TaggedCommand
 
 	String groupPath() default "";
 
-	Class<? extends AbstractCommandFactory<? extends Command, ?>> factory();
+	Class<? extends AbstractCommandFactory<? extends Command, ?>>factory();
 
 }

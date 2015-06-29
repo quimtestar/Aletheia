@@ -74,8 +74,8 @@ public class UnfoldingContext extends Context
 	protected UnfoldingContext(Transaction transaction, PersistenceManager persistenceManager, UUID uuid, List<UUID> uuidAssumptions, Context context,
 			Term term, Declaration declaration) throws StatementException
 	{
-		super(persistenceManager, transaction, UnfoldingContextEntity.class, uuid, uuidAssumptions, context, term, computeTerm(transaction, context, term,
-				declaration));
+		super(persistenceManager, transaction, UnfoldingContextEntity.class, uuid, uuidAssumptions, context, term,
+				computeTerm(transaction, context, term, declaration));
 		getEntity().setDeclarationUuid(declaration.getUuid());
 		getEntity().getUuidDependencies().add(declaration.getUuid());
 	}

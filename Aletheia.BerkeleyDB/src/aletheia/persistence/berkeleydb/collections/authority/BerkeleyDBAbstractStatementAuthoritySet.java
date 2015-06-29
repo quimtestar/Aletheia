@@ -37,7 +37,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 import com.sleepycat.persist.PrimaryIndex;
 
-public abstract class BerkeleyDBAbstractStatementAuthoritySet extends AbstractCloseableSet<StatementAuthority> implements StatementAuthoritySet
+public abstract class BerkeleyDBAbstractStatementAuthoritySet extends AbstractCloseableSet<StatementAuthority>implements StatementAuthoritySet
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -92,6 +92,7 @@ public abstract class BerkeleyDBAbstractStatementAuthoritySet extends AbstractCl
 		return new CloseableIterator<StatementAuthority>()
 		{
 			private StatementAuthorityEntity next;
+
 			{
 				next = transaction.first(cursor);
 				if (next == null)

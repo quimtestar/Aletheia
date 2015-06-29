@@ -35,8 +35,8 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
-public class BerkeleyDBSubscribeStatementsContextLocalSetMap extends AbstractCloseableMap<ContextLocal, SubscribeStatementsContextLocalSet> implements
-		SubscribeStatementsContextLocalSetMap
+public class BerkeleyDBSubscribeStatementsContextLocalSetMap extends AbstractCloseableMap<ContextLocal, SubscribeStatementsContextLocalSet>
+		implements SubscribeStatementsContextLocalSetMap
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -99,6 +99,7 @@ public class BerkeleyDBSubscribeStatementsContextLocalSetMap extends AbstractClo
 				return new CloseableIterator<Entry<ContextLocal, SubscribeStatementsContextLocalSet>>()
 				{
 					private BerkeleyDBStatementLocalEntity next;
+
 					{
 						next = transaction.first(cursor);
 						if (next == null)

@@ -59,7 +59,7 @@ public abstract class AbstractPersonTableModel implements TableModel
 
 	public enum PersonTableModelEventType
 	{
-		Added(PersonTableModelEvent.INSERT), Modified(PersonTableModelEvent.UPDATE), Removed(PersonTableModelEvent.DELETE), ;
+		Added(PersonTableModelEvent.INSERT), Modified(PersonTableModelEvent.UPDATE), Removed(PersonTableModelEvent.DELETE),;
 
 		public int type;
 

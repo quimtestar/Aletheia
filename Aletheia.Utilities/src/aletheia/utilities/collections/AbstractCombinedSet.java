@@ -31,7 +31,7 @@ import java.util.Set;
  *
  * @author Quim Testar
  */
-public abstract class AbstractCombinedSet<E> extends AbstractCombinedCollection<E> implements Set<E>
+public abstract class AbstractCombinedSet<E> extends AbstractCombinedCollection<E>implements Set<E>
 {
 	private static final long serialVersionUID = 2341397957245092788L;
 

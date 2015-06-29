@@ -33,7 +33,7 @@ import java.util.SortedMap;
  *
  * @author Quim Testar
  */
-public abstract class AbstractReadOnlySortedMap<K, V> extends AbstractReadOnlyMap<K, V> implements SortedMap<K, V>
+public abstract class AbstractReadOnlySortedMap<K, V> extends AbstractReadOnlyMap<K, V>implements SortedMap<K, V>
 {
 
 }

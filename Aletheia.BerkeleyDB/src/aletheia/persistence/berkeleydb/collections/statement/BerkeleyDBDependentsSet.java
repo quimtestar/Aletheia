@@ -35,7 +35,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBDependentsSet extends AbstractCloseableSet<Statement> implements DependentsSet
+public class BerkeleyDBDependentsSet extends AbstractCloseableSet<Statement>implements DependentsSet
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final SecondaryIndex<UUIDKey, UUIDKey, BerkeleyDBStatementEntity> statementEntityDependenciesSecondaryIndex;
@@ -94,6 +94,7 @@ public class BerkeleyDBDependentsSet extends AbstractCloseableSet<Statement> imp
 		return new CloseableIterator<Statement>()
 		{
 			BerkeleyDBStatementEntity next;
+
 			{
 				next = transaction.next(cursor);
 				if (next == null)

@@ -36,7 +36,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBSubContextsSet extends AbstractCloseableSet<Context> implements SubContextsSet
+public class BerkeleyDBSubContextsSet extends AbstractCloseableSet<Context>implements SubContextsSet
 {
 
 	private final BerkeleyDBPersistenceManager persistenceManager;
@@ -96,6 +96,7 @@ public class BerkeleyDBSubContextsSet extends AbstractCloseableSet<Context> impl
 		return new CloseableIterator<Context>()
 		{
 			BerkeleyDBContextEntity next;
+
 			{
 				next = transaction.next(cursor);
 			}

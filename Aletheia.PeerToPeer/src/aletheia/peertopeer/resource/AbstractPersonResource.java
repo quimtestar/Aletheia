@@ -51,7 +51,7 @@ public abstract class AbstractPersonResource extends Resource
 		@ExportableEnumInfo(availableVersions = 0)
 		private static enum Type implements ByteExportableEnum<Type>
 		{
-			Person((byte) 0), PrivatePerson((byte) 1), ;
+			Person((byte) 0), PrivatePerson((byte) 1),;
 
 			private final byte code;
 

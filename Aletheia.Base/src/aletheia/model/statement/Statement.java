@@ -333,8 +333,8 @@ public abstract class Statement implements Exportable
 	 *            unprojection of this one.
 	 * @throws StatementException
 	 */
-	protected Statement(PersistenceManager persistenceManager, Transaction transaction, Class<? extends StatementEntity> entityClass, Context context, Term term)
-			throws StatementException
+	protected Statement(PersistenceManager persistenceManager, Transaction transaction, Class<? extends StatementEntity> entityClass, Context context,
+			Term term) throws StatementException
 	{
 		this(persistenceManager, transaction, entityClass, null, context, term);
 	}
@@ -1252,14 +1252,14 @@ public abstract class Statement implements Exportable
 		}
 	}
 
-	public void delete(Transaction transaction) throws StatementNotInContextException, StatementHasDependentsException, CantDeleteAssumptionException,
-			DependentUnpackedSignatureRequests
+	public void delete(Transaction transaction)
+			throws StatementNotInContextException, StatementHasDependentsException, CantDeleteAssumptionException, DependentUnpackedSignatureRequests
 	{
 		getContext(transaction).deleteStatement(transaction, this);
 	}
 
-	public void deleteWithRemovalFromDependentUnpackedSignatureRequests(Transaction transaction) throws StatementNotInContextException,
-			StatementHasDependentsException, CantDeleteAssumptionException
+	public void deleteWithRemovalFromDependentUnpackedSignatureRequests(Transaction transaction)
+			throws StatementNotInContextException, StatementHasDependentsException, CantDeleteAssumptionException
 	{
 		removeFromDependentUnpackedSignatureRequests(transaction);
 		try

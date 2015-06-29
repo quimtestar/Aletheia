@@ -24,7 +24,7 @@ package aletheia.utilities.collections;
  *
  * @author Quim Testar
  */
-public class BijectionCloseableIterator<I, O> extends BijectionIterator<I, O> implements CloseableIterator<O>
+public class BijectionCloseableIterator<I, O> extends BijectionIterator<I, O>implements CloseableIterator<O>
 {
 
 	public BijectionCloseableIterator(Bijection<I, O> bijection, CloseableIterator<I> inner)

@@ -88,8 +88,8 @@ public class StatementAuthoritySignature implements Exportable
 	}
 
 	public static StatementAuthoritySignature create(PersistenceManager persistenceManager, Transaction transaction, StatementAuthority statementAuthority,
-			UUID authorizerUuid, Date signatureDate, int signatureVersion, SignatureData signatureData) throws SignatureVerifyException,
-			SignatureVersionException
+			UUID authorizerUuid, Date signatureDate, int signatureVersion, SignatureData signatureData)
+					throws SignatureVerifyException, SignatureVersionException
 	{
 		StatementAuthoritySignature statementAuthoritySignature = new StatementAuthoritySignature(persistenceManager, statementAuthority, authorizerUuid);
 		statementAuthoritySignature.setSignatureDate(signatureDate);

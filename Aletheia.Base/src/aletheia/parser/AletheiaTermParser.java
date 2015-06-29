@@ -216,8 +216,8 @@ public class AletheiaTermParser extends Parser
 				else if (token.getProduction().getRight().get(0).equals(taggedNonTerminalSymbols.get("R")))
 				{
 					if (context == null || transaction == null)
-						throw new TermParserException("No context to use the reference", token.getChildren().get(0).getStartLocation(), token.getChildren()
-								.get(0).getStopLocation(), input);
+						throw new TermParserException("No context to use the reference", token.getChildren().get(0).getStartLocation(),
+								token.getChildren().get(0).getStopLocation(), input);
 					return processReference(context, transaction, (NonTerminalToken) token.getChildren().get(0), input);
 				}
 				else if (token.getProduction().getRight().get(0).equals(taggedTerminalSymbols.get("hexref")))
@@ -225,8 +225,8 @@ public class AletheiaTermParser extends Parser
 					String hexRef = ((TaggedTerminalToken) token.getChildren().get(0)).getText();
 					Statement statement = context.getStatementByHexRef(transaction, hexRef);
 					if (statement == null)
-						throw new TermParserException("Reference not found on context", token.getChildren().get(0).getStartLocation(), token.getChildren()
-								.get(0).getStopLocation(), input);
+						throw new TermParserException("Reference not found on context", token.getChildren().get(0).getStartLocation(),
+								token.getChildren().get(0).getStopLocation(), input);
 					return statement.getVariable();
 				}
 				else
@@ -281,7 +281,8 @@ public class AletheiaTermParser extends Parser
 								return body;
 						}
 						else
-							throw new TermParserException("Only can take the body of a function term", token.getStartLocation(), token.getStopLocation(), input);
+							throw new TermParserException("Only can take the body of a function term", token.getStartLocation(), token.getStopLocation(),
+									input);
 					}
 					else
 						throw new Error();
@@ -311,16 +312,16 @@ public class AletheiaTermParser extends Parser
 							}
 						}
 						else
-							throw new TermParserException("Referenced statement: '" + identifier + "' after the bang must be a declaration", token
-									.getChildren().get(2).getStartLocation(), token.getChildren().get(2).getStopLocation(), input);
+							throw new TermParserException("Referenced statement: '" + identifier + "' after the bang must be a declaration",
+									token.getChildren().get(2).getStartLocation(), token.getChildren().get(2).getStopLocation(), input);
 					}
 					else if (token.getProduction().getRight().get(1).equals(taggedTerminalSymbols.get("bar")))
 					{
 						Identifier identifier = processIdentifier((NonTerminalToken) token.getChildren().get(2), input);
 						IdentifiableVariableTerm variable = context.identifierToVariable(transaction).get(identifier);
 						if (variable == null)
-							throw new TermParserException("Referenced variable: '" + identifier + "' not declared", token.getChildren().get(2)
-									.getStartLocation(), token.getChildren().get(2).getStopLocation(), input);
+							throw new TermParserException("Referenced variable: '" + identifier + "' not declared",
+									token.getChildren().get(2).getStartLocation(), token.getChildren().get(2).getStopLocation(), input);
 						ParameterVariableTerm param = new ParameterVariableTerm(variable.getType());
 						try
 						{
@@ -345,8 +346,8 @@ public class AletheiaTermParser extends Parser
 					if (statement instanceof Declaration)
 						return ((Declaration) statement).getValue();
 					else
-						throw new TermParserException("Referenced statement: '" + identifier + "' after the bang must be a declaration", token.getChildren()
-								.get(2).getStartLocation(), token.getChildren().get(2).getStopLocation(), input);
+						throw new TermParserException("Referenced statement: '" + identifier + "' after the bang must be a declaration",
+								token.getChildren().get(2).getStartLocation(), token.getChildren().get(2).getStopLocation(), input);
 				}
 				else
 					throw new Error();
@@ -363,8 +364,8 @@ public class AletheiaTermParser extends Parser
 						components = new BufferedList<>(((CompositionTerm) term).components());
 					int n = Integer.parseInt(((TaggedTerminalToken) token.getChildren().get(2)).getText());
 					if (n < 0 || n >= components.size())
-						throw new TermParserException("Composition coordinate " + n + " out of bounds for term: " + "'" + term + "'", token.getChildren()
-								.get(2).getStartLocation(), token.getChildren().get(2).getStopLocation(), input);
+						throw new TermParserException("Composition coordinate " + n + " out of bounds for term: " + "'" + term + "'",
+								token.getChildren().get(2).getStartLocation(), token.getChildren().get(2).getStopLocation(), input);
 					return components.get(n);
 				}
 				else
@@ -447,8 +448,8 @@ public class AletheiaTermParser extends Parser
 			Identifier identifier = processIdentifier((NonTerminalToken) refToken.getChildren().get(0), input);
 			Statement statement = context.identifierToStatement(transaction).get(identifier);
 			if (statement == null)
-				throw new TermParserException("Identifier: " + "'" + identifier + "'" + " not defined", token.getChildren().get(1).getStartLocation(), token
-						.getChildren().get(1).getStopLocation(), input);
+				throw new TermParserException("Identifier: " + "'" + identifier + "'" + " not defined", token.getChildren().get(1).getStartLocation(),
+						token.getChildren().get(1).getStopLocation(), input);
 			return statement.getTerm();
 		}
 		else if (refToken.getProduction().getRight().get(0).equals(taggedTerminalSymbols.get("hexref")))
@@ -456,8 +457,8 @@ public class AletheiaTermParser extends Parser
 			String hexRef = ((TaggedTerminalToken) refToken.getChildren().get(0)).getText();
 			Statement statement = context.getStatementByHexRef(transaction, hexRef);
 			if (statement == null)
-				throw new TermParserException("Reference not found on context", token.getChildren().get(0).getStartLocation(), token.getChildren().get(0)
-						.getStopLocation(), input);
+				throw new TermParserException("Reference not found on context", token.getChildren().get(0).getStartLocation(),
+						token.getChildren().get(0).getStopLocation(), input);
 			return statement.getTerm();
 		}
 		else if (refToken.getProduction().getRight().get(0).equals(taggedTerminalSymbols.get("turnstile")))

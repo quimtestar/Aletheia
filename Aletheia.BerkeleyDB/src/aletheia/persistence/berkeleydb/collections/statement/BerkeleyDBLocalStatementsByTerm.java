@@ -40,7 +40,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBLocalStatementsByTerm extends AbstractCloseableMap<Term, CloseableSet<Statement>> implements LocalStatementsByTerm
+public class BerkeleyDBLocalStatementsByTerm extends AbstractCloseableMap<Term, CloseableSet<Statement>>implements LocalStatementsByTerm
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final SecondaryIndex<UUIDKeyTermHash, UUIDKey, BerkeleyDBStatementEntity> statementEntityTermHashSecondaryIndex;
@@ -118,6 +118,7 @@ public class BerkeleyDBLocalStatementsByTerm extends AbstractCloseableMap<Term, 
 			return new CloseableIterator<Statement>()
 			{
 				BerkeleyDBStatementEntity next;
+
 				{
 					do
 					{

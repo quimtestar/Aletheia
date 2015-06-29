@@ -78,8 +78,8 @@ public class DelegateTreeSubNode extends DelegateTreeNode
 	@Override
 	public CloseableMap<Person, DelegateAuthorizer> delegateAuthorizerMap(Transaction transaction)
 	{
-		return new CombinedCloseableMap<Person, DelegateAuthorizer>(localDelegateAuthorizerMap(transaction), getParent(transaction).delegateAuthorizerMap(
-				transaction));
+		return new CombinedCloseableMap<Person, DelegateAuthorizer>(localDelegateAuthorizerMap(transaction),
+				getParent(transaction).delegateAuthorizerMap(transaction));
 	}
 
 	@Override

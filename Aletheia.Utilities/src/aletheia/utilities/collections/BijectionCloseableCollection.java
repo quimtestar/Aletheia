@@ -30,7 +30,7 @@ package aletheia.utilities.collections;
  * @author Quim Testar
  */
 
-public class BijectionCloseableCollection<I, O> extends BijectionCollection<I, O> implements CloseableCollection<O>
+public class BijectionCloseableCollection<I, O> extends BijectionCollection<I, O>implements CloseableCollection<O>
 {
 
 	public BijectionCloseableCollection(Bijection<I, O> bijection, CloseableCollection<I> inner)

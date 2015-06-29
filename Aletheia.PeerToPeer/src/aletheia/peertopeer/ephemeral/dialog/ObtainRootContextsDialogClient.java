@@ -56,7 +56,8 @@ public class ObtainRootContextsDialogClient extends ObtainRootContextsDialog
 	protected void dialogate() throws IOException, ProtocolException, InterruptedException, TimeoutException
 	{
 		sendMessage(new RootContextsRequestMessage(signatureUuids));
-		RootContextStatementSignaturesResponseMessage rootContextStatementSignaturesResponseMessage = recvMessage(RootContextStatementSignaturesResponseMessage.class);
+		RootContextStatementSignaturesResponseMessage rootContextStatementSignaturesResponseMessage = recvMessage(
+				RootContextStatementSignaturesResponseMessage.class);
 		dialogatePersonStatementRequestMessage(rootContextStatementSignaturesResponseMessage, rootContexts);
 		recvMessage(PersonResponseMessage.class);
 		StatementResponseMessage statementResponseMessage = recvMessage(StatementResponseMessage.class);

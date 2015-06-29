@@ -168,8 +168,8 @@ public class SignatureRequestJTree extends PersistentJTree
 					Transaction transaction = getModel().beginTransaction();
 					try
 					{
-						UnpackedSignatureRequest unpackedSignatureRequest = ((UnpackedRequestSignatureRequestTreeNode) node).getSignatureRequest().refresh(
-								transaction);
+						UnpackedSignatureRequest unpackedSignatureRequest = ((UnpackedRequestSignatureRequestTreeNode) node).getSignatureRequest()
+								.refresh(transaction);
 						Statement statement = (Statement) t.getTransferData(StatementDataFlavor.instance);
 						unpackedSignatureRequest.addStatement(transaction, statement);
 						transaction.commit();
@@ -400,8 +400,8 @@ public class SignatureRequestJTree extends PersistentJTree
 
 	public void deleteSignatureRequest(SignatureRequest signatureRequest) throws InterruptedException
 	{
-		getAletheiaJPanel().getCliJPanel().command(
-				new DeleteSignatureRequest(getAletheiaJPanel().getCliJPanel(), getPersistenceManager().beginTransaction(), signatureRequest), false);
+		getAletheiaJPanel().getCliJPanel()
+				.command(new DeleteSignatureRequest(getAletheiaJPanel().getCliJPanel(), getPersistenceManager().beginTransaction(), signatureRequest), false);
 	}
 
 	public void selectStatement(UnpackedSignatureRequest unpackedSignatureRequest, Statement statement)
@@ -424,9 +424,8 @@ public class SignatureRequestJTree extends PersistentJTree
 
 	public void removeStatementFromUnpackedSignatureRequest(UnpackedSignatureRequest unpackedSignatureRequest, Statement statement) throws InterruptedException
 	{
-		getAletheiaJPanel().getCliJPanel().command(
-				new RemoveStatementFromSignatureRequest(getAletheiaJPanel().getCliJPanel(), getPersistenceManager().beginTransaction(),
-						unpackedSignatureRequest, statement), false);
+		getAletheiaJPanel().getCliJPanel().command(new RemoveStatementFromSignatureRequest(getAletheiaJPanel().getCliJPanel(),
+				getPersistenceManager().beginTransaction(), unpackedSignatureRequest, statement), false);
 	}
 
 	@Override

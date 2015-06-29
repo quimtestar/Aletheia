@@ -35,8 +35,8 @@ import aletheia.utilities.collections.CloseableIterator;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBSignatureRequestContextSubContextUuidsCollection extends AbstractCloseableCollection<UUID> implements
-		SignatureRequestContextSubContextUuidsCollection
+public class BerkeleyDBSignatureRequestContextSubContextUuidsCollection extends AbstractCloseableCollection<UUID>
+		implements SignatureRequestContextSubContextUuidsCollection
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -87,6 +87,7 @@ public class BerkeleyDBSignatureRequestContextSubContextUuidsCollection extends 
 		return new CloseableIterator<UUID>()
 		{
 			private ContextSubContextSecondaryKeyData next;
+
 			{
 				next = transaction.first(cursor);
 				if (next == null)

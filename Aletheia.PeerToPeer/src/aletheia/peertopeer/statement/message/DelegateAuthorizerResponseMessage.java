@@ -115,8 +115,8 @@ public class DelegateAuthorizerResponseMessage extends AbstractUUIDPersistentInf
 			{
 				try
 				{
-					DelegateTreeSubNode delegateTreeSubNode = delegateTreeNode.localDelegateTreeSubNodeMap(transaction).get(
-							new NodeNamespace(delegateTreeNode.getPrefix(), e.getKey()));
+					DelegateTreeSubNode delegateTreeSubNode = delegateTreeNode.localDelegateTreeSubNodeMap(transaction)
+							.get(new NodeNamespace(delegateTreeNode.getPrefix(), e.getKey()));
 					if (delegateTreeSubNode != null)
 						subNodes.put(e.getKey(), new DelegateTreeSubNodeInfo(persistenceManager, transaction, delegateTreeSubNode, e.getValue()));
 				}

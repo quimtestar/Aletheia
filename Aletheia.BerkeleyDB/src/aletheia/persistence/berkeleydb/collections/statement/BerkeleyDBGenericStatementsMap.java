@@ -36,8 +36,8 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
-public abstract class BerkeleyDBGenericStatementsMap<S extends Statement, E extends BerkeleyDBStatementEntity> extends
-		AbstractCloseableMap<IdentifiableVariableTerm, S> implements GenericStatementsMap<S>
+public abstract class BerkeleyDBGenericStatementsMap<S extends Statement, E extends BerkeleyDBStatementEntity>
+		extends AbstractCloseableMap<IdentifiableVariableTerm, S>implements GenericStatementsMap<S>
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final EntityIndex<UUIDKey, E> index;
@@ -239,6 +239,7 @@ public abstract class BerkeleyDBGenericStatementsMap<S extends Statement, E exte
 			return new CloseableIterator<Entry<IdentifiableVariableTerm, S>>()
 			{
 				E next;
+
 				{
 					next = transaction.next(cursor);
 				}

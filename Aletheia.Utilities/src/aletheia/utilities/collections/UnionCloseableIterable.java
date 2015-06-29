@@ -25,7 +25,7 @@ package aletheia.utilities.collections;
  *
  * @author Quim Testar
  */
-public class UnionCloseableIterable<E> extends UnionIterable<E> implements CloseableIterable<E>
+public class UnionCloseableIterable<E> extends UnionIterable<E>implements CloseableIterable<E>
 {
 
 	public UnionCloseableIterable(CloseableIterable<? extends CloseableIterable<E>> inner)

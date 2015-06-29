@@ -30,7 +30,7 @@ import java.util.List;
  * @author Quim Testar
  */
 
-public abstract class AbstractCloseableList<E> extends AbstractList<E> implements CloseableList<E>
+public abstract class AbstractCloseableList<E> extends AbstractList<E>implements CloseableList<E>
 {
 	@Override
 	public abstract CloseableIterator<E> iterator();

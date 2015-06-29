@@ -764,15 +764,14 @@ public class ContextJTree extends PersistentJTree
 		if (sorter instanceof StatementGroupSorter)
 		{
 			StatementGroupSorter statementGroupSorter = (StatementGroupSorter) sorter;
-			getAletheiaJPanel().getCliJPanel().command(
-					new DeleteStatements(getAletheiaJPanel().getCliJPanel(), transaction, statementGroupSorter.getContext(),
-							statementGroupSorter.statements(transaction)), false);
+			getAletheiaJPanel().getCliJPanel().command(new DeleteStatements(getAletheiaJPanel().getCliJPanel(), transaction, statementGroupSorter.getContext(),
+					statementGroupSorter.statements(transaction)), false);
 		}
 		else if (sorter instanceof RootContextGroupSorter)
 		{
 			RootContextGroupSorter rootContextGroupSorter = (RootContextGroupSorter) sorter;
-			getAletheiaJPanel().getCliJPanel().command(
-					new DeleteRootContexts(getAletheiaJPanel().getCliJPanel(), transaction, rootContextGroupSorter.statements(transaction)), false);
+			getAletheiaJPanel().getCliJPanel()
+					.command(new DeleteRootContexts(getAletheiaJPanel().getCliJPanel(), transaction, rootContextGroupSorter.statements(transaction)), false);
 		}
 		else
 			throw new Error();
@@ -784,9 +783,8 @@ public class ContextJTree extends PersistentJTree
 		if (sorter instanceof StatementGroupSorter)
 		{
 			StatementGroupSorter statementGroupSorter = (StatementGroupSorter) sorter;
-			getAletheiaJPanel().getCliJPanel().command(
-					new DeleteStatementsCascade(getAletheiaJPanel().getCliJPanel(), transaction, statementGroupSorter.getContext(),
-							statementGroupSorter.statements(transaction)), false);
+			getAletheiaJPanel().getCliJPanel().command(new DeleteStatementsCascade(getAletheiaJPanel().getCliJPanel(), transaction,
+					statementGroupSorter.getContext(), statementGroupSorter.statements(transaction)), false);
 		}
 		else if (sorter instanceof RootContextGroupSorter)
 		{
@@ -859,8 +857,8 @@ public class ContextJTree extends PersistentJTree
 					while (!stack.isEmpty())
 					{
 						ContextLocal ctxLocal = stack.pop();
-						ContextSorterContextJTreeNode node = (ContextSorterContextJTreeNode) getModel().getNodeMap().getByStatement(
-								ctxLocal.getStatement(transaction));
+						ContextSorterContextJTreeNode node = (ContextSorterContextJTreeNode) getModel().getNodeMap()
+								.getByStatement(ctxLocal.getStatement(transaction));
 						boolean pushed = false;
 						for (ContextLocal ctxLocal_ : ctxLocal.subscribeStatementsContextLocalSet(transaction))
 						{

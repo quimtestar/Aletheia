@@ -35,8 +35,8 @@ import aletheia.utilities.collections.CloseableIterator;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
-public abstract class BerkeleyDBGenericSignatoriesMap<S extends Signatory, E extends BerkeleyDBSignatoryEntity> extends AbstractCloseableMap<UUID, S> implements
-		GenericSignatoriesMap<S>
+public abstract class BerkeleyDBGenericSignatoriesMap<S extends Signatory, E extends BerkeleyDBSignatoryEntity> extends AbstractCloseableMap<UUID, S>
+		implements GenericSignatoriesMap<S>
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final EntityIndex<UUIDKey, E> index;
@@ -214,6 +214,7 @@ public abstract class BerkeleyDBGenericSignatoriesMap<S extends Signatory, E ext
 			return new CloseableIterator<Entry<UUID, S>>()
 			{
 				BerkeleyDBSignatoryEntity next;
+
 				{
 					next = transaction.next(cursor);
 				}

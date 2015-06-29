@@ -4,4 +4,3 @@
  * different environments.
  */
 package aletheia.protocol;
-

@@ -28,10 +28,10 @@ import java.util.SortedSet;
  *
  * @author Quim Testar
  */
-public class DummyMapSortedSet<E> extends DummyMapSet<E> implements SortedSet<E>
+public class DummyMapSortedSet<E> extends DummyMapSet<E>implements SortedSet<E>
 {
 
-	protected static class SortedSetToDummyMap<E> extends SetToDummyMap<E> implements SortedMap<E, Dummy>
+	protected static class SortedSetToDummyMap<E> extends SetToDummyMap<E>implements SortedMap<E, Dummy>
 	{
 
 		protected SortedSetToDummyMap(SortedSet<E> set)

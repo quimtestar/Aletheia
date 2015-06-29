@@ -32,9 +32,9 @@ import aletheia.persistence.collections.authority.StatementAuthoritySignatureSet
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBStatementAuthoritySignatureSetByAuthorizerAndSignatureUuid extends
-		BerkeleyDBAbstractStatementAuthoritySignatureSet<BerkeleyDBStatementAuthoritySignatureEntity.AuthorizerSignatureUuidKeyData> implements
-		StatementAuthoritySignatureSetByAuthorizerAndSignatureUuid
+public class BerkeleyDBStatementAuthoritySignatureSetByAuthorizerAndSignatureUuid
+		extends BerkeleyDBAbstractStatementAuthoritySignatureSet<BerkeleyDBStatementAuthoritySignatureEntity.AuthorizerSignatureUuidKeyData>
+		implements StatementAuthoritySignatureSetByAuthorizerAndSignatureUuid
 {
 	private final Signatory authorizer;
 	private final UUID signatureUuid;
@@ -55,8 +55,8 @@ public class BerkeleyDBStatementAuthoritySignatureSetByAuthorizerAndSignatureUui
 	public BerkeleyDBStatementAuthoritySignatureSetByAuthorizerAndSignatureUuid(BerkeleyDBPersistenceManager persistenceManager,
 			BerkeleyDBTransaction transaction, Signatory authorizer, UUID signatureUuid)
 	{
-		super(persistenceManager, index(persistenceManager), transaction, new BerkeleyDBStatementAuthoritySignatureEntity.AuthorizerSignatureUuidKeyData(
-				authorizer.getUuid(), signatureUuid));
+		super(persistenceManager, index(persistenceManager), transaction,
+				new BerkeleyDBStatementAuthoritySignatureEntity.AuthorizerSignatureUuidKeyData(authorizer.getUuid(), signatureUuid));
 		this.authorizer = authorizer;
 		this.signatureUuid = signatureUuid;
 	}

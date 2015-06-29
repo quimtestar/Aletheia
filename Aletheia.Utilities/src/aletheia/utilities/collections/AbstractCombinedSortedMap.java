@@ -39,7 +39,7 @@ import aletheia.utilities.MiscUtilities;
  * @param <V>
  *            The values type.
  */
-public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMap<K, V> implements SortedMap<K, V>
+public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMap<K, V>implements SortedMap<K, V>
 {
 	private static final long serialVersionUID = 7809913304487413172L;
 

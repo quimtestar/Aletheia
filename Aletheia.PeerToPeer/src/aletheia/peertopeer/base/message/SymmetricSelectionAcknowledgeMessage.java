@@ -32,8 +32,8 @@ public abstract class SymmetricSelectionAcknowledgeMessage<C, E extends Exportab
 	}
 
 	@ProtocolInfo(availableVersions = 0)
-	public static abstract class SubProtocol<C, E extends ExportableEnum<C, ?>, M extends SymmetricSelectionAcknowledgeMessage<C, E>> extends
-			SymmetricSelectionMessage.SubProtocol<C, E, M>
+	public static abstract class SubProtocol<C, E extends ExportableEnum<C, ?>, M extends SymmetricSelectionAcknowledgeMessage<C, E>>
+			extends SymmetricSelectionMessage.SubProtocol<C, E, M>
 	{
 
 		public SubProtocol(int requiredVersion, MessageCode messageCode, ExportableEnumProtocol<C, E> selectionProtocol)

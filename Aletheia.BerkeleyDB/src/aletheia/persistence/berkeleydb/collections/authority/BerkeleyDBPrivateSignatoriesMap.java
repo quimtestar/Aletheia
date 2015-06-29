@@ -29,8 +29,8 @@ import aletheia.persistence.collections.authority.PrivateSignatoriesMap;
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityIndex;
 
-public class BerkeleyDBPrivateSignatoriesMap extends BerkeleyDBGenericSignatoriesMap<PrivateSignatory, BerkeleyDBPrivateSignatoryEntity> implements
-		PrivateSignatoriesMap
+public class BerkeleyDBPrivateSignatoriesMap extends BerkeleyDBGenericSignatoriesMap<PrivateSignatory, BerkeleyDBPrivateSignatoryEntity>
+		implements PrivateSignatoriesMap
 {
 
 	private static EntityIndex<UUIDKey, BerkeleyDBPrivateSignatoryEntity> subIndex(BerkeleyDBPersistenceManager persistenceManager)

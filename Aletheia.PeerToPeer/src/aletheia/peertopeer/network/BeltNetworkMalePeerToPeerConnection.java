@@ -35,8 +35,8 @@ public class BeltNetworkMalePeerToPeerConnection extends NetworkMalePeerToPeerCo
 {
 	private final EnumSet<Side> sides;
 
-	public BeltNetworkMalePeerToPeerConnection(PeerToPeerNode peerToPeerNode, SocketChannel socketChannel, InetAddress remoteAddress,
-			UUID expectedPeerNodeUuid, Collection<Side> sides) throws IOException
+	public BeltNetworkMalePeerToPeerConnection(PeerToPeerNode peerToPeerNode, SocketChannel socketChannel, InetAddress remoteAddress, UUID expectedPeerNodeUuid,
+			Collection<Side> sides) throws IOException
 	{
 		super(peerToPeerNode, socketChannel, remoteAddress, expectedPeerNodeUuid);
 		this.sides = EnumSet.copyOf(sides);

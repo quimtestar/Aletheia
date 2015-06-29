@@ -67,8 +67,8 @@ public class SubNomenclator extends Nomenclator implements Serializable, Exporta
 	 */
 	public SubNomenclator(PersistenceManager persistenceManager, Transaction transaction, Context context)
 	{
-		super(persistenceManager, transaction, persistenceManager.contextLocalIdentifierToStatement(transaction, context), persistenceManager
-				.contextLocalStatementToIdentifier(transaction, context));
+		super(persistenceManager, transaction, persistenceManager.contextLocalIdentifierToStatement(transaction, context),
+				persistenceManager.contextLocalStatementToIdentifier(transaction, context));
 		this.context = context;
 	}
 

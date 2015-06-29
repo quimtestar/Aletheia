@@ -492,8 +492,8 @@ public class LexerLexer extends AbstractLexer
 						StringBuffer sb = new StringBuffer();
 						sb.append(getNext());
 						eat();
-						while (!isAtEnd()
-								&& (((getNext() >= 'a') && (getNext() <= 'z')) || ((getNext() >= 'A') && (getNext() <= 'Z')) || (getNext() == '_') || ((getNext() >= '0') && (getNext() <= '9'))))
+						while (!isAtEnd() && (((getNext() >= 'a') && (getNext() <= 'z')) || ((getNext() >= 'A') && (getNext() <= 'Z')) || (getNext() == '_')
+								|| ((getNext() >= '0') && (getNext() <= '9'))))
 						{
 							sb.append(getNext());
 							eat();

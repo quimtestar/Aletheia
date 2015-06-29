@@ -31,9 +31,9 @@ import aletheia.persistence.collections.authority.PrivatePersonsMap;
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityIndex;
 
-public class BerkeleyDBPrivatePersonsMap extends
-		BerkeleyDBGenericPersonsMap<PrivateSignatory, BerkeleyDBPrivateSignatoryEntity, PrivatePerson, BerkeleyDBPrivatePersonEntity> implements
-		PrivatePersonsMap
+public class BerkeleyDBPrivatePersonsMap
+		extends BerkeleyDBGenericPersonsMap<PrivateSignatory, BerkeleyDBPrivateSignatoryEntity, PrivatePerson, BerkeleyDBPrivatePersonEntity>
+		implements PrivatePersonsMap
 {
 	private static EntityIndex<UUIDKey, BerkeleyDBPrivatePersonEntity> privatePersonEntityMarkSubIndex(BerkeleyDBPersistenceManager persistenceManager)
 	{

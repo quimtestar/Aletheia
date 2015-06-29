@@ -39,7 +39,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String, PrivatePerson> implements PrivatePersonsByNick
+public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String, PrivatePerson>implements PrivatePersonsByNick
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final SecondaryIndex<String, UUIDKey, BerkeleyDBPrivatePersonEntity> privatePersonEntityNickSecondaryIndex;

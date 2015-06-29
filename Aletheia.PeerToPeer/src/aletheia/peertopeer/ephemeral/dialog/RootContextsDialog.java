@@ -72,8 +72,8 @@ public abstract class RootContextsDialog extends EphemeralDialog
 								if (rootContextAuthority != null)
 									try
 									{
-										return new RootContextStatementSignaturesResponseMessage.Entry(uuid, new StatementAuthoritySubMessage(getTransaction(),
-												rootContextAuthority));
+										return new RootContextStatementSignaturesResponseMessage.Entry(uuid,
+												new StatementAuthoritySubMessage(getTransaction(), rootContextAuthority));
 									}
 									catch (NoValidSignature e)
 									{
@@ -139,8 +139,8 @@ public abstract class RootContextsDialog extends EphemeralDialog
 
 	protected void dialogatePersonResponse(PersonRequestMessage personRequestMessage) throws IOException, ProtocolException, InterruptedException
 	{
-		Collection<Person> persons = new FilteredCollection<Person>(new NotNullFilter<Person>(), new BijectionCollection<UUID, Person>(
-				new Bijection<UUID, Person>()
+		Collection<Person> persons = new FilteredCollection<Person>(new NotNullFilter<Person>(),
+				new BijectionCollection<UUID, Person>(new Bijection<UUID, Person>()
 				{
 
 					@Override

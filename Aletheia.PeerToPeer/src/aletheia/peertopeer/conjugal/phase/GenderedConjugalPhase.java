@@ -70,12 +70,12 @@ public abstract class GenderedConjugalPhase extends SubPhase
 			}
 		}
 
-		protected abstract boolean genderedServerPhase(LoopConjugalDialogType loopDialogType) throws IOException, ProtocolException, InterruptedException,
-				DialogStreamException;
+		protected abstract boolean genderedServerPhase(LoopConjugalDialogType loopDialogType)
+				throws IOException, ProtocolException, InterruptedException, DialogStreamException;
 
 		@Override
-		protected boolean clientPhase(LoopSubPhase<LoopConjugalDialogType>.Command<?> command) throws IOException, ProtocolException, InterruptedException,
-				DialogStreamException
+		protected boolean clientPhase(LoopSubPhase<LoopConjugalDialogType>.Command<?> command)
+				throws IOException, ProtocolException, InterruptedException, DialogStreamException
 		{
 			switch (command.getLoopDialogType())
 			{

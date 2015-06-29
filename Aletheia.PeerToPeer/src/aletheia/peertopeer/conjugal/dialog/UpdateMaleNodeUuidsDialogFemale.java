@@ -44,8 +44,8 @@ public class UpdateMaleNodeUuidsDialogFemale extends UpdateMaleNodeUuidsDialog
 	protected void dialogate() throws IOException, ProtocolException, InterruptedException, TimeoutException
 	{
 		UpdateMaleNodeUuidsMessage updateMaleNodeUuidsMessage = recvMessage(UpdateMaleNodeUuidsMessage.class);
-		getPeerToPeerNode()
-				.updateMaleNodeUuids(getFemaleConjugalPhase(), updateMaleNodeUuidsMessage.getAddUuids(), updateMaleNodeUuidsMessage.getRemoveUuids());
+		getPeerToPeerNode().updateMaleNodeUuids(getFemaleConjugalPhase(), updateMaleNodeUuidsMessage.getAddUuids(),
+				updateMaleNodeUuidsMessage.getRemoveUuids());
 	}
 
 }

@@ -61,8 +61,8 @@ public abstract class ResourceResponseRouteableSubMessage extends ResponseRoutea
 			return recv(origin, sequence, target, sequenceResponse, resource, in);
 		}
 
-		protected abstract M recv(UUID origin, int sequence, UUID target, int sequenceResponse, Resource resource, DataInput in) throws IOException,
-				ProtocolException;
+		protected abstract M recv(UUID origin, int sequence, UUID target, int sequenceResponse, Resource resource, DataInput in)
+				throws IOException, ProtocolException;
 
 		@Override
 		public void send(DataOutput out, M m) throws IOException

@@ -65,8 +65,8 @@ public class ResourceTreeNodeMessage extends NonPersistentMessage
 		{
 			super(0, messageCode);
 			checkVersionAvailability(SubProtocol.class, requiredVersion);
-			this.actionMapProtocol = new MapProtocol<Resource, List<ResourceTreeNodeSet.Action>>(0, new Resource.Protocol(0), new ListProtocol<>(0,
-					new ResourceTreeNodeSet.Action.Protocol(0)));
+			this.actionMapProtocol = new MapProtocol<Resource, List<ResourceTreeNodeSet.Action>>(0, new Resource.Protocol(0),
+					new ListProtocol<>(0, new ResourceTreeNodeSet.Action.Protocol(0)));
 		}
 
 		@Override

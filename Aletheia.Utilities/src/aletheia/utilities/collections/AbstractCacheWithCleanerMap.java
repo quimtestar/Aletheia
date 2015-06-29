@@ -40,7 +40,7 @@ import java.util.Set;
  *
  * @author Quim Testar
  */
-public abstract class AbstractCacheWithCleanerMap<K, V, R extends Reference<V>> extends AbstractCacheMap<K, V, R> implements CacheWithCleanerMap<K, V>
+public abstract class AbstractCacheWithCleanerMap<K, V, R extends Reference<V>> extends AbstractCacheMap<K, V, R>implements CacheWithCleanerMap<K, V>
 {
 	private final ReferenceQueue<V> queue;
 	private final Map<R, K> reverseMap;

@@ -6,4 +6,3 @@
  *
  */
 package aletheia.model.term;
-

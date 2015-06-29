@@ -603,8 +603,8 @@ public abstract class SignatureRequest implements Exportable
 
 	protected class DataInputUnpackedBuilder extends UnpackedBuilder
 	{
-		public DataInputUnpackedBuilder(PersistenceManager persistenceManager, Transaction transaction, final DataInput dataInput) throws ProtocolException,
-				IOException
+		public DataInputUnpackedBuilder(PersistenceManager persistenceManager, Transaction transaction, final DataInput dataInput)
+				throws ProtocolException, IOException
 		{
 			super(persistenceManager, transaction);
 			class ExceptionCapsule extends RuntimeException

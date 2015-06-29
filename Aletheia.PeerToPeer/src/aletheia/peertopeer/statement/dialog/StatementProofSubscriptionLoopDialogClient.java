@@ -46,8 +46,8 @@ public class StatementProofSubscriptionLoopDialogClient extends StatementProofSu
 		super(phase);
 	}
 
-	private AvailableProofsMessage dialogateAvailableProofsClient(Set<StatementLocal> subscribedProofStatementLocals) throws IOException, ProtocolException,
-			InterruptedException
+	private AvailableProofsMessage dialogateAvailableProofsClient(Set<StatementLocal> subscribedProofStatementLocals)
+			throws IOException, ProtocolException, InterruptedException
 	{
 		Bijection<StatementLocal, UUID> statementLocalUuidBijection = new Bijection<StatementLocal, UUID>()
 		{
@@ -71,15 +71,15 @@ public class StatementProofSubscriptionLoopDialogClient extends StatementProofSu
 		if (pendingSubscribedProofRootContextLocals != null)
 		{
 			subscribedProofStatementLocals.addAll(pendingSubscribedProofRootContextLocals);
-			subscribedUuids.addAll(new BijectionCollection<>(statementLocalUuidBijection, new AdaptedSet<StatementLocal>(
-					pendingSubscribedProofRootContextLocals)));
+			subscribedUuids
+					.addAll(new BijectionCollection<>(statementLocalUuidBijection, new AdaptedSet<StatementLocal>(pendingSubscribedProofRootContextLocals)));
 		}
 		Set<UUID> unsubscribedUuids = new HashSet<UUID>();
 		Set<RootContextLocal> pendingUnsubscribedProofRootContextLocals = pendingStatementLocalChanges.dumpPendingUnsubscribedProofRootContextLocals();
 		if (pendingUnsubscribedProofRootContextLocals != null)
 		{
-			unsubscribedUuids.addAll(new BijectionCollection<>(statementLocalUuidBijection, new AdaptedSet<StatementLocal>(
-					pendingUnsubscribedProofRootContextLocals)));
+			unsubscribedUuids
+					.addAll(new BijectionCollection<>(statementLocalUuidBijection, new AdaptedSet<StatementLocal>(pendingUnsubscribedProofRootContextLocals)));
 		}
 		Set<UUID> contextUuids = remoteSubscription.rootContextUuids();
 		while (!contextUuids.isEmpty())

@@ -157,8 +157,8 @@ public class UnpackedSignatureRequest extends SignatureRequest
 
 	public Set<StatementAuthority> statementAuthorities(final Transaction transaction)
 	{
-		return new FilteredSet<StatementAuthority>(new NotNullFilter<StatementAuthority>(), new BijectionSet<UUID, StatementAuthority>(
-				new Bijection<UUID, StatementAuthority>()
+		return new FilteredSet<StatementAuthority>(new NotNullFilter<StatementAuthority>(),
+				new BijectionSet<UUID, StatementAuthority>(new Bijection<UUID, StatementAuthority>()
 				{
 
 					@Override
@@ -388,9 +388,11 @@ public class UnpackedSignatureRequest extends SignatureRequest
 				{
 					final Collection<Statement> statements = new HashSet<Statement>(statements(transaction));
 					final Stack<Statement> stack = new Stack<Statement>();
+
 					{
 						stack.addAll(statements);
 					}
+
 					final Set<Statement> visited = new HashSet<Statement>();
 					Statement next = advance();
 

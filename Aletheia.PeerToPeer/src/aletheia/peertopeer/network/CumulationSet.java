@@ -771,8 +771,8 @@ public class CumulationSet
 	private final static ExactCountCumulation exactCountCumulation = new ExactCountCumulation();
 	private final static ApproximateCountCumulation approximateCountCumulation = new ApproximateCountCumulation(0.5f);
 
-	private final static Set<Cumulation<?>> cumulations = Collections.unmodifiableSet(new HashSet<Cumulation<?>>(Arrays
-			.<Cumulation<?>> asList(approximateCountCumulation)));
+	private final static Set<Cumulation<?>> cumulations = Collections
+			.unmodifiableSet(new HashSet<Cumulation<?>>(Arrays.<Cumulation<?>> asList(approximateCountCumulation)));
 
 	public static Set<Cumulation<?>> getCumulations()
 	{
@@ -995,8 +995,8 @@ public class CumulationSet
 
 	public synchronized void updateNeighbourCumulationValue(NetworkPhase networkPhase, Cumulation.Value<?> cumulationValue)
 	{
-		logger.debug(getNodeUuid() + " updateNeighbourCumulationValue() -> networkPhase: " + networkPhase.getPeerNodeUuid() + " cumulationValue:"
-				+ cumulationValue);
+		logger.debug(
+				getNodeUuid() + " updateNeighbourCumulationValue() -> networkPhase: " + networkPhase.getPeerNodeUuid() + " cumulationValue:" + cumulationValue);
 		if (cumulations.contains(cumulationValue.getCumulation()))
 			synchronized (localRouterSet)
 			{
@@ -1079,8 +1079,8 @@ public class CumulationSet
 
 	public synchronized void removeRouterCumulationValue(NetworkPhase neighbour, int i, Cumulation<?> cumulation)
 	{
-		logger.debug(getNodeUuid() + " removeRouterCumulationValue() -> networkPhase: " + neighbour.getPeerNodeUuid() + " i: " + i + " cumulation:"
-				+ cumulation);
+		logger.debug(
+				getNodeUuid() + " removeRouterCumulationValue() -> networkPhase: " + neighbour.getPeerNodeUuid() + " i: " + i + " cumulation:" + cumulation);
 		if (cumulations.contains(cumulation))
 			synchronized (localRouterSet)
 			{

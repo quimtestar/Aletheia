@@ -150,19 +150,21 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 					{
 						Namespace prefix = identified.first().getIdentifier().commonPrefix(identified.last().getIdentifier());
 						if (prefix instanceof NodeNamespace)
-							identifiedIterator = new TrivialCloseableIterable<Sorter>(Collections.<Sorter> singleton(subGroupSorter(((NodeNamespace) prefix)
-									.asIdentifier()))).iterator();
+							identifiedIterator = new TrivialCloseableIterable<Sorter>(
+									Collections.<Sorter> singleton(subGroupSorter(((NodeNamespace) prefix).asIdentifier()))).iterator();
 					}
 					if (identifiedIterator == null)
 						identifiedIterator = new CloseableIterator<Sorter>()
 						{
 							S next;
+
 							{
 								if (identified.isEmpty())
 									next = null;
 								else
 									next = identified.first();
 							}
+
 							S prev = null;
 							CloseableIterator<S> iterator = null;
 
@@ -263,8 +265,8 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 						};
 					CloseableIterator<Sorter> nonIdentifiedIterator = new BijectionCloseableIterator<S, Sorter>(statementSorterBijection,
 							nonIdentified.iterator());
-					return new CombinedCloseableIterator<Sorter>(assumptionIterator, new CombinedCloseableIterator<Sorter>(identifiedIterator,
-							nonIdentifiedIterator));
+					return new CombinedCloseableIterator<Sorter>(assumptionIterator,
+							new CombinedCloseableIterator<Sorter>(identifiedIterator, nonIdentifiedIterator));
 				}
 			};
 

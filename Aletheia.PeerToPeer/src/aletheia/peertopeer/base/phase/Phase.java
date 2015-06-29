@@ -136,8 +136,8 @@ public abstract class Phase
 	{
 	}
 
-	private <D extends Dialog> D dialog(Constructor<D> dialogConstructor, Object... initargs) throws IOException, ProtocolException, InterruptedException,
-			DialogStreamException
+	private <D extends Dialog> D dialog(Constructor<D> dialogConstructor, Object... initargs)
+			throws IOException, ProtocolException, InterruptedException, DialogStreamException
 	{
 		D dialog;
 		try
@@ -160,8 +160,8 @@ public abstract class Phase
 		return constructor;
 	}
 
-	protected <D extends Dialog> D dialog(Class<D> dialogClass, Object... initargs) throws IOException, ProtocolException, InterruptedException,
-			DialogStreamException
+	protected <D extends Dialog> D dialog(Class<D> dialogClass, Object... initargs)
+			throws IOException, ProtocolException, InterruptedException, DialogStreamException
 	{
 		Constructor<D> constructor = dialogConstructor(dialogClass, initargs);
 		return dialog(constructor, initargs);

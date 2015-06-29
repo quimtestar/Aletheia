@@ -33,7 +33,7 @@ import java.util.Map;
  *
  * @author Quim Testar
  */
-public class CombinedMap<K, V> extends AbstractCombinedMap<K, V> implements Serializable
+public class CombinedMap<K, V> extends AbstractCombinedMap<K, V>implements Serializable
 {
 	private static final long serialVersionUID = 6151843791136257958L;
 

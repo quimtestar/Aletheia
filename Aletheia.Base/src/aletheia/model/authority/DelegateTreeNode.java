@@ -192,8 +192,8 @@ public abstract class DelegateTreeNode implements Exportable
 		return persistenceManager.getDelegateTreeNode(transaction, getStatementUuid(), getPrefix().concat(namespace));
 	}
 
-	protected DelegateTreeSubNode createSubNode(Transaction transaction, String name) throws InvalidNameException, NoPrivateDataForAuthorException,
-			DateConsistenceException
+	protected DelegateTreeSubNode createSubNode(Transaction transaction, String name)
+			throws InvalidNameException, NoPrivateDataForAuthorException, DateConsistenceException
 	{
 		DelegateTreeSubNode delegateTreeSubNode = DelegateTreeSubNode.create(persistenceManager, transaction, this, name);
 		persistenceUpdateSign(transaction);
@@ -206,8 +206,8 @@ public abstract class DelegateTreeNode implements Exportable
 		return delegateTreeSubNode;
 	}
 
-	public DelegateTreeSubNode getOrCreateSubNode(Transaction transaction, String name) throws InvalidNameException, NoPrivateDataForAuthorException,
-			DateConsistenceException
+	public DelegateTreeSubNode getOrCreateSubNode(Transaction transaction, String name)
+			throws InvalidNameException, NoPrivateDataForAuthorException, DateConsistenceException
 	{
 		DelegateTreeSubNode subNode = getSubNode(transaction, name);
 		if (subNode == null)
@@ -290,8 +290,8 @@ public abstract class DelegateTreeNode implements Exportable
 		return persistenceManager.getDelegateAuthorizer(transaction, getStatementUuid(), getPrefix(), delegateUuid);
 	}
 
-	private DelegateAuthorizer createDelegateAuthorizer(Transaction transaction, Person delegate) throws NoPrivateDataForAuthorException,
-			DateConsistenceException
+	private DelegateAuthorizer createDelegateAuthorizer(Transaction transaction, Person delegate)
+			throws NoPrivateDataForAuthorException, DateConsistenceException
 	{
 		DelegateAuthorizer delegateAuthorizer = DelegateAuthorizer.create(persistenceManager, transaction, this, delegate);
 		persistenceUpdateSign(transaction);
@@ -304,8 +304,8 @@ public abstract class DelegateTreeNode implements Exportable
 		return delegateAuthorizer;
 	}
 
-	public DelegateAuthorizer getOrCreateDelegateAuthorizer(Transaction transaction, Person delegate) throws NoPrivateDataForAuthorException,
-			DateConsistenceException
+	public DelegateAuthorizer getOrCreateDelegateAuthorizer(Transaction transaction, Person delegate)
+			throws NoPrivateDataForAuthorException, DateConsistenceException
 	{
 		DelegateAuthorizer delegateAuthorizer = getDelegateAuthorizer(transaction, delegate);
 		if (delegateAuthorizer == null)
@@ -334,8 +334,8 @@ public abstract class DelegateTreeNode implements Exportable
 		deleteDelegateAuthorizer(transaction, getDelegateAuthorizer(transaction, delegate));
 	}
 
-	public void deleteDelegateAuthorizer(Transaction transaction, DelegateAuthorizer delegateAuthorizer) throws NoPrivateDataForAuthorException,
-			DateConsistenceException
+	public void deleteDelegateAuthorizer(Transaction transaction, DelegateAuthorizer delegateAuthorizer)
+			throws NoPrivateDataForAuthorException, DateConsistenceException
 	{
 		deleteDelegateAuthorizerNoSign(transaction, delegateAuthorizer);
 		persistenceUpdateSign(transaction);

@@ -149,8 +149,8 @@ public class InitialNetworkPhase extends NetworkSubPhase
 		dialog(ResourceTreeNodeInitialDialog.class, this);
 	}
 
-	private InitialNetworkPhaseTypeDialogFemale initialNetworkPhaseTypeDialogFemale() throws IOException, ProtocolException, InterruptedException,
-			DialogStreamException
+	private InitialNetworkPhaseTypeDialogFemale initialNetworkPhaseTypeDialogFemale()
+			throws IOException, ProtocolException, InterruptedException, DialogStreamException
 	{
 		return dialog(InitialNetworkPhaseTypeDialogFemale.class, this);
 	}
@@ -160,8 +160,8 @@ public class InitialNetworkPhase extends NetworkSubPhase
 		return ((NetworkMalePeerToPeerConnection) getPeerToPeerConnection()).getInitialNetworkPhaseType();
 	}
 
-	private InitialNetworkPhaseTypeDialogMale initialNetworkPhaseTypeDialogMale(InitialNetworkPhaseType type) throws IOException, ProtocolException,
-			InterruptedException, DialogStreamException
+	private InitialNetworkPhaseTypeDialogMale initialNetworkPhaseTypeDialogMale(InitialNetworkPhaseType type)
+			throws IOException, ProtocolException, InterruptedException, DialogStreamException
 	{
 		return dialog(InitialNetworkPhaseTypeDialogMale.class, this, type);
 	}

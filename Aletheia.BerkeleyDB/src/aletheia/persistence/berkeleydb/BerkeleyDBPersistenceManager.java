@@ -217,10 +217,10 @@ import com.sleepycat.je.TransactionConfig;
 import com.sleepycat.je.UniqueConstraintException;
 
 /**
- * Implementation of the {@link PersistenceManager} that makes use of the <a
- * href =
- * "http://www.oracle.com/technetwork/products/berkeleydb/overview/index.html"
- * >Berkeley DB</a> Software (Java edition).
+ * Implementation of the {@link PersistenceManager} that makes use of the
+ * <a href =
+ * "http://www.oracle.com/technetwork/products/berkeleydb/overview/index.html" >
+ * Berkeley DB</a> Software (Java edition).
  *
  */
 public class BerkeleyDBPersistenceManager extends PersistenceManager
@@ -1216,8 +1216,8 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 	@Override
 	public StatementAuthoritySignatureEntity getStatementAuthoritySignatureEntity(Transaction transaction, UUID statementUuid, UUID authorizerUuid)
 	{
-		return getStatementAuthoritySignatureEntity((BerkeleyDBTransaction) transaction, new BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData(
-				statementUuid, authorizerUuid));
+		return getStatementAuthoritySignatureEntity((BerkeleyDBTransaction) transaction,
+				new BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData(statementUuid, authorizerUuid));
 	}
 
 	private StatementAuthoritySignatureEntity getStatementAuthoritySignatureEntity(BerkeleyDBTransaction transaction,
@@ -1229,8 +1229,8 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 	@Override
 	public void deleteStatementAuthoritySignatureEntity(Transaction transaction, UUID statementUuid, UUID authorizerUuid)
 	{
-		deleteStatementAuthoritySignatureEntity((BerkeleyDBTransaction) transaction, new BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData(
-				statementUuid, authorizerUuid));
+		deleteStatementAuthoritySignatureEntity((BerkeleyDBTransaction) transaction,
+				new BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData(statementUuid, authorizerUuid));
 	}
 
 	private void deleteStatementAuthoritySignatureEntity(BerkeleyDBTransaction transaction,
@@ -1341,11 +1341,12 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 	@Override
 	public DelegateAuthorizerEntity getDelegateAuthorizerEntity(Transaction transaction, UUID contextUuid, Namespace prefix, UUID delegateUuid)
 	{
-		return getDelegateAuthorizerEntity((BerkeleyDBTransaction) transaction, new BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData(contextUuid, prefix,
-				delegateUuid));
+		return getDelegateAuthorizerEntity((BerkeleyDBTransaction) transaction,
+				new BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData(contextUuid, prefix, delegateUuid));
 	}
 
-	private DelegateAuthorizerEntity getDelegateAuthorizerEntity(BerkeleyDBTransaction transaction, BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData primaryKey)
+	private DelegateAuthorizerEntity getDelegateAuthorizerEntity(BerkeleyDBTransaction transaction,
+			BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData primaryKey)
 	{
 		return transaction.get(getEntityStore().delegateAuthorizerEntityPrimaryIndex(), primaryKey);
 	}
@@ -1353,8 +1354,8 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 	@Override
 	public void deleteDelegateAuthorizerEntity(Transaction transaction, UUID contextUuid, Namespace prefix, UUID delegateUuid)
 	{
-		deleteDelegateAuthorizerEntity((BerkeleyDBTransaction) transaction, new BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData(contextUuid, prefix,
-				delegateUuid));
+		deleteDelegateAuthorizerEntity((BerkeleyDBTransaction) transaction,
+				new BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData(contextUuid, prefix, delegateUuid));
 	}
 
 	private void deleteDelegateAuthorizerEntity(BerkeleyDBTransaction transaction, BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData primaryKeyData)

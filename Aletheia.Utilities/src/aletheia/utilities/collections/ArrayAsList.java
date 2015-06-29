@@ -33,7 +33,7 @@ import java.util.List;
  *
  * @author Quim Testar
  */
-public class ArrayAsList<E> extends AbstractList<E> implements List<E>
+public class ArrayAsList<E> extends AbstractList<E>implements List<E>
 {
 	private final Object array;
 

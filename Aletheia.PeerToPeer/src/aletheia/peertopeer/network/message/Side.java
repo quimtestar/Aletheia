@@ -28,7 +28,7 @@ import aletheia.protocol.enumerate.ExportableEnumInfo;
 @ExportableEnumInfo(availableVersions = 0)
 public enum Side implements ByteExportableEnum<Side>
 {
-	Left((byte) 0), Right((byte) 1), ;
+	Left((byte) 0), Right((byte) 1),;
 
 	private final byte code;
 

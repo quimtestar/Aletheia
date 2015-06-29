@@ -37,8 +37,8 @@ import aletheia.utilities.collections.CloseableIterator;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
-public abstract class BerkeleyDBGenericSignatureRequestCollection<S extends SignatureRequest, K, E extends BerkeleyDBSignatureRequestEntity> extends
-		AbstractCloseableCollection<S> implements GenericSignatureRequestCollection<S>
+public abstract class BerkeleyDBGenericSignatureRequestCollection<S extends SignatureRequest, K, E extends BerkeleyDBSignatureRequestEntity>
+		extends AbstractCloseableCollection<S>implements GenericSignatureRequestCollection<S>
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final EntityIndex<K, E> index;
@@ -118,6 +118,7 @@ public abstract class BerkeleyDBGenericSignatureRequestCollection<S extends Sign
 		return new CloseableIterator<S>()
 		{
 			private E next;
+
 			{
 				next = transaction.first(cursor);
 				if (next == null)

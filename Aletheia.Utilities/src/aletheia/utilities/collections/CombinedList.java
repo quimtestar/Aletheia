@@ -30,7 +30,7 @@ import java.util.List;
  *
  * @author Quim Testar
  */
-public class CombinedList<E> extends AbstractCombinedList<E> implements List<E>
+public class CombinedList<E> extends AbstractCombinedList<E>implements List<E>
 {
 	private static final long serialVersionUID = 5337265736945576134L;
 

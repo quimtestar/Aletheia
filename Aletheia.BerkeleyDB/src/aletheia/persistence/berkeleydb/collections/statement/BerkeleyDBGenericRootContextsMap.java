@@ -28,8 +28,8 @@ import aletheia.persistence.collections.statement.GenericRootContextsMap;
 
 import com.sleepycat.persist.EntityIndex;
 
-public abstract class BerkeleyDBGenericRootContextsMap extends BerkeleyDBGenericStatementsMap<RootContext, BerkeleyDBRootContextEntity> implements
-		GenericRootContextsMap
+public abstract class BerkeleyDBGenericRootContextsMap extends BerkeleyDBGenericStatementsMap<RootContext, BerkeleyDBRootContextEntity>
+		implements GenericRootContextsMap
 {
 
 	public BerkeleyDBGenericRootContextsMap(BerkeleyDBPersistenceManager persistenceManager, EntityIndex<UUIDKey, BerkeleyDBRootContextEntity> index,

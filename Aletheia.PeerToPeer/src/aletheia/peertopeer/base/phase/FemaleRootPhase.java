@@ -39,8 +39,8 @@ public class FemaleRootPhase extends RootPhase
 		this.acceptedSubRootPhaseTypes = acceptedSubRootPhaseTypes;
 	}
 
-	private SubRootPhaseDialogPassive subRootPhaseDialogPassive(Set<SubRootPhaseType> acceptedTypes) throws IOException, ProtocolException,
-			InterruptedException, DialogStreamException
+	private SubRootPhaseDialogPassive subRootPhaseDialogPassive(Set<SubRootPhaseType> acceptedTypes)
+			throws IOException, ProtocolException, InterruptedException, DialogStreamException
 	{
 		return dialog(SubRootPhaseDialogPassive.class, this, acceptedTypes);
 	}
@@ -56,8 +56,8 @@ public class FemaleRootPhase extends RootPhase
 	}
 
 	@Override
-	protected SalutationDialogFemale salutationDialog(int localProtocolVersion) throws IOException, ProtocolException, InterruptedException,
-			DialogStreamException
+	protected SalutationDialogFemale salutationDialog(int localProtocolVersion)
+			throws IOException, ProtocolException, InterruptedException, DialogStreamException
 	{
 		return dialog(SalutationDialogFemale.class, this, localProtocolVersion);
 	}

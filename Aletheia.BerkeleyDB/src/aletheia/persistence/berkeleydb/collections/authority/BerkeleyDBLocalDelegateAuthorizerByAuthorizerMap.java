@@ -33,8 +33,8 @@ import aletheia.persistence.collections.authority.LocalDelegateAuthorizerByAutho
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBLocalDelegateAuthorizerByAuthorizerMap extends BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<StatementAuthorizerKeyData> implements
-		LocalDelegateAuthorizerByAuthorizerMap
+public class BerkeleyDBLocalDelegateAuthorizerByAuthorizerMap extends BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<StatementAuthorizerKeyData>
+		implements LocalDelegateAuthorizerByAuthorizerMap
 {
 	private final StatementAuthority statementAuthority;
 	private final Namespace prefix;

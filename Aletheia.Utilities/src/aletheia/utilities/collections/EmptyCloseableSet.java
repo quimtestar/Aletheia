@@ -27,7 +27,7 @@ package aletheia.utilities.collections;
  *
  * @author Quim Testar
  */
-public class EmptyCloseableSet<E> extends EmptyCloseableCollection<E> implements CloseableSet<E>
+public class EmptyCloseableSet<E> extends EmptyCloseableCollection<E>implements CloseableSet<E>
 {
 
 }

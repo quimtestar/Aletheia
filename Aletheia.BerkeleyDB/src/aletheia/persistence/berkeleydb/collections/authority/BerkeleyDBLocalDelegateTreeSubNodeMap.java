@@ -40,7 +40,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
-public class BerkeleyDBLocalDelegateTreeSubNodeMap extends AbstractCloseableMap<Namespace, DelegateTreeSubNode> implements LocalDelegateTreeSubNodeMap
+public class BerkeleyDBLocalDelegateTreeSubNodeMap extends AbstractCloseableMap<Namespace, DelegateTreeSubNode>implements LocalDelegateTreeSubNodeMap
 {
 
 	private final BerkeleyDBPersistenceManager persistenceManager;
@@ -59,8 +59,8 @@ public class BerkeleyDBLocalDelegateTreeSubNodeMap extends AbstractCloseableMap<
 
 	private final BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData primaryKeyTo;
 
-	protected BerkeleyDBLocalDelegateTreeSubNodeMap(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction,
-			DelegateTreeNode parent, Namespace from, Namespace to)
+	protected BerkeleyDBLocalDelegateTreeSubNodeMap(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction, DelegateTreeNode parent,
+			Namespace from, Namespace to)
 	{
 		try
 		{
@@ -183,6 +183,7 @@ public class BerkeleyDBLocalDelegateTreeSubNodeMap extends AbstractCloseableMap<
 				return new CloseableIterator<Entry<Namespace, DelegateTreeSubNode>>()
 				{
 					private BerkeleyDBDelegateTreeNodeEntity next;
+
 					{
 						next = transaction.first(cursor);
 						if (next == null)

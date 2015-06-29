@@ -185,9 +185,8 @@ public class DelegateTreeInfoMessage extends AbstractUUIDInfoMessage<DelegateTre
 						else if (daInfo instanceof SignedDelegateAuthorizerInfo)
 						{
 							SignedDelegateAuthorizerInfo sdaInfo = (SignedDelegateAuthorizerInfo) daInfo;
-							if (sdaInfo.getSignatureDate() != null
-									&& (delegateAuthorizer.getSignatureDate() == null || delegateAuthorizer.getSignatureDate().compareTo(
-											sdaInfo.getSignatureDate()) > 0))
+							if (sdaInfo.getSignatureDate() != null && (delegateAuthorizer.getSignatureDate() == null
+									|| delegateAuthorizer.getSignatureDate().compareTo(sdaInfo.getSignatureDate()) > 0))
 								return false;
 						}
 						else
@@ -559,9 +558,8 @@ public class DelegateTreeInfoMessage extends AbstractUUIDInfoMessage<DelegateTre
 					if (listIterator.hasNext())
 					{
 						SuccessorEntry successorEntry = listIterator.next();
-						if (successorEntryInfo.getSignatureDate() == null
-								|| (successorEntry.getSignatureDate() != null && successorEntryInfo.getSignatureDate().compareTo(
-										successorEntry.getSignatureDate()) < 0))
+						if (successorEntryInfo.getSignatureDate() == null || (successorEntry.getSignatureDate() != null
+								&& successorEntryInfo.getSignatureDate().compareTo(successorEntry.getSignatureDate()) < 0))
 						{
 							forceNotUpdate = true;
 							break;
@@ -582,9 +580,8 @@ public class DelegateTreeInfoMessage extends AbstractUUIDInfoMessage<DelegateTre
 					}
 					else
 					{
-						if (successorEntryInfo.getSignatureDate() == null
-								|| (delegateTreeRootNode != null && delegateTreeRootNode.getSignatureDate() != null && successorEntryInfo.getSignatureDate()
-										.compareTo(delegateTreeRootNode.getSignatureDate()) < 0))
+						if (successorEntryInfo.getSignatureDate() == null || (delegateTreeRootNode != null && delegateTreeRootNode.getSignatureDate() != null
+								&& successorEntryInfo.getSignatureDate().compareTo(delegateTreeRootNode.getSignatureDate()) < 0))
 						{
 							forceNotUpdate = true;
 							break;
@@ -604,9 +601,8 @@ public class DelegateTreeInfoMessage extends AbstractUUIDInfoMessage<DelegateTre
 						&& (successorEntry.getSignatureDate() == null || getSignatureDate().compareTo(successorEntry.getSignatureDate()) >= 0))
 					forceUpdate = true;
 			}
-			if (forceUpdate
-					|| (!forceNotUpdate && (delegateTreeRootNode == null || delegateTreeRootNode.getSignatureDate() == null || getSignatureDate().compareTo(
-							delegateTreeRootNode.getSignatureDate()) > 0)))
+			if (forceUpdate || (!forceNotUpdate && (delegateTreeRootNode == null || delegateTreeRootNode.getSignatureDate() == null
+					|| getSignatureDate().compareTo(delegateTreeRootNode.getSignatureDate()) > 0)))
 				updateCommands.add(new DelegateTreeRootNodeUpdateCommand());
 			else
 				updateCommands.add(new CleanSuccessorEntriesUpdateCommand());
@@ -748,7 +744,7 @@ public class DelegateTreeInfoMessage extends AbstractUUIDInfoMessage<DelegateTre
 			@ExportableEnumInfo(availableVersions = 0)
 			private enum Type implements ByteExportableEnum<Type>
 			{
-				Unsigned((byte) 0), Signed((byte) 1), ;
+				Unsigned((byte) 0), Signed((byte) 1),;
 
 				private final byte code;
 
@@ -1027,8 +1023,8 @@ public class DelegateTreeInfoMessage extends AbstractUUIDInfoMessage<DelegateTre
 		return delegateUuidDependencies;
 	}
 
-	public void update(PersistenceManager persistenceManager, Transaction transaction) throws SignatureVerifyException, MissingDependencyException,
-			DateConsistenceException, DuplicateSuccessorException, SignatureVersionException
+	public void update(PersistenceManager persistenceManager, Transaction transaction)
+			throws SignatureVerifyException, MissingDependencyException, DateConsistenceException, DuplicateSuccessorException, SignatureVersionException
 	{
 		for (AbstractUUIDInfoMessage.Entry<DelegateTreeRootNodeInfo> e : getEntries())
 		{

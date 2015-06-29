@@ -28,5 +28,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface DeferredMessageContentSubProtocolInfo
 {
-	Class<? extends DeferredMessageContent.SubProtocol<? extends DeferredMessageContent>> subProtocolClass();
+	Class<? extends DeferredMessageContent.SubProtocol<? extends DeferredMessageContent>>subProtocolClass();
 }

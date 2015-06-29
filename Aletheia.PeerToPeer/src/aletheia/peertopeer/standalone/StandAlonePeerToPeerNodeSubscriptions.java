@@ -481,8 +481,8 @@ public class StandAlonePeerToPeerNodeSubscriptions
 		private void rootContextAuthoritySignatureUuidChanged(Transaction transaction, RootContextAuthority rootContextAuthority)
 		{
 			final RootContext rootContext = rootContextAuthority.getRootContext(transaction);
-			final RootConfigurationTreeNode rootConfigurationTreeNode = configurationTree.rootConfigurationTreeNodes.get(rootContextAuthority
-					.getSignatureUuid());
+			final RootConfigurationTreeNode rootConfigurationTreeNode = configurationTree.rootConfigurationTreeNodes
+					.get(rootContextAuthority.getSignatureUuid());
 			rootContext.getOrCreateLocal(transaction).setSubscribeProof(transaction, false);
 			rootContext.getOrCreateLocal(transaction).setSubscribeStatements(transaction, rootConfigurationTreeNode != null);
 
@@ -545,8 +545,8 @@ public class StandAlonePeerToPeerNodeSubscriptions
 
 	private ConfigurationTree configurationTree;
 
-	public StandAlonePeerToPeerNodeSubscriptions(PersistenceManager persistenceManager, PeerToPeerNode peerToPeerNode) throws IOException,
-			ConfigurationException, InterruptedException
+	public StandAlonePeerToPeerNodeSubscriptions(PersistenceManager persistenceManager, PeerToPeerNode peerToPeerNode)
+			throws IOException, ConfigurationException, InterruptedException
 	{
 		this.persistenceManager = persistenceManager;
 		this.peerToPeerNode = peerToPeerNode;

@@ -3,4 +3,3 @@
  * sending/receive them on the protocol.
  */
 package aletheia.protocol.namespace;
-

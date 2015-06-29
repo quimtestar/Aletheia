@@ -134,8 +134,8 @@ public class FemaleConjugalPhase extends GenderedConjugalPhase
 		}
 
 		@Override
-		protected boolean genderedServerPhase(LoopConjugalDialogType loopDialogType) throws IOException, ProtocolException, InterruptedException,
-				DialogStreamException
+		protected boolean genderedServerPhase(LoopConjugalDialogType loopDialogType)
+				throws IOException, ProtocolException, InterruptedException, DialogStreamException
 		{
 			switch (loopDialogType)
 			{
@@ -176,8 +176,8 @@ public class FemaleConjugalPhase extends GenderedConjugalPhase
 			dialog(MaleOpenConnectionDialogFemale.class, this);
 		}
 
-		private void femaleOpenConnectionDialogFemale(FemaleOpenConnectionCommand command) throws IOException, ProtocolException, InterruptedException,
-				DialogStreamException
+		private void femaleOpenConnectionDialogFemale(FemaleOpenConnectionCommand command)
+				throws IOException, ProtocolException, InterruptedException, DialogStreamException
 		{
 			try
 			{
@@ -206,10 +206,11 @@ public class FemaleConjugalPhase extends GenderedConjugalPhase
 			command(new UpdateBindPortCommand());
 		}
 
-		public void femaleOpenConnection(SplicedConnectionId splicedConnectionId) throws InterruptedException, CancelledCommandException,
-				OpenConnectionException
+		public void femaleOpenConnection(SplicedConnectionId splicedConnectionId)
+				throws InterruptedException, CancelledCommandException, OpenConnectionException
 		{
-			FemaleOpenConnectionCommand.Result result = (FemaleOpenConnectionCommand.Result) commandResult(new FemaleOpenConnectionCommand(splicedConnectionId));
+			FemaleOpenConnectionCommand.Result result = (FemaleOpenConnectionCommand.Result) commandResult(
+					new FemaleOpenConnectionCommand(splicedConnectionId));
 			if (result instanceof FemaleOpenConnectionCommand.AcceptedResult)
 				return;
 			else if (result instanceof FemaleOpenConnectionCommand.ErrorResult)

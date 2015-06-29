@@ -274,8 +274,8 @@ public abstract class SignatureRequestTreeNode implements TreeNode
 				actualContextNodes.add(makeActualContextNode(context));
 		}
 
-		Collections.sort(actualContextNodes, new BijectionComparator<Statement, ActualContextSignatureRequestTreeNode>(
-				new Bijection<Statement, ActualContextSignatureRequestTreeNode>()
+		Collections.sort(actualContextNodes,
+				new BijectionComparator<Statement, ActualContextSignatureRequestTreeNode>(new Bijection<Statement, ActualContextSignatureRequestTreeNode>()
 				{
 
 					@Override

@@ -58,8 +58,8 @@ public class DeferredMessageContentProtocol extends ExportableProtocol<DeferredM
 		try
 		{
 			Class<? extends DeferredMessageContent.SubProtocol<? extends DeferredMessageContent>> subProtocolClazz = code.getSubProtocolClazz();
-			Constructor<? extends DeferredMessageContent.SubProtocol<? extends DeferredMessageContent>> constructor = subProtocolClazz.getConstructor(
-					int.class, DeferredMessageContentCode.class);
+			Constructor<? extends DeferredMessageContent.SubProtocol<? extends DeferredMessageContent>> constructor = subProtocolClazz.getConstructor(int.class,
+					DeferredMessageContentCode.class);
 			return constructor.newInstance(requiredVersion, code);
 		}
 		catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException

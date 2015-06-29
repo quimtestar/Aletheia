@@ -33,8 +33,8 @@ public class FunctionTermPhrase extends TermPhrase
 {
 	private static final long serialVersionUID = -357818252943847397L;
 
-	protected FunctionTermPhrase(PersistenceManager persistenceManager, Transaction transaction,
-			Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator, FunctionTerm term)
+	protected FunctionTermPhrase(PersistenceManager persistenceManager, Transaction transaction, Map<IdentifiableVariableTerm, Identifier> variableToIdentifier,
+			ParameterNumerator parameterNumerator, FunctionTerm term)
 	{
 		super(term);
 		addSimpleChunk(new SimpleChunk("<"));

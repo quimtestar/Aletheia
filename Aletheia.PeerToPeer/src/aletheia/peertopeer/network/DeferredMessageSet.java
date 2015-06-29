@@ -190,8 +190,8 @@ public class DeferredMessageSet
 
 	private void clearDeferredMessages(Transaction transaction)
 	{
-		for (NodeDeferredMessagesByRecipientCollection nodeDeferredMessagesByRecipientCollection : getPersistenceManager().nodeDeferredMessagesByNodeMap(
-				transaction, getNodeUuid()).values())
+		for (NodeDeferredMessagesByRecipientCollection nodeDeferredMessagesByRecipientCollection : getPersistenceManager()
+				.nodeDeferredMessagesByNodeMap(transaction, getNodeUuid()).values())
 			clearDeferredMessagesByRecipient(transaction, nodeDeferredMessagesByRecipientCollection);
 	}
 
@@ -500,8 +500,8 @@ public class DeferredMessageSet
 		});
 	}
 
-	private synchronized void transmitDeferredMessages(PrivatePersonResource privatePersonResourceMetadata) throws IOException, ConnectException,
-			CancelledCommandException
+	private synchronized void transmitDeferredMessages(PrivatePersonResource privatePersonResourceMetadata)
+			throws IOException, ConnectException, CancelledCommandException
 	{
 		RecipientData recipientData = recipientDataMap.get(privatePersonResourceMetadata.getUuid());
 		if (recipientData != null && recipientData.distance == 0)

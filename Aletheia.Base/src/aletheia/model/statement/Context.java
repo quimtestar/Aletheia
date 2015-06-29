@@ -472,10 +472,12 @@ public class Context extends Statement
 				return new CloseableIterator<Context>()
 				{
 					final Stack<CloseableIterator<Context>> stack;
+
 					{
 						stack = new Stack<CloseableIterator<Context>>();
 						stack.push(new TrivialCloseableIterable<>(Collections.singleton(Context.this)).iterator());
 					}
+
 					Context next = advance();
 
 					private Context advance()
@@ -1195,8 +1197,8 @@ public class Context extends Statement
 	 * @throws CantDeleteAssumptionException
 	 * @throws DependentUnpackedSignatureRequests
 	 */
-	public void deleteStatement(Transaction transaction, Statement statement) throws StatementNotInContextException, StatementHasDependentsException,
-			CantDeleteAssumptionException, DependentUnpackedSignatureRequests
+	public void deleteStatement(Transaction transaction, Statement statement)
+			throws StatementNotInContextException, StatementHasDependentsException, CantDeleteAssumptionException, DependentUnpackedSignatureRequests
 	{
 		if (statement instanceof Assumption)
 			throw new CantDeleteAssumptionException();
@@ -1290,8 +1292,8 @@ public class Context extends Statement
 		}
 	}
 
-	public void deleteStatements(Transaction transaction, CloseableCollection<? extends Statement> statements) throws StatementNotInContextException,
-			StatementHasDependentsException, CantDeleteAssumptionException, DependentUnpackedSignatureRequests
+	public void deleteStatements(Transaction transaction, CloseableCollection<? extends Statement> statements)
+			throws StatementNotInContextException, StatementHasDependentsException, CantDeleteAssumptionException, DependentUnpackedSignatureRequests
 	{
 		for (Statement st : new ReverseList<Statement>(new BufferedList<Statement>(dependencySortedStatements(transaction, statements))))
 			deleteStatement(transaction, st);
@@ -1352,10 +1354,12 @@ public class Context extends Statement
 				return new CloseableIterator<Statement>()
 				{
 					final Stack<CloseableIterator<Statement>> stack;
+
 					{
 						stack = new Stack<CloseableIterator<Statement>>();
 						stack.push(localStatements(transaction).values().iterator());
 					}
+
 					Statement next = advance();
 
 					private Statement advance()
@@ -2147,8 +2151,8 @@ public class Context extends Statement
 
 	public CloseableSet<StatementAuthority> descendantContextAuthoritiesByConsequent(final Transaction transaction, Term consequent)
 	{
-		return new FilteredCloseableSet<>(new NotNullFilter<StatementAuthority>(), new BijectionCloseableSet<Context, StatementAuthority>(
-				new Bijection<Context, StatementAuthority>()
+		return new FilteredCloseableSet<>(new NotNullFilter<StatementAuthority>(),
+				new BijectionCloseableSet<Context, StatementAuthority>(new Bijection<Context, StatementAuthority>()
 				{
 					@Override
 					public StatementAuthority forward(Context context)

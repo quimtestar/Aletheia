@@ -67,8 +67,8 @@ public class StatementAuthoritySubMessage implements Exportable
 
 		public LastSignatureSubMessage(StatementAuthoritySignature statementAuthoritySignature)
 		{
-			this(statementAuthoritySignature.getAuthorizerUuid(), statementAuthoritySignature.getSignatureDate(), statementAuthoritySignature
-					.getSignatureData());
+			this(statementAuthoritySignature.getAuthorizerUuid(), statementAuthoritySignature.getSignatureDate(),
+					statementAuthoritySignature.getSignatureData());
 		}
 
 		public UUID getAuthorizerUuid()

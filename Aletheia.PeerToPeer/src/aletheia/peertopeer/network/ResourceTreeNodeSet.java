@@ -200,8 +200,8 @@ public class ResourceTreeNodeSet
 			{
 				e = new UpEntry();
 				upEntries.put(networkPhase, e);
-				logger.trace("ResourceTreeNodeSet.ResourceTreeNode.updateUp() -> node: " + localRouterSet.getNodeUuid() + "     resource: "
-						+ resource.getUuid() + "      added: " + networkPhase.getPeerNodeUuid() + "    updateUp: " + updateUp);
+				logger.trace("ResourceTreeNodeSet.ResourceTreeNode.updateUp() -> node: " + localRouterSet.getNodeUuid() + "     resource: " + resource.getUuid()
+						+ "      added: " + networkPhase.getPeerNodeUuid() + "    updateUp: " + updateUp);
 				putPendingUpdateNextLocationAction();
 			}
 			if (updateUp instanceof Action.UpdateUp.Distance)

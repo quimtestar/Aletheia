@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
-public class CombinedCloseableIterator<E> extends CombinedIterator<E> implements CloseableIterator<E>
+public class CombinedCloseableIterator<E> extends CombinedIterator<E>implements CloseableIterator<E>
 {
 	public CombinedCloseableIterator(CloseableIterator<? extends E> frontIterator, CloseableIterator<? extends E> backIterator)
 	{

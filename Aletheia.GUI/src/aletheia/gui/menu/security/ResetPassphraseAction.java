@@ -40,13 +40,10 @@ public class ResetPassphraseAction extends AletheiaMenuAction
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		int option = JOptionPane
-				.showConfirmDialog(
-						getAletheiaJFrame(),
-						MiscUtilities
-								.wrapText(
-										"WARNING!\nAll the encrypted private keys (keeping only the public part) will be deleted in order to reset the passphrase and that information will be lost.\nDo this only if you have no way to recover the passphrase.\nAre you sure you want to continue?",
-										80));
+		int option = JOptionPane.showConfirmDialog(getAletheiaJFrame(),
+				MiscUtilities.wrapText(
+						"WARNING!\nAll the encrypted private keys (keeping only the public part) will be deleted in order to reset the passphrase and that information will be lost.\nDo this only if you have no way to recover the passphrase.\nAre you sure you want to continue?",
+						80));
 		if (JOptionPane.OK_OPTION == option)
 			try
 			{

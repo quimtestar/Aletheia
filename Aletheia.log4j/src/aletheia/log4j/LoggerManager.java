@@ -29,8 +29,8 @@ import org.apache.logging.log4j.core.LoggerContext;
  * Statically configures the Log4J library with a properties file named
  * "aletheia.log4j.properties" on the working directory.
  *
- * @see <a
- *      href="http://logging.apache.org/log4j/1.2/manual.html">http://logging.apache.org/log4j/1.2/manual.html</a>
+ * @see <a href="http://logging.apache.org/log4j/1.2/manual.html">http://logging
+ *      .apache.org/log4j/1.2/manual.html</a>
  *
  * @author Quim Testar
  */

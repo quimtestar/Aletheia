@@ -195,7 +195,7 @@ public class PreferencesDialog extends JDialog
 		}
 	}
 
-	private class InterfaceAddressComboBoxModel extends AbstractListModel<AddressComboBoxItem> implements ComboBoxModel<AddressComboBoxItem>
+	private class InterfaceAddressComboBoxModel extends AbstractListModel<AddressComboBoxItem>implements ComboBoxModel<AddressComboBoxItem>
 	{
 		private static final long serialVersionUID = 3749213544443833888L;
 		private final List<AddressComboBoxItem> itemList;
@@ -207,8 +207,8 @@ public class PreferencesDialog extends JDialog
 			List<AddressComboBoxItem> itemList_;
 			try
 			{
-				itemList_ = new BufferedList<>(new UnionCollection<>(new BijectionCollection<>(
-						new Bijection<NetworkInterface, Collection<AddressComboBoxItem>>()
+				itemList_ = new BufferedList<>(
+						new UnionCollection<>(new BijectionCollection<>(new Bijection<NetworkInterface, Collection<AddressComboBoxItem>>()
 						{
 
 							@Override
@@ -427,8 +427,8 @@ public class PreferencesDialog extends JDialog
 			}
 			this.interfaceAddressComboBoxModel = new InterfaceAddressComboBoxModel();
 			this.p2pExternalAddressComboBox = new JComboBox<AddressComboBoxItem>(interfaceAddressComboBoxModel);
-			this.p2pExternalAddressComboBox.setSelectedIndex(interfaceAddressComboBoxModel.indexOf(preferences.peerToPeerNode().femalePeerToPeerNode()
-					.getP2pExternalAddress()));
+			this.p2pExternalAddressComboBox
+					.setSelectedIndex(interfaceAddressComboBoxModel.indexOf(preferences.peerToPeerNode().femalePeerToPeerNode().getP2pExternalAddress()));
 			this.p2pExternalPortSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 65535, 1));
 			this.p2pExternalPortSpinner.setEditor(new JSpinner.NumberEditor(p2pExternalPortSpinner, "0"));
 			this.p2pExternalPortSpinner.setValue(preferences.peerToPeerNode().femalePeerToPeerNode().getP2pExternalPort());

@@ -32,7 +32,7 @@ import java.util.List;
  *
  * @author Quim Testar
  */
-public abstract class AbstractReadOnlyList<E> extends AbstractReadOnlyCollection<E> implements List<E>
+public abstract class AbstractReadOnlyList<E> extends AbstractReadOnlyCollection<E>implements List<E>
 {
 
 	@Override

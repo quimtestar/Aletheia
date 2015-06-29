@@ -5,4 +5,3 @@
  * @see aletheia.persistence.PersistenceManager
  */
 package aletheia.persistence.collections;
-

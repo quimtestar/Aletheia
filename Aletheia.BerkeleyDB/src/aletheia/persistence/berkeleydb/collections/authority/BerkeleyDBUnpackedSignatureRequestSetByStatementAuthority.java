@@ -29,8 +29,8 @@ import aletheia.persistence.collections.authority.UnpackedSignatureRequestSetByS
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityIndex;
 
-public class BerkeleyDBUnpackedSignatureRequestSetByStatementAuthority extends BerkeleyDBUnpackedSignatureRequestUUIDKeySet implements
-		UnpackedSignatureRequestSetByStatementAuthority
+public class BerkeleyDBUnpackedSignatureRequestSetByStatementAuthority extends BerkeleyDBUnpackedSignatureRequestUUIDKeySet
+		implements UnpackedSignatureRequestSetByStatementAuthority
 {
 
 	private static EntityIndex<UUIDKey, BerkeleyDBUnpackedSignatureRequestEntity> index(BerkeleyDBPersistenceManager persistenceManager,

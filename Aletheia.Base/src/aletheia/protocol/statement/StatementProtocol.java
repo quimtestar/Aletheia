@@ -62,30 +62,23 @@ import aletheia.utilities.collections.BufferedList;
  * {@link UUIDProtocol}.</li>
  * <li>The {@link UUID} of this {@link Statement} using the {@link UUIDProtocol}
  * .</li>
- * <li>If it's an {@link Assumption}:</li>
- * <blockquote>
- * <li>The order using the {@link IntegerProtocol}.</li>
- * </blockquote>
- * <li>If it's a {@link Context}:</li>
- * <blockquote>
+ * <li>If it's an {@link Assumption}:</li> <blockquote>
+ * <li>The order using the {@link IntegerProtocol}.</li> </blockquote>
+ * <li>If it's a {@link Context}:</li> <blockquote>
  * <li>The {@link Term} using the {@link TermProtocol}.</li>
  * <li>The number of {@link Assumption}s this context has using the
  * {@link IntegerProtocol}.</li>
  * <li>The {@link UUID}s of the {@link Assumption}s using the
  * {@link UUIDProtocol} (in the assumption order).</li>
- * <li>Moreover if it's an {@link UnfoldingContext}:</li>
- * <blockquote>
- * <li>The unfolding declaration {@link UUID} with the {@link UUIDProtocol}.</li>
- * </blockquote> </blockquote>
- * <li>If it's a {@link Declaration}:</li>
- * <blockquote>
- * <li>The value {@link Term} using the {@link TermProtocol}.</li>
- * </blockquote>
- * <li>If it's a {@link Specialization}:</li>
- * <blockquote>
+ * <li>Moreover if it's an {@link UnfoldingContext}:</li> <blockquote>
+ * <li>The unfolding declaration {@link UUID} with the {@link UUIDProtocol}.
+ * </li> </blockquote> </blockquote>
+ * <li>If it's a {@link Declaration}:</li> <blockquote>
+ * <li>The value {@link Term} using the {@link TermProtocol}.</li> </blockquote>
+ * <li>If it's a {@link Specialization}:</li> <blockquote>
  * <li>The general statement's {@link UUID} using the {@link UUIDProtocol}.</li>
- * <li>The instance {@link Term} using the {@link TermProtocol}.</li>
- * </blockquote>
+ * <li>The instance {@link Term} using the {@link TermProtocol}.
+ * </li> </blockquote>
  * </ul>
  */
 @ProtocolInfo(availableVersions = 0)

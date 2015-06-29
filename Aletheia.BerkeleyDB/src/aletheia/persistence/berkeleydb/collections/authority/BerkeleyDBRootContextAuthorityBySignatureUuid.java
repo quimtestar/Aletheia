@@ -38,8 +38,8 @@ import aletheia.utilities.collections.CloseableIterator;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBRootContextAuthorityBySignatureUuid extends AbstractCloseableMap<UUID, RootContextAuthority> implements
-		RootContextAuthorityBySignatureUuid
+public class BerkeleyDBRootContextAuthorityBySignatureUuid extends AbstractCloseableMap<UUID, RootContextAuthority>
+		implements RootContextAuthorityBySignatureUuid
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
@@ -166,6 +166,7 @@ public class BerkeleyDBRootContextAuthorityBySignatureUuid extends AbstractClose
 			return new CloseableIterator<Entry<UUID, RootContextAuthority>>()
 			{
 				BerkeleyDBRootContextAuthorityEntity next;
+
 				{
 					next = transaction.next(cursor);
 				}

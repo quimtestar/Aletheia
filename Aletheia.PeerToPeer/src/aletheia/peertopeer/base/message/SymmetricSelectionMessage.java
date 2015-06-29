@@ -45,8 +45,8 @@ public abstract class SymmetricSelectionMessage<C, E extends ExportableEnum<C, ?
 	}
 
 	@ProtocolInfo(availableVersions = 0)
-	public static abstract class SubProtocol<C, E extends ExportableEnum<C, ?>, M extends SymmetricSelectionMessage<C, E>> extends
-			NonPersistentMessage.SubProtocol<M>
+	public static abstract class SubProtocol<C, E extends ExportableEnum<C, ?>, M extends SymmetricSelectionMessage<C, E>>
+			extends NonPersistentMessage.SubProtocol<M>
 	{
 		protected final ExportableEnumProtocol<C, E> selectionProtocol;
 

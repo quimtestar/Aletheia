@@ -68,6 +68,7 @@ public class LexerParser extends Parser
 	//@formatter:on
 
 	private final static Automaton dotAutomaton;
+
 	static
 	{
 		Collection<Character> col = new ArrayList<Character>();

@@ -1377,15 +1377,15 @@ public abstract class PersistenceManager
 
 	public CloseableSet<SignatureRequest> signatureRequestSetByContextPath(Transaction transaction, UUID contextUuid)
 	{
-		CloseableSet<SignatureRequest> packedRequests = new AdaptedCloseableSet<SignatureRequest>(packedSignatureRequestSetByContextPath(transaction,
-				contextUuid));
+		CloseableSet<SignatureRequest> packedRequests = new AdaptedCloseableSet<SignatureRequest>(
+				packedSignatureRequestSetByContextPath(transaction, contextUuid));
 		Context context = getContext(transaction, contextUuid);
 		if (context == null)
 			return packedRequests;
 		else
 		{
-			CloseableSet<SignatureRequest> unpackedRequests = new AdaptedCloseableSet<SignatureRequest>(unpackedSignatureRequestSetByContextPath(transaction,
-					context));
+			CloseableSet<SignatureRequest> unpackedRequests = new AdaptedCloseableSet<SignatureRequest>(
+					unpackedSignatureRequestSetByContextPath(transaction, context));
 			return new CombinedCloseableSet<SignatureRequest>(packedRequests, unpackedRequests);
 		}
 	}
@@ -1395,7 +1395,8 @@ public abstract class PersistenceManager
 
 	public abstract SignatureRequestContextCreationDateCollection signatureRequestContextCreationDateCollection(Transaction transaction, UUID contextUuid);
 
-	public abstract SignatureRequestContextSubContextUuidsCollection signatureRequestContextSubContextUuidsCollection(Transaction transaction, UUID contextUuid);
+	public abstract SignatureRequestContextSubContextUuidsCollection signatureRequestContextSubContextUuidsCollection(Transaction transaction,
+			UUID contextUuid);
 
 	public abstract SignatureRequestContextSubContextUuidsCollection signatureRequestContextSubContextUuidsCollection(Transaction transaction);
 

@@ -49,8 +49,8 @@ public abstract class StatementSubPhase extends SubPhase
 	public void statementProofSubPhase(Class<? extends InitializeStatementProofDialog> initializeStatementProofDialogClass, Object... initargs)
 			throws IOException, ProtocolException, InterruptedException, DialogStreamException
 	{
-		Constructor<? extends InitializeStatementProofDialog> initializeStatementProofDialogConstructor = dialogConstructor(
-				initializeStatementProofDialogClass, initargs);
+		Constructor<? extends InitializeStatementProofDialog> initializeStatementProofDialogConstructor = dialogConstructor(initializeStatementProofDialogClass,
+				initargs);
 		StatementProofSubPhase statementProofSubPhase = new StatementProofSubPhase(this, initializeStatementProofDialogConstructor);
 		statementProofSubPhase.run();
 	}

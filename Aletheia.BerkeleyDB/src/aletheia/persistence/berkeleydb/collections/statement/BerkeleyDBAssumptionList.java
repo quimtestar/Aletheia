@@ -35,7 +35,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBAssumptionList extends AbstractList<Assumption> implements AssumptionList
+public class BerkeleyDBAssumptionList extends AbstractList<Assumption>implements AssumptionList
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final SecondaryIndex<UUIDKeyOrder, UUIDKey, BerkeleyDBAssumptionEntity> assumptionEntityKeyOrderIndex;

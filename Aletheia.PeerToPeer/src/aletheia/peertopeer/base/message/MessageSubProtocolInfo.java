@@ -30,5 +30,5 @@ import aletheia.peertopeer.base.protocol.MessageSubProtocol;
 @Target(ElementType.TYPE)
 public @interface MessageSubProtocolInfo
 {
-	Class<? extends MessageSubProtocol<? extends Message>> subProtocolClass();
+	Class<? extends MessageSubProtocol<? extends Message>>subProtocolClass();
 }

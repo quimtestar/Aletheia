@@ -199,8 +199,8 @@ public abstract class LoopSubPhase<T extends LoopDialogType<?>> extends SubPhase
 
 	}
 
-	protected <C extends Command<C>> Command<C>.Result commandResult(Command<C> command, ListenableAborter aborter) throws InterruptedException,
-			CancelledCommandException, AbortException
+	protected <C extends Command<C>> Command<C>.Result commandResult(Command<C> command, ListenableAborter aborter)
+			throws InterruptedException, CancelledCommandException, AbortException
 	{
 		Command<C> c = command(command);
 		Command<C>.Result r = c.waitForResult(aborter);
@@ -264,8 +264,8 @@ public abstract class LoopSubPhase<T extends LoopDialogType<?>> extends SubPhase
 		}
 	}
 
-	private LoopDialogTypeDialogActive<?> loopDialogTypeDialogActive(T loopDialogType) throws IOException, ProtocolException, InterruptedException,
-			DialogStreamException
+	private LoopDialogTypeDialogActive<?> loopDialogTypeDialogActive(T loopDialogType)
+			throws IOException, ProtocolException, InterruptedException, DialogStreamException
 	{
 		return dialog(loopDialogTypeDialogActiveClass, this, loopDialogType);
 	}

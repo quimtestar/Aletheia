@@ -122,8 +122,8 @@ public class Sign extends TransactionalCommand
 			return 1;
 		}
 
-		protected Sign makeSign(CliJPanel cliJPanel, Transaction transaction, Statement statement, StatementAuthority statementAuthority, PrivatePerson delegate)
-				throws CommandParseException
+		protected Sign makeSign(CliJPanel cliJPanel, Transaction transaction, Statement statement, StatementAuthority statementAuthority,
+				PrivatePerson delegate) throws CommandParseException
 		{
 			return new Sign(cliJPanel, transaction, statement, statementAuthority, delegate);
 		}

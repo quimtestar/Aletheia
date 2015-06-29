@@ -43,7 +43,7 @@ class DatabaseContentProtocol extends Protocol<Void>
 	@ExportableEnumInfo(availableVersions = 0)
 	private enum EntryType implements ByteExportableEnum<EntryType>
 	{
-		RECORD((byte) 0), END((byte) 1), ;
+		RECORD((byte) 0), END((byte) 1),;
 
 		private final byte code;
 

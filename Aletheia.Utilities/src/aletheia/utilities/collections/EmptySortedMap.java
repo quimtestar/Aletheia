@@ -31,7 +31,7 @@ import java.util.SortedMap;
  *
  * @author Quim Testar
  */
-public class EmptySortedMap<K, V> extends AbstractReadOnlySortedMap<K, V> implements SortedMap<K, V>
+public class EmptySortedMap<K, V> extends AbstractReadOnlySortedMap<K, V>implements SortedMap<K, V>
 {
 	private final Comparator<? super K> comparator;
 

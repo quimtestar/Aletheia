@@ -35,8 +35,8 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 import com.sleepycat.persist.SecondaryIndex;
 
-public abstract class BerkeleyDBAbstractStatementAuthoritySignatureSet<K> extends AbstractCloseableSet<StatementAuthoritySignature> implements
-		StatementAuthoritySignatureSet
+public abstract class BerkeleyDBAbstractStatementAuthoritySignatureSet<K> extends AbstractCloseableSet<StatementAuthoritySignature>
+		implements StatementAuthoritySignatureSet
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final SecondaryIndex<K, PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> secondaryIndex;
@@ -86,6 +86,7 @@ public abstract class BerkeleyDBAbstractStatementAuthoritySignatureSet<K> extend
 		return new CloseableIterator<StatementAuthoritySignature>()
 		{
 			BerkeleyDBStatementAuthoritySignatureEntity nextEntity;
+
 			{
 				nextEntity = transaction.first(cursor);
 				if (nextEntity == null)
