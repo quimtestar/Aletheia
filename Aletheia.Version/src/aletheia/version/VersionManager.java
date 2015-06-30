@@ -25,14 +25,19 @@ public class VersionManager
 	private VersionManager() throws IOException
 	{
 		InputStream is = ClassLoader.getSystemResourceAsStream("aletheia/version/version.txt");
-		try
+		if (is == null)
+			version = "*NULL*";
+		else
 		{
-			BufferedReader br = new BufferedReader(new InputStreamReader(is));
-			version = br.readLine();
-		}
-		finally
-		{
-			is.close();
+			try
+			{
+				BufferedReader br = new BufferedReader(new InputStreamReader(is));
+				version = br.readLine();
+			}
+			finally
+			{
+				is.close();
+			}
 		}
 	}
 
