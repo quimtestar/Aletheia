@@ -23,6 +23,9 @@
     <Console name="stdout" target="SYSTEM_OUT">
       <PatternLayout pattern="%d{ISO8601}{UTC} %d{zzz}{UTC} [%t] %-5p %c - %m%n"/>
     </Console>
+    <Console name="stderr" target="SYSTEM_ERR">
+      <PatternLayout pattern="%d{ISO8601}{UTC} %d{zzz}{UTC} [%t] %-5p %c - %m%n"/>
+    </Console>
 <!--
     <RollingFile name="file" fileName="aletheia.log" filePattern="aletheia.log.%i.gz" append="true">
       <PatternLayout pattern="%d{ISO8601}{UTC} %d{zzz}{UTC} [%t] %-5p %c - %m%n"/>
@@ -40,7 +43,7 @@
     <Logger name="aletheia" level="trace"/>
     <Root level="debug">
       <AppenderRef ref="file"/>
-      <AppenderRef ref="stdout"/>
+      <AppenderRef ref="stderr"/>
     </Root>
   </Loggers>
 </Configuration>

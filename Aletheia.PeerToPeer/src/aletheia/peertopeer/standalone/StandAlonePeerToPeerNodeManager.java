@@ -37,6 +37,8 @@ import aletheia.peertopeer.PeerToPeerNode.ConnectException;
 import aletheia.peertopeer.standalone.StandAlonePeerToPeerNodeSubscriptions.ConfigurationException;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
+import aletheia.utilities.CommandLineArguments;
+import aletheia.version.VersionManager;
 
 public class StandAlonePeerToPeerNodeManager
 {
@@ -167,8 +169,14 @@ public class StandAlonePeerToPeerNodeManager
 	{
 		try
 		{
-			LoggerManager.instance.setUncaughtExceptionHandler();
-			new StandAlonePeerToPeerNodeManager();
+			CommandLineArguments cla=new CommandLineArguments(args);
+			if (cla.getGlobalSwitches().containsKey("v"))
+				System.out.println(VersionManager.getVersion());
+			else
+			{
+				LoggerManager.instance.setUncaughtExceptionHandler();
+				new StandAlonePeerToPeerNodeManager();
+			}
 		}
 		catch (Exception e)
 		{
