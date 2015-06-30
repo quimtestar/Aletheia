@@ -23,11 +23,14 @@
     <Console name="STDOUT" target="SYSTEM_OUT">
       <PatternLayout pattern="%d{ISO8601}{UTC} %d{zzz}{UTC} [%t] %-5p %c - %m%n"/>
     </Console>
+    <Console name="STDERR" target="SYSTEM_ERR">
+      <PatternLayout pattern="%d{ISO8601}{UTC} %d{zzz}{UTC} [%t] %-5p %c - %m%n"/>
+    </Console>
   </Appenders>
   <Loggers>
     <Logger name="aletheia" level="info"/>
     <Root level="debug">
-      <AppenderRef ref="STDOUT"/>
+      <AppenderRef ref="STDERR"/>
     </Root>
   </Loggers>
 </Configuration>
