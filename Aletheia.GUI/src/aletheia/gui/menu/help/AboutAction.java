@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2015 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -40,7 +40,7 @@ public class AboutAction extends AletheiaMenuAction
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		String message = "Aletheia version " + VersionManager.getVersion();
+		String message = "Version " + VersionManager.getVersion();
 		JOptionPane.showMessageDialog(getAletheiaJFrame(), MiscUtilities.wrapText(message, 80), "About", JOptionPane.INFORMATION_MESSAGE);
 	}
 
