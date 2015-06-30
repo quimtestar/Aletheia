@@ -5,6 +5,7 @@
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. --><project basedir="." default="build" name="Aletheia.Version">
     <property environment="env"/>
+    <import file="build_version.xml"/>
     <property name="Aletheia.GUI.location" value="../Aletheia.GUI"/>
     <property name="Aletheia.log4j.location" value="../Aletheia.log4j"/>
     <property name="debuglevel" value="source,lines,vars"/>
@@ -22,15 +23,15 @@
             </fileset>
         </copy>
     </target>
-    <target name="clean">
+    <target name="clean" depends="clean_version">
         <delete dir="bin"/>
     </target>
     <target depends="clean" name="cleanall"/>
     <target depends="build-subprojects,build-project" name="build"/>
     <target name="build-subprojects"/>
-    <target depends="init" name="build-project">
+    <target depends="init,version" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
-        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+        <javac debug="${debug}" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
             <src path="src"/>
             <classpath refid="Aletheia.Version.classpath"/>
         </javac>
