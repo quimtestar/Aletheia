@@ -8,6 +8,7 @@
     <import file="build_version.xml"/>
     <property name="Aletheia.GUI.location" value="../Aletheia.GUI"/>
     <property name="Aletheia.log4j.location" value="../Aletheia.log4j"/>
+    <property name="debug" value="true"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.7"/>
     <property name="source" value="1.7"/>

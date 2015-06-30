@@ -70,6 +70,7 @@
         <path refid="Aletheia.Security.classpath"/>
         <path refid="Berkeley DB Library.userclasspath"/>
         <path refid="Aletheia.Protocol.classpath"/>
+        <path refid="Aletheia.Version.classpath"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>

@@ -13,6 +13,7 @@
     <property name="Aletheia.Utilities.location" value="../Aletheia.Utilities"/>
     <property name="Aletheia.log4j.location" value="../Aletheia.log4j"/>
     <property name="Aletheia.Version.location" value="../Aletheia.Version"/>
+    <property name="debug" value="true"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.7"/>
     <property name="source" value="1.7"/>
