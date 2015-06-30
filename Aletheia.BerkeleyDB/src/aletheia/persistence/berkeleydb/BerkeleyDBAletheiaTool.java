@@ -41,6 +41,7 @@ import aletheia.utilities.CommandLineArguments;
 import aletheia.utilities.CommandLineArguments.Option;
 import aletheia.utilities.CommandLineArguments.Parameter;
 import aletheia.utilities.CommandLineArguments.Switch;
+import aletheia.version.VersionManager;
 
 import com.sleepycat.persist.EntityStore;
 
@@ -427,6 +428,9 @@ public class BerkeleyDBAletheiaTool
 
 	public BerkeleyDBAletheiaTool(CommandLineArguments commandLineArguments) throws ArgumentsException
 	{
+		Map<String, Switch> globalSwitches = new HashMap<String, Switch>(commandLineArguments.getGlobalSwitches());
+		if (globalSwitches.remove("v") != null)
+			System.out.println(VersionManager.getVersion());
 		if (commandLineArguments.getParameters().isEmpty())
 		{
 			this.dbFile = null;
@@ -434,7 +438,6 @@ public class BerkeleyDBAletheiaTool
 		}
 		else
 		{
-			Map<String, Switch> globalSwitches = new HashMap<String, Switch>(commandLineArguments.getGlobalSwitches());
 			Switch swDbFile = globalSwitches.remove("dbFile");
 			if (swDbFile == null || !(swDbFile instanceof Option))
 				throw new ArgumentsException("Missing option dbFile");
