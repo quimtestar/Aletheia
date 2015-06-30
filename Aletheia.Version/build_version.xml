@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project basedir="." default="version" name="Aletheia.Version.version">
-	<property name="version.file" value="bin/aletheia/version/version.txt"/>	
-    <target name="version" depends="git.revision">
-    	<echo file="${version.file}" message="${repository.version}"/>
+	<property name="version.file" value="bin/aletheia/version/version.txt"/>
+	<available file="../.git" type="dir" property="git.present"/>
+    <target name="version" if="${git.present}" depends="git.revision">
+     	<echo file="${version.file}" message="${repository.version}"/>
     </target>
     <target name="clean_version">
         <delete file="${version.file}"/>
     </target>
-	
-	<available file="../.git" type="dir" property="git.present"/>
-
 	<target name="git.revision" description="Store git revision in ${repository.version}" if="git.present">
 	    <exec executable="git" outputproperty="git.revision" failifexecutionfails="false" errorproperty="">
 	        <arg value="describe"/>

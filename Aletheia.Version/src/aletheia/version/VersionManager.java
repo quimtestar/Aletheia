@@ -45,7 +45,7 @@ public class VersionManager
 	{
 		InputStream is = ClassLoader.getSystemResourceAsStream("aletheia/version/version.txt");
 		if (is == null)
-			version = "*NULL*";
+			version = "*UNKNOWN*";
 		else
 		{
 			try
