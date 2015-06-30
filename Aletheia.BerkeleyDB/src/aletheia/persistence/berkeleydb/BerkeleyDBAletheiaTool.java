@@ -27,7 +27,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -141,6 +140,17 @@ public class BerkeleyDBAletheiaTool
 		}
 
 		protected abstract void execute() throws ExecuteException;
+	}
+
+	private class VersionCommand extends Command
+	{
+
+		@Override
+		protected void execute() throws ExecuteException
+		{
+			System.out.println(VersionManager.getVersion());
+		}
+
 	}
 
 	private class LStoresCommand extends Command
@@ -413,8 +423,12 @@ public class BerkeleyDBAletheiaTool
 		@Override
 		protected void execute() throws ExecuteException
 		{
-			System.out.println(BerkeleyDBAletheiaTool.class.getName() + " --dbFile=<environment path> <command>...");
+			System.out.println(BerkeleyDBAletheiaTool.class.getName() + " [-v] --dbFile=<environment path> <command>...");
 			System.out.println();
+			System.out.println("Switches:");
+			System.out.println("\t-v: Show version number");
+			System.out.println("\t--dbFile: Berkeley DB path location");
+			System.out.println("");
 			System.out.println("Command list:");
 			System.out.println("\tlStores: list of entity stores in the environment");
 			System.out.println("\tdStore <store name>: deleting an entity store from the environment");
@@ -428,29 +442,35 @@ public class BerkeleyDBAletheiaTool
 
 	public BerkeleyDBAletheiaTool(CommandLineArguments commandLineArguments) throws ArgumentsException
 	{
+		this.commandList = new ArrayList<Command>();
 		Map<String, Switch> globalSwitches = new HashMap<String, Switch>(commandLineArguments.getGlobalSwitches());
 		if (globalSwitches.remove("v") != null)
-			System.out.println(VersionManager.getVersion());
-		if (commandLineArguments.getParameters().isEmpty())
 		{
-			this.dbFile = null;
-			this.commandList = Collections.<Command> singletonList(new CommandHelp());
+			dbFile = null;
+			commandList.add(new VersionCommand());
 		}
 		else
 		{
-			Switch swDbFile = globalSwitches.remove("dbFile");
-			if (swDbFile == null || !(swDbFile instanceof Option))
-				throw new ArgumentsException("Missing option dbFile");
-			String sDbFile = ((Option) swDbFile).getValue();
-			if (sDbFile == null)
-				throw new ArgumentsException("Missing option value dbFile");
-			this.dbFile = new File(sDbFile);
-			if (!globalSwitches.isEmpty())
-				throw new ArgumentsException("Unrecognized switches/options: " + globalSwitches.keySet());
-			Queue<Parameter> parameterQueue = new ArrayDeque<Parameter>(commandLineArguments.getParameters());
-			commandList = new ArrayList<Command>();
-			while (!parameterQueue.isEmpty())
-				commandList.add(createCommand(parameterQueue));
+			if (commandLineArguments.getParameters().isEmpty())
+			{
+				dbFile = null;
+				commandList.add(new CommandHelp());
+			}
+			else
+			{
+				Switch swDbFile = globalSwitches.remove("dbFile");
+				if (swDbFile == null || !(swDbFile instanceof Option))
+					throw new ArgumentsException("Missing option dbFile");
+				String sDbFile = ((Option) swDbFile).getValue();
+				if (sDbFile == null)
+					throw new ArgumentsException("Missing option value dbFile");
+				this.dbFile = new File(sDbFile);
+				if (!globalSwitches.isEmpty())
+					throw new ArgumentsException("Unrecognized switches/options: " + globalSwitches.keySet());
+				Queue<Parameter> parameterQueue = new ArrayDeque<Parameter>(commandLineArguments.getParameters());
+				while (!parameterQueue.isEmpty())
+					commandList.add(createCommand(parameterQueue));
+			}
 		}
 	}
 
