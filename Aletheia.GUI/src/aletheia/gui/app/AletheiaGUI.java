@@ -32,7 +32,9 @@ import org.apache.logging.log4j.Logger;
 import aletheia.gui.icons.IconManager;
 import aletheia.gui.lookandfeel.MyLookAndFeel;
 import aletheia.log4j.LoggerManager;
+import aletheia.utilities.CommandLineArguments;
 import aletheia.utilities.MiscUtilities;
+import aletheia.version.VersionManager;
 
 public class AletheiaGUI
 {
@@ -88,13 +90,19 @@ public class AletheiaGUI
 	{
 		try
 		{
-			Properties props = System.getProperties();
-			props.setProperty("awt.useSystemAAFontSettings", "on");
-			LoggerManager.instance.setUncaughtExceptionHandler();
-			LookAndFeel laf = new MyLookAndFeel();
-			UIManager.setLookAndFeel(laf);
-			AletheiaGUI aletheiaGUI = new AletheiaGUI();
-			aletheiaGUI.run();
+			CommandLineArguments cla = new CommandLineArguments(args);
+			if (cla.getGlobalSwitches().containsKey("v"))
+				System.out.println(VersionManager.getVersion());
+			else
+			{
+				Properties props = System.getProperties();
+				props.setProperty("awt.useSystemAAFontSettings", "on");
+				LoggerManager.instance.setUncaughtExceptionHandler();
+				LookAndFeel laf = new MyLookAndFeel();
+				UIManager.setLookAndFeel(laf);
+				AletheiaGUI aletheiaGUI = new AletheiaGUI();
+				aletheiaGUI.run();
+			}
 			System.exit(0);
 		}
 		catch (Exception e)
