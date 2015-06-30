@@ -90,6 +90,7 @@
         <delete dir="bin"/>
     </target>
     <target depends="clean" name="cleanall">
+        <ant antfile="build.xml" dir="${Aletheia.Version.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Aletheia.log4j.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Aletheia.Utilities.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Aletheia.Protocol.location}" inheritAll="false" target="clean"/>
@@ -100,6 +101,7 @@
     </target>
     <target depends="build-subprojects,build-project" name="build"/>
     <target name="build-subprojects">
+        <ant antfile="build.xml" dir="${Aletheia.Version.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.log4j.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.Utilities.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.Protocol.location}" inheritAll="false" target="build-project"/>
@@ -118,8 +120,6 @@
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects">
         <ant antfile="build.xml" dir="${Aletheia.GUI.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Aletheia.GUI.location}" inheritAll="false" target="build"/>
-        <ant antfile="build.xml" dir="${Aletheia.Test.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Aletheia.Test.location}" inheritAll="false" target="build"/>
     </target>
     <target name="StandAlonePeerToPeerNodeManager">
         <java classname="aletheia.peertopeer.standalone.StandAlonePeerToPeerNodeManager" failonerror="true" fork="yes">
