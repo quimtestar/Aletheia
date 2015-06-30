@@ -13,5 +13,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.PeerToPeer"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.GUI.Fonts"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.Protocol"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.Version"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

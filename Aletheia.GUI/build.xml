@@ -18,6 +18,7 @@
     <property name="Aletheia.BerkeleyDB.location" value="../Aletheia.BerkeleyDB"/>
     <property name="Aletheia.PeerToPeer.location" value="../Aletheia.PeerToPeer"/>
     <property name="Aletheia.PdfExport.location" value="../Aletheia.PdfExport"/>
+    <property name="Aletheia.Version.location" value="../Aletheia.Version"/>
     <property name="debug" value="true"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.7"/>
@@ -29,10 +30,14 @@
     <path id="Aletheia.log4j.classpath">
         <pathelement location="${Aletheia.log4j.location}/bin"/>
         <path refid="Log4j Library.userclasspath"/>
+    	<path refid="Aletheia.Version.classpath" />
     </path>
     <path id="Aletheia.Utilities.classpath">
         <pathelement location="${Aletheia.Utilities.location}/bin"/>
         <path refid="Aletheia.log4j.classpath"/>
+    </path>
+    <path id="Aletheia.Version.classpath">
+        <pathelement location="${Aletheia.Version.location}/bin"/>
     </path>
     <path id="Aletheia.ParserGenerator.classpath">
         <pathelement location="${Aletheia.ParserGenerator.location}/bin"/>
@@ -108,6 +113,7 @@
         <path refid="Aletheia.PeerToPeer.classpath"/>
         <path refid="Aletheia.GUI.Fonts.classpath"/>
         <path refid="Aletheia.Protocol.classpath"/>
+        <path refid="Aletheia.Version.classpath"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
@@ -123,7 +129,8 @@
     </target>
     <target depends="clean" name="cleanall">
         <ant antfile="build.xml" dir="${Aletheia.GUI.Fonts.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Aletheia.log4j.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.Version.location}" inheritAll="false" target="clean"/>
+    	<ant antfile="build.xml" dir="${Aletheia.log4j.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Aletheia.Utilities.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Aletheia.Protocol.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Aletheia.Security.location}" inheritAll="false" target="clean"/>
@@ -137,6 +144,7 @@
     <target depends="build-subprojects,build-project" name="build"/>
     <target name="build-subprojects">
         <ant antfile="build.xml" dir="${Aletheia.GUI.Fonts.location}" inheritAll="false" target="build-project"/>
+        <ant antfile="build.xml" dir="${Aletheia.Version.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.log4j.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.Utilities.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.Protocol.location}" inheritAll="false" target="build-project"/>
