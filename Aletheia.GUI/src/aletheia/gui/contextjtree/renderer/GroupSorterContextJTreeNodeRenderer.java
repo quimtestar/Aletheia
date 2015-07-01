@@ -20,18 +20,22 @@
 package aletheia.gui.contextjtree.renderer;
 
 import java.awt.CardLayout;
+import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.TransferHandler;
+import javax.swing.tree.TreePath;
 
 import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.contextjtree.ContextJTree;
+import aletheia.gui.contextjtree.node.GroupSorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.StatementContextJTreeNode;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
 import aletheia.gui.contextjtree.sorter.StatementGroupSorter;
@@ -46,6 +50,7 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 	private static final Logger logger = LoggerManager.instance.logger();
 
 	private final GroupSorter<? extends Statement> sorter;
+	private final TreePath path;
 
 	private class EditableSorterPrefixComponent extends EditableTextLabelComponent implements EditableComponent
 	{
@@ -95,17 +100,28 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 
 	}
 
-	private class ExpandedRenderer extends ContextJTreeNodeRenderer
+	private abstract class StateRenderer extends ContextJTreeNodeRenderer
+	{
+		private static final long serialVersionUID = 3924010304397882098L;
+
+		private StateRenderer(ContextJTree contextJTree)
+		{
+			super(contextJTree);
+		}
+
+	}
+
+	private class ExpandedRenderer extends StateRenderer
 	{
 		private static final long serialVersionUID = 7681227180403731319L;
 
 		private final EditableSorterPrefixComponent editableSorterPrefixComponent;
 
-		public ExpandedRenderer(ContextJTree contextJTree)
+		private ExpandedRenderer(ContextJTree contextJTree)
 		{
 			super(contextJTree);
 			addSpaceLabel(4);
-			addExpandedGroupSorterLabel();
+			makeGroupJLabelClickable(addExpandedGroupSorterLabel());
 			this.editableSorterPrefixComponent = new EditableSorterPrefixComponent();
 			addEditableComponent(editableSorterPrefixComponent);
 			add(editableSorterPrefixComponent);
@@ -118,7 +134,7 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 
 	}
 
-	private class CollapsedRenderer extends ContextJTreeNodeRenderer
+	private class CollapsedRenderer extends StateRenderer
 	{
 		private static final long serialVersionUID = -1379926465808260318L;
 
@@ -139,7 +155,7 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 			@Override
 			protected EditableSorterPrefixComponent addEditableTextLabelComponent()
 			{
-				addCollapsedGroupSorterLabel();
+				makeGroupJLabelClickable(addCollapsedGroupSorterLabel());
 				addEditableComponent(editableSorterPrefixComponent);
 				add(editableSorterPrefixComponent);
 				return editableSorterPrefixComponent;
@@ -147,7 +163,7 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 			}
 		}
 
-		public CollapsedRenderer(ContextJTree contextJTree)
+		private CollapsedRenderer(ContextJTree contextJTree)
 		{
 			super(contextJTree);
 			this.editableSorterPrefixComponent = new EditableSorterPrefixComponent();
@@ -166,7 +182,7 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 					this.statementContextJTreeNodeRenderer = null;
 					statementContextJTreeNode = null;
 					addSpaceLabel(4);
-					addCollapsedGroupSorterLabel();
+					makeGroupJLabelClickable(addCollapsedGroupSorterLabel());
 					addEditableComponent(editableSorterPrefixComponent);
 					add(editableSorterPrefixComponent);
 				}
@@ -278,10 +294,11 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 
 	}
 
-	public GroupSorterContextJTreeNodeRenderer(ContextJTree contextJTree, GroupSorter<? extends Statement> sorter, boolean expanded)
+	public GroupSorterContextJTreeNodeRenderer(ContextJTree contextJTree, GroupSorterContextJTreeNode<? extends Statement> node)
 	{
 		super(contextJTree);
-		this.sorter = sorter;
+		this.sorter = node.getSorter();
+		this.path = node.path();
 		this.layout = new CardLayout();
 		this.panel = new JPanel(this.layout);
 		this.expandedRenderer = new ExpandedRenderer(contextJTree);
@@ -289,7 +306,7 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 		this.collapsedRenderer = new CollapsedRenderer(contextJTree);
 		this.panel.add(this.collapsedRenderer, cardCollapsed);
 		add(this.panel);
-		setExpanded(expanded);
+		setExpanded(contextJTree.isExpanded(path));
 		Listener listener = new Listener();
 		addKeyListener(listener);
 		addMouseListener(listener);
@@ -335,6 +352,43 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 	private void deleteCascade() throws InterruptedException
 	{
 		getContextJTree().deleteSorterCascade(sorter);
+	}
+
+	private void makeGroupJLabelClickable(JLabel jLabel)
+	{
+		jLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		jLabel.addMouseListener(new MouseListener()
+		{
+
+			@Override
+			public void mouseClicked(MouseEvent e)
+			{
+				if (expanded)
+					getContextJTree().collapsePath(path);
+				else
+					getContextJTree().expandPath(path);
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e)
+			{
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e)
+			{
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e)
+			{
+			}
+		});
 	}
 
 }
