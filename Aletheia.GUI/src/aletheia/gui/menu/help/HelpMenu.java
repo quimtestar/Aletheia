@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2015 Quim Testar.
+ * Copyright (c) 2014 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -17,17 +17,28 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.menu.help;
 
-import aletheia.model.term.Term;
+import java.awt.event.KeyEvent;
 
-public class TermDataFlavor extends AletheiaDataFlavor
+import aletheia.gui.menu.AletheiaJMenu;
+import aletheia.gui.menu.AletheiaJMenuBar;
+import aletheia.gui.menu.AletheiaMenuItem;
+
+public class HelpMenu extends AletheiaJMenu
 {
-	public static final TermDataFlavor instance = new TermDataFlavor();
+	private static final long serialVersionUID = 4044192966631715966L;
+	private final AboutAction aboutAction;
 
-	private TermDataFlavor()
+	public HelpMenu(AletheiaJMenuBar aletheiaJMenuBar)
 	{
-		super(Term.class);
+		super(aletheiaJMenuBar, "Help", KeyEvent.VK_H);
+		this.aboutAction = new AboutAction(this);
+		this.add(new AletheiaMenuItem(aboutAction));
 	}
 
+	public AboutAction getAboutAction()
+	{
+		return aboutAction;
+	}
 }

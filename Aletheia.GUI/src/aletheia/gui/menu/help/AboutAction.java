@@ -17,17 +17,31 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.menu.help;
 
-import aletheia.model.term.Term;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
-public class TermDataFlavor extends AletheiaDataFlavor
+import javax.swing.JOptionPane;
+import aletheia.gui.menu.AletheiaMenuAction;
+import aletheia.utilities.MiscUtilities;
+import aletheia.version.VersionManager;
+
+public class AboutAction extends AletheiaMenuAction
 {
-	public static final TermDataFlavor instance = new TermDataFlavor();
 
-	private TermDataFlavor()
+	private static final long serialVersionUID = 1050749615916162321L;
+
+	public AboutAction(HelpMenu helpMenu)
 	{
-		super(Term.class);
+		super(helpMenu, "About", KeyEvent.VK_A);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		String message = "Version " + VersionManager.getVersion();
+		JOptionPane.showMessageDialog(getAletheiaJFrame(), MiscUtilities.wrapText(message, 80), "About", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 }

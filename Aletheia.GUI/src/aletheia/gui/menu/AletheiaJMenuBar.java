@@ -24,6 +24,7 @@ import javax.swing.JMenuBar;
 import aletheia.gui.app.AletheiaJFrame;
 import aletheia.gui.menu.configuration.ConfigurationMenu;
 import aletheia.gui.menu.data.DataMenu;
+import aletheia.gui.menu.help.HelpMenu;
 import aletheia.gui.menu.security.SecurityMenu;
 
 public class AletheiaJMenuBar extends JMenuBar
@@ -34,6 +35,7 @@ public class AletheiaJMenuBar extends JMenuBar
 	private final ConfigurationMenu configurationMenu;
 	private final SecurityMenu securityMenu;
 	private final DataMenu dataMenu;
+	private final HelpMenu helpMenu;
 
 	public AletheiaJMenuBar(AletheiaJFrame aletheiaJFrame)
 	{
@@ -45,6 +47,8 @@ public class AletheiaJMenuBar extends JMenuBar
 		this.add(securityMenu);
 		this.dataMenu = new DataMenu(this);
 		this.add(dataMenu);
+		this.helpMenu = new HelpMenu(this);
+		this.add(helpMenu);
 	}
 
 	public AletheiaJFrame getAletheiaJFrame()
@@ -65,6 +69,12 @@ public class AletheiaJMenuBar extends JMenuBar
 	public DataMenu getDataMenu()
 	{
 		return dataMenu;
+	}
+
+	@Override
+	public HelpMenu getHelpMenu()
+	{
+		return helpMenu;
 	}
 
 }

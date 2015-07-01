@@ -19,10 +19,12 @@
  ******************************************************************************/
 package aletheia.gui.contextjtree.renderer;
 
+import java.awt.Cursor;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+
 import javax.swing.JLabel;
 import javax.swing.TransferHandler;
 
@@ -181,7 +183,7 @@ public abstract class StatementContextJTreeNodeRenderer extends ContextJTreeNode
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
-				if (e.getClickCount() >= 2)
+				if (e.getClickCount() >= 1)
 				{
 					Transaction transaction = getContextJTree().getModel().beginTransaction();
 					try
@@ -260,6 +262,7 @@ public abstract class StatementContextJTreeNodeRenderer extends ContextJTreeNode
 			{
 			}
 		});
+		jLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		return jLabel;
 	}
 

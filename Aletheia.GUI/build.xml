@@ -5,9 +5,8 @@
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. --><project basedir="." default="build" name="Aletheia.GUI">
     <property environment="env"/>
-    <property name="Aletheia.Test.location" value="../Aletheia.Test"/>
-    <property name="Aletheia.Data" value="../Aletheia.Data"/>
     <property name="Aletheia.GUI.Fonts.location" value="../Aletheia.GUI.Fonts"/>
+    <property name="Aletheia.Version.location" value="../Aletheia.Version"/>
     <property name="Aletheia.log4j.location" value="../Aletheia.log4j"/>
     <property name="Aletheia.Utilities.location" value="../Aletheia.Utilities"/>
     <property name="Aletheia.Protocol.location" value="../Aletheia.Protocol"/>
@@ -15,10 +14,9 @@
     <property name="Aletheia.ParserGenerator.location" value="../Aletheia.ParserGenerator"/>
     <property name="Aletheia.Base.location" value="../Aletheia.Base"/>
     <property name="Aletheia.ProofFinder.location" value="../Aletheia.ProofFinder"/>
+    <property name="Aletheia.PdfExport.location" value="../Aletheia.PdfExport"/>
     <property name="Aletheia.BerkeleyDB.location" value="../Aletheia.BerkeleyDB"/>
     <property name="Aletheia.PeerToPeer.location" value="../Aletheia.PeerToPeer"/>
-    <property name="Aletheia.PdfExport.location" value="../Aletheia.PdfExport"/>
-    <property name="debug" value="true"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.7"/>
     <property name="source" value="1.7"/>
@@ -26,9 +24,13 @@
         <pathelement location="${Aletheia.log4j.location}/log4j-api-2.3.jar"/>
         <pathelement location="${Aletheia.log4j.location}/log4j-core-2.3.jar"/>
     </path>
+    <path id="Aletheia.Version.classpath">
+        <pathelement location="${Aletheia.Version.location}/bin"/>
+    </path>
     <path id="Aletheia.log4j.classpath">
         <pathelement location="${Aletheia.log4j.location}/bin"/>
         <path refid="Log4j Library.userclasspath"/>
+        <path refid="Aletheia.Version.classpath"/>
     </path>
     <path id="Aletheia.Utilities.classpath">
         <pathelement location="${Aletheia.Utilities.location}/bin"/>
@@ -64,8 +66,8 @@
         <path refid="Aletheia.log4j.classpath"/>
         <path refid="Aletheia.Utilities.classpath"/>
         <path refid="Aletheia.Security.classpath"/>
-        <path refid="Berkeley DB Library.userclasspath"/>
         <path refid="Aletheia.Protocol.classpath"/>
+        <path refid="Berkeley DB Library.userclasspath"/>
     </path>
     <path id="ItextPdf Library.userclasspath">
         <pathelement location="${Aletheia.PdfExport.location}/itextpdf-5.5.6.jar"/>
@@ -74,7 +76,6 @@
         <pathelement location="${Aletheia.PdfExport.location}/bin"/>
         <path refid="ItextPdf Library.userclasspath"/>
         <path refid="Aletheia.Base.classpath"/>
-        <path refid="Aletheia.BerkeleyDB.classpath"/>
         <path refid="Aletheia.Utilities.classpath"/>
     </path>
     <path id="Aletheia.ProofFinder.classpath">
@@ -108,6 +109,7 @@
         <path refid="Aletheia.PeerToPeer.classpath"/>
         <path refid="Aletheia.GUI.Fonts.classpath"/>
         <path refid="Aletheia.Protocol.classpath"/>
+        <path refid="Aletheia.Version.classpath"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
@@ -123,6 +125,7 @@
     </target>
     <target depends="clean" name="cleanall">
         <ant antfile="build.xml" dir="${Aletheia.GUI.Fonts.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.Version.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Aletheia.log4j.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Aletheia.Utilities.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Aletheia.Protocol.location}" inheritAll="false" target="clean"/>
@@ -130,13 +133,14 @@
         <ant antfile="build.xml" dir="${Aletheia.ParserGenerator.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Aletheia.Base.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Aletheia.ProofFinder.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.PdfExport.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Aletheia.BerkeleyDB.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Aletheia.PeerToPeer.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Aletheia.PdfExport.location}" inheritAll="false" target="clean"/>
     </target>
     <target depends="build-subprojects,build-project" name="build"/>
     <target name="build-subprojects">
         <ant antfile="build.xml" dir="${Aletheia.GUI.Fonts.location}" inheritAll="false" target="build-project"/>
+        <ant antfile="build.xml" dir="${Aletheia.Version.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.log4j.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.Utilities.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.Protocol.location}" inheritAll="false" target="build-project"/>
@@ -144,9 +148,9 @@
         <ant antfile="build.xml" dir="${Aletheia.ParserGenerator.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.Base.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.ProofFinder.location}" inheritAll="false" target="build-project"/>
+        <ant antfile="build.xml" dir="${Aletheia.PdfExport.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.BerkeleyDB.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.PeerToPeer.location}" inheritAll="false" target="build-project"/>
-        <ant antfile="build.xml" dir="${Aletheia.PdfExport.location}" inheritAll="false" target="build-project"/>
     </target>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>

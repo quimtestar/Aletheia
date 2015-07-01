@@ -12,6 +12,7 @@
     <property name="Aletheia.ProofFinder.location" value="../Aletheia.ProofFinder"/>
     <property name="Aletheia.Utilities.location" value="../Aletheia.Utilities"/>
     <property name="Aletheia.log4j.location" value="../Aletheia.log4j"/>
+    <property name="Aletheia.Version.location" value="../Aletheia.Version"/>
     <property name="debug" value="true"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.7"/>
@@ -23,6 +24,10 @@
     <path id="Aletheia.log4j.classpath">
         <pathelement location="bin"/>
         <path refid="Log4j Library.userclasspath"/>
+        <path refid="Aletheia.Version.classpath"/>
+    </path>
+    <path id="Aletheia.Version.classpath">
+    	<pathelement location="${Aletheia.Version.location}/bin"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
@@ -36,9 +41,13 @@
     <target name="clean">
         <delete dir="bin"/>
     </target>
-    <target depends="clean" name="cleanall"/>
+    <target depends="clean" name="cleanall">
+        <ant antfile="build.xml" dir="${Aletheia.Version.location}" inheritAll="false" target="clean"/>
+    </target>
     <target depends="build-subprojects,build-project" name="build"/>
-    <target name="build-subprojects"/>
+    <target name="build-subprojects">
+        <ant antfile="build.xml" dir="${Aletheia.Version.location}" inheritAll="false" target="build-project"/>
+    </target>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="${debug}" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">

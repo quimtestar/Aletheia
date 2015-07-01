@@ -22,6 +22,7 @@ package aletheia.gui.common;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.Toolkit;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -154,6 +155,7 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 				addMouseListener(new MyMouseListener());
 				addHierarchyListener(new MyHierarchyListener());
 			}
+			setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		}
 
 		private Color labelDefaultColor()

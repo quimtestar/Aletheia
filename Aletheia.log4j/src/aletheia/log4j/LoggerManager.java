@@ -24,6 +24,7 @@ import java.util.Properties;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
+import aletheia.version.VersionManager;
 
 /**
  * Statically configures the Log4J library with a properties file named
@@ -64,6 +65,11 @@ public class LoggerManager
 	}
 
 	private final static Logger logger = instance.logger();
+
+	static
+	{
+		logger.info("LOG START for Aletheia version " + VersionManager.getVersion());
+	}
 
 	/**
 	 * Configures an {@link UncaughtExceptionHandler} that logs a fatal error

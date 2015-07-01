@@ -17,17 +17,52 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.version;
 
-import aletheia.model.term.Term;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
-public class TermDataFlavor extends AletheiaDataFlavor
+public class VersionManager
 {
-	public static final TermDataFlavor instance = new TermDataFlavor();
-
-	private TermDataFlavor()
+	private final static VersionManager instance;
+	static
 	{
-		super(Term.class);
+		try
+		{
+			instance = new VersionManager();
+		}
+		catch (IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+	private final String version;
+
+	private VersionManager() throws IOException
+	{
+		InputStream is = ClassLoader.getSystemResourceAsStream("aletheia/version/version.txt");
+		if (is == null)
+			version = "*UNKNOWN*";
+		else
+		{
+			try
+			{
+				BufferedReader br = new BufferedReader(new InputStreamReader(is));
+				version = br.readLine();
+			}
+			finally
+			{
+				is.close();
+			}
+		}
+	}
+
+	public static String getVersion()
+	{
+		return instance.version;
 	}
 
 }
