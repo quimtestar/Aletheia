@@ -169,7 +169,7 @@ public class StandAlonePeerToPeerNodeManager
 	{
 		try
 		{
-			CommandLineArguments cla=new CommandLineArguments(args);
+			CommandLineArguments cla = new CommandLineArguments(args);
 			if (cla.getGlobalSwitches().containsKey("v"))
 				System.out.println(VersionManager.getVersion());
 			else
