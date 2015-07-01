@@ -27,6 +27,7 @@ import java.io.InputStreamReader;
 public class VersionManager
 {
 	private final static VersionManager instance;
+
 	static
 	{
 		try
