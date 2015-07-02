@@ -183,7 +183,7 @@ public abstract class StatementContextJTreeNodeRenderer extends ContextJTreeNode
 			@Override
 			public void mouseClicked(MouseEvent e)
 			{
-				if (e.getClickCount() >= 1)
+				if (e.getClickCount() >= 2)
 				{
 					Transaction transaction = getContextJTree().getModel().beginTransaction();
 					try
