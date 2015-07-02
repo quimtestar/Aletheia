@@ -78,6 +78,7 @@ import aletheia.gui.contextjtree.sorter.StatementGroupSorter;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
+import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.local.ContextLocal;
 import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
@@ -644,7 +645,12 @@ public class ContextJTree extends PersistentJTree
 					suffix = id;
 				Identifier newId;
 				if (suffix != null)
-					newId = newPrefix.concat(suffix).asIdentifier();
+					if (newPrefix != null)
+						newId = newPrefix.concat(suffix).asIdentifier();
+					else if (suffix instanceof NodeNamespace)
+						newId = ((NodeNamespace) suffix).asIdentifier();
+					else
+						newId = null;
 				else
 					newId = newPrefix;
 				if ((id == null && newId != null) || (id != null && newId == null) || (id != null && newId != null && !id.equals(newId)))
