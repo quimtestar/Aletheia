@@ -21,6 +21,8 @@ package aletheia.utilities.gui;
 
 import java.awt.Component;
 import java.awt.Graphics;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JSplitPane;
@@ -70,10 +72,19 @@ public class MyJSplitPane extends JSplitPane
 
 	private synchronized void updateProportionalLocationWhenValid()
 	{
-		if (setProportionalLocationWhenValid && isValid() && getParent() != null && getParent().isValid())
+		if (setProportionalLocationWhenValid && isValid() && getParent() != null && getParent().isValid() && getParent().isVisible())
 		{
-			setDividerLocationOrExpand(proportionalLocationWhenValid);
-			setLastDividerLocation(getDividerLocation());
+			// For unknown reasons, without this delay it doesn't work properly sometimes
+			Timer timer = new Timer();
+			timer.schedule(new TimerTask()
+			{
+				@Override
+				public void run()
+				{
+					setDividerLocationOrExpand(proportionalLocationWhenValid);
+					setLastDividerLocation(getDividerLocation());
+				}
+			}, 10);
 			setProportionalLocationWhenValid = false;
 		}
 	}
