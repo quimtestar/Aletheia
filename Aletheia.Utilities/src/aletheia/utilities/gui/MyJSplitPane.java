@@ -29,7 +29,7 @@ import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 /**
- * A extension of the JSplitPane with the capability of setting de divider
+ * An extension of the JSplitPane with the capability of setting de divider
  * position even if the container is not valid. The desired position is saved to
  * use when we get validated.
  *
