@@ -1123,18 +1123,24 @@ public class ContextJTreeModel extends PersistentTreeModel
 				@Override
 				public void run()
 				{
-					if (statement == null)
+					try
 					{
-						contextJTree.clearSelection();
+						if (statement == null)
+						{
+							contextJTree.clearSelection();
+						}
+						else
+						{
+							contextJTree.expandStatement(statement);
+							contextJTree.selectStatement(statement, false);
+							contextJTree.scrollToVisible(statement);
+						}
 					}
-					else
+					catch (PersistenceLockTimeoutException e)
 					{
-						contextJTree.expandStatement(statement);
-						contextJTree.selectStatement(statement, false);
-						contextJTree.scrollToVisible(statement);
+						logger.error(e.getMessage(), e);
 					}
 				}
-
 			});
 		}
 
@@ -1236,7 +1242,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 		}
 	}
 
-	private boolean nodeStructureChanged(GroupSorterContextJTreeNode<? extends Statement> node)
+	private boolean nodeStructureChanged(final GroupSorterContextJTreeNode<? extends Statement> node)
 	{
 		node.cleanRenderer();
 		ListChanges<Sorter> changes = node.changeSorterList();
@@ -1296,6 +1302,14 @@ public class ContextJTreeModel extends PersistentTreeModel
 								}
 								catch (PersistenceLockTimeoutException e)
 								{
+									//TODO Sospito que aquí s'origina el problema de l'estat dels grups.
+									// esborrar recursivament els descendents?
+									/*
+									List<Sorter> sorterList=node.getSorterList();
+									if (sorterList!=null)
+										for (Sorter sorter:sorterList)
+											nodeMapRemoveRecursive(sorter);
+									*/
 									persistenceLockTimeoutSwingInvokeLaterTreeStructureChanged(l, eStructure);
 								}
 							}
@@ -1307,6 +1321,28 @@ public class ContextJTreeModel extends PersistentTreeModel
 			}
 		}
 		return false;
+	}
+
+	//TODO
+	public void cleanPath(TreePath path)
+	{
+		final TreeModelEvent e = new TreeModelEvent(this, path);
+		SwingUtilities.invokeLater(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				synchronized (getListeners())
+				{
+					for (TreeModelListener l : getListeners())
+					{
+						l.treeStructureChanged(e);
+					}
+				}
+			}
+
+		});
+
 	}
 
 }
