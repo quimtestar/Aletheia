@@ -98,24 +98,26 @@ public abstract class PersistentTreeModel implements TreeModel
 			{
 				try
 				{
-					method.invoke(object, args);
+					try
+					{
+						method.invoke(object, args);
+					}
+					catch (InvocationTargetException e)
+					{
+						throw e.getCause();
+					}
 				}
 				catch (PersistenceLockTimeoutException e)
 				{
 					logger.debug("PersistenceLockTimeoutException. Re-invokeLatering method: " + method);
 					SwingUtilities.invokeLater(this);
 				}
-				catch (IllegalAccessException | IllegalArgumentException e)
+				catch (Throwable e)
 				{
 					throw new RuntimeException(e);
 				}
-				catch (InvocationTargetException e)
-				{
-					logger.error(e.getCause().getMessage(), e.getCause());
-				}
 			}
 		}.run();
-
 	}
 
 	private final static Method treeNodesChangedMethod;
