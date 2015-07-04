@@ -87,6 +87,8 @@ import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
+import aletheia.utilities.MemoryUsageMonitor;
+import aletheia.utilities.MemoryUsageMonitor.MemoryUsageMonitorException;
 import aletheia.utilities.collections.BufferedList;
 
 public class ContextJTree extends PersistentJTree
@@ -458,6 +460,8 @@ public class ContextJTree extends PersistentJTree
 
 	}
 
+	private final MemoryUsageMonitor memoryUsageMonitor;
+
 	public ContextJTree(AletheiaJPanel aletheiaJPanel)
 	{
 		super(new ContextJTreeModel(aletheiaJPanel.getPersistenceManager()));
@@ -478,6 +482,7 @@ public class ContextJTree extends PersistentJTree
 		this.setRootVisible(false);
 		this.setShowsRootHandles(true);
 		this.addTreeExpansionListener(new MyTreeExpansionListener());
+		this.memoryUsageMonitor = makeMemoryUsageMonitor();
 	}
 
 	public class TreeModelListener extends TreeModelHandler
@@ -568,6 +573,8 @@ public class ContextJTree extends PersistentJTree
 				}
 			}
 			super.treeStructureChanged(e);
+			if ((selPath != null) && (e.getTreePath().equals(selPath)))
+				getSelectionModel().setSelectionPath(selPath);
 		}
 
 	}
@@ -913,6 +920,8 @@ public class ContextJTree extends PersistentJTree
 
 	public void close() throws InterruptedException
 	{
+		if (memoryUsageMonitor != null)
+			memoryUsageMonitor.shutdown();
 		getModel().shutdown();
 	}
 
@@ -955,6 +964,36 @@ public class ContextJTree extends PersistentJTree
 			}
 		}
 
+	}
+
+	private MemoryUsageMonitor makeMemoryUsageMonitor()
+	{
+		try
+		{
+			MemoryUsageMonitor mum = new MemoryUsageMonitor(0.8f);
+			mum.addListener(new MemoryUsageMonitor.Listener()
+			{
+
+				long lastReached = 0;
+
+				@Override
+				public void thresholdReached(float usage)
+				{
+					long t = System.currentTimeMillis();
+					if (t - lastReached > 5 * 60 * 1000)
+					{
+						logger.warn("Resetting collapsed subtrees (memory usage threshold reached: " + usage + ")");
+						lastReached = t;
+						resetCollapsedSubtrees();
+					}
+				}
+			});
+			return mum;
+		}
+		catch (MemoryUsageMonitorException e)
+		{
+			return null;
+		}
 	}
 
 }
