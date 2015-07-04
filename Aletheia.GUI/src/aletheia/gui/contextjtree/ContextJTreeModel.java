@@ -1324,7 +1324,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 		return false;
 	}
 
-	public void cleanPath(final GroupSorterContextJTreeNode<?> node)
+	public void resetSubtree(final GroupSorterContextJTreeNode<?> node)
 	{
 		final TreeModelEvent e = new TreeModelEvent(this, node.path());
 		SwingUtilities.invokeLater(new Runnable()

@@ -934,4 +934,27 @@ public class ContextJTree extends PersistentJTree
 		}
 	}
 
+	public void resetCollapsedSubtrees()
+	{
+		Stack<GroupSorterContextJTreeNode<?>> stack = new Stack<GroupSorterContextJTreeNode<?>>();
+		stack.push(getModel().getRoot());
+		while (!stack.isEmpty())
+		{
+			GroupSorterContextJTreeNode<?> node = stack.pop();
+			for (ContextJTreeNode n : node.childrenIterable())
+			{
+				if (n instanceof GroupSorterContextJTreeNode<?>)
+				{
+					GroupSorterContextJTreeNode<?> gn = (GroupSorterContextJTreeNode<?>) n;
+					TreePath path = gn.path();
+					if (isExpanded(path) || path.equals(getSelectionPath()))
+						stack.push(gn);
+					else
+						getModel().resetSubtree(gn);
+				}
+			}
+		}
+
+	}
+
 }
