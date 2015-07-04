@@ -1123,18 +1123,24 @@ public class ContextJTreeModel extends PersistentTreeModel
 				@Override
 				public void run()
 				{
-					if (statement == null)
+					try
 					{
-						contextJTree.clearSelection();
+						if (statement == null)
+						{
+							contextJTree.clearSelection();
+						}
+						else
+						{
+							contextJTree.expandStatement(statement);
+							contextJTree.selectStatement(statement, false);
+							contextJTree.scrollToVisible(statement);
+						}
 					}
-					else
+					catch (PersistenceLockTimeoutException e)
 					{
-						contextJTree.expandStatement(statement);
-						contextJTree.selectStatement(statement, false);
-						contextJTree.scrollToVisible(statement);
+						logger.error(e.getMessage(), e);
 					}
 				}
-
 			});
 		}
 
@@ -1236,7 +1242,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 		}
 	}
 
-	private boolean nodeStructureChanged(GroupSorterContextJTreeNode<? extends Statement> node)
+	private boolean nodeStructureChanged(final GroupSorterContextJTreeNode<? extends Statement> node)
 	{
 		node.cleanRenderer();
 		ListChanges<Sorter> changes = node.changeSorterList();
@@ -1283,23 +1289,32 @@ public class ContextJTreeModel extends PersistentTreeModel
 					@Override
 					public void run()
 					{
-						synchronized (getListeners())
+						try
 						{
-							for (TreeModelListener l : getListeners())
+							synchronized (getListeners())
 							{
-								try
+								for (TreeModelListener l : getListeners())
 								{
 									if (eRemoves != null)
 										l.treeNodesRemoved(eRemoves);
 									if (eInserts != null)
 										l.treeNodesInserted(eInserts);
 								}
-								catch (PersistenceLockTimeoutException e)
-								{
-									persistenceLockTimeoutSwingInvokeLaterTreeStructureChanged(l, eStructure);
-								}
 							}
 						}
+						catch (PersistenceLockTimeoutException e)
+						{
+							List<Sorter> sorterList = node.getSorterList();
+							if (sorterList != null)
+								for (Sorter sorter : sorterList)
+									nodeMapRemoveRecursive(sorter);
+							synchronized (getListeners())
+							{
+								for (TreeModelListener l : getListeners())
+									persistenceLockTimeoutSwingInvokeLaterTreeStructureChanged(l, eStructure);
+							}
+						}
+
 					}
 
 				});
@@ -1307,6 +1322,29 @@ public class ContextJTreeModel extends PersistentTreeModel
 			}
 		}
 		return false;
+	}
+
+	public void cleanPath(final GroupSorterContextJTreeNode<?> node)
+	{
+		final TreeModelEvent e = new TreeModelEvent(this, node.path());
+		SwingUtilities.invokeLater(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				List<Sorter> sorterList = node.getSorterList();
+				if (sorterList != null)
+					for (Sorter sorter : sorterList)
+						nodeMapRemoveRecursive(sorter);
+				synchronized (getListeners())
+				{
+					for (TreeModelListener l : getListeners())
+						l.treeStructureChanged(e);
+				}
+			}
+
+		});
+
 	}
 
 }
