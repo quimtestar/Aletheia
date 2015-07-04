@@ -454,8 +454,6 @@ public class ContextJTree extends PersistentJTree
 		public void treeCollapsed(TreeExpansionEvent event)
 		{
 			stateUpdate(event.getPath());
-
-			//			getModel().cleanPath(event.getPath());
 		}
 
 	}

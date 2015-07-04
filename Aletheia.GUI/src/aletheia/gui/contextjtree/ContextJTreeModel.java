@@ -1289,31 +1289,32 @@ public class ContextJTreeModel extends PersistentTreeModel
 					@Override
 					public void run()
 					{
-						synchronized (getListeners())
+						try
 						{
-							for (TreeModelListener l : getListeners())
+							synchronized (getListeners())
 							{
-								try
+								for (TreeModelListener l : getListeners())
 								{
 									if (eRemoves != null)
 										l.treeNodesRemoved(eRemoves);
 									if (eInserts != null)
 										l.treeNodesInserted(eInserts);
 								}
-								catch (PersistenceLockTimeoutException e)
-								{
-									//TODO Sospito que aquí s'origina el problema de l'estat dels grups.
-									// esborrar recursivament els descendents?
-									/*
-									List<Sorter> sorterList=node.getSorterList();
-									if (sorterList!=null)
-										for (Sorter sorter:sorterList)
-											nodeMapRemoveRecursive(sorter);
-									*/
-									persistenceLockTimeoutSwingInvokeLaterTreeStructureChanged(l, eStructure);
-								}
 							}
 						}
+						catch (PersistenceLockTimeoutException e)
+						{
+							List<Sorter> sorterList = node.getSorterList();
+							if (sorterList != null)
+								for (Sorter sorter : sorterList)
+									nodeMapRemoveRecursive(sorter);
+							synchronized (getListeners())
+							{
+								for (TreeModelListener l : getListeners())
+									persistenceLockTimeoutSwingInvokeLaterTreeStructureChanged(l, eStructure);
+							}
+						}
+
 					}
 
 				});
@@ -1323,21 +1324,22 @@ public class ContextJTreeModel extends PersistentTreeModel
 		return false;
 	}
 
-	//TODO
-	public void cleanPath(TreePath path)
+	public void cleanPath(final GroupSorterContextJTreeNode<?> node)
 	{
-		final TreeModelEvent e = new TreeModelEvent(this, path);
+		final TreeModelEvent e = new TreeModelEvent(this, node.path());
 		SwingUtilities.invokeLater(new Runnable()
 		{
 			@Override
 			public void run()
 			{
+				List<Sorter> sorterList = node.getSorterList();
+				if (sorterList != null)
+					for (Sorter sorter : sorterList)
+						nodeMapRemoveRecursive(sorter);
 				synchronized (getListeners())
 				{
 					for (TreeModelListener l : getListeners())
-					{
 						l.treeStructureChanged(e);
-					}
 				}
 			}
 
