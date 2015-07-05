@@ -149,12 +149,116 @@ public class AletheiaTermParser extends Parser
 		return parseTerm(null, null, input);
 	}
 
+	private static abstract class ParameterRef
+	{
+
+		@Override
+		public int hashCode()
+		{
+			return 1;
+		}
+
+		@Override
+		public boolean equals(Object obj)
+		{
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			return true;
+		}
+
+	}
+
+	private static class IdentifierParameterRef extends ParameterRef
+	{
+		private final Identifier identifier;
+
+		private IdentifierParameterRef(Identifier identifier)
+		{
+			super();
+			this.identifier = identifier;
+		}
+
+		@Override
+		public int hashCode()
+		{
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + ((identifier == null) ? 0 : identifier.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj)
+		{
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			IdentifierParameterRef other = (IdentifierParameterRef) obj;
+			if (identifier == null)
+			{
+				if (other.identifier != null)
+					return false;
+			}
+			else if (!identifier.equals(other.identifier))
+				return false;
+			return true;
+		}
+	}
+
+	private static class NumberedParameterRef extends ParameterRef
+	{
+		private final String atParam;
+
+		private NumberedParameterRef(String atParam)
+		{
+			super();
+			this.atParam = atParam;
+		}
+
+		@Override
+		public int hashCode()
+		{
+			final int prime = 31;
+			int result = super.hashCode();
+			result = prime * result + ((atParam == null) ? 0 : atParam.hashCode());
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj)
+		{
+			if (this == obj)
+				return true;
+			if (!super.equals(obj))
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			NumberedParameterRef other = (NumberedParameterRef) obj;
+			if (atParam == null)
+			{
+				if (other.atParam != null)
+					return false;
+			}
+			else if (!atParam.equals(other.atParam))
+				return false;
+			return true;
+		}
+
+	}
+
 	private Term parse(Context context, Transaction transaction, String input) throws TermParserException
 	{
 		try
 		{
 			NonTerminalToken token = parseToken(new AutomatonSetLexer(automatonSet, new StringReader(input)));
-			Map<Identifier, ParameterVariableTerm> localVariables = new HashMap<Identifier, ParameterVariableTerm>();
+			Map<ParameterRef, ParameterVariableTerm> localVariables = new HashMap<ParameterRef, ParameterVariableTerm>();
 			return processTerm(context, transaction, localVariables, token, input);
 		}
 		catch (ParserLexerException e)
@@ -163,7 +267,7 @@ public class AletheiaTermParser extends Parser
 		}
 	}
 
-	private Term processTerm(Context context, Transaction transaction, Map<Identifier, ParameterVariableTerm> localVariables, NonTerminalToken token,
+	private Term processTerm(Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> localVariables, NonTerminalToken token,
 			String input) throws TermParserException
 	{
 		if (token.getProduction().getLeft().equals(taggedNonTerminalSymbols.get("T")))
@@ -197,7 +301,7 @@ public class AletheiaTermParser extends Parser
 				else if (token.getProduction().getRight().get(0).equals(taggedNonTerminalSymbols.get("I")))
 				{
 					Identifier identifier = processIdentifier((NonTerminalToken) token.getChildren().get(0), input);
-					VariableTerm variable = localVariables.get(identifier);
+					VariableTerm variable = localVariables.get(new IdentifierParameterRef(identifier));
 					if (variable == null && context != null && transaction != null)
 					{
 						Statement statement = context.identifierToStatement(transaction).get(identifier);
@@ -207,6 +311,15 @@ public class AletheiaTermParser extends Parser
 					if (variable == null)
 						throw new TermParserException("Identifier:" + "'" + identifier + "'" + " not defined", token.getChildren().get(0).getStartLocation(),
 								token.getChildren().get(0).getStopLocation(), input);
+					return variable;
+				}
+				else if (token.getProduction().getRight().get(0).equals(taggedTerminalSymbols.get("atparam")))
+				{
+					String atParam = ((TaggedTerminalToken) token.getChildren().get(0)).getText();
+					VariableTerm variable = localVariables.get(new NumberedParameterRef(atParam));
+					if (variable == null)
+						throw new TermParserException("Parameter:" + "'" + atParam + "'" + " not defined", token.getChildren().get(0).getStartLocation(), token
+								.getChildren().get(0).getStopLocation(), input);
 					return variable;
 				}
 				else if (token.getProduction().getRight().get(0).equals(taggedNonTerminalSymbols.get("F")))
@@ -376,19 +489,10 @@ public class AletheiaTermParser extends Parser
 		}
 		else if (token.getProduction().getLeft().equals(taggedNonTerminalSymbols.get("F")))
 		{
-			String name = ((TaggedTerminalToken) token.getChildren().get(1)).getText();
-			Identifier identifier;
-			try
-			{
-				identifier = new Identifier(name);
-			}
-			catch (InvalidNameException e)
-			{
-				throw new TermParserException(e, token.getChildren().get(1).getStartLocation(), token.getChildren().get(1).getStopLocation(), input);
-			}
+			ParameterRef parameterRef = processParameterRef((NonTerminalToken) token.getChildren().get(1), input);
 			Term type = processTerm(context, transaction, localVariables, (NonTerminalToken) token.getChildren().get(3), input);
 			ParameterVariableTerm parameter = new ParameterVariableTerm(type);
-			ParameterVariableTerm oldpar = localVariables.put(identifier, parameter);
+			ParameterVariableTerm oldpar = localVariables.put(parameterRef, parameter);
 			try
 			{
 				Term body = processTerm(context, transaction, localVariables, (NonTerminalToken) token.getChildren().get(5), input);
@@ -397,11 +501,28 @@ public class AletheiaTermParser extends Parser
 			finally
 			{
 				if (oldpar != null)
-					localVariables.put(identifier, oldpar);
+					localVariables.put(parameterRef, oldpar);
 				else
-					localVariables.remove(identifier);
+					localVariables.remove(parameterRef);
 			}
 		}
+		else
+			throw new Error();
+	}
+
+	private ParameterRef processParameterRef(NonTerminalToken token, String input) throws TermParserException
+	{
+		if (token.getProduction().getRight().get(0).equals(taggedTerminalSymbols.get("id")))
+			try
+			{
+				return new IdentifierParameterRef(new Identifier(((TaggedTerminalToken) token.getChildren().get(0)).getText()));
+			}
+			catch (InvalidNameException e)
+			{
+				throw new TermParserException(e, token.getChildren().get(0).getStartLocation(), token.getChildren().get(1).getStopLocation(), input);
+			}
+		else if (token.getProduction().getRight().get(0).equals(taggedTerminalSymbols.get("atparam")))
+			return new NumberedParameterRef(((TaggedTerminalToken) token.getChildren().get(0)).getText());
 		else
 			throw new Error();
 	}
