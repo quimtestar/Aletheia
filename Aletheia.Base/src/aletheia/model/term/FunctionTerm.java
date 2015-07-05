@@ -159,13 +159,15 @@ public class FunctionTerm extends Term
 	 * <b>"<<i>parameter</i>:<i>type</i> -> <i>body</i>>"</b>.
 	 */
 	@Override
-	public String toString(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
 	{
 		String sType = parameter.getType().toString(variableToIdentifier, parameterNumerator);
-		parameterNumerator.numberParameter(parameter);
+		if (variableToIdentifier == null || !variableToIdentifier.containsKey(parameter))
+			parameterNumerator.numberParameter(parameter);
 		String sParameter = parameter.toString(variableToIdentifier, parameterNumerator);
 		String sBody = body.toString(variableToIdentifier, parameterNumerator);
-		parameterNumerator.unNumberParameter();
+		if (variableToIdentifier == null || !variableToIdentifier.containsKey(parameter))
+			parameterNumerator.numberParameter(parameter);
 		return "<" + sParameter + ":" + sType + " -> " + sBody + ">";
 	}
 

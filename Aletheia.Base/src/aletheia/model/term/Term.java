@@ -261,12 +261,12 @@ public abstract class Term implements Serializable, Exportable
 	 *            conversion.
 	 * @return this term converted to a String.
 	 */
-	public String toString(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier)
+	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier)
 	{
 		return toString(variableToIdentifier, parameterNumerator());
 	}
 
-	public abstract String toString(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator);
+	public abstract String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator);
 
 	/**
 	 * Equivalent to {@link #toString(Map)} with an empty map.

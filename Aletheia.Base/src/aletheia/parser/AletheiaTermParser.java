@@ -512,15 +512,8 @@ public class AletheiaTermParser extends Parser
 
 	private ParameterRef processParameterRef(NonTerminalToken token, String input) throws TermParserException
 	{
-		if (token.getProduction().getRight().get(0).equals(taggedTerminalSymbols.get("id")))
-			try
-			{
-				return new IdentifierParameterRef(new Identifier(((TaggedTerminalToken) token.getChildren().get(0)).getText()));
-			}
-			catch (InvalidNameException e)
-			{
-				throw new TermParserException(e, token.getChildren().get(0).getStartLocation(), token.getChildren().get(1).getStopLocation(), input);
-			}
+		if (token.getProduction().getRight().get(0).equals(taggedNonTerminalSymbols.get("I")))
+			return new IdentifierParameterRef(processIdentifier((NonTerminalToken) token.getChildren().get(0), input));
 		else if (token.getProduction().getRight().get(0).equals(taggedTerminalSymbols.get("atparam")))
 			return new NumberedParameterRef(((TaggedTerminalToken) token.getChildren().get(0)).getText());
 		else

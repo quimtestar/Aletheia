@@ -159,7 +159,7 @@ public class CompositionTerm extends SimpleTerm
 	 *
 	 */
 	@Override
-	public String toString(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
 	{
 		if (tail instanceof CompositionTerm)
 			return head.toString(variableToIdentifier, parameterNumerator) + " (" + tail.toString(variableToIdentifier, parameterNumerator) + ")";

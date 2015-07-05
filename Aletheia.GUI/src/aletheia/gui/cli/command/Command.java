@@ -20,16 +20,25 @@
 package aletheia.gui.cli.command;
 
 import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import aletheia.gui.cli.CliJPanel;
+import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
+import aletheia.model.term.FunctionTerm;
+import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
+import aletheia.model.term.VariableTerm;
 import aletheia.parser.TermParserException;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.collections.AdaptedMap;
+import aletheia.utilities.collections.CombinedMap;
 
 public abstract class Command
 {
@@ -137,12 +146,31 @@ public abstract class Command
 
 	protected static String termToString(Context ctx, Transaction transaction, Term term)
 	{
-		return termToString(ctx, transaction, term, null);
+		return term.toString(ctx != null ? ctx.variableToIdentifier(transaction) : null);
 	}
 
 	protected static String termToString(Context ctx, Transaction transaction, Term term, List<Assumption> assumptions)
 	{
-		return term.toString(ctx != null ? ctx.variableToIdentifier(transaction) : null);
+		Map<ParameterVariableTerm, Identifier> localVariableToIdentifier = new HashMap<ParameterVariableTerm, Identifier>();
+		{
+			Term body = term;
+			Iterator<Assumption> assumptionIterator = assumptions.iterator();
+			while (body instanceof FunctionTerm)
+			{
+				FunctionTerm function = (FunctionTerm) body;
+				if (!assumptionIterator.hasNext())
+					break;
+				Assumption assumption = assumptionIterator.next();
+				if (assumption != null && assumption.getIdentifier() != null)
+					localVariableToIdentifier.put(function.getParameter(), assumption.getIdentifier());
+				body = function.getBody();
+			}
+		}
+		if (ctx == null)
+			return term.toString(localVariableToIdentifier);
+		else
+			return term.toString(new CombinedMap<VariableTerm, Identifier>(new AdaptedMap<VariableTerm, Identifier>(localVariableToIdentifier),
+					new AdaptedMap<VariableTerm, Identifier>(ctx.variableToIdentifier(transaction))));
 	}
 
 	public static Command parse(CliJPanel cliJPanel, Transaction transaction, String command) throws CommandParseException

@@ -54,7 +54,7 @@ public class TTerm extends AtomicTerm
 	 * The primitive type is represented with the String <b>"T"</b>.
 	 */
 	@Override
-	public String toString(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
 	{
 		return "T";
 	}

@@ -66,7 +66,7 @@ public class ParameterVariableTerm extends VariableTerm
 	}
 
 	@Override
-	public String toString(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
 	{
 		try
 		{
@@ -74,9 +74,8 @@ public class ParameterVariableTerm extends VariableTerm
 		}
 		catch (NotNumberedException e)
 		{
-			return hexRef();
+			return super.toString(variableToIdentifier, parameterNumerator);
 		}
-
 	}
 
 }

@@ -17,7 +17,7 @@ A -> equals bang I;
 A -> openpar T closepar;
 A -> A comma number M;
 F -> openfun P colon T arrow T closefun;
-P -> id;
+P -> I;
 P -> atparam;
 I -> I dot id;
 I -> id;
