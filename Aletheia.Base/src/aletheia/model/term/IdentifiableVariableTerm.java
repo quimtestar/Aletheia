@@ -93,7 +93,7 @@ public class IdentifiableVariableTerm extends VariableTerm
 	@Override
 	public String toString(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
 	{
-		Identifier identifier = variableToIdentifier.get(this);
+		Identifier identifier = variableToIdentifier != null ? variableToIdentifier.get(this) : null;
 		if (identifier != null)
 			return identifier.toString();
 		else

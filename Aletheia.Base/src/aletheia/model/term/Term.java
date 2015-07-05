@@ -276,7 +276,7 @@ public abstract class Term implements Serializable, Exportable
 	@Override
 	public String toString()
 	{
-		return toString(Collections.<IdentifiableVariableTerm, Identifier> emptyMap());
+		return toString(null);
 	}
 
 	/**
