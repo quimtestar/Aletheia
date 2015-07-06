@@ -142,7 +142,7 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 
 		private final VariableTerm variable;
 
-		public VariableReferenceComponent(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+		public VariableReferenceComponent(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
 				IdentifiableVariableTerm variable)
 		{
 			super();
@@ -188,7 +188,7 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 		}
 	}
 
-	protected VariableReferenceComponent addVariableReferenceComponent(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier,
+	protected VariableReferenceComponent addVariableReferenceComponent(Map<? extends VariableTerm, Identifier> variableToIdentifier,
 			Term.ParameterNumerator parameterNumerator, IdentifiableVariableTerm variable)
 	{
 		VariableReferenceComponent c = new VariableReferenceComponent(variableToIdentifier, parameterNumerator, variable);
@@ -313,12 +313,12 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 
 	}
 
-	protected void addTerm(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term term)
+	protected void addTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term term)
 	{
 		addTerm(variableToIdentifier, term.parameterNumerator(), term);
 	}
 
-	protected void addTerm(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator, Term term)
+	protected void addTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator, Term term)
 	{
 		if (term instanceof ParameterVariableTerm)
 			addParameterVariableTerm(variableToIdentifier, parameterNumerator, (ParameterVariableTerm) term);
@@ -336,19 +336,19 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 			throw new Error();
 	}
 
-	protected void addParameterVariableTerm(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+	protected void addParameterVariableTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
 			ParameterVariableTerm parameterVariableTerm)
 	{
 		addTextLabel(parameterVariableTerm.toString(variableToIdentifier, parameterNumerator));
 	}
 
-	protected void addIdentifiableVariableTerm(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+	protected void addIdentifiableVariableTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
 			IdentifiableVariableTerm identifiableVariableTerm)
 	{
 		addVariableReferenceComponent(variableToIdentifier, parameterNumerator, identifiableVariableTerm);
 	}
 
-	protected void addCompositionTerm(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+	protected void addCompositionTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
 			CompositionTerm compositionTerm)
 	{
 		addTerm(variableToIdentifier, parameterNumerator, compositionTerm.getHead());
@@ -360,25 +360,30 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 			addCloseParLabel();
 	}
 
-	protected void addFunctionTerm(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+	protected void addFunctionTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
 			FunctionTerm functionTerm)
 	{
+		boolean mappedParameter = variableToIdentifier.containsKey(functionTerm.getParameter());
 		addOpenFunLabel();
-		parameterNumerator.numberParameter(functionTerm.getParameter());
+		if (!mappedParameter)
+			parameterNumerator.numberParameter(functionTerm.getParameter());
 		addParameterVariableTerm(variableToIdentifier, parameterNumerator, functionTerm.getParameter());
-		parameterNumerator.unNumberParameter();
+		if (!mappedParameter)
+			parameterNumerator.unNumberParameter();
 		addColonLabel();
 		addTerm(variableToIdentifier, parameterNumerator, functionTerm.getParameter().getType());
 		addSpaceLabel();
 		addArrowLabel();
 		addSpaceLabel();
-		parameterNumerator.numberParameter(functionTerm.getParameter());
+		if (!mappedParameter)
+			parameterNumerator.numberParameter(functionTerm.getParameter());
 		addTerm(variableToIdentifier, parameterNumerator, functionTerm.getBody());
-		parameterNumerator.unNumberParameter();
+		if (!mappedParameter)
+			parameterNumerator.unNumberParameter();
 		addCloseFunLabel();
 	}
 
-	protected void addProjectionTerm(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+	protected void addProjectionTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
 			ProjectionTerm term)
 	{
 		addFunctionTerm(variableToIdentifier, parameterNumerator, term.getFunction());
@@ -386,7 +391,7 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 		addSpaceLabel();
 	}
 
-	protected void addTTerm(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator, TTerm term)
+	protected void addTTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator, TTerm term)
 	{
 		addTTermLabel();
 	}

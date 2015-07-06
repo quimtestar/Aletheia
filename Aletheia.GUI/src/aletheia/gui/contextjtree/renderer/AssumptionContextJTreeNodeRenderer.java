@@ -22,7 +22,7 @@ package aletheia.gui.contextjtree.renderer;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.model.statement.Assumption;
 
-public class AssumptionContextJTreeNodeRenderer extends ProperStatementContextJTreeNodeRenderer
+public class AssumptionContextJTreeNodeRenderer extends ProperStatementContextJTreeNodeRenderer<Assumption>
 {
 	private static final long serialVersionUID = -1306644843764913368L;
 
@@ -40,7 +40,7 @@ public class AssumptionContextJTreeNodeRenderer extends ProperStatementContextJT
 
 	protected Assumption getAssumption()
 	{
-		return (Assumption) getStatement();
+		return getStatement();
 	}
 
 }
