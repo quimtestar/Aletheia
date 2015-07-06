@@ -27,6 +27,7 @@ import java.util.Map;
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
+import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement.StatementException;
@@ -58,6 +59,19 @@ public class NewContext extends NewStatement
 		return getFrom().getActiveContext().openSubContext(getTransaction(), term);
 	}
 
+	private static final Identifier underscore;
+	static
+	{
+		try
+		{
+			underscore = Identifier.parse("_");
+		}
+		catch (InvalidNameException e)
+		{
+			throw new Error(e);
+		}
+	}
+
 	@Override
 	protected RunNewStatementReturnData runNewStatement() throws Exception
 	{
@@ -74,7 +88,7 @@ public class NewContext extends NewStatement
 			Assumption assumption = assumptionIterator.next();
 			FunctionTerm function = (FunctionTerm) body;
 			Identifier identifier = parameterIdentifiers.get(function.getParameter());
-			if (identifier != null)
+			if (identifier != null && !identifier.equals(underscore))
 				identifyAssumptions.put(identifier, assumption);
 			body = function.getBody();
 		}
