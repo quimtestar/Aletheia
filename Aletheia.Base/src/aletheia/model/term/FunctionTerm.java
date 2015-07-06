@@ -161,12 +161,13 @@ public class FunctionTerm extends Term
 	@Override
 	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
 	{
+		boolean mappedParameter = variableToIdentifier != null && variableToIdentifier.containsKey(parameter);
 		String sType = parameter.getType().toString(variableToIdentifier, parameterNumerator);
-		if (variableToIdentifier == null || !variableToIdentifier.containsKey(parameter))
+		if (!mappedParameter)
 			parameterNumerator.numberParameter(parameter);
 		String sParameter = parameter.toString(variableToIdentifier, parameterNumerator);
 		String sBody = body.toString(variableToIdentifier, parameterNumerator);
-		if (variableToIdentifier == null || !variableToIdentifier.containsKey(parameter))
+		if (!mappedParameter)
 			parameterNumerator.unNumberParameter();
 		return "<" + sParameter + ":" + sType + " -> " + sBody + ">";
 	}
