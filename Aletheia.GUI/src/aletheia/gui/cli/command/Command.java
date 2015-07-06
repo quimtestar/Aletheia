@@ -158,10 +158,10 @@ public abstract class Command
 			while (body instanceof FunctionTerm)
 			{
 				FunctionTerm function = (FunctionTerm) body;
-				if (!assumptionIterator.hasNext())
-					break;
-				Assumption assumption = assumptionIterator.next();
-				if (assumption != null && assumption.getIdentifier() != null)
+				Assumption assumption = null;
+				if (assumptionIterator.hasNext())
+					assumption = assumptionIterator.next();
+				if (function.getBody().freeVariables().contains(function.getParameter()) && assumption != null && assumption.getIdentifier() != null)
 					localVariableToIdentifier.put(function.getParameter(), assumption.getIdentifier());
 				body = function.getBody();
 			}
