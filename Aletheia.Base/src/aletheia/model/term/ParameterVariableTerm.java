@@ -22,7 +22,6 @@ package aletheia.model.term;
 import java.util.Map;
 
 import aletheia.model.identifier.Identifier;
-import aletheia.model.term.Term.ParameterNumerator.NotNumberedException;
 
 /**
  * A {@link VariableTerm} that can be used as a parameter of a
@@ -68,14 +67,10 @@ public class ParameterVariableTerm extends VariableTerm
 	@Override
 	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
 	{
-		try
-		{
+		if (parameterNumerator.isNumbered(this))
 			return numRef(parameterNumerator);
-		}
-		catch (NotNumberedException e)
-		{
+		else
 			return super.toString(variableToIdentifier, parameterNumerator);
-		}
 	}
 
 }
