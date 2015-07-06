@@ -167,7 +167,7 @@ public class FunctionTerm extends Term
 		String sParameter = parameter.toString(variableToIdentifier, parameterNumerator);
 		String sBody = body.toString(variableToIdentifier, parameterNumerator);
 		if (variableToIdentifier == null || !variableToIdentifier.containsKey(parameter))
-			parameterNumerator.numberParameter(parameter);
+			parameterNumerator.unNumberParameter();
 		return "<" + sParameter + ":" + sType + " -> " + sBody + ">";
 	}
 
