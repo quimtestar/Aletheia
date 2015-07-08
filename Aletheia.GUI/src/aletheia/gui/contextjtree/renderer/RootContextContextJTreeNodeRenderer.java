@@ -22,7 +22,7 @@ package aletheia.gui.contextjtree.renderer;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.model.statement.RootContext;
 
-public class RootContextContextJTreeNodeRenderer extends ContextContextJTreeNodeRenderer
+public class RootContextContextJTreeNodeRenderer extends ContextContextJTreeNodeRenderer<RootContext>
 {
 	private static final long serialVersionUID = 2931816812478769992L;
 

@@ -139,11 +139,11 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 		private static final long serialVersionUID = -1379926465808260318L;
 
 		private final EditableSorterPrefixComponent editableSorterPrefixComponent;
-		private final StatementContextJTreeNodeRenderer statementContextJTreeNodeRenderer;
+		private final StatementContextJTreeNodeRenderer<?> statementContextJTreeNodeRenderer;
 		@SuppressWarnings("unused")
 		private final StatementContextJTreeNode statementContextJTreeNode;
 
-		private class MyStatementContextJTreeNodeRenderer extends StatementContextJTreeNodeRenderer
+		private class MyStatementContextJTreeNodeRenderer extends StatementContextJTreeNodeRenderer<Statement>
 		{
 			private static final long serialVersionUID = 2182247478964360918L;
 

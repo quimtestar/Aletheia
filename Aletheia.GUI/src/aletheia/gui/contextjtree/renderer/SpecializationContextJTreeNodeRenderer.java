@@ -23,7 +23,7 @@ import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.model.statement.Specialization;
 import aletheia.persistence.Transaction;
 
-public class SpecializationContextJTreeNodeRenderer extends ProperStatementContextJTreeNodeRenderer
+public class SpecializationContextJTreeNodeRenderer extends ProperStatementContextJTreeNodeRenderer<Specialization>
 {
 	private static final long serialVersionUID = 8330012958934365101L;
 
@@ -53,7 +53,7 @@ public class SpecializationContextJTreeNodeRenderer extends ProperStatementConte
 
 	public Specialization getSpecialization()
 	{
-		return (Specialization) getStatement();
+		return getStatement();
 	}
 
 }

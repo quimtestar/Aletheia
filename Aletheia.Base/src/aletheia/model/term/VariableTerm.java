@@ -21,7 +21,10 @@ package aletheia.model.term;
 
 import java.util.Deque;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+
+import aletheia.model.identifier.Identifier;
 
 /**
  * A term which is a single variable.
@@ -127,5 +130,15 @@ public abstract class VariableTerm extends AtomicTerm
 	}
 
 	public abstract String hexRef();
+
+	@Override
+	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+	{
+		Identifier identifier = variableToIdentifier != null ? variableToIdentifier.get(this) : null;
+		if (identifier != null)
+			return identifier.toString();
+		else
+			return hexRef();
+	}
 
 }

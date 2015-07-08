@@ -21,12 +21,14 @@ package aletheia.gui.contextjtree.renderer;
 
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.model.statement.Context;
+import aletheia.model.statement.RootContext;
+import aletheia.model.statement.UnfoldingContext;
 
-public class ContextContextJTreeNodeRenderer extends ProperStatementContextJTreeNodeRenderer
+public abstract class ContextContextJTreeNodeRenderer<C extends Context> extends ProperStatementContextJTreeNodeRenderer<C>
 {
 	private static final long serialVersionUID = -722490351732400121L;
 
-	protected ContextContextJTreeNodeRenderer(ContextJTree contextJTree, Context context)
+	protected ContextContextJTreeNodeRenderer(ContextJTree contextJTree, C context)
 	{
 		super(contextJTree, context);
 		setActiveFont(getItalicFont());
@@ -34,6 +36,18 @@ public class ContextContextJTreeNodeRenderer extends ProperStatementContextJTree
 		addOpenBracket();
 		addContextLabel();
 		addCloseBracket();
+	}
+
+	public static ContextContextJTreeNodeRenderer<?> renderer(ContextJTree contextJTree, Context statement)
+	{
+		if (statement == null)
+			return null;
+		if (statement instanceof UnfoldingContext)
+			return new UnfoldingContextContextJTreeNodeRenderer(contextJTree, (UnfoldingContext) statement);
+		else if (statement instanceof RootContext)
+			return new RootContextContextJTreeNodeRenderer(contextJTree, (RootContext) statement);
+		else
+			return new ProperContextContextJTreeNodeRenderer(contextJTree, statement);
 	}
 
 }

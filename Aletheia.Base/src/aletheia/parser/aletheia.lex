@@ -20,6 +20,7 @@
 '\''							: apostrophe;
 '[\0-\9]+'						: number;
 '[a-zA-Z\_][a-zA-Z\_\0-\9]*'	: id;
+'@[\0-\9]+'						: atparam;
 '\$[\0-\9a-fA-F]+'				: hexref;
 '_*'							: ;
 

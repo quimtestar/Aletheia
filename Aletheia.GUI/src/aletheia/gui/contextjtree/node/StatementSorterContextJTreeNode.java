@@ -61,7 +61,7 @@ public class StatementSorterContextJTreeNode extends SorterContextJTreeNode impl
 	}
 
 	@Override
-	protected StatementContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree)
+	protected StatementContextJTreeNodeRenderer<?> buildRenderer(ContextJTree contextJTree)
 	{
 		Transaction transaction = getModel().beginTransaction();
 		try
@@ -75,9 +75,9 @@ public class StatementSorterContextJTreeNode extends SorterContextJTreeNode impl
 	}
 
 	@Override
-	protected synchronized StatementContextJTreeNodeRenderer getRenderer()
+	protected synchronized StatementContextJTreeNodeRenderer<?> getRenderer()
 	{
-		return (StatementContextJTreeNodeRenderer) super.getRenderer();
+		return (StatementContextJTreeNodeRenderer<?>) super.getRenderer();
 	}
 
 }

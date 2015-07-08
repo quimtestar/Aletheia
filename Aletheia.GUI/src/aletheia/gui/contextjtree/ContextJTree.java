@@ -78,6 +78,7 @@ import aletheia.gui.contextjtree.sorter.StatementGroupSorter;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
+import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.local.ContextLocal;
 import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
@@ -86,6 +87,8 @@ import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
+import aletheia.utilities.MemoryUsageMonitor;
+import aletheia.utilities.MemoryUsageMonitor.MemoryUsageMonitorException;
 import aletheia.utilities.collections.BufferedList;
 
 public class ContextJTree extends PersistentJTree
@@ -213,8 +216,8 @@ public class ContextJTree extends PersistentJTree
 					{
 						ContextJTreeNode node = (ContextJTreeNode) selectionModel.getSelectionPath().getLastPathComponent();
 						ContextJTreeNodeRenderer nodeRenderer = renderer.getNodeRenderer(node);
-						if (nodeRenderer instanceof StatementContextJTreeNodeRenderer)
-							((StatementContextJTreeNodeRenderer) nodeRenderer).editName();
+						if (nodeRenderer instanceof StatementContextJTreeNodeRenderer<?>)
+							((StatementContextJTreeNodeRenderer<?>) nodeRenderer).editName();
 						else if (nodeRenderer instanceof GroupSorterContextJTreeNodeRenderer)
 							((GroupSorterContextJTreeNodeRenderer) nodeRenderer).editName();
 					}
@@ -457,6 +460,8 @@ public class ContextJTree extends PersistentJTree
 
 	}
 
+	private final MemoryUsageMonitor memoryUsageMonitor;
+
 	public ContextJTree(AletheiaJPanel aletheiaJPanel)
 	{
 		super(new ContextJTreeModel(aletheiaJPanel.getPersistenceManager()));
@@ -477,6 +482,7 @@ public class ContextJTree extends PersistentJTree
 		this.setRootVisible(false);
 		this.setShowsRootHandles(true);
 		this.addTreeExpansionListener(new MyTreeExpansionListener());
+		this.memoryUsageMonitor = makeMemoryUsageMonitor();
 	}
 
 	public class TreeModelListener extends TreeModelHandler
@@ -567,6 +573,8 @@ public class ContextJTree extends PersistentJTree
 				}
 			}
 			super.treeStructureChanged(e);
+			if ((selPath != null) && (e.getTreePath().equals(selPath)))
+				getSelectionModel().setSelectionPath(selPath);
 		}
 
 	}
@@ -644,7 +652,12 @@ public class ContextJTree extends PersistentJTree
 					suffix = id;
 				Identifier newId;
 				if (suffix != null)
-					newId = newPrefix.concat(suffix).asIdentifier();
+					if (newPrefix != null)
+						newId = newPrefix.concat(suffix).asIdentifier();
+					else if (suffix instanceof NodeNamespace)
+						newId = ((NodeNamespace) suffix).asIdentifier();
+					else
+						newId = null;
 				else
 					newId = newPrefix;
 				if ((id == null && newId != null) || (id != null && newId == null) || (id != null && newId != null && !id.equals(newId)))
@@ -905,6 +918,8 @@ public class ContextJTree extends PersistentJTree
 
 	public void close() throws InterruptedException
 	{
+		if (memoryUsageMonitor != null)
+			memoryUsageMonitor.shutdown();
 		getModel().shutdown();
 	}
 
@@ -923,6 +938,59 @@ public class ContextJTree extends PersistentJTree
 		{
 			for (SelectionListener sl : selectionListeners)
 				sl.groupSorterSelected(groupSorter, expanded);
+		}
+	}
+
+	public void resetCollapsedSubtrees()
+	{
+		Stack<GroupSorterContextJTreeNode<?>> stack = new Stack<GroupSorterContextJTreeNode<?>>();
+		stack.push(getModel().getRoot());
+		while (!stack.isEmpty())
+		{
+			GroupSorterContextJTreeNode<?> node = stack.pop();
+			for (ContextJTreeNode n : node.childrenIterable())
+			{
+				if (n instanceof GroupSorterContextJTreeNode<?>)
+				{
+					GroupSorterContextJTreeNode<?> gn = (GroupSorterContextJTreeNode<?>) n;
+					TreePath path = gn.path();
+					if (isExpanded(path) || path.equals(getSelectionPath()))
+						stack.push(gn);
+					else
+						getModel().resetSubtree(gn);
+				}
+			}
+		}
+
+	}
+
+	private MemoryUsageMonitor makeMemoryUsageMonitor()
+	{
+		try
+		{
+			MemoryUsageMonitor mum = new MemoryUsageMonitor(0.8f);
+			mum.addListener(new MemoryUsageMonitor.Listener()
+			{
+
+				long lastReached = 0;
+
+				@Override
+				public void thresholdReached(float usage)
+				{
+					long t = System.currentTimeMillis();
+					if (t - lastReached > 5 * 60 * 1000)
+					{
+						logger.warn("Resetting collapsed subtrees (memory usage threshold reached: " + usage + ")");
+						lastReached = t;
+						resetCollapsedSubtrees();
+					}
+				}
+			});
+			return mum;
+		}
+		catch (MemoryUsageMonitorException e)
+		{
+			return null;
 		}
 	}
 
