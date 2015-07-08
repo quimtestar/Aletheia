@@ -837,13 +837,14 @@ public class ContextJTree extends PersistentJTree
 					while (!stack.isEmpty())
 					{
 						Context ctx = stack.pop();
+						TreePath path = getModel().pathForStatement(ctx);
 						if (!ctx.isProved())
 						{
-							expandPath(getModel().pathForStatement(ctx));
+							expandPath(path);
 							stack.addAll(ctx.subContexts(transaction));
 						}
-						else
-							collapsePath(getModel().pathForStatement(ctx));
+						else if (isVisible(path))
+							collapsePath(path);
 					}
 				}
 				finally
