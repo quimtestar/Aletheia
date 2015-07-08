@@ -91,7 +91,7 @@ public class SubCatalogJTreeNodeRenderer extends CatalogJTreeNodeRenderer
 				Color labelColor = statement.isProved() ? getProvenLabelColor() : getUnprovenLabelColor();
 				this.addTextLabel(String.format("%-10s", catalog.name()), labelColor);
 				this.addColonLabel();
-				this.addTerm(statement.parentVariableToIdentifier(transaction), statement.getTerm());
+				this.addTerm(transaction, statement);
 			}
 			setToolTipText(catalog.prefix().qualifiedName());
 

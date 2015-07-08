@@ -32,6 +32,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.swing.JLabel;
@@ -39,6 +41,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.statement.Assumption;
+import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.CompositionTerm;
 import aletheia.model.term.FunctionTerm;
@@ -50,6 +54,8 @@ import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.collections.AdaptedMap;
+import aletheia.utilities.collections.CombinedMap;
 
 public abstract class AbstractPersistentRenderer extends AbstractRenderer
 {
@@ -334,6 +340,33 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 			addProjectionTerm(variableToIdentifier, parameterNumerator, (ProjectionTerm) term);
 		else
 			throw new Error();
+	}
+
+	protected void addTerm(Transaction transaction, Statement statement)
+	{
+
+		Map<? extends VariableTerm, Identifier> variableToIdentifier = statement.parentVariableToIdentifier(transaction);
+		if (statement instanceof Context)
+		{
+			Map<ParameterVariableTerm, Identifier> localVariableToIdentifier = new HashMap<ParameterVariableTerm, Identifier>();
+			{
+				Term body = statement.getTerm();
+				Iterator<Assumption> assumptionIterator = ((Context) statement).assumptions(transaction).iterator();
+				while (body instanceof FunctionTerm)
+				{
+					FunctionTerm function = (FunctionTerm) body;
+					Assumption assumption = null;
+					if (assumptionIterator.hasNext())
+						assumption = assumptionIterator.next();
+					if (function.getBody().freeVariables().contains(function.getParameter()) && assumption != null && assumption.getIdentifier() != null)
+						localVariableToIdentifier.put(function.getParameter(), assumption.getIdentifier());
+					body = function.getBody();
+				}
+			}
+			variableToIdentifier = new CombinedMap<VariableTerm, Identifier>(new AdaptedMap<VariableTerm, Identifier>(localVariableToIdentifier),
+					new AdaptedMap<VariableTerm, Identifier>(variableToIdentifier));
+		}
+		addTerm(variableToIdentifier, statement.getTerm());
 	}
 
 	protected void addParameterVariableTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,

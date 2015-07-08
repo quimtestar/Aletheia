@@ -24,10 +24,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import javax.swing.JLabel;
 import javax.swing.TransferHandler;
 
@@ -37,20 +33,12 @@ import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.StatementAuthority;
-import aletheia.model.identifier.Identifier;
 import aletheia.model.local.ContextLocal;
 import aletheia.model.local.StatementLocal;
-import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
-import aletheia.model.term.FunctionTerm;
-import aletheia.model.term.ParameterVariableTerm;
-import aletheia.model.term.Term;
-import aletheia.model.term.VariableTerm;
 import aletheia.persistence.Transaction;
-import aletheia.utilities.collections.AdaptedMap;
-import aletheia.utilities.collections.CombinedMap;
 
 public abstract class StatementContextJTreeNodeRenderer<S extends Statement> extends ContextJTreeNodeRenderer
 {
@@ -279,32 +267,6 @@ public abstract class StatementContextJTreeNodeRenderer<S extends Statement> ext
 
 	private final Listener listener;
 
-	private Map<? extends VariableTerm, Identifier> variableToIdentifier(Transaction transaction, S statement)
-	{
-		Map<? extends VariableTerm, Identifier> parentVariableToIdentifier = statement.parentVariableToIdentifier(transaction);
-		if (statement instanceof Context)
-		{
-			Map<ParameterVariableTerm, Identifier> localVariableToIdentifier = new HashMap<ParameterVariableTerm, Identifier>();
-			{
-				Term body = statement.getTerm();
-				Iterator<Assumption> assumptionIterator = ((Context) statement).assumptions(transaction).iterator();
-				while (body instanceof FunctionTerm)
-				{
-					FunctionTerm function = (FunctionTerm) body;
-					Assumption assumption = null;
-					if (assumptionIterator.hasNext())
-						assumption = assumptionIterator.next();
-					if (function.getBody().freeVariables().contains(function.getParameter()) && assumption != null && assumption.getIdentifier() != null)
-						localVariableToIdentifier.put(function.getParameter(), assumption.getIdentifier());
-					body = function.getBody();
-				}
-			}
-			return new CombinedMap<VariableTerm, Identifier>(new AdaptedMap<VariableTerm, Identifier>(localVariableToIdentifier),
-					new AdaptedMap<VariableTerm, Identifier>(parentVariableToIdentifier));
-		}
-		return parentVariableToIdentifier;
-	}
-
 	protected StatementContextJTreeNodeRenderer(ContextJTree contextJTree, S statement)
 	{
 		super(contextJTree);
@@ -320,7 +282,7 @@ public abstract class StatementContextJTreeNodeRenderer<S extends Statement> ext
 			addSpaceLabel();
 			this.editableTextLabelComponent = addEditableTextLabelComponent();
 			addColonLabel();
-			addTerm(variableToIdentifier(transaction, statement), statement.getTerm());
+			addTerm(transaction, statement);
 
 			this.listener = new Listener();
 			addKeyListener(listener);
