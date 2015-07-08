@@ -1257,7 +1257,12 @@ public class ContextJTreeModel extends PersistentTreeModel
 				for (ListChanges<Sorter>.Element e : changes.removedElements())
 				{
 					indexes[i] = e.index;
-					objects[i] = nodeMap.cached(e.object);
+					if (objects != null)
+					{
+						objects[i] = nodeMap.cached(e.object);
+						if (objects[i] == null)
+							objects = null;
+					}
 					i++;
 				}
 				eRemoves = new TreeModelEvent(this, node.path(), indexes, objects);
