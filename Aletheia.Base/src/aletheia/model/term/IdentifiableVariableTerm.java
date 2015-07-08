@@ -19,10 +19,7 @@
  ******************************************************************************/
 package aletheia.model.term;
 
-import java.util.Map;
 import java.util.UUID;
-
-import aletheia.model.identifier.Identifier;
 
 /**
  * An specialization of a {@link VariableTerm} which is identified by a unique
@@ -88,16 +85,6 @@ public class IdentifiableVariableTerm extends VariableTerm
 	public String hexRef()
 	{
 		return "$" + String.format("%08x", hashCode());
-	}
-
-	@Override
-	public String toString(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
-	{
-		Identifier identifier = variableToIdentifier.get(this);
-		if (identifier != null)
-			return identifier.toString();
-		else
-			return hexRef();
 	}
 
 }

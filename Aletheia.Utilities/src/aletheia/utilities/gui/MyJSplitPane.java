@@ -21,6 +21,8 @@ package aletheia.utilities.gui;
 
 import java.awt.Component;
 import java.awt.Graphics;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JButton;
 import javax.swing.JSplitPane;
@@ -29,7 +31,7 @@ import javax.swing.plaf.basic.BasicSplitPaneDivider;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 
 /**
- * A extension of the JSplitPane with the capability of setting de divider
+ * An extension of the JSplitPane with the capability of setting de divider
  * position even if the container is not valid. The desired position is saved to
  * use when we get validated.
  *
@@ -70,10 +72,19 @@ public class MyJSplitPane extends JSplitPane
 
 	private synchronized void updateProportionalLocationWhenValid()
 	{
-		if (setProportionalLocationWhenValid && isValid() && getParent() != null && getParent().isValid())
+		if (setProportionalLocationWhenValid && isValid() && getParent() != null && getParent().isValid() && getParent().isVisible())
 		{
-			setDividerLocationOrExpand(proportionalLocationWhenValid);
-			setLastDividerLocation(getDividerLocation());
+			// For unknown reasons, without this delay it doesn't work properly sometimes
+			Timer timer = new Timer();
+			timer.schedule(new TimerTask()
+			{
+				@Override
+				public void run()
+				{
+					setDividerLocationOrExpand(proportionalLocationWhenValid);
+					setLastDividerLocation(getDividerLocation());
+				}
+			}, 100);
 			setProportionalLocationWhenValid = false;
 		}
 	}

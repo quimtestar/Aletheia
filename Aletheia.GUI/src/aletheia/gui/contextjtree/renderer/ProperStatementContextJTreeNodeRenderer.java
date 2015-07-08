@@ -29,13 +29,11 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
-import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
-import aletheia.model.statement.UnfoldingContext;
 import aletheia.persistence.Transaction;
 
-public abstract class ProperStatementContextJTreeNodeRenderer extends StatementContextJTreeNodeRenderer
+public abstract class ProperStatementContextJTreeNodeRenderer<S extends Statement> extends StatementContextJTreeNodeRenderer<S>
 {
 	private static final long serialVersionUID = -7502917941770656695L;
 	private static final Logger logger = LoggerManager.instance.logger();
@@ -113,7 +111,7 @@ public abstract class ProperStatementContextJTreeNodeRenderer extends StatementC
 
 	}
 
-	protected ProperStatementContextJTreeNodeRenderer(ContextJTree contextJTree, Statement statement)
+	protected ProperStatementContextJTreeNodeRenderer(ContextJTree contextJTree, S statement)
 	{
 		super(contextJTree, statement);
 	}
@@ -129,18 +127,14 @@ public abstract class ProperStatementContextJTreeNodeRenderer extends StatementC
 
 	}
 
-	public static ProperStatementContextJTreeNodeRenderer renderer(ContextJTree contextJTree, Statement statement)
+	public static ProperStatementContextJTreeNodeRenderer<?> renderer(ContextJTree contextJTree, Statement statement)
 	{
 		if (statement == null)
 			return null;
 		else if (statement instanceof Assumption)
 			return new AssumptionContextJTreeNodeRenderer(contextJTree, (Assumption) statement);
-		else if (statement instanceof UnfoldingContext)
-			return new UnfoldingContextContextJTreeNodeRenderer(contextJTree, (UnfoldingContext) statement);
-		else if (statement instanceof RootContext)
-			return new RootContextContextJTreeNodeRenderer(contextJTree, (RootContext) statement);
 		else if (statement instanceof Context)
-			return new ContextContextJTreeNodeRenderer(contextJTree, (Context) statement);
+			return ContextContextJTreeNodeRenderer.renderer(contextJTree, (Context) statement);
 		else if (statement instanceof Declaration)
 			return new DeclarationContextJTreeNodeRenderer(contextJTree, (Declaration) statement);
 		else if (statement instanceof Specialization)

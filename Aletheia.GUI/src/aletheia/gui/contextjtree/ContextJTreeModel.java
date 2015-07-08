@@ -1248,22 +1248,24 @@ public class ContextJTreeModel extends PersistentTreeModel
 		ListChanges<Sorter> changes = node.changeSorterList();
 		if (changes != null)
 		{
-			for (ListChanges<Sorter>.Element e : changes.removedElements())
-				nodeMapRemoveRecursive(e.object);
 			final TreeModelEvent eRemoves;
 			if (!changes.removedElements().isEmpty())
 			{
 				int indexes[] = new int[changes.removedElements().size()];
+				Object objects[] = new Object[changes.removedElements().size()];
 				int i = 0;
 				for (ListChanges<Sorter>.Element e : changes.removedElements())
 				{
 					indexes[i] = e.index;
+					objects[i] = nodeMap.cached(e.object);
 					i++;
 				}
-				eRemoves = new TreeModelEvent(this, node.path(), indexes, null);
+				eRemoves = new TreeModelEvent(this, node.path(), indexes, objects);
 			}
 			else
 				eRemoves = null;
+			for (ListChanges<Sorter>.Element e : changes.removedElements())
+				nodeMapRemoveRecursive(e.object);
 			final TreeModelEvent eInserts;
 			if (!changes.insertedElements().isEmpty())
 			{
@@ -1324,7 +1326,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 		return false;
 	}
 
-	public void cleanPath(final GroupSorterContextJTreeNode<?> node)
+	public void resetSubtree(final GroupSorterContextJTreeNode<?> node)
 	{
 		final TreeModelEvent e = new TreeModelEvent(this, node.path());
 		SwingUtilities.invokeLater(new Runnable()

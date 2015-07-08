@@ -19,12 +19,20 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.statement;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
-import aletheia.model.statement.Statement;
+import aletheia.model.identifier.NodeNamespace.InvalidNameException;
+import aletheia.model.statement.Assumption;
+import aletheia.model.statement.Context;
+import aletheia.model.statement.Statement.StatementException;
+import aletheia.model.term.FunctionTerm;
+import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
 
@@ -32,11 +40,13 @@ import aletheia.persistence.Transaction;
 public class NewContext extends NewStatement
 {
 	private final Term term;
+	private final Map<ParameterVariableTerm, Identifier> parameterIdentifiers;
 
-	public NewContext(CliJPanel from, Transaction transaction, Identifier identifier, Term term)
+	public NewContext(CliJPanel from, Transaction transaction, Identifier identifier, Term term, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 	{
 		super(from, transaction, identifier);
 		this.term = term;
+		this.parameterIdentifiers = parameterIdentifiers;
 	}
 
 	protected Term getTerm()
@@ -44,13 +54,47 @@ public class NewContext extends NewStatement
 		return term;
 	}
 
+	protected Context openSubContext() throws StatementException
+	{
+		return getFrom().getActiveContext().openSubContext(getTransaction(), term);
+	}
+
+	private static final Identifier underscore;
+	static
+	{
+		try
+		{
+			underscore = Identifier.parse("_");
+		}
+		catch (InvalidNameException e)
+		{
+			throw new Error(e);
+		}
+	}
+
 	@Override
 	protected RunNewStatementReturnData runNewStatement() throws Exception
 	{
 		if (getFrom().getActiveContext() == null)
 			throw new NotActiveContextException();
-		Statement statement = getFrom().getActiveContext().openSubContext(getTransaction(), term);
-		return new RunNewStatementReturnData(statement);
+		Context context = openSubContext();
+		Term body = term;
+		Iterator<Assumption> assumptionIterator = context.assumptions(getTransaction()).iterator();
+		Map<Identifier, Assumption> identifyAssumptions = new HashMap<Identifier, Assumption>();
+		while (body instanceof FunctionTerm)
+		{
+			if (!assumptionIterator.hasNext())
+				break;
+			Assumption assumption = assumptionIterator.next();
+			FunctionTerm function = (FunctionTerm) body;
+			Identifier identifier = parameterIdentifiers.get(function.getParameter());
+			if (identifier != null && !identifier.equals(underscore))
+				identifyAssumptions.put(identifier, assumption);
+			body = function.getBody();
+		}
+		for (Map.Entry<Identifier, Assumption> e : identifyAssumptions.entrySet())
+			e.getValue().identify(getTransaction(), e.getKey());
+		return new RunNewStatementReturnData(context);
 	}
 
 	public static class Factory extends AbstractNewStatementFactory<NewContext>
@@ -60,8 +104,9 @@ public class NewContext extends NewStatement
 		public NewContext parse(CliJPanel cliJPanel, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Term term = parseTerm(cliJPanel.getActiveContext(), transaction, split.get(0));
-			return new NewContext(cliJPanel, transaction, identifier, term);
+			Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<ParameterVariableTerm, Identifier>();
+			Term term = parseTerm(cliJPanel.getActiveContext(), transaction, split.get(0), parameterIdentifiers);
+			return new NewContext(cliJPanel, transaction, identifier, term, parameterIdentifiers);
 		}
 
 		@Override

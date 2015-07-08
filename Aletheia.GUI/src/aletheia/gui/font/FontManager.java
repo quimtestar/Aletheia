@@ -27,18 +27,23 @@ import java.io.InputStream;
 
 import javax.swing.JLabel;
 
+import org.apache.logging.log4j.Logger;
+
 import aletheia.gui.preferences.GUIAletheiaPreferences;
+import aletheia.log4j.LoggerManager;
 
 public class FontManager
 {
-	private static String fontPath = "dejavu-fonts-ttf-2.35";
+	private final static Logger logger = LoggerManager.instance.logger();
 
-	private static String baseFontFile = fontPath + "/ttf/DejaVuSansMono.ttf";
-	private static String baseBoldFontFile = fontPath + "/ttf/DejaVuSansMono-Bold.ttf";
-	private static String baseItalicFontFile = fontPath + "/ttf/DejaVuSansMono-Oblique.ttf";
-	private static String baseExpandFontFile = fontPath + "/ttf/DejaVuSans.ttf";
+	private final static String fontPath = "dejavu-fonts-ttf";
 
-	public static FontManager instance = new FontManager();
+	private final static String baseFontFile = fontPath + "/ttf/DejaVuSansMono.ttf";
+	private final static String baseBoldFontFile = fontPath + "/ttf/DejaVuSansMono-Bold.ttf";
+	private final static String baseItalicFontFile = fontPath + "/ttf/DejaVuSansMono-Oblique.ttf";
+	private final static String baseExpandFontFile = fontPath + "/ttf/DejaVuSans.ttf";
+
+	public final static FontManager instance = new FontManager();
 
 	private final Font baseFont;
 	private final Font baseBoldFont;
@@ -75,6 +80,7 @@ public class FontManager
 		}
 		catch (Exception e1)
 		{
+			logger.warn("Couldn't load plain base font", e1);
 			baseFont_ = new Font(Font.MONOSPACED, Font.PLAIN, 1);
 		}
 		baseFont = baseFont_;
@@ -86,6 +92,7 @@ public class FontManager
 		}
 		catch (Exception e1)
 		{
+			logger.warn("Couldn't load bold base font", e1);
 			baseBoldFont_ = new Font(Font.MONOSPACED, Font.BOLD, 1);
 		}
 		baseBoldFont = baseBoldFont_;
@@ -97,6 +104,7 @@ public class FontManager
 		}
 		catch (Exception e1)
 		{
+			logger.warn("Couldn't load base italic base font", e1);
 			baseItalicFont_ = new Font(Font.MONOSPACED, Font.ITALIC, 1);
 		}
 		baseItalicFont = baseItalicFont_;
@@ -108,6 +116,7 @@ public class FontManager
 		}
 		catch (Exception e1)
 		{
+			logger.warn("Couldn't load expand base font", e1);
 			baseExpandFont_ = new Font(Font.DIALOG, Font.PLAIN, 1);
 		}
 		baseExpandFont = baseExpandFont_;

@@ -20,10 +20,8 @@
 package aletheia.gui.cli.command;
 
 import java.io.PrintStream;
-import java.util.ArrayDeque;
-import java.util.Collections;
-import java.util.Deque;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -32,11 +30,8 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
-import aletheia.model.term.CompositionTerm;
 import aletheia.model.term.FunctionTerm;
-import aletheia.model.term.ProjectionTerm;
-import aletheia.model.term.SimpleTerm;
-import aletheia.model.term.TTerm;
+import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
 import aletheia.parser.TermParserException;
@@ -151,111 +146,31 @@ public abstract class Command
 
 	protected static String termToString(Context ctx, Transaction transaction, Term term)
 	{
-		return termToString(ctx, transaction, term, null);
+		return term.toString(ctx != null ? ctx.variableToIdentifier(transaction) : null);
 	}
 
 	protected static String termToString(Context ctx, Transaction transaction, Term term, List<Assumption> assumptions)
 	{
-		Map<VariableTerm, Identifier> baseMap;
+		Map<ParameterVariableTerm, Identifier> localVariableToIdentifier = new HashMap<ParameterVariableTerm, Identifier>();
+		{
+			Term body = term;
+			Iterator<Assumption> assumptionIterator = assumptions.iterator();
+			while (body instanceof FunctionTerm)
+			{
+				FunctionTerm function = (FunctionTerm) body;
+				Assumption assumption = null;
+				if (assumptionIterator.hasNext())
+					assumption = assumptionIterator.next();
+				if (function.getBody().freeVariables().contains(function.getParameter()) && assumption != null && assumption.getIdentifier() != null)
+					localVariableToIdentifier.put(function.getParameter(), assumption.getIdentifier());
+				body = function.getBody();
+			}
+		}
 		if (ctx == null)
-			baseMap = Collections.emptyMap();
+			return term.toString(localVariableToIdentifier);
 		else
-			baseMap = new AdaptedMap<VariableTerm, Identifier>(ctx.variableToIdentifier(transaction));
-		Map<VariableTerm, Identifier> termMap = new HashMap<VariableTerm, Identifier>();
-		CombinedMap<VariableTerm, Identifier> combinedMap = new CombinedMap<VariableTerm, Identifier>(termMap, baseMap);
-		return termToString(term, combinedMap, termMap, new TermToStringData(), assumptions == null ? null : new ArrayDeque<Assumption>(assumptions));
-	}
-
-	private static class TermToStringData
-	{
-		int n = 0;
-	}
-
-	private static String termToString(Term term, CombinedMap<VariableTerm, Identifier> combinedMap, Map<VariableTerm, Identifier> termMap,
-			TermToStringData termToStringData)
-	{
-		return termToString(term, combinedMap, termMap, termToStringData, null);
-	}
-
-	private static String termToString(Term term, CombinedMap<VariableTerm, Identifier> combinedMap, Map<VariableTerm, Identifier> termMap,
-			TermToStringData termToStringData, Deque<Assumption> assumptions)
-	{
-		if (term instanceof SimpleTerm)
-		{
-			if (term instanceof CompositionTerm)
-			{
-				CompositionTerm comp = (CompositionTerm) term;
-				String sHead = termToString(comp.getHead(), combinedMap, termMap, termToStringData);
-				String sTail = termToString(comp.getTail(), combinedMap, termMap, termToStringData);
-				if (comp.getTail() instanceof CompositionTerm)
-					return sHead + " (" + sTail + ")";
-				else
-					return sHead + " " + sTail;
-			}
-			else if (term instanceof VariableTerm)
-			{
-				Identifier id = combinedMap.get(term);
-				if (id == null)
-					return term.toString();
-				return combinedMap.get(term).toString();
-			}
-			else if (term instanceof TTerm)
-			{
-				return "T";
-			}
-			else if (term instanceof ProjectionTerm)
-			{
-				ProjectionTerm proj = (ProjectionTerm) term;
-				String sfun = termToString(proj.getFunction(), combinedMap, termMap, termToStringData);
-				return sfun + "* ";
-			}
-			else
-				throw new Error();
-		}
-		else if (term instanceof FunctionTerm)
-		{
-			FunctionTerm func = (FunctionTerm) term;
-			String sType = termToString(func.getParameter().getType(), combinedMap, termMap, termToStringData);
-			Identifier newId;
-			try
-			{
-				Assumption a = null;
-				if (assumptions != null)
-				{
-					if (!assumptions.isEmpty())
-						a = assumptions.pollFirst();
-					else
-						assumptions = null;
-				}
-				if (func.getBody().freeVariables().contains(func.getParameter()))
-				{
-					/*
-					 * TODO: This can lead to name collisions and a string that does not parse back to the original term.
-					 * I'll leave it this way for now because this routine is not used in any critical task and
-					 * can't think of any simple and cheap solution.
-					 */
-					if (a != null && a.getIdentifier() != null)
-						newId = new Identifier(a.getIdentifier().getName());
-					else
-						newId = new Identifier(String.format("v%03d", termToStringData.n++));
-				}
-				else
-					newId = new Identifier("_");
-			}
-			catch (InvalidNameException e)
-			{
-				throw new Error();
-			}
-			Identifier oldId = termMap.put(func.getParameter(), newId);
-			String sBody = termToString(func.getBody(), combinedMap, termMap, termToStringData, assumptions);
-			if (oldId == null)
-				termMap.remove(func.getParameter());
-			else
-				termMap.put(func.getParameter(), oldId);
-			return "<" + newId.toString() + ":" + sType + " -> " + sBody + ">";
-		}
-		else
-			throw new Error();
+			return term.toString(new CombinedMap<VariableTerm, Identifier>(new AdaptedMap<VariableTerm, Identifier>(localVariableToIdentifier),
+					new AdaptedMap<VariableTerm, Identifier>(ctx.variableToIdentifier(transaction))));
 	}
 
 	public static Command parse(CliJPanel cliJPanel, Transaction transaction, String command) throws CommandParseException

@@ -23,6 +23,7 @@ import java.io.PrintStream;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import aletheia.gui.cli.CliJPanel;
@@ -39,6 +40,7 @@ import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
+import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.parser.AletheiaTermParser;
 import aletheia.parser.TermParserException;
@@ -140,19 +142,22 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 		}
 	}
 
-	protected static Term parseTerm(Context ctx, Transaction transaction, String s) throws CommandParseException
+	protected static Term parseTerm(Context ctx, Transaction transaction, String s, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+			throws CommandParseException
 	{
 		try
 		{
-			if (ctx != null)
-				return ctx.parseTerm(transaction, s);
-			else
-				return AletheiaTermParser.parseTerm(s);
+			return AletheiaTermParser.parseTerm(ctx, transaction, s, parameterIdentifiers);
 		}
 		catch (TermParserException e)
 		{
 			throw CommandParseEmbeddedException.embed(e);
 		}
+	}
+
+	protected static Term parseTerm(Context ctx, Transaction transaction, String s) throws CommandParseException
+	{
+		return parseTerm(ctx, transaction, s, null);
 	}
 
 	protected static CloseableSet<Person> specToPersons(PersistenceManager persistenceManager, Transaction transaction, String personSpec)

@@ -19,15 +19,18 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.statement;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
+import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
-import aletheia.model.statement.Statement;
 import aletheia.model.statement.Statement.StatementException;
+import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
 
@@ -36,9 +39,10 @@ public class NewUnfoldingContext extends NewContext
 {
 	private final Declaration declaration;
 
-	public NewUnfoldingContext(CliJPanel from, Transaction transaction, Identifier identifier, Term term, Declaration declaration)
+	private NewUnfoldingContext(CliJPanel from, Transaction transaction, Identifier identifier, Term term,
+			Map<ParameterVariableTerm, Identifier> parameterIdentifiers, Declaration declaration)
 	{
-		super(from, transaction, identifier, term);
+		super(from, transaction, identifier, term, parameterIdentifiers);
 		this.declaration = declaration;
 	}
 
@@ -48,13 +52,9 @@ public class NewUnfoldingContext extends NewContext
 	}
 
 	@Override
-	protected RunNewStatementReturnData runNewStatement() throws StatementException, NotActiveContextException
+	protected Context openSubContext() throws StatementException
 	{
-		if (getFrom().getActiveContext() == null)
-			throw new NotActiveContextException();
-		Statement statement = getFrom().getActiveContext().openUnfoldingSubContext(getTransaction(), getTerm(), declaration);
-
-		return new RunNewStatementReturnData(statement);
+		return getFrom().getActiveContext().openUnfoldingSubContext(getTransaction(), getTerm(), declaration);
 	}
 
 	public static class Factory extends AbstractNewStatementFactory<NewUnfoldingContext>
@@ -68,11 +68,12 @@ public class NewUnfoldingContext extends NewContext
 			{
 				if (cliJPanel.getActiveContext() == null)
 					throw new NotActiveContextException();
-				Term term = parseTerm(cliJPanel.getActiveContext(), transaction, split.get(0));
+				Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<ParameterVariableTerm, Identifier>();
+				Term term = parseTerm(cliJPanel.getActiveContext(), transaction, split.get(0), parameterIdentifiers);
 				Declaration declaration = (Declaration) cliJPanel.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(1)));
 				if (declaration == null)
 					throw new CommandParseException("Bad unfolding statement:" + split.get(1));
-				return new NewUnfoldingContext(cliJPanel, transaction, identifier, term, declaration);
+				return new NewUnfoldingContext(cliJPanel, transaction, identifier, term, parameterIdentifiers, declaration);
 			}
 			catch (NotActiveContextException | InvalidNameException e)
 			{

@@ -55,6 +55,18 @@ public abstract class GenericTreeNodeMap<K, N> extends AbstractMap<K, N>
 		return map.containsKey(key);
 	}
 
+	public synchronized N cached(Object oKey)
+	{
+		try
+		{
+			return map.get(oKey);
+		}
+		catch (ClassCastException e)
+		{
+			return null;
+		}
+	}
+
 	protected abstract N buildNode(K key);
 
 	protected abstract void keyRemoved(K key);

@@ -119,7 +119,7 @@ public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJT
 	}
 
 	@Override
-	protected StatementContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree)
+	protected StatementContextJTreeNodeRenderer<?> buildRenderer(ContextJTree contextJTree)
 	{
 		Transaction transaction = getModel().beginTransaction();
 		try
@@ -133,9 +133,9 @@ public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJT
 	}
 
 	@Override
-	protected synchronized StatementContextJTreeNodeRenderer getRenderer()
+	protected synchronized StatementContextJTreeNodeRenderer<?> getRenderer()
 	{
-		return (StatementContextJTreeNodeRenderer) super.getRenderer();
+		return (StatementContextJTreeNodeRenderer<?>) super.getRenderer();
 	}
 
 }

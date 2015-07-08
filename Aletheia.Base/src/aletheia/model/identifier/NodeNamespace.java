@@ -35,7 +35,12 @@ public class NodeNamespace extends Namespace
 	/**
 	 * The regular expression that all name space names must match.
 	 */
-	private final static String nameRegex = "([_a-zA-Z][_a-zA-Z0-9]*)|!|~";
+	private final static String nameRegex = "([_a-zA-Z][_a-zA-Z0-9]*)";
+
+	public static boolean validName(String name)
+	{
+		return name.matches(nameRegex);
+	}
 
 	private final Namespace parent;
 	private final String name;
@@ -46,7 +51,7 @@ public class NodeNamespace extends Namespace
 
 		private final String name;
 
-		public InvalidNameException(String name)
+		protected InvalidNameException(String name)
 		{
 			super("Invalid name:" + name);
 			this.name = name;
@@ -70,13 +75,21 @@ public class NodeNamespace extends Namespace
 	{
 		super();
 		this.parent = parent;
-		if (!name.matches(nameRegex))
-			throw new InvalidNameException(name);
-		if (name.equals(NamespaceInitiator.mark) ^ (this instanceof NamespaceInitiator))
-			throw new InvalidNameException(name);
-		if (name.equals(NamespaceTerminator.mark) ^ (this instanceof NamespaceTerminator))
-			throw new InvalidNameException(name);
-
+		if (this instanceof NamespaceInitiator)
+		{
+			if (!name.equals(NamespaceInitiator.mark))
+				throw new InvalidNameException(name);
+		}
+		else if (this instanceof NamespaceTerminator)
+		{
+			if (!name.equals(NamespaceTerminator.mark))
+				throw new InvalidNameException(name);
+		}
+		else
+		{
+			if (!validName(name))
+				throw new InvalidNameException(name);
+		}
 		this.name = name;
 	}
 

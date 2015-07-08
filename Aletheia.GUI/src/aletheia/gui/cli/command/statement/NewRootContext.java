@@ -19,32 +19,33 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.statement;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
+import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
-import aletheia.model.statement.Statement;
+import aletheia.model.statement.Statement.StatementException;
+import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "root", factory = NewRootContext.Factory.class)
 public class NewRootContext extends NewContext
 {
-
-	public NewRootContext(CliJPanel from, Transaction transaction, Identifier identifier, Term term)
+	private NewRootContext(CliJPanel from, Transaction transaction, Identifier identifier, Term term,
+			Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 	{
-		super(from, transaction, identifier, term);
+		super(from, transaction, identifier, term, parameterIdentifiers);
 	}
 
 	@Override
-	protected RunNewStatementReturnData runNewStatement() throws Exception
+	protected Context openSubContext() throws StatementException
 	{
-		PersistenceManager persistenceManager = getFrom().getAletheiaJPanel().getPersistenceManager();
-		Statement statement = RootContext.create(persistenceManager, getTransaction(), getTerm());
-		return new RunNewStatementReturnData(statement);
+		return RootContext.create(getPersistenceManager(), getTransaction(), getTerm());
 	}
 
 	public static class Factory extends AbstractNewStatementFactory<NewRootContext>
@@ -54,8 +55,9 @@ public class NewRootContext extends NewContext
 		public NewRootContext parse(CliJPanel cliJPanel, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Term term = parseTerm(cliJPanel.getActiveContext(), transaction, split.get(0));
-			return new NewRootContext(cliJPanel, transaction, identifier, term);
+			Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<ParameterVariableTerm, Identifier>();
+			Term term = parseTerm(cliJPanel.getActiveContext(), transaction, split.get(0), parameterIdentifiers);
+			return new NewRootContext(cliJPanel, transaction, identifier, term, parameterIdentifiers);
 		}
 
 		@Override

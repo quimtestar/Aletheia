@@ -23,7 +23,7 @@ import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.model.statement.UnfoldingContext;
 import aletheia.persistence.Transaction;
 
-public class UnfoldingContextContextJTreeNodeRenderer extends ContextContextJTreeNodeRenderer
+public class UnfoldingContextContextJTreeNodeRenderer extends ContextContextJTreeNodeRenderer<UnfoldingContext>
 {
 	private static final long serialVersionUID = 5051767441682012846L;
 
