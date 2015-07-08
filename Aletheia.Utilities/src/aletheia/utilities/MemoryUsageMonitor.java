@@ -35,6 +35,7 @@ import javax.management.NotificationListener;
 public class MemoryUsageMonitor
 {
 	private final static NotificationEmitter emitter;
+
 	static
 	{
 		MemoryMXBean mbean = ManagementFactory.getMemoryMXBean();

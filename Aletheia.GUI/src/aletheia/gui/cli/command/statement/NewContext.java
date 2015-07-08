@@ -60,6 +60,7 @@ public class NewContext extends NewStatement
 	}
 
 	private static final Identifier underscore;
+
 	static
 	{
 		try

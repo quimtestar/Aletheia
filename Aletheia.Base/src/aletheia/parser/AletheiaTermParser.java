@@ -330,8 +330,8 @@ public class AletheiaTermParser extends Parser
 					String atParam = ((TaggedTerminalToken) token.getChildren().get(0)).getText();
 					VariableTerm variable = tempParameterTable.get(new NumberedParameterRef(atParam));
 					if (variable == null)
-						throw new TermParserException("Parameter:" + "'" + atParam + "'" + " not defined", token.getChildren().get(0).getStartLocation(), token
-								.getChildren().get(0).getStopLocation(), input);
+						throw new TermParserException("Parameter:" + "'" + atParam + "'" + " not defined", token.getChildren().get(0).getStartLocation(),
+								token.getChildren().get(0).getStopLocation(), input);
 					return variable;
 				}
 				else if (token.getProduction().getRight().get(0).equals(taggedNonTerminalSymbols.get("F")))
