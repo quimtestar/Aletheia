@@ -160,8 +160,8 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 			{
 				addMouseListener(new MyMouseListener());
 				addHierarchyListener(new MyHierarchyListener());
+				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
-			setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		}
 
 		private Color labelDefaultColor()

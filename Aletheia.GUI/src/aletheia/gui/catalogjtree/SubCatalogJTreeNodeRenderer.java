@@ -20,6 +20,7 @@
 package aletheia.gui.catalogjtree;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -92,6 +93,7 @@ public class SubCatalogJTreeNodeRenderer extends CatalogJTreeNodeRenderer
 				this.addTextLabel(String.format("%-10s", catalog.name()), labelColor);
 				this.addColonLabel();
 				this.addTerm(transaction, statement);
+				setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 			setToolTipText(catalog.prefix().qualifiedName());
 
