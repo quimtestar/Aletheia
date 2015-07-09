@@ -50,9 +50,9 @@ public abstract class GenericTreeNodeMap<K, N> extends AbstractMap<K, N>
 		this.map.addListener(new CacheListener());
 	}
 
-	public synchronized boolean cachedKey(K key)
+	public synchronized boolean isCached(Object oKey)
 	{
-		return map.containsKey(key);
+		return map.containsKey(oKey);
 	}
 
 	public synchronized N cached(Object oKey)
