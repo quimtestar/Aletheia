@@ -27,6 +27,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
@@ -905,6 +906,36 @@ public class ContextJTree extends PersistentJTree
 				}
 			}
 
+		});
+
+	}
+
+	public void collapseAll(final Context context)
+	{
+		SwingUtilities.invokeLater(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				Stack<GroupSorterContextJTreeNode<?>> collapseStack = new Stack<GroupSorterContextJTreeNode<?>>();
+				Stack<SorterContextJTreeNode> stack = new Stack<SorterContextJTreeNode>();
+				stack.push((SorterContextJTreeNode) getModel().getNodeMap().cachedByStatement(context));
+				while (!stack.isEmpty())
+				{
+					SorterContextJTreeNode node = stack.pop();
+					if (node instanceof GroupSorterContextJTreeNode<?>)
+					{
+						GroupSorterContextJTreeNode<?> gNode = (GroupSorterContextJTreeNode<?>) node;
+						collapseStack.push(gNode);
+						List<Sorter> sorters = gNode.getSorterList();
+						if (sorters != null)
+							for (Sorter sorter : sorters)
+								stack.push(getModel().getNodeMap().cached(sorter));
+					}
+				}
+				while (!collapseStack.isEmpty())
+					collapsePath(collapseStack.pop().path());
+			}
 		});
 
 	}
