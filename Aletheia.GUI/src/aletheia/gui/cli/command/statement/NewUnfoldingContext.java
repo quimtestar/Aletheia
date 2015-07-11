@@ -52,8 +52,10 @@ public class NewUnfoldingContext extends NewContext
 	}
 
 	@Override
-	protected Context openSubContext() throws StatementException
+	protected Context openSubContext() throws StatementException, NotActiveContextException
 	{
+		if (getFrom().getActiveContext() == null)
+			throw new NotActiveContextException();
 		return getFrom().getActiveContext().openUnfoldingSubContext(getTransaction(), getTerm(), declaration);
 	}
 

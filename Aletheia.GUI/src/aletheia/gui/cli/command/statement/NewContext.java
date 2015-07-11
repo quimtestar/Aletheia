@@ -54,8 +54,10 @@ public class NewContext extends NewStatement
 		return term;
 	}
 
-	protected Context openSubContext() throws StatementException
+	protected Context openSubContext() throws StatementException, NotActiveContextException
 	{
+		if (getFrom().getActiveContext() == null)
+			throw new NotActiveContextException();
 		return getFrom().getActiveContext().openSubContext(getTransaction(), term);
 	}
 
@@ -76,8 +78,6 @@ public class NewContext extends NewStatement
 	@Override
 	protected RunNewStatementReturnData runNewStatement() throws Exception
 	{
-		if (getFrom().getActiveContext() == null)
-			throw new NotActiveContextException();
 		Context context = openSubContext();
 		Term body = term;
 		Iterator<Assumption> assumptionIterator = context.assumptions(getTransaction()).iterator();
