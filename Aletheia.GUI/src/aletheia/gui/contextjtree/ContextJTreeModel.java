@@ -1036,7 +1036,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 				else
 				{
 					pNode = (ContextSorterContextJTreeNode) nodeMap.cachedByStatement(statement);
-					if (pNode==null)
+					if (pNode == null)
 						return null;
 				}
 				Identifier id = statement.getIdentifier();
