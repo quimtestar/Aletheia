@@ -175,9 +175,14 @@ public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterContextJ
 		}
 	}
 
-	public synchronized boolean cachedByStatement(Statement statement)
+	public synchronized boolean isCachedByStatement(Statement statement)
 	{
 		return byStatementMapContainsKey(statement);
+	}
+
+	public synchronized StatementContextJTreeNode cachedByStatement(Statement statement)
+	{
+		return byStatementMapGetFirst(statement);
 	}
 
 	public synchronized StatementContextJTreeNode getByStatement(Statement statement)
