@@ -48,7 +48,6 @@ public class Up extends TransactionalCommand
 		else
 			ctx = ctx.getContext(getTransaction());
 		getFrom().setActiveContext(ctx);
-		getFrom().getAletheiaJPanel().getContextJTree().pushSelectStatement(getTransaction(), ctx);
 		return null;
 	}
 
