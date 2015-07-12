@@ -30,6 +30,7 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.nomenclator.Nomenclator;
 import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
+import aletheia.model.nomenclator.Nomenclator.SignatureIsValidNomenclatorException;
 import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
@@ -189,15 +190,20 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		{
 			Identifier identifier = (Identifier) nullableNamespaceProtocol.recv(in);
 			Identifier oldId = statement.identifier(getTransaction());
-			if (identifier == null)
+			if (identifier == null || !identifier.equals(oldId))
 			{
 				if (oldId != null)
-					statement.unidentify(getTransaction());
+					try
+					{
+						statement.unidentify(getTransaction());
+					}
+					catch (SignatureIsValidNomenclatorException e)
+					{
+						throw new ProtocolException(e);
+					}
 			}
-			else if (!identifier.equals(oldId))
+			if (identifier != null && !identifier.equals(oldId))
 			{
-				if (oldId != null)
-					statement.unidentify(getTransaction());
 				try
 				{
 					Nomenclator nomenclator = statement.getParentNomenclator(getTransaction());
@@ -207,7 +213,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 				}
 				catch (NomenclatorException e)
 				{
-					throw new Error(e);
+					throw new ProtocolException(e);
 				}
 			}
 		}

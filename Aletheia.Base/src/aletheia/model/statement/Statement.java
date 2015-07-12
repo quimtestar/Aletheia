@@ -37,6 +37,7 @@ import java.util.UUID;
 import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
+import aletheia.model.authority.AuthorityException;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.authority.StatementAuthority.AlreadyAuthoredStatementException;
@@ -48,6 +49,7 @@ import aletheia.model.identifier.Namespace;
 import aletheia.model.local.StatementLocal;
 import aletheia.model.nomenclator.Nomenclator;
 import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
+import aletheia.model.nomenclator.Nomenclator.SignatureIsValidNomenclatorException;
 import aletheia.model.nomenclator.Nomenclator.UnknownIdentifierException;
 import aletheia.model.statement.Context.CantDeleteAssumptionException;
 import aletheia.model.statement.Context.StatementHasDependentsException;
@@ -668,15 +670,38 @@ public abstract class Statement implements Exportable
 	 *            The transaction to be used in the operation.
 	 * @param identifier
 	 *            The identifier.
+	 * @throws SignatureIsValidException
 	 */
-	public void setIdentifier(Transaction transaction, Identifier identifier)
+	public void setIdentifier(Transaction transaction, Identifier identifier) throws SignatureIsValidException
+	{
+		setIdentifier(transaction, identifier, false);
+	}
+
+	/**
+	 * Sets the {@link Identifier} of this statement in its context.
+	 *
+	 * @param transaction
+	 *            The transaction to be used in the operation.
+	 * @param identifier
+	 *            The identifier.
+	 * @param force
+	 *            If true, don't check the existence of valid signatures.
+	 * @throws SignatureIsValidException
+	 */
+	protected void setIdentifier(Transaction transaction, Identifier identifier, boolean force) throws SignatureIsValidException
 	{
 		Identifier old = identifier(transaction);
 		if ((old == null) != (identifier == null) || (!old.equals(identifier)))
 		{
+			lockAuthority(transaction);
 			StatementAuthority statementAuthority = getAuthority(transaction);
 			if (statementAuthority != null)
-				statementAuthority.clearSignatures(transaction);
+			{
+				if (force)
+					statementAuthority.checkValidSignature(transaction);
+				else if (statementAuthority.isValidSignature())
+					throw new SignatureIsValidException("Can't rename statement with valid signatures");
+			}
 			entity.setIdentifier(identifier);
 			persistenceUpdate(transaction);
 		}
@@ -1172,11 +1197,31 @@ public abstract class Statement implements Exportable
 			old.deleteNoCheckSignedProof(transaction);
 	}
 
-	public void deleteAuthority(Transaction transaction) throws DependentUnpackedSignatureRequests
+	public class SignatureIsValidException extends AuthorityException
+	{
+		private static final long serialVersionUID = 6776102696391059941L;
+
+		private SignatureIsValidException(String message)
+		{
+			super(message);
+		}
+
+	}
+
+	public void deleteAuthority(Transaction transaction) throws DependentUnpackedSignatureRequests, SignatureIsValidException
+	{
+		deleteAuthority(transaction, false);
+	}
+
+	protected void deleteAuthority(Transaction transaction, boolean force) throws DependentUnpackedSignatureRequests, SignatureIsValidException
 	{
 		StatementAuthority old = getAuthority(transaction);
 		if (old != null)
+		{
+			if (!force && old.isValidSignature())
+				throw new SignatureIsValidException("Can't delete statement with valid signatures");
 			old.delete(transaction);
+		}
 	}
 
 	protected StatementLocal createLocal(Transaction transaction)
@@ -1237,7 +1282,7 @@ public abstract class Statement implements Exportable
 		getParentNomenclator(transaction).identifyStatement(identifier, this);
 	}
 
-	public Identifier unidentify(Transaction transaction)
+	public Identifier unidentify(Transaction transaction) throws SignatureIsValidNomenclatorException
 	{
 		try
 		{
@@ -1252,14 +1297,14 @@ public abstract class Statement implements Exportable
 		}
 	}
 
-	public void delete(Transaction transaction)
-			throws StatementNotInContextException, StatementHasDependentsException, CantDeleteAssumptionException, DependentUnpackedSignatureRequests
+	public void delete(Transaction transaction) throws StatementNotInContextException, StatementHasDependentsException, CantDeleteAssumptionException,
+			DependentUnpackedSignatureRequests, SignatureIsValidException
 	{
 		getContext(transaction).deleteStatement(transaction, this);
 	}
 
 	public void deleteWithRemovalFromDependentUnpackedSignatureRequests(Transaction transaction)
-			throws StatementNotInContextException, StatementHasDependentsException, CantDeleteAssumptionException
+			throws StatementNotInContextException, StatementHasDependentsException, CantDeleteAssumptionException, SignatureIsValidException
 	{
 		removeFromDependentUnpackedSignatureRequests(transaction);
 		try
@@ -1272,7 +1317,7 @@ public abstract class Statement implements Exportable
 		}
 	}
 
-	public void deleteCascade(Transaction transaction) throws StatementNotInContextException
+	public void deleteCascade(Transaction transaction) throws StatementNotInContextException, SignatureIsValidException
 	{
 		getContext(transaction).deleteStatementCascade(transaction, this);
 	}

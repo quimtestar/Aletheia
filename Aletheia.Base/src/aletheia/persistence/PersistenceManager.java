@@ -62,6 +62,7 @@ import aletheia.model.statement.Declaration;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
+import aletheia.model.statement.Statement.SignatureIsValidException;
 import aletheia.model.statement.UnfoldingContext;
 import aletheia.model.term.SimpleTerm;
 import aletheia.persistence.collections.authority.DelegateAuthorizerByAuthorizerMap;
@@ -696,11 +697,12 @@ public abstract class PersistenceManager
 	 *            The file.
 	 * @throws IOException
 	 * @throws ProtocolException
+	 * @throws SignatureIsValidException
 	 *
 	 * @see BackupRestore
 	 * @see #backup(Transaction, File)
 	 */
-	public void restoreClean(Transaction transaction, File file) throws IOException, ProtocolException
+	public void restoreClean(Transaction transaction, File file) throws IOException, ProtocolException, SignatureIsValidException
 	{
 		BackupRestore backupRestore = new BackupRestore(this);
 		backupRestore.restoreClean(file, transaction);

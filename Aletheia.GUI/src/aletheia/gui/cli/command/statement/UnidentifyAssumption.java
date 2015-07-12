@@ -25,6 +25,7 @@ import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
+import aletheia.model.nomenclator.Nomenclator.SignatureIsValidNomenclatorException;
 import aletheia.model.nomenclator.Nomenclator.UnknownIdentifierException;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
@@ -47,7 +48,7 @@ public class UnidentifyAssumption extends TransactionalCommand
 	}
 
 	@Override
-	protected RunTransactionalReturnData runTransactional() throws UnknownIdentifierException
+	protected RunTransactionalReturnData runTransactional() throws UnknownIdentifierException, SignatureIsValidNomenclatorException
 	{
 		statement.unidentify(getTransaction());
 		Context newActiveContext;

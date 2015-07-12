@@ -46,6 +46,7 @@ import aletheia.model.statement.Context;
 import aletheia.model.statement.Context.StatementNotInContextException;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
+import aletheia.model.statement.Statement.SignatureIsValidException;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.protocol.ProtocolException;
@@ -176,14 +177,14 @@ public class BackupRestore
 		restore(file, ListenableAborter.nullListenableAborter);
 	}
 
-	public void restoreClean(DataInput in, Transaction transaction) throws IOException, ProtocolException
+	public void restoreClean(DataInput in, Transaction transaction) throws IOException, ProtocolException, SignatureIsValidException
 	{
 		int version = restoreVersion(in);
 		restorePersons(in, transaction, version);
 		restoreStatementsClean(in, transaction, version);
 	}
 
-	public void restoreClean(File file, Transaction transaction) throws IOException, ProtocolException
+	public void restoreClean(File file, Transaction transaction) throws IOException, ProtocolException, SignatureIsValidException
 	{
 		DataInputStream in = new DataInputStream(new FileInputStream(file));
 		try
@@ -339,8 +340,9 @@ public class BackupRestore
 	 *            The transaction.
 	 * @throws IOException
 	 * @throws ProtocolException
+	 * @throws SignatureIsValidException
 	 */
-	public void restoreStatementsClean(DataInput in, Transaction transaction, int version) throws IOException, ProtocolException
+	public void restoreStatementsClean(DataInput in, Transaction transaction, int version) throws IOException, ProtocolException, SignatureIsValidException
 	{
 		if (version != 0)
 			throw new VersionException(version);

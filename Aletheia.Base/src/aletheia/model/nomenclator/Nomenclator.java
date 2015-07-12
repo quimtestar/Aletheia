@@ -31,6 +31,7 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NamespaceExtreme;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
+import aletheia.model.statement.Statement.SignatureIsValidException;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.persistence.PersistenceListener;
 import aletheia.persistence.PersistenceManager;
@@ -66,22 +67,22 @@ public abstract class Nomenclator implements Serializable, Exportable
 	{
 		private static final long serialVersionUID = -7221581138887786558L;
 
-		public NomenclatorException()
+		protected NomenclatorException()
 		{
 			super();
 		}
 
-		public NomenclatorException(String message, Throwable cause)
+		protected NomenclatorException(String message, Throwable cause)
 		{
 			super(message, cause);
 		}
 
-		public NomenclatorException(String message)
+		protected NomenclatorException(String message)
 		{
 			super(message);
 		}
 
-		public NomenclatorException(Throwable cause)
+		protected NomenclatorException(Throwable cause)
 		{
 			super(cause);
 		}
@@ -161,7 +162,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 
 		private final Identifier identifier;
 
-		public AlreadyUsedIdentifierException(Identifier identifier)
+		private AlreadyUsedIdentifierException(Identifier identifier)
 		{
 			super();
 			this.identifier = identifier;
@@ -179,7 +180,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 	{
 		private static final long serialVersionUID = 5777253096931848662L;
 
-		public AlreadyIdentifiedStatementException(Transaction transaction, Statement statement)
+		private AlreadyIdentifiedStatementException(Transaction transaction, Statement statement)
 		{
 			super("Already identified statement: " + statement.identifier(transaction));
 		}
@@ -190,7 +191,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 	{
 		private static final long serialVersionUID = -1154036450164596725L;
 
-		public InvalidIdentifierException(Identifier identifier)
+		private InvalidIdentifierException(Identifier identifier)
 		{
 			super("Invalid identifier: " + identifier);
 		}
@@ -201,12 +202,12 @@ public abstract class Nomenclator implements Serializable, Exportable
 	{
 		private static final long serialVersionUID = -7086854570954862190L;
 
-		public BadStatementException()
+		private BadStatementException()
 		{
 			super();
 		}
 
-		public BadStatementException(Throwable cause)
+		private BadStatementException(Throwable cause)
 		{
 			super(cause);
 		}
@@ -215,6 +216,17 @@ public abstract class Nomenclator implements Serializable, Exportable
 	public class StatementNotInContextException extends BadStatementException
 	{
 		private static final long serialVersionUID = 2169494984552597475L;
+
+	}
+
+	public class SignatureIsValidNomenclatorException extends NomenclatorException
+	{
+		private static final long serialVersionUID = 6746233943674285453L;
+
+		private SignatureIsValidNomenclatorException(SignatureIsValidException cause)
+		{
+			super(cause.getMessage(), cause);
+		}
 
 	}
 
@@ -230,7 +242,6 @@ public abstract class Nomenclator implements Serializable, Exportable
 	 * @param statement
 	 *            The statement
 	 * @throws NomenclatorException
-	 * @throws StatementNotInContextException
 	 */
 	public void identifyStatement(Identifier identifier, Statement statement) throws NomenclatorException
 	{
@@ -243,7 +254,14 @@ public abstract class Nomenclator implements Serializable, Exportable
 		if (getLocalStatementToIdentifier().containsKey(statement))
 			throw new AlreadyIdentifiedStatementException(getTransaction(), statement);
 		Statement statement_ = statement.refresh(getTransaction());
-		statement_.setIdentifier(getTransaction(), identifier);
+		try
+		{
+			statement_.setIdentifier(getTransaction(), identifier);
+		}
+		catch (SignatureIsValidException e)
+		{
+			throw new SignatureIsValidNomenclatorException(e);
+		}
 		Iterable<Listener> listeners = listeners();
 		synchronized (listeners)
 		{
@@ -265,13 +283,21 @@ public abstract class Nomenclator implements Serializable, Exportable
 	 *            The identifier to be unassigned.
 	 * @return The statement that had that identifier.
 	 * @throws UnknownIdentifierException
+	 * @throws SignatureIsValidNomenclatorException
 	 */
-	public Statement unidentifyStatement(Identifier identifier) throws UnknownIdentifierException
+	public Statement unidentifyStatement(Identifier identifier) throws UnknownIdentifierException, SignatureIsValidNomenclatorException
 	{
 		Statement statement = getLocalIdentifierToStatement().get(identifier);
 		if (statement == null)
 			throw new UnknownIdentifierException();
-		statement.setIdentifier(getTransaction(), null);
+		try
+		{
+			statement.setIdentifier(getTransaction(), null);
+		}
+		catch (SignatureIsValidException e)
+		{
+			throw new SignatureIsValidNomenclatorException(e);
+		}
 		Iterable<Listener> listeners = listeners();
 		synchronized (listeners)
 		{

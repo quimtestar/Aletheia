@@ -60,7 +60,6 @@ import aletheia.model.nomenclator.Nomenclator;
 import aletheia.model.nomenclator.Nomenclator.AlreadyIdentifiedStatementException;
 import aletheia.model.nomenclator.Nomenclator.AlreadyUsedIdentifierException;
 import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
-import aletheia.model.nomenclator.Nomenclator.UnknownIdentifierException;
 import aletheia.model.nomenclator.SubNomenclator;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
@@ -1033,10 +1032,10 @@ public class Context extends Statement
 	 *            The transaction to be used in the operation.
 	 * @param identifier
 	 *            The identifier to unassign.
-	 * @throws UnknownIdentifierException
+	 * @throws NomenclatorException
 	 */
 	@Deprecated
-	public void unidentifyStatement(Transaction transaction, Identifier identifier) throws UnknownIdentifierException
+	public void unidentifyStatement(Transaction transaction, Identifier identifier) throws NomenclatorException
 	{
 		getNomenclator(transaction).unidentifyStatement(identifier);
 	}
@@ -1196,9 +1195,10 @@ public class Context extends Statement
 	 * @throws StatementHasDependentsException
 	 * @throws CantDeleteAssumptionException
 	 * @throws DependentUnpackedSignatureRequests
+	 * @throws SignatureIsValidException
 	 */
-	public void deleteStatement(Transaction transaction, Statement statement)
-			throws StatementNotInContextException, StatementHasDependentsException, CantDeleteAssumptionException, DependentUnpackedSignatureRequests
+	public void deleteStatement(Transaction transaction, Statement statement) throws StatementNotInContextException, StatementHasDependentsException,
+			CantDeleteAssumptionException, DependentUnpackedSignatureRequests, SignatureIsValidException
 	{
 		if (statement instanceof Assumption)
 			throw new CantDeleteAssumptionException();
@@ -1292,8 +1292,8 @@ public class Context extends Statement
 		}
 	}
 
-	public void deleteStatements(Transaction transaction, CloseableCollection<? extends Statement> statements)
-			throws StatementNotInContextException, StatementHasDependentsException, CantDeleteAssumptionException, DependentUnpackedSignatureRequests
+	public void deleteStatements(Transaction transaction, CloseableCollection<? extends Statement> statements) throws StatementNotInContextException,
+			StatementHasDependentsException, CantDeleteAssumptionException, DependentUnpackedSignatureRequests, SignatureIsValidException
 	{
 		for (Statement st : new ReverseList<Statement>(new BufferedList<Statement>(dependencySortedStatements(transaction, statements))))
 			deleteStatement(transaction, st);
@@ -1462,15 +1462,17 @@ public class Context extends Statement
 	 * @param statement
 	 *            The statement to delete.
 	 * @throws StatementNotInContextException
+	 * @throws SignatureIsValidException
 	 *
 	 * @see #deleteStatement(Transaction, Statement)
 	 */
-	public void deleteStatementCascade(Transaction transaction, Statement statement) throws StatementNotInContextException
+	public void deleteStatementCascade(Transaction transaction, Statement statement) throws StatementNotInContextException, SignatureIsValidException
 	{
 		deleteStatementsCascade(transaction, new TrivialCloseableCollection<Statement>(Collections.singleton(statement)));
 	}
 
-	public void deleteStatementsCascade(Transaction transaction, CloseableIterable<? extends Statement> statements) throws StatementNotInContextException
+	public void deleteStatementsCascade(Transaction transaction, CloseableIterable<? extends Statement> statements)
+			throws StatementNotInContextException, SignatureIsValidException
 	{
 		Stack<Statement> stack = new Stack<Statement>();
 		CloseableIterator<? extends Statement> iterator = statements.iterator();

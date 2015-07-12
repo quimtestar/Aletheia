@@ -198,7 +198,7 @@ public class RootContext extends Context
 	}
 
 	@Override
-	public void delete(Transaction transaction)
+	public void delete(Transaction transaction) throws SignatureIsValidException
 	{
 		try
 		{
@@ -255,7 +255,7 @@ public class RootContext extends Context
 				else
 					stack.pop();
 			}
-			deleteAuthority(transaction);
+			deleteAuthority(transaction, true);
 			deleteLocal(transaction);
 			Identifier id = identifier(transaction);
 			getPersistenceManager().deleteStatement(transaction, this);
@@ -273,12 +273,12 @@ public class RootContext extends Context
 	}
 
 	@Override
-	public void deleteCascade(Transaction transaction)
+	public void deleteCascade(Transaction transaction) throws SignatureIsValidException
 	{
 		delete(transaction);
 	}
 
-	public static void delete(Transaction transaction, CloseableIterable<? extends RootContext> rootContexts)
+	public static void delete(Transaction transaction, CloseableIterable<? extends RootContext> rootContexts) throws SignatureIsValidException
 	{
 		CloseableIterator<? extends RootContext> iterator = rootContexts.iterator();
 		try
@@ -292,7 +292,7 @@ public class RootContext extends Context
 		}
 	}
 
-	public static void deleteCascade(Transaction transaction, CloseableIterable<? extends RootContext> rootContexts)
+	public static void deleteCascade(Transaction transaction, CloseableIterable<? extends RootContext> rootContexts) throws SignatureIsValidException
 	{
 		delete(transaction, rootContexts);
 	}
