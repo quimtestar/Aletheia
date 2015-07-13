@@ -1268,6 +1268,22 @@ public abstract class Statement implements Exportable
 		return authority.isValidSignature();
 	}
 
+	public boolean isSignedDependencies(Transaction transaction)
+	{
+		StatementAuthority authority = getAuthority(transaction);
+		if (authority == null)
+			return false;
+		return authority.isSignedDependencies();
+	}
+
+	public boolean isSignedProof(Transaction transaction)
+	{
+		StatementAuthority authority = getAuthority(transaction);
+		if (authority == null)
+			return false;
+		return authority.isSignedProof();
+	}
+
 	public CloseableSet<StatementAuthority> dependentAuthorities(final Transaction transaction)
 	{
 		return new FilteredCloseableSet<>(new NotNullFilter<StatementAuthority>(), new BijectionCloseableSet<>(new Bijection<Statement, StatementAuthority>()
