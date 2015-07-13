@@ -25,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -81,7 +80,6 @@ import aletheia.persistence.collections.statement.LocalStatementsByTerm;
 import aletheia.persistence.collections.statement.LocalStatementsMap;
 import aletheia.persistence.collections.statement.SubContextsSet;
 import aletheia.persistence.entities.statement.ContextEntity;
-import aletheia.utilities.collections.AbstractCloseableCollection;
 import aletheia.utilities.collections.AdaptedList;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCloseableSet;
@@ -97,14 +95,11 @@ import aletheia.utilities.collections.CombinedCloseableMultimap;
 import aletheia.utilities.collections.CombinedMap;
 import aletheia.utilities.collections.CombinedSet;
 import aletheia.utilities.collections.EmptyCloseableSet;
-import aletheia.utilities.collections.Filter;
 import aletheia.utilities.collections.FilteredCloseableSet;
-import aletheia.utilities.collections.FilteredCollection;
 import aletheia.utilities.collections.NotNullFilter;
 import aletheia.utilities.collections.ReverseList;
 import aletheia.utilities.collections.TrivialCloseableCollection;
 import aletheia.utilities.collections.TrivialCloseableIterable;
-import aletheia.utilities.collections.UnionCloseableCollection;
 import aletheia.utilities.collections.UnmodifiableCloseableMap;
 
 /**
@@ -896,113 +891,10 @@ public class Context extends Statement
 		return getPersistenceManager().localSortedStatements(transaction, this);
 	}
 
-	private static CloseableCollection<Statement> dependencySortedStatements(final Transaction transaction,
-			final CloseableCollection<? extends Statement> collection, final Comparator<? super Statement> comparator)
-	{
-		return new UnionCloseableCollection<Statement>(new AbstractCloseableCollection<CloseableCollection<Statement>>()
-		{
-
-			@Override
-			public CloseableIterator<CloseableCollection<Statement>> iterator()
-			{
-				return new CloseableIterator<CloseableCollection<Statement>>()
-				{
-					final CloseableIterator<? extends Statement> iterator = collection.iterator();
-					final Set<Statement> visited = new HashSet<Statement>();
-
-					@Override
-					public boolean hasNext()
-					{
-						return iterator.hasNext();
-					}
-
-					@Override
-					public CloseableCollection<Statement> next()
-					{
-						Stack<Statement> stack = new Stack<Statement>();
-						stack.push(iterator.next());
-						Stack<Statement> stack2 = new Stack<Statement>();
-						Map<Statement, List<Statement>> dependencyMap = new HashMap<Statement, List<Statement>>();
-						while (!stack.isEmpty())
-						{
-							Statement st = stack.pop();
-							stack2.push(st);
-							List<Statement> list = dependencyMap.get(st);
-							if (list == null)
-							{
-								list = new ArrayList<Statement>(new FilteredCollection<Statement>(new Filter<Statement>()
-								{
-									@Override
-									public boolean filter(Statement e)
-									{
-										return !visited.contains(e) && collection.contains(e);
-									}
-								}, st.dependencies(transaction)));
-								if (comparator != null)
-									Collections.sort(list, comparator);
-								dependencyMap.put(st, list);
-							}
-							stack.addAll(list);
-						}
-						List<Statement> list = new ArrayList<Statement>();
-						while (!stack2.isEmpty())
-						{
-							Statement st = stack2.pop();
-							if (!visited.contains(st))
-							{
-								visited.add(st);
-								list.add(st);
-							}
-						}
-						return new TrivialCloseableCollection<>(list);
-					}
-
-					@Override
-					public void remove()
-					{
-						throw new UnsupportedOperationException();
-					}
-
-					@Override
-					public void close()
-					{
-						iterator.close();
-					}
-
-				};
-			}
-
-			@Override
-			public int size()
-			{
-				return collection.size();
-			}
-
-			@Override
-			public boolean isEmpty()
-			{
-				return collection.isEmpty();
-			}
-
-			@Override
-			public boolean contains(Object o)
-			{
-				return collection.contains(o);
-			}
-
-		});
-
-	}
-
-	private static CloseableCollection<Statement> dependencySortedStatements(Transaction transaction, CloseableCollection<? extends Statement> iterable)
-	{
-		return dependencySortedStatements(transaction, iterable, null);
-	}
-
 	public CloseableCollection<Statement> localDependencySortedStatements(Transaction transaction)
 	{
 		LocalSortedStatements localSortedStatements = localSortedStatements(transaction);
-		return dependencySortedStatements(transaction, localSortedStatements, localSortedStatements.comparator());
+		return Statement.dependencySortedStatements(transaction, localSortedStatements);
 	}
 
 	/**
@@ -1295,7 +1187,7 @@ public class Context extends Statement
 	public void deleteStatements(Transaction transaction, CloseableCollection<? extends Statement> statements) throws StatementNotInContextException,
 			StatementHasDependentsException, CantDeleteAssumptionException, DependentUnpackedSignatureRequests, SignatureIsValidException
 	{
-		for (Statement st : new ReverseList<Statement>(new BufferedList<Statement>(dependencySortedStatements(transaction, statements))))
+		for (Statement st : new ReverseList<Statement>(new BufferedList<Statement>(Statement.dependencySortedStatements(transaction, statements))))
 			deleteStatement(transaction, st);
 	}
 
