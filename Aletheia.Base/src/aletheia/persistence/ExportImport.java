@@ -42,6 +42,7 @@ class ExportImport
 {
 	private static final Logger logger = LoggerManager.instance.logger();
 	private static final int exportVersion = 0;
+	private static final long transactionTimeout = 10000;
 
 	private final PersistenceManager persistenceManager;
 
@@ -51,6 +52,11 @@ class ExportImport
 	public ExportImport(PersistenceManager persistenceManager)
 	{
 		this.persistenceManager = persistenceManager;
+	}
+
+	private Transaction beginTransaction()
+	{
+		return persistenceManager.beginTransaction(transactionTimeout);
 	}
 
 	public void export(File file, Transaction transaction, Collection<Statement> statements, boolean signed) throws IOException
@@ -284,7 +290,7 @@ class ExportImport
 		int version = versionProtocol.recv(in);
 		if (version != 0)
 			throw new VersionException(version);
-		Transaction transaction = persistenceManager.beginTransaction();
+		Transaction transaction = beginTransaction();
 		class AborterListener implements ListenableAborter.Listener
 		{
 			private Transaction transaction;
@@ -334,7 +340,7 @@ class ExportImport
 				{
 					logger.info("--> restore:" + recvd);
 					transaction.commit();
-					transaction = persistenceManager.beginTransaction();
+					transaction = beginTransaction();
 					aborterListener.setTransaction(transaction);
 					statementProtocol = new StatementProtocol(0, persistenceManager, transaction);
 					statementAuthorityProtocol = new StatementAuthorityDelegateTreeProtocol(0, persistenceManager, transaction);
