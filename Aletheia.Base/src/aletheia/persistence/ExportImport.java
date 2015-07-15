@@ -325,6 +325,7 @@ class ExportImport
 					personProtocol.recv(in);
 					break;
 				case End:
+					transaction.commit();
 					break loop;
 				}
 

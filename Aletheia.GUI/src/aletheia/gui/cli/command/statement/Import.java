@@ -69,7 +69,6 @@ public class Import extends Command
 	public void run() throws Exception
 	{
 		getPersistenceManager().import_(file,listenableAborter);
-		getFrom().clear();
 	}
 
 	@Override
