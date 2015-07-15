@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.backuprestore;
+package aletheia.persistence;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -33,8 +33,6 @@ import aletheia.model.authority.Person;
 import aletheia.model.authority.Person.PersonCreationException;
 import aletheia.model.authority.PrivatePerson;
 import aletheia.model.authority.PrivateSignatory;
-import aletheia.persistence.PersistenceManager;
-import aletheia.persistence.Transaction;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.VersionProtocol;
@@ -45,7 +43,7 @@ import aletheia.security.utilities.PassphraseEncryptedStreamer.BadPassphraseExce
 import aletheia.security.utilities.PassphraseEncryptedStreamer.PassphraseEncryptedStreamerException;
 import aletheia.utilities.collections.EmptyIgnoringCollection;
 
-public class PrivateSignatoryBackupRestore
+class PrivateSignatoryBackupRestore
 {
 	private static final int backupVersion = 0;
 

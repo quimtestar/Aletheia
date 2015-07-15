@@ -940,4 +940,47 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 		checkSuccessorOrphanityDelete(transaction);
 	}
 
+	public CloseableIterable<Person> delegatesRecursive(final Transaction transaction)
+	{
+		return new BijectionCloseableIterable<DelegateAuthorizer, Person>(new Bijection<DelegateAuthorizer, Person>()
+		{
+
+			@Override
+			public Person forward(DelegateAuthorizer delegateAuthorizer)
+			{
+				return delegateAuthorizer.getDelegate(transaction);
+			}
+
+			@Override
+			public DelegateAuthorizer backward(Person delegate)
+			{
+				throw new UnsupportedOperationException();
+			}
+		}, delegateAuthorizersRecursive(transaction));
+	}
+
+	public List<Person> successors(final Transaction transaction)
+	{
+		return new BijectionList<SuccessorEntry, Person>(new Bijection<SuccessorEntry, Person>()
+		{
+
+			@Override
+			public Person forward(SuccessorEntry successorEntry)
+			{
+				return successorEntry.getSuccessor(transaction);
+			}
+
+			@Override
+			public SuccessorEntry backward(Person successor)
+			{
+				throw new UnsupportedOperationException();
+			}
+		}, successorEntries());
+	}
+
+	public CloseableIterable<Person> personDependencies(Transaction transaction)
+	{
+		return new CombinedCloseableIterable<>(new TrivialCloseableIterable<>(successors(transaction)), delegatesRecursive(transaction));
+	}
+
 }

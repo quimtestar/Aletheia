@@ -19,15 +19,16 @@
  ******************************************************************************/
 package aletheia.persistence;
 
+import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Date;
 import java.util.UUID;
 
 import org.apache.logging.log4j.Logger;
 
-import aletheia.backuprestore.BackupRestore;
-import aletheia.backuprestore.PrivateSignatoryBackupRestore;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.ContextAuthority;
 import aletheia.model.authority.DelegateAuthorizer;
@@ -62,7 +63,6 @@ import aletheia.model.statement.Declaration;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
-import aletheia.model.statement.Statement.SignatureIsValidException;
 import aletheia.model.statement.UnfoldingContext;
 import aletheia.model.term.SimpleTerm;
 import aletheia.persistence.collections.authority.DelegateAuthorizerByAuthorizerMap;
@@ -156,6 +156,8 @@ import aletheia.persistence.entities.statement.UnfoldingContextEntity;
 import aletheia.persistence.exceptions.PersistenceException;
 import aletheia.protocol.ProtocolException;
 import aletheia.security.utilities.PassphraseEncryptedStreamer.BadPassphraseException;
+import aletheia.utilities.aborter.Aborter.AbortException;
+import aletheia.utilities.aborter.ListenableAborter;
 import aletheia.utilities.collections.AdaptedCloseableSet;
 import aletheia.utilities.collections.CloseableSet;
 import aletheia.utilities.collections.CombinedCloseableSet;
@@ -650,63 +652,6 @@ public abstract class PersistenceManager
 	 * @see #beginTransaction(long)
 	 */
 	public abstract Transaction beginDirtyTransaction(long timeOut);
-
-	/**
-	 * Backs up the full persistence on a file.
-	 *
-	 * @param transaction
-	 *            The transaction.
-	 * @param file
-	 *            The file.
-	 * @throws IOException
-	 *
-	 * @see BackupRestore
-	 * @see #restore(Transaction, File)
-	 * @see #restoreClean(Transaction, File)
-	 */
-	public void backup(Transaction transaction, File file) throws IOException
-	{
-		BackupRestore backupRestore = new BackupRestore(this);
-		backupRestore.backup(file, transaction);
-	}
-
-	/**
-	 * Restores a backed up file. Merges the restored data with the previously
-	 * existing data.
-	 *
-	 * @param file
-	 *            The file.
-	 * @throws IOException
-	 * @throws ProtocolException
-	 *
-	 * @see BackupRestore
-	 * @see #backup(Transaction, File)
-	 */
-	public void restore(File file) throws IOException, ProtocolException
-	{
-		BackupRestore backupRestore = new BackupRestore(this);
-		backupRestore.restore(file);
-	}
-
-	/**
-	 * Restores a backed up file. Cleans all the previously existing data.
-	 *
-	 * @param transaction
-	 *            The transaction.
-	 * @param file
-	 *            The file.
-	 * @throws IOException
-	 * @throws ProtocolException
-	 * @throws SignatureIsValidException
-	 *
-	 * @see BackupRestore
-	 * @see #backup(Transaction, File)
-	 */
-	public void restoreClean(Transaction transaction, File file) throws IOException, ProtocolException, SignatureIsValidException
-	{
-		BackupRestore backupRestore = new BackupRestore(this);
-		backupRestore.restoreClean(file, transaction);
-	}
 
 	public void backupPrivate(Transaction transaction, File file, char[] passphrase) throws IOException
 	{
@@ -1675,4 +1620,35 @@ public abstract class PersistenceManager
 		return lockPersistenceSecretKeySingletonEntity(transaction);
 	}
 
+	public void export(File file, Transaction transaction, Collection<Statement> statements, boolean signed) throws IOException
+	{
+		new ExportImport(this).export(file, transaction, statements, signed);
+	}
+
+	public void import_(DataInput in) throws IOException, ProtocolException
+	{
+		new ExportImport(this).import_(in);
+	}
+
+	public void import_(File file, ListenableAborter aborter) throws IOException, ProtocolException, AbortException
+	{
+		new ExportImport(this).import_(file, aborter);
+	}
+
+	public void import_(File file) throws IOException, ProtocolException
+	{
+		new ExportImport(this).import_(file);
+	}
+
+	public void export(DataOutput out, Transaction transaction, Collection<Statement> statements, boolean signed) throws IOException
+	{
+		new ExportImport(this).export(out, transaction, statements, signed);
+	}
+
+	public void import_(DataInput in, ListenableAborter aborter) throws IOException, ProtocolException, AbortException
+	{
+		new ExportImport(this).import_(in, aborter);
+	}
+	
+	
 }

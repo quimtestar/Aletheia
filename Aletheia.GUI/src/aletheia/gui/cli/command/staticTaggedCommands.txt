@@ -86,6 +86,8 @@ aletheia.gui.cli.command.statement.Translate
 aletheia.gui.cli.command.statement.UnidentifyAssumption
 aletheia.gui.cli.command.statement.RootContextSignatureUuid
 aletheia.gui.cli.command.statement.DeleteStatement
+aletheia.gui.cli.command.statement.Import
+aletheia.gui.cli.command.statement.Export
 
 aletheia.gui.cli.command.term.TermDiff
 aletheia.gui.cli.command.term.TermOut

@@ -63,17 +63,20 @@ import aletheia.utilities.collections.BijectionCloseableCollection;
 import aletheia.utilities.collections.BijectionCollection;
 import aletheia.utilities.collections.BufferedList;
 import aletheia.utilities.collections.CloseableCollection;
+import aletheia.utilities.collections.CloseableIterable;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableMap;
 import aletheia.utilities.collections.CloseableSet;
 import aletheia.utilities.collections.CloseableSortedSet;
 import aletheia.utilities.collections.CombinedCloseableCollection;
+import aletheia.utilities.collections.CombinedCloseableIterable;
 import aletheia.utilities.collections.CombinedCloseableMap;
 import aletheia.utilities.collections.EmptyCloseableMap;
 import aletheia.utilities.collections.Filter;
 import aletheia.utilities.collections.FilteredCloseableMap;
 import aletheia.utilities.collections.FilteredCloseableSortedSet;
 import aletheia.utilities.collections.TrivialCloseableCollection;
+import aletheia.utilities.collections.TrivialCloseableIterable;
 
 public class StatementAuthority implements Exportable
 {
@@ -1221,6 +1224,17 @@ public class StatementAuthority implements Exportable
 		persistenceUpdate(transaction);
 		clearSignatures(transaction);
 		deleteDelegateTree(transaction);
+	}
+
+	public CloseableIterable<Person> personDependencies(Transaction transaction)
+	{
+		Person author = getAuthor(transaction);
+		CloseableIterable<Person> authorIterable = new TrivialCloseableIterable<>(Collections.singleton(author));
+		DelegateTreeRootNode dtrn = getDelegateTreeRootNode(transaction);
+		if (dtrn == null)
+			return authorIterable;
+		else
+			return new CombinedCloseableIterable<>(authorIterable, dtrn.personDependencies(transaction));
 	}
 
 }
