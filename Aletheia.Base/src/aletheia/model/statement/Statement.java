@@ -1222,7 +1222,7 @@ public abstract class Statement implements Exportable
 		deleteAuthority(transaction, false);
 	}
 
-	protected void deleteAuthority(Transaction transaction, boolean force) throws DependentUnpackedSignatureRequests, SignatureIsValidException
+	public void deleteAuthority(Transaction transaction, boolean force) throws DependentUnpackedSignatureRequests, SignatureIsValidException
 	{
 		StatementAuthority old = getAuthority(transaction);
 		if (old != null)

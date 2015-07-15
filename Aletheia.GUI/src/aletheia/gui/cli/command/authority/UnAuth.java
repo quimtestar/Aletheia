@@ -32,17 +32,19 @@ import aletheia.persistence.Transaction;
 public class UnAuth extends TransactionalCommand
 {
 	private final Statement statement;
+	private final boolean force;
 
-	public UnAuth(CliJPanel from, Transaction transaction, Statement statement)
+	public UnAuth(CliJPanel from, Transaction transaction, Statement statement, boolean force)
 	{
 		super(from, transaction);
 		this.statement = statement;
+		this.force=force;
 	}
 
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		statement.deleteAuthority(getTransaction());
+		statement.deleteAuthority(getTransaction(),force);
 		return null;
 	}
 
@@ -62,13 +64,14 @@ public class UnAuth extends TransactionalCommand
 			Statement statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(0));
 			if (statement == null)
 				throw new CommandParseException("Invalid statement");
-			return new UnAuth(cliJPanel, transaction, statement);
+			boolean force=split.size()>1 && split.get(1).equals("force");
+			return new UnAuth(cliJPanel, transaction, statement, force);
 		}
 
 		@Override
 		protected String paramSpec()
 		{
-			return "<statement>";
+			return "<statement> [force]";
 		}
 
 		@Override
