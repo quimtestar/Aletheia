@@ -697,22 +697,19 @@ public abstract class Statement implements Exportable
 	 *            If true, don't check the existence of valid signatures.
 	 * @throws SignatureIsValidException
 	 */
-	protected void setIdentifier(Transaction transaction, Identifier identifier, boolean force) throws SignatureIsValidException
+	public void setIdentifier(Transaction transaction, Identifier identifier, boolean force) throws SignatureIsValidException
 	{
 		Identifier old = identifier(transaction);
 		if ((old == null) != (identifier == null) || (!old.equals(identifier)))
 		{
 			lockAuthority(transaction);
 			StatementAuthority statementAuthority = getAuthority(transaction);
-			if (statementAuthority != null)
-			{
-				if (force)
-					statementAuthority.checkValidSignature(transaction);
-				else if (statementAuthority.isValidSignature())
-					throw new SignatureIsValidException("Can't rename statement with valid signatures");
-			}
+			if (statementAuthority != null && !force && statementAuthority.isValidSignature())
+				throw new SignatureIsValidException("Can't rename statement with valid signatures");
 			entity.setIdentifier(identifier);
 			persistenceUpdate(transaction);
+			if (statementAuthority != null && force)
+				statementAuthority.checkValidSignature(transaction);
 		}
 	}
 
@@ -1304,16 +1301,26 @@ public abstract class Statement implements Exportable
 
 	public void identify(Transaction transaction, Identifier identifier) throws NomenclatorException
 	{
-		getParentNomenclator(transaction).identifyStatement(identifier, this);
+		identify(transaction, identifier, false);
+	}
+
+	public void identify(Transaction transaction, Identifier identifier, boolean force) throws NomenclatorException
+	{
+		getParentNomenclator(transaction).identifyStatement(identifier, this, force);
 	}
 
 	public Identifier unidentify(Transaction transaction) throws SignatureIsValidNomenclatorException
+	{
+		return unidentify(transaction, false);
+	}
+
+	public Identifier unidentify(Transaction transaction, boolean force) throws SignatureIsValidNomenclatorException
 	{
 		try
 		{
 			Identifier identifier = identifier(transaction);
 			if (identifier != null)
-				getParentNomenclator(transaction).unidentifyStatement(identifier);
+				getParentNomenclator(transaction).unidentifyStatement(identifier, force);
 			return identifier;
 		}
 		catch (UnknownIdentifierException e)

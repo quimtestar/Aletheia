@@ -195,7 +195,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 				if (oldId != null)
 					try
 					{
-						statement.unidentify(getTransaction());
+						statement.unidentify(getTransaction(), true);
 					}
 					catch (SignatureIsValidNomenclatorException e)
 					{
@@ -208,8 +208,8 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 				{
 					Nomenclator nomenclator = statement.getParentNomenclator(getTransaction());
 					if (nomenclator.isLocalIdentifier(identifier))
-						nomenclator.unidentifyStatement(identifier);
-					statement.identify(getTransaction(), identifier);
+						nomenclator.unidentifyStatement(identifier, true);
+					statement.identify(getTransaction(), identifier, true);
 				}
 				catch (NomenclatorException e)
 				{

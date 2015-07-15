@@ -234,6 +234,11 @@ public abstract class Nomenclator implements Serializable, Exportable
 
 	protected abstract Map<IdentifiableVariableTerm, Statement> statements();
 
+	public void identifyStatement(Identifier identifier, Statement statement) throws NomenclatorException
+	{
+		identifyStatement(identifier, statement, false);
+	}
+
 	/**
 	 * Gives a local unidentified statement a new identifier.
 	 *
@@ -243,7 +248,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 	 *            The statement
 	 * @throws NomenclatorException
 	 */
-	public void identifyStatement(Identifier identifier, Statement statement) throws NomenclatorException
+	public void identifyStatement(Identifier identifier, Statement statement, boolean force) throws NomenclatorException
 	{
 		if (identifier instanceof NamespaceExtreme)
 			throw new InvalidIdentifierException(identifier);
@@ -256,7 +261,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 		Statement statement_ = statement.refresh(getTransaction());
 		try
 		{
-			statement_.setIdentifier(getTransaction(), identifier);
+			statement_.setIdentifier(getTransaction(), identifier, force);
 		}
 		catch (SignatureIsValidException e)
 		{
@@ -276,6 +281,11 @@ public abstract class Nomenclator implements Serializable, Exportable
 
 	}
 
+	public Statement unidentifyStatement(Identifier identifier) throws UnknownIdentifierException, SignatureIsValidNomenclatorException
+	{
+		return unidentifyStatement(identifier, false);
+	}
+
 	/**
 	 * Unassigns an identifier from a local statement.
 	 *
@@ -285,14 +295,14 @@ public abstract class Nomenclator implements Serializable, Exportable
 	 * @throws UnknownIdentifierException
 	 * @throws SignatureIsValidNomenclatorException
 	 */
-	public Statement unidentifyStatement(Identifier identifier) throws UnknownIdentifierException, SignatureIsValidNomenclatorException
+	public Statement unidentifyStatement(Identifier identifier, boolean force) throws UnknownIdentifierException, SignatureIsValidNomenclatorException
 	{
 		Statement statement = getLocalIdentifierToStatement().get(identifier);
 		if (statement == null)
 			throw new UnknownIdentifierException();
 		try
 		{
-			statement.setIdentifier(getTransaction(), null);
+			statement.setIdentifier(getTransaction(), null, force);
 		}
 		catch (SignatureIsValidException e)
 		{
