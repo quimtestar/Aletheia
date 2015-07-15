@@ -704,12 +704,15 @@ public abstract class Statement implements Exportable
 		{
 			lockAuthority(transaction);
 			StatementAuthority statementAuthority = getAuthority(transaction);
-			if (statementAuthority != null && !force && statementAuthority.isValidSignature())
-				throw new SignatureIsValidException("Can't rename statement with valid signatures");
+			if (statementAuthority != null)
+			{
+				if (force)
+					statementAuthority.clearSignatures(transaction);
+				else if (statementAuthority.isValidSignature())
+					throw new SignatureIsValidException("Can't rename statement with valid signatures");
+			}
 			entity.setIdentifier(identifier);
 			persistenceUpdate(transaction);
-			if (statementAuthority != null && force)
-				statementAuthority.checkValidSignature(transaction);
 		}
 	}
 
