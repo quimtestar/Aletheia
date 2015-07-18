@@ -464,7 +464,7 @@ public abstract class PersistenceManager
 	 * @param transaction
 	 *            The transaction transactions to be used in the operations on
 	 *            the map.
-	 * @return The staements map.
+	 * @return The statements map.
 	 *
 	 * @see StatementsMap
 	 */
