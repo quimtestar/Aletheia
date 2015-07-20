@@ -36,20 +36,19 @@ public class Export extends TransactionalCommand
 	private final File file;
 	private final List<Statement> statements;
 	private final boolean signed;
-	
 
 	public Export(CliJPanel from, Transaction transaction, File file, List<Statement> statements, boolean signed)
 	{
 		super(from, transaction);
-		this.file=file;
+		this.file = file;
 		this.statements = statements;
-		this.signed=signed;
+		this.signed = signed;
 	}
 
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		getPersistenceManager().export(file,getTransaction(), statements, signed);
+		getPersistenceManager().export(file, getTransaction(), statements, signed);
 		return null;
 	}
 
@@ -66,15 +65,15 @@ public class Export extends TransactionalCommand
 		public Export parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			
-			File file=new File(split.get(0));
-			
+
+			File file = new File(split.get(0));
+
 			List<Statement> statements = new ArrayList<Statement>();
-			boolean signed=false;
+			boolean signed = false;
 			for (int i = 1; i < split.size(); i++)
 			{
 				if (split.get(i).equals("-signed"))
-					signed=true;
+					signed = true;
 				else
 				{
 					Statement st = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(i));

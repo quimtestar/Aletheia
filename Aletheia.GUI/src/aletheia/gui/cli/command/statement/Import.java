@@ -33,42 +33,42 @@ import aletheia.utilities.aborter.ListenableAborter;
 public class Import extends Command
 {
 	private final File file;
-	
+
 	private class MyListenableAborter extends ListenableAborter
 	{
-		boolean cancel=false;
-		String cause=null;
+		boolean cancel = false;
+		String cause = null;
 
 		protected synchronized void abort(String cause)
 		{
-			this.cancel=true;
-			this.cause=cause;
+			this.cancel = true;
+			this.cause = cause;
 			abort();
 		}
-		
+
 		@Override
 		public synchronized void checkAbort() throws AbortException
 		{
 			if (cancel)
 				throw new AbortException(cause);
 		}
-		
+
 	}
-	
+
 	private final MyListenableAborter listenableAborter;
-	
-	public Import(CliJPanel from,File file)
+
+	public Import(CliJPanel from, File file)
 	{
 		super(from);
-		this.file=file;
-		this.listenableAborter=new MyListenableAborter();
-		
+		this.file = file;
+		this.listenableAborter = new MyListenableAborter();
+
 	}
 
 	@Override
 	public void run() throws Exception
 	{
-		getPersistenceManager().import_(file,listenableAborter);
+		getPersistenceManager().import_(file, listenableAborter);
 	}
 
 	@Override
@@ -90,8 +90,8 @@ public class Import extends Command
 		public Import parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			File file=new File(split.get(0));
-			return new Import(cliJPanel,file);
+			File file = new File(split.get(0));
+			return new Import(cliJPanel, file);
 		}
 
 		@Override
