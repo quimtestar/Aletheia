@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.model.statement;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -49,7 +50,7 @@ import aletheia.persistence.entities.statement.DeclarationEntity;
  *
  *
  */
-public class Declaration extends Statement
+public class Declaration extends Context
 {
 	/**
 	 * Creates a new declaration statement from scratch.
@@ -70,9 +71,10 @@ public class Declaration extends Statement
 	 *
 	 * @throws StatementException
 	 */
-	protected Declaration(PersistenceManager persistenceManager, Transaction transaction, UUID uuid, Context context, Term value) throws StatementException
+	protected Declaration(PersistenceManager persistenceManager, Transaction transaction, UUID uuid, List<UUID> uuidAssumptions, Context context, Term value)
+			throws StatementException
 	{
-		super(persistenceManager, transaction, DeclarationEntity.class, uuid, context, computeTerm(transaction, context, value));
+		super(persistenceManager, transaction, DeclarationEntity.class, uuid, uuidAssumptions, context, computeTerm(transaction, context, value));
 		Set<VariableTerm> undefined = context.undefinedVariables(transaction, value);
 		if (!undefined.isEmpty())
 			throw new UndefinedVariableStatementException(context, transaction, undefined);
@@ -157,7 +159,7 @@ public class Declaration extends Statement
 	 */
 	protected Declaration(PersistenceManager persistenceManager, Transaction transaction, Context context, Term value) throws StatementException
 	{
-		this(persistenceManager, transaction, null, context, value);
+		this(persistenceManager, transaction, null, null, context, value);
 	}
 
 	/**

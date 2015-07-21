@@ -817,9 +817,9 @@ public class Context extends Statement
 	 * @return The new declaration.
 	 * @throws StatementException
 	 */
-	public Declaration declare(Transaction transaction, UUID uuid, Term value) throws StatementException
+	public Declaration declare(Transaction transaction, UUID uuid, List<UUID> uuidAssumptions, Term value) throws StatementException
 	{
-		Declaration dec = new Declaration(getPersistenceManager(), transaction, uuid, this, value);
+		Declaration dec = new Declaration(getPersistenceManager(), transaction, uuid, uuidAssumptions, this, value);
 		addStatement(transaction, dec);
 		return dec;
 	}
@@ -837,7 +837,7 @@ public class Context extends Statement
 	 */
 	public Declaration declare(Transaction transaction, Term value) throws StatementException
 	{
-		return declare(transaction, null, value);
+		return declare(transaction, null, null, value);
 	}
 
 	/**

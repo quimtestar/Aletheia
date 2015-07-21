@@ -99,6 +99,7 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 	private static final Logger logger = LoggerManager.instance.logger();
 
 	private static final int storeVersion = 21;
+	private static final int minimalStoreVersion = 21;
 
 	private static final Collection<Class<?>> registerClasses = Arrays.<Class<?>> asList(
 			// @formatter:off
@@ -182,11 +183,10 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 		return storeVersion;
 	}
 
-	//TODO Temporary set to avoid version upgrade. Delete this method before merging to master branch.
 	@Override
 	public int minimalStoreVersion()
 	{
-		return storeVersion();
+		return minimalStoreVersion;
 	}
 
 	public static BerkeleyDBAletheiaEntityStore open(BerkeleyDBAletheiaEnvironment environment, String storeName, boolean allowUpgrade, boolean bulkLoad)

@@ -82,9 +82,12 @@ import aletheia.utilities.collections.BufferedList;
  * </li> </blockquote>
  * </ul>
  */
-@ProtocolInfo(availableVersions = 0)
+//TODO Only admit version 1?
+@ProtocolInfo(availableVersions =
+{ 0, 1 })
 public class StatementProtocol extends PersistentExportableProtocol<Statement>
 {
+	private final int requiredVersion;
 	private final IntegerProtocol integerProtocol;
 	private final StatementCodeProtocol statementCodeProtocol;
 	private final UUIDProtocol uuidProtocol;
@@ -95,6 +98,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 	public StatementProtocol(int requiredVersion, PersistenceManager persistenceManager, Transaction transaction)
 	{
 		super(0, persistenceManager, transaction);
+		this.requiredVersion = requiredVersion;
 		checkVersionAvailability(StatementProtocol.class, requiredVersion);
 		integerProtocol = new IntegerProtocol(0);
 		statementCodeProtocol = new StatementCodeProtocol(0);
@@ -313,9 +317,16 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		}
 	}
 
-	private void sendDeclaration(DataOutput out, Declaration statement) throws IOException
+	private void sendDeclaration(DataOutput out, Declaration declaration) throws IOException
 	{
-		termProtocol.send(out, statement.getValue());
+		if (requiredVersion > 0)
+		{
+			List<Assumption> list = new BufferedList<>(declaration.assumptions(getTransaction()));
+			integerProtocol.send(out, list.size());
+			for (Assumption assumption : list)
+				uuidProtocol.send(out, assumption.getUuid());
+		}
+		termProtocol.send(out, declaration.getValue());
 	}
 
 	private Declaration recvDeclaration(DataInput in, Context context, Statement old, UUID uuid) throws IOException, ProtocolException
@@ -325,13 +336,23 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 			skipDeclaration(in);
 			return null;
 		}
+		List<UUID> uuidAssumptions;
+		if (requiredVersion > 0)
+		{
+			int numAssumptions = in.readInt();
+			uuidAssumptions = new ArrayList<UUID>();
+			for (int i = 0; i < numAssumptions; i++)
+				uuidAssumptions.add(uuidProtocol.recv(in));
+		}
+		else
+			uuidAssumptions = null;
 		Term value = termProtocol.recv(in);
 		if (old == null)
 		{
 			Declaration declaration;
 			try
 			{
-				declaration = context.declare(getTransaction(), uuid, value);
+				declaration = context.declare(getTransaction(), uuid, uuidAssumptions, value);
 			}
 			catch (StatementException e)
 			{
@@ -563,6 +584,12 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 
 	private void skipDeclaration(DataInput in) throws IOException, ProtocolException
 	{
+		if (requiredVersion > 0)
+		{
+			int numAssumptions = in.readInt();
+			for (int i = 0; i < numAssumptions; i++)
+				uuidProtocol.skip(in);
+		}
 		termProtocol.skip(in);
 	}
 

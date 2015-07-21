@@ -679,8 +679,6 @@ public abstract class PersistenceManager
 			return assumptionEntityToStatement((AssumptionEntity) e);
 		else if (e instanceof ContextEntity)
 			return contextEntityToStatement((ContextEntity) e);
-		else if (e instanceof DeclarationEntity)
-			return declarationEntityToStatement((DeclarationEntity) e);
 		else if (e instanceof SpecializationEntity)
 			return specializationEntityToStatement((SpecializationEntity) e);
 		else
@@ -713,6 +711,8 @@ public abstract class PersistenceManager
 			return rootContextEntityToStatement((RootContextEntity) e);
 		else if (e instanceof UnfoldingContextEntity)
 			return unfoldingContextEntityToStatement((UnfoldingContextEntity) e);
+		else if (e instanceof DeclarationEntity)
+			return declarationEntityToStatement((DeclarationEntity) e);
 		else
 			return new Context(this, e);
 	}
@@ -793,13 +793,13 @@ public abstract class PersistenceManager
 				return UnfoldingContextEntity.class;
 			else if (e instanceof RootContextEntity)
 				return RootContextEntity.class;
+			else if (e instanceof DeclarationEntity)
+				return DeclarationEntity.class;
 			else
 				return ContextEntity.class;
 		}
 		else if (e instanceof SpecializationEntity)
 			return SpecializationEntity.class;
-		else if (e instanceof DeclarationEntity)
-			return DeclarationEntity.class;
 		else
 			throw new PersistenceException();
 
@@ -849,7 +849,12 @@ public abstract class PersistenceManager
 			else if (in instanceof RootContextEntity)
 			{
 			}
-
+			else if (in instanceof DeclarationEntity)
+			{
+				DeclarationEntity in__ = (DeclarationEntity) in;
+				DeclarationEntity out__ = (DeclarationEntity) out;
+				out__.setValue(in__.getValue());
+			}
 		}
 		else if (in instanceof SpecializationEntity)
 		{
@@ -857,12 +862,6 @@ public abstract class PersistenceManager
 			SpecializationEntity out_ = (SpecializationEntity) out;
 			out_.setGeneralUuid(in_.getGeneralUuid());
 			out_.setInstance(in_.getInstance());
-		}
-		else if (in instanceof DeclarationEntity)
-		{
-			DeclarationEntity in_ = (DeclarationEntity) in;
-			DeclarationEntity out_ = (DeclarationEntity) out;
-			out_.setValue(in_.getValue());
 		}
 		else
 			throw new PersistenceException();

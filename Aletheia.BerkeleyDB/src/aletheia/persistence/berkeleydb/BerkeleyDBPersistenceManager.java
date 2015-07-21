@@ -937,14 +937,14 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 			return new BerkeleyDBAssumptionEntity();
 		else if (entityClass.isAssignableFrom(BerkeleyDBSpecializationEntity.class))
 			return new BerkeleyDBSpecializationEntity();
-		else if (entityClass.isAssignableFrom(BerkeleyDBDeclarationEntity.class))
-			return new BerkeleyDBDeclarationEntity();
 		else if (entityClass.isAssignableFrom(BerkeleyDBContextEntity.class))
 			return new BerkeleyDBContextEntity();
 		else if (entityClass.isAssignableFrom(BerkeleyDBRootContextEntity.class))
 			return new BerkeleyDBRootContextEntity();
 		else if (entityClass.isAssignableFrom(BerkeleyDBUnfoldingContextEntity.class))
 			return new BerkeleyDBUnfoldingContextEntity();
+		else if (entityClass.isAssignableFrom(BerkeleyDBDeclarationEntity.class))
+			return new BerkeleyDBDeclarationEntity();
 		else
 			throw new Error();
 	}
