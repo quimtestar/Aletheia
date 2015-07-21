@@ -72,12 +72,6 @@ public class BerkeleyDBAletheiaTemporaryEntityStore extends BerkeleyDBAletheiaAb
 		}
 	}
 
-	@Override
-	public int storeVersion()
-	{
-		return 0;
-	}
-
 	public static BerkeleyDBAletheiaTemporaryEntityStore open(BerkeleyDBAletheiaEnvironment environment, String storeName)
 	{
 		try

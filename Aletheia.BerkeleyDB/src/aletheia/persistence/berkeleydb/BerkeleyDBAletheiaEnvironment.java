@@ -118,7 +118,7 @@ public class BerkeleyDBAletheiaEnvironment extends Environment
 				DatabaseEntry value = new DatabaseEntry();
 				OperationStatus status = db.get(null, key, value, null);
 				if (status != OperationStatus.SUCCESS)
-					return 0;
+					return -1;
 				byte[] data = value.getData();
 				ByteArrayInputStream bais = new ByteArrayInputStream(data);
 				DataInputStream dis = new DataInputStream(bais);
@@ -133,7 +133,7 @@ public class BerkeleyDBAletheiaEnvironment extends Environment
 			}
 			catch (IOException e)
 			{
-				return 0;
+				return -1;
 			}
 			finally
 			{
@@ -142,7 +142,7 @@ public class BerkeleyDBAletheiaEnvironment extends Environment
 		}
 		catch (DatabaseNotFoundException e)
 		{
-			return 0;
+			return -1;
 		}
 	}
 

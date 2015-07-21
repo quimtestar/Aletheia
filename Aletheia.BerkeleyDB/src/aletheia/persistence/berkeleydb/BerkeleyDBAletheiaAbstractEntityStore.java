@@ -82,13 +82,39 @@ public abstract class BerkeleyDBAletheiaAbstractEntityStore extends EntityStore
 		return storeConfig;
 	}
 
-	public abstract int storeVersion();
+	public int storeVersion()
+	{
+		return 0;
+	}
+
+	public int minimalStoreVersion()
+	{
+		return Integer.MIN_VALUE;
+	}
+
+	public int maximalStoreVersion()
+	{
+		return Integer.MAX_VALUE;
+	}
+
+	public class UnsupportedBerkeleyDBStoreVersion extends RuntimeException
+	{
+		private static final long serialVersionUID = 8090100720123016127L;
+
+		private UnsupportedBerkeleyDBStoreVersion(int currentStoreVersion)
+		{
+			super("Unsupported store version: " + currentStoreVersion);
+		}
+	}
 
 	private void updateStoreVersion()
 	{
 		BerkeleyDBAletheiaEnvironment environment = getEnvironment();
 		String storeName = getStoreName();
-		if (environment.getStoreVersion(storeName) != storeVersion())
+		int currentStoreVersion = environment.getStoreVersion(storeName);
+		if (currentStoreVersion >= 0 && (currentStoreVersion < minimalStoreVersion() || currentStoreVersion > maximalStoreVersion()))
+			throw new UnsupportedBerkeleyDBStoreVersion(currentStoreVersion);
+		if (currentStoreVersion != storeVersion())
 			environment.putStoreVersion(storeName, storeVersion());
 	}
 
