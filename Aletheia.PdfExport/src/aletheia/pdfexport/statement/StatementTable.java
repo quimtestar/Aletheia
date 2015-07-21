@@ -155,12 +155,12 @@ public abstract class StatementTable extends StatementOrConsequentTable
 			return new AssumptionTable(doc, depth, transaction, (Assumption) statement);
 		else if (statement instanceof Specialization)
 			return new SpecializationTable(doc, depth, transaction, (Specialization) statement);
-		else if (statement instanceof Declaration)
-			return new DeclarationTable(doc, depth, transaction, (Declaration) statement);
 		else if (statement instanceof Context)
 		{
 			if (statement instanceof UnfoldingContext)
 				return new UnfoldingContextTable(doc, depth, transaction, (UnfoldingContext) statement);
+			else if (statement instanceof Declaration)
+				return new DeclarationTable(doc, depth, transaction, (Declaration) statement);
 			else
 				return new ContextTable(doc, depth, transaction, (Context) statement);
 		}

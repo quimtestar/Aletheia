@@ -71,17 +71,17 @@ public class StatementOut extends TransactionalCommand
 			{
 				getOut().println("root \"" + sterm + "\"");
 			}
+			else if (statement instanceof Declaration)
+			{
+				Declaration dec = (Declaration) statement;
+				Term value = dec.getValue();
+				String svalue = termToString(getFrom().getActiveContext(), getTransaction(), value);
+				getOut().println("dec \"" + svalue + "\"");
+			}
 			else
 			{
 				getOut().println("ctx \"" + sterm + "\"");
 			}
-		}
-		else if (statement instanceof Declaration)
-		{
-			Declaration dec = (Declaration) statement;
-			Term value = dec.getValue();
-			String svalue = termToString(getFrom().getActiveContext(), getTransaction(), value);
-			getOut().println("dec \"" + svalue + "\"");
 		}
 		else if (statement instanceof Specialization)
 		{

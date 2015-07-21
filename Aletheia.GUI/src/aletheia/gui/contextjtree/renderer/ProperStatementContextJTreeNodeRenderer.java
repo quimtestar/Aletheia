@@ -28,7 +28,6 @@ import aletheia.log4j.LoggerManager;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
-import aletheia.model.statement.Declaration;
 import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
@@ -135,8 +134,6 @@ public abstract class ProperStatementContextJTreeNodeRenderer<S extends Statemen
 			return new AssumptionContextJTreeNodeRenderer(contextJTree, (Assumption) statement);
 		else if (statement instanceof Context)
 			return ContextContextJTreeNodeRenderer.renderer(contextJTree, (Context) statement);
-		else if (statement instanceof Declaration)
-			return new DeclarationContextJTreeNodeRenderer(contextJTree, (Declaration) statement);
 		else if (statement instanceof Specialization)
 			return new SpecializationContextJTreeNodeRenderer(contextJTree, (Specialization) statement);
 		else

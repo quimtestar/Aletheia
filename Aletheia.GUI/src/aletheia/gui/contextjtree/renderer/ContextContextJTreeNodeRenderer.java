@@ -21,6 +21,7 @@ package aletheia.gui.contextjtree.renderer;
 
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.model.statement.Context;
+import aletheia.model.statement.Declaration;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.UnfoldingContext;
 
@@ -46,6 +47,8 @@ public abstract class ContextContextJTreeNodeRenderer<C extends Context> extends
 			return new UnfoldingContextContextJTreeNodeRenderer(contextJTree, (UnfoldingContext) statement);
 		else if (statement instanceof RootContext)
 			return new RootContextContextJTreeNodeRenderer(contextJTree, (RootContext) statement);
+		else if (statement instanceof Declaration)
+			return new DeclarationContextJTreeNodeRenderer(contextJTree, (Declaration) statement);
 		else
 			return new ProperContextContextJTreeNodeRenderer(contextJTree, statement);
 	}
