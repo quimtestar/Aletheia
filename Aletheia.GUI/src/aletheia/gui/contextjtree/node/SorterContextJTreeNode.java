@@ -46,6 +46,8 @@ public abstract class SorterContextJTreeNode extends ContextJTreeNode
 		return getSorter().getGroup();
 	}
 
+	public abstract Sorter getNodeMapSorter();
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public GroupSorterContextJTreeNode<? extends Statement> getParent()

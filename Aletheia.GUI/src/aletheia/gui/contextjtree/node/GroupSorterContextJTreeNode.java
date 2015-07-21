@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.contextjtree.node;
 
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -189,8 +190,21 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 	}
 
 	@Override
+	public Sorter getNodeMapSorter()
+	{
+		return getSorter();
+	}
+
+	protected boolean isCached()
+	{
+		return getModel().getNodeMap().isCached(getNodeMapSorter());
+	}
+
+	@Override
 	public ContextJTreeNode getChildAt(int childIndex)
 	{
+		if (!isCached())
+			return new EmptyContextJTreeNode(getModel(), this);
 		return getModel().getNodeMap().get(obtainSorterList().get(childIndex));
 	}
 
@@ -223,6 +237,8 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 
 	public Iterator<? extends ContextJTreeNode> childrenIterator()
 	{
+		if (!isCached())
+			return Collections.emptyIterator();
 		return new BijectionIterator<Sorter, SorterContextJTreeNode>(new Bijection<Sorter, SorterContextJTreeNode>()
 		{
 

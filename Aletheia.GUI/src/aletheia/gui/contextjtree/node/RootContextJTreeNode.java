@@ -51,4 +51,10 @@ public class RootContextJTreeNode extends RootContextGroupSorterContextJTreeNode
 		return null;
 	}
 
+	@Override
+	protected boolean isCached()
+	{
+		return true;
+	}
+
 }
