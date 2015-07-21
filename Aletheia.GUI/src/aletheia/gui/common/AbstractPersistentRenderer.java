@@ -342,15 +342,14 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 			throw new Error();
 	}
 
-	protected void addTerm(Transaction transaction, Statement statement)
+	private Map<? extends VariableTerm, Identifier> variableToIdentifier(Transaction transaction, Statement statement, Term term)
 	{
-
 		Map<? extends VariableTerm, Identifier> variableToIdentifier = statement.parentVariableToIdentifier(transaction);
 		if (statement instanceof Context)
 		{
 			Map<ParameterVariableTerm, Identifier> localVariableToIdentifier = new HashMap<ParameterVariableTerm, Identifier>();
 			{
-				Term body = statement.getTerm();
+				Term body = term;
 				Iterator<Assumption> assumptionIterator = ((Context) statement).assumptions(transaction).iterator();
 				while (body instanceof FunctionTerm)
 				{
@@ -366,7 +365,17 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 			variableToIdentifier = new CombinedMap<VariableTerm, Identifier>(new AdaptedMap<VariableTerm, Identifier>(localVariableToIdentifier),
 					new AdaptedMap<VariableTerm, Identifier>(variableToIdentifier));
 		}
-		addTerm(variableToIdentifier, statement.getTerm());
+		return variableToIdentifier;
+	}
+
+	protected void addTerm(Transaction transaction, Statement statement, Term term)
+	{
+		addTerm(variableToIdentifier(transaction, statement, term), term);
+	}
+
+	protected void addTerm(Transaction transaction, Statement statement)
+	{
+		addTerm(transaction, statement, statement.getTerm());
 	}
 
 	protected void addParameterVariableTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,

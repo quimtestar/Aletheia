@@ -75,7 +75,7 @@ public class StatementOut extends TransactionalCommand
 			{
 				Declaration dec = (Declaration) statement;
 				Term value = dec.getValue();
-				String svalue = termToString(getFrom().getActiveContext(), getTransaction(), value);
+				String svalue = termToString(getFrom().getActiveContext(), getTransaction(), value, context.assumptions(getTransaction()));
 				getOut().println("dec \"" + svalue + "\"");
 			}
 			else

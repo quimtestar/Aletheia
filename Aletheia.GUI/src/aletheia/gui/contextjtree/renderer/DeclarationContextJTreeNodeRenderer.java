@@ -38,7 +38,7 @@ public class DeclarationContextJTreeNodeRenderer extends ContextContextJTreeNode
 			addOpenBracket();
 			addDeclarationLabel();
 			addColonLabel();
-			addTerm(declaration.parentVariableToIdentifier(transaction), declaration.getValue());
+			addTerm(transaction, declaration, declaration.getValue());
 			addCloseBracket();
 		}
 		finally
