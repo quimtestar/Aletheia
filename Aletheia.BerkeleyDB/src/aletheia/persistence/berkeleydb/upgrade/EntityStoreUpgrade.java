@@ -23,9 +23,11 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
@@ -69,6 +71,7 @@ public abstract class EntityStoreUpgrade
 		EntityStoreUpgrade_016.class,
 		EntityStoreUpgrade_017.class,
 		EntityStoreUpgrade_018.class,
+		EntityStoreUpgrade_020.class,
 			};
 	// @formatter:on
 
@@ -367,20 +370,30 @@ public abstract class EntityStoreUpgrade
 			logger.debug("Created secondary indices");
 		}
 
+		protected List<String> entityClassNames(RawStore store)
+		{
+			List<String> names = new ArrayList<String>();
+			EntityModel model = store.getModel();
+			for (String className : model.getKnownClasses())
+			{
+				RawType oldRawType = model.getRawType(className);
+				if (oldRawType.getClassMetadata().isEntityClass())
+					names.add(className);
+			}
+			return names;
+		}
+
 		protected void convertStore(RawStore oldStore, BerkeleyDBAletheiaEntityStore aletheiaStore) throws UpgradeException
 		{
 			logger.debug("Converting entity store");
-			EntityModel oldModel = oldStore.getModel();
 			final Transaction tx = environment.beginTransaction(null, null);
 			try
 			{
-				for (String className : oldModel.getKnownClasses())
+				for (String className : entityClassNames(oldStore))
 				{
 					if (abort)
 						throw new AbortUpgradeException();
-					RawType oldRawType = oldModel.getRawType(className);
-					if (oldRawType.getClassMetadata().isEntityClass())
-						convertClass(oldStore, aletheiaStore, tx, className);
+					convertClass(oldStore, aletheiaStore, tx, className);
 				}
 				logger.debug("Converted entity store");
 				tx.commit();

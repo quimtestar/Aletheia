@@ -32,7 +32,7 @@ import com.sleepycat.persist.model.EntityModel;
 import com.sleepycat.persist.raw.RawObject;
 import com.sleepycat.persist.raw.RawType;
 
-public class EntityStoreUpgrade_019 extends EntityStoreUpgrade
+public class EntityStoreUpgrade_019 extends EntityStoreUpgrade_020
 {
 
 	public EntityStoreUpgrade_019()
@@ -45,7 +45,7 @@ public class EntityStoreUpgrade_019 extends EntityStoreUpgrade
 		return Arrays.asList(19);
 	}
 
-	protected class UpgradeInstance extends EntityStoreUpgrade.UpgradeInstance
+	protected class UpgradeInstance extends EntityStoreUpgrade_020.UpgradeInstance
 	{
 
 		protected UpgradeInstance(BerkeleyDBAletheiaEnvironment environment, String storeName)
