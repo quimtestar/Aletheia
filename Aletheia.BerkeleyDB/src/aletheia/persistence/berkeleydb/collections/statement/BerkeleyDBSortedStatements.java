@@ -363,6 +363,31 @@ public abstract class BerkeleyDBSortedStatements<S extends Statement> extends Ab
 		return newBerkeleyDBSortedStatementsBounds(fromSortKey(identifier), false, to, false);
 	}
 
+	private LocalSortKey equalSortKey(Identifier identifier)
+	{
+		LocalSortKey dsk = new LocalSortKey();
+		dsk.setUuidKeyContext(to.getUuidKeyContext());
+		dsk.setAssumptionOrder(Integer.MAX_VALUE);
+		dsk.setIdentifier(identifier);
+		if (from.compareTo(dsk) > 0)
+			return null;
+		if (to.compareTo(dsk) < 0)
+			return null;
+		return dsk;
+	}
+
+	@Override
+	public S get(Identifier identifier)
+	{
+		LocalSortKey key = equalSortKey(identifier);
+		if (key == null)
+			return null;
+		BerkeleyDBStatementEntity e = transaction.get(index, key);
+		if (e == null)
+			return null;
+		return entitytoStatement(e);
+	}
+
 	@Override
 	public Object[] toArray()
 	{
