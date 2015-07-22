@@ -65,6 +65,7 @@ import aletheia.gui.contextjtree.node.ConsequentContextJTreeNode;
 import aletheia.gui.contextjtree.node.ContextSorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.ContextJTreeNode;
 import aletheia.gui.contextjtree.node.GroupSorterContextJTreeNode;
+import aletheia.gui.contextjtree.node.RootContextJTreeNode;
 import aletheia.gui.contextjtree.node.SorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.StatementContextJTreeNode;
 import aletheia.gui.contextjtree.node.StatementSorterContextJTreeNode;
@@ -904,6 +905,62 @@ public class ContextJTree extends PersistentJTree
 				}
 			}
 
+		});
+
+	}
+
+	public void expandGroup(final Context context, final Namespace prefix)
+	{
+		SwingUtilities.invokeLater(new Runnable()
+		{
+			@Override
+			public void run()
+			{
+				Transaction transaction = getPersistenceManager().beginTransaction();
+				try
+				{
+					Stack<GroupSorterContextJTreeNode<?>> stack = new Stack<GroupSorterContextJTreeNode<?>>();
+					{
+						GroupSorterContextJTreeNode<?> initialNode = context == null ? getModel().getRootTreeNode()
+								: (ContextSorterContextJTreeNode) getModel().getNodeMap().getByStatement(context);
+						if (prefix instanceof NodeNamespace)
+						{
+							Sorter sorter = initialNode.getSorter().findByPrefix(transaction, (NodeNamespace) prefix);
+							if (sorter != null)
+							{
+								SorterContextJTreeNode n = getModel().getNodeMap().get(sorter);
+								if (n instanceof GroupSorterContextJTreeNode && !(n instanceof RootContextJTreeNode)
+										&& !(n instanceof ContextSorterContextJTreeNode))
+									initialNode = (GroupSorterContextJTreeNode<?>) n;
+								else
+								{
+									setSelectionPath(n.path());
+									initialNode = null;
+								}
+							}
+							else
+								initialNode = null;
+						}
+						if (initialNode != null)
+							stack.push(initialNode);
+					}
+					while (!stack.isEmpty())
+					{
+						GroupSorterContextJTreeNode<?> node = stack.pop();
+						expandPath(node.path());
+						for (ContextJTreeNode n : node.childrenIterable())
+						{
+							if (n instanceof GroupSorterContextJTreeNode && !(n instanceof RootContextJTreeNode)
+									&& !(n instanceof ContextSorterContextJTreeNode))
+								stack.push((GroupSorterContextJTreeNode<?>) n);
+						}
+					}
+				}
+				finally
+				{
+					transaction.abort();
+				}
+			}
 		});
 
 	}

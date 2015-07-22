@@ -45,6 +45,7 @@ aletheia.gui.cli.command.authority.DeletePrivatePerson
 aletheia.gui.cli.command.gui.Clear
 aletheia.gui.cli.command.gui.ExpUnCtx
 aletheia.gui.cli.command.gui.ExpSubsCtx
+aletheia.gui.cli.command.gui.ExpGroup
 aletheia.gui.cli.command.gui.CollapseAll
 aletheia.gui.cli.command.gui.Help
 aletheia.gui.cli.command.gui.Up
