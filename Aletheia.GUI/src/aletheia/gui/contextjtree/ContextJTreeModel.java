@@ -122,7 +122,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 	}
 
-	public RootContextJTreeNode getRootTreeNode()
+	public synchronized RootContextJTreeNode getRootTreeNode()
 	{
 		if (rootTreeNode == null)
 			rootTreeNode = new RootContextJTreeNode(this);

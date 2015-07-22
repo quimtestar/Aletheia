@@ -57,6 +57,8 @@ public interface SortedStatements<S extends Statement> extends PersistenceManage
 
 	SortedStatements<S> postIdentifierSet(Identifier identifier);
 
+	S get(Identifier identifier);
+
 	boolean smaller(int size);
 
 }

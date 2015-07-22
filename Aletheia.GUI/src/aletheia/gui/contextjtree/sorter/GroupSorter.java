@@ -301,6 +301,25 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 		return null;
 	}
 
+	public Sorter findByPrefix(Transaction transaction, NodeNamespace nodeNamespace)
+	{
+		GroupSorter<S> gs = this;
+		while (true)
+		{
+			GroupSorter<S> gs_ = gs.getByPrefix(transaction, nodeNamespace);
+			if (gs_ == null)
+			{
+				S s = gs.sortedStatements(transaction).get(nodeNamespace.asIdentifier());
+				if (s == null)
+					return null;
+				return gs.statementSorter(s);
+			}
+			if (nodeNamespace.equals(gs_.getPrefix()))
+				return gs_;
+			gs = gs_;
+		}
+	}
+
 	private Sorter getByStatementByPrefix(Transaction transaction, Statement statement)
 	{
 		GroupSorter<S> groupSorter = null;
