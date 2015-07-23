@@ -38,7 +38,7 @@ import aletheia.utilities.collections.BijectionCollection;
 import aletheia.utilities.collections.UnionCollection;
 
 @ProtocolInfo(availableVersions =
-{ 0, 1 })
+{ 0, 2 })
 public abstract class MessageProtocol extends ExportableProtocol<Message>
 {
 	private final MessageCodeProtocol messageCodeProtocol;
@@ -50,8 +50,8 @@ public abstract class MessageProtocol extends ExportableProtocol<Message>
 		{
 		case 0:
 			return 0;
-		case 1:
-			return 1;
+		case 2:
+			return 2;
 		default:
 			return -1;
 		}

@@ -69,10 +69,10 @@ public class StatementResponseMessage extends AbstractUUIDPersistentInfoMessage<
 		super(entries);
 	}
 
-	@ProtocolInfo(availableVersions = 0)
+	@ProtocolInfo(availableVersions = 1)
 	public static class SubProtocol extends AbstractUUIDPersistentInfoMessage.SubProtocol<Statement, StatementResponseMessage>
 	{
-		@ProtocolInfo(availableVersions = 0)
+		@ProtocolInfo(availableVersions = 1)
 		private static class StatementProtocolWithAuthority extends PersistentExportableProtocol<Statement>
 		{
 			private final StatementProtocol statementProtocol;
@@ -82,7 +82,7 @@ public class StatementResponseMessage extends AbstractUUIDPersistentInfoMessage<
 			{
 				super(0, persistenceManager, transaction);
 				checkVersionAvailability(SubProtocol.class, requiredVersion);
-				this.statementProtocol = new StatementProtocol(0, persistenceManager, transaction);
+				this.statementProtocol = new StatementProtocol(1, persistenceManager, transaction);
 				this.statementAuthorityProtocol = new StatementAuthorityProtocol(0, persistenceManager, transaction);
 			}
 
@@ -118,7 +118,7 @@ public class StatementResponseMessage extends AbstractUUIDPersistentInfoMessage<
 		{
 			super(0, persistenceManager, transaction, messageCode);
 			checkVersionAvailability(SubProtocol.class, requiredVersion);
-			this.statementProtocolWithAuthority = new StatementProtocolWithAuthority(0, persistenceManager, transaction);
+			this.statementProtocolWithAuthority = new StatementProtocolWithAuthority(1, persistenceManager, transaction);
 		}
 
 		@Override

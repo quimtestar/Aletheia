@@ -40,7 +40,7 @@ import aletheia.security.signerverifier.Verifier;
 
 public class StatementAuthoritySignature implements Exportable
 {
-	private final static int signingSignatureVersion = 0;
+	private final static int signingSignatureVersion = 1;
 
 	private final PersistenceManager persistenceManager;
 	private final StatementAuthoritySignatureEntity entity;
@@ -121,12 +121,13 @@ public class StatementAuthoritySignature implements Exportable
 
 	private void signatureDataOut(DataOutput out, Transaction transaction) throws SignatureVersionException
 	{
-		if (getSignatureVersion() != 0)
+		int signatureVersion = getSignatureVersion();
+		if (signatureVersion < 0 || signatureVersion > 1)
 			throw new SignatureVersionException();
 		try
 		{
 			NullableProtocol<Date> nullableDateProtocol = new NullableProtocol<Date>(0, new DateProtocol(0));
-			getStatementAuthority(transaction).signatureDataOutStatementAuthoritySignature(out, transaction, getSignatureVersion());
+			getStatementAuthority(transaction).signatureDataOutStatementAuthoritySignature(out, transaction, signatureVersion);
 			nullableDateProtocol.send(out, getSignatureDate());
 		}
 		catch (IOException e)

@@ -144,7 +144,11 @@ public abstract class Phase
 		{
 			dialog = dialogConstructor.newInstance(initargs);
 		}
-		catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e)
+		catch (InvocationTargetException e)
+		{
+			throw new RuntimeException(e.getTargetException());
+		}
+		catch (InstantiationException | IllegalAccessException | IllegalArgumentException e)
 		{
 			throw new RuntimeException(e);
 		}

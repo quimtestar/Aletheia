@@ -42,7 +42,7 @@ import aletheia.utilities.aborter.ListenableAborter;
 public abstract class RootPhase extends Phase
 {
 	private final static Logger logger = LoggerManager.instance.logger();
-	private final static int localProtocolVersion = 1;
+	private final static int localProtocolVersion = 2;
 
 	private int protocolVersion;
 	private SubRootPhaseType subRootPhaseType;

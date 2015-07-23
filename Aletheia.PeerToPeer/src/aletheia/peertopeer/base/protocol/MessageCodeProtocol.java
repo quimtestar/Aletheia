@@ -24,7 +24,7 @@ import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.enumerate.ShortExportableEnumProtocol;
 
 @ProtocolInfo(availableVersions =
-{ 0, 1 })
+{ 0, 2 })
 public class MessageCodeProtocol extends ShortExportableEnumProtocol<MessageCode>
 {
 
@@ -34,8 +34,8 @@ public class MessageCodeProtocol extends ShortExportableEnumProtocol<MessageCode
 		{
 		case 0:
 			return 0;
-		case 1:
-			return 1;
+		case 2:
+			return 2;
 		default:
 			return -1;
 		}

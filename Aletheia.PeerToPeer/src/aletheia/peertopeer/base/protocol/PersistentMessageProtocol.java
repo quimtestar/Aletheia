@@ -30,7 +30,7 @@ import aletheia.persistence.Transaction;
 import aletheia.protocol.ProtocolInfo;
 
 @ProtocolInfo(availableVersions =
-{ 0, 1 })
+{ 0, 2 })
 public class PersistentMessageProtocol extends MessageProtocol
 {
 	private static int requiredSuperVersion(int requiredVersion)
@@ -39,8 +39,8 @@ public class PersistentMessageProtocol extends MessageProtocol
 		{
 		case 0:
 			return 0;
-		case 1:
-			return 1;
+		case 2:
+			return 2;
 		default:
 			return -1;
 		}
