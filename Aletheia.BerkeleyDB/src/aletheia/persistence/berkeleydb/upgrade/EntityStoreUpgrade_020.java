@@ -27,6 +27,8 @@ import aletheia.persistence.berkeleydb.BerkeleyDBAletheiaEnvironment;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBContextAuthorityEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthorityEntity;
+import aletheia.persistence.berkeleydb.entities.local.BerkeleyDBContextLocalEntity;
+import aletheia.persistence.berkeleydb.entities.local.BerkeleyDBStatementLocalEntity;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBAssumptionEntity;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBContextEntity;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBDeclarationEntity;
@@ -176,6 +178,20 @@ public class EntityStoreUpgrade_020 extends EntityStoreUpgrade
 				}
 				sae.setSignedProof(false);
 				newPrimaryIndex.put(tx, sae);
+			}
+			else if (entityClass.equals(BerkeleyDBStatementLocalEntity.class))
+			{
+				BerkeleyDBStatementLocalEntity sle = (BerkeleyDBStatementLocalEntity) aletheiaModel.convertRawObject(oldRawObject);
+				if (declarationUuids.contains(sle.getStatementUuid()))
+				{
+					BerkeleyDBContextLocalEntity cle = new BerkeleyDBContextLocalEntity();
+					cle.setStatementUuid(sle.getStatementUuid());
+					cle.setContextUuid(sle.getContextUuid());
+					cle.setSubscribeProof(sle.isSubscribeProof());
+					cle.setSubscribeStatements(false);
+					sle = cle;
+				}
+				newPrimaryIndex.put(tx, sle);
 			}
 			else
 				super.putConvertedRawObject(tx, aletheiaModel, entityClass, primaryKeyClass, newPrimaryIndex, oldRawObject);
