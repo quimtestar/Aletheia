@@ -73,13 +73,14 @@ public abstract class NewStatement extends TransactionalCommand
 		RunNewStatementReturnData nsData = runNewStatement();
 
 		nsData.statement.identify(getTransaction(), identifier);
-		getFrom().getAletheiaJPanel().getContextJTree().pushSelectStatement(getTransaction(), nsData.statement);
+		Statement statement = nsData.statement.refresh(getTransaction());
+		getFrom().getAletheiaJPanel().getContextJTree().pushSelectStatement(getTransaction(), statement);
 
 		Context newActiveContext;
-		if (nsData.statement instanceof Context)
-			newActiveContext = (Context) nsData.statement;
+		if (statement instanceof Context && !statement.isProved())
+			newActiveContext = (Context) statement;
 		else
-			newActiveContext = nsData.statement.getContext(getTransaction());
+			newActiveContext = statement.getContext(getTransaction());
 
 		return new RunTransactionalReturnData(newActiveContext);
 

@@ -19,39 +19,42 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.statement;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
-import aletheia.model.statement.Statement;
+import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement.StatementException;
+import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "dec", factory = NewDeclaration.Factory.class)
-public class NewDeclaration extends NewStatement
+public class NewDeclaration extends NewContext
 {
-	private final Term term;
+	private final Term value;
 
-	public NewDeclaration(CliJPanel from, Transaction transaction, Identifier identifier, Term term)
+	public NewDeclaration(CliJPanel from, Transaction transaction, Identifier identifier, Term value,
+			Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 	{
-		super(from, transaction, identifier);
-		this.term = term;
+		super(from, transaction, identifier, value.getType(), parameterIdentifiers);
+		this.value = value;
 	}
 
-	protected Term getTerm()
+	protected Term getValue()
 	{
-		return term;
+		return value;
 	}
 
 	@Override
-	protected RunNewStatementReturnData runNewStatement() throws StatementException, NotActiveContextException
+	protected Context openSubContext() throws StatementException, NotActiveContextException
 	{
 		if (getFrom().getActiveContext() == null)
 			throw new NotActiveContextException();
-		Statement statement = getFrom().getActiveContext().declare(getTransaction(), term);
-		return new RunNewStatementReturnData(statement);
+		return getFrom().getActiveContext().declare(getTransaction(), value);
 	}
 
 	public static class Factory extends AbstractNewStatementFactory<NewDeclaration>
@@ -61,8 +64,9 @@ public class NewDeclaration extends NewStatement
 		public NewDeclaration parse(CliJPanel cliJPanel, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Term term = parseTerm(cliJPanel.getActiveContext(), transaction, split.get(0));
-			return new NewDeclaration(cliJPanel, transaction, identifier, term);
+			Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<ParameterVariableTerm, Identifier>();
+			Term value = parseTerm(cliJPanel.getActiveContext(), transaction, split.get(0), parameterIdentifiers);
+			return new NewDeclaration(cliJPanel, transaction, identifier, value, parameterIdentifiers);
 		}
 
 		@Override
