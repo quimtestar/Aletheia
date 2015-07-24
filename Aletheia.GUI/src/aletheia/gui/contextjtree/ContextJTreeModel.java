@@ -1129,7 +1129,8 @@ public class ContextJTreeModel extends PersistentTreeModel
 						}
 						else
 						{
-							contextJTree.expandStatement(statement);
+							if (!statement.isProved())
+								contextJTree.expandStatement(statement);
 							contextJTree.selectStatement(statement, false);
 							contextJTree.scrollToVisible(statement);
 						}
