@@ -1033,7 +1033,7 @@ public class ContextJTree extends PersistentJTree
 	public void resetCollapsedSubtrees()
 	{
 		Stack<GroupSorterContextJTreeNode<?>> stack = new Stack<GroupSorterContextJTreeNode<?>>();
-		stack.push(getModel().getRoot());
+		stack.push(getModel().getRootTreeNode());
 		while (!stack.isEmpty())
 		{
 			GroupSorterContextJTreeNode<?> node = stack.pop();

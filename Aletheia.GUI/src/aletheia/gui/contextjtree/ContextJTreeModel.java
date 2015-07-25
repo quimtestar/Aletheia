@@ -76,7 +76,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 	private final StatementListener statementListener;
 	private final BlockingQueue<StatementStateChange> statementStateChangeQueue;
 	private final StatementStateProcessorThread statementStateProcessorThread;
-	private RootContextJTreeNode rootTreeNode;
+	private final RootContextJTreeNode rootTreeNode;
 
 	public ContextJTreeModel(PersistenceManager persistenceManager)
 	{
@@ -90,7 +90,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 		this.statementStateChangeQueue = new LinkedBlockingQueue<StatementStateChange>();
 		this.statementStateProcessorThread = new StatementStateProcessorThread();
 		this.statementStateProcessorThread.start();
-		this.rootTreeNode = null;
+		this.rootTreeNode = new RootContextJTreeNode(this);
 	}
 
 	private void listenRootContextNomenclators()
@@ -122,10 +122,8 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 	}
 
-	public synchronized RootContextJTreeNode getRootTreeNode()
+	public RootContextJTreeNode getRootTreeNode()
 	{
-		if (rootTreeNode == null)
-			rootTreeNode = new RootContextJTreeNode(this);
 		return rootTreeNode;
 	}
 
