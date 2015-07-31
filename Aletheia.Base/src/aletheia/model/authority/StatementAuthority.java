@@ -436,7 +436,7 @@ public class StatementAuthority implements Exportable
 			if (newValidSignature)
 				checkSignedProof(transaction);
 			else
-				checkSignedProof(transaction, stAuth.resetSignedProof(transaction));
+				checkSignedProofUuids(transaction, stAuth.resetSignedProof(transaction));
 			stAuth = refresh(transaction);
 			setSignedProof(stAuth.isSignedProof());
 		}
@@ -981,16 +981,16 @@ public class StatementAuthority implements Exportable
 		return getStatement(transaction).dependentAuthorities(transaction);
 	}
 
-	public Set<StatementAuthority> resetSignedProof(Transaction transaction)
+	private Set<UUID> resetSignedProof(Transaction transaction)
 	{
-		Set<StatementAuthority> set = new HashSet<StatementAuthority>();
+		Set<UUID> set = new HashSet<UUID>();
 		Stack<StatementAuthority> stack = new Stack<StatementAuthority>();
 		stack.push(this);
 		while (!stack.isEmpty())
 		{
 			logger.trace("---> resetSignedProof:" + stack.size() + " " + set.size());
 			StatementAuthority stAuth = stack.pop();
-			if (stAuth.isSignedProof())
+			if (stAuth.isSignedProof() && !set.contains(stAuth.getStatementUuid()))
 			{
 				stAuth.setSignedProof(transaction, false);
 				Iterable<StateListener> stateListeners = stAuth.stateListeners();
@@ -1000,7 +1000,7 @@ public class StatementAuthority implements Exportable
 						listener.signedProofStateChanged(transaction, stAuth, false);
 				}
 
-				set.add(stAuth);
+				set.add(stAuth.getStatementUuid());
 				Statement st = stAuth.getStatement(transaction);
 				stack.addAll(st.dependentAuthorities(transaction));
 				if (!(st instanceof RootContext))
@@ -1068,7 +1068,7 @@ public class StatementAuthority implements Exportable
 	{
 		if (!dependentUnpackedSignatureRequests(transaction).isEmpty())
 			throw new DependentUnpackedSignatureRequests();
-		Set<StatementAuthority> reseted = resetSignedProof(transaction);
+		Set<UUID> reseted = resetSignedProof(transaction);
 		Stack<StatementAuthority> stack = new Stack<StatementAuthority>();
 		stack.push(this);
 		Stack<StatementAuthority> stack2 = new Stack<StatementAuthority>();
@@ -1085,7 +1085,7 @@ public class StatementAuthority implements Exportable
 			}
 			stack2.push(stAuth);
 		}
-		checkSignedProof(transaction, reseted);
+		checkSignedProofUuids(transaction, reseted);
 	}
 
 	public void removeFromDependentUnpackedSignatureRequests(Transaction transaction)
