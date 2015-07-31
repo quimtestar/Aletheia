@@ -428,6 +428,18 @@ public abstract class PersistenceManager
 	 */
 	public abstract void deleteStatementEntity(Transaction transaction, UUID uuid);
 
+	public boolean lockStatement(Transaction transaction, Statement statement)
+	{
+		return lockStatementEntity(transaction, statement.getUuid());
+	}
+
+	public boolean lockStatement(Transaction transaction, UUID uuid)
+	{
+		return lockStatementEntity(transaction, uuid);
+	}
+
+	public abstract boolean lockStatementEntity(Transaction transaction, UUID uuid);
+
 	/**
 	 * Cretes a set view of the statements that depend on another one.
 	 *

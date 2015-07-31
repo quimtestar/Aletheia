@@ -384,6 +384,11 @@ public abstract class Statement implements Exportable
 		return entity;
 	}
 
+	public boolean lock(Transaction transaction)
+	{
+		return getPersistenceManager().lockStatement(transaction, this);
+	}
+
 	/**
 	 * Saves the persistent state using the transaction.
 	 *

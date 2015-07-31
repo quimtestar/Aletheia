@@ -749,6 +749,17 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 	}
 
 	@Override
+	public boolean lockStatementEntity(Transaction transaction, UUID uuid)
+	{
+		return lockStatementEntity((BerkeleyDBTransaction) transaction, new UUIDKey(uuid));
+	}
+
+	private boolean lockStatementEntity(BerkeleyDBTransaction transaction, UUIDKey uuidKey)
+	{
+		return transaction.lock(getEntityStore().statementEntityPrimaryIndex(), uuidKey);
+	}
+
+	@Override
 	public BerkeleyDBDependentsSet dependents(Transaction transaction, Statement statement)
 	{
 		return new BerkeleyDBDependentsSet(this, (BerkeleyDBTransaction) transaction, statement);
