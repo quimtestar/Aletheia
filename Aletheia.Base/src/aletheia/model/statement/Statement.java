@@ -549,6 +549,11 @@ public abstract class Statement implements Exportable
 		checkProved(transaction, true, statements);
 	}
 
+	protected static void checkProvedUuids(Transaction transaction, Collection<UUID> statementUuids)
+	{
+		checkProvedUuids(transaction, true, statementUuids);
+	}
+
 	/**
 	 * Equivalent to {@link #checkProved(Transaction, boolean, Collection)} with
 	 * statements set to the singleton set of <b>this</b> statement.

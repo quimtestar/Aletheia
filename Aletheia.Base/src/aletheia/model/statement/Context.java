@@ -1162,10 +1162,10 @@ public class Context extends Statement
 		getPersistenceManager().deleteStatement(transaction, statement);
 		if (proved)
 		{
-			Set<Statement> reseted = new HashSet<Statement>();
+			Set<UUID> reseted = new HashSet<UUID>();
 			for (Context ctx : descendantContextsByConsequent(transaction, statement.getTerm()))
-				reseted.addAll(ctx.resetProvedDependents(transaction));
-			checkProved(transaction, reseted);
+				ctx.resetProvedDependents(transaction, reseted);
+			checkProvedUuids(transaction, reseted);
 		}
 		Iterable<StateListener> listeners = stateListeners();
 		synchronized (listeners)
@@ -1198,17 +1198,15 @@ public class Context extends Statement
 	 *            The transaction to be used in the operation.
 	 * @return The set of affected statements.
 	 */
-	private Set<Statement> resetProvedDependents(Transaction transaction)
+	private void resetProvedDependents(Transaction transaction, Set<UUID> set)
 	{
-		Set<Statement> set = new HashSet<Statement>();
 		Stack<Statement> stack = new Stack<Statement>();
 		stack.push(this);
 		while (!stack.isEmpty())
 		{
-			logger.debug("---> resetProvedDependents:" + stack.size() + " " + set.size());
+			logger.trace("---> resetProvedDependents:" + stack.size() + " " + set.size());
 			Statement st = stack.pop();
-			set.add(st);
-			if (st.isProved())
+			if (st.isProved() && !set.contains(st.getUuid()))
 			{
 				st.setProved(transaction, false);
 				Iterable<StateListener> listeners = st.stateListeners();
@@ -1217,7 +1215,7 @@ public class Context extends Statement
 					for (StateListener listener : listeners)
 						listener.provedStateChanged(transaction, st, false);
 				}
-
+				set.add(st.getUuid());
 				stack.addAll(st.dependents(transaction));
 				if (!(st instanceof RootContext))
 					stack.addAll(st.getContext(transaction).descendantContextsByConsequent(transaction, st.getTerm()));
@@ -1225,7 +1223,6 @@ public class Context extends Statement
 					stack.addAll(((Context) st).descendantContextsByConsequent(transaction, st.getTerm()));
 			}
 		}
-		return set;
 	}
 
 	/**
