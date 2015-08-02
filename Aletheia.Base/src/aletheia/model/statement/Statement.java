@@ -68,6 +68,7 @@ import aletheia.persistence.collections.statement.DependentsSet;
 import aletheia.persistence.entities.statement.StatementEntity;
 import aletheia.protocol.Exportable;
 import aletheia.utilities.collections.AbstractCloseableCollection;
+import aletheia.utilities.collections.AdaptedCollection;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCloseableSet;
 import aletheia.utilities.collections.BijectionCollection;
@@ -1534,6 +1535,11 @@ public abstract class Statement implements Exportable
 
 		});
 
+	}
+
+	public static Collection<Statement> dependencySortedStatements(Transaction transaction, final Collection<? extends Statement> collection)
+	{
+		return dependencySortedStatements(transaction, new TrivialCloseableCollection<Statement>(new AdaptedCollection<>(collection)));
 	}
 
 }
