@@ -20,6 +20,7 @@
 package aletheia.gui.cli.command.statement;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
@@ -29,6 +30,7 @@ import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.collections.BufferedList;
 
 @TaggedCommand(tag = "multicopy", groupPath = "/statement", factory = MultiCopy.Factory.class)
 public class MultiCopy extends TransactionalCommand
@@ -47,7 +49,7 @@ public class MultiCopy extends TransactionalCommand
 		if (getFrom().getActiveContext() == null)
 			throw new NotActiveContextException();
 		Context ctx = getFrom().getActiveContext();
-		List<Statement> list = ctx.copy(getTransaction(), this.statements);
+		List<Statement> list = ctx.copy(getTransaction(), new BufferedList<>(Statement.dependencySortedStatements(getTransaction(), statements)));
 		if (list.isEmpty())
 			return null;
 		Statement last = list.get(list.size() - 1);
@@ -72,10 +74,10 @@ public class MultiCopy extends TransactionalCommand
 			List<Statement> statements = new ArrayList<Statement>();
 			for (int i = 0; i < split.size(); i++)
 			{
-				Statement st = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(i));
-				if (st == null)
+				Collection<Statement> st = findMultiStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(i));
+				if (st.isEmpty())
 					throw new CommandParseException("Bad statement path: " + split.get(i));
-				statements.add(st);
+				statements.addAll(st);
 			}
 			return new MultiCopy(cliJPanel, transaction, statements);
 		}

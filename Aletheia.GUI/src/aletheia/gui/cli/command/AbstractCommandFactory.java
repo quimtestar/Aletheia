@@ -36,6 +36,7 @@ import aletheia.model.authority.StatementAuthority;
 import aletheia.model.authority.StatementAuthoritySignature;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
+import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
@@ -140,6 +141,39 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 		{
 
 		}
+	}
+
+	protected static Collection<Statement> findMultiStatementPath(PersistenceManager persistenceManager, Transaction transaction, Context ctx, String path)
+			throws CommandParseException
+	{
+		try
+		{
+			if (path.endsWith("."))
+			{
+				int b = path.lastIndexOf("/");
+				String ctxPath = b >= 0 ? path.substring(0, b) : "";
+				String sprefix = (b >= 0 ? path.substring(b + 1) : path).replaceFirst("\\.$", "");
+				Statement st = findStatementPath(persistenceManager, transaction, ctx, ctxPath);
+				if ((st == null) || !(st instanceof Context))
+					return Collections.emptySet();
+				Namespace prefix = Namespace.parse(sprefix);
+				Identifier initiator = prefix instanceof NodeNamespace ? ((NodeNamespace) prefix).asIdentifier() : prefix.initiator();
+				Identifier terminator = prefix.terminator();
+				return ((Context) st).identifierToStatement(transaction).subMap(initiator, terminator).values();
+			}
+			else
+			{
+				Statement st = findStatementPath(persistenceManager, transaction, ctx, path);
+				if (st == null)
+					return Collections.emptySet();
+				return Collections.singleton(st);
+			}
+		}
+		catch (InvalidNameException e)
+		{
+			throw CommandParseEmbeddedException.embed(e);
+		}
+
 	}
 
 	protected static Term parseTerm(Context ctx, Transaction transaction, String s, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
