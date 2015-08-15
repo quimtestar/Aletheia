@@ -589,7 +589,7 @@ public class CatalogTreeModel extends PersistentTreeModel
 			if (node != null)
 			{
 				node.rebuildChildren();
-				final TreeModelEvent ev = new TreeModelEvent(this, node.path());
+				final TreeModelEvent ev = new TreeModelEvent(this, node.path().getParentPath());
 				SwingUtilities.invokeLater(new Runnable()
 				{
 					@Override
