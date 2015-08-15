@@ -197,7 +197,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 	private synchronized StatementContextJTreeNode deleteStatement(Statement statement)
 	{
-		return nodeMap.removeByStatement(statement);
+		return nodeMap.cachedByStatement(statement);
 	}
 
 	private synchronized StatementContextJTreeNode addStatement(Statement statement)
@@ -1258,7 +1258,10 @@ public class ContextJTreeModel extends PersistentTreeModel
 					{
 						objects[i] = nodeMap.cached(e.object);
 						if (objects[i] == null)
+						{
 							objects = null;
+							logger.trace("Setting remove tree model event's children object to null: " + node);
+						}
 					}
 					i++;
 				}
