@@ -287,7 +287,6 @@ public class ProofFinder
 		public void shutdown() throws InterruptedException
 		{
 			this.halt = true;
-			interrupt();
 			join();
 		}
 
@@ -319,11 +318,17 @@ public class ProofFinder
 
 	}
 
-	private synchronized void shutdownProofFinderThread() throws InterruptedException
+	private void shutdownProofFinderThread() throws InterruptedException
 	{
-		if (proofFinderThread != null)
-			proofFinderThread.shutdown();
-		proofFinderThread = null;
+		ProofFinderThread pft = null;
+		synchronized (this)
+		{
+			if (proofFinderThread != null)
+				pft = proofFinderThread;
+			proofFinderThread = null;
+		}
+		if (pft != null)
+			pft.shutdown();
 	}
 
 	public void shutdown() throws InterruptedException
