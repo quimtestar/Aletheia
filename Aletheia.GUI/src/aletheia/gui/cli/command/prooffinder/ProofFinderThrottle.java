@@ -62,7 +62,7 @@ public abstract class ProofFinderThrottle extends Command
 		@Override
 		protected String paramSpec()
 		{
-			return "<throttle>";
+			return "[<throttle>]";
 		}
 
 		@Override
