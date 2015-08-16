@@ -48,9 +48,9 @@ public abstract class ProofFinderMaxTotalSize extends Command
 		@Override
 		public ProofFinderMaxTotalSize parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
-			if (split.size() > 1)
+			if (split.size() > 0)
 			{
-				int maxTotalSize = Integer.parseInt(split.get(1));
+				int maxTotalSize = Integer.parseInt(split.get(0));
 				return new ProofFinderSetMaxTotalSize(cliJPanel, maxTotalSize);
 			}
 			else
