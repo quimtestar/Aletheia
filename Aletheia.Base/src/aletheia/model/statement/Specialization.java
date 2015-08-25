@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import aletheia.model.identifier.Identifier;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.TypeException;
@@ -312,7 +313,19 @@ public class Specialization extends Statement
 			for (VariableTerm var : instance.freeVariables())
 			{
 				if (!context.statements(transaction).containsKey(var))
-					undefined.add(var.toString(context.variableToIdentifier(transaction)));
+				{
+					if (var instanceof IdentifiableVariableTerm)
+					{
+						IdentifiableVariableTerm idVar = (IdentifiableVariableTerm) var;
+						Identifier id = context.variableToIdentifier(transaction).get(idVar);
+						if (id != null)
+							undefined.add(id.toString());
+						else
+							undefined.add(idVar.getUuid().toString());
+					}
+					else
+						undefined.add(var.toString());
+				}
 			}
 			throw new UndefinedVariablesInInstanceException(undefined);
 		}

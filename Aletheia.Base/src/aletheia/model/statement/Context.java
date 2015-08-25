@@ -1622,11 +1622,11 @@ public class Context extends Statement
 				}
 				catch (ReplaceTypeException e)
 				{
-					throw new CopyStatementException(e);
+					throw new CopyStatementException(e.getMessage(), e);
 				}
 				catch (StatementException e)
 				{
-					throw new CopyStatementException(e);
+					throw new CopyStatementException(e.getMessage(), e);
 				}
 				stDest = specDest;
 			}
