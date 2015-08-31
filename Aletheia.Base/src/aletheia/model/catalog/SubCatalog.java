@@ -87,7 +87,10 @@ public class SubCatalog extends Catalog
 	@Override
 	protected SortedMap<Identifier, Statement> map(Transaction transaction)
 	{
-		return parent.map(transaction).subMap(prefix.initiator(), prefix.terminator());
+		SortedMap<Identifier, Statement> parentMap = parent.map(transaction);
+		if (parentMap == null)
+			return null;
+		return parentMap.subMap(prefix.initiator(), prefix.terminator());
 	}
 
 	/**

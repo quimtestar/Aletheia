@@ -105,6 +105,9 @@ public class SubNomenclator extends Nomenclator implements Serializable, Exporta
 	@Override
 	public SortedMap<Identifier, Statement> identifierToStatement()
 	{
+		Nomenclator parent = getParent();
+		if (parent == null)
+			return null;
 		return new CombinedSortedMap<Identifier, Statement>(getLocalIdentifierToStatement(), getParent().identifierToStatement());
 	}
 

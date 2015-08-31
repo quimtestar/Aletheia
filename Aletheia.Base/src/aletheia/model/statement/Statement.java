@@ -610,7 +610,10 @@ public abstract class Statement implements Exportable
 
 	public Nomenclator getParentNomenclator(Transaction transaction)
 	{
-		return getContext(transaction).getNomenclator(transaction);
+		Context ctx = getContext(transaction);
+		if (ctx == null)
+			return null;
+		return ctx.getNomenclator(transaction);
 	}
 
 	/**

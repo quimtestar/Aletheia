@@ -21,6 +21,7 @@ package aletheia.model.catalog;
 
 import java.util.AbstractCollection;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
@@ -114,6 +115,8 @@ public abstract class Catalog
 			public Iterator<SubCatalog> iterator()
 			{
 				final SortedMap<Identifier, Statement> map = map(transaction);
+				if (map == null)
+					return Collections.emptyIterator();
 				return new Iterator<SubCatalog>()
 				{
 
@@ -164,13 +167,19 @@ public abstract class Catalog
 			@Override
 			public int size()
 			{
-				return map(transaction).size();
+				SortedMap<Identifier, Statement> map = map(transaction);
+				if (map == null)
+					return 0;
+				return map.size();
 			}
 
 			@Override
 			public boolean isEmpty()
 			{
-				return map(transaction).isEmpty();
+				SortedMap<Identifier, Statement> map = map(transaction);
+				if (map == null)
+					return true;
+				return map.isEmpty();
 			}
 
 		};
