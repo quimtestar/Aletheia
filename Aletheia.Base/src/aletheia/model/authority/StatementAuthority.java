@@ -1085,6 +1085,7 @@ public class StatementAuthority implements Exportable
 			}
 			stack2.push(stAuth);
 		}
+		checkSignedDependencies(transaction, dependentAuthorities(transaction));
 		checkSignedProofUuids(transaction, reseted);
 	}
 
