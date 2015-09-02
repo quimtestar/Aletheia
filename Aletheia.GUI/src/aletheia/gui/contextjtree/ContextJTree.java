@@ -216,12 +216,16 @@ public class ContextJTree extends PersistentJTree
 					@Override
 					public void run()
 					{
-						ContextJTreeNode node = (ContextJTreeNode) selectionModel.getSelectionPath().getLastPathComponent();
-						ContextJTreeNodeRenderer nodeRenderer = renderer.getNodeRenderer(node);
-						if (nodeRenderer instanceof StatementContextJTreeNodeRenderer<?>)
-							((StatementContextJTreeNodeRenderer<?>) nodeRenderer).editName();
-						else if (nodeRenderer instanceof GroupSorterContextJTreeNodeRenderer)
-							((GroupSorterContextJTreeNodeRenderer) nodeRenderer).editName();
+						TreePath path = selectionModel.getSelectionPath();
+						if (path != null)
+						{
+							ContextJTreeNode node = (ContextJTreeNode) path.getLastPathComponent();
+							ContextJTreeNodeRenderer nodeRenderer = renderer.getNodeRenderer(node);
+							if (nodeRenderer instanceof StatementContextJTreeNodeRenderer<?>)
+								((StatementContextJTreeNodeRenderer<?>) nodeRenderer).editName();
+							else if (nodeRenderer instanceof GroupSorterContextJTreeNodeRenderer)
+								((GroupSorterContextJTreeNodeRenderer) nodeRenderer).editName();
+						}
 					}
 				});
 				break;
