@@ -1545,4 +1545,33 @@ public abstract class Statement implements Exportable
 		return dependencySortedStatements(transaction, new TrivialCloseableCollection<Statement>(new AdaptedCollection<>(collection)));
 	}
 
+	public Context highestContext(Transaction transaction)
+	{
+		Context context = rootContext(transaction);
+		for (Statement dep : dependenciesThisAndDescendents(transaction))
+		{
+			if (!isDescendent(transaction, dep))
+			{
+				Context ctx = dep.getContext(transaction);
+				if (context.isDescendent(transaction, ctx))
+					context = ctx;
+			}
+		}
+		return context;
+	}
+
+	/**
+	 * Decides if a statement descends from this context
+	 *
+	 * @param transaction
+	 *            The transaction to be used in the operations on the map.
+	 * @param st
+	 *            The statement.
+	 * @return The decision.
+	 */
+	public boolean isDescendent(Transaction transaction, Statement st)
+	{
+		return equals(st);
+	}
+
 }

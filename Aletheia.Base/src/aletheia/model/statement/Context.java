@@ -1968,6 +1968,7 @@ public class Context extends Statement
 	 *            The statement.
 	 * @return The decision.
 	 */
+	@Override
 	public boolean isDescendent(Transaction transaction, Statement st)
 	{
 		while (true)
@@ -2168,6 +2169,32 @@ public class Context extends Statement
 			ctx = ctx.getContext(transaction);
 		}
 		return null;
+	}
+
+	@Override
+	public Context highestContext(Transaction transaction)
+	{
+		Context context = super.highestContext(transaction);
+		Context context_ = null;
+		Context ctx = this;
+		for (Context subctx : ctx.descendentContexts(transaction))
+		{
+			for (Statement sol : subctx.solvers(transaction))
+			{
+				if (sol.isProved())
+				{
+					if (!ctx.isDescendent(transaction, sol))
+					{
+						Context ctx_ = sol.getContext(transaction);
+						if (context_ == null || context_.isDescendent(transaction, ctx_))
+							context_ = ctx_;
+					}
+				}
+			}
+		}
+		if (context_ != null && context.isDescendent(transaction, context_))
+			context = context_;
+		return context;
 	}
 
 }
