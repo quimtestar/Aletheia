@@ -999,6 +999,37 @@ public class ContextJTree extends PersistentJTree
 
 	}
 
+	public void expandAllContexts(final Context context)
+	{
+		SwingUtilities.invokeLater(new Runnable()
+		{
+
+			@Override
+			public void run()
+			{
+				Transaction transaction = getPersistenceManager().beginTransaction();
+				try
+				{
+					Stack<Context> stack = new Stack<Context>();
+					stack.push(context);
+					while (!stack.isEmpty())
+					{
+						Context ctx = stack.pop();
+						TreePath path = getModel().pathForStatement(ctx);
+						expandPath(path);
+						stack.addAll(ctx.subContexts(transaction));
+					}
+				}
+				finally
+				{
+					transaction.abort();
+				}
+			}
+
+		});
+
+	}
+
 	public void pushSelectStatement(Transaction transaction, Statement statement)
 	{
 		getModel().pushSelectStatement(transaction, statement, this);
