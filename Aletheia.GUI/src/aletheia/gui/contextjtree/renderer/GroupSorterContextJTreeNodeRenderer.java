@@ -36,7 +36,6 @@ import org.apache.logging.log4j.Logger;
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.node.GroupSorterContextJTreeNode;
-import aletheia.gui.contextjtree.node.StatementContextJTreeNode;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
 import aletheia.gui.contextjtree.sorter.StatementGroupSorter;
 import aletheia.log4j.LoggerManager;
@@ -140,8 +139,6 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 
 		private final EditableSorterPrefixComponent editableSorterPrefixComponent;
 		private final StatementContextJTreeNodeRenderer<?> statementContextJTreeNodeRenderer;
-		@SuppressWarnings("unused")
-		private final StatementContextJTreeNode statementContextJTreeNode;
 
 		private class MyStatementContextJTreeNodeRenderer extends StatementContextJTreeNodeRenderer<Statement>
 		{
@@ -174,13 +171,11 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 				if (statement != null)
 				{
 					this.statementContextJTreeNodeRenderer = new MyStatementContextJTreeNodeRenderer(contextJTree, statement);
-					statementContextJTreeNode = contextJTree.getModel().getNodeMap().getByStatement(statement);
 					add(statementContextJTreeNodeRenderer);
 				}
 				else
 				{
 					this.statementContextJTreeNodeRenderer = null;
-					statementContextJTreeNode = null;
 					addSpaceLabel(4);
 					makeGroupJLabelClickable(addCollapsedGroupSorterLabel());
 					addEditableComponent(editableSorterPrefixComponent);

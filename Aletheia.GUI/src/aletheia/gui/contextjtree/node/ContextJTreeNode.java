@@ -99,7 +99,11 @@ public abstract class ContextJTreeNode implements TreeNode
 
 	public synchronized void cleanRenderer()
 	{
-		rendererRef = null;
+		if (rendererRef != null)
+		{
+			rendererRef.clear();
+			rendererRef = null;
+		}
 	}
 
 	public synchronized ContextJTreeNodeRenderer renderer(ContextJTree contextJTree)

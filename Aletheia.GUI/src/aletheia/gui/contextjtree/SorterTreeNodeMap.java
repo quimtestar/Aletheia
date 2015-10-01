@@ -85,11 +85,30 @@ public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterContextJ
 		return model;
 	}
 
+	private Statement sorterStatement(Sorter sorter)
+	{
+		Transaction transaction = getModel().beginTransaction();
+		try
+		{
+			return sorter.getStatement(transaction);
+		}
+		finally
+		{
+			transaction.abort();
+		}
+	}
+
 	@Override
 	protected synchronized SorterContextJTreeNode buildNode(Sorter sorter)
 	{
 		if (sorter instanceof GroupSorter)
 		{
+			Statement statement = sorterStatement(sorter);
+			if (statement != null && !byStatementMapContainsKey(statement))
+			{
+				statement.addStateListener(getModel().getStatementListener());
+				statement.addAuthorityStateListener(getModel().getStatementListener());
+			}
 			if (sorter instanceof StatementGroupSorter)
 				return new StatementGroupSorterContextJTreeNode(getModel(), (StatementGroupSorter) sorter);
 			else if (sorter instanceof RootContextGroupSorter)
@@ -132,7 +151,16 @@ public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterContextJ
 	@Override
 	protected synchronized void keyRemoved(Sorter sorter)
 	{
-		if (sorter instanceof StatementSorter)
+		if (sorter instanceof GroupSorter)
+		{
+			Statement statement = sorterStatement(sorter);
+			if (statement != null && !byStatementMapContainsKey(statement))
+			{
+				statement.removeStateListener(getModel().getStatementListener());
+				statement.removeAuthorityStateListener(getModel().getStatementListener());
+			}
+		}
+		else if (sorter instanceof StatementSorter)
 		{
 			StatementSorter statementSorter = (StatementSorter) sorter;
 			byStatementMapRemove(statementSorter);
@@ -154,6 +182,8 @@ public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterContextJ
 				}
 			}
 		}
+		else
+			throw new Error();
 	}
 
 	public synchronized boolean isCachedByStatement(Statement statement)

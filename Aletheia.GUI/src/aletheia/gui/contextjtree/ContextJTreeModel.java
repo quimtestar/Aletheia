@@ -1229,12 +1229,16 @@ public class ContextJTreeModel extends PersistentTreeModel
 		{
 			Sorter s = stack.pop();
 			SorterContextJTreeNode n = nodeMap.remove(s);
-			if (n instanceof GroupSorterContextJTreeNode)
+			if (n != null)
 			{
-				GroupSorterContextJTreeNode<?> gn = (GroupSorterContextJTreeNode<?>) n;
-				List<Sorter> sl = gn.getSorterList();
-				if (sl != null)
-					stack.addAll(sl);
+				n.cleanRenderer();
+				if (n instanceof GroupSorterContextJTreeNode)
+				{
+					GroupSorterContextJTreeNode<?> gn = (GroupSorterContextJTreeNode<?>) n;
+					List<Sorter> sl = gn.getSorterList();
+					if (sl != null)
+						stack.addAll(sl);
+				}
 			}
 		}
 	}
