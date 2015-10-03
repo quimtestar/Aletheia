@@ -131,6 +131,8 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 					st = ((Context) st).identifierToStatement(transaction).get(Identifier.parse(s));
 				}
 			}
+			else
+				st = st.refresh(transaction);
 			return st;
 		}
 		catch (InvalidNameException e)
