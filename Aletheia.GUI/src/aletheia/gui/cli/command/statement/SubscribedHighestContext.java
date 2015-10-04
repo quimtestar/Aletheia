@@ -36,11 +36,13 @@ import aletheia.persistence.Transaction;
 public class SubscribedHighestContext extends TransactionalCommand
 {
 	private final Context context;
+	private final boolean unsigned;
 
-	public SubscribedHighestContext(CliJPanel from, Transaction transaction, Context context)
+	public SubscribedHighestContext(CliJPanel from, Transaction transaction, Context context, boolean unsigned)
 	{
 		super(from, transaction);
 		this.context = context;
+		this.unsigned = unsigned;
 	}
 
 	@Override
@@ -64,7 +66,7 @@ public class SubscribedHighestContext extends TransactionalCommand
 						pushed = true;
 					}
 				}
-				if (!pushed && statement.isProved() && !(statement instanceof Assumption))
+				if (!pushed && statement.isProved() && !(statement instanceof Assumption) && (!unsigned || !statement.isValidSignature(getTransaction())))
 				{
 					Context ctx_ = statement.highestContext(getTransaction());
 					if (!ctx_.equals(ctx))
@@ -91,13 +93,14 @@ public class SubscribedHighestContext extends TransactionalCommand
 			Statement statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(0));
 			if (!(statement instanceof Context))
 				throw new CommandParseException("Not a context.");
-			return new SubscribedHighestContext(cliJPanel, transaction, (Context) statement);
+			boolean unsigned = split.size() > 1 && split.get(1).equals("unsigned");
+			return new SubscribedHighestContext(cliJPanel, transaction, (Context) statement, unsigned);
 		}
 
 		@Override
 		protected String paramSpec()
 		{
-			return "<context>";
+			return "<context> [unsigned]";
 		}
 
 		@Override
