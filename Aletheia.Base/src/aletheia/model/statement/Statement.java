@@ -1160,8 +1160,16 @@ public abstract class Statement implements Exportable
 				{
 					return createAuthority(transaction, author, creationDate);
 				}
+				catch (AuthorityWithNoParentException e)
+				{
+					throw e;
+				}
+				catch (AlreadyAuthoredStatementException e)
+				{
+				}
 				catch (AuthorityCreationException e)
 				{
+					throw new Error(e);
 				}
 			}
 
