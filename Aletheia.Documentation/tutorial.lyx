@@ -27,7 +27,7 @@
 \paperfontsize default
 \spacing single
 \use_hyperref false
-\papersize default
+\papersize a4paper
 \use_geometry false
 \use_package amsmath 1
 \use_package amssymb 1
@@ -83,82 +83,1483 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Section
-
-\end_layout
-
-\begin_layout Section
-Section
+Compiling/obtaining and running the Aletheia GUI package
 \end_layout
 
 \begin_layout Standard
-Lorem ipsum dolor sit amet, consectetur adipiscing elit.
- Vestibulum ut nisi lacus.
- Curabitur consectetur elit id leo scelerisque, ac facilisis metus cursus.
- Duis commodo felis sed nulla tempor egestas.
- Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere
- cubilia Curae; Praesent porttitor quis magna in elementum.
- Vivamus malesuada lorem nec vestibulum maximus.
- Nullam metus tortor, molestie posuere mollis ut, tempus non nunc.
-\end_layout
+The project currently sources reside at the 
+\emph on
+GitHub
+\emph default
+ online repository (
+\begin_inset CommandInset href
+LatexCommand href
+target "https://github.com/quimtestar/Aletheia"
 
-\begin_layout Standard
-Aliquam mollis posuere erat, quis ultricies metus mollis eu.
- Praesent elementum finibus mattis.
- Maecenas massa sem, placerat non posuere id, malesuada vitae mauris.
- Ut eleifend sit amet ipsum blandit luctus.
- Vivamus elementum lobortis tempus.
- Duis cursus metus turpis, quis pretium lectus ultricies vel.
- Interdum et malesuada fames ac ante ipsum primis in faucibus.
- Nam porta mattis dui, ut ultricies tellus molestie et.
- Sed vel nisi id felis efficitur luctus sit amet in arcu.
- Maecenas ligula eros, rutrum a faucibus eu, suscipit ac mauris.
+\end_inset
+
+), from where you can obtain the sources and compile them yourself or directly
+ download the package as a single .jar file.
+ 
 \end_layout
 
 \begin_layout Subsection
-Subsection
+Compile the sources
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Compile-the-sources"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Aliquam mollis posuere erat, quis ultricies metus mollis eu.
- Praesent elementum finibus mattis.
- Maecenas massa sem, placerat non posuere id, malesuada vitae mauris.
- Ut eleifend sit amet ipsum blandit luctus.
- Vivamus elementum lobortis tempus.
- Duis cursus metus turpis, quis pretium lectus ultricies vel.
- Interdum et malesuada fames ac ante ipsum primis in faucibus.
- Nam porta mattis dui, ut ultricies tellus molestie et.
- Sed vel nisi id felis efficitur luctus sit amet in arcu.
- Maecenas ligula eros, rutrum a faucibus eu, suscipit ac mauris.
+Requirements:
+\end_layout
+
+\begin_layout Itemize
+Java JDK version 7 or greater: 
+\begin_inset CommandInset href
+LatexCommand href
+target "http://www.oracle.com/technetwork/java/javase/downloads/index.html"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Apache Ant: 
+\begin_inset CommandInset href
+LatexCommand href
+target "http://ant.apache.org/"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Git: 
+\begin_inset CommandInset href
+LatexCommand href
+target "https://git-scm.com/"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Steps:
+\end_layout
+
+\begin_layout Enumerate
+Clone the repository:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Execute the following command in a shell:
+\end_layout
+
+\begin_layout Verbatim
+
+$ git clone https://github.com/quimtestar/Aletheia.git 
+\end_layout
+
+\begin_layout Standard
+The last version of the 
+\emph on
+Aletheia
+\emph default
+'s project source code will be downloaded under the folder 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+Aletheia
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ in the current directory.
+ The following set of subproject folders will appear:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="5" columns="3">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top">
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Aletheia.Base
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Aletheia.BerkeleyDB
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Aletheia.Documentation
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Aletheia.GUI
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Aletheia.GUI.Fonts
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Aletheia.log4j
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Aletheia.ParserGenerator
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Aletheia.PdfExport
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Aletheia.PeerToPeer
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Aletheia.ProofFinder
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Aletheia.Protocol
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Aletheia.Security
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Aletheia.Utilities
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Aletheia.Version
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Compile and build the jar file:
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Navigate to the subproject folder 
+\emph on
+Aletheia.GUI
+\emph default
+ and execute the following ant command:
+\end_layout
+
+\begin_layout Verbatim
+
+$ ant -f build_runnable.xml
+\end_layout
+
+\begin_layout Standard
+It will generate the package file named 
+\emph on
+aletheiagui.jar
+\emph default
+ in the current directory
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Obtain the precompiled package
+\end_layout
+
+\begin_layout Standard
+Alternatively, you can directly obtain the precompiled package from the
+ 
+\emph on
+GitHub
+\emph default
+ repository from the following URL: 
+\color red
+<THE URL HERE>
+\end_layout
+
+\begin_layout Subsection
+Running the package
+\end_layout
+
+\begin_layout Standard
+Requirements:
+\end_layout
+
+\begin_layout Itemize
+Java JRE version 7 or greater: 
+\begin_inset CommandInset href
+LatexCommand href
+target "http://www.oracle.com/technetwork/java/javase/downloads/index.html"
+
+\end_inset
+
+ (included in the JDK if you already downloaded it in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Compile-the-sources"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+Run the following command:
+\end_layout
+
+\begin_layout Verbatim
+
+$ java -jar aletheiagui.jar
+\end_layout
+
+\begin_layout Standard
+After a few instants with a splash image it should appear a window looking
+ like this:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "75col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/cap000.png
+	width 100col%
+	clip
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Setting up the environment
+\end_layout
+
+\begin_layout Subsection
+The database directory
+\end_layout
+
+\begin_layout Standard
+The application data will persist in a embedded database on our local drive
+ and first of all we need to set up it's path.
+ We will do it at the 
+\emph on
+Persistence folder 
+\emph default
+field on the 
+\emph on
+Configuration/Preferences
+\emph default
+ dialog:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "75col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/cap001.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If a proper database is not initialized a confirm dialog will appear.
+ 
+\end_layout
+
+\begin_layout Subsection
+The command line interface.
+\end_layout
+
+\begin_layout Standard
+After confirming the main window will change to:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "75col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/cap002.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As we see, the main window is split in two areas by a movable divider.
+ The lower part is a command line interface where we can input commands.
+ To obtain a list of available commands grouped by topic, just use the command
+ 
+\emph on
+help
+\emph default
+:
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+% help 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+(Sub) commands:
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+
+	* /authority
+\end_layout
+
+\begin_layout Plain Layout
+
+		addda (<UUID> | <nick>) [<statement> [<prefix>]] : Creates a new delegate
+ authorizer for the specified or active context.
+\end_layout
+
+\begin_layout Plain Layout
+
+		as (<UUID> | <nick>) [<statement>] : Adds a successor for the specified
+ or active context.
+\end_layout
+
+\begin_layout Plain Layout
+
+		assr <UUID> <statement> : Adds a statement to an existing signature request.
+\end_layout
+
+\begin_layout Plain Layout
+
+(...)
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Importing initial data
+\end_layout
+
+\begin_layout Standard
+For executing the further steps of this tutorial we'll need a context of
+ pre-existing theorems already defined and proved in the system.
+ We can obtain the in two ways:
+\end_layout
+
+\begin_layout Enumerate
+Connecting to another installation where they reside via the P2P network
+ (quite complicated, but useful in general).
+\end_layout
+
+\begin_layout Enumerate
+Just importing them from a file (pretty simple, but useful only for this
+ tutorial).
 \end_layout
 
 \begin_layout Subsubsection
-Subsubsection
+Connecting to the P2P network
 \end_layout
 
 \begin_layout Standard
-Nam sit amet eleifend erat.
- Fusce id orci mauris.
- Donec rutrum nisl semper sollicitudin pulvinar.
- Sed sit amet venenatis mauris.
- Sed finibus porttitor congue.
- Fusce pellentesque orci quis pharetra pharetra.
- Ut porttitor et massa vel convallis.
- Ut ullamcorper mauris eu neque sollicitudin, sit amet iaculis purus iaculis.
- Interdum et malesuada fames ac ante ipsum primis in faucibus.
- Donec fermentum ligula egestas augue porta, at egestas neque pulvinar.
- Cras vitae finibus dolor.
- Pellentesque porta, arcu sit amet sodales pellentesque, orci purus tincidunt
- lacus, a lobortis lectus ante at elit.
- Curabitur eleifend nec dui ut eleifend.
- Vivamus sollicitudin nulla metus, vel porttitor neque sagittis vel.
+We can set up our P2P node in two distinct ways: as a 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+female
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ node or as a 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+male
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ node.
+ The recommended way is being a 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+female
+\begin_inset Quotes erd
+\end_inset
+
+
+\emph default
+ node, but in this case we'll need to keep a TCP port open to the Internet
+ and be accepting connections from the outside, which is not always possible.
+ As a 
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+male
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\emph default
+node, we will just connect to a single (
+\emph on
+
+\begin_inset Quotes eld
+\end_inset
+
+female
+\emph default
+
+\begin_inset Quotes erd
+\end_inset
+
+) node that is willing to accept connections and all the comunication with
+ the network will be done through it.
 \end_layout
 
-\begin_layout Section
-Section
+\begin_layout Paragraph
+Setting up as a female node.
 \end_layout
 
-\begin_layout Section
-Section
+\begin_layout Standard
+We set up the net interface's external IP address and the TCP listen port
+ in the 
+\emph on
+Configuration/Preferences
+\emph default
+ dialog:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "75col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/cap004.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+After that we need to specify an initial node (we might use 
+\emph on
+aletheia.project.li:9000
+\emph default
+) via the command line interface:
+\end_layout
+
+\begin_layout Verbatim
+
+% help fnj 
+\end_layout
+
+\begin_layout Verbatim
+
+fnj <host> <port>
+\end_layout
+
+\begin_layout Verbatim
+
+Join the female P2P node the network by the given hook.
+\end_layout
+
+\begin_layout Verbatim
+
+\end_layout
+
+\begin_layout Verbatim
+
+% fnj aletheia.project.li 9000
+\end_layout
+
+\begin_layout Standard
+
+\color red
+<CONNECTIONS COMMAND>
+\end_layout
+
+\begin_layout Paragraph
+Setting up as a male node.
+\end_layout
+
+\begin_layout Standard
+We set up directly the IP address and port of the node we are connecting
+ to (we might use 
+\emph on
+aletheia.project.li:8900
+\emph default
+) in the 
+\emph on
+Configuration/Preferences
+\emph default
+ dialog:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "75col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/cap005.png
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We might check the connection is done via the CLI command 
+\emph on
+connections
+\emph default
+:
+\end_layout
+
+\begin_layout Verbatim
+
+% connections
+\end_layout
+
+\begin_layout Verbatim
+
+aletheia.project.li/79.152.160.59:8900	MALE	Conjugal
+\end_layout
+
+\begin_layout Verbatim
+
+aletheia.project.li/79.152.160.59:8900	MALE	Network
+\end_layout
+
+\begin_layout Paragraph
+Obtaining and subscribing to contexts.
+\end_layout
+
+\begin_layout Standard
+We obtain the initial root context executing the 
+\emph on
+orc
+\emph default
+ (obtain root context) command with a specific UUID that globally identifies
+ the one we will use:
+\end_layout
+
+\begin_layout Verbatim
+
+% orc 57dff486-97eb-5733-aad5-a462018f4dde
+\end_layout
+
+\begin_layout Standard
+
+After a while a small tree should like this should appear in the upper part
+ of the window:
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "75col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/cap006.png
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+All the mathematical objects stored in the system (axioms, theorems, definitions
+, proof steps,...) are nodes in that tree.
+ Except for the root context node, which we have just seen how to obtain
+ it, we will be kept updated of the nodes we want to via a 
+\emph on
+subscription
+\emph default
+ mechanism.
+ We might subscribe for the statements in the root contexts with the next
+ command:
+\end_layout
+
+\begin_layout Verbatim
+
+% subscribe ctx.quimtestar statements
+\end_layout
+
+\begin_layout Standard
+A white flag indicator will appear left to the root node name and, after
+ a while, their statement sub-nodes will be downloaded:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "75col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/cap007.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The (non-assumption) nodes with the same prefix get grouped under a grouping
+ node which is labelled in blue with the prefix and with an arrow as indicator.
+ The rest of its characteristics when collapsed are inherited from the actual
+ node with that prefix as name (if exists).
+ We can now expand nodes and navigate to some theorem statement under this
+ context:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "75col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/cap008.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The statement 
+\emph on
+Prop.And.th.symm
+\emph default
+ is a theorem that states that the logical conjunction is symmetric as a
+ proposition (i.e.
+ 
+\begin_inset Formula $\forall P,Q\; P\wedge Q\rightarrow Q\wedge P$
+\end_inset
+
+).
+ This is might expressed in the Aletheia language with the expression term
+ 
+\family typewriter
+
+\begin_inset Quotes eld
+\end_inset
+
+<P:Prop -> <Q:Prop -> <_:Prop.And P Q -> Prop.And Q P>>>
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+, which we find at the node text after the colon mark (function parameter
+ names aside).
+ 
+\end_layout
+
+\begin_layout Standard
+The red interrogant mark at the left indicates that we can't check the validity
+ of this statement, in this case because we are lacking of the proof of
+ this theorem (proofs are not downloaded by default).
+ The proof of this theorem will take the form as a collection of nodes descendin
+g for this one.
+ To obtain them them we need to 
+\emph on
+subscribe
+\emph default
+ for the proof of this statement.
+ 
+\end_layout
+
+\begin_layout Standard
+To do that, first of all we set the 
+\emph on
+active context 
+\emph default
+to the parent context of this one, in this case the root context labelled
+ 
+\emph on
+ctx.quimtestar
+\emph default
+.
+ Having selected the node 
+\emph on
+Prop.And.th.symm
+\emph default
+ in the context tree we press the F3 key.
+ When referring to a name in the command line, the 
+\emph on
+active context
+\emph default
+ is used to determine what particular statement we are referring to (different
+ contexts might have statements with the same name).
+\end_layout
+
+\begin_layout Standard
+The current 
+\emph on
+active context 
+\emph default
+is indicated in a panel just above the CLI panel, and we might change it
+ any time we want:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "75col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/cap009.png
+	width 75col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Having set the 
+\emph on
+active context
+\emph default
+, we execute the following command to subscribe for the statement's proof:
+\end_layout
+
+\begin_layout Verbatim
+
+% subscribe Prop.And.th.symm proof
+\end_layout
+
+\begin_layout Standard
+The proof subscription indicator is a black flag at the left of the node
+ label.
+ If we are still connected to the P2P network and there exists any network
+ node that has this statement proved, we will in a moment obtain the proof
+ of this statement, plus the proof of every theorem used in the proof of
+ this statement to have the validity of this theorem assured:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "75col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/cap010.png
+	width 100text%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The green check symbol indicates the validity of this statement, and therefore,
+ we may consider this theorem proved from now one.
+ So now we know that 
+\begin_inset Formula $\forall P,Q\; P\wedge Q\rightarrow Q\wedge P$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The axioms in the system are introduced as (nested) 
+\emph on
+context's assumptions
+\emph default
+.
+ For example, to be able to prove theorems of the classical logic, we somehow
+ needan equivalent to the double negation elimination axiom and in this
+ context it is introduced as an assumption of the context 
+\emph on
+ctx.Prop.Not.double.inv
+\emph default
+.
+ All the theorems that make use in their proofs of the double negation eliminati
+on must be under that context.
+ So, we must subscribe to the statements of this context the same way we
+ did before:
+\end_layout
+
+\begin_layout Verbatim
+
+% subscribe ctx.Prop.Not.double.inv statements
+\end_layout
+
+\begin_layout Standard
+After a while we'll obtain the set of statements directly under that context:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Boxed
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "75col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename images/cap011.png
+	width 100col%
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+So now we might subscribe successively to the statements of the full set
+ of nested subcontexts, each under the previous one:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="14" columns="2">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top" width="60col%">
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Context
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Description
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ctx.quimtestar
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Root context.
+ Define the pure concept of 
+\emph on
+'proposition'
+\emph default
+.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ctx.Prop.Not.double.inv
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Context for the classical logic.
+ Axiom of double negation elimination.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ctx.one
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Introduces the 
+\emph on
+one
+\emph default
+ function that refers to the unique satisfying object of a given property.
+ We'll use this to declare new mathematical objects that we can prove its
+ existence and uniqueness.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ctx.Set
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Introduces the pure concept of 
+\emph on
+'set'
+\emph default
+ and the 
+\emph on
+'set membership'
+\emph default
+ (∈) relation.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ctx.Set.extensionality
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The axiom of extensionality from the ZFC framework.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ctx.Set.specification
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The axiom schema of specification from the ZFC framework.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ctx.Set.pairing
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The axiom of pairing from the ZFC framework.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ctx.Set.union
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The axiom of union from the ZFC framework.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ctx.Set.infinity
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The axiom of infinity from the ZFC framework.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ctx.Set.regularity
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The axiom of regularity from the ZFC framework.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ctx.Set.replacement
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The axiom schema of replacement from the ZFC framework.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ctx.Set.power
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The axiom of power set from the ZFC framework.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ctx.Set.choice
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The axiom of choice from the ZFC framework.
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Hopefully with this full set of axioms we can express and prove all the
+ standard mathematics.
+\end_layout
+
+\begin_layout Standard
+
 \end_layout
 
 \end_body
