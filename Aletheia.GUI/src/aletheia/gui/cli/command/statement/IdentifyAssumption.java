@@ -100,7 +100,7 @@ public class IdentifyAssumption extends TransactionalCommand
 		@Override
 		protected String paramSpec()
 		{
-			return "<assumption #> <identifier>";
+			return "<identifier> <assumption #>";
 		}
 
 		@Override
