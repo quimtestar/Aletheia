@@ -103,21 +103,14 @@ Compiling/obtaining and running the Aletheia GUI package
 
 \begin_layout Standard
 The project currently sources reside at the 
-\emph on
-GitHub
-\emph default
- online repository (
-\begin_inset Flex URL
-status open
-
-\begin_layout Plain Layout
-
-https://github.com/quimtestar/Aletheia
-\end_layout
+\begin_inset CommandInset href
+LatexCommand href
+name "GitHub online repository"
+target "https://github.com/quimtestar/Aletheia"
 
 \end_inset
 
-), from where you can obtain the sources and compile them yourself or directly
+, from where you can obtain the sources and compile them yourself or directly
  download the package as a single .jar file.
  
 \end_layout
@@ -138,48 +131,36 @@ Requirements:
 \end_layout
 
 \begin_layout Itemize
-Java JDK version 7 or greater: 
-\begin_inset Flex URL
-status open
-
-\begin_layout Plain Layout
-
-http://www.oracle.com/technetwork/java/javase/downloads/index.html
-\end_layout
+\begin_inset CommandInset href
+LatexCommand href
+name "Java JDK version 7 or greater"
+target "http://www.oracle.com/technetwork/java/javase/downloads/index.html"
 
 \end_inset
 
-
+.
 \end_layout
 
 \begin_layout Itemize
-Apache Ant: 
-\begin_inset Flex URL
-status open
-
-\begin_layout Plain Layout
-
-http://ant.apache.org/
-\end_layout
+\begin_inset CommandInset href
+LatexCommand href
+name "Apache Ant"
+target "http://ant.apache.org/"
 
 \end_inset
 
-
+.
 \end_layout
 
 \begin_layout Itemize
-Git: 
-\begin_inset Flex URL
-status open
-
-\begin_layout Plain Layout
-
-https://git-scm.com/
-\end_layout
+\begin_inset CommandInset href
+LatexCommand href
+name "Git"
+target "https://git-scm.com/"
 
 \end_inset
 
-
+.
 \end_layout
 
 \begin_layout Standard
@@ -454,14 +435,10 @@ Requirements:
 \end_layout
 
 \begin_layout Itemize
-Java JRE version 7 or greater: 
-\begin_inset Flex URL
-status open
-
-\begin_layout Plain Layout
-
-http://www.oracle.com/technetwork/java/javase/downloads/index.html
-\end_layout
+\begin_inset CommandInset href
+LatexCommand href
+name "Java JRE version 7 or greater"
+target "http://www.oracle.com/technetwork/java/javase/downloads/index.html"
 
 \end_inset
 
@@ -505,7 +482,7 @@ After a few instants with a splash image it should appear a window looking
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 0
@@ -565,7 +542,7 @@ Configuration/Preferences
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 0
@@ -615,7 +592,7 @@ After confirming the main window will change to:
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 0
@@ -846,7 +823,7 @@ Configuration/Preferences
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 0
@@ -948,7 +925,7 @@ Configuration/Preferences
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 0
@@ -1053,7 +1030,7 @@ After a while a small tree should like this should appear in the upper part
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 0
@@ -1124,7 +1101,7 @@ A white flag indicator will appear left to the root node name and, after
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 0
@@ -1170,7 +1147,7 @@ The (non-assumption) nodes with the same prefix get grouped under a grouping
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 0
@@ -1308,7 +1285,7 @@ is indicated in a panel just above the CLI panel, and we might change it
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 0
@@ -1378,7 +1355,7 @@ The proof subscription indicator is a black flag at the left of the node
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 0
@@ -1472,7 +1449,7 @@ After a while we'll obtain the set of statements directly under that context:
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 0
@@ -2068,7 +2045,7 @@ Natural
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 0
@@ -2232,7 +2209,7 @@ If we are still connected to the P2P network it should just turn to valid
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 0
@@ -2447,7 +2424,7 @@ x
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 0
@@ -2557,7 +2534,7 @@ status open
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 0
@@ -2675,7 +2652,7 @@ Both specialization statements are created and named using the specified
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 0
@@ -2807,7 +2784,7 @@ status open
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 0
@@ -3075,7 +3052,7 @@ At this step we reached the context's consequent but we won't get it marked
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 0
@@ -3260,7 +3237,7 @@ Set.th.function
 \end_layout
 
 \begin_layout Standard
-\begin_inset Box Boxed
+\begin_inset Box Frameless
 position "t"
 hor_pos "c"
 has_inner_box 0
