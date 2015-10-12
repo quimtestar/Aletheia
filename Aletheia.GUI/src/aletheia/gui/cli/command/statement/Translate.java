@@ -63,7 +63,8 @@ public class Translate extends TransactionalCommand
 				if (id != null)
 				{
 					Statement st_ = context.identifierToStatement(getTransaction()).get(id);
-					map.put(st_, st);
+					if ((st_ != null) && (!map.containsKey(st_)))
+						map.put(st_, st);
 				}
 			}
 			if (ctx1 instanceof RootContext)
