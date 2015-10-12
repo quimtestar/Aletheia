@@ -1,0 +1,12 @@
+# Site settings
+title: The Aletheia Proof Assistant
+email: aletheiapa@gmail.com
+description: ""
+baseurl: "/Aletheia"
+twitter_username: aletheiapa
+#github_username:  quimtestar
+#github: https://github.com/quimtestar/Aletheia
+
+# Build settings
+markdown: kramdown
+permalink: pretty
