@@ -4,8 +4,7 @@ email: aletheiapa@gmail.com
 description: ""
 baseurl: "/Aletheia"
 twitter_username: aletheiapa
-#github_username:  quimtestar
-#github: https://github.com/quimtestar/Aletheia
+github_username:  quimtestar
 
 # Build settings
 markdown: kramdown
