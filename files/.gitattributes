@@ -1,1 +1,1 @@
-aletheiagui.jar filter=lfs diff=lfs merge=lfs -text
+*.jar filter=lfs diff=lfs merge=lfs -text
