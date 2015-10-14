@@ -33,6 +33,10 @@ logicalmkup
 \paperfontsize default
 \spacing single
 \use_hyperref true
+\pdf_title "Tutorial for the Aletheia GUI"
+\pdf_author "Quim Testar"
+\pdf_subject "The Aletheia Proof Assistant is a tool for interactively develop, analyze, store and share mathematical formal proofs. This document is a tutorial for a user quick-start on this system."
+\pdf_keywords "proof assistant mathematics aletheia"
 \pdf_bookmarks true
 \pdf_bookmarksnumbered false
 \pdf_bookmarksopen false
@@ -85,7 +89,7 @@ logicalmkup
 \begin_body
 
 \begin_layout Title
-Tutorial
+Tutorial for the Aletheia GUI
 \end_layout
 
 \begin_layout Standard
@@ -98,7 +102,17 @@ LatexCommand tableofcontents
 \end_layout
 
 \begin_layout Section
-Compiling/obtaining and running the Aletheia GUI package
+Introduction
+\end_layout
+
+\begin_layout Standard
+The Aletheia Proof Assistant is a tool for interactively develop, analyze,
+ store and share mathematical formal proofs.
+ This document is a tutorial for a user quick-start on this system.
+\end_layout
+
+\begin_layout Section
+Compiling/obtaining/running the package
 \end_layout
 
 \begin_layout Standard
@@ -416,14 +430,15 @@ Obtain the precompiled package
 \end_layout
 
 \begin_layout Standard
-Alternatively, you can directly obtain the precompiled package from the
- 
-\emph on
-GitHub
-\emph default
- repository from the following URL: 
-\color red
-<THE URL HERE>
+Alternatively, you can directly download the latest 
+\begin_inset CommandInset href
+LatexCommand href
+name "precompiled package"
+target "https://dl.dropboxusercontent.com/u/49511540/Aletheia/aletheiagui.jar"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsection
@@ -525,7 +540,7 @@ The database directory
 
 \begin_layout Standard
 The application data will persist in a embedded database on our local drive
- and first of all we need to set up it's path.
+ and first of all we need to set up its path.
  We will do it at the 
 \emph on
 Persistence folder 
@@ -575,7 +590,8 @@ status open
 \end_layout
 
 \begin_layout Standard
-If a proper database is not initialized a confirm dialog will appear.
+If a proper database is not initialized in the specified folder a confirm
+ dialog to create it will appear.
  
 \end_layout
 
@@ -625,7 +641,7 @@ status open
 \end_layout
 
 \begin_layout Standard
-As we see, the main window is split in two areas by a movable divider.
+As we can see, the main window is split in two areas by a movable divider.
  The lower part is a command line interface where we can input commands.
  To obtain a list of available commands grouped by topic, just use the command
  
@@ -696,7 +712,7 @@ status open
 \end_layout
 
 \begin_layout Subsection
-Importing initial data
+Importing initial data from the P2P network
 \end_layout
 
 \begin_layout Standard
@@ -713,6 +729,14 @@ Connecting to another installation where they reside via the P2P network
 \begin_layout Enumerate
 Just importing them from a file (pretty simple, but useful only for this
  tutorial).
+ To do so, just jump to 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Importing-data-from"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -734,7 +758,7 @@ ctx.quimtestar
 \end_layout
 
 \begin_layout Subsubsection
-Connecting to the P2P network
+Connecting to the network
 \end_layout
 
 \begin_layout Standard
@@ -789,24 +813,12 @@ male
 
  
 \emph default
-node, we will just connect to a single (
-\emph on
-
-\begin_inset Quotes eld
-\end_inset
-
-female
-\emph default
-
-\begin_inset Quotes erd
-\end_inset
-
-) node that is willing to accept connections and all the comunication with
- the network will be done through it.
+node, we will just connect to a single node that is willing to accept connection
+s and all the comunication with the network will be done through it.
 \end_layout
 
-\begin_layout Paragraph
-Setting up as a female node.
+\begin_layout Subsubsection
+Setting up as a female node
 \end_layout
 
 \begin_layout Standard
@@ -895,7 +907,17 @@ Join the female P2P node the network by the given hook.
 
 \begin_layout Plain Layout
 
-<CONNECTIONS COMMAND>
+Joined to network
+\end_layout
+
+\begin_layout Plain Layout
+
+% connections 
+\end_layout
+
+\begin_layout Plain Layout
+
+aletheia.project.li/1.2.3.4:9000	MALE	Network
 \end_layout
 
 \end_inset
@@ -903,8 +925,8 @@ Join the female P2P node the network by the given hook.
 
 \end_layout
 
-\begin_layout Paragraph
-Setting up as a male node.
+\begin_layout Subsubsection
+Setting up as a male node
 \end_layout
 
 \begin_layout Standard
@@ -978,12 +1000,12 @@ status open
 
 \begin_layout Plain Layout
 
-aletheia.project.li/79.152.160.59:8900	MALE	Conjugal
+aletheia.project.li/1.2.3.4:8900	MALE	Conjugal
 \end_layout
 
 \begin_layout Plain Layout
 
-aletheia.project.li/79.152.160.59:8900	MALE	Network
+aletheia.project.li/1.2.3.4:8900	MALE	Network
 \end_layout
 
 \end_inset
@@ -991,8 +1013,8 @@ aletheia.project.li/79.152.160.59:8900	MALE	Network
 
 \end_layout
 
-\begin_layout Paragraph
-Obtaining and subscribing to contexts.
+\begin_layout Subsubsection
+Obtaining and subscribing to contexts
 \end_layout
 
 \begin_layout Standard
@@ -1021,8 +1043,8 @@ status open
 \end_layout
 
 \begin_layout Standard
-After a while a small tree should like this should appear in the upper part
- of the window:
+After a while a small tree like this should appear in the upper part of
+ the window:
 \begin_inset Newline newline
 \end_inset
 
@@ -1389,7 +1411,7 @@ status open
 
 \begin_layout Standard
 The green check symbol indicates the validity of this statement, and therefore,
- we may consider this theorem proved from now one.
+ we may consider this theorem proved from now on.
  So now we know that 
 \begin_inset Formula $\forall P,Q\; P\wedge Q\rightarrow Q\wedge P$
 \end_inset
@@ -1404,7 +1426,7 @@ context's assumptions
 \emph default
 .
  For example, to be able to prove theorems of the classical logic, we somehow
- needan equivalent to the double negation elimination axiom and in this
+ need an equivalent to the double negation elimination axiom and in this
  context it is introduced as an assumption of the context 
 \family typewriter
 
@@ -1832,13 +1854,25 @@ Done that we should have in our local database the statements (not the proofs)
 
 \begin_layout Subsubsection
 Importing data from a file
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Importing-data-from"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Alternatively, we can download a data file from 
-\color red
-<URL HERE>
-\color inherit
+If we couldn't perform the steps described in the previous subsections,
+ we can alternatively download a 
+\begin_inset CommandInset href
+LatexCommand href
+name "data file"
+target "https://dl.dropboxusercontent.com/u/49511540/Aletheia/tutorial.ale"
+
+\end_inset
+
  for this tutorial and import it with a command:
 \end_layout
 
@@ -2079,10 +2113,45 @@ status open
 
 \begin_layout Standard
 Under our new context we automatically get some assumption nodes corresponding
- to the function parameters of the context term, and a consequent node containin
-g the body term of that function.
+ to the function parameters of the context term (with types 
+\family typewriter
+
+\begin_inset Quotes eld
+\end_inset
+
+Set
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+ and 
+\family typewriter
+
+\begin_inset Quotes eld
+\end_inset
+
+Natural x
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+), and a consequent node containing the body term of that function (
+\family typewriter
+
+\begin_inset Quotes eld
+\end_inset
+
+Set.Equal (Natural.sum Natural.zero x) x
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+).
  To get context marked as valid, and so this theorem proved, our target
- is to infer a valid statement that has exactly this term as a type.
+ is to infer a valid statement that has exactly that term as a type.
 \end_layout
 
 \begin_layout Subsection
@@ -2347,7 +2416,7 @@ specialization statement
 
 \emph default
 .
- This time we will specialize the 
+ So we will specialize the 
 \family typewriter
 
 \begin_inset Quotes eld
@@ -2459,7 +2528,7 @@ status open
 \begin_layout Standard
 Since this statement's validity depends on the specialized statement's and
  in this moment it's still not valid because we have not got its proof,
- now we should subscribe for it's proof to make this new statement valid:
+ now we should subscribe for its proof to make this new statement valid:
 \end_layout
 
 \begin_layout Standard
@@ -2481,12 +2550,12 @@ status open
 \begin_layout Standard
 To make this theorem valid, and since we just started our database from
  scratch, it will be downloaded and validated not only its proof but the
- proofs of all the theorems it depends to up to the very axioms.
+ proofs of all the theorems on which it depends to the very axioms.
  That can take a while, but we can just carry on with out proving work while
  the system does all this job.
  The only consequence is that we just won't be seeing this statement as
- valid (and consequently be sure that we have a valid proof) until all that
- is done.
+ valid (and consequently be sure that the proof we are building is valid)
+ until all that is done.
 \end_layout
 
 \begin_layout Standard
@@ -2690,7 +2759,7 @@ Second proof approach
 
 \begin_layout Standard
 We'll now try to prove the same theorem combining other theorems, which
- is the way usual proof are.
+ is the way usual proofs are.
  Navigating through the catalog, we can find find the theorem 
 \family typewriter
 
@@ -2851,16 +2920,8 @@ Third and definitive proof approach
 \end_layout
 
 \begin_layout Standard
-The 
-\begin_inset Quotes eld
-\end_inset
-
-real
-\begin_inset Quotes erd
-\end_inset
-
- proof of this theorem uses the mathematical induction principle, which
- we have in our system just as another theorem.
+The actual proof of this theorem uses the mathematical induction principle,
+ which we have in our system just as another theorem.
  The theorem 
 \family typewriter
 
