@@ -1,10 +1,10 @@
 # Site settings
 title: The Aletheia Proof Assistant
 email: aletheiapa@gmail.com
-description: ""
+description: "The Aletheia Proof Assistant is a tool for interactively develop, analyze, store and share mathematical formal proofs."
 baseurl: "/Aletheia"
 twitter_username: aletheiapa
-github_username:  quimtestar
+github_username:  quimtestar/Aletheia
 
 # Build settings
 markdown: kramdown
