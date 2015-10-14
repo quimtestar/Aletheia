@@ -4,7 +4,7 @@
 <head>
 <meta name="GENERATOR" content="LyX 2.1.2" />
 <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
-<title>Tutorial</title>
+<title>Tutorial for the Aletheia GUI</title>
 <style type='text/css'>
 /* LyX Provided Styles */
 table { border: 1px solid black; display: inline-block; }
@@ -62,13 +62,6 @@ margin-bottom: 0.4ex;
 text-align: left;
 
 }
-h5.paragraph {
-font-weight: bold;
-font-size: medium;
-margin-top: 0.4ex;
-text-align: left;
-
-}
  div.toc {
    margin: 2em 0em;
    border-style: solid;
@@ -109,61 +102,66 @@ div.Frameless { margin: 1em; }
 </style>
 </head>
 <body>
-<h1 class="title"><a id='magicparlabel-1' />Tutorial</h1>
+<h1 class="title"><a id='magicparlabel-1' />Tutorial for the Aletheia GUI</h1>
 
 <div class='toc'><h2 class='tochead section'>Table of Contents</h2>
 
 
-<div class='lyxtoc-1'><div class='lyxtoc-2'><a href='#magicparlabel-3' class='tocentry'>1 Compiling/obtaining and running the Aletheia GUI package</a>
-
-
-<div class='lyxtoc-3'><a href='#magicparlabel-5' class='tocentry'>1.1 Compile the sources</a>
+<div class='lyxtoc-1'><div class='lyxtoc-2'><a href='#magicparlabel-9364' class='tocentry'>1 Introduction</a>
 </div>
 
-<div class='lyxtoc-3'><a href='#magicparlabel-112' class='tocentry'>1.2 Obtain the precompiled package</a>
+<div class='lyxtoc-2'><a href='#magicparlabel-3' class='tocentry'>2 Compiling/obtaining/running the package</a>
+
+
+<div class='lyxtoc-3'><a href='#magicparlabel-5' class='tocentry'>2.1 Compile the sources</a>
 </div>
 
-<div class='lyxtoc-3'><a href='#magicparlabel-114' class='tocentry'>1.3 Running the package</a>
-</div>
-</div>
-
-<div class='lyxtoc-2'><a href='#magicparlabel-129' class='tocentry'>2 Setting up the environment</a>
-
-
-<div class='lyxtoc-3'><a href='#magicparlabel-130' class='tocentry'>2.1 The database directory</a>
+<div class='lyxtoc-3'><a href='#magicparlabel-112' class='tocentry'>2.2 Obtain the precompiled package</a>
 </div>
 
-<div class='lyxtoc-3'><a href='#magicparlabel-138' class='tocentry'>2.2 The command line interface.</a>
-</div>
-
-<div class='lyxtoc-3'><a href='#magicparlabel-160' class='tocentry'>2.3 Importing initial data</a>
+<div class='lyxtoc-3'><a href='#magicparlabel-114' class='tocentry'>2.3 Running the package</a>
 </div>
 </div>
 
-<div class='lyxtoc-2'><a href='#magicparlabel-423' class='tocentry'>3 Proving a theorem</a>
+<div class='lyxtoc-2'><a href='#magicparlabel-129' class='tocentry'>3 Setting up the environment</a>
 
 
-<div class='lyxtoc-3'><a href='#magicparlabel-424' class='tocentry'>3.1 Defining the context statement</a>
+<div class='lyxtoc-3'><a href='#magicparlabel-130' class='tocentry'>3.1 The database directory</a>
 </div>
 
-<div class='lyxtoc-3'><a href='#magicparlabel-445' class='tocentry'>3.2 Naming the assumptions</a>
+<div class='lyxtoc-3'><a href='#magicparlabel-138' class='tocentry'>3.2 The command line interface.</a>
 </div>
 
-<div class='lyxtoc-3'><a href='#magicparlabel-465' class='tocentry'>3.3 First proof approach</a>
-</div>
-
-<div class='lyxtoc-3'><a href='#magicparlabel-511' class='tocentry'>3.4 Second proof approach</a>
-</div>
-
-<div class='lyxtoc-3'><a href='#magicparlabel-527' class='tocentry'>3.5 Third and definitive proof approach</a>
-</div>
-</div>
+<div class='lyxtoc-3'><a href='#magicparlabel-16982' class='tocentry'>3.3 Importing initial data from the P2P network</a>
 </div>
 </div>
 
-<h2 class="section"><a id='magicparlabel-3' /><span class="section_label">1</span> Compiling/obtaining and running the Aletheia GUI package</h2>
+<div class='lyxtoc-2'><a href='#magicparlabel-423' class='tocentry'>4 Proving a theorem</a>
+
+
+<div class='lyxtoc-3'><a href='#magicparlabel-424' class='tocentry'>4.1 Defining the context statement</a>
+</div>
+
+<div class='lyxtoc-3'><a href='#magicparlabel-445' class='tocentry'>4.2 Naming the assumptions</a>
+</div>
+
+<div class='lyxtoc-3'><a href='#magicparlabel-18179' class='tocentry'>4.3 First proof approach</a>
+</div>
+
+<div class='lyxtoc-3'><a href='#magicparlabel-511' class='tocentry'>4.4 Second proof approach</a>
+</div>
+
+<div class='lyxtoc-3'><a href='#magicparlabel-527' class='tocentry'>4.5 Third and definitive proof approach</a>
+</div>
+</div>
+</div>
+</div>
+
+<h2 class="section"><a id='magicparlabel-9364' /><span class="section_label">1</span> Introduction</h2>
+<div class="standard"><a id='magicparlabel-9369' />The Aletheia Proof Assistant is a tool for interactively develop, analyze, store and share mathematical formal proofs. This document is a tutorial for a user quick-start on this system.</div>
+<h2 class="section"><a id='magicparlabel-3' /><span class="section_label">2</span> Compiling/obtaining/running the package</h2>
 <div class="standard"><a id='magicparlabel-4' />The project currently sources reside at the <a href="https://github.com/quimtestar/Aletheia">GitHub online repository</a>, from where you can obtain the sources and compile them yourself or directly download the package as a single .jar file. </div>
-<h3 class="subsection"><a id='magicparlabel-5' /><span class="subsection_label">1.1</span> Compile the sources<a id="sub_Compile_the_sources" />
+<h3 class="subsection"><a id='magicparlabel-5' /><span class="subsection_label">2.1</span> Compile the sources<a id="sub_Compile_the_sources" />
 </h3>
 <div class="standard"><a id='magicparlabel-6' />Requirements:</div>
 
@@ -241,12 +239,12 @@ div.Frameless { margin: 1em; }
 
 <div class="standard"><a id='magicparlabel-111' />It will generate the package file named <em>aletheiagui.jar</em> in the current directory</div>
 </li></ol>
-<h3 class="subsection"><a id='magicparlabel-112' /><span class="subsection_label">1.2</span> Obtain the precompiled package</h3>
-<div class="standard"><a id='magicparlabel-113' />Alternatively, you can directly obtain the precompiled package from the <em>GitHub</em> repository from the following URL: &lt;THE URL HERE&gt;</div>
-<h3 class="subsection"><a id='magicparlabel-114' /><span class="subsection_label">1.3</span> Running the package</h3>
+<h3 class="subsection"><a id='magicparlabel-112' /><span class="subsection_label">2.2</span> Obtain the precompiled package</h3>
+<div class="standard"><a id='magicparlabel-7196' />Alternatively, you can directly download the latest <a href="https://dl.dropboxusercontent.com/u/49511540/Aletheia/aletheiagui.jar">precompiled package</a>.</div>
+<h3 class="subsection"><a id='magicparlabel-114' /><span class="subsection_label">2.3</span> Running the package</h3>
 <div class="standard"><a id='magicparlabel-115' />Requirements:</div>
 
-<ul class="itemize"><a id='magicparlabel-116' /><li class="itemize_item"><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">Java JRE version 7 or greater</a> (included in the JDK if you already downloaded it in <a href="#sub_Compile_the_sources">1.1</a>).</li>
+<ul class="itemize"><a id='magicparlabel-116' /><li class="itemize_item"><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">Java JRE version 7 or greater</a> (included in the JDK if you already downloaded it in <a href="#sub_Compile_the_sources">2.1</a>).</li>
 </ul>
 <div class="standard"><a id='magicparlabel-117' />Run the following command:</div>
 
@@ -265,9 +263,9 @@ div.Frameless { margin: 1em; }
 <br />
 
 </div>
-<h2 class="section"><a id='magicparlabel-129' /><span class="section_label">2</span> Setting up the environment</h2>
-<h3 class="subsection"><a id='magicparlabel-130' /><span class="subsection_label">2.1</span> The database directory</h3>
-<div class="standard"><a id='magicparlabel-131' />The application data will persist in a embedded database on our local drive and first of all we need to set up it's path. We will do it at the <em>Persistence folder </em>field on the <em>Configuration/Preferences</em> dialog:
+<h2 class="section"><a id='magicparlabel-129' /><span class="section_label">3</span> Setting up the environment</h2>
+<h3 class="subsection"><a id='magicparlabel-130' /><span class="subsection_label">3.1</span> The database directory</h3>
+<div class="standard"><a id='magicparlabel-131' />The application data will persist in a embedded database on our local drive and first of all we need to set up its path. We will do it at the <em>Persistence folder </em>field on the <em>Configuration/Preferences</em> dialog:
 <br />
 
 </div>
@@ -279,8 +277,8 @@ div.Frameless { margin: 1em; }
 
 </div>
 
-<div class="standard"><a id='magicparlabel-137' />If a proper database is not initialized a confirm dialog will appear. </div>
-<h3 class="subsection"><a id='magicparlabel-138' /><span class="subsection_label">2.2</span> The command line interface.</h3>
+<div class="standard"><a id='magicparlabel-137' />If a proper database is not initialized in the specified folder a confirm dialog to create it will appear. </div>
+<h3 class="subsection"><a id='magicparlabel-138' /><span class="subsection_label">3.2</span> The command line interface.</h3>
 <div class="standard"><a id='magicparlabel-139' />After confirming the main window will change to:
 <br />
 
@@ -293,7 +291,7 @@ div.Frameless { margin: 1em; }
 
 </div>
 
-<div class="standard"><a id='magicparlabel-145' />As we see, the main window is split in two areas by a movable divider. The lower part is a command line interface where we can input commands. To obtain a list of available commands grouped by topic, just use the command <em>help</em>:</div>
+<div class="standard"><a id='magicparlabel-145' />As we can see, the main window is split in two areas by a movable divider. The lower part is a command line interface where we can input commands. To obtain a list of available commands grouped by topic, just use the command <em>help</em>:</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% help 
@@ -307,16 +305,16 @@ div.Frameless { margin: 1em; }
 (...)
 </pre></div>
 
-<h3 class="subsection"><a id='magicparlabel-160' /><span class="subsection_label">2.3</span> Importing initial data</h3>
-<div class="standard"><a id='magicparlabel-161' />For executing the further steps of this tutorial we'll need a catalog of pre-existing theorems already defined and proved in the system. We can obtain the in two ways:</div>
+<h3 class="subsection"><a id='magicparlabel-16982' /><span class="subsection_label">3.3</span> Importing initial data from the P2P network</h3>
+<div class="standard"><a id='magicparlabel-166' />For executing the further steps of this tutorial we'll need a catalog of pre-existing theorems already defined and proved in the system. We can obtain the in two ways:</div>
 
-<ol class="enumerate"><a id='magicparlabel-162' /><li class="enumerate_item">Connecting to another installation where they reside via the P2P network (quite complicated, but useful in general).</li>
-<li class="enumerate_item">Just importing them from a file (pretty simple, but useful only for this tutorial).</li>
+<ol class="enumerate"><a id='magicparlabel-17061' /><li class="enumerate_item">Connecting to another installation where they reside via the P2P network (quite complicated, but useful in general).</li>
+<li class="enumerate_item">Just importing them from a file (pretty simple, but useful only for this tutorial). To do so, just jump to <a href="#sub_Importing_data_from">3.3.5</a>.</li>
 </ol>
-<div class="standard"><a id='magicparlabel-164' />The catalog we will be working on named &ldquo;<em>ctx.quimtestar&rdquo;</em> is just one of the many possible that can be defined on the system and is aimed to formalize standard mathematics with classical logic and the ZFC axioms (Zermelo-Fraenkel set theory with the axiom of choice).</div>
-<h4 class="subsubsection"><a id='magicparlabel-165' /><span class="subsubsection_label">2.3.1</span> Connecting to the P2P network</h4>
-<div class="standard"><a id='magicparlabel-166' />We can set up our P2P node in two distinct ways: as a &ldquo;<em>female&rdquo;</em> node or as a &ldquo;<em>male&rdquo;</em> node. The recommended way is being a &ldquo;<em>female&rdquo;</em> node, but in this case we'll need to keep a TCP port open to the Internet and be accepting connections from the outside, which is not always possible. As a &ldquo;<em>male&rdquo; </em>node, we will just connect to a single (&ldquo;<em>female</em>&rdquo;) node that is willing to accept connections and all the comunication with the network will be done through it.</div>
-<h5 class="paragraph"><a id='magicparlabel-167' /><span class="paragraph_label"></span> Setting up as a female node.</h5>
+<div class="standard"><a id='magicparlabel-17063' />The catalog we will be working on named &ldquo;<em>ctx.quimtestar&rdquo;</em> is just one of the many possible that can be defined on the system and is aimed to formalize standard mathematics with classical logic and the ZFC axioms (Zermelo-Fraenkel set theory with the axiom of choice).</div>
+<h4 class="subsubsection"><a id='magicparlabel-17426' /><span class="subsubsection_label">3.3.1</span> Connecting to the network</h4>
+<div class="standard"><a id='magicparlabel-17065' />We can set up our P2P node in two distinct ways: as a &ldquo;<em>female&rdquo;</em> node or as a &ldquo;<em>male&rdquo;</em> node. The recommended way is being a &ldquo;<em>female&rdquo;</em> node, but in this case we'll need to keep a TCP port open to the Internet and be accepting connections from the outside, which is not always possible. As a &ldquo;<em>male&rdquo; </em>node, we will just connect to a single node that is willing to accept connections and all the comunication with the network will be done through it.</div>
+<h4 class="subsubsection"><a id='magicparlabel-167' /><span class="subsubsection_label">3.3.2</span> Setting up as a female node</h4>
 <div class="standard"><a id='magicparlabel-168' />We set up the net interface's external IP address and the TCP listen port in the <em>Configuration/Preferences</em> dialog:
 <br />
 
@@ -337,9 +335,11 @@ fnj &lt;host&gt; &lt;port&gt;
 Join the female P2P node the network by the given hook.
 
 % fnj aletheia.project.li 9000
-&lt;CONNECTIONS COMMAND&gt;</pre></div>
+Joined to network
+% connections 
+aletheia.project.li/1.2.3.4:9000	MALE	Network</pre></div>
 
-<h5 class="paragraph"><a id='magicparlabel-185' /><span class="paragraph_label"></span> Setting up as a male node.</h5>
+<h4 class="subsubsection"><a id='magicparlabel-185' /><span class="subsubsection_label">3.3.3</span> Setting up as a male node</h4>
 <div class="standard"><a id='magicparlabel-186' />We set up directly the IP address and port of the node we are connecting to (we might use <em>aletheia.project.li:8900</em>) in the <em>Configuration/Preferences</em> dialog:
 <br />
 
@@ -356,17 +356,17 @@ Join the female P2P node the network by the given hook.
 
 
 <div class='float float-listings'><pre class ='listings'>% connections
-aletheia.project.li/79.152.160.59:8900	MALE	Conjugal
-aletheia.project.li/79.152.160.59:8900	MALE	Network</pre></div>
+aletheia.project.li/1.2.3.4:8900	MALE	Conjugal
+aletheia.project.li/1.2.3.4:8900	MALE	Network</pre></div>
 
-<h5 class="paragraph"><a id='magicparlabel-200' /><span class="paragraph_label"></span> Obtaining and subscribing to contexts.</h5>
+<h4 class="subsubsection"><a id='magicparlabel-200' /><span class="subsubsection_label">3.3.4</span> Obtaining and subscribing to contexts</h4>
 <div class="standard"><a id='magicparlabel-201' />We obtain the initial root context executing the <em>orc</em> (obtain root context) command with a specific UUID that globally identifies the one we will use:</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% orc 57dff486-97eb-5733-aad5-a462018f4dde</pre></div>
 
 
-<div class="standard"><a id='magicparlabel-207' />After a while a small tree should like this should appear in the upper part of the window:
+<div class="standard"><a id='magicparlabel-207' />After a while a small tree like this should appear in the upper part of the window:
 <br />
 
 </div>
@@ -448,13 +448,13 @@ aletheia.project.li/79.152.160.59:8900	MALE	Network</pre></div>
 
 </div>
 
-<div class="standard"><a id='magicparlabel-252' />The green check symbol indicates the validity of this statement, and therefore, we may consider this theorem proved from now one. So now we know that <math xmlns="http://www.w3.org/1998/Math/MathML">
+<div class="standard"><a id='magicparlabel-252' />The green check symbol indicates the validity of this statement, and therefore, we may consider this theorem proved from now on. So now we know that <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi> &forall; </mi><mi>P</mi><mo>,</mo><mi>Q</mi><mspace width="10px" /><mi>P</mi><mo> &and; </mo><mi>Q</mi><mo> &rarr; </mo><mi>Q</mi><mo> &and; </mo><mi>P</mi>
   </mrow>
  </mrow></math>.</div>
 
-<div class="standard"><a id='magicparlabel-253' />The axioms in the system are introduced as (nested) <em>context's assumptions</em>. For example, to be able to prove theorems of the classical logic, we somehow needan equivalent to the double negation elimination axiom and in this context it is introduced as an assumption of the context &ldquo;<span style='font-family:monospace;'>ctx.Prop.Not.double.inv</span>&rdquo;. All the theorems that make use in their proofs of the double negation elimination must be under that context. So, we must subscribe to the statements of this context the same way we did before:</div>
+<div class="standard"><a id='magicparlabel-253' />The axioms in the system are introduced as (nested) <em>context's assumptions</em>. For example, to be able to prove theorems of the classical logic, we somehow need an equivalent to the double negation elimination axiom and in this context it is introduced as an assumption of the context &ldquo;<span style='font-family:monospace;'>ctx.Prop.Not.double.inv</span>&rdquo;. All the theorems that make use in their proofs of the double negation elimination must be under that context. So, we must subscribe to the statements of this context the same way we did before:</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% subscribe ctx.Prop.Not.double.inv statements</pre></div>
@@ -565,14 +565,15 @@ aletheia.project.li/79.152.160.59:8900	MALE	Network</pre></div>
 </div>
 
 <div class="standard"><a id='magicparlabel-415' />Done that we should have in our local database the statements (not the proofs) for a total of approximately 350 declarations and 3,500 theorems.</div>
-<h4 class="subsubsection"><a id='magicparlabel-416' /><span class="subsubsection_label">2.3.2</span> Importing data from a file</h4>
-<div class="standard"><a id='magicparlabel-417' />Alternatively, we can download a data file from &lt;URL HERE&gt; for this tutorial and import it with a command:</div>
+<h4 class="subsubsection"><a id='magicparlabel-416' /><span class="subsubsection_label">3.3.5</span> Importing data from a file<a id="sub_Importing_data_from" />
+</h4>
+<div class="standard"><a id='magicparlabel-417' />If we couldn't perform the steps described in the previous subsections, we can alternatively download a <a href="https://dl.dropboxusercontent.com/u/49511540/Aletheia/tutorial.ale">data file</a> for this tutorial and import it with a command:</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% import [PATH]tutorial.ale</pre></div>
 
-<h2 class="section"><a id='magicparlabel-423' /><span class="section_label">3</span> Proving a theorem</h2>
-<h3 class="subsection"><a id='magicparlabel-424' /><span class="subsection_label">3.1</span> Defining the context statement</h3>
+<h2 class="section"><a id='magicparlabel-423' /><span class="section_label">4</span> Proving a theorem</h2>
+<h3 class="subsection"><a id='magicparlabel-424' /><span class="subsection_label">4.1</span> Defining the context statement</h3>
 <div class="standard"><a id='magicparlabel-425' />The next step in this tutorial is proving some stuff by ourselves. In this section we'll be dealing with the following quite trivial theorem <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi> &forall; </mi><mi>x</mi><mo> &isin; </mo>
@@ -605,8 +606,8 @@ aletheia.project.li/79.152.160.59:8900	MALE	Network</pre></div>
 
 </div>
 
-<div class="standard"><a id='magicparlabel-444' />Under our new context we automatically get some assumption nodes corresponding to the function parameters of the context term, and a consequent node containing the body term of that function. To get context marked as valid, and so this theorem proved, our target is to infer a valid statement that has exactly this term as a type.</div>
-<h3 class="subsection"><a id='magicparlabel-445' /><span class="subsection_label">3.2</span> Naming the assumptions</h3>
+<div class="standard"><a id='magicparlabel-444' />Under our new context we automatically get some assumption nodes corresponding to the function parameters of the context term (with types &ldquo;<span style='font-family:monospace;'>Set&rdquo;</span> and &ldquo;<span style='font-family:monospace;'>Natural x&rdquo;</span>), and a consequent node containing the body term of that function (&ldquo;<span style='font-family:monospace;'>Set.Equal (Natural.sum Natural.zero x) x&rdquo;</span>). To get context marked as valid, and so this theorem proved, our target is to infer a valid statement that has exactly that term as a type.</div>
+<h3 class="subsection"><a id='magicparlabel-445' /><span class="subsection_label">4.2</span> Naming the assumptions</h3>
 <div class="standard"><a id='magicparlabel-446' />First of all, we should set the &ldquo;<span style='font-family:monospace;'>[Assumption: 1]&rdquo;</span><em> </em>statement's name so we can refer to it form the command line. We can do it just selecting it in the context tree and pressing F2 or with the command:</div>
 
 
@@ -632,8 +633,8 @@ aletheia.project.li/79.152.160.59:8900	MALE	Network</pre></div>
 <br />
 
 </div>
-<h3 class="subsection"><a id='magicparlabel-465' /><span class="subsection_label">3.3</span> First proof approach</h3>
-<div class="standard"><a id='magicparlabel-466' />Navigating through the catalog of theorems we can easily find one labelled as &ldquo;<span style='font-family:monospace;'>Natural.sum.th.zero.lft&rdquo;</span> that exactly fits this theorem, so in this first approach we will be just using it in a trivial proof. That statement corresponds to the term<span style='font-family:monospace;'> "&lt;@0:Set -&gt; &lt;@1:Natural @0 -&gt; Set.Equal (Natural.sum Natural.zero @0) @0&gt;&gt;"</span> and we already have in our context a statement &ldquo;<span style='font-family:monospace;'>x&rdquo;</span> of type &ldquo;<span style='font-family:monospace;'>Set&rdquo;</span> and a statement &ldquo;<span style='font-family:monospace;'>s000&rdquo;</span><em> </em>of type &ldquo;<span style='font-family:monospace;'>Natural x&rdquo;</span><em> </em>to reach a consequent of type &ldquo;<span style='font-family:monospace;'>Set.Equal (Natural.sum Natural.zero x) x&rdquo;</span>. We can infer a new statement passing any term whose type matches with the function's parameter type to another statement. That is called a &ldquo;<em>specialization statement&rdquo;</em>. This time we will specialize the &ldquo;<span style='font-family:monospace;'>Natural.sum.th.zero.lft&rdquo;</span> statement with this two assumptions. We do it with the following command:</div>
+<h3 class="subsection"><a id='magicparlabel-18179' /><span class="subsection_label">4.3</span> First proof approach</h3>
+<div class="standard"><a id='magicparlabel-466' />Navigating through the catalog of theorems we can easily find one labelled as &ldquo;<span style='font-family:monospace;'>Natural.sum.th.zero.lft&rdquo;</span> that exactly fits this theorem, so in this first approach we will be just using it in a trivial proof. That statement corresponds to the term<span style='font-family:monospace;'> "&lt;@0:Set -&gt; &lt;@1:Natural @0 -&gt; Set.Equal (Natural.sum Natural.zero @0) @0&gt;&gt;"</span> and we already have in our context a statement &ldquo;<span style='font-family:monospace;'>x&rdquo;</span> of type &ldquo;<span style='font-family:monospace;'>Set&rdquo;</span> and a statement &ldquo;<span style='font-family:monospace;'>s000&rdquo;</span><em> </em>of type &ldquo;<span style='font-family:monospace;'>Natural x&rdquo;</span><em> </em>to reach a consequent of type &ldquo;<span style='font-family:monospace;'>Set.Equal (Natural.sum Natural.zero x) x&rdquo;</span>. We can infer a new statement passing any term whose type matches with the function's parameter type to another statement. That is called a &ldquo;<em>specialization statement&rdquo;</em>. So we will specialize the &ldquo;<span style='font-family:monospace;'>Natural.sum.th.zero.lft&rdquo;</span> statement with this two assumptions. We do it with the following command:</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% new s001 spc Natural.sum.th.zero.lft x</pre></div>
@@ -651,13 +652,13 @@ aletheia.project.li/79.152.160.59:8900	MALE	Network</pre></div>
 
 </div>
 
-<div class="standard"><a id='magicparlabel-478' />Since this statement's validity depends on the specialized statement's and in this moment it's still not valid because we have not got its proof, now we should subscribe for it's proof to make this new statement valid:</div>
+<div class="standard"><a id='magicparlabel-478' />Since this statement's validity depends on the specialized statement's and in this moment it's still not valid because we have not got its proof, now we should subscribe for its proof to make this new statement valid:</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% subscribe Natural.sum.th.zero.lft proof</pre></div>
 
 
-<div class="standard"><a id='magicparlabel-484' />To make this theorem valid, and since we just started our database from scratch, it will be downloaded and validated not only its proof but the proofs of all the theorems it depends to up to the very axioms. That can take a while, but we can just carry on with out proving work while the system does all this job. The only consequence is that we just won't be seeing this statement as valid (and consequently be sure that we have a valid proof) until all that is done.</div>
+<div class="standard"><a id='magicparlabel-484' />To make this theorem valid, and since we just started our database from scratch, it will be downloaded and validated not only its proof but the proofs of all the theorems on which it depends to the very axioms. That can take a while, but we can just carry on with out proving work while the system does all this job. The only consequence is that we just won't be seeing this statement as valid (and consequently be sure that the proof we are building is valid) until all that is done.</div>
 
 <div class="standard"><a id='magicparlabel-485' />Now we have just to specialize statement &ldquo;<span style='font-family:monospace;'>s001&rdquo;</span> with &ldquo;<span style='font-family:monospace;'>s000&rdquo;</span> and we are done:</div>
 
@@ -695,8 +696,8 @@ aletheia.project.li/79.152.160.59:8900	MALE	Network</pre></div>
 <br />
 
 </div>
-<h3 class="subsection"><a id='magicparlabel-511' /><span class="subsection_label">3.4</span> Second proof approach</h3>
-<div class="standard"><a id='magicparlabel-512' />We'll now try to prove the same theorem combining other theorems, which is the way usual proof are. Navigating through the catalog, we can find find the theorem &ldquo;<span style='font-family:monospace;'>Natural.sum.def.zero&rdquo;</span> which states that <math xmlns="http://www.w3.org/1998/Math/MathML">
+<h3 class="subsection"><a id='magicparlabel-511' /><span class="subsection_label">4.4</span> Second proof approach</h3>
+<div class="standard"><a id='magicparlabel-512' />We'll now try to prove the same theorem combining other theorems, which is the way usual proofs are. Navigating through the catalog, we can find find the theorem &ldquo;<span style='font-family:monospace;'>Natural.sum.def.zero&rdquo;</span> which states that <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi> &forall; </mi><mi>x</mi><mo> &isin; </mo>
    <mstyle mathvariant='bold'><mi>N</mi>
@@ -732,8 +733,8 @@ aletheia.project.li/79.152.160.59:8900	MALE	Network</pre></div>
 </div>
 
 <div class="standard"><a id='magicparlabel-526' />Unfortunately, the proof on &ldquo;<span style='font-family:monospace;'>Natural.sum.th.comm&rdquo;</span> depends on &ldquo;<span style='font-family:monospace;'>Natural.sum.th.zero.lft&rdquo;</span>, so we really haven't done anything much different than before. If we were proving that theorem from scratch, the proof would need to be different than this.</div>
-<h3 class="subsection"><a id='magicparlabel-527' /><span class="subsection_label">3.5</span> Third and definitive proof approach</h3>
-<div class="standard"><a id='magicparlabel-528' />The &ldquo;real&rdquo; proof of this theorem uses the mathematical induction principle, which we have in our system just as another theorem. The theorem &ldquo;<span style='font-family:monospace;'>Natural.th.induction&rdquo;</span> applies to any proposition on naturals and states that <math xmlns="http://www.w3.org/1998/Math/MathML">
+<h3 class="subsection"><a id='magicparlabel-527' /><span class="subsection_label">4.5</span> Third and definitive proof approach</h3>
+<div class="standard"><a id='magicparlabel-528' />The actual proof of this theorem uses the mathematical induction principle, which we have in our system just as another theorem. The theorem &ldquo;<span style='font-family:monospace;'>Natural.th.induction&rdquo;</span> applies to any proposition on naturals and states that <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi> &forall; </mi><mi>P</mi><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mn>0</mn><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo><mo> &and; </mo><mo form='prefix' fence='true' stretchy='true' symmetric='true'>[</mo>
    <mrow><mi> &forall; </mi><mi>n</mi><mo> &isin; </mo>
