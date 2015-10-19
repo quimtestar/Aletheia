@@ -1864,8 +1864,8 @@ name "sub:Importing-data-from"
 \end_layout
 
 \begin_layout Standard
-If we couldn't perform the steps described in the previous subsections,
- we can alternatively download a 
+If we couldn't perform the steps described in the previous subsections due
+ to connectivity problems, we can alternatively download a 
 \begin_inset CommandInset href
 LatexCommand href
 name "data file"
