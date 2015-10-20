@@ -26,6 +26,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.InputEvent;
@@ -50,6 +51,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import javax.swing.Icon;
 import javax.swing.JComponent;
@@ -71,12 +73,12 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.DocumentFilter;
 import javax.swing.text.Element;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.ParagraphView;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
-import javax.swing.text.StyledDocument;
 import javax.swing.text.StyledEditorKit;
 import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
@@ -114,6 +116,8 @@ public class CliJPanel extends JPanel
 {
 	private static final long serialVersionUID = -2211989098955644681L;
 	private static final Logger logger = LoggerManager.instance.logger();
+	private static final String multiLinePrompt = "\u00bb";
+	private static final Pattern multiLinePattern = Pattern.compile("(\n+(" + Pattern.quote(multiLinePrompt) + ")+?\\p{Blank}*)+");
 
 	private static class CommandHistory
 	{
@@ -226,7 +230,7 @@ public class CliJPanel extends JPanel
 				{
 					try
 					{
-						String s = getCommand().replaceAll("\n", " ").trim();
+						String s = getCommandMultilineFiltered();
 						if (commandHistory.atEnd() || !s.equals(commandHistory.current()))
 							commandHistory.add(s);
 						document.remove(minimalCaretPosition, document.getLength() - minimalCaretPosition);
@@ -247,7 +251,7 @@ public class CliJPanel extends JPanel
 				{
 					try
 					{
-						String s = getCommand().replaceAll("\n", " ").trim();
+						String s = getCommandMultilineFiltered();
 						if (commandHistory.atEnd() || !s.equals(commandHistory.current()))
 							commandHistory.add(s);
 						document.remove(minimalCaretPosition, document.getLength() - minimalCaretPosition);
@@ -292,6 +296,12 @@ public class CliJPanel extends JPanel
 				getAletheiaJPanel().getContextJTree().dispatchEvent(e);
 				break;
 			}
+			case KeyEvent.VK_LEFT:
+			{
+				if (skipMultilinePromptCaretPosition(textPane.getCaretPosition() - 1, true))
+					e.consume();
+				break;
+			}
 			}
 		}
 
@@ -303,6 +313,7 @@ public class CliJPanel extends JPanel
 		@Override
 		public void keyTyped(KeyEvent e)
 		{
+			textPane.setCharacterAttributes(defaultAttributeSet, true);
 			if (e.getKeyChar() == '\n')
 			{
 				bracketHighLightManager.clearHighLights();
@@ -310,8 +321,7 @@ public class CliJPanel extends JPanel
 				{
 					if (!e.isShiftDown())
 					{
-						String s = getCommand();
-						s = s.replaceAll("\n", " ").trim();
+						String s = getCommandMultilineFiltered();
 						command(s);
 						updateMinimalCaretPosition();
 					}
@@ -319,7 +329,7 @@ public class CliJPanel extends JPanel
 					{
 						try
 						{
-							document.insertString(textPane.getCaretPosition(), "\n", defaultAttributeSet);
+							document.insertString(textPane.getCaretPosition(), "\n" + multiLinePrompt + " ", multilinePromptAttributeSet);
 						}
 						catch (BadLocationException e1)
 						{
@@ -341,6 +351,29 @@ public class CliJPanel extends JPanel
 
 	}
 
+	private boolean skipMultilinePromptCaretPosition(int position, boolean before)
+	{
+		try
+		{
+			String s = document.getText(position - multiLinePrompt.length() - 1, multiLinePrompt.length() + 1);
+			int i = s.indexOf('\n');
+			if (i >= 0)
+			{
+				int pos = before ? position - multiLinePrompt.length() - 1 + i : position + i + 1;
+				if (pos <= textPane.getText().length())
+				{
+					textPane.setCaretPosition(pos);
+					return true;
+				}
+			}
+		}
+		catch (BadLocationException e1)
+		{
+
+		}
+		return false;
+	}
+
 	private class MyCaretListener implements CaretListener
 	{
 
@@ -350,6 +383,7 @@ public class CliJPanel extends JPanel
 			if (e.getDot() < minimalCaretPosition)
 				if (minimalCaretPosition <= document.getLength())
 					textPane.setCaretPosition(minimalCaretPosition);
+			skipMultilinePromptCaretPosition(e.getDot(), false);
 
 			SwingUtilities.invokeLater(new Runnable()
 			{
@@ -383,6 +417,75 @@ public class CliJPanel extends JPanel
 		public void removeUpdate(DocumentEvent e)
 		{
 			bracketHighLightManager.textRemoved(e.getOffset(), e.getLength());
+		}
+
+	}
+
+	private class MyDocumentFilter extends DocumentFilter
+	{
+
+		private class OffsetLength
+		{
+			private final int offset;
+			private final int length;
+
+			private OffsetLength(int offset, int length)
+			{
+				super();
+				this.offset = offset;
+				this.length = length;
+			}
+		}
+
+		private OffsetLength offsetLength(int offset, int length)
+		{
+			try
+			{
+				if (length > 0)
+				{
+					String s = document.getText(offset - multiLinePrompt.length() - 1, multiLinePrompt.length() + 2);
+					int i = s.indexOf('\n');
+					if (i >= 0)
+					{
+						offset -= (multiLinePrompt.length() + 1) - i;
+						length += (multiLinePrompt.length() + 1) - i;
+					}
+				}
+				if (length > 0)
+				{
+					String s = document.getText(offset + length - multiLinePrompt.length() - 1, multiLinePrompt.length() + 1);
+					int i = s.indexOf('\n');
+					if (i >= 0)
+					{
+						length += i + 1;
+					}
+				}
+
+			}
+			catch (BadLocationException e1)
+			{
+			}
+			return new OffsetLength(offset, length);
+		}
+
+		@Override
+		public void remove(FilterBypass fb, int offset, int length) throws BadLocationException
+		{
+			OffsetLength ol = offsetLength(offset, length);
+			super.remove(fb, ol.offset, ol.length);
+		}
+
+		@Override
+		public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException
+		{
+			OffsetLength ol = offsetLength(offset, length);
+			super.replace(fb, ol.offset, ol.length, text, attrs);
+		}
+
+		@Override
+		public void insertString(FilterBypass fb, int offset, String string, AttributeSet attr) throws BadLocationException
+		{
+			super.insertString(fb, offset, string, attr);
 		}
 
 	}
@@ -892,6 +995,19 @@ public class CliJPanel extends JPanel
 		public void exportToClipboard(JComponent c, Clipboard clip, int action)
 		{
 			oldTransferHandler.exportToClipboard(c, clip, action);
+			Transferable t = clip.getContents(null);
+			try
+			{
+				if (t.isDataFlavorSupported(DataFlavor.stringFlavor))
+				{
+					String s = (String) t.getTransferData(DataFlavor.stringFlavor);
+					StringSelection sel = new StringSelection(filterMultiline(s));
+					clip.setContents(sel, sel);
+				}
+			}
+			catch (UnsupportedFlavorException | IOException e)
+			{
+			}
 		}
 
 		@Override
@@ -911,13 +1027,14 @@ public class CliJPanel extends JPanel
 
 	private final AletheiaJPanel aletheiaJPanel;
 	private final CliController controller;
-	private final StyledDocument document;
+	private final DefaultStyledDocument document;
 	private final JTextPane textPane;
 	private final JScrollPane scrollTextPane;
 	private final AttributeSet defaultAttributeSet;
 	private final AttributeSet defaultBAttributeSet;
 	private final AttributeSet errAttributeSet;
 	private final AttributeSet errBAttributeSet;
+	private final AttributeSet multilinePromptAttributeSet;
 	private final ReaderThread readerThread;
 	private final ActiveContextJLabel activeContextJLabel;
 	private final MyStatementStateListener statementStateListener;
@@ -942,6 +1059,7 @@ public class CliJPanel extends JPanel
 		setLayout(new BorderLayout());
 		document = new DefaultStyledDocument();
 		document.addDocumentListener(new MyDocumentListener());
+		document.setDocumentFilter(new MyDocumentFilter());
 		document.addUndoableEditListener(new MyUndoableEditListener());
 		document.putProperty(DefaultEditorKit.EndOfLineStringProperty, "\n");
 		textPane = new JTextPane();
@@ -967,6 +1085,8 @@ public class CliJPanel extends JPanel
 		errBAttributeSet = new SimpleAttributeSet(errAttributeSet);
 		StyleConstants.setBold((MutableAttributeSet) errBAttributeSet, true);
 		StyleConstants.setUnderline((MutableAttributeSet) errBAttributeSet, true);
+		multilinePromptAttributeSet = new SimpleAttributeSet(defaultAttributeSet);
+		StyleConstants.setForeground((MutableAttributeSet) multilinePromptAttributeSet, Color.lightGray);
 		readerThread = new ReaderThread();
 		readerThread.start();
 		opened = true;
@@ -1193,6 +1313,16 @@ public class CliJPanel extends JPanel
 		{
 			throw new Error(e);
 		}
+	}
+
+	private String filterMultiline(String s)
+	{
+		return multiLinePattern.matcher(s).replaceAll(" ");
+	}
+
+	private String getCommandMultilineFiltered()
+	{
+		return filterMultiline(getCommand()).trim();
 	}
 
 	private enum BHLMTokenType
@@ -1894,8 +2024,7 @@ public class CliJPanel extends JPanel
 
 	private String consumeCommand(boolean forceNl)
 	{
-		String s = getCommand();
-		s = s.replaceAll("\n", " ").trim();
+		String s = getCommandMultilineFiltered();
 		if (forceNl || !s.isEmpty())
 		{
 			moveCaretToEnd();
