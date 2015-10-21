@@ -478,6 +478,10 @@ public class CliJPanel extends JPanel
 		@Override
 		public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException
 		{
+			// Workaround: when replacing text of a selection that should be highlighted by the BracketHighlightManager,
+			// that new text gets the highlight attributes.
+			if (length > 0)
+				attrs = defaultAttributeSet;
 			OffsetLength ol = offsetLength(offset, length);
 			super.replace(fb, ol.offset, ol.length, text, attrs);
 		}
