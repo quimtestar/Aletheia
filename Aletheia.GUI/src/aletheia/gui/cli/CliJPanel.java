@@ -313,7 +313,6 @@ public class CliJPanel extends JPanel
 		@Override
 		public void keyTyped(KeyEvent e)
 		{
-			textPane.setCharacterAttributes(defaultAttributeSet, true);
 			if (e.getKeyChar() == '\n')
 			{
 				bracketHighLightManager.clearHighLights();
@@ -330,6 +329,8 @@ public class CliJPanel extends JPanel
 						try
 						{
 							document.insertString(textPane.getCaretPosition(), "\n" + multiLinePrompt + " ", multilinePromptAttributeSet);
+							document.setCharacterAttributes(textPane.getCaretPosition() - 1, 1, defaultAttributeSet, true);
+							textPane.setCharacterAttributes(defaultAttributeSet, true);
 						}
 						catch (BadLocationException e1)
 						{
@@ -443,6 +444,7 @@ public class CliJPanel extends JPanel
 			{
 				if (length > 0)
 				{
+					//TODO out limits!
 					String s = document.getText(offset - multiLinePrompt.length() - 1, multiLinePrompt.length() + 2);
 					int i = s.indexOf('\n');
 					if (i >= 0)
