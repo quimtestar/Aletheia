@@ -717,7 +717,7 @@ Importing initial data from the P2P network
 
 \begin_layout Standard
 For executing the further steps of this tutorial we'll need a catalog of
- pre-existing theorems already defined and proved in the system.
+ preexisting theorems already defined and proved in the system.
  We can obtain the in two ways:
 \end_layout
 
@@ -814,7 +814,7 @@ male
  
 \emph default
 node, we will just connect to a single node that is willing to accept connection
-s and all the comunication with the network will be done through it.
+s and all the communication with the network will be done through it.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1157,7 +1157,7 @@ status open
 
 \begin_layout Standard
 The (non-assumption) nodes with the same prefix get grouped under a grouping
- node which is labelled in blue with the prefix and with an arrow as indicator.
+ node which is labeled in blue with the prefix and with an arrow as indicator.
  The rest of its characteristics when collapsed are inherited from the actual
  node with that prefix as name (if exists).
  We can now expand nodes and navigate to some theorem statement under this
@@ -1240,7 +1240,7 @@ Prop.And.th.symm
 \end_layout
 
 \begin_layout Standard
-The red interrogant mark at the left indicates that we can't check the validity
+The red question mark at the left indicates that we can't check the validity
  of this statement, in this case because we are lacking of the proof of
  this theorem (proofs are not downloaded by default).
  The proof of this theorem will take the form as a collection of nodes descendin
@@ -1258,7 +1258,7 @@ To do that, first of all we set the
 \emph on
 active context 
 \emph default
-to the parent context of this one, in this case the root context labelled
+to the parent context of this one, in this case the root context labeled
  as 
 \family typewriter
 
@@ -1553,7 +1553,15 @@ ctx.quimtestar
 Root context.
  Define the pure concept of 
 \emph on
-'proposition'
+
+\begin_inset Quotes eld
+\end_inset
+
+proposition
+\begin_inset Quotes erd
+\end_inset
+
+
 \emph default
 .
 \end_layout
@@ -1630,11 +1638,27 @@ ctx.Set
 \begin_layout Plain Layout
 Introduces the pure concept of 
 \emph on
-'set'
+
+\begin_inset Quotes eld
+\end_inset
+
+set
+\begin_inset Quotes erd
+\end_inset
+
+
 \emph default
  and the 
 \emph on
-'set membership'
+
+\begin_inset Quotes eld
+\end_inset
+
+set membership
+\begin_inset Quotes erd
+\end_inset
+
+
 \emph default
  (∈) relation.
 \end_layout
@@ -2315,7 +2339,7 @@ First proof approach
 \end_layout
 
 \begin_layout Standard
-Navigating through the catalog of theorems we can easily find one labelled
+Navigating through the catalog of theorems we can easily find one labeled
  as 
 \family typewriter
 
@@ -2686,7 +2710,14 @@ cascade
 \end_inset
 
  fashion (use with care).
- Doing this with the statements we have just input, of course, will unprove
+ Doing this with the statements we have just input, of course, will 
+\begin_inset Quotes eld
+\end_inset
+
+unprove
+\begin_inset Quotes erd
+\end_inset
+
  our theorem (and all theorems whose proof are depending on it).
 \end_layout
 
