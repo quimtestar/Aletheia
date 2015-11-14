@@ -1243,6 +1243,13 @@ public class ContextJTreeModel extends PersistentTreeModel
 		}
 	}
 
+	public void nodeStructureReset(Context context)
+	{
+		ContextSorterContextJTreeNode node = (ContextSorterContextJTreeNode) nodeMap.getByStatement(context);
+		if (node != null)
+			resetSubtree(node);
+	}
+
 	private boolean nodeStructureChanged(final GroupSorterContextJTreeNode<? extends Statement> node)
 	{
 		node.cleanRenderer();

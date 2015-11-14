@@ -1118,4 +1118,9 @@ public class ContextJTree extends PersistentJTree
 		}
 	}
 
+	public void nodeStructureReset(Context context)
+	{
+		getModel().nodeStructureReset(context);
+	}
+
 }
