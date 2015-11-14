@@ -30,5 +30,5 @@ import aletheia.peertopeer.network.protocol.RouteableSubMessageSubProtocol;
 @Target(ElementType.TYPE)
 public @interface RouteableSubMessageSubProtocolInfo
 {
-	Class<? extends RouteableSubMessageSubProtocol<? extends RouteableSubMessage>>subProtocolClass();
+	Class<? extends RouteableSubMessageSubProtocol<? extends RouteableSubMessage>> subProtocolClass();
 }

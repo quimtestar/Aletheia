@@ -38,7 +38,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBDescendantContextsByConsequent extends AbstractCloseableSet<Context>implements DescendantContextsByConsequent
+public class BerkeleyDBDescendantContextsByConsequent extends AbstractCloseableSet<Context> implements DescendantContextsByConsequent
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final SecondaryIndex<UUIDKeyTermHash, UUIDKey, BerkeleyDBContextEntity> contextEntityConsequentHashSecondaryIndex;

@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
-public class BijectionCloseableList<I, O> extends BijectionList<I, O>implements CloseableList<O>
+public class BijectionCloseableList<I, O> extends BijectionList<I, O> implements CloseableList<O>
 {
 
 	public BijectionCloseableList(Bijection<I, O> bijection, CloseableList<I> inner)

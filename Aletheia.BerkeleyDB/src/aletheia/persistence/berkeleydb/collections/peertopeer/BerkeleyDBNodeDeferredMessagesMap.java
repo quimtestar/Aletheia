@@ -43,7 +43,7 @@ import aletheia.utilities.collections.CloseableSet;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
-public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID, NodeDeferredMessage>implements NodeDeferredMessagesMap
+public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID, NodeDeferredMessage> implements NodeDeferredMessagesMap
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;

@@ -36,7 +36,7 @@ import java.util.SortedMap;
  * @author Quim Testar
  */
 
-public class BijectionSortedMap<K, I, O> extends BijectionMap<K, I, O>implements SortedMap<K, O>
+public class BijectionSortedMap<K, I, O> extends BijectionMap<K, I, O> implements SortedMap<K, O>
 {
 
 	public BijectionSortedMap(Bijection<I, O> bijection, SortedMap<K, I> inner)

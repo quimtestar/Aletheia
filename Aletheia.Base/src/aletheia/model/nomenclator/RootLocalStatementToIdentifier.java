@@ -29,7 +29,7 @@ import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.collections.statement.LocalStatementToIdentifier;
 
-public class RootLocalStatementToIdentifier extends AbstractMap<Statement, Identifier>implements LocalStatementToIdentifier
+public class RootLocalStatementToIdentifier extends AbstractMap<Statement, Identifier> implements LocalStatementToIdentifier
 {
 	private final PersistenceManager persistenceManager;
 	private final Transaction transaction;

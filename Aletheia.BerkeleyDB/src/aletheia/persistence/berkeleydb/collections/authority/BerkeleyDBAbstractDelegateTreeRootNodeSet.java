@@ -26,7 +26,7 @@ import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTree
 import aletheia.persistence.collections.authority.DelegateTreeRootNodeSet;
 
 public abstract class BerkeleyDBAbstractDelegateTreeRootNodeSet
-		extends BerkeleyDBGenericDelegateTreeNodeSet<DelegateTreeRootNode, BerkeleyDBDelegateTreeRootNodeEntity>implements DelegateTreeRootNodeSet
+		extends BerkeleyDBGenericDelegateTreeNodeSet<DelegateTreeRootNode, BerkeleyDBDelegateTreeRootNodeEntity> implements DelegateTreeRootNodeSet
 {
 
 	public BerkeleyDBAbstractDelegateTreeRootNodeSet(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction)

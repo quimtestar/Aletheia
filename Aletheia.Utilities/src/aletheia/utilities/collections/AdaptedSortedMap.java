@@ -33,7 +33,7 @@ import java.util.SortedMap;
  *
  * @author Quim Testar
  */
-public class AdaptedSortedMap<K, V> extends AdaptedMap<K, V>implements SortedMap<K, V>
+public class AdaptedSortedMap<K, V> extends AdaptedMap<K, V> implements SortedMap<K, V>
 {
 
 	public AdaptedSortedMap(SortedMap<K, ? extends V> inner)

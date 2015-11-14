@@ -35,7 +35,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
-public class BerkeleyDBStatementLocalSetMap extends AbstractCloseableMap<ContextLocal, StatementLocalSet>implements StatementLocalSetMap
+public class BerkeleyDBStatementLocalSetMap extends AbstractCloseableMap<ContextLocal, StatementLocalSet> implements StatementLocalSetMap
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;

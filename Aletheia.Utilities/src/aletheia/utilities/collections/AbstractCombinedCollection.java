@@ -43,7 +43,7 @@ import aletheia.utilities.MiscUtilities;
  *
  * @author Quim Testar
  */
-public abstract class AbstractCombinedCollection<E> extends AbstractReadOnlyCollection<E>implements Serializable
+public abstract class AbstractCombinedCollection<E> extends AbstractReadOnlyCollection<E> implements Serializable
 {
 	private static final long serialVersionUID = -3737647852678501284L;
 

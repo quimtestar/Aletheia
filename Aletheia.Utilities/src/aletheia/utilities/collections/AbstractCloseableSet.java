@@ -29,7 +29,7 @@ import java.util.Set;
  *
  * @author Quim Testar
  */
-public abstract class AbstractCloseableSet<E> extends AbstractSet<E>implements CloseableSet<E>
+public abstract class AbstractCloseableSet<E> extends AbstractSet<E> implements CloseableSet<E>
 {
 
 	@Override

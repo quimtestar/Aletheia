@@ -35,7 +35,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
-public class BerkeleyDBSubscribeStatementsContextLocalSet extends AbstractCloseableSet<ContextLocal>implements SubscribeStatementsContextLocalSet
+public class BerkeleyDBSubscribeStatementsContextLocalSet extends AbstractCloseableSet<ContextLocal> implements SubscribeStatementsContextLocalSet
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;

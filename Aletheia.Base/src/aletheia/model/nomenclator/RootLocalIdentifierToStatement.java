@@ -36,7 +36,7 @@ import aletheia.persistence.Transaction;
 import aletheia.persistence.collections.statement.LocalIdentifierToStatement;
 import aletheia.utilities.collections.CloseableIterator;
 
-public class RootLocalIdentifierToStatement extends AbstractMap<Identifier, Statement>implements LocalIdentifierToStatement
+public class RootLocalIdentifierToStatement extends AbstractMap<Identifier, Statement> implements LocalIdentifierToStatement
 {
 	private final PersistenceManager persistenceManager;
 	private final Transaction transaction;
@@ -150,7 +150,7 @@ public class RootLocalIdentifierToStatement extends AbstractMap<Identifier, Stat
 		}
 		;
 
-		class EntrySet extends AbstractSet<Map.Entry<Identifier, Statement>>implements SortedSet<Map.Entry<Identifier, Statement>>
+		class EntrySet extends AbstractSet<Map.Entry<Identifier, Statement>> implements SortedSet<Map.Entry<Identifier, Statement>>
 		{
 
 			@Override

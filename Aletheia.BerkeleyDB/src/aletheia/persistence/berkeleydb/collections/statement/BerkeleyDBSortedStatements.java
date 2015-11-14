@@ -38,7 +38,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
-public abstract class BerkeleyDBSortedStatements<S extends Statement> extends AbstractCloseableCollection<S>implements SortedStatements<S>
+public abstract class BerkeleyDBSortedStatements<S extends Statement> extends AbstractCloseableCollection<S> implements SortedStatements<S>
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;

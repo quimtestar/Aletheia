@@ -33,7 +33,7 @@ import aletheia.utilities.MiscUtilities;
  * @author Quim Testar
  */
 
-public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V>implements CloseableMap<K, V>
+public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> implements CloseableMap<K, V>
 {
 
 	@Override

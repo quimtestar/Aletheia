@@ -28,7 +28,7 @@ import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBStatementEnt
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBStatementEntity.LocalSortKey;
 import aletheia.persistence.collections.statement.LocalSortedStatements;
 
-public class BerkeleyDBLocalSortedStatements extends BerkeleyDBSortedStatements<Statement>implements LocalSortedStatements
+public class BerkeleyDBLocalSortedStatements extends BerkeleyDBSortedStatements<Statement> implements LocalSortedStatements
 {
 
 	protected BerkeleyDBLocalSortedStatements(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction, LocalSortKey from,

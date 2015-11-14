@@ -24,7 +24,7 @@ package aletheia.utilities.collections;
  *
  * @author Quim Testar
  */
-public class UnmodifiableCloseableSet<E> extends UnmodifiableCloseableCollection<E>implements CloseableSet<E>
+public class UnmodifiableCloseableSet<E> extends UnmodifiableCloseableCollection<E> implements CloseableSet<E>
 {
 
 	public UnmodifiableCloseableSet(CloseableSet<E> inner)

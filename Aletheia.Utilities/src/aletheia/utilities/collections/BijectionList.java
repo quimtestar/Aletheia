@@ -33,7 +33,7 @@ import java.util.ListIterator;
  *
  * @author Quim Testar
  */
-public class BijectionList<I, O> extends BijectionCollection<I, O>implements List<O>
+public class BijectionList<I, O> extends BijectionCollection<I, O> implements List<O>
 {
 
 	public BijectionList(Bijection<I, O> bijection, List<I> inner)

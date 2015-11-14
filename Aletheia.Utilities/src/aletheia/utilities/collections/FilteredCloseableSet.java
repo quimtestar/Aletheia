@@ -24,7 +24,7 @@ package aletheia.utilities.collections;
  *
  * @author Quim Testar
  */
-public class FilteredCloseableSet<E> extends FilteredCloseableCollection<E>implements CloseableSet<E>
+public class FilteredCloseableSet<E> extends FilteredCloseableCollection<E> implements CloseableSet<E>
 {
 
 	public FilteredCloseableSet(Filter<E> filter, CloseableSet<E> inner)

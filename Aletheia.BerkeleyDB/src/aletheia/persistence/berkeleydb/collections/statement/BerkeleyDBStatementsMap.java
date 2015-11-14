@@ -29,7 +29,7 @@ import aletheia.persistence.collections.statement.StatementsMap;
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.PrimaryIndex;
 
-public class BerkeleyDBStatementsMap extends BerkeleyDBGenericStatementsMap<Statement, BerkeleyDBStatementEntity>implements StatementsMap
+public class BerkeleyDBStatementsMap extends BerkeleyDBGenericStatementsMap<Statement, BerkeleyDBStatementEntity> implements StatementsMap
 {
 	private static PrimaryIndex<UUIDKey, BerkeleyDBStatementEntity> index(BerkeleyDBPersistenceManager persistenceManager)
 	{

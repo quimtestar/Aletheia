@@ -24,7 +24,7 @@ package aletheia.utilities.collections;
  *
  * @author Quim Testar
  */
-public class OnePassCloseableIterable<E> extends OnePassIterable<E>implements CloseableIterable<E>
+public class OnePassCloseableIterable<E> extends OnePassIterable<E> implements CloseableIterable<E>
 {
 
 	public OnePassCloseableIterable(CloseableIterator<E> iterator)

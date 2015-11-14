@@ -27,7 +27,7 @@ import java.util.Queue;
  *
  * @author Quim Testar
  */
-public abstract class AbstractCombinedQueue<E> extends AbstractCombinedCollection<E>implements Queue<E>
+public abstract class AbstractCombinedQueue<E> extends AbstractCombinedCollection<E> implements Queue<E>
 {
 
 	private static final long serialVersionUID = 5726542391975305992L;

@@ -26,7 +26,7 @@ import java.util.Comparator;
  *
  * @author Quim Testar
  */
-public class FilteredCloseableSortedSet<E> extends FilteredCloseableSet<E>implements CloseableSortedSet<E>
+public class FilteredCloseableSortedSet<E> extends FilteredCloseableSet<E> implements CloseableSortedSet<E>
 {
 
 	public FilteredCloseableSortedSet(Filter<E> filter, CloseableSortedSet<E> inner)

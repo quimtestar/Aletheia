@@ -28,7 +28,7 @@ import aletheia.utilities.MiscUtilities;
  *
  * @author Quim Testar
  */
-public class FilteredCloseableMap<K, V> extends FilteredMap<K, V>implements CloseableMap<K, V>
+public class FilteredCloseableMap<K, V> extends FilteredMap<K, V> implements CloseableMap<K, V>
 {
 
 	public FilteredCloseableMap(Filter<? super V> filter, CloseableMap<K, V> inner)

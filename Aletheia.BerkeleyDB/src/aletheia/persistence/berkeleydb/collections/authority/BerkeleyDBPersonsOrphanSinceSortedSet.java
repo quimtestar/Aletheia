@@ -31,7 +31,7 @@ import aletheia.utilities.collections.CloseableSortedSet;
 
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBPersonsOrphanSinceSortedSet extends BerkeleyDBAbstractPersonsSortedSet<Date>implements PersonsOrphanSinceSortedSet
+public class BerkeleyDBPersonsOrphanSinceSortedSet extends BerkeleyDBAbstractPersonsSortedSet<Date> implements PersonsOrphanSinceSortedSet
 {
 
 	private static SecondaryIndex<Date, UUIDKey, BerkeleyDBPersonEntity> makeIndex(BerkeleyDBPersistenceManager persistenceManager)

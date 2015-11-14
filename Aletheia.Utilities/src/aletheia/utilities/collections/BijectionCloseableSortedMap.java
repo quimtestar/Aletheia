@@ -27,7 +27,7 @@ import java.util.Map;
  *
  * @author Quim Testar
  */
-public class BijectionCloseableSortedMap<K, I, O> extends BijectionSortedMap<K, I, O>implements CloseableSortedMap<K, O>
+public class BijectionCloseableSortedMap<K, I, O> extends BijectionSortedMap<K, I, O> implements CloseableSortedMap<K, O>
 {
 
 	public BijectionCloseableSortedMap(Bijection<I, O> bijection, CloseableSortedMap<K, I> inner)

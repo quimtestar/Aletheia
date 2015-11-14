@@ -25,7 +25,7 @@ package aletheia.utilities.collections;
  *
  * @author Quim Testar
  */
-public class UnionCloseableCollection<E> extends UnionCollection<E>implements CloseableCollection<E>
+public class UnionCloseableCollection<E> extends UnionCollection<E> implements CloseableCollection<E>
 {
 
 	public UnionCloseableCollection(CloseableCollection<? extends CloseableCollection<E>> inner)

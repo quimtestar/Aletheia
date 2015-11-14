@@ -29,7 +29,7 @@ import aletheia.persistence.collections.authority.SignatoriesMap;
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.PrimaryIndex;
 
-public class BerkeleyDBSignatoriesMap extends BerkeleyDBGenericSignatoriesMap<Signatory, BerkeleyDBSignatoryEntity>implements SignatoriesMap
+public class BerkeleyDBSignatoriesMap extends BerkeleyDBGenericSignatoriesMap<Signatory, BerkeleyDBSignatoryEntity> implements SignatoriesMap
 {
 
 	private static PrimaryIndex<UUIDKey, BerkeleyDBSignatoryEntity> index(BerkeleyDBPersistenceManager persistenceManager)

@@ -22,7 +22,7 @@ package aletheia.utilities.collections;
 /**
  * An {@link AbstractCombinedSet} for {@link CloseableSet}s.
  */
-public abstract class AbstractCombinedCloseableSet<E> extends AbstractCombinedSet<E>implements CloseableSet<E>
+public abstract class AbstractCombinedCloseableSet<E> extends AbstractCombinedSet<E> implements CloseableSet<E>
 {
 	private static final long serialVersionUID = -6251719920758330387L;
 

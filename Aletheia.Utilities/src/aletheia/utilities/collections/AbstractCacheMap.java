@@ -40,7 +40,7 @@ import java.util.Set;
  *
  * @author Quim Testar
  */
-public abstract class AbstractCacheMap<K, V, R extends Reference<V>> extends AbstractMap<K, V>implements CacheMap<K, V>
+public abstract class AbstractCacheMap<K, V, R extends Reference<V>> extends AbstractMap<K, V> implements CacheMap<K, V>
 {
 	private final Map<K, R> innerMap;
 

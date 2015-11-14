@@ -38,7 +38,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBUnfoldingContextsByDeclaration extends AbstractCloseableSet<UnfoldingContext>implements UnfoldingContextsByDeclaration
+public class BerkeleyDBUnfoldingContextsByDeclaration extends AbstractCloseableSet<UnfoldingContext> implements UnfoldingContextsByDeclaration
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final SecondaryIndex<UUIDKey, UUIDKey, BerkeleyDBUnfoldingContextEntity> unfoldingContextEntityDeclarationSecondaryIndex;

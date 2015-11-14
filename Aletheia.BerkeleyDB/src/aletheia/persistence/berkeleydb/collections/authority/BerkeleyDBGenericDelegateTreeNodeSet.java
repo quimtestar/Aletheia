@@ -37,7 +37,7 @@ import com.sleepycat.persist.EntityIndex;
 import com.sleepycat.persist.PrimaryIndex;
 
 public abstract class BerkeleyDBGenericDelegateTreeNodeSet<N extends DelegateTreeNode, E extends BerkeleyDBDelegateTreeNodeEntity>
-		extends AbstractCloseableSet<N>implements GenericDelegateTreeNodeSet<N>
+		extends AbstractCloseableSet<N> implements GenericDelegateTreeNodeSet<N>
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;

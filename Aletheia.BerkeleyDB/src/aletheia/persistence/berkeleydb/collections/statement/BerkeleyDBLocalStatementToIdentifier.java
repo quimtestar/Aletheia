@@ -29,7 +29,7 @@ import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.collections.statement.LocalStatementToIdentifier;
 
-public abstract class BerkeleyDBLocalStatementToIdentifier extends AbstractMap<Statement, Identifier>implements LocalStatementToIdentifier
+public abstract class BerkeleyDBLocalStatementToIdentifier extends AbstractMap<Statement, Identifier> implements LocalStatementToIdentifier
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;

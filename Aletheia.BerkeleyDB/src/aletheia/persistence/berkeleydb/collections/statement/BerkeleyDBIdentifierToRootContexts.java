@@ -43,7 +43,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBIdentifierToRootContexts extends AbstractMap<Identifier, GenericRootContextsMap>implements IdentifierToRootContexts
+public class BerkeleyDBIdentifierToRootContexts extends AbstractMap<Identifier, GenericRootContextsMap> implements IdentifierToRootContexts
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final SecondaryIndex<IdentifierKey, UUIDKey, BerkeleyDBRootContextEntity> rootContextEntityIdentifierSecondaryIndex;
@@ -221,7 +221,7 @@ public class BerkeleyDBIdentifierToRootContexts extends AbstractMap<Identifier, 
 		}
 		;
 
-		class EntrySet extends AbstractSet<Map.Entry<Identifier, GenericRootContextsMap>>implements SortedSet<Map.Entry<Identifier, GenericRootContextsMap>>
+		class EntrySet extends AbstractSet<Map.Entry<Identifier, GenericRootContextsMap>> implements SortedSet<Map.Entry<Identifier, GenericRootContextsMap>>
 		{
 
 			@Override

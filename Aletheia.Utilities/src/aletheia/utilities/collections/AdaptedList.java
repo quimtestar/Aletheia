@@ -32,7 +32,7 @@ import java.util.ListIterator;
  *
  * @author Quim Testar
  */
-public class AdaptedList<E> extends AdaptedCollection<E>implements List<E>
+public class AdaptedList<E> extends AdaptedCollection<E> implements List<E>
 {
 
 	public AdaptedList(List<? extends E> inner)

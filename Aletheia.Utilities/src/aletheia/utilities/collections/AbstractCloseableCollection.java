@@ -29,7 +29,7 @@ import java.util.Iterator;
  *
  * @author Quim Testar
  */
-public abstract class AbstractCloseableCollection<E> extends AbstractCollection<E>implements CloseableCollection<E>
+public abstract class AbstractCloseableCollection<E> extends AbstractCollection<E> implements CloseableCollection<E>
 {
 
 	@Override

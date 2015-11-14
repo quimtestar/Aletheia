@@ -34,7 +34,7 @@ import aletheia.utilities.collections.CloseableIterator;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
-public abstract class BerkeleyDBAbstractPersonsSet<K> extends AbstractCloseableSet<Person>implements PersonsSet
+public abstract class BerkeleyDBAbstractPersonsSet<K> extends AbstractCloseableSet<Person> implements PersonsSet
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final SecondaryIndex<K, UUIDKey, BerkeleyDBPersonEntity> index;

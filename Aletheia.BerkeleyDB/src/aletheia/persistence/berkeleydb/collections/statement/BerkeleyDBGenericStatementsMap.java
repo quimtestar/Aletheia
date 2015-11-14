@@ -37,7 +37,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
 public abstract class BerkeleyDBGenericStatementsMap<S extends Statement, E extends BerkeleyDBStatementEntity>
-		extends AbstractCloseableMap<IdentifiableVariableTerm, S>implements GenericStatementsMap<S>
+		extends AbstractCloseableMap<IdentifiableVariableTerm, S> implements GenericStatementsMap<S>
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final EntityIndex<UUIDKey, E> index;

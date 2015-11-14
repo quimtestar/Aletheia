@@ -31,7 +31,7 @@ import java.util.Set;
  *
  * @author Quim Testar
  */
-public class BijectionSet<I, O> extends BijectionCollection<I, O>implements Set<O>
+public class BijectionSet<I, O> extends BijectionCollection<I, O> implements Set<O>
 {
 
 	public BijectionSet(Bijection<I, O> bijection, Set<I> inner)

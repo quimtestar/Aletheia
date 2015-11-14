@@ -30,7 +30,7 @@ import java.util.Set;
  *
  * @author Quim Testar
  */
-public class DifferenceSet<E> extends DifferenceCollection<E>implements Set<E>
+public class DifferenceSet<E> extends DifferenceCollection<E> implements Set<E>
 {
 
 	public DifferenceSet(Set<E> minuend, Set<E> subtrahend)

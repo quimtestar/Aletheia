@@ -38,7 +38,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
 public class BerkeleyDBGenericPersonsMap<S extends Signatory, SE extends SignatoryEntity, P extends Person, PE extends PersonEntity>
-		extends AbstractCloseableMap<S, P>implements GenericPersonsMap<S, P>
+		extends AbstractCloseableMap<S, P> implements GenericPersonsMap<S, P>
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final EntityIndex<UUIDKey, PE> entityIndex;

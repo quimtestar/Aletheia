@@ -31,7 +31,7 @@ import java.util.SortedSet;
  *
  * @author Quim Testar
  */
-public class FilteredSortedSet<E> extends FilteredSet<E>implements SortedSet<E>
+public class FilteredSortedSet<E> extends FilteredSet<E> implements SortedSet<E>
 {
 
 	public FilteredSortedSet(Filter<E> filter, SortedSet<E> inner)

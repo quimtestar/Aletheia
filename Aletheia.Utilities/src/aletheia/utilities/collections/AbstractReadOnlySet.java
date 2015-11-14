@@ -31,7 +31,7 @@ import java.util.Set;
  *
  * @author Quim Testar
  */
-public abstract class AbstractReadOnlySet<E> extends AbstractReadOnlyCollection<E>implements Set<E>
+public abstract class AbstractReadOnlySet<E> extends AbstractReadOnlyCollection<E> implements Set<E>
 {
 
 }

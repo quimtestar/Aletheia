@@ -24,7 +24,7 @@ package aletheia.utilities.collections;
  *
  * @author Quim Testar
  */
-public class AdaptedCloseableCollection<E> extends AdaptedCollection<E>implements CloseableCollection<E>
+public class AdaptedCloseableCollection<E> extends AdaptedCollection<E> implements CloseableCollection<E>
 {
 
 	public AdaptedCloseableCollection(CloseableCollection<? extends E> inner)

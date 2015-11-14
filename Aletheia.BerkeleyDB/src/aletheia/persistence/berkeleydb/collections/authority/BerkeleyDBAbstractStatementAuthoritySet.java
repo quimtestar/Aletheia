@@ -37,7 +37,7 @@ import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 import com.sleepycat.persist.PrimaryIndex;
 
-public abstract class BerkeleyDBAbstractStatementAuthoritySet extends AbstractCloseableSet<StatementAuthority>implements StatementAuthoritySet
+public abstract class BerkeleyDBAbstractStatementAuthoritySet extends AbstractCloseableSet<StatementAuthority> implements StatementAuthoritySet
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;

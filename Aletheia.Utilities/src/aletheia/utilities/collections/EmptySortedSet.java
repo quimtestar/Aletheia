@@ -31,7 +31,7 @@ import java.util.SortedSet;
  *
  * @author Quim Testar
  */
-public class EmptySortedSet<E> extends AbstractReadOnlySortedSet<E>implements SortedSet<E>
+public class EmptySortedSet<E> extends AbstractReadOnlySortedSet<E> implements SortedSet<E>
 {
 
 	private final Comparator<? super E> comparator;

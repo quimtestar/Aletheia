@@ -442,7 +442,7 @@ public class CliJPanel extends JPanel
 		{
 			try
 			{
-				if ((length > 0) && (offset -multiLinePrompt.length()-1>=0))
+				if ((length > 0) && (offset - multiLinePrompt.length() - 1 >= 0))
 				{
 					String s = document.getText(offset - multiLinePrompt.length() - 1, multiLinePrompt.length() + 2);
 					int i = s.indexOf('\n');

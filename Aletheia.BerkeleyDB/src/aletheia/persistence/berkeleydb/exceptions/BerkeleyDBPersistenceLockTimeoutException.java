@@ -42,21 +42,21 @@ public class BerkeleyDBPersistenceLockTimeoutException extends PersistenceLockTi
 	{
 		return new FilteredCollection<Transaction>(new NotNullFilter<Transaction>(),
 
-		new AdaptedCollection<Transaction>(new BijectionCollection<Long, BerkeleyDBTransaction>(new Bijection<Long, BerkeleyDBTransaction>()
-		{
+				new AdaptedCollection<Transaction>(new BijectionCollection<Long, BerkeleyDBTransaction>(new Bijection<Long, BerkeleyDBTransaction>()
+				{
 
-			@Override
-			public BerkeleyDBTransaction forward(Long id)
-			{
-				return persistenceManager.openedTransactionsMap().get(id);
-			}
+					@Override
+					public BerkeleyDBTransaction forward(Long id)
+					{
+						return persistenceManager.openedTransactionsMap().get(id);
+					}
 
-			@Override
-			public Long backward(BerkeleyDBTransaction transaction)
-			{
-				return transaction.getDbTransactionId();
-			}
-		}, new ArrayAsList<Long>(ids))));
+					@Override
+					public Long backward(BerkeleyDBTransaction transaction)
+					{
+						return transaction.getDbTransactionId();
+					}
+				}, new ArrayAsList<Long>(ids))));
 	}
 
 	public BerkeleyDBPersistenceLockTimeoutException(BerkeleyDBPersistenceManager persistenceManager, LockTimeoutException cause)

@@ -41,7 +41,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
-public class BerkeleyDBLocalDelegateAuthorizerMap extends AbstractCloseableMap<Person, DelegateAuthorizer>implements LocalDelegateAuthorizerMap
+public class BerkeleyDBLocalDelegateAuthorizerMap extends AbstractCloseableMap<Person, DelegateAuthorizer> implements LocalDelegateAuthorizerMap
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;

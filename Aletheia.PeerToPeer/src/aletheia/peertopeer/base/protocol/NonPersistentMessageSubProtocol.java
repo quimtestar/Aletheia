@@ -28,7 +28,7 @@ import aletheia.protocol.ExportableProtocol;
 import aletheia.protocol.ProtocolInfo;
 
 @ProtocolInfo(availableVersions = 0)
-public abstract class NonPersistentMessageSubProtocol<M extends Message> extends ExportableProtocol<M>implements MessageSubProtocol<M>
+public abstract class NonPersistentMessageSubProtocol<M extends Message> extends ExportableProtocol<M> implements MessageSubProtocol<M>
 {
 	private final MessageCode messageCode;
 

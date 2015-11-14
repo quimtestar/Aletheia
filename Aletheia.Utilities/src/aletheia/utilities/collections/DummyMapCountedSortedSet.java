@@ -25,7 +25,7 @@ package aletheia.utilities.collections;
  *
  * @author Quim Testar
  */
-public class DummyMapCountedSortedSet<E> extends DummyMapSortedSet<E>implements CountedSortedSet<E>
+public class DummyMapCountedSortedSet<E> extends DummyMapSortedSet<E> implements CountedSortedSet<E>
 {
 
 	protected DummyMapCountedSortedSet(CountedSortedMap<E, Dummy> map)

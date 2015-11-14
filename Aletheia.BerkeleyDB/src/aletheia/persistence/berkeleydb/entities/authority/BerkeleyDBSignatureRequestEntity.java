@@ -363,7 +363,7 @@ public abstract class BerkeleyDBSignatureRequestEntity implements SignatureReque
 	@SecondaryKey(name = contextSubContextSecondaryKeyDataList_FieldName, relate = Relationship.MANY_TO_MANY)
 	private final List<ContextSubContextSecondaryKeyData> contextSubContextSecondaryKeyDataList;
 
-	private class ContextUuidKeyPathView extends AbstractList<UUIDKey>implements List<UUIDKey>
+	private class ContextUuidKeyPathView extends AbstractList<UUIDKey> implements List<UUIDKey>
 	{
 
 		@Override

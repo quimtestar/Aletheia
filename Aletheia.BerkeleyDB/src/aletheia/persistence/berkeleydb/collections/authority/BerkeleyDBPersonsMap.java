@@ -31,7 +31,8 @@ import aletheia.persistence.collections.authority.PersonsMap;
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.PrimaryIndex;
 
-public class BerkeleyDBPersonsMap extends BerkeleyDBGenericPersonsMap<Signatory, BerkeleyDBSignatoryEntity, Person, BerkeleyDBPersonEntity>implements PersonsMap
+public class BerkeleyDBPersonsMap extends BerkeleyDBGenericPersonsMap<Signatory, BerkeleyDBSignatoryEntity, Person, BerkeleyDBPersonEntity>
+		implements PersonsMap
 {
 	private static PrimaryIndex<UUIDKey, BerkeleyDBPersonEntity> personEntityPrimaryIndex(BerkeleyDBPersistenceManager persistenceManager)
 	{

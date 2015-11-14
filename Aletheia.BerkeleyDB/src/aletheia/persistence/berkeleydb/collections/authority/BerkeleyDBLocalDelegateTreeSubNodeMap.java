@@ -40,7 +40,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 
-public class BerkeleyDBLocalDelegateTreeSubNodeMap extends AbstractCloseableMap<Namespace, DelegateTreeSubNode>implements LocalDelegateTreeSubNodeMap
+public class BerkeleyDBLocalDelegateTreeSubNodeMap extends AbstractCloseableMap<Namespace, DelegateTreeSubNode> implements LocalDelegateTreeSubNodeMap
 {
 
 	private final BerkeleyDBPersistenceManager persistenceManager;

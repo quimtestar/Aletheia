@@ -195,7 +195,7 @@ public class PreferencesDialog extends JDialog
 		}
 	}
 
-	private class InterfaceAddressComboBoxModel extends AbstractListModel<AddressComboBoxItem>implements ComboBoxModel<AddressComboBoxItem>
+	private class InterfaceAddressComboBoxModel extends AbstractListModel<AddressComboBoxItem> implements ComboBoxModel<AddressComboBoxItem>
 	{
 		private static final long serialVersionUID = 3749213544443833888L;
 		private final List<AddressComboBoxItem> itemList;

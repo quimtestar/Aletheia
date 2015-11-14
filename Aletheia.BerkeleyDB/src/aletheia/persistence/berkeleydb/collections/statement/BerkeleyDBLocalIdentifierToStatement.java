@@ -43,7 +43,7 @@ import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
-public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractMap<Identifier, Statement>implements LocalIdentifierToStatement
+public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractMap<Identifier, Statement> implements LocalIdentifierToStatement
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final SecondaryIndex<UUIDContextIdentifier, UUIDKey, BerkeleyDBStatementEntity> statementEntityContextIdentifierSecondaryIndex;
@@ -182,7 +182,7 @@ public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractMap<I
 		}
 		;
 
-		class EntrySet extends AbstractSet<Map.Entry<Identifier, Statement>>implements SortedSet<Map.Entry<Identifier, Statement>>
+		class EntrySet extends AbstractSet<Map.Entry<Identifier, Statement>> implements SortedSet<Map.Entry<Identifier, Statement>>
 		{
 
 			@Override
