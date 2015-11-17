@@ -457,9 +457,9 @@ public class CliJPanel extends JPanel
 					String s = document.getText(offset + length - multiLinePrompt.length() - 1, multiLinePrompt.length() + 1);
 					int i = s.indexOf('\n');
 					if (i >= 0)
-					{
 						length += i + 1;
-					}
+					if (offset + length > document.getLength())
+						length = document.getLength() - offset;
 				}
 
 			}
