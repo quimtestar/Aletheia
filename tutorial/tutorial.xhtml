@@ -154,10 +154,10 @@ div.Frameless { margin: 1em; }
 <div class='lyxtoc-2'><a href='#magicparlabel-427' class='tocentry'>4 Proving theorems</a>
 
 
-<div class='lyxtoc-3'><a href='#magicparlabel-1207' class='tocentry'>4.1 Adding zero to the left of a natural number</a>
+<div class='lyxtoc-3'><a href='#magicparlabel-428' class='tocentry'>4.1 Adding zero to the left of a natural number</a>
 </div>
 
-<div class='lyxtoc-3'><a href='#magicparlabel-1552' class='tocentry'>4.2 Epsilon-induction</a>
+<div class='lyxtoc-3'><a href='#magicparlabel-594' class='tocentry'>4.2 Epsilon-induction</a>
 </div>
 </div>
 </div>
@@ -579,133 +579,133 @@ aletheia.project.li/1.2.3.4:8900	MALE	Network</pre></div>
 <div class='float float-listings'><pre class ='listings'>% import [PATH]tutorial.ale</pre></div>
 
 <h2 class="section"><a id='magicparlabel-427' /><span class="section_label">4</span> Proving theorems</h2>
-<h3 class="subsection"><a id='magicparlabel-1207' /><span class="subsection_label">4.1</span> Adding zero to the left of a natural number</h3>
-<div class="standard"><a id='magicparlabel-1240' />The next step in this tutorial is proving some stuff by ourselves. In this section we'll be dealing with the following quite trivial theorem <math xmlns="http://www.w3.org/1998/Math/MathML">
+<h3 class="subsection"><a id='magicparlabel-428' /><span class="subsection_label">4.1</span> Adding zero to the left of a natural number</h3>
+<div class="standard"><a id='magicparlabel-429' />The next step in this tutorial is proving some stuff by ourselves. In this section we'll be dealing with the following quite trivial theorem <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi> &forall; </mi><mi>x</mi><mo> &isin; </mo>
    <mstyle mathvariant='bold'><mi>N</mi>
    </mstyle><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mn>0</mn><mo>+</mo><mi>x</mi><mo>=</mo><mi>x</mi>
   </mrow>
  </mrow></math>. </div>
-<h4 class="subsubsection"><a id='magicparlabel-428' /><span class="subsubsection_label">4.1.1</span> Defining the context statement</h4>
-<div class="standard"><a id='magicparlabel-429' />As said, any theorem in our system will be represented as a statement within a context. In this case, that context will be &ldquo;<span style='font-family:monospace;'>ctx.Set.regularity&rdquo;</span> since the axioms accessible from there are needed to prove its validity. So, first of all, we set the <em>active context</em> to it navigating to it and pressing the <em>F3</em> key or executing the following command:</div>
+<h4 class="subsubsection"><a id='magicparlabel-430' /><span class="subsubsection_label">4.1.1</span> Defining the context statement</h4>
+<div class="standard"><a id='magicparlabel-431' />As said, any theorem in our system will be represented as a statement within a context. In this case, that context will be &ldquo;<span style='font-family:monospace;'>ctx.Set.regularity&rdquo;</span> since the axioms accessible from there are needed to prove its validity. So, first of all, we set the <em>active context</em> to it navigating to it and pressing the <em>F3</em> key or executing the following command:</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% sel /ctx.quimtestar/ctx.Prop.Not.double.inv/ctx.one/ctx.Set/ctx.Set.extensionality/ctx.Set.specification/ctx.Set.pairing/ctx.Set.union/ctx.Set.infinity/ctx.Set.regularity</pre></div>
 
 
-<div class="standard"><a id='magicparlabel-435' />Next, we'll create the new statement with the following command:</div>
+<div class="standard"><a id='magicparlabel-437' />Next, we'll create the new statement with the following command:</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% new tutorial.th ctx "&lt;x:Set -&gt; &lt;_:Natural x -&gt; Set.Equal (Natural.sum Natural.zero x) x&gt;&gt;"</pre></div>
 
 
-<div class="standard"><a id='magicparlabel-441' />The &ldquo;<span style='font-family:monospace;'>new&rdquo;</span> command is used to create new statements, &ldquo;<span style='font-family:monospace;'>tutorial.th&rdquo;</span> is the arbitrary name we'll use for this statement, &ldquo;<span style='font-family:monospace;'>ctx&rdquo;</span> indicates we want to create a statement of the type <em>context</em>. Finally, we specify a <em>term expression</em> that specifies this theorem thesis between quote marks.</div>
+<div class="standard"><a id='magicparlabel-443' />The &ldquo;<span style='font-family:monospace;'>new&rdquo;</span> command is used to create new statements, &ldquo;<span style='font-family:monospace;'>tutorial.th&rdquo;</span> is the arbitrary name we'll use for this statement, &ldquo;<span style='font-family:monospace;'>ctx&rdquo;</span> indicates we want to create a statement of the type <em>context</em>. Finally, we specify a <em>term expression</em> that specifies this theorem thesis between quote marks.</div>
 
-<div class="standard"><a id='magicparlabel-442' />In our environment, every natural number is an object of the type &ldquo;<span style='font-family:monospace;'>Set&rdquo;</span> that satisfies the proposition &ldquo;<span style='font-family:monospace;'>Natural&rdquo;</span>, so this theorem might be seen as a function that takes a &ldquo;<span style='font-family:monospace;'>Set&rdquo;</span> object that satisfies the &ldquo;<span style='font-family:monospace;'>Natural&rdquo;</span> proposition and returns the theorem's equality as a proposition.
+<div class="standard"><a id='magicparlabel-444' />In our environment, every natural number is an object of the type &ldquo;<span style='font-family:monospace;'>Set&rdquo;</span> that satisfies the proposition &ldquo;<span style='font-family:monospace;'>Natural&rdquo;</span>, so this theorem might be seen as a function that takes a &ldquo;<span style='font-family:monospace;'>Set&rdquo;</span> object that satisfies the &ldquo;<span style='font-family:monospace;'>Natural&rdquo;</span> proposition and returns the theorem's equality as a proposition.
 <br />
 
 </div>
 
-<div class="standard"><a id='magicparlabel-443' /><div class='Frameless'><div class="plain_layout"><a id='magicparlabel-447' /><img src='11_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap012.png' alt='image: 11_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap012.png' />
+<div class="standard"><a id='magicparlabel-445' /><div class='Frameless'><div class="plain_layout"><a id='magicparlabel-449' /><img src='11_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap012.png' alt='image: 11_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap012.png' />
 </div>
 </div>
 <br />
 
 </div>
 
-<div class="standard"><a id='magicparlabel-448' />Under our new context we automatically get some assumption nodes corresponding to the function parameters of the context term (with types &ldquo;<span style='font-family:monospace;'>Set&rdquo;</span> and &ldquo;<span style='font-family:monospace;'>Natural x&rdquo;</span>), and a consequent node containing the body term of that function (&ldquo;<span style='font-family:monospace;'>Set.Equal (Natural.sum Natural.zero x) x&rdquo;</span>). To get context marked as valid, and so this theorem proved, our target is to infer a valid statement that has exactly that term as a type.</div>
-<h4 class="subsubsection"><a id='magicparlabel-449' /><span class="subsubsection_label">4.1.2</span> Naming the assumptions</h4>
-<div class="standard"><a id='magicparlabel-450' />First of all, we should set the &ldquo;<span style='font-family:monospace;'>[Assumption: 1]&rdquo;</span><em> </em>statement's name so we can refer to it form the command line. We can do it just selecting it in the context tree and pressing F2 or with the command:</div>
+<div class="standard"><a id='magicparlabel-450' />Under our new context we automatically get some assumption nodes corresponding to the function parameters of the context term (with types &ldquo;<span style='font-family:monospace;'>Set&rdquo;</span> and &ldquo;<span style='font-family:monospace;'>Natural x&rdquo;</span>), and a consequent node containing the body term of that function (&ldquo;<span style='font-family:monospace;'>Set.Equal (Natural.sum Natural.zero x) x&rdquo;</span>). To get context marked as valid, and so this theorem proved, our target is to infer a valid statement that has exactly that term as a type.</div>
+<h4 class="subsubsection"><a id='magicparlabel-451' /><span class="subsubsection_label">4.1.2</span> Naming the assumptions</h4>
+<div class="standard"><a id='magicparlabel-452' />First of all, we should set the &ldquo;<span style='font-family:monospace;'>[Assumption: 1]&rdquo;</span><em> </em>statement's name so we can refer to it form the command line. We can do it just selecting it in the context tree and pressing F2 or with the command:</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% idas [name] 1</pre></div>
 
 
-<div class="standard"><a id='magicparlabel-456' />In this catalog it has been adopted the practice of naming the proof steps statements in proofs simply as &ldquo;<span style='font-family:monospace;'>s###&rdquo;</span>, being <span style='font-family:monospace;'>###</span><em> </em>a three-digit consecutive number sequence for every theorem. So in this case the name would be &ldquo;<span style='font-family:monospace;'>s000&rdquo;</span>.</div>
+<div class="standard"><a id='magicparlabel-458' />In this catalog it has been adopted the practice of naming the proof steps statements in proofs simply as &ldquo;<span style='font-family:monospace;'>s###&rdquo;</span>, being <span style='font-family:monospace;'>###</span><em> </em>a three-digit consecutive number sequence for every theorem. So in this case the name would be &ldquo;<span style='font-family:monospace;'>s000&rdquo;</span>.</div>
 
-<div class="standard"><a id='magicparlabel-457' />This assumption statement is marked as not valid because it depends on the validity of the statement &ldquo;<span style='font-family:monospace;'>Natural&rdquo;</span> (as we can notice since it is displayed yellow, and not green, at its occurrence on the type term -right to the colon mark- of this statement; this won't happen if we imported the tutorial data from a file). To download the proof that makes it valid, we just subscribe for its proof:</div>
+<div class="standard"><a id='magicparlabel-459' />This assumption statement is marked as not valid because it depends on the validity of the statement &ldquo;<span style='font-family:monospace;'>Natural&rdquo;</span> (as we can notice since it is displayed yellow, and not green, at its occurrence on the type term -right to the colon mark- of this statement; this won't happen if we imported the tutorial data from a file). To download the proof that makes it valid, we just subscribe for its proof:</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% subscribe Natural proof</pre></div>
 
 
-<div class="standard"><a id='magicparlabel-463' />If we are still connected to the P2P network it should just turn to valid after a while.
+<div class="standard"><a id='magicparlabel-465' />If we are still connected to the P2P network it should just turn to valid after a while.
 <br />
 
 </div>
 
-<div class="standard"><a id='magicparlabel-464' /><div class='Frameless'><div class="plain_layout"><a id='magicparlabel-468' /><img src='12_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap013.png' alt='image: 12_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap013.png' />
+<div class="standard"><a id='magicparlabel-466' /><div class='Frameless'><div class="plain_layout"><a id='magicparlabel-470' /><img src='12_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap013.png' alt='image: 12_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap013.png' />
 </div>
 </div>
 <br />
 
 </div>
-<h4 class="subsubsection"><a id='magicparlabel-1194' /><span class="subsubsection_label">4.1.3</span> First proof approach</h4>
-<div class="standard"><a id='magicparlabel-470' />Navigating through the catalog of theorems we can easily find one labeled as &ldquo;<span style='font-family:monospace;'>Natural.sum.th.zero.lft&rdquo;</span> that exactly fits this theorem, so in this first approach we will be just using it in a trivial proof. That statement corresponds to the term<span style='font-family:monospace;'> "&lt;@0:Set -&gt; &lt;@1:Natural @0 -&gt; Set.Equal (Natural.sum Natural.zero @0) @0&gt;&gt;"</span> and we already have in our context a statement &ldquo;<span style='font-family:monospace;'>x&rdquo;</span> of type &ldquo;<span style='font-family:monospace;'>Set&rdquo;</span> and a statement &ldquo;<span style='font-family:monospace;'>s000&rdquo;</span><em> </em>of type &ldquo;<span style='font-family:monospace;'>Natural x&rdquo;</span><em> </em>to reach a consequent of type &ldquo;<span style='font-family:monospace;'>Set.Equal (Natural.sum Natural.zero x) x&rdquo;</span>. We can infer a new statement passing any term whose type matches with the function's parameter type to another statement. That is called a &ldquo;<em>specialization statement&rdquo;</em>. So we will specialize the &ldquo;<span style='font-family:monospace;'>Natural.sum.th.zero.lft&rdquo;</span> statement with this two assumptions. We do it with the following command:</div>
+<h4 class="subsubsection"><a id='magicparlabel-471' /><span class="subsubsection_label">4.1.3</span> First proof approach</h4>
+<div class="standard"><a id='magicparlabel-472' />Navigating through the catalog of theorems we can easily find one labeled as &ldquo;<span style='font-family:monospace;'>Natural.sum.th.zero.lft&rdquo;</span> that exactly fits this theorem, so in this first approach we will be just using it in a trivial proof. That statement corresponds to the term<span style='font-family:monospace;'> "&lt;@0:Set -&gt; &lt;@1:Natural @0 -&gt; Set.Equal (Natural.sum Natural.zero @0) @0&gt;&gt;"</span> and we already have in our context a statement &ldquo;<span style='font-family:monospace;'>x&rdquo;</span> of type &ldquo;<span style='font-family:monospace;'>Set&rdquo;</span> and a statement &ldquo;<span style='font-family:monospace;'>s000&rdquo;</span><em> </em>of type &ldquo;<span style='font-family:monospace;'>Natural x&rdquo;</span><em> </em>to reach a consequent of type &ldquo;<span style='font-family:monospace;'>Set.Equal (Natural.sum Natural.zero x) x&rdquo;</span>. We can infer a new statement passing any term whose type matches with the function's parameter type to another statement. That is called a &ldquo;<em>specialization statement&rdquo;</em>. So we will specialize the &ldquo;<span style='font-family:monospace;'>Natural.sum.th.zero.lft&rdquo;</span> statement with this two assumptions. We do it with the following command:</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% new s001 spc Natural.sum.th.zero.lft x</pre></div>
 
 
-<div class="standard"><a id='magicparlabel-476' />We have just created a new &ldquo;<span style='font-family:monospace;'>s001&rdquo;</span> statement that is a specialization of the &ldquo;<span style='font-family:monospace;'>Natural.sum.th.zero.lft&rdquo;</span> theorem with parameter &ldquo;<span style='font-family:monospace;'>x&rdquo;</span>:
+<div class="standard"><a id='magicparlabel-478' />We have just created a new &ldquo;<span style='font-family:monospace;'>s001&rdquo;</span> statement that is a specialization of the &ldquo;<span style='font-family:monospace;'>Natural.sum.th.zero.lft&rdquo;</span> theorem with parameter &ldquo;<span style='font-family:monospace;'>x&rdquo;</span>:
 <br />
 
 </div>
 
-<div class="standard"><a id='magicparlabel-477' /><div class='Frameless'><div class="plain_layout"><a id='magicparlabel-481' /><img src='13_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap014.png' alt='image: 13_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap014.png' />
+<div class="standard"><a id='magicparlabel-479' /><div class='Frameless'><div class="plain_layout"><a id='magicparlabel-483' /><img src='13_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap014.png' alt='image: 13_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap014.png' />
 </div>
 </div>
 <br />
 
 </div>
 
-<div class="standard"><a id='magicparlabel-482' />Since this statement's validity depends on the specialized statement's and in this moment it's still not valid because we have not got its proof, now we should subscribe for its proof to make this new statement valid:</div>
+<div class="standard"><a id='magicparlabel-484' />Since this statement's validity depends on the specialized statement's and in this moment it's still not valid because we have not got its proof, now we should subscribe for its proof to make this new statement valid:</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% subscribe Natural.sum.th.zero.lft proof</pre></div>
 
 
-<div class="standard"><a id='magicparlabel-488' />To make this theorem valid, and since we just started our database from scratch, it will be downloaded and validated not only its proof but the proofs of all the theorems on which it depends to the very axioms. That can take a while, but we can just carry on with out proving work while the system does all this job. The only consequence is that we just won't be seeing this statement as valid (and consequently be sure that the proof we are building is valid) until all that is done.</div>
+<div class="standard"><a id='magicparlabel-490' />To make this theorem valid, and since we just started our database from scratch, it will be downloaded and validated not only its proof but the proofs of all the theorems on which it depends to the very axioms. That can take a while, but we can just carry on with out proving work while the system does all this job. The only consequence is that we just won't be seeing this statement as valid (and consequently be sure that the proof we are building is valid) until all that is done.</div>
 
-<div class="standard"><a id='magicparlabel-489' />Now we have just to specialize statement &ldquo;<span style='font-family:monospace;'>s001&rdquo;</span> with &ldquo;<span style='font-family:monospace;'>s000&rdquo;</span> and we are done:</div>
+<div class="standard"><a id='magicparlabel-491' />Now we have just to specialize statement &ldquo;<span style='font-family:monospace;'>s001&rdquo;</span> with &ldquo;<span style='font-family:monospace;'>s000&rdquo;</span> and we are done:</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% new s002 spc s001 s000</pre></div>
 
 
-<div class="standard"><a id='magicparlabel-495' /><div class='Frameless'><div class="plain_layout"><a id='magicparlabel-499' /><img src='14_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap015.png' alt='image: 14_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap015.png' />
+<div class="standard"><a id='magicparlabel-497' /><div class='Frameless'><div class="plain_layout"><a id='magicparlabel-501' /><img src='14_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap015.png' alt='image: 14_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap015.png' />
 </div>
 </div>
 <br />
 
 </div>
 
-<div class="standard"><a id='magicparlabel-500' />Note that the consequent has been satisfied with this statement and our new theorem has been marked as proved. The list of statements (valid or not) that satisfy a consequent are displayed between brackets next to it.</div>
+<div class="standard"><a id='magicparlabel-502' />Note that the consequent has been satisfied with this statement and our new theorem has been marked as proved. The list of statements (valid or not) that satisfy a consequent are displayed between brackets next to it.</div>
 
-<div class="standard"><a id='magicparlabel-501' />Now we have a new proved theorem in our catalog and we can use in any proof in a context descending to this one. Of course, it doesn't make much sense to prove something using the very same theorem that has been proved before. </div>
+<div class="standard"><a id='magicparlabel-503' />Now we have a new proved theorem in our catalog and we can use in any proof in a context descending to this one. Of course, it doesn't make much sense to prove something using the very same theorem that has been proved before. </div>
 
-<div class="standard"><a id='magicparlabel-502' />We can delete a statement by selecting its node in the context tree and hitting the &ldquo;<em>delete&rdquo;</em> key. If other statements depend on it, we'll need to use the &ldquo;<em>shift&rdquo;</em> key to delete them in a &ldquo;cascade&rdquo; fashion (use with care). Doing this with the statements we have just input, of course, will &ldquo;unprove&rdquo; our theorem (and all theorems whose proof are depending on it).</div>
+<div class="standard"><a id='magicparlabel-504' />We can delete a statement by selecting its node in the context tree and hitting the &ldquo;<em>delete&rdquo;</em> key. If other statements depend on it, we'll need to use the &ldquo;<em>shift&rdquo;</em> key to delete them in a &ldquo;cascade&rdquo; fashion (use with care). Doing this with the statements we have just input, of course, will &ldquo;unprove&rdquo; our theorem (and all theorems whose proof are depending on it).</div>
 
-<div class="standard"><a id='magicparlabel-503' />To prove it again, we can alternatively do both specializations in a row in the same statement:</div>
+<div class="standard"><a id='magicparlabel-505' />To prove it again, we can alternatively do both specializations in a row in the same statement:</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% new s001 spc Natural.sum.th.zero.lft x s000</pre></div>
 
 
-<div class="standard"><a id='magicparlabel-509' />Both specialization statements are created and named using the specified label as a prefix:
+<div class="standard"><a id='magicparlabel-511' />Both specialization statements are created and named using the specified label as a prefix:
 <br />
 
 </div>
 
-<div class="standard"><a id='magicparlabel-510' /><div class='Frameless'><div class="plain_layout"><a id='magicparlabel-514' /><img src='15_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap016.png' alt='image: 15_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap016.png' />
+<div class="standard"><a id='magicparlabel-512' /><div class='Frameless'><div class="plain_layout"><a id='magicparlabel-516' /><img src='15_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap016.png' alt='image: 15_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap016.png' />
 </div>
 </div>
 <br />
 
 </div>
-<h4 class="subsubsection"><a id='magicparlabel-515' /><span class="subsubsection_label">4.1.4</span> Second proof approach</h4>
-<div class="standard"><a id='magicparlabel-516' />We'll now try to prove the same theorem combining other theorems, which is the way usual proofs are. Navigating through the catalog, we can find find the theorem &ldquo;<span style='font-family:monospace;'>Natural.sum.def.zero&rdquo;</span> which states that <math xmlns="http://www.w3.org/1998/Math/MathML">
+<h4 class="subsubsection"><a id='magicparlabel-517' /><span class="subsubsection_label">4.1.4</span> Second proof approach</h4>
+<div class="standard"><a id='magicparlabel-518' />We'll now try to prove the same theorem combining other theorems, which is the way usual proofs are. Navigating through the catalog, we can find find the theorem &ldquo;<span style='font-family:monospace;'>Natural.sum.def.zero&rdquo;</span> which states that <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi> &forall; </mi><mi>x</mi><mo> &isin; </mo>
    <mstyle mathvariant='bold'><mi>N</mi>
@@ -725,7 +725,7 @@ aletheia.project.li/1.2.3.4:8900	MALE	Network</pre></div>
   </mrow>
  </mrow></math>.</div>
 
-<div class="standard"><a id='magicparlabel-517' />So, we enter the steps of this proof as follows and we are done:</div>
+<div class="standard"><a id='magicparlabel-519' />So, we enter the steps of this proof as follows and we are done:</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% new s001 spc Natural.sum.th.comm Natural.zero Natural.zero.th.Natural x s000
@@ -733,16 +733,16 @@ aletheia.project.li/1.2.3.4:8900	MALE	Network</pre></div>
 % new s003 spc Set.Equal.th.trans "Natural.sum Natural.zero x" "Natural.sum x Natural.zero" x s001 s002 </pre></div>
 
 
-<div class="standard"><a id='magicparlabel-525' /><div class='Frameless'><div class="plain_layout"><a id='magicparlabel-529' /><img src='16_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap017.png' alt='image: 16_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap017.png' />
+<div class="standard"><a id='magicparlabel-527' /><div class='Frameless'><div class="plain_layout"><a id='magicparlabel-531' /><img src='16_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap017.png' alt='image: 16_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap017.png' />
 </div>
 </div>
 <br />
 
 </div>
 
-<div class="standard"><a id='magicparlabel-530' />Unfortunately, the proof on &ldquo;<span style='font-family:monospace;'>Natural.sum.th.comm&rdquo;</span> depends on &ldquo;<span style='font-family:monospace;'>Natural.sum.th.zero.lft&rdquo;</span>, so we really haven't done anything much different than before. If we were proving that theorem from scratch, the proof would need to be different than this.</div>
-<h4 class="subsubsection"><a id='magicparlabel-1255' /><span class="subsubsection_label">4.1.5</span> Third and definitive proof approach</h4>
-<div class="standard"><a id='magicparlabel-532' />The actual proof of this theorem uses the mathematical induction principle, which we have in our system just as another theorem. The theorem &ldquo;<span style='font-family:monospace;'>Natural.th.induction&rdquo;</span> applies to any proposition on naturals and states that <math xmlns="http://www.w3.org/1998/Math/MathML">
+<div class="standard"><a id='magicparlabel-532' />Unfortunately, the proof on &ldquo;<span style='font-family:monospace;'>Natural.sum.th.comm&rdquo;</span> depends on &ldquo;<span style='font-family:monospace;'>Natural.sum.th.zero.lft&rdquo;</span>, so we really haven't done anything much different than before. If we were proving that theorem from scratch, the proof would need to be different than this.</div>
+<h4 class="subsubsection"><a id='magicparlabel-533' /><span class="subsubsection_label">4.1.5</span> Third and definitive proof approach</h4>
+<div class="standard"><a id='magicparlabel-534' />The actual proof of this theorem uses the mathematical induction principle, which we have in our system just as another theorem. The theorem &ldquo;<span style='font-family:monospace;'>Natural.th.induction&rdquo;</span> applies to any proposition on naturals and states that <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi> &forall; </mi><mi>P</mi><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mn>0</mn><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo><mo> &and; </mo><mo form='prefix' fence='true' stretchy='true' symmetric='true'>[</mo>
    <mrow><mi> &forall; </mi><mi>n</mi><mo> &isin; </mo>
@@ -760,7 +760,7 @@ aletheia.project.li/1.2.3.4:8900	MALE	Network</pre></div>
 <div class='float float-listings'><pre class ='listings'>% new s001 spc Natural.th.induction "&lt;x:Set -&gt; Set.Equal (Natural.sum Natural.zero x) x&gt;"</pre></div>
 
 
-<div class="standard"><a id='magicparlabel-538' />The resulting statement is a function that its antecedents are respectively the <em>basis step</em> and the <em>inductive step</em> of the induction. We may now create them as context statements just as they were theorems in this level and leave their proof for later:</div>
+<div class="standard"><a id='magicparlabel-540' />The resulting statement is a function that its antecedents are respectively the <em>basis step</em> and the <em>inductive step</em> of the induction. We may now create them as context statements just as they were theorems in this level and leave their proof for later:</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% new s002 ctx "Set.Equal (Natural.sum Natural.zero Natural.zero) Natural.zero"
@@ -771,33 +771,33 @@ aletheia.project.li/1.2.3.4:8900	MALE	Network</pre></div>
 % new s005 spc s003 s004</pre></div>
 
 
-<div class="standard"><a id='magicparlabel-549' />(When creating a new context that is not immediately proved the active context is automatically set to that new context, so we need to set one level up with the &ldquo;<em>up&rdquo;</em> command).</div>
+<div class="standard"><a id='magicparlabel-551' />(When creating a new context that is not immediately proved the active context is automatically set to that new context, so we need to set one level up with the &ldquo;<em>up&rdquo;</em> command).</div>
 
-<div class="standard"><a id='magicparlabel-550' />Alternatively, we can automatically execute this sequence with a single command as this:</div>
+<div class="standard"><a id='magicparlabel-552' />Alternatively, we can automatically execute this sequence with a single command as this:</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% new s002 strip s001</pre></div>
 
 
-<div class="standard"><a id='magicparlabel-556' />After that, we apply the resulting statement to &ldquo;<span style='font-family:monospace;'>x&rdquo;</span>.</div>
+<div class="standard"><a id='magicparlabel-558' />After that, we apply the resulting statement to &ldquo;<span style='font-family:monospace;'>x&rdquo;</span>.</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% new s003 spc s002 x s000 </pre></div>
 
 
-<div class="standard"><a id='magicparlabel-562' />At this step we reached the context's consequent but we won't get it marked as valid until we prove both contexts we left before:
+<div class="standard"><a id='magicparlabel-564' />At this step we reached the context's consequent but we won't get it marked as valid until we prove both contexts we left before:
 <br />
 
 </div>
 
-<div class="standard"><a id='magicparlabel-563' /><div class='Frameless'><div class="plain_layout"><a id='magicparlabel-567' /><img src='17_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap018.png' alt='image: 17_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap018.png' />
+<div class="standard"><a id='magicparlabel-565' /><div class='Frameless'><div class="plain_layout"><a id='magicparlabel-569' /><img src='17_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap018.png' alt='image: 17_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap018.png' />
 </div>
 </div>
 <br />
 
 </div>
 
-<div class="standard"><a id='magicparlabel-568' />So now we set the <em>active context</em> to the context &ldquo;<span style='font-family:monospace;'>s002.sub_00&rdquo; </span>which just states that <math xmlns="http://www.w3.org/1998/Math/MathML">
+<div class="standard"><a id='magicparlabel-570' />So now we set the <em>active context</em> to the context &ldquo;<span style='font-family:monospace;'>s002.sub_00&rdquo; </span>which just states that <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mn>0</mn><mo>+</mo><mn>0</mn><mo>=</mo><mn>0</mn>
   </mrow>
@@ -807,7 +807,7 @@ aletheia.project.li/1.2.3.4:8900	MALE	Network</pre></div>
 <div class='float float-listings'><pre class ='listings'>% new s004 spc Natural.sum.def.zero Natural.zero</pre></div>
 
 
-<div class="standard"><a id='magicparlabel-574' />Proving the induction step &ldquo;<span style='font-family:monospace;'>s002.sub_02&rdquo;</span> is a bit more tricky:</div>
+<div class="standard"><a id='magicparlabel-576' />Proving the induction step &ldquo;<span style='font-family:monospace;'>s002.sub_02&rdquo;</span> is a bit more tricky:</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% idas x 0
@@ -819,7 +819,7 @@ aletheia.project.li/1.2.3.4:8900	MALE	Network</pre></div>
 % new s010 spc Set.th.function Natural.succ "Natural.sum Natural.zero x" x s006 </pre></div>
 
 
-<div class="standard"><a id='magicparlabel-586' />We used the &ldquo;<span style='font-family:monospace;'>Natural.sum.def.succ&rdquo; </span>that defines the sum operation to satisfy the property <math xmlns="http://www.w3.org/1998/Math/MathML">
+<div class="standard"><a id='magicparlabel-588' />We used the &ldquo;<span style='font-family:monospace;'>Natural.sum.def.succ&rdquo; </span>that defines the sum operation to satisfy the property <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi> &forall; </mi><mi>n</mi><mo> &isin; </mo>
    <mstyle mathvariant='bold'>
@@ -844,14 +844,14 @@ aletheia.project.li/1.2.3.4:8900	MALE	Network</pre></div>
 
 </div>
 
-<div class="standard"><a id='magicparlabel-1549' /><div class='Frameless'><div class="plain_layout"><a id='magicparlabel-1548' /><img src='18_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap019.png' alt='image: 18_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap019.png' />
+<div class="standard"><a id='magicparlabel-589' /><div class='Frameless'><div class="plain_layout"><a id='magicparlabel-593' /><img src='18_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap019.png' alt='image: 18_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap019.png' />
 </div>
 </div>
 <br />
 
 </div>
-<h3 class="subsection"><a id='magicparlabel-1552' /><span class="subsection_label">4.2</span> Epsilon-induction</h3>
-<div class="standard"><a id='magicparlabel-30618' /><a href="https://www.youtube.com/watch?v=XXU7GxIRLHI&amp;index=1&amp;list=PLYFNMXa8kbndNcC8WUvA5tlvPNshH9Z6P">This video on youtube</a> shows the development of the proof of <a href="https://en.wikipedia.org/wiki/Epsilon-induction">the epsilon-induction principle</a> in set theory. That is, <math xmlns="http://www.w3.org/1998/Math/MathML">
+<h3 class="subsection"><a id='magicparlabel-594' /><span class="subsection_label">4.2</span> Epsilon-induction</h3>
+<div class="standard"><a id='magicparlabel-595' /><a href="https://www.youtube.com/watch?v=XXU7GxIRLHI&amp;index=1&amp;list=PLYFNMXa8kbndNcC8WUvA5tlvPNshH9Z6P">This video on youtube</a> shows the development of the proof of <a href="https://en.wikipedia.org/wiki/Epsilon-induction">the epsilon-induction principle</a> in set theory. That is, <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi> &forall; </mi><mi>P</mi><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mo form='prefix' fence='true' stretchy='true' symmetric='true'>[</mo>
    <mrow><mi> &forall; </mi><mi>x</mi><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo>
@@ -863,8 +863,8 @@ aletheia.project.li/1.2.3.4:8900	MALE	Network</pre></div>
   </mrow>
  </mrow></math>. The sketch of this proof is as follows:</div>
 
-<div class="proof"><a id='magicparlabel-32075' /><div class="proof_item"><span class="proof_label">Proof.</span>
-We assume that for a particular property of sets P the hypothesis <math xmlns="http://www.w3.org/1998/Math/MathML">
+<div class="proof"><a id='magicparlabel-596' /><div class="proof_item"><span class="proof_label">Proof.</span>
+We assume that for a particular property of sets <em>P</em> the hypothesis <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi> &forall; </mi><mi>x</mi><mspace width="6px" /><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo>
    <mrow><mi> &forall; </mi><mi>y</mi><mo> &isin; </mo><mi>x</mi><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>y</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
@@ -886,13 +886,17 @@ We assume that for a particular property of sets P the hypothesis <math xmlns="h
   <mrow><mi> &not; </mi><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>x</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
   </mrow>
  </mrow></math> as another assumption (&ldquo;<span style='font-family:monospace;'>s022&rdquo;</span>) and work towards reaching a contradiction.</div>
-<div class="proof_item">To achieve that, we define recursively a function <em>f</em> from the set of natural numbers to the class of sets as follows:</div>
-<div class="proof_item"><math xmlns="http://www.w3.org/1998/Math/MathML">
+<div class="proof_item">To achieve that, we define recursively a function <em>f</em> from the set of natural numbers to the class of sets as follows:
+<br />
+
+</div>
+<div class="proof_item">
+<div class='Frameless'><ul class="itemize"><a id='magicparlabel-3181' /><li class="itemize_item"><math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi>f</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mn>0</mn><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo><mo>=</mo>{<mi>x</mi>}
   </mrow>
- </mrow></math> (&ldquo;<span style='font-family:monospace;'>f.def.zero&rdquo;</span>).</div>
-<div class="proof_item"><math xmlns="http://www.w3.org/1998/Math/MathML">
+ </mrow></math> (&ldquo;<span style='font-family:monospace;'>f.def.zero&rdquo;</span>).</li>
+<li class="itemize_item"><math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi> &forall; </mi><mi>n</mi><mo> &isin; </mo>
    <mstyle mathvariant='bold'><mi>N</mi>
@@ -902,15 +906,23 @@ We assume that for a particular property of sets P the hypothesis <math xmlns="h
    <mrow><mi>f</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>n</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
    </mrow><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mi> &not; </mi><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>y</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>}
   </mrow>
- </mrow></math> (&ldquo;<span style='font-family:monospace;'>f.def.succ&rdquo;</span>).</div>
-<div class="proof_item">The base case is defined through the axiom of pairing (in the particular case of a pair of identical elements, a singleton). For the general case we need the axiom of union and the axiom schema of separation. </div>
-<div class="proof_item">It is easy to proof that the function f will fulfill that <math xmlns="http://www.w3.org/1998/Math/MathML">
+ </mrow></math> (&ldquo;<span style='font-family:monospace;'>f.def.succ&rdquo;</span>).</li>
+</ul>
+</div>
+<br />
+
+
+<br />
+
+</div>
+<div class="proof_item">The base case is defined through the <em>axiom of pairing</em> (in the particular case of a pair of identical elements, a <em>singleton</em>). For the general case we need the <em>axiom of union</em> and the <em>axiom schema of separation</em>. </div>
+<div class="proof_item">It is easy to proof that the function <em>f</em> will fulfill that <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi> &forall; </mi><mi>n</mi><mo> &isin; </mo>
    <mstyle mathvariant='bold'><mi>N</mi>
    </mstyle><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mi> &forall; </mi><mi>z</mi><mo> &isin; </mo><mi>f</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>n</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mi> &not; </mi><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>z</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
   </mrow>
- </mrow></math> (&ldquo;<span style='font-family:monospace;'>f.th.Not_P&rdquo;</span>).</div>
+ </mrow></math> (&ldquo;<span style='font-family:monospace;'>f.th.Not_P&rdquo;</span>). In the video it is used the <a href="https://en.wikipedia.org/wiki/Mathematical_induction">principle of mathematical induction</a> for natural numbers (&ldquo;<span style='font-family:monospace;'>s027&rdquo;</span>) although in reality it would not be necessary; we would only need the fact that a natural number is either zero or the successor of another natural number (which is proved by induction anyway).</div>
 <div class="proof_item">There is a theorem in the catalog which is a direct consequence of the axiom of regularity that states that <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi> &forall; </mi><mi>x</mi><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mo form='prefix' fence='true' stretchy='true' symmetric='true'>[</mo>
@@ -925,7 +937,7 @@ We assume that for a particular property of sets P the hypothesis <math xmlns="h
    <mstyle mathvariant='bold'><mi>N</mi>
    </mstyle><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
   </mrow>
- </mrow></math> (defined using the axiom of schema replacement). The antecedent of that theorem is proven through the fact that any element <em>z</em> of <math xmlns="http://www.w3.org/1998/Math/MathML">
+ </mrow></math> (defined using the <em>axiom of schema replacement</em>) (&ldquo;<span style='font-family:monospace;'>s045&rdquo;</span>). The antecedent of that theorem (&ldquo;<span style='font-family:monospace;'>s046.sub_00&rdquo;</span>) is proven through the fact that any element <em>z</em> of <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mo> &cup; </mo><mi>f</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo>
    <mstyle mathvariant='bold'><mi>N</mi>
@@ -941,27 +953,27 @@ We assume that for a particular property of sets P the hypothesis <math xmlns="h
    <mstyle mathvariant='bold'><mi>N</mi>
    </mstyle>
   </mrow>
- </mrow></math>, which by &ldquo;<span style='font-family:monospace;'>f.th.Not_P&rdquo;</span> is implied that <math xmlns="http://www.w3.org/1998/Math/MathML">
+ </mrow></math>, which by &ldquo;<span style='font-family:monospace;'>f.th.Not_P&rdquo;</span> implies that <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi> &not; </mi><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>z</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
   </mrow>
- </mrow></math>. That fact in turn implies by &ldquo;<span style='font-family:monospace;'>s001&rdquo;</span> that exists an element <em>w</em> of <em>z</em> for which <math xmlns="http://www.w3.org/1998/Math/MathML">
+ </mrow></math> (&ldquo;<span style='font-family:monospace;'>s068&rdquo;</span>). That fact in turn implies by &ldquo;<span style='font-family:monospace;'>s001&rdquo;</span> that exists an element <em>w</em> of <em>z</em> for which <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi> &not; </mi><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>w</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
   </mrow>
- </mrow></math>. By definition, this means that <math xmlns="http://www.w3.org/1998/Math/MathML">
+ </mrow></math> (&ldquo;<span style='font-family:monospace;'>s076&rdquo;</span>). By definition, this means that <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi>w</mi><mo> &isin; </mo><mi>f</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo>
    <mrow><mi>n</mi><mo>+</mo><mn>1</mn>
    </mrow><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
   </mrow>
- </mrow></math> (&ldquo;<span style='font-family:monospace;'>f.def.succ&rdquo;</span>), and therefore also to <math xmlns="http://www.w3.org/1998/Math/MathML">
+ </mrow></math> (&ldquo;<span style='font-family:monospace;'>s090&rdquo;</span>), and therefore also to <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mo> &cup; </mo><mi>f</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo>
    <mstyle mathvariant='bold'><mi>N</mi>
    </mstyle><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
   </mrow>
- </mrow></math>.</div>
+ </mrow></math> (&ldquo;<span style='font-family:monospace;'>s099&rdquo;</span>).</div>
 <div class="proof_item">So, to this point we have concluded that <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mo> &cup; </mo><mi>f</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo>
@@ -980,7 +992,7 @@ We assume that for a particular property of sets P the hypothesis <math xmlns="h
    <mstyle mathvariant='bold'><mi>N</mi>
    </mstyle><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
   </mrow>
- </mrow></math>.</div>
+ </mrow></math> (&ldquo;<span style='font-family:monospace;'>s103&rdquo;</span>).</div>
 </div>
 </body>
 </html>
