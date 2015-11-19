@@ -62,6 +62,21 @@ margin-bottom: 0.4ex;
 text-align: left;
 
 }
+div.proof {
+font-style: normal;
+font-variant: normal;
+font-size: medium;
+margin-top: 0.7ex;
+margin-bottom: 0.7ex;
+text-align: left;
+
+}
+span.proof_label {
+font-style: italic;
+font-variant: normal;
+font-size: medium;
+
+}
  div.toc {
    margin: 2em 0em;
    border-style: solid;
@@ -136,22 +151,13 @@ div.Frameless { margin: 1em; }
 </div>
 </div>
 
-<div class='lyxtoc-2'><a href='#magicparlabel-427' class='tocentry'>4 Proving a theorem</a>
+<div class='lyxtoc-2'><a href='#magicparlabel-427' class='tocentry'>4 Proving theorems</a>
 
 
-<div class='lyxtoc-3'><a href='#magicparlabel-428' class='tocentry'>4.1 Defining the context statement</a>
+<div class='lyxtoc-3'><a href='#magicparlabel-1207' class='tocentry'>4.1 Adding zero to the left of a natural number</a>
 </div>
 
-<div class='lyxtoc-3'><a href='#magicparlabel-449' class='tocentry'>4.2 Naming the assumptions</a>
-</div>
-
-<div class='lyxtoc-3'><a href='#magicparlabel-469' class='tocentry'>4.3 First proof approach</a>
-</div>
-
-<div class='lyxtoc-3'><a href='#magicparlabel-515' class='tocentry'>4.4 Second proof approach</a>
-</div>
-
-<div class='lyxtoc-3'><a href='#magicparlabel-531' class='tocentry'>4.5 Third and definitive proof approach</a>
+<div class='lyxtoc-3'><a href='#magicparlabel-1552' class='tocentry'>4.2 Epsilon-induction</a>
 </div>
 </div>
 </div>
@@ -572,15 +578,17 @@ aletheia.project.li/1.2.3.4:8900	MALE	Network</pre></div>
 
 <div class='float float-listings'><pre class ='listings'>% import [PATH]tutorial.ale</pre></div>
 
-<h2 class="section"><a id='magicparlabel-427' /><span class="section_label">4</span> Proving a theorem</h2>
-<h3 class="subsection"><a id='magicparlabel-428' /><span class="subsection_label">4.1</span> Defining the context statement</h3>
-<div class="standard"><a id='magicparlabel-429' />The next step in this tutorial is proving some stuff by ourselves. In this section we'll be dealing with the following quite trivial theorem <math xmlns="http://www.w3.org/1998/Math/MathML">
+<h2 class="section"><a id='magicparlabel-427' /><span class="section_label">4</span> Proving theorems</h2>
+<h3 class="subsection"><a id='magicparlabel-1207' /><span class="subsection_label">4.1</span> Adding zero to the left of a natural number</h3>
+<div class="standard"><a id='magicparlabel-1240' />The next step in this tutorial is proving some stuff by ourselves. In this section we'll be dealing with the following quite trivial theorem <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi> &forall; </mi><mi>x</mi><mo> &isin; </mo>
    <mstyle mathvariant='bold'><mi>N</mi>
    </mstyle><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mn>0</mn><mo>+</mo><mi>x</mi><mo>=</mo><mi>x</mi>
   </mrow>
- </mrow></math>. As said, any theorem in our system will be represented as a statement within a context. In this case, that context will be &ldquo;<span style='font-family:monospace;'>ctx.Set.regularity&rdquo;</span> since the axioms accessible from there are needed to prove its validity. So, first of all, we set the <em>active context</em> to it navigating to it and pressing the <em>F3</em> key or executing the following command:</div>
+ </mrow></math>. </div>
+<h4 class="subsubsection"><a id='magicparlabel-428' /><span class="subsubsection_label">4.1.1</span> Defining the context statement</h4>
+<div class="standard"><a id='magicparlabel-429' />As said, any theorem in our system will be represented as a statement within a context. In this case, that context will be &ldquo;<span style='font-family:monospace;'>ctx.Set.regularity&rdquo;</span> since the axioms accessible from there are needed to prove its validity. So, first of all, we set the <em>active context</em> to it navigating to it and pressing the <em>F3</em> key or executing the following command:</div>
 
 
 <div class='float float-listings'><pre class ='listings'>% sel /ctx.quimtestar/ctx.Prop.Not.double.inv/ctx.one/ctx.Set/ctx.Set.extensionality/ctx.Set.specification/ctx.Set.pairing/ctx.Set.union/ctx.Set.infinity/ctx.Set.regularity</pre></div>
@@ -607,7 +615,7 @@ aletheia.project.li/1.2.3.4:8900	MALE	Network</pre></div>
 </div>
 
 <div class="standard"><a id='magicparlabel-448' />Under our new context we automatically get some assumption nodes corresponding to the function parameters of the context term (with types &ldquo;<span style='font-family:monospace;'>Set&rdquo;</span> and &ldquo;<span style='font-family:monospace;'>Natural x&rdquo;</span>), and a consequent node containing the body term of that function (&ldquo;<span style='font-family:monospace;'>Set.Equal (Natural.sum Natural.zero x) x&rdquo;</span>). To get context marked as valid, and so this theorem proved, our target is to infer a valid statement that has exactly that term as a type.</div>
-<h3 class="subsection"><a id='magicparlabel-449' /><span class="subsection_label">4.2</span> Naming the assumptions</h3>
+<h4 class="subsubsection"><a id='magicparlabel-449' /><span class="subsubsection_label">4.1.2</span> Naming the assumptions</h4>
 <div class="standard"><a id='magicparlabel-450' />First of all, we should set the &ldquo;<span style='font-family:monospace;'>[Assumption: 1]&rdquo;</span><em> </em>statement's name so we can refer to it form the command line. We can do it just selecting it in the context tree and pressing F2 or with the command:</div>
 
 
@@ -633,7 +641,7 @@ aletheia.project.li/1.2.3.4:8900	MALE	Network</pre></div>
 <br />
 
 </div>
-<h3 class="subsection"><a id='magicparlabel-469' /><span class="subsection_label">4.3</span> First proof approach</h3>
+<h4 class="subsubsection"><a id='magicparlabel-1194' /><span class="subsubsection_label">4.1.3</span> First proof approach</h4>
 <div class="standard"><a id='magicparlabel-470' />Navigating through the catalog of theorems we can easily find one labeled as &ldquo;<span style='font-family:monospace;'>Natural.sum.th.zero.lft&rdquo;</span> that exactly fits this theorem, so in this first approach we will be just using it in a trivial proof. That statement corresponds to the term<span style='font-family:monospace;'> "&lt;@0:Set -&gt; &lt;@1:Natural @0 -&gt; Set.Equal (Natural.sum Natural.zero @0) @0&gt;&gt;"</span> and we already have in our context a statement &ldquo;<span style='font-family:monospace;'>x&rdquo;</span> of type &ldquo;<span style='font-family:monospace;'>Set&rdquo;</span> and a statement &ldquo;<span style='font-family:monospace;'>s000&rdquo;</span><em> </em>of type &ldquo;<span style='font-family:monospace;'>Natural x&rdquo;</span><em> </em>to reach a consequent of type &ldquo;<span style='font-family:monospace;'>Set.Equal (Natural.sum Natural.zero x) x&rdquo;</span>. We can infer a new statement passing any term whose type matches with the function's parameter type to another statement. That is called a &ldquo;<em>specialization statement&rdquo;</em>. So we will specialize the &ldquo;<span style='font-family:monospace;'>Natural.sum.th.zero.lft&rdquo;</span> statement with this two assumptions. We do it with the following command:</div>
 
 
@@ -696,7 +704,7 @@ aletheia.project.li/1.2.3.4:8900	MALE	Network</pre></div>
 <br />
 
 </div>
-<h3 class="subsection"><a id='magicparlabel-515' /><span class="subsection_label">4.4</span> Second proof approach</h3>
+<h4 class="subsubsection"><a id='magicparlabel-515' /><span class="subsubsection_label">4.1.4</span> Second proof approach</h4>
 <div class="standard"><a id='magicparlabel-516' />We'll now try to prove the same theorem combining other theorems, which is the way usual proofs are. Navigating through the catalog, we can find find the theorem &ldquo;<span style='font-family:monospace;'>Natural.sum.def.zero&rdquo;</span> which states that <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi> &forall; </mi><mi>x</mi><mo> &isin; </mo>
@@ -733,7 +741,7 @@ aletheia.project.li/1.2.3.4:8900	MALE	Network</pre></div>
 </div>
 
 <div class="standard"><a id='magicparlabel-530' />Unfortunately, the proof on &ldquo;<span style='font-family:monospace;'>Natural.sum.th.comm&rdquo;</span> depends on &ldquo;<span style='font-family:monospace;'>Natural.sum.th.zero.lft&rdquo;</span>, so we really haven't done anything much different than before. If we were proving that theorem from scratch, the proof would need to be different than this.</div>
-<h3 class="subsection"><a id='magicparlabel-531' /><span class="subsection_label">4.5</span> Third and definitive proof approach</h3>
+<h4 class="subsubsection"><a id='magicparlabel-1255' /><span class="subsubsection_label">4.1.5</span> Third and definitive proof approach</h4>
 <div class="standard"><a id='magicparlabel-532' />The actual proof of this theorem uses the mathematical induction principle, which we have in our system just as another theorem. The theorem &ldquo;<span style='font-family:monospace;'>Natural.th.induction&rdquo;</span> applies to any proposition on naturals and states that <math xmlns="http://www.w3.org/1998/Math/MathML">
  <mrow>
   <mrow><mi> &forall; </mi><mi>P</mi><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mn>0</mn><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo><mo> &and; </mo><mo form='prefix' fence='true' stretchy='true' symmetric='true'>[</mo>
@@ -836,11 +844,143 @@ aletheia.project.li/1.2.3.4:8900	MALE	Network</pre></div>
 
 </div>
 
-<div class="standard"><a id='magicparlabel-587' /><div class='Frameless'><div class="plain_layout"><a id='magicparlabel-591' /><img src='18_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap019.png' alt='image: 18_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap019.png' />
+<div class="standard"><a id='magicparlabel-1549' /><div class='Frameless'><div class="plain_layout"><a id='magicparlabel-1548' /><img src='18_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap019.png' alt='image: 18_mnt_vlb0_quim_Aletheia_git_Aletheia_Aletheia_Documentation_images_cap019.png' />
 </div>
 </div>
 <br />
 
+</div>
+<h3 class="subsection"><a id='magicparlabel-1552' /><span class="subsection_label">4.2</span> Epsilon-induction</h3>
+<div class="standard"><a id='magicparlabel-30618' /><a href="https://www.youtube.com/watch?v=XXU7GxIRLHI&amp;index=1&amp;list=PLYFNMXa8kbndNcC8WUvA5tlvPNshH9Z6P">This video on youtube</a> shows the development of the proof of <a href="https://en.wikipedia.org/wiki/Epsilon-induction">the epsilon-induction principle</a> in set theory. That is, <math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mi> &forall; </mi><mi>P</mi><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mo form='prefix' fence='true' stretchy='true' symmetric='true'>[</mo>
+   <mrow><mi> &forall; </mi><mi>x</mi><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo>
+    <mrow><mi> &forall; </mi><mi>y</mi><mo> &isin; </mo><mi>x</mi><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>y</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
+    </mrow><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo><mo> &rarr; </mo><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>x</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
+   </mrow><mo form='postfix' fence='true' stretchy='true' symmetric='true'>]</mo><mo> &rarr; </mo><mo form='prefix' fence='true' stretchy='true' symmetric='true'>[</mo>
+   <mrow><mi> &forall; </mi><mi>x</mi><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>x</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
+   </mrow><mo form='postfix' fence='true' stretchy='true' symmetric='true'>]</mo>
+  </mrow>
+ </mrow></math>. The sketch of this proof is as follows:</div>
+
+<div class="proof"><a id='magicparlabel-32075' /><div class="proof_item"><span class="proof_label">Proof.</span>
+We assume that for a particular property of sets P the hypothesis <math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mi> &forall; </mi><mi>x</mi><mspace width="6px" /><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo>
+   <mrow><mi> &forall; </mi><mi>y</mi><mo> &isin; </mo><mi>x</mi><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>y</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
+   </mrow><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo><mo> &rarr; </mo><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>x</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
+  </mrow>
+ </mrow></math> occurs (&ldquo;<span style='font-family:monospace;'>s000&rdquo;</span>). First of all we state and proof the reciprocal of that assumption <math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mi> &forall; </mi><mi>x</mi><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mi> &not; </mi><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>x</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo><mo> &rarr; </mo><mi> &exist; </mi><mi>y</mi><mo> &isin; </mo><mi>x</mi><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mi> &not; </mi><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>y</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
+  </mrow>
+ </mrow></math> (&ldquo;<span style='font-family:monospace;'>s001&rdquo;</span>). Our goal is to show that for any particular set <math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow><mi>x</mi>
+ </mrow></math>, it is the case that <math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>x</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
+  </mrow>
+ </mrow></math>.</div>
+<div class="proof_item">Next we will proceed in a <em>reductio ad absurdum</em> manner. So we will be taking the negation of the consequent <math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mi> &not; </mi><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>x</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
+  </mrow>
+ </mrow></math> as another assumption (&ldquo;<span style='font-family:monospace;'>s022&rdquo;</span>) and work towards reaching a contradiction.</div>
+<div class="proof_item">To achieve that, we define recursively a function <em>f</em> from the set of natural numbers to the class of sets as follows:</div>
+<div class="proof_item"><math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mi>f</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mn>0</mn><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo><mo>=</mo>{<mi>x</mi>}
+  </mrow>
+ </mrow></math> (&ldquo;<span style='font-family:monospace;'>f.def.zero&rdquo;</span>).</div>
+<div class="proof_item"><math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mi> &forall; </mi><mi>n</mi><mo> &isin; </mo>
+   <mstyle mathvariant='bold'><mi>N</mi>
+   </mstyle><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mi>f</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo>
+   <mrow><mi>n</mi><mo>+</mo><mn>1</mn>
+   </mrow><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo><mo>=</mo>{<mi>y</mi><mo> &isin; </mo><mo> &cup; </mo><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo>
+   <mrow><mi>f</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>n</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
+   </mrow><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mi> &not; </mi><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>y</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>}
+  </mrow>
+ </mrow></math> (&ldquo;<span style='font-family:monospace;'>f.def.succ&rdquo;</span>).</div>
+<div class="proof_item">The base case is defined through the axiom of pairing (in the particular case of a pair of identical elements, a singleton). For the general case we need the axiom of union and the axiom schema of separation. </div>
+<div class="proof_item">It is easy to proof that the function f will fulfill that <math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mi> &forall; </mi><mi>n</mi><mo> &isin; </mo>
+   <mstyle mathvariant='bold'><mi>N</mi>
+   </mstyle><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mi> &forall; </mi><mi>z</mi><mo> &isin; </mo><mi>f</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>n</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mi> &not; </mi><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>z</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
+  </mrow>
+ </mrow></math> (&ldquo;<span style='font-family:monospace;'>f.th.Not_P&rdquo;</span>).</div>
+<div class="proof_item">There is a theorem in the catalog which is a direct consequence of the axiom of regularity that states that <math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mi> &forall; </mi><mi>x</mi><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mo form='prefix' fence='true' stretchy='true' symmetric='true'>[</mo>
+   <mrow><mi> &forall; </mi><mi>y</mi><mo> &isin; </mo><mi>x</mi><mspace width="6px" /><mo>:</mo><mspace width="6px" /><mi> &exist; </mi><mi>z</mi><mo> &isin; </mo><mi>y</mi><mo> &cap; </mo><mi>x</mi>
+   </mrow><mo form='postfix' fence='true' stretchy='true' symmetric='true'>]</mo><mo> &rarr; </mo><mi>x</mi><mo>=</mo>
+   <mstyle mathvariant='normal'><mi>Ø</mi>
+   </mstyle>
+  </mrow>
+ </mrow></math> (&ldquo;<span style='font-family:monospace;'>Set.th.In.acyclic&rdquo;</span>). We'll feed that theorem with the set <math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mo> &cup; </mo><mi>f</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo>
+   <mstyle mathvariant='bold'><mi>N</mi>
+   </mstyle><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
+  </mrow>
+ </mrow></math> (defined using the axiom of schema replacement). The antecedent of that theorem is proven through the fact that any element <em>z</em> of <math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mo> &cup; </mo><mi>f</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo>
+   <mstyle mathvariant='bold'><mi>N</mi>
+   </mstyle><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
+  </mrow>
+ </mrow></math> is an element of <math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mi>f</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>n</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
+  </mrow>
+ </mrow></math> for some <math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mi>n</mi><mo> &isin; </mo>
+   <mstyle mathvariant='bold'><mi>N</mi>
+   </mstyle>
+  </mrow>
+ </mrow></math>, which by &ldquo;<span style='font-family:monospace;'>f.th.Not_P&rdquo;</span> is implied that <math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mi> &not; </mi><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>z</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
+  </mrow>
+ </mrow></math>. That fact in turn implies by &ldquo;<span style='font-family:monospace;'>s001&rdquo;</span> that exists an element <em>w</em> of <em>z</em> for which <math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mi> &not; </mi><mi>P</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mi>w</mi><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
+  </mrow>
+ </mrow></math>. By definition, this means that <math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mi>w</mi><mo> &isin; </mo><mi>f</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo>
+   <mrow><mi>n</mi><mo>+</mo><mn>1</mn>
+   </mrow><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
+  </mrow>
+ </mrow></math> (&ldquo;<span style='font-family:monospace;'>f.def.succ&rdquo;</span>), and therefore also to <math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mo> &cup; </mo><mi>f</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo>
+   <mstyle mathvariant='bold'><mi>N</mi>
+   </mstyle><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
+  </mrow>
+ </mrow></math>.</div>
+<div class="proof_item">So, to this point we have concluded that <math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mo> &cup; </mo><mi>f</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo>
+   <mstyle mathvariant='bold'><mi>N</mi>
+   </mstyle><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo><mo>=</mo>
+   <mstyle mathvariant='normal'><mi>Ø</mi>
+   </mstyle>
+  </mrow>
+ </mrow></math>. But this contradicts the definition for the base case of <em>f</em>, since <math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mi>x</mi><mo> &isin; </mo>{<mi>x</mi>}<mo>=</mo><mi>f</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo><mn>0</mn><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
+  </mrow>
+ </mrow></math> which leads to <math xmlns="http://www.w3.org/1998/Math/MathML">
+ <mrow>
+  <mrow><mi>x</mi><mo> &isin; </mo><mo> &cup; </mo><mi>f</mi><mo form='prefix' fence='true' stretchy='true' symmetric='true'>(</mo>
+   <mstyle mathvariant='bold'><mi>N</mi>
+   </mstyle><mo form='postfix' fence='true' stretchy='true' symmetric='true'>)</mo>
+  </mrow>
+ </mrow></math>.</div>
 </div>
 </body>
 </html>
