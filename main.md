@@ -20,3 +20,4 @@ permalink: /
 #### Misc
 * [An import file for the tutorial](https://dl.dropboxusercontent.com/u/49511540/Aletheia/tutorial.ale).
 * [Full import file for the ctx.quimtestar catalog](https://dl.dropboxusercontent.com/u/49511540/Aletheia/ctx.quimtestar.ale).
+* [Video demos playlist](https://www.youtube.com/playlist?list=PLYFNMXa8kbndNcC8WUvA5tlvPNshH9Z6P).
