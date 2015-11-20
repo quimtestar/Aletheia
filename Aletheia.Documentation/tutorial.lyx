@@ -9,6 +9,7 @@
 \use_default_options true
 \begin_modules
 logicalmkup
+theorems-ams
 \end_modules
 \maintain_unincluded_children false
 \language english
@@ -1917,11 +1918,11 @@ status open
 \end_layout
 
 \begin_layout Section
-Proving a theorem
+Proving theorems
 \end_layout
 
 \begin_layout Subsection
-Defining the context statement
+Adding zero to the left of a natural number
 \end_layout
 
 \begin_layout Standard
@@ -1932,7 +1933,15 @@ The next step in this tutorial is proving some stuff by ourselves.
 \end_inset
 
 .
- As said, any theorem in our system will be represented as a statement within
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Defining the context statement
+\end_layout
+
+\begin_layout Standard
+As said, any theorem in our system will be represented as a statement within
  a context.
  In this case, that context will be 
 \family typewriter
@@ -2178,7 +2187,7 @@ Set.Equal (Natural.sum Natural.zero x) x
  is to infer a valid statement that has exactly that term as a type.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Naming the assumptions
 \end_layout
 
@@ -2334,7 +2343,7 @@ status open
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 First proof approach
 \end_layout
 
@@ -2784,7 +2793,7 @@ status open
 
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Second proof approach
 \end_layout
 
@@ -2946,7 +2955,7 @@ Natural.sum.th.zero.lft
  different than this.
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Subsubsection
 Third and definitive proof approach
 \end_layout
 
@@ -3359,6 +3368,510 @@ status open
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsection
+Epsilon-induction
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset href
+LatexCommand href
+name "This video on youtube"
+target "https://www.youtube.com/watch?v=XXU7GxIRLHI&index=1&list=PLYFNMXa8kbndNcC8WUvA5tlvPNshH9Z6P"
+
+\end_inset
+
+ shows the development of the proof of 
+\begin_inset CommandInset href
+LatexCommand href
+name "the epsilon-induction principle"
+target "https://en.wikipedia.org/wiki/Epsilon-induction"
+
+\end_inset
+
+ in set theory.
+ That is, 
+\begin_inset Formula $\forall P\,:\,[\forall x\,:\,(\forall y\in x\,:\, P(y))\rightarrow P(x)]\rightarrow[\forall x\,:\, P(x)]$
+\end_inset
+
+.
+ The sketch of this proof is as follows:
+\end_layout
+
+\begin_layout Proof
+We assume that for a particular property of sets 
+\emph on
+P
+\emph default
+ the hypothesis 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+
+\begin_inset Formula $\forall x\,(\forall y\in x\,:\, P(y))\rightarrow P(x)$
+\end_inset
+
+ occurs (
+\family typewriter
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset Quotes eld
+\end_inset
+
+s000
+\begin_inset Quotes erd
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+).
+ First of all we state and proof the reciprocal of that assumption 
+\begin_inset Formula $\forall x\,:\,\neg P(x)\rightarrow\exists y\in x\,:\,\neg P(y)$
+\end_inset
+
+ (
+\family typewriter
+\series default
+\shape default
+\size default
+\emph default
+\bar default
+\strikeout default
+\uuline default
+\uwave default
+\noun default
+\color inherit
+
+\begin_inset Quotes eld
+\end_inset
+
+s001
+\begin_inset Quotes erd
+\end_inset
+
+
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+).
+ Our goal is to show that for any particular set 
+\begin_inset Formula $x$
+\end_inset
+
+, it is the case that 
+\begin_inset Formula $P(x)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Next we will proceed in a 
+\emph on
+reductio ad absurdum
+\emph default
+ manner.
+ So we will be taking the negation of the consequent 
+\begin_inset Formula $\neg P(x)$
+\end_inset
+
+ as another assumption (
+\family typewriter
+
+\begin_inset Quotes eld
+\end_inset
+
+s022
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+) and work towards reaching a contradiction.
+\end_layout
+
+\begin_layout Proof
+To achieve that, we define recursively a function 
+\emph on
+f
+\emph default
+ from the set of natural numbers to the class of sets as follows:
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Itemize
+\begin_inset Formula $f(0)=\{x\}$
+\end_inset
+
+ (
+\family typewriter
+
+\begin_inset Quotes eld
+\end_inset
+
+f.def.zero
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+).
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\forall n\in\mathbb{N}\,:\, f(n+1)=\{y\in\cup(f(n))\,:\,\neg P(y)\}$
+\end_inset
+
+ (
+\family typewriter
+
+\begin_inset Quotes eld
+\end_inset
+
+f.def.succ
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+).
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Proof
+The base case is defined through the 
+\emph on
+axiom of pairing
+\emph default
+ (in the particular case of a pair of identical elements, a 
+\emph on
+singleton
+\emph default
+).
+ For the general case we need the 
+\emph on
+axiom of union
+\emph default
+ and the 
+\emph on
+axiom schema of separation
+\emph default
+.
+ 
+\end_layout
+
+\begin_layout Proof
+It is easy to proof that the function 
+\emph on
+f
+\emph default
+ will fulfill that 
+\begin_inset Formula $\forall n\in\mathbb{N}\,:\,\forall z\in f(n)\,:\,\neg P(z)$
+\end_inset
+
+ (
+\family typewriter
+
+\begin_inset Quotes eld
+\end_inset
+
+f.th.Not_P
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+).
+ In the video it is used the 
+\begin_inset CommandInset href
+LatexCommand href
+name "principle of mathematical induction"
+target "https://en.wikipedia.org/wiki/Mathematical_induction"
+
+\end_inset
+
+ for natural numbers (
+\family typewriter
+
+\begin_inset Quotes eld
+\end_inset
+
+s027
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+) although in reality it would not be necessary; we would only need the
+ fact that a natural number is either zero or the successor of another natural
+ number (which is proved by induction anyway).
+\end_layout
+
+\begin_layout Proof
+There is a theorem in the catalog which is a direct consequence of the axiom
+ of regularity that states that 
+\begin_inset Formula $\forall x\,:\,[\forall y\in x\,:\,\exists z\in y\cap x]\rightarrow x=\textrm{Ø}$
+\end_inset
+
+ (
+\family typewriter
+
+\begin_inset Quotes eld
+\end_inset
+
+Set.th.In.acyclic
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+).
+ We'll feed that theorem with the set 
+\begin_inset Formula $\cup f(\mathbb{N})$
+\end_inset
+
+ (defined using the 
+\emph on
+axiom of schema replacement
+\emph default
+) (
+\family typewriter
+
+\begin_inset Quotes eld
+\end_inset
+
+s045
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+).
+ The antecedent of that theorem (
+\family typewriter
+
+\begin_inset Quotes eld
+\end_inset
+
+s046.sub_00
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+) is proven through the fact that any element 
+\emph on
+z
+\emph default
+ of 
+\begin_inset Formula $\cup f(\mathbb{N})$
+\end_inset
+
+ is an element of 
+\begin_inset Formula $f(n)$
+\end_inset
+
+ for some 
+\begin_inset Formula $n\in\mathbb{N}$
+\end_inset
+
+, which by 
+\family typewriter
+
+\begin_inset Quotes eld
+\end_inset
+
+f.th.Not_P
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+ implies that 
+\begin_inset Formula $\neg P(z)$
+\end_inset
+
+ (
+\family typewriter
+
+\begin_inset Quotes eld
+\end_inset
+
+s068
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+).
+ That fact in turn implies by 
+\family typewriter
+
+\begin_inset Quotes eld
+\end_inset
+
+s001
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+ that exists an element 
+\emph on
+w
+\emph default
+ of 
+\emph on
+z
+\emph default
+ for which 
+\begin_inset Formula $\neg P(w)$
+\end_inset
+
+ (
+\family typewriter
+
+\begin_inset Quotes eld
+\end_inset
+
+s076
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+).
+ By definition, this means that 
+\begin_inset Formula $w\in f(n+1)$
+\end_inset
+
+ (
+\family typewriter
+
+\begin_inset Quotes eld
+\end_inset
+
+s090
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+), and therefore also to 
+\begin_inset Formula $\cup f(\mathbb{N})$
+\end_inset
+
+ (
+\family typewriter
+
+\begin_inset Quotes eld
+\end_inset
+
+s099
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+).
+\end_layout
+
+\begin_layout Proof
+So, to this point we have concluded that 
+\begin_inset Formula $\cup f(\mathbb{N})=\textrm{Ø}$
+\end_inset
+
+.
+ But this contradicts the definition for the base case of 
+\emph on
+f
+\emph default
+, since 
+\begin_inset Formula $x\in\{x\}=f(0)$
+\end_inset
+
+ which leads to 
+\begin_inset Formula $x\in\cup f(\mathbb{N})$
+\end_inset
+
+ (
+\family typewriter
+
+\begin_inset Quotes eld
+\end_inset
+
+s103
+\begin_inset Quotes erd
+\end_inset
+
+
+\family default
+).
 \end_layout
 
 \end_body
