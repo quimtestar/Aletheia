@@ -41,6 +41,7 @@ aletheia.gui.cli.command.authority.RevokeSignatures
 aletheia.gui.cli.command.authority.CreatePrivatePerson
 aletheia.gui.cli.command.authority.ListPrivatePersons
 aletheia.gui.cli.command.authority.DeletePrivatePerson
+aletheia.gui.cli.command.authority.UnsignedSubscribed
 
 aletheia.gui.cli.command.gui.Clear
 aletheia.gui.cli.command.gui.ExpUnCtx
