@@ -43,18 +43,10 @@ import aletheia.utilities.collections.CombinedMap;
 public abstract class Command
 {
 	private final CliJPanel from;
-	private final PrintStream out;
-	private final PrintStream outB;
-	private final PrintStream err;
-	private final PrintStream errB;
 
 	protected Command(CliJPanel from)
 	{
 		this.from = from;
-		this.out = from.out();
-		this.outB = from.outB();
-		this.err = from.err();
-		this.errB = from.errB();
 	}
 
 	public CliJPanel getFrom()
@@ -64,22 +56,22 @@ public abstract class Command
 
 	protected PrintStream getOut()
 	{
-		return out;
+		return from.getOut();
 	}
 
 	protected PrintStream getOutB()
 	{
-		return outB;
+		return from.getOutB();
 	}
 
 	public PrintStream getErr()
 	{
-		return err;
+		return from.getErr();
 	}
 
 	protected PrintStream getErrB()
 	{
-		return errB;
+		return from.getErrB();
 	}
 
 	protected PersistenceManager getPersistenceManager()

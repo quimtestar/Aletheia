@@ -51,9 +51,9 @@ public class FemaleNetworkJoin extends PeerToPeerCommand
 		FemalePeerToPeerNode femalePeerToPeerNode = (FemalePeerToPeerNode) peerToPeerNode;
 		boolean joined = femalePeerToPeerNode.networkJoin(address);
 		if (joined)
-			getFrom().out().println("Joined to network");
+			getOut().println("Joined to network");
 		else
-			getFrom().out().println("Not joined to network");
+			getOut().println("Not joined to network");
 	}
 
 	public static class Factory extends AbstractVoidCommandFactory<FemaleNetworkJoin>

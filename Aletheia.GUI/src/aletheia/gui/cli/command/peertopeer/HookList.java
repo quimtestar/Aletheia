@@ -41,7 +41,7 @@ public class HookList extends TransactionalCommand
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
 		for (Hook hook : getPersistenceManager().hookList(getTransaction()))
-			getFrom().out().println(hook.getInetSocketAddress() + "\t" + hook.getLastSuccessfulConnectionDate() + "\t" + hook.getFailedConnectionAttempts());
+			getOut().println(hook.getInetSocketAddress() + "\t" + hook.getLastSuccessfulConnectionDate() + "\t" + hook.getFailedConnectionAttempts());
 		return null;
 	}
 

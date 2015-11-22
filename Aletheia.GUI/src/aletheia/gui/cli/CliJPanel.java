@@ -119,6 +119,12 @@ public class CliJPanel extends JPanel
 	private static final String multiLinePrompt = "\u00bb";
 	private static final Pattern multiLinePattern = Pattern.compile("(\n+(" + Pattern.quote(multiLinePrompt) + ")+?\\p{Blank}*)+");
 
+	private static final AttributeSet defaultAttributeSet = new SimpleAttributeSet();
+	private static final AttributeSet defaultBAttributeSet = new SimpleAttributeSet(defaultAttributeSet);
+	private static final AttributeSet errAttributeSet = new SimpleAttributeSet(defaultAttributeSet);
+	private static final AttributeSet errBAttributeSet = new SimpleAttributeSet(errAttributeSet);
+	private static final AttributeSet multilinePromptAttributeSet = new SimpleAttributeSet(defaultAttributeSet);
+
 	private static class CommandHistory
 	{
 		private final static int sizeLimit = 1500;
@@ -1035,12 +1041,11 @@ public class CliJPanel extends JPanel
 	private final DefaultStyledDocument document;
 	private final JTextPane textPane;
 	private final JScrollPane scrollTextPane;
-	private final AttributeSet defaultAttributeSet;
-	private final AttributeSet defaultBAttributeSet;
-	private final AttributeSet errAttributeSet;
-	private final AttributeSet errBAttributeSet;
-	private final AttributeSet multilinePromptAttributeSet;
 	private final ReaderThread readerThread;
+	private final PrintStream out;
+	private final PrintStream outB;
+	private final PrintStream err;
+	private final PrintStream errB;
 	private final ActiveContextJLabel activeContextJLabel;
 	private final MyStatementStateListener statementStateListener;
 	private final MyJSplitPane splitPane;
@@ -1082,18 +1087,17 @@ public class CliJPanel extends JPanel
 		add(splitPane, BorderLayout.CENTER);
 		textPane.addKeyListener(new MyKeyListener());
 		textPane.addCaretListener(new MyCaretListener());
-		defaultAttributeSet = new SimpleAttributeSet();
-		defaultBAttributeSet = new SimpleAttributeSet(defaultAttributeSet);
 		StyleConstants.setBold((MutableAttributeSet) defaultBAttributeSet, true);
-		errAttributeSet = new SimpleAttributeSet(defaultAttributeSet);
 		StyleConstants.setForeground((MutableAttributeSet) errAttributeSet, Color.red);
-		errBAttributeSet = new SimpleAttributeSet(errAttributeSet);
 		StyleConstants.setBold((MutableAttributeSet) errBAttributeSet, true);
 		StyleConstants.setUnderline((MutableAttributeSet) errBAttributeSet, true);
-		multilinePromptAttributeSet = new SimpleAttributeSet(defaultAttributeSet);
 		StyleConstants.setForeground((MutableAttributeSet) multilinePromptAttributeSet, Color.lightGray);
 		readerThread = new ReaderThread();
 		readerThread.start();
+		out = readerThread.getOut(defaultAttributeSet);
+		outB = readerThread.getOut(defaultBAttributeSet);
+		err = readerThread.getOut(errAttributeSet);
+		errB = readerThread.getOut(errBAttributeSet);
 		opened = true;
 		minimalCaretPosition = 0;
 		this.controller.addCliJPanel(this);
@@ -1124,6 +1128,26 @@ public class CliJPanel extends JPanel
 	public CliController getController()
 	{
 		return controller;
+	}
+
+	public PrintStream getOut()
+	{
+		return out;
+	}
+
+	public PrintStream getOutB()
+	{
+		return outB;
+	}
+
+	public PrintStream getErr()
+	{
+		return err;
+	}
+
+	public PrintStream getErrB()
+	{
+		return errB;
 	}
 
 	public Context getActiveContext()
@@ -1176,26 +1200,6 @@ public class CliJPanel extends JPanel
 	public boolean isOpened()
 	{
 		return opened;
-	}
-
-	public PrintStream out()
-	{
-		return readerThread.getOut(defaultAttributeSet);
-	}
-
-	public PrintStream outB()
-	{
-		return readerThread.getOut(defaultBAttributeSet);
-	}
-
-	public PrintStream err()
-	{
-		return readerThread.getOut(errAttributeSet);
-	}
-
-	public PrintStream errB()
-	{
-		return readerThread.getOut(errBAttributeSet);
 	}
 
 	public void close() throws InterruptedException, IOException
