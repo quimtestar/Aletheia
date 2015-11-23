@@ -39,7 +39,7 @@ public class ClearProofFinderCache extends Command
 	@Override
 	public void run() throws Exception
 	{
-		getFrom().getAletheiaJPanel().getProofFinder().clearCache();
+		getProofFinder().clearCache();
 	}
 
 	public static class Factory extends AbstractVoidCommandFactory<ClearProofFinderCache>

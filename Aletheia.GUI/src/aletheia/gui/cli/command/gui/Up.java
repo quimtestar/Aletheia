@@ -40,14 +40,14 @@ public class Up extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		if (getFrom().getActiveContext() == null)
+		Context ctx = getActiveContext();
+		if (ctx == null)
 			throw new NotActiveContextException();
-		Context ctx = getFrom().getActiveContext();
 		if (ctx instanceof RootContext)
 			ctx = null;
 		else
 			ctx = ctx.getContext(getTransaction());
-		getFrom().setActiveContext(ctx);
+		setActiveContext(ctx);
 		return null;
 	}
 

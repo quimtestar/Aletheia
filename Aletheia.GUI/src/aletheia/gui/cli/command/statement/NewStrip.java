@@ -52,9 +52,9 @@ public class NewStrip extends NewStatement
 	@Override
 	protected RunNewStatementReturnData runNewStatement() throws NomenclatorException, InvalidNameException, StatementException, NotActiveContextException
 	{
-		if (getFrom().getActiveContext() == null)
+		Context ctx = getActiveContext();
+		if (ctx == null)
 			throw new NotActiveContextException();
-		Context ctx = getFrom().getActiveContext();
 		Statement statement = this.statement;
 		Term term = statement.getTerm();
 		int i = -1;

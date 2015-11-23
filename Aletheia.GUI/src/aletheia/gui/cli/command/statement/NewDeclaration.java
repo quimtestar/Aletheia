@@ -52,9 +52,10 @@ public class NewDeclaration extends NewContext
 	@Override
 	protected Context openSubContext() throws StatementException, NotActiveContextException
 	{
-		if (getFrom().getActiveContext() == null)
+		Context ctx = getActiveContext();
+		if (ctx == null)
 			throw new NotActiveContextException();
-		return getFrom().getActiveContext().declare(getTransaction(), value);
+		return ctx.declare(getTransaction(), value);
 	}
 
 	public static class Factory extends AbstractNewStatementFactory<NewDeclaration>

@@ -20,23 +20,29 @@
 package aletheia.gui.cli.command;
 
 import java.io.PrintStream;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import aletheia.gui.cli.CliJPanel;
+import aletheia.model.authority.UnpackedSignatureRequest;
 import aletheia.model.identifier.Identifier;
+import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
+import aletheia.model.statement.Statement;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
 import aletheia.parser.TermParserException;
+import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
+import aletheia.prooffinder.ProofFinder;
 import aletheia.utilities.collections.AdaptedMap;
 import aletheia.utilities.collections.CombinedMap;
 
@@ -77,6 +83,131 @@ public abstract class Command
 	protected PersistenceManager getPersistenceManager()
 	{
 		return from.getPersistenceManager();
+	}
+
+	public void waitCursor(boolean wait)
+	{
+		from.waitCursor(wait);
+	}
+
+	public void lock(Transaction owner)
+	{
+		from.lock(Collections.singleton(owner));
+	}
+
+	public void commandDone() throws InterruptedException
+	{
+		from.commandDone(this);
+	}
+
+	protected void setActiveContext(Context activeContext)
+	{
+		from.setActiveContext(activeContext);
+	}
+
+	protected void signatureRequestJTreeSelectStatement(UnpackedSignatureRequest unpackedSignatureRequest, Statement statement)
+	{
+		from.signatureRequestJTreeSelectStatement(unpackedSignatureRequest, statement);
+	}
+
+	protected void signatureRequestJTreeSelectUnpackedSignatureRequest(UnpackedSignatureRequest unpackedSignatureRequest)
+	{
+		from.signatureRequestJTreeSelectUnpackedSignatureRequest(unpackedSignatureRequest);
+	}
+
+	protected class PeerToPeerNotStartedException extends CommandException
+	{
+		private static final long serialVersionUID = -5509028093118788832L;
+
+		private PeerToPeerNotStartedException()
+		{
+			super("P2P node not started");
+		}
+	}
+
+	protected PeerToPeerNode getPeerToPeerNode() throws PeerToPeerNotStartedException
+	{
+		PeerToPeerNode peerToPeerNode = from.getPeerToPeerNode();
+		if (peerToPeerNode == null)
+			throw new PeerToPeerNotStartedException();
+		return peerToPeerNode;
+	}
+
+	protected void pushSelectStatement(Statement statement)
+	{
+		from.pushSelectStatement(statement);
+	}
+
+	protected void pushSelectStatement(Transaction transaction, Statement statement)
+	{
+		from.pushSelectStatement(transaction, statement);
+	}
+
+	protected Context getActiveContext()
+	{
+		return from.getActiveContext();
+	}
+
+	protected char[] passPhrase()
+	{
+		return from.passPhrase();
+	}
+
+	protected void expandAllContexts(Context context)
+	{
+		from.expandAllContexts(context);
+	}
+
+	protected void nodeStructureReset(Context context)
+	{
+		from.nodeStructureReset(context);
+	}
+
+	protected void clear()
+	{
+		from.clear();
+	}
+
+	protected void collapseAll(Context context)
+	{
+		from.collapseAll(context);
+	}
+
+	protected void expandGroup(Context context, Namespace prefix)
+	{
+		from.expandGroup(context, prefix);
+	}
+
+	protected void expandSubscribedContexts(Context context)
+	{
+		from.expandSubscribedContexts(context);
+	}
+
+	protected void expandUnprovedContexts(Context context)
+	{
+		from.expandUnprovedContexts(context);
+	}
+
+	protected void openExtraFrame(String extraTitle)
+	{
+		from.openExtraFrame(extraTitle);
+	}
+
+	protected ProofFinder getProofFinder()
+	{
+		return from.getProofFinder();
+	}
+
+	protected void command(Command command)
+	{
+		try
+		{
+			from.command(command);
+		}
+		catch (InterruptedException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 
 	protected TaggedCommand taggedCommand()

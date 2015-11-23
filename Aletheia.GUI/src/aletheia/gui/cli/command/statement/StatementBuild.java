@@ -47,24 +47,24 @@ public class StatementBuild extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		if (getFrom().getActiveContext() == null)
+		Context activeContext = getActiveContext();
+		if (activeContext == null)
 			throw new NotActiveContextException();
 		if (statement instanceof Specialization)
 		{
 			Specialization spec = (Specialization) statement;
-			String general = spec.getGeneral(getTransaction()).getVariable().toString(getFrom().getActiveContext().variableToIdentifier(getTransaction()));
-			String instance = termToString(getFrom().getActiveContext(), getTransaction(), spec.getInstance());
+			String general = spec.getGeneral(getTransaction()).getVariable().toString(activeContext.variableToIdentifier(getTransaction()));
+			String instance = termToString(activeContext, getTransaction(), spec.getInstance());
 			getOut().println("spc " + general + " " + "\"" + instance + "\"");
 		}
 		else if (statement instanceof Context)
 		{
 			Context ctx = (Context) statement;
-			String term = termToString(getFrom().getActiveContext(), getTransaction(), ctx.getTerm(), ctx.assumptions(getTransaction()));
+			String term = termToString(activeContext, getTransaction(), ctx.getTerm(), ctx.assumptions(getTransaction()));
 			if (ctx instanceof UnfoldingContext)
 			{
 				UnfoldingContext unf = (UnfoldingContext) ctx;
-				String declaration = unf.getDeclaration(getTransaction()).getVariable()
-						.toString(getFrom().getActiveContext().variableToIdentifier(getTransaction()));
+				String declaration = unf.getDeclaration(getTransaction()).getVariable().toString(activeContext.variableToIdentifier(getTransaction()));
 				getOut().println("unf " + "\"" + term + "\"" + " " + declaration);
 			}
 			else
@@ -73,7 +73,7 @@ public class StatementBuild extends TransactionalCommand
 		else if (statement instanceof Declaration)
 		{
 			Declaration dec = (Declaration) statement;
-			String term = termToString(getFrom().getActiveContext(), getTransaction(), dec.getValue());
+			String term = termToString(activeContext, getTransaction(), dec.getValue());
 			getOut().println("dec " + "\"" + term + "\"");
 		}
 		else

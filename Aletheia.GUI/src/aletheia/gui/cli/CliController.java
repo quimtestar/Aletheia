@@ -228,7 +228,7 @@ public class CliController extends Thread
 				}
 				else
 				{
-					activeCommand.getFrom().getAletheiaJPanel().waitCursor(true);
+					activeCommand.waitCursor(true);
 					try
 					{
 						activeCommand.run();
@@ -251,12 +251,12 @@ public class CliController extends Thread
 			{
 				try
 				{
-					activeCommand.getFrom().commandDone(activeCommand);
+					activeCommand.commandDone();
 				}
 				catch (InterruptedException e)
 				{
 				}
-				activeCommand.getFrom().getAletheiaJPanel().waitCursor(false);
+				activeCommand.waitCursor(false);
 			}
 			synchronized (this)
 			{

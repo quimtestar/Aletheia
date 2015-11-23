@@ -56,9 +56,10 @@ public class NewContext extends NewStatement
 
 	protected Context openSubContext() throws StatementException, NotActiveContextException
 	{
-		if (getFrom().getActiveContext() == null)
+		Context ctx = getActiveContext();
+		if (ctx == null)
 			throw new NotActiveContextException();
-		return getFrom().getActiveContext().openSubContext(getTransaction(), term);
+		return ctx.openSubContext(getTransaction(), term);
 	}
 
 	private static final Identifier underscore;

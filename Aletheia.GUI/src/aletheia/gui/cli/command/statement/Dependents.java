@@ -57,7 +57,7 @@ public class Dependents extends TransactionalCommand
 		List<List<? extends Statement>> list = new ArrayList<List<? extends Statement>>();
 		for (Statement st : statement.dependents(getTransaction()))
 		{
-			List<? extends Statement> path = st.statementPath(getTransaction(), getFrom().getActiveContext());
+			List<? extends Statement> path = st.statementPath(getTransaction(), getActiveContext());
 			list.add(path);
 		}
 

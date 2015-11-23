@@ -40,8 +40,8 @@ public class SelectContext extends SelectStatement
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		getFrom().setActiveContext(getStatement());
-		getFrom().getAletheiaJPanel().getContextJTree().pushSelectStatement(getTransaction(), getStatement());
+		setActiveContext(getStatement());
+		pushSelectStatement(getTransaction(), getStatement());
 		return null;
 	}
 

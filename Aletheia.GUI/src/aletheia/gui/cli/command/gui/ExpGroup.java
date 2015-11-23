@@ -44,7 +44,7 @@ public class ExpGroup extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		getFrom().getAletheiaJPanel().getContextJTree().expandGroup(getFrom().getActiveContext(), prefix);
+		expandGroup(getActiveContext(), prefix);
 		return null;
 	}
 

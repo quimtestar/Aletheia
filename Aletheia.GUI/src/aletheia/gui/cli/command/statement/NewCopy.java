@@ -47,9 +47,9 @@ public class NewCopy extends NewStatement
 	@Override
 	protected RunNewStatementReturnData runNewStatement() throws Exception
 	{
-		if (getFrom().getActiveContext() == null)
+		Context ctx = getActiveContext();
+		if (ctx == null)
 			throw new NotActiveContextException();
-		Context ctx = getFrom().getActiveContext();
 		Statement statement = ctx.copy(getTransaction(), this.statement);
 		return new RunNewStatementReturnData(statement);
 	}

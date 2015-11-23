@@ -39,7 +39,7 @@ public class Clear extends Command
 	@Override
 	public void run() throws Exception
 	{
-		getFrom().clear();
+		clear();
 	}
 
 	public static class Factory extends AbstractVoidCommandFactory<Clear>

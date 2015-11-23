@@ -51,9 +51,9 @@ public class Solves extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		if (getFrom().getActiveContext() == null)
+		Context ctx = getActiveContext();
+		if (ctx == null)
 			throw new NotActiveContextException();
-		Context ctx = getFrom().getActiveContext();
 		Term term = this.term;
 		for (Context st : ctx.descendantContextsByConsequent(getTransaction(), term))
 		{

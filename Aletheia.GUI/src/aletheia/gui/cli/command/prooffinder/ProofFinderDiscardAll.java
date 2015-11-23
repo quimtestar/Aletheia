@@ -39,7 +39,7 @@ public class ProofFinderDiscardAll extends Command
 	@Override
 	public void run() throws Exception
 	{
-		getFrom().getAletheiaJPanel().getProofFinder().discardAll();
+		getProofFinder().discardAll();
 	}
 
 	public static class Factory extends AbstractVoidCommandFactory<ProofFinderDiscardAll>

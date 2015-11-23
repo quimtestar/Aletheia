@@ -25,6 +25,7 @@ import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
+import aletheia.model.statement.Context;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "expsubsctx", groupPath = "/gui", factory = ExpSubsCtx.Factory.class)
@@ -38,9 +39,10 @@ public class ExpSubsCtx extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		if (getFrom().getActiveContext() == null)
+		Context activeContext = getActiveContext();
+		if (activeContext == null)
 			throw new NotActiveContextException();
-		getFrom().getAletheiaJPanel().getContextJTree().expandSubscribedContexts(getFrom().getActiveContext());
+		expandSubscribedContexts(activeContext);
 		return null;
 	}
 

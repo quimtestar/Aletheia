@@ -25,6 +25,7 @@ import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
+import aletheia.model.statement.Context;
 import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
 
@@ -55,11 +56,14 @@ public class TermType extends TransactionalCommand
 	}
 
 	@Override
-	protected RunTransactionalReturnData runTransactional() throws NoTypeException
+	protected RunTransactionalReturnData runTransactional() throws NoTypeException, NotActiveContextException
 	{
 		if (term.getType() == null)
 			throw new NoTypeException("Term has no type");
-		getOut().println(termToString(getFrom().getActiveContext(), getTransaction(), term.getType()));
+		Context activeContext = getActiveContext();
+		if (activeContext == null)
+			throw new NotActiveContextException();
+		getOut().println(termToString(activeContext, getTransaction(), term.getType()));
 		return null;
 	}
 

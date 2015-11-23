@@ -77,24 +77,6 @@ public class ObtainRootContextFromUnpackedSignatureRequestCollection extends Tra
 		this.myListenableAborter = new MyListenableAborter();
 	}
 
-	public class PeerToPeerNotStartedException extends CommandException
-	{
-		private static final long serialVersionUID = -5509028093118788832L;
-
-		public PeerToPeerNotStartedException()
-		{
-			super("P2P node not started");
-		}
-	}
-
-	protected PeerToPeerNode getPeerToPeerNode() throws PeerToPeerNotStartedException
-	{
-		PeerToPeerNode peerToPeerNode = getFrom().getAletheiaJPanel().getAletheiaJFrame().getPeerToPeerNode();
-		if (peerToPeerNode == null)
-			throw new PeerToPeerNotStartedException();
-		return peerToPeerNode;
-	}
-
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
@@ -128,7 +110,7 @@ public class ObtainRootContextFromUnpackedSignatureRequestCollection extends Tra
 			if (rootCtx == null)
 				getErr().println("Not found.");
 			else
-				getFrom().getAletheiaJPanel().getContextJTree().pushSelectStatement(rootCtx);
+				pushSelectStatement(rootCtx);
 		}
 		finally
 		{

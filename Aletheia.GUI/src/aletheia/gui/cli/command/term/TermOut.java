@@ -25,6 +25,7 @@ import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
+import aletheia.model.statement.Context;
 import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
 
@@ -45,9 +46,12 @@ public class TermOut extends TransactionalCommand
 	}
 
 	@Override
-	protected RunTransactionalReturnData runTransactional()
+	protected RunTransactionalReturnData runTransactional() throws NotActiveContextException
 	{
-		getOut().println(termToString(getFrom().getActiveContext(), getTransaction(), term));
+		Context activeContext = getActiveContext();
+		if (activeContext == null)
+			throw new NotActiveContextException();
+		getOut().println(termToString(activeContext, getTransaction(), term));
 		return null;
 	}
 

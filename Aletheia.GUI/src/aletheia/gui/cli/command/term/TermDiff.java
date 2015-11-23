@@ -25,6 +25,7 @@ import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
+import aletheia.model.statement.Context;
 import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
 
@@ -54,7 +55,8 @@ public class TermDiff extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws NotActiveContextException
 	{
-		if (getFrom().getActiveContext() == null)
+		Context activeContext = getActiveContext();
+		if (activeContext == null)
 			throw new NotActiveContextException();
 		Term t0 = term0;
 		Term t1 = term1;
@@ -63,7 +65,7 @@ public class TermDiff extends TransactionalCommand
 			getOut().println("Terms are equal.");
 		else
 		{
-			String sleft = di.toStringLeft(getFrom().getActiveContext().variableToIdentifier(getTransaction()));
+			String sleft = di.toStringLeft(activeContext.variableToIdentifier(getTransaction()));
 			getErr().print("\u2190 ");
 			while (!sleft.isEmpty())
 			{
@@ -95,7 +97,7 @@ public class TermDiff extends TransactionalCommand
 			}
 			getErr().println();
 
-			String sright = di.toStringRight(getFrom().getActiveContext().variableToIdentifier(getTransaction()));
+			String sright = di.toStringRight(activeContext.variableToIdentifier(getTransaction()));
 			getErr().print("\u2192 ");
 			while (!sright.isEmpty())
 			{

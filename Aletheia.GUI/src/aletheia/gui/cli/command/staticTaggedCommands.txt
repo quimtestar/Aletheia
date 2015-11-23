@@ -67,7 +67,7 @@ aletheia.gui.cli.command.peertopeer.ClearHookList
 
 aletheia.gui.cli.command.persistence.Sync
 
-aletheia.gui.cli.command.prooffinder.Auto
+aletheia.gui.cli.command.prooffinder.ProofFind
 aletheia.gui.cli.command.prooffinder.ClearProofFinderCache
 aletheia.gui.cli.command.prooffinder.ProofFinderDiscardAll
 aletheia.gui.cli.command.prooffinder.ProofFinderMaxTotalSize

@@ -35,7 +35,7 @@ public class ProofFinderSetMaxTotalSize extends ProofFinderMaxTotalSize
 	@Override
 	public void run() throws Exception
 	{
-		getFrom().getAletheiaJPanel().getProofFinder().setMaxTotalSize(maxTotalSize);
+		getProofFinder().setMaxTotalSize(maxTotalSize);
 	}
 
 }

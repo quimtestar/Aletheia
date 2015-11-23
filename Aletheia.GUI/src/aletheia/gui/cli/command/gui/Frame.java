@@ -46,7 +46,7 @@ public class Frame extends Command
 	@Override
 	public void run() throws Exception
 	{
-		getFrom().getAletheiaJPanel().getAletheiaJFrame().openExtraFrame(extraTitle);
+		openExtraFrame(extraTitle);
 	}
 
 	public static class Factory extends AbstractVoidCommandFactory<Frame>

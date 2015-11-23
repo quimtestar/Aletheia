@@ -61,7 +61,7 @@ public class AddStatementToSignatureRequest extends TransactionalCommand
 					@Override
 					public void run()
 					{
-						getFrom().getAletheiaJPanel().getSignatureRequestJTree().selectStatement(unpackedSignatureRequest, statement);
+						signatureRequestJTreeSelectStatement(unpackedSignatureRequest, statement);
 					}
 				});
 			}

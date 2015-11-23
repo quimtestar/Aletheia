@@ -33,15 +33,15 @@ import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.statement.Context;
 import aletheia.persistence.Transaction;
 
-@TaggedCommand(tag = "pf", groupPath = "/prooffinder", factory = Auto.Factory.class)
-public class Auto extends TransactionalCommand
+@TaggedCommand(tag = "pf", groupPath = "/prooffinder", factory = ProofFind.Factory.class)
+public class ProofFind extends TransactionalCommand
 {
 	@SuppressWarnings("unused")
 	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final Context context;
 
-	public Auto(CliJPanel from, Transaction transaction, Context context)
+	public ProofFind(CliJPanel from, Transaction transaction, Context context)
 	{
 		super(from, transaction);
 		this.context = context;
@@ -50,15 +50,15 @@ public class Auto extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		getFrom().getAletheiaJPanel().getProofFinder().addToProvingPool(context);
+		getProofFinder().addToProvingPool(context);
 		return null;
 	}
 
-	public static class Factory extends AbstractVoidCommandFactory<Auto>
+	public static class Factory extends AbstractVoidCommandFactory<ProofFind>
 	{
 
 		@Override
-		public Auto parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public ProofFind parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			try
@@ -81,7 +81,7 @@ public class Auto extends TransactionalCommand
 				}
 				else
 					context = cliJPanel.getActiveContext();
-				return new Auto(cliJPanel, transaction, context);
+				return new ProofFind(cliJPanel, transaction, context);
 			}
 			catch (InvalidNameException | NotActiveContextException e)
 			{

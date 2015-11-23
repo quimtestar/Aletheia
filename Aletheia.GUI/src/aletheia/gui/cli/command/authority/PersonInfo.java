@@ -43,7 +43,7 @@ public class PersonInfo extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional()
 	{
-		CloseableSet<Person> persons = getFrom().getPersistenceManager().personsByNick(getTransaction()).get(nick);
+		CloseableSet<Person> persons = getPersistenceManager().personsByNick(getTransaction()).get(nick);
 		if (persons == null || persons.isEmpty())
 		{
 			getErr().println("No such nick.");

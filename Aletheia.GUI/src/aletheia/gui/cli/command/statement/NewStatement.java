@@ -74,7 +74,7 @@ public abstract class NewStatement extends TransactionalCommand
 
 		nsData.statement.identify(getTransaction(), identifier);
 		Statement statement = nsData.statement.refresh(getTransaction());
-		getFrom().getAletheiaJPanel().getContextJTree().pushSelectStatement(getTransaction(), statement);
+		pushSelectStatement(getTransaction(), statement);
 
 		Context newActiveContext;
 		if (statement instanceof Context && !statement.isProved())

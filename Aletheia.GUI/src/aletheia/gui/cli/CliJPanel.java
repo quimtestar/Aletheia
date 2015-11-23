@@ -44,6 +44,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -95,6 +96,7 @@ import aletheia.gui.cli.command.gui.Prompt;
 import aletheia.gui.cli.command.gui.SimpleMessage;
 import aletheia.gui.cli.command.gui.TraceException;
 import aletheia.gui.common.NamespaceDataFlavor;
+import aletheia.gui.common.PassphraseDialog;
 import aletheia.gui.common.PersistentJTreeLayerUI;
 import aletheia.gui.common.StatementDataFlavor;
 import aletheia.gui.common.TermDataFlavor;
@@ -102,14 +104,17 @@ import aletheia.gui.common.UUIDDataFlavor;
 import aletheia.gui.font.FontManager;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.StatementAuthority;
+import aletheia.model.authority.UnpackedSignatureRequest;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
+import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
+import aletheia.prooffinder.ProofFinder;
 import aletheia.utilities.gui.MyJSplitPane;
 
 public class CliJPanel extends JPanel
@@ -2017,7 +2022,7 @@ public class CliJPanel extends JPanel
 		catalogJTreeLayerUI.lock(owners);
 	}
 
-	protected void commandDone(Command command) throws InterruptedException
+	public void commandDone(Command command) throws InterruptedException
 	{
 		if (promptWhenDone == command)
 		{
@@ -2074,6 +2079,94 @@ public class CliJPanel extends JPanel
 	public Statement getSelectedStatement()
 	{
 		return getAletheiaJPanel().getContextJTree().getSelectedStatement();
+	}
+
+	public void waitCursor(boolean wait)
+	{
+		aletheiaJPanel.waitCursor(wait);
+	}
+
+	public void lock(Transaction owner)
+	{
+		aletheiaJPanel.lock(Collections.singleton(owner));
+	}
+
+	public void signatureRequestJTreeSelectStatement(UnpackedSignatureRequest unpackedSignatureRequest, Statement statement)
+	{
+		aletheiaJPanel.getSignatureRequestJTree().selectStatement(unpackedSignatureRequest, statement);
+	}
+
+	public void signatureRequestJTreeSelectUnpackedSignatureRequest(UnpackedSignatureRequest unpackedSignatureRequest)
+	{
+		aletheiaJPanel.getSignatureRequestJTree().selectUnpackedSignatureRequest(unpackedSignatureRequest);
+	}
+
+	public PeerToPeerNode getPeerToPeerNode()
+	{
+		return aletheiaJPanel.getAletheiaJFrame().getPeerToPeerNode();
+	}
+
+	public void pushSelectStatement(Statement statement)
+	{
+		aletheiaJPanel.getContextJTree().pushSelectStatement(statement);
+	}
+
+	public void pushSelectStatement(Transaction transaction, Statement statement)
+	{
+		aletheiaJPanel.getContextJTree().pushSelectStatement(transaction, statement);
+	}
+
+	public ProofFinder getProofFinder()
+	{
+		return aletheiaJPanel.getProofFinder();
+	}
+
+	public char[] passPhrase()
+	{
+		PassphraseDialog dialog = new PassphraseDialog(aletheiaJPanel.getAletheiaJFrame(), true);
+		return dialog.getPassphrase();
+	}
+
+	public void expandAllContexts(Context context)
+	{
+		aletheiaJPanel.getContextJTree().expandAllContexts(context);
+	}
+
+	public void nodeStructureReset(Context context)
+	{
+		aletheiaJPanel.getContextJTree().nodeStructureReset(context);
+	}
+
+	public void collapseAll(Context context)
+	{
+		aletheiaJPanel.getContextJTree().collapseAll(context);
+	}
+
+	public void expandGroup(Context context, Namespace prefix)
+	{
+		aletheiaJPanel.getContextJTree().expandGroup(context, prefix);
+	}
+
+	public void expandSubscribedContexts(Context context)
+	{
+		aletheiaJPanel.getContextJTree().expandSubscribedContexts(context);
+	}
+
+	public void expandUnprovedContexts(Context context)
+	{
+		aletheiaJPanel.getContextJTree().expandUnprovedContexts(context);
+	}
+
+	public void openExtraFrame(String extraTitle)
+	{
+		try
+		{
+			aletheiaJPanel.getAletheiaJFrame().openExtraFrame(extraTitle);
+		}
+		catch (InterruptedException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 
 }

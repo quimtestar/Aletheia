@@ -38,7 +38,7 @@ public class Sync extends Command
 	@Override
 	public void run()
 	{
-		getFrom().getAletheiaJPanel().getPersistenceManager().sync();
+		getPersistenceManager().sync();
 	}
 
 	public static class Factory extends AbstractVoidCommandFactory<Sync>

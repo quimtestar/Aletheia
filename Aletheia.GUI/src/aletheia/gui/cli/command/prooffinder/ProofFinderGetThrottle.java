@@ -32,7 +32,7 @@ public class ProofFinderGetThrottle extends ProofFinderThrottle
 	@Override
 	public void run() throws Exception
 	{
-		getOut().println(getFrom().getAletheiaJPanel().getProofFinder().getThrottle());
+		getOut().println(getProofFinder().getThrottle());
 	}
 
 }

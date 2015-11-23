@@ -44,9 +44,9 @@ public class OpenedContexts extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws NotActiveContextException
 	{
-		if (getFrom().getActiveContext() == null)
+		Context ctx = getActiveContext();
+		if (ctx == null)
 			throw new NotActiveContextException();
-		Context ctx = getFrom().getActiveContext();
 		Stack<Context> stack = new Stack<Context>();
 		stack.push(ctx);
 		while (!stack.isEmpty())

@@ -46,23 +46,26 @@ public class StatementOut extends TransactionalCommand
 		this.statement = statement;
 	}
 
-	private Identifier statementToIdentifier(Statement st)
+	private Identifier statementToIdentifier(Context activeContext, Statement st)
 	{
-		return getFrom().getActiveContext().variableToIdentifier(getTransaction()).get(st.getVariable());
+		return activeContext.variableToIdentifier(getTransaction()).get(st.getVariable());
 	}
 
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
+		Context activeContext = getActiveContext();
+		if (activeContext == null)
+			throw new NotActiveContextException();
 		if (statement instanceof Context)
 		{
 			Context context = (Context) statement;
 			Term term = context.getTerm();
-			String sterm = termToString(getFrom().getActiveContext(), getTransaction(), term, context.assumptions(getTransaction()));
+			String sterm = termToString(activeContext, getTransaction(), term, context.assumptions(getTransaction()));
 			if (context instanceof UnfoldingContext)
 			{
 				UnfoldingContext unfoldingContext = (UnfoldingContext) context;
-				Identifier iddec = statementToIdentifier(unfoldingContext.getDeclaration(getTransaction()));
+				Identifier iddec = statementToIdentifier(activeContext, unfoldingContext.getDeclaration(getTransaction()));
 				if (iddec == null)
 					throw new Exception("Declaration is not identified");
 				getOut().println("unf \"" + sterm + "\" " + iddec.toString());
@@ -75,7 +78,7 @@ public class StatementOut extends TransactionalCommand
 			{
 				Declaration dec = (Declaration) statement;
 				Term value = dec.getValue();
-				String svalue = termToString(getFrom().getActiveContext(), getTransaction(), value, context.assumptions(getTransaction()));
+				String svalue = termToString(activeContext, getTransaction(), value, context.assumptions(getTransaction()));
 				getOut().println("dec \"" + svalue + "\"");
 			}
 			else
@@ -88,11 +91,11 @@ public class StatementOut extends TransactionalCommand
 			Specialization spec = (Specialization) statement;
 			Statement general = spec.getGeneral(getTransaction());
 			Term instance = spec.getInstance();
-			Identifier idgeneral = statementToIdentifier(general);
+			Identifier idgeneral = statementToIdentifier(activeContext, general);
 			if (idgeneral == null)
 				throw new Exception("General is not identified");
 			String sgeneral = idgeneral.toString();
-			String sinstance = termToString(getFrom().getActiveContext(), getTransaction(), instance);
+			String sinstance = termToString(activeContext, getTransaction(), instance);
 			getOut().println("spc " + sgeneral + " \"" + sinstance + "\"");
 		}
 		else

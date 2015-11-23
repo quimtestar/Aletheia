@@ -50,7 +50,7 @@ public class SelectStatement extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		getFrom().getAletheiaJPanel().getContextJTree().pushSelectStatement(getTransaction(), statement);
+		pushSelectStatement(getTransaction(), statement);
 		return null;
 	}
 

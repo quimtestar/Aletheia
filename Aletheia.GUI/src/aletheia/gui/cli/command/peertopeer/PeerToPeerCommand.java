@@ -21,7 +21,6 @@ package aletheia.gui.cli.command.peertopeer;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.Command;
-import aletheia.peertopeer.PeerToPeerNode;
 
 public abstract class PeerToPeerCommand extends Command
 {
@@ -29,49 +28,6 @@ public abstract class PeerToPeerCommand extends Command
 	protected PeerToPeerCommand(CliJPanel from)
 	{
 		super(from);
-	}
-
-	public abstract class PeerToPeerCommandException extends CommandException
-	{
-		private static final long serialVersionUID = -3677262339848337525L;
-
-		public PeerToPeerCommandException()
-		{
-			super();
-		}
-
-		public PeerToPeerCommandException(String message, Throwable cause)
-		{
-			super(message, cause);
-		}
-
-		public PeerToPeerCommandException(String message)
-		{
-			super(message);
-		}
-
-		public PeerToPeerCommandException(Throwable cause)
-		{
-			super(cause);
-		}
-	}
-
-	public class PeerToPeerNotStartedException extends PeerToPeerCommandException
-	{
-		private static final long serialVersionUID = -5509028093118788832L;
-
-		public PeerToPeerNotStartedException()
-		{
-			super("P2P node not started");
-		}
-	}
-
-	protected PeerToPeerNode getPeerToPeerNode() throws PeerToPeerNotStartedException
-	{
-		PeerToPeerNode peerToPeerNode = getFrom().getAletheiaJPanel().getAletheiaJFrame().getPeerToPeerNode();
-		if (peerToPeerNode == null)
-			throw new PeerToPeerNotStartedException();
-		return peerToPeerNode;
 	}
 
 }

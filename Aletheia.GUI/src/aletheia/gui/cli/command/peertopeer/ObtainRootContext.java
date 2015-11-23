@@ -74,7 +74,7 @@ public class ObtainRootContext extends PeerToPeerCommand
 			if (rootCtx == null)
 				getErr().println("Not found.");
 			else
-				getFrom().getAletheiaJPanel().getContextJTree().pushSelectStatement(rootCtx);
+				pushSelectStatement(rootCtx);
 		}
 		catch (AbortException e)
 		{

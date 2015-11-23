@@ -46,9 +46,9 @@ public class MultiCopy extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		if (getFrom().getActiveContext() == null)
+		Context ctx = getActiveContext();
+		if (ctx == null)
 			throw new NotActiveContextException();
-		Context ctx = getFrom().getActiveContext();
 		List<Statement> list = ctx.copy(getTransaction(), new BufferedList<>(Statement.dependencySortedStatements(getTransaction(), statements)));
 		if (list.isEmpty())
 			return null;

@@ -58,11 +58,11 @@ public abstract class TransactionalCommand extends Command
 		try
 		{
 			cancelledCommandException = null;
-			getFrom().getAletheiaJPanel().lock(getTransaction());
+			lock(getTransaction());
 			RunTransactionalReturnData data = runTransactional();
 			transaction.commit();
 			if (data != null && (data.newActiveContext != null))
-				getFrom().setActiveContext(data.newActiveContext);
+				setActiveContext(data.newActiveContext);
 		}
 		catch (Exception e)
 		{

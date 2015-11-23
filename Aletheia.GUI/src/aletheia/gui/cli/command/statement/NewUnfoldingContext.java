@@ -54,9 +54,10 @@ public class NewUnfoldingContext extends NewContext
 	@Override
 	protected Context openSubContext() throws StatementException, NotActiveContextException
 	{
-		if (getFrom().getActiveContext() == null)
+		Context ctx = getActiveContext();
+		if (ctx == null)
 			throw new NotActiveContextException();
-		return getFrom().getActiveContext().openUnfoldingSubContext(getTransaction(), getTerm(), declaration);
+		return ctx.openUnfoldingSubContext(getTransaction(), getTerm(), declaration);
 	}
 
 	public static class Factory extends AbstractNewStatementFactory<NewUnfoldingContext>
