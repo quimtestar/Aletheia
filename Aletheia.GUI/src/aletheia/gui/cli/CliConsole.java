@@ -246,6 +246,14 @@ public class CliConsole implements CommandSource
 
 	public static void main(String[] args) throws CommandLineArgumentsException, ArgumentsException
 	{
+		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler()
+		{
+			@Override
+			public void uncaughtException(Thread t, Throwable e)
+			{
+				System.err.println(e.getMessage());
+			}
+		});
 		CommandLineArguments commandLineArguments = new CommandLineArguments(args);
 		Map<String, Switch> globalSwitches = new HashMap<String, Switch>(commandLineArguments.getGlobalSwitches());
 		if (globalSwitches.remove("v") != null)
