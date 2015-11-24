@@ -28,9 +28,9 @@
         </jar>
     </target>
 	<target depends="build" name="console">
-        <jar destfile="aletheiaconsole.jar" filesetmanifest="mergewithoutmain">
+        <jar destfile="aletheiacliconsole.jar" filesetmanifest="mergewithoutmain">
             <manifest>
-                <attribute name="Main-Class" value="aletheia.gui.cli.CliConsole"/>
+                <attribute name="Main-Class" value="aletheia.gui.app.AletheiaCliConsole"/>
                 <attribute name="Class-Path" value="."/>
             </manifest>
             <fileset dir="bin"/>

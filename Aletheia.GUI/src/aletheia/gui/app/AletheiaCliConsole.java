@@ -1,4 +1,4 @@
-package aletheia.gui.cli;
+package aletheia.gui.app;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -28,13 +28,13 @@ import aletheia.utilities.CommandLineArguments.Option;
 import aletheia.utilities.CommandLineArguments.Switch;
 import aletheia.version.VersionManager;
 
-public class CliConsole implements CommandSource
+public class AletheiaCliConsole implements CommandSource
 {
 	private final PersistenceManager persistenceManager;
 
 	private Context activeContext;
 
-	public CliConsole(PersistenceManager persistenceManager)
+	public AletheiaCliConsole(PersistenceManager persistenceManager)
 	{
 		this.persistenceManager = persistenceManager;
 		this.activeContext = null;
@@ -275,7 +275,7 @@ public class CliConsole implements CommandSource
 			BerkeleyDBPersistenceManager persistenceManager = new BerkeleyDBPersistenceManager(configuration);
 			try
 			{
-				CliConsole cliConsole = new CliConsole(persistenceManager);
+				AletheiaCliConsole cliConsole = new AletheiaCliConsole(persistenceManager);
 				cliConsole.run();
 			}
 			finally
