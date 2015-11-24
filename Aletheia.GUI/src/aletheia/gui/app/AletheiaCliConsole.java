@@ -267,10 +267,15 @@ public class AletheiaCliConsole implements CommandSource
 			if (sDbFile == null)
 				throw new ArgumentsException("Missing option value dbFile");
 			File dbFile = new File(sDbFile);
+			boolean readOnly = true;
+			Switch swReadWrite = globalSwitches.remove("rw");
+			if (swReadWrite != null)
+				readOnly = false;
 			if (!globalSwitches.isEmpty())
 				throw new ArgumentsException("Unrecognized switches/options: " + globalSwitches.keySet());
 			BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
 			configuration.setDbFile(dbFile);
+			configuration.setReadOnly(readOnly);
 
 			BerkeleyDBPersistenceManager persistenceManager = new BerkeleyDBPersistenceManager(configuration);
 			try
