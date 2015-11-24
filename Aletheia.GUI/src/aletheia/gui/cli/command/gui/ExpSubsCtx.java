@@ -23,6 +23,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Context;
@@ -31,7 +32,7 @@ import aletheia.persistence.Transaction;
 @TaggedCommand(tag = "expsubsctx", groupPath = "/gui", factory = ExpSubsCtx.Factory.class)
 public class ExpSubsCtx extends TransactionalCommand
 {
-	public ExpSubsCtx(CliJPanel from, Transaction transaction)
+	public ExpSubsCtx(CommandSource from, Transaction transaction)
 	{
 		super(from, transaction);
 	}

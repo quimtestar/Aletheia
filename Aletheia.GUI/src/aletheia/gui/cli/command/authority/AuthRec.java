@@ -20,6 +20,7 @@
 package aletheia.gui.cli.command.authority;
 
 import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.authority.PrivatePerson;
 import aletheia.model.authority.StatementAuthority.AuthorityWithNoParentException;
@@ -31,7 +32,7 @@ import aletheia.persistence.Transaction;
 public class AuthRec extends Auth
 {
 
-	public AuthRec(CliJPanel from, Transaction transaction, PrivatePerson author, Context context)
+	public AuthRec(CommandSource from, Transaction transaction, PrivatePerson author, Context context)
 	{
 		super(from, transaction, author, context);
 	}

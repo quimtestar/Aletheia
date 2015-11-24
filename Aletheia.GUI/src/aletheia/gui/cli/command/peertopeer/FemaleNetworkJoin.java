@@ -26,6 +26,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.peertopeer.FemalePeerToPeerNode;
 import aletheia.peertopeer.PeerToPeerNode;
@@ -36,7 +37,7 @@ public class FemaleNetworkJoin extends PeerToPeerCommand
 {
 	private final InetSocketAddress address;
 
-	public FemaleNetworkJoin(CliJPanel from, InetSocketAddress address)
+	public FemaleNetworkJoin(CommandSource from, InetSocketAddress address)
 	{
 		super(from);
 		this.address = address;

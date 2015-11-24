@@ -24,6 +24,7 @@ import java.util.List;
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.Command;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.persistence.Transaction;
 import aletheia.version.VersionManager;
@@ -32,7 +33,7 @@ import aletheia.version.VersionManager;
 public class Version extends Command
 {
 
-	public Version(CliJPanel from)
+	public Version(CommandSource from)
 	{
 		super(from);
 	}

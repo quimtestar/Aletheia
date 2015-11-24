@@ -24,6 +24,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.StatementAuthoritySignature;
@@ -34,7 +35,7 @@ public class DeleteSignatures extends TransactionalCommand
 {
 	private final Collection<StatementAuthoritySignature> signatures;
 
-	public DeleteSignatures(CliJPanel from, Transaction transaction, Collection<StatementAuthoritySignature> signatures)
+	public DeleteSignatures(CommandSource from, Transaction transaction, Collection<StatementAuthoritySignature> signatures)
 	{
 		super(from, transaction);
 		this.signatures = signatures;

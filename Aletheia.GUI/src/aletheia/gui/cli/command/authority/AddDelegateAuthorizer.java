@@ -23,6 +23,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.Person;
@@ -40,7 +41,7 @@ public class AddDelegateAuthorizer extends TransactionalCommand
 	private final StatementAuthority statementAuthority;
 	private final Namespace prefix;
 
-	public AddDelegateAuthorizer(CliJPanel from, Transaction transaction, Person delegate, StatementAuthority statementAuthority, Namespace prefix)
+	public AddDelegateAuthorizer(CommandSource from, Transaction transaction, Person delegate, StatementAuthority statementAuthority, Namespace prefix)
 	{
 		super(from, transaction);
 		this.delegate = delegate;

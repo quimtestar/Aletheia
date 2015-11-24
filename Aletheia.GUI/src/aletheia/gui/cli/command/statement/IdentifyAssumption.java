@@ -23,6 +23,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
@@ -39,7 +40,7 @@ public class IdentifyAssumption extends TransactionalCommand
 	private final Identifier identifier;
 	private final Statement statement;
 
-	protected IdentifyAssumption(CliJPanel from, Transaction transaction, Identifier identifier, Statement statement)
+	protected IdentifyAssumption(CommandSource from, Transaction transaction, Identifier identifier, Statement statement)
 	{
 		super(from, transaction);
 		this.identifier = identifier;

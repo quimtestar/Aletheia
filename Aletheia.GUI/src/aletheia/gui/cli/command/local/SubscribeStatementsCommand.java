@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.local;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.model.local.ContextLocal;
 import aletheia.model.statement.Context;
 import aletheia.persistence.Transaction;
@@ -27,7 +27,7 @@ import aletheia.persistence.Transaction;
 public class SubscribeStatementsCommand extends SubscribeCommand
 {
 
-	public SubscribeStatementsCommand(CliJPanel from, Transaction transaction, Context context)
+	public SubscribeStatementsCommand(CommandSource from, Transaction transaction, Context context)
 	{
 		super(from, transaction, context);
 	}

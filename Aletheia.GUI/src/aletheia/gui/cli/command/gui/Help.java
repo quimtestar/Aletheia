@@ -28,6 +28,7 @@ import aletheia.gui.cli.command.AbstractCommandFactory;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.Command;
 import aletheia.gui.cli.command.CommandGroup;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.SubCommandGroup;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.persistence.Transaction;
@@ -41,7 +42,7 @@ public class Help extends Command
 	private final AbstractCommandFactory<?, ?> factory;
 	private final CommandGroup commandGroup;
 
-	protected Help(CliJPanel from, String tag, AbstractCommandFactory<?, ?> factory, CommandGroup commandGroup)
+	protected Help(CommandSource from, String tag, AbstractCommandFactory<?, ?> factory, CommandGroup commandGroup)
 	{
 		super(from);
 		this.tag = tag;

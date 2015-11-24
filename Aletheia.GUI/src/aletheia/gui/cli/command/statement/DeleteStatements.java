@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.statement;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
@@ -31,7 +31,7 @@ public class DeleteStatements extends TransactionalCommand
 	private final Context context;
 	private final CloseableCollection<Statement> statements;
 
-	public DeleteStatements(CliJPanel from, Transaction transaction, Context context, CloseableCollection<Statement> statements)
+	public DeleteStatements(CommandSource from, Transaction transaction, Context context, CloseableCollection<Statement> statements)
 	{
 		super(from, transaction);
 		this.context = context;

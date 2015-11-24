@@ -25,6 +25,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
@@ -39,7 +40,7 @@ public class ExportPdf extends TransactionalCommand
 	private final Context context;
 	private final File file;
 
-	public ExportPdf(CliJPanel from, Transaction transaction, Context context, File file)
+	public ExportPdf(CommandSource from, Transaction transaction, Context context, File file)
 	{
 		super(from, transaction);
 		this.context = context;

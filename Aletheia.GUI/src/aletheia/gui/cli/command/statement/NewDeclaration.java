@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
@@ -37,7 +38,7 @@ public class NewDeclaration extends NewContext
 {
 	private final Term value;
 
-	public NewDeclaration(CliJPanel from, Transaction transaction, Identifier identifier, Term value,
+	public NewDeclaration(CommandSource from, Transaction transaction, Identifier identifier, Term value,
 			Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 	{
 		super(from, transaction, identifier, value.getType(), parameterIdentifiers);

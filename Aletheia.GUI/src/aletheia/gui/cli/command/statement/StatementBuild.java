@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.statement;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
@@ -33,7 +33,7 @@ public class StatementBuild extends TransactionalCommand
 {
 	private final Statement statement;
 
-	public StatementBuild(CliJPanel from, Transaction transaction, Statement statement)
+	public StatementBuild(CommandSource from, Transaction transaction, Statement statement)
 	{
 		super(from, transaction);
 		this.statement = statement;

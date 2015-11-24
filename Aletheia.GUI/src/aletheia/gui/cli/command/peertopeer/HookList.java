@@ -23,6 +23,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.peertopeer.Hook;
@@ -32,7 +33,7 @@ import aletheia.persistence.Transaction;
 public class HookList extends TransactionalCommand
 {
 
-	public HookList(CliJPanel from, Transaction transaction)
+	public HookList(CommandSource from, Transaction transaction)
 	{
 		super(from, transaction);
 	}

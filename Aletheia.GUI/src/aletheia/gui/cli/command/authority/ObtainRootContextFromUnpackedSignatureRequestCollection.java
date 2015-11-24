@@ -25,6 +25,7 @@ import java.util.UUID;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.PackedSignatureRequest;
@@ -69,7 +70,7 @@ public class ObtainRootContextFromUnpackedSignatureRequestCollection extends Tra
 
 	private final MyListenableAborter myListenableAborter;
 
-	public ObtainRootContextFromUnpackedSignatureRequestCollection(CliJPanel from, Transaction transaction,
+	public ObtainRootContextFromUnpackedSignatureRequestCollection(CommandSource from, Transaction transaction,
 			CloseableCollection<PackedSignatureRequest> packedSignatureRequestCollection)
 	{
 		super(from, transaction);

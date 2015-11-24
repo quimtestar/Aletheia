@@ -24,6 +24,7 @@ import java.util.UUID;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.PackedSignatureRequest;
@@ -34,7 +35,7 @@ public class UnpackSignatureRequest extends TransactionalCommand
 {
 	private final PackedSignatureRequest packedSignatureRequest;
 
-	public UnpackSignatureRequest(CliJPanel from, Transaction transaction, PackedSignatureRequest packedSignatureRequest)
+	public UnpackSignatureRequest(CommandSource from, Transaction transaction, PackedSignatureRequest packedSignatureRequest)
 	{
 		super(from, transaction);
 		this.packedSignatureRequest = packedSignatureRequest;

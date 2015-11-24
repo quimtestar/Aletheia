@@ -26,6 +26,7 @@ import javax.swing.SwingUtilities;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.UnpackedSignatureRequest;
@@ -38,7 +39,7 @@ public class AddStatementToSignatureRequest extends TransactionalCommand
 	private final UnpackedSignatureRequest unpackedSignatureRequest;
 	private final Statement statement;
 
-	public AddStatementToSignatureRequest(CliJPanel from, Transaction transaction, UnpackedSignatureRequest unpackedSignatureRequest, Statement statement)
+	public AddStatementToSignatureRequest(CommandSource from, Transaction transaction, UnpackedSignatureRequest unpackedSignatureRequest, Statement statement)
 	{
 		super(from, transaction);
 		this.unpackedSignatureRequest = unpackedSignatureRequest;

@@ -19,12 +19,12 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.prooffinder;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 
 public class ProofFinderGetThrottle extends ProofFinderThrottle
 {
 
-	protected ProofFinderGetThrottle(CliJPanel from)
+	protected ProofFinderGetThrottle(CommandSource from)
 	{
 		super(from);
 	}

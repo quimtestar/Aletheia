@@ -19,13 +19,13 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.peertopeer;
 
-import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.Command;
+import aletheia.gui.cli.command.CommandSource;
 
 public abstract class PeerToPeerCommand extends Command
 {
 
-	protected PeerToPeerCommand(CliJPanel from)
+	protected PeerToPeerCommand(CommandSource from)
 	{
 		super(from);
 	}

@@ -23,6 +23,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.nomenclator.Nomenclator.SignatureIsValidNomenclatorException;
@@ -36,7 +37,7 @@ public class UnidentifyAssumption extends TransactionalCommand
 {
 	private final Statement statement;
 
-	public UnidentifyAssumption(CliJPanel from, Transaction transaction, Statement statement)
+	public UnidentifyAssumption(CommandSource from, Transaction transaction, Statement statement)
 	{
 		super(from, transaction);
 		this.statement = statement;

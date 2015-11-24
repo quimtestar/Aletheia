@@ -30,6 +30,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.cli.command.Command;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.gui.SimpleMessage;
 import aletheia.gui.cli.command.gui.TraceException;
 import aletheia.gui.cli.command.statement.NonOperationalCommand;
@@ -131,9 +132,9 @@ public class CliController extends Thread
 	private class CliControllerDummyCommand extends Command
 	{
 
-		protected CliControllerDummyCommand(CliJPanel cliJPanel)
+		protected CliControllerDummyCommand(CommandSource from)
 		{
-			super(cliJPanel);
+			super(from);
 		}
 
 		@Override

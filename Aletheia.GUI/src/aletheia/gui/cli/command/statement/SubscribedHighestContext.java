@@ -24,6 +24,7 @@ import java.util.Stack;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.local.ContextLocal;
@@ -38,7 +39,7 @@ public class SubscribedHighestContext extends TransactionalCommand
 	private final Context context;
 	private final boolean unsigned;
 
-	public SubscribedHighestContext(CliJPanel from, Transaction transaction, Context context, boolean unsigned)
+	public SubscribedHighestContext(CommandSource from, Transaction transaction, Context context, boolean unsigned)
 	{
 		super(from, transaction);
 		this.context = context;

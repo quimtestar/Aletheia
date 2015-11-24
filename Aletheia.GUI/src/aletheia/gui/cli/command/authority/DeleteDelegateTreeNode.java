@@ -23,6 +23,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.DelegateTreeNode;
@@ -39,7 +40,7 @@ public class DeleteDelegateTreeNode extends TransactionalCommand
 {
 	private final DelegateTreeNode delegateTreeNode;
 
-	public DeleteDelegateTreeNode(CliJPanel from, Transaction transaction, DelegateTreeNode delegateTreeNode)
+	public DeleteDelegateTreeNode(CommandSource from, Transaction transaction, DelegateTreeNode delegateTreeNode)
 	{
 		super(from, transaction);
 		this.delegateTreeNode = delegateTreeNode;

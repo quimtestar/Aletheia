@@ -24,6 +24,7 @@ import java.util.UUID;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.SignatureRequest;
@@ -61,7 +62,7 @@ public class SendSignatureRequest extends PeerToPeerCommand
 
 	private final MyListenableAborter myListenableAborter;
 
-	public SendSignatureRequest(CliJPanel from, Person person, SignatureRequest signatureRequest)
+	public SendSignatureRequest(CommandSource from, Person person, SignatureRequest signatureRequest)
 	{
 		super(from);
 		this.person = person;

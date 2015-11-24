@@ -24,13 +24,14 @@ import java.util.List;
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.Command;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "sync", groupPath = "/persistence", factory = Sync.Factory.class)
 public class Sync extends Command
 {
-	public Sync(CliJPanel from)
+	public Sync(CommandSource from)
 	{
 		super(from);
 	}

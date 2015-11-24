@@ -19,13 +19,13 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.aux;
 
-import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.Command;
+import aletheia.gui.cli.command.CommandSource;
 
 public class EmptyCommand extends Command
 {
 
-	public EmptyCommand(CliJPanel from)
+	public EmptyCommand(CommandSource from)
 	{
 		super(from);
 	}

@@ -24,6 +24,7 @@ import java.util.UUID;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.RootContext;
@@ -35,7 +36,7 @@ public class RootContextSignatureUuid extends TransactionalCommand
 {
 	private final RootContext rootContext;
 
-	public RootContextSignatureUuid(CliJPanel from, Transaction transaction, RootContext rootContext)
+	public RootContextSignatureUuid(CommandSource from, Transaction transaction, RootContext rootContext)
 	{
 		super(from, transaction);
 		this.rootContext = rootContext;

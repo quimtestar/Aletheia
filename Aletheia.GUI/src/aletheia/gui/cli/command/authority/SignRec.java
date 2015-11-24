@@ -20,6 +20,7 @@
 package aletheia.gui.cli.command.authority;
 
 import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.authority.DelegateAuthorizer;
 import aletheia.model.authority.PrivatePerson;
@@ -34,7 +35,7 @@ import aletheia.persistence.Transaction;
 @TaggedCommand(tag = "signrec", groupPath = "/authority", factory = SignRec.Factory.class)
 public class SignRec extends Sign
 {
-	public SignRec(CliJPanel from, Transaction transaction, Context context, StatementAuthority statementAuthority, PrivatePerson delegate)
+	public SignRec(CommandSource from, Transaction transaction, Context context, StatementAuthority statementAuthority, PrivatePerson delegate)
 	{
 		super(from, transaction, context, statementAuthority, delegate);
 	}

@@ -23,6 +23,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Context;
@@ -35,7 +36,7 @@ public class TermDiff extends TransactionalCommand
 	private final Term term0;
 	private final Term term1;
 
-	public TermDiff(CliJPanel from, Transaction transaction, Term term0, Term term1)
+	public TermDiff(CommandSource from, Transaction transaction, Term term0, Term term1)
 	{
 		super(from, transaction);
 		this.term0 = term0;

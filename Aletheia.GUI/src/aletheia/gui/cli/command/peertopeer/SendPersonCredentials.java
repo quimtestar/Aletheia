@@ -25,6 +25,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.authority.Person;
 import aletheia.persistence.Transaction;
@@ -60,7 +61,7 @@ public class SendPersonCredentials extends PeerToPeerCommand
 
 	private final MyListenableAborter myListenableAborter;
 
-	public SendPersonCredentials(CliJPanel from, Person recipient, Collection<Person> persons)
+	public SendPersonCredentials(CommandSource from, Person recipient, Collection<Person> persons)
 	{
 		super(from);
 		this.recipient = recipient;

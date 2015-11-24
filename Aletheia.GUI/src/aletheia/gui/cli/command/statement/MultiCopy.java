@@ -25,6 +25,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Context;
@@ -37,7 +38,7 @@ public class MultiCopy extends TransactionalCommand
 {
 	private final List<Statement> statements;
 
-	public MultiCopy(CliJPanel from, Transaction transaction, List<Statement> statements)
+	public MultiCopy(CommandSource from, Transaction transaction, List<Statement> statements)
 	{
 		super(from, transaction);
 		this.statements = new ArrayList<Statement>(statements);

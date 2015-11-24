@@ -19,14 +19,14 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.aux;
 
-import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.Command;
+import aletheia.gui.cli.command.CommandSource;
 
 public class Ping extends Command
 {
 	private final String text;
 
-	public Ping(CliJPanel from, String text)
+	public Ping(CommandSource from, String text)
 	{
 		super(from);
 		this.text = text;

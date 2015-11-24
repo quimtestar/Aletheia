@@ -26,6 +26,7 @@ import java.util.Map;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
@@ -40,7 +41,7 @@ public class Translate extends TransactionalCommand
 {
 	private final Context context;
 
-	public Translate(CliJPanel from, Transaction transaction, Context context)
+	public Translate(CommandSource from, Transaction transaction, Context context)
 	{
 		super(from, transaction);
 		this.context = context;

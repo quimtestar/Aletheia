@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
@@ -36,7 +37,7 @@ import aletheia.persistence.Transaction;
 @TaggedCommand(tag = "root", factory = NewRootContext.Factory.class)
 public class NewRootContext extends NewContext
 {
-	private NewRootContext(CliJPanel from, Transaction transaction, Identifier identifier, Term term,
+	private NewRootContext(CommandSource from, Transaction transaction, Identifier identifier, Term term,
 			Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 	{
 		super(from, transaction, identifier, term, parameterIdentifiers);

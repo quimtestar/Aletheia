@@ -25,6 +25,7 @@ import java.util.Stack;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
@@ -36,7 +37,7 @@ import aletheia.persistence.Transaction;
 @TaggedCommand(tag = "opdctx", groupPath = "/statement", factory = OpenedContexts.Factory.class)
 public class OpenedContexts extends TransactionalCommand
 {
-	public OpenedContexts(CliJPanel from, Transaction transaction)
+	public OpenedContexts(CommandSource from, Transaction transaction)
 	{
 		super(from, transaction);
 	}

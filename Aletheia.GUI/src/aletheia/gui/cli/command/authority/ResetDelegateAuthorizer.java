@@ -23,6 +23,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.DelegateAuthorizer;
@@ -39,7 +40,7 @@ public class ResetDelegateAuthorizer extends TransactionalCommand
 {
 	private final DelegateAuthorizer delegateAuthorizer;
 
-	public ResetDelegateAuthorizer(CliJPanel from, Transaction transaction, DelegateAuthorizer delegateAuthorizer)
+	public ResetDelegateAuthorizer(CommandSource from, Transaction transaction, DelegateAuthorizer delegateAuthorizer)
 	{
 		super(from, transaction);
 		this.delegateAuthorizer = delegateAuthorizer;

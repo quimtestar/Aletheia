@@ -23,6 +23,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.DelegateTreeRootNode;
@@ -35,7 +36,7 @@ public class CutSuccessor extends TransactionalCommand
 {
 	private final StatementAuthority statementAuthority;
 
-	public CutSuccessor(CliJPanel from, Transaction transaction, StatementAuthority statementAuthority)
+	public CutSuccessor(CommandSource from, Transaction transaction, StatementAuthority statementAuthority)
 	{
 		super(from, transaction);
 		this.statementAuthority = statementAuthority;

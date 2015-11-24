@@ -24,6 +24,7 @@ import java.util.Stack;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.StatementAuthority;
@@ -37,7 +38,7 @@ public class UnsignedSubscribed extends TransactionalCommand
 {
 	private final Context context;
 
-	public UnsignedSubscribed(CliJPanel from, Transaction transaction, Context context)
+	public UnsignedSubscribed(CommandSource from, Transaction transaction, Context context)
 	{
 		super(from, transaction);
 		this.context = context;

@@ -24,6 +24,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.ContextAuthority;
@@ -40,7 +41,7 @@ public class RevokeSignatures extends TransactionalCommand
 {
 	private final Collection<StatementAuthoritySignature> signatures;
 
-	public RevokeSignatures(CliJPanel from, Transaction transaction, Collection<StatementAuthoritySignature> signatures)
+	public RevokeSignatures(CommandSource from, Transaction transaction, Collection<StatementAuthoritySignature> signatures)
 	{
 		super(from, transaction);
 		this.signatures = signatures;

@@ -27,7 +27,7 @@ import aletheia.persistence.Transaction;
 public abstract class DynamicCommand extends Command
 {
 
-	protected DynamicCommand(CliJPanel from)
+	protected DynamicCommand(CommandSource from)
 	{
 		super(from);
 	}
@@ -66,7 +66,7 @@ public abstract class DynamicCommand extends Command
 			}
 		}
 
-		public abstract C dynamicParse(CliJPanel cliJPanel, Transaction transaction, List<String> split) throws CommandParseException;
+		public abstract C dynamicParse(CommandSource from, Transaction transaction, List<String> split) throws CommandParseException;
 
 	}
 

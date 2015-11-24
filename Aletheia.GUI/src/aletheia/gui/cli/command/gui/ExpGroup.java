@@ -23,6 +23,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Namespace;
@@ -35,7 +36,7 @@ public class ExpGroup extends TransactionalCommand
 {
 	private final Namespace prefix;
 
-	public ExpGroup(CliJPanel from, Transaction transaction, Namespace prefix)
+	public ExpGroup(CommandSource from, Transaction transaction, Namespace prefix)
 	{
 		super(from, transaction);
 		this.prefix = prefix;

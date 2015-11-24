@@ -26,6 +26,7 @@ import javax.swing.SwingUtilities;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.UnpackedSignatureRequest;
@@ -38,7 +39,7 @@ public class CreateSignatureRequest extends TransactionalCommand
 {
 	private final Context context;
 
-	public CreateSignatureRequest(CliJPanel from, Transaction transaction, Context context)
+	public CreateSignatureRequest(CommandSource from, Transaction transaction, Context context)
 	{
 		super(from, transaction);
 		this.context = context;

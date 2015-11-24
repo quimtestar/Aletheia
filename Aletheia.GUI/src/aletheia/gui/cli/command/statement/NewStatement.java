@@ -30,6 +30,7 @@ import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractCommandFactory;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.Command;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.CommandGroup.CommandGroupException;
 import aletheia.gui.cli.command.RootCommandGroup;
 import aletheia.gui.cli.command.TaggedCommand;
@@ -45,7 +46,7 @@ public abstract class NewStatement extends TransactionalCommand
 {
 	private final Identifier identifier;
 
-	public NewStatement(CliJPanel from, Transaction transaction, Identifier identifier)
+	public NewStatement(CommandSource from, Transaction transaction, Identifier identifier)
 	{
 		super(from, transaction);
 		this.identifier = identifier;

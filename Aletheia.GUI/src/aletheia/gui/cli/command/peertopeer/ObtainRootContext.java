@@ -24,6 +24,7 @@ import java.util.UUID;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.statement.RootContext;
 import aletheia.persistence.Transaction;
@@ -58,7 +59,7 @@ public class ObtainRootContext extends PeerToPeerCommand
 
 	private final MyListenableAborter myListenableAborter;
 
-	public ObtainRootContext(CliJPanel from, UUID uuid)
+	public ObtainRootContext(CommandSource from, UUID uuid)
 	{
 		super(from);
 		this.uuid = uuid;

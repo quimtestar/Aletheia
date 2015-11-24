@@ -27,6 +27,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
@@ -40,7 +41,7 @@ public class Dependents extends TransactionalCommand
 {
 	private final Statement statement;
 
-	public Dependents(CliJPanel from, Transaction transaction, Statement statement)
+	public Dependents(CommandSource from, Transaction transaction, Statement statement)
 	{
 		super(from, transaction);
 		this.statement = statement;

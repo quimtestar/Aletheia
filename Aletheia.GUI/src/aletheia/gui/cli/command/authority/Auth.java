@@ -24,6 +24,7 @@ import java.util.Stack;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.PrivatePerson;
@@ -40,7 +41,7 @@ public class Auth extends TransactionalCommand
 	private final PrivatePerson author;
 	private final Statement statement;
 
-	public Auth(CliJPanel from, Transaction transaction, PrivatePerson author, Statement statement)
+	public Auth(CommandSource from, Transaction transaction, PrivatePerson author, Statement statement)
 	{
 		super(from, transaction);
 		this.author = author;

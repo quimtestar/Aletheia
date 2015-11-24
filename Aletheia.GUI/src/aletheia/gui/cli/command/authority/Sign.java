@@ -23,6 +23,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.DelegateAuthorizer;
@@ -44,7 +45,7 @@ public class Sign extends TransactionalCommand
 	private final StatementAuthority statementAuthority;
 	private final PrivatePerson delegate;
 
-	public Sign(CliJPanel from, Transaction transaction, Statement statement, StatementAuthority statementAuthority, PrivatePerson delegate)
+	public Sign(CommandSource from, Transaction transaction, Statement statement, StatementAuthority statementAuthority, PrivatePerson delegate)
 	{
 		super(from, transaction);
 		this.statement = statement;

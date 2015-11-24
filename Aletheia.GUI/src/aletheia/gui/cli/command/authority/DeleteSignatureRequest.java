@@ -24,6 +24,7 @@ import java.util.UUID;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.SignatureRequest;
@@ -34,7 +35,7 @@ public class DeleteSignatureRequest extends TransactionalCommand
 {
 	private final SignatureRequest signatureRequest;
 
-	public DeleteSignatureRequest(CliJPanel from, Transaction transaction, SignatureRequest signatureRequest)
+	public DeleteSignatureRequest(CommandSource from, Transaction transaction, SignatureRequest signatureRequest)
 	{
 		super(from, transaction);
 		this.signatureRequest = signatureRequest;

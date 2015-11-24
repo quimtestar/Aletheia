@@ -19,14 +19,14 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.gui;
 
-import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.Command;
+import aletheia.gui.cli.command.CommandSource;
 
 public class SimpleMessage extends Command
 {
 	private final String text;
 
-	public SimpleMessage(CliJPanel from, String text)
+	public SimpleMessage(CommandSource from, String text)
 	{
 		super(from);
 		this.text = text;

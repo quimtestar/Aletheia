@@ -23,6 +23,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.PrivatePerson;
@@ -33,7 +34,7 @@ public class DeletePrivatePerson extends TransactionalCommand
 {
 	private final String nick;
 
-	protected DeletePrivatePerson(CliJPanel from, Transaction transaction, String nick)
+	protected DeletePrivatePerson(CommandSource from, Transaction transaction, String nick)
 	{
 		super(from, transaction);
 		this.nick = nick;

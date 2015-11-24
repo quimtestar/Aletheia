@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
@@ -41,7 +42,7 @@ public class NewSpecialization extends NewStatement
 	private final Statement general;
 	private final List<Term> instances;
 
-	public NewSpecialization(CliJPanel from, Transaction transaction, Identifier identifier, Statement general, List<Term> instances)
+	public NewSpecialization(CommandSource from, Transaction transaction, Identifier identifier, Statement general, List<Term> instances)
 	{
 		super(from, transaction, identifier);
 		this.general = general;

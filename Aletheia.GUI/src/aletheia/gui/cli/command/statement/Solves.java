@@ -23,6 +23,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
@@ -37,7 +38,7 @@ public class Solves extends TransactionalCommand
 {
 	private final Term term;
 
-	public Solves(CliJPanel from, Transaction transaction, Term term)
+	public Solves(CommandSource from, Transaction transaction, Term term)
 	{
 		super(from, transaction);
 		this.term = term;

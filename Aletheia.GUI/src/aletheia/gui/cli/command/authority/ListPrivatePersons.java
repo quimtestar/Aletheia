@@ -23,6 +23,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.PrivatePerson;
@@ -36,7 +37,7 @@ public class ListPrivatePersons extends TransactionalCommand
 	private final String fromNick;
 	private final String toNick;
 
-	protected ListPrivatePersons(CliJPanel from, Transaction transaction, String fromNick, String toNick)
+	protected ListPrivatePersons(CommandSource from, Transaction transaction, String fromNick, String toNick)
 	{
 		super(from, transaction);
 		this.fromNick = fromNick;

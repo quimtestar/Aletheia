@@ -23,6 +23,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.DelegateTreeRootNode;
@@ -37,7 +38,7 @@ public class AddSuccessor extends TransactionalCommand
 	private final Person successor;
 	private final StatementAuthority statementAuthority;
 
-	public AddSuccessor(CliJPanel from, Transaction transaction, Person successor, StatementAuthority statementAuthority)
+	public AddSuccessor(CommandSource from, Transaction transaction, Person successor, StatementAuthority statementAuthority)
 	{
 		super(from, transaction);
 		this.successor = successor;

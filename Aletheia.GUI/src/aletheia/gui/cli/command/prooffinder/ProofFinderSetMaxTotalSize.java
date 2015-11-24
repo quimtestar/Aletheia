@@ -19,14 +19,14 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.prooffinder;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 
 public class ProofFinderSetMaxTotalSize extends ProofFinderMaxTotalSize
 {
 
 	private final int maxTotalSize;
 
-	public ProofFinderSetMaxTotalSize(CliJPanel from, int maxTotalSize)
+	public ProofFinderSetMaxTotalSize(CommandSource from, int maxTotalSize)
 	{
 		super(from);
 		this.maxTotalSize = maxTotalSize;

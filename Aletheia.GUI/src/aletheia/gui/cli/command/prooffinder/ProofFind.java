@@ -25,6 +25,7 @@ import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.log4j.LoggerManager;
@@ -41,7 +42,7 @@ public class ProofFind extends TransactionalCommand
 
 	private final Context context;
 
-	public ProofFind(CliJPanel from, Transaction transaction, Context context)
+	public ProofFind(CommandSource from, Transaction transaction, Context context)
 	{
 		super(from, transaction);
 		this.context = context;

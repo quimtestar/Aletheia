@@ -24,6 +24,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.peertopeer.PeerToPeerConnection;
 import aletheia.peertopeer.PeerToPeerConnection.Gender;
@@ -33,7 +34,7 @@ import aletheia.persistence.Transaction;
 @TaggedCommand(tag = "connections", groupPath = "/p2p", factory = Connections.Factory.class)
 public class Connections extends PeerToPeerCommand
 {
-	protected Connections(CliJPanel from)
+	protected Connections(CommandSource from)
 	{
 		super(from);
 	}

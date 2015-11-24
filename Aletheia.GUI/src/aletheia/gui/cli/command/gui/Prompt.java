@@ -19,13 +19,13 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.gui;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.statement.NonOperationalCommand;
 
 public class Prompt extends NonOperationalCommand
 {
 
-	public Prompt(CliJPanel from)
+	public Prompt(CommandSource from)
 	{
 		super(from);
 	}

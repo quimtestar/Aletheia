@@ -19,14 +19,14 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.gui;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.statement.SelectStatement;
 import aletheia.model.statement.Context;
 import aletheia.persistence.Transaction;
 
 public class SelectContext extends SelectStatement
 {
-	public SelectContext(CliJPanel from, Transaction transaction, Context context)
+	public SelectContext(CommandSource from, Transaction transaction, Context context)
 	{
 		super(from, transaction, context);
 	}

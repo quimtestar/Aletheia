@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
@@ -39,7 +40,7 @@ public class NewUnfoldingContext extends NewContext
 {
 	private final Declaration declaration;
 
-	private NewUnfoldingContext(CliJPanel from, Transaction transaction, Identifier identifier, Term term,
+	private NewUnfoldingContext(CommandSource from, Transaction transaction, Identifier identifier, Term term,
 			Map<ParameterVariableTerm, Identifier> parameterIdentifiers, Declaration declaration)
 	{
 		super(from, transaction, identifier, term, parameterIdentifiers);

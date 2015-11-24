@@ -23,6 +23,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Statement;
@@ -34,7 +35,7 @@ public class UnAuth extends TransactionalCommand
 	private final Statement statement;
 	private final boolean force;
 
-	public UnAuth(CliJPanel from, Transaction transaction, Statement statement, boolean force)
+	public UnAuth(CommandSource from, Transaction transaction, Statement statement, boolean force)
 	{
 		super(from, transaction);
 		this.statement = statement;

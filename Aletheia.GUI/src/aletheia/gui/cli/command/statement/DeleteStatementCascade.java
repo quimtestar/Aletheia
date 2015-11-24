@@ -19,14 +19,14 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.statement;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 
 public class DeleteStatementCascade extends DeleteStatement
 {
 
-	public DeleteStatementCascade(CliJPanel from, Transaction transaction, Statement statement)
+	public DeleteStatementCascade(CommandSource from, Transaction transaction, Statement statement)
 	{
 		super(from, transaction, statement);
 	}

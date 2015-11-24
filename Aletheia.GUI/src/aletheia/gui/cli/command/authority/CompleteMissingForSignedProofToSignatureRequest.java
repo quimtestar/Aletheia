@@ -25,6 +25,7 @@ import java.util.UUID;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.UnpackedSignatureRequest;
@@ -36,7 +37,7 @@ public class CompleteMissingForSignedProofToSignatureRequest extends Transaction
 {
 	private final UnpackedSignatureRequest unpackedSignatureRequest;
 
-	public CompleteMissingForSignedProofToSignatureRequest(CliJPanel from, Transaction transaction, UnpackedSignatureRequest unpackedSignatureRequest)
+	public CompleteMissingForSignedProofToSignatureRequest(CommandSource from, Transaction transaction, UnpackedSignatureRequest unpackedSignatureRequest)
 	{
 		super(from, transaction);
 		this.unpackedSignatureRequest = unpackedSignatureRequest;

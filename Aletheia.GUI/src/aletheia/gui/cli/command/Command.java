@@ -48,14 +48,14 @@ import aletheia.utilities.collections.CombinedMap;
 
 public abstract class Command
 {
-	private final CliJPanel from;
+	private final CommandSource from;
 
-	protected Command(CliJPanel from)
+	protected Command(CommandSource from)
 	{
 		this.from = from;
 	}
 
-	public CliJPanel getFrom()
+	public CommandSource getFrom()
 	{
 		return from;
 	}
@@ -93,11 +93,6 @@ public abstract class Command
 	public void lock(Transaction owner)
 	{
 		from.lock(Collections.singleton(owner));
-	}
-
-	public void commandDone() throws InterruptedException
-	{
-		from.commandDone(this);
 	}
 
 	protected void setActiveContext(Context activeContext)
@@ -198,16 +193,14 @@ public abstract class Command
 		return from.getProofFinder();
 	}
 
-	protected void command(Command command)
+	protected void command(Command command) throws InterruptedException
 	{
-		try
-		{
-			from.command(command);
-		}
-		catch (InterruptedException e)
-		{
-			throw new RuntimeException(e);
-		}
+		from.command(command);
+	}
+
+	public void commandDone() throws InterruptedException
+	{
+		from.commandDone(this);
 	}
 
 	protected TaggedCommand taggedCommand()

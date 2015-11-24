@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.local;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.model.local.ContextLocal;
 import aletheia.model.local.StatementLocal;
 import aletheia.model.statement.Statement;
@@ -28,7 +28,7 @@ import aletheia.persistence.Transaction;
 public class SubscribeProofCommand extends SubscribeCommand
 {
 
-	public SubscribeProofCommand(CliJPanel from, Transaction transaction, Statement statement)
+	public SubscribeProofCommand(CommandSource from, Transaction transaction, Statement statement)
 	{
 		super(from, transaction, statement);
 	}

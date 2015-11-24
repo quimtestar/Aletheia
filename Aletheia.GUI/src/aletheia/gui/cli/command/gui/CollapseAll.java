@@ -23,6 +23,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Context;
@@ -31,7 +32,7 @@ import aletheia.persistence.Transaction;
 @TaggedCommand(tag = "ca", groupPath = "/gui", factory = CollapseAll.Factory.class)
 public class CollapseAll extends TransactionalCommand
 {
-	public CollapseAll(CliJPanel from, Transaction transaction)
+	public CollapseAll(CommandSource from, Transaction transaction)
 	{
 		super(from, transaction);
 	}

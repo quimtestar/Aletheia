@@ -19,7 +19,6 @@
  ******************************************************************************/
 package aletheia.gui.cli.command;
 
-import aletheia.gui.cli.CliJPanel;
 import aletheia.model.statement.Context;
 import aletheia.persistence.Transaction;
 
@@ -29,7 +28,7 @@ public abstract class TransactionalCommand extends Command
 
 	private CancelledCommandException cancelledCommandException;
 
-	public TransactionalCommand(CliJPanel from, Transaction transaction)
+	public TransactionalCommand(CommandSource from, Transaction transaction)
 	{
 		super(from);
 		this.transaction = transaction;

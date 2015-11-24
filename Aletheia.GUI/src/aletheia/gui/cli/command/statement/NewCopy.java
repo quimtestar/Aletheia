@@ -22,6 +22,7 @@ package aletheia.gui.cli.command.statement;
 import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
@@ -33,7 +34,7 @@ public class NewCopy extends NewStatement
 {
 	private final Statement statement;
 
-	public NewCopy(CliJPanel from, Transaction transaction, Identifier identifier, Statement statement)
+	public NewCopy(CommandSource from, Transaction transaction, Identifier identifier, Statement statement)
 	{
 		super(from, transaction, identifier);
 		this.statement = statement;

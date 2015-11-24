@@ -89,6 +89,7 @@ import org.apache.logging.log4j.Logger;
 import aletheia.gui.app.AletheiaJPanel;
 import aletheia.gui.catalogjtree.CatalogJTree;
 import aletheia.gui.cli.command.Command;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.Command.CommandParseException;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.gui.cli.command.aux.EmptyCommand;
@@ -117,7 +118,7 @@ import aletheia.persistence.Transaction;
 import aletheia.prooffinder.ProofFinder;
 import aletheia.utilities.gui.MyJSplitPane;
 
-public class CliJPanel extends JPanel
+public class CliJPanel extends JPanel implements CommandSource
 {
 	private static final long serialVersionUID = -2211989098955644681L;
 	private static final Logger logger = LoggerManager.instance.logger();
@@ -1125,6 +1126,7 @@ public class CliJPanel extends JPanel
 		return aletheiaJPanel;
 	}
 
+	@Override
 	public PersistenceManager getPersistenceManager()
 	{
 		return aletheiaJPanel.getPersistenceManager();
@@ -1135,31 +1137,37 @@ public class CliJPanel extends JPanel
 		return controller;
 	}
 
+	@Override
 	public PrintStream getOut()
 	{
 		return out;
 	}
 
+	@Override
 	public PrintStream getOutB()
 	{
 		return outB;
 	}
 
+	@Override
 	public PrintStream getErr()
 	{
 		return err;
 	}
 
+	@Override
 	public PrintStream getErrB()
 	{
 		return errB;
 	}
 
+	@Override
 	public Context getActiveContext()
 	{
 		return activeContext;
 	}
 
+	@Override
 	public void setActiveContext(Context activeContext)
 	{
 		if (((activeContext == null) != (this.activeContext == null)) || (activeContext != null && !activeContext.equals(this.activeContext)))
@@ -1278,6 +1286,7 @@ public class CliJPanel extends JPanel
 			commandHistory.addAndPosition(s);
 	}
 
+	@Override
 	public void command(Command command) throws InterruptedException
 	{
 		command(command, true);
@@ -1299,6 +1308,7 @@ public class CliJPanel extends JPanel
 		catalogJTree.updateFontSize();
 	}
 
+	@Override
 	public synchronized void clear()
 	{
 		try
@@ -2017,11 +2027,13 @@ public class CliJPanel extends JPanel
 		}
 	}
 
+	@Override
 	public void lock(Collection<Transaction> owners)
 	{
 		catalogJTreeLayerUI.lock(owners);
 	}
 
+	@Override
 	public void commandDone(Command command) throws InterruptedException
 	{
 		if (promptWhenDone == command)
@@ -2081,6 +2093,7 @@ public class CliJPanel extends JPanel
 		return getAletheiaJPanel().getContextJTree().getSelectedStatement();
 	}
 
+	@Override
 	public void waitCursor(boolean wait)
 	{
 		aletheiaJPanel.waitCursor(wait);
@@ -2091,72 +2104,86 @@ public class CliJPanel extends JPanel
 		aletheiaJPanel.lock(Collections.singleton(owner));
 	}
 
+	@Override
 	public void signatureRequestJTreeSelectStatement(UnpackedSignatureRequest unpackedSignatureRequest, Statement statement)
 	{
 		aletheiaJPanel.getSignatureRequestJTree().selectStatement(unpackedSignatureRequest, statement);
 	}
 
+	@Override
 	public void signatureRequestJTreeSelectUnpackedSignatureRequest(UnpackedSignatureRequest unpackedSignatureRequest)
 	{
 		aletheiaJPanel.getSignatureRequestJTree().selectUnpackedSignatureRequest(unpackedSignatureRequest);
 	}
 
+	@Override
 	public PeerToPeerNode getPeerToPeerNode()
 	{
 		return aletheiaJPanel.getAletheiaJFrame().getPeerToPeerNode();
 	}
 
+	@Override
 	public void pushSelectStatement(Statement statement)
 	{
 		aletheiaJPanel.getContextJTree().pushSelectStatement(statement);
 	}
 
+	@Override
 	public void pushSelectStatement(Transaction transaction, Statement statement)
 	{
 		aletheiaJPanel.getContextJTree().pushSelectStatement(transaction, statement);
 	}
 
+	@Override
 	public ProofFinder getProofFinder()
 	{
 		return aletheiaJPanel.getProofFinder();
 	}
 
+	@Override
 	public char[] passPhrase()
 	{
 		PassphraseDialog dialog = new PassphraseDialog(aletheiaJPanel.getAletheiaJFrame(), true);
 		return dialog.getPassphrase();
 	}
 
+	@Override
 	public void expandAllContexts(Context context)
 	{
 		aletheiaJPanel.getContextJTree().expandAllContexts(context);
 	}
 
+	@Override
 	public void nodeStructureReset(Context context)
 	{
 		aletheiaJPanel.getContextJTree().nodeStructureReset(context);
 	}
 
+	@Override
 	public void collapseAll(Context context)
 	{
 		aletheiaJPanel.getContextJTree().collapseAll(context);
 	}
 
+	@Override
 	public void expandGroup(Context context, Namespace prefix)
 	{
 		aletheiaJPanel.getContextJTree().expandGroup(context, prefix);
 	}
 
+	@Override
 	public void expandSubscribedContexts(Context context)
 	{
 		aletheiaJPanel.getContextJTree().expandSubscribedContexts(context);
 	}
 
+	@Override
 	public void expandUnprovedContexts(Context context)
 	{
 		aletheiaJPanel.getContextJTree().expandUnprovedContexts(context);
 	}
 
+	@Override
 	public void openExtraFrame(String extraTitle)
 	{
 		try

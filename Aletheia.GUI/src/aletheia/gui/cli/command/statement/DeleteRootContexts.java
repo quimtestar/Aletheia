@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.statement;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.RootContext;
 import aletheia.persistence.Transaction;
@@ -29,7 +29,7 @@ public class DeleteRootContexts extends TransactionalCommand
 {
 	private final CloseableIterable<RootContext> rootContexts;
 
-	public DeleteRootContexts(CliJPanel from, Transaction transaction, CloseableIterable<RootContext> rootContexts)
+	public DeleteRootContexts(CommandSource from, Transaction transaction, CloseableIterable<RootContext> rootContexts)
 	{
 		super(from, transaction);
 		this.rootContexts = rootContexts;

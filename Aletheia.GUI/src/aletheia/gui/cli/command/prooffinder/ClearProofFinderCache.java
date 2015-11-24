@@ -24,6 +24,7 @@ import java.util.List;
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.Command;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.persistence.Transaction;
 
@@ -31,7 +32,7 @@ import aletheia.persistence.Transaction;
 public class ClearProofFinderCache extends Command
 {
 
-	protected ClearProofFinderCache(CliJPanel from)
+	protected ClearProofFinderCache(CommandSource from)
 	{
 		super(from);
 	}

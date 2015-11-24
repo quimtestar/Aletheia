@@ -21,7 +21,7 @@ package aletheia.gui.cli.command.gui;
 
 import org.apache.logging.log4j.Logger;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.statement.NonOperationalCommand;
 import aletheia.log4j.LoggerManager;
 import aletheia.parser.TermParserException;
@@ -33,14 +33,14 @@ public class TraceException extends NonOperationalCommand
 	private final String message;
 	private final Exception exception;
 
-	public TraceException(CliJPanel from, String message, Exception exception)
+	public TraceException(CommandSource from, String message, Exception exception)
 	{
 		super(from);
 		this.message = message;
 		this.exception = exception;
 	}
 
-	public TraceException(CliJPanel from, Exception exception)
+	public TraceException(CommandSource from, Exception exception)
 	{
 		this(from, null, exception);
 	}

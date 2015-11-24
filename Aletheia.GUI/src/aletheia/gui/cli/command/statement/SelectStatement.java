@@ -24,6 +24,7 @@ import java.util.UUID;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.gui.cli.command.gui.SelectContext;
@@ -36,7 +37,7 @@ public class SelectStatement extends TransactionalCommand
 {
 	private final Statement statement;
 
-	public SelectStatement(CliJPanel from, Transaction transaction, Statement statement)
+	public SelectStatement(CommandSource from, Transaction transaction, Statement statement)
 	{
 		super(from, transaction);
 		this.statement = statement;

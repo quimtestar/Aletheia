@@ -25,6 +25,7 @@ import java.util.List;
 
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Statement;
@@ -37,7 +38,7 @@ public class Export extends TransactionalCommand
 	private final List<Statement> statements;
 	private final boolean signed;
 
-	public Export(CliJPanel from, Transaction transaction, File file, List<Statement> statements, boolean signed)
+	public Export(CommandSource from, Transaction transaction, File file, List<Statement> statements, boolean signed)
 	{
 		super(from, transaction);
 		this.file = file;

@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
@@ -42,7 +43,8 @@ public class NewContext extends NewStatement
 	private final Term term;
 	private final Map<ParameterVariableTerm, Identifier> parameterIdentifiers;
 
-	public NewContext(CliJPanel from, Transaction transaction, Identifier identifier, Term term, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+	public NewContext(CommandSource from, Transaction transaction, Identifier identifier, Term term,
+			Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 	{
 		super(from, transaction, identifier);
 		this.term = term;
