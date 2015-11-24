@@ -25,9 +25,8 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
@@ -143,17 +142,17 @@ public class Dependents extends TransactionalCommand
 		}
 
 		@Override
-		public Dependents parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public Dependents parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			try
 			{
-				if (cliJPanel.getActiveContext() == null)
+				if (from.getActiveContext() == null)
 					throw new NotActiveContextException();
-				Statement statement = cliJPanel.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(0)));
+				Statement statement = from.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(0)));
 				if (statement == null)
 					throw new CommandParseException("Bad statement:" + split.get(0));
-				return new Dependents(cliJPanel, transaction, statement);
+				return new Dependents(from, transaction, statement);
 			}
 			catch (InvalidNameException | NotActiveContextException e)
 			{

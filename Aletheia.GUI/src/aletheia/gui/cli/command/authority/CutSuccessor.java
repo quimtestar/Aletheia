@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.authority;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.DelegateTreeRootNode;
@@ -61,7 +60,7 @@ public class CutSuccessor extends TransactionalCommand
 		}
 
 		@Override
-		public CutSuccessor parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public CutSuccessor parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			try
 			{
@@ -69,20 +68,20 @@ public class CutSuccessor extends TransactionalCommand
 				Statement statement;
 				if (split.size() > 0)
 				{
-					statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(0));
+					statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 					if (statement == null)
 						throw new CommandParseException("Invalid statement");
 				}
 				else
 				{
-					statement = cliJPanel.getActiveContext();
+					statement = from.getActiveContext();
 					if (statement == null)
 						throw new NotActiveContextException();
 				}
 				StatementAuthority statementAuthority = statement.getAuthority(transaction);
 				if (statementAuthority == null)
 					throw new CommandParseException("Statement not authored");
-				return new CutSuccessor(cliJPanel, transaction, statementAuthority);
+				return new CutSuccessor(from, transaction, statementAuthority);
 			}
 			catch (NotActiveContextException e)
 			{

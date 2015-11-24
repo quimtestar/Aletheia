@@ -21,10 +21,9 @@ package aletheia.gui.cli.command.prooffinder;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.Command;
-import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.persistence.Transaction;
 
@@ -47,16 +46,16 @@ public abstract class ProofFinderThrottle extends Command
 		}
 
 		@Override
-		public ProofFinderThrottle parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public ProofFinderThrottle parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			if (split.size() > 0)
 			{
 				float throttle = Float.parseFloat(split.get(0));
-				return new ProofFinderSetThrottle(cliJPanel, throttle);
+				return new ProofFinderSetThrottle(from, throttle);
 			}
 			else
 			{
-				return new ProofFinderGetThrottle(cliJPanel);
+				return new ProofFinderGetThrottle(from);
 			}
 		}
 

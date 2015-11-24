@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.gui;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Namespace;
@@ -59,7 +58,7 @@ public class ExpGroup extends TransactionalCommand
 		}
 
 		@Override
-		public ExpGroup parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public ExpGroup parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			Namespace prefix = RootNamespace.instance;
 			if (split.size() > 0)
@@ -71,7 +70,7 @@ public class ExpGroup extends TransactionalCommand
 				{
 					throw new CommandParseException(e);
 				}
-			return new ExpGroup(cliJPanel, transaction, prefix);
+			return new ExpGroup(from, transaction, prefix);
 		}
 
 		@Override

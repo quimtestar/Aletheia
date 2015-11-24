@@ -22,9 +22,8 @@ package aletheia.gui.cli.command.authority;
 import java.util.Collection;
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.ContextAuthority;
@@ -104,12 +103,12 @@ public class RevokeSignatures extends TransactionalCommand
 		}
 
 		@Override
-		public RevokeSignatures parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public RevokeSignatures parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Collection<StatementAuthoritySignature> signatures = specToStatementAuthoritySignatures(cliJPanel.getPersistenceManager(), transaction,
-					cliJPanel.getActiveContext(), split);
-			return new RevokeSignatures(cliJPanel, transaction, signatures);
+			Collection<StatementAuthoritySignature> signatures = specToStatementAuthoritySignatures(from.getPersistenceManager(), transaction,
+					from.getActiveContext(), split);
+			return new RevokeSignatures(from, transaction, signatures);
 		}
 
 		@Override

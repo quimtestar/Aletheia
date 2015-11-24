@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.authority;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.DelegateAuthorizer;
@@ -123,38 +122,38 @@ public class Sign extends TransactionalCommand
 			return 1;
 		}
 
-		protected Sign makeSign(CliJPanel cliJPanel, Transaction transaction, Statement statement, StatementAuthority statementAuthority,
-				PrivatePerson delegate) throws CommandParseException
+		protected Sign makeSign(CommandSource from, Transaction transaction, Statement statement, StatementAuthority statementAuthority, PrivatePerson delegate)
+				throws CommandParseException
 		{
-			return new Sign(cliJPanel, transaction, statement, statementAuthority, delegate);
+			return new Sign(from, transaction, statement, statementAuthority, delegate);
 		}
 
 		@Override
-		public Sign parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public Sign parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			try
 			{
 				checkMinParameters(split);
-				PrivatePerson delegate = cliJPanel.getPersistenceManager().privatePersonsByNick(transaction).get(split.get(0));
+				PrivatePerson delegate = from.getPersistenceManager().privatePersonsByNick(transaction).get(split.get(0));
 				if (delegate == null)
 					throw new CommandParseException("Invalid nick");
 				Statement statement;
 				if (split.size() > 1)
 				{
-					statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(1));
+					statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(1));
 					if (statement == null)
 						throw new CommandParseException("Invalid statement");
 				}
 				else
 				{
-					statement = cliJPanel.getActiveContext();
+					statement = from.getActiveContext();
 					if (statement == null)
 						throw new NotActiveContextException();
 				}
 				StatementAuthority statementAuthority = statement.getAuthority(transaction);
 				if (statementAuthority == null)
 					throw new CommandParseException("Statement not authored");
-				return makeSign(cliJPanel, transaction, statement, statementAuthority, delegate);
+				return makeSign(from, transaction, statement, statementAuthority, delegate);
 			}
 			catch (NotActiveContextException e)
 			{

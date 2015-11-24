@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.authority;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.DelegateAuthorizer;
@@ -84,7 +83,7 @@ public class DeleteDelegateAuthorizer extends TransactionalCommand
 		}
 
 		@Override
-		public DeleteDelegateAuthorizer parse(CliJPanel cliJPanel, final Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public DeleteDelegateAuthorizer parse(CommandSource from, final Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			try
 			{
@@ -93,7 +92,7 @@ public class DeleteDelegateAuthorizer extends TransactionalCommand
 				Namespace prefix;
 				if (split.size() > 1)
 				{
-					statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(1));
+					statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(1));
 					if (statement == null)
 						throw new CommandParseException("Invalid statement");
 					if (split.size() > 2)
@@ -103,7 +102,7 @@ public class DeleteDelegateAuthorizer extends TransactionalCommand
 				}
 				else
 				{
-					statement = cliJPanel.getActiveContext();
+					statement = from.getActiveContext();
 					if (statement == null)
 						throw new NotActiveContextException();
 					prefix = RootNamespace.instance;
@@ -129,7 +128,7 @@ public class DeleteDelegateAuthorizer extends TransactionalCommand
 							{
 								throw new UnsupportedOperationException();
 							}
-						}, specToPersons(cliJPanel.getPersistenceManager(), transaction, split.get(0)))).iterator();
+						}, specToPersons(from.getPersistenceManager(), transaction, split.get(0)))).iterator();
 				try
 				{
 					if (!iterator.hasNext())
@@ -137,7 +136,7 @@ public class DeleteDelegateAuthorizer extends TransactionalCommand
 					DelegateAuthorizer da = iterator.next();
 					if (iterator.hasNext())
 						throw new CommandParseException("Duplicate delegate on that prefix with that nick");
-					return new DeleteDelegateAuthorizer(cliJPanel, transaction, da);
+					return new DeleteDelegateAuthorizer(from, transaction, da);
 				}
 				finally
 				{

@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.statement;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
@@ -89,11 +88,11 @@ public class Solves extends TransactionalCommand
 		}
 
 		@Override
-		public Solves parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public Solves parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Term term = parseTerm(cliJPanel.getActiveContext(), transaction, split.get(0));
-			return new Solves(cliJPanel, transaction, term);
+			Term term = parseTerm(from.getActiveContext(), transaction, split.get(0));
+			return new Solves(from, transaction, term);
 		}
 
 		@Override

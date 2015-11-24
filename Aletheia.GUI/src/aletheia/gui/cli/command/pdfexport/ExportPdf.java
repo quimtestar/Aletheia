@@ -23,9 +23,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
@@ -82,18 +81,18 @@ public class ExportPdf extends TransactionalCommand
 		}
 
 		@Override
-		public ExportPdf parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public ExportPdf parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			try
 			{
-				if (cliJPanel.getActiveContext() == null)
+				if (from.getActiveContext() == null)
 					throw new NotActiveContextException();
-				Context context = (Context) cliJPanel.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(0)));
+				Context context = (Context) from.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(0)));
 				if (context == null)
 					throw new CommandParseException("Invalid context");
 				File file = new File(split.get(1));
-				return new ExportPdf(cliJPanel, transaction, context, file);
+				return new ExportPdf(from, transaction, context, file);
 			}
 			catch (ClassCastException e)
 			{

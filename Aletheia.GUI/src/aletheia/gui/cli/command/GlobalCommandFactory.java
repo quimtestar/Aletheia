@@ -34,7 +34,7 @@ import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.Command.CommandException;
 import aletheia.gui.cli.command.Command.CommandParseException;
 import aletheia.gui.cli.command.CommandGroup.CommandGroupException;
@@ -483,12 +483,12 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 		}
 	}
 
-	public final Command parse(CliJPanel cliJPanel, Transaction transaction, String command) throws CommandParseException
+	public final Command parse(CommandSource from, Transaction transaction, String command) throws CommandParseException
 	{
 		List<String> split = splitCommand(command);
 		try
 		{
-			return parse(cliJPanel, transaction, split);
+			return parse(from, transaction, split);
 		}
 		catch (RuntimeException e)
 		{
@@ -497,17 +497,17 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 	}
 
 	@Override
-	public Command parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+	public Command parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 	{
 		if (split.size() <= 0)
-			return new EmptyCommand(cliJPanel);
+			return new EmptyCommand(from);
 		else
 		{
 			String tag = split.get(0);
 			AbstractVoidCommandFactory<? extends Command> factory = taggedFactories.get(tag);
 			if (factory == null)
 				throw new CommandParseException("Bad command");
-			return factory.parse(cliJPanel, transaction, split.subList(1, split.size()));
+			return factory.parse(from, transaction, split.subList(1, split.size()));
 		}
 	}
 

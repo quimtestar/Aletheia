@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.statement;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
@@ -69,16 +68,16 @@ public class IdentifyStatement extends TransactionalCommand
 		}
 
 		@Override
-		public IdentifyStatement parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public IdentifyStatement parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			try
 			{
-				Statement statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(0));
+				Statement statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 				Identifier identifier = null;
 				if (split.size() > 1)
 					identifier = Identifier.parse(split.get(1));
-				return new IdentifyStatement(cliJPanel, transaction, statement, identifier);
+				return new IdentifyStatement(from, transaction, statement, identifier);
 
 			}
 			catch (InvalidNameException e)

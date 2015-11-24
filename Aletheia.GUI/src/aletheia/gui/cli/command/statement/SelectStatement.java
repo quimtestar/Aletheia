@@ -22,9 +22,8 @@ package aletheia.gui.cli.command.statement;
 import java.util.List;
 import java.util.UUID;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.gui.cli.command.gui.SelectContext;
@@ -59,31 +58,31 @@ public class SelectStatement extends TransactionalCommand
 	{
 
 		@Override
-		public SelectStatement parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public SelectStatement parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			Statement statement;
 			if (split.size() > 0)
 			{
 				if (split.get(0).startsWith("$"))
-					statement = cliJPanel.getActiveContext().getStatementByHexRef(transaction, split.get(0));
+					statement = from.getActiveContext().getStatementByHexRef(transaction, split.get(0));
 				else
 					try
 					{
-						statement = cliJPanel.getPersistenceManager().getStatement(transaction, UUID.fromString(split.get(0)));
+						statement = from.getPersistenceManager().getStatement(transaction, UUID.fromString(split.get(0)));
 					}
 					catch (IllegalArgumentException e)
 					{
-						statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(0));
+						statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 					}
 			}
 			else
-				statement = cliJPanel.getActiveContext();
+				statement = from.getActiveContext();
 			if (statement == null)
 				throw new CommandParseException("Invalid statement");
 			if (statement instanceof Context)
-				return new SelectContext(cliJPanel, transaction, (Context) statement);
+				return new SelectContext(from, transaction, (Context) statement);
 			else
-				return new SelectStatement(cliJPanel, transaction, statement);
+				return new SelectStatement(from, transaction, statement);
 		}
 
 		@Override

@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.authority;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.DelegateAuthorizer;
@@ -63,19 +62,19 @@ public class ResetDelegateAuthorizer extends TransactionalCommand
 		}
 
 		@Override
-		public ResetDelegateAuthorizer parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public ResetDelegateAuthorizer parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			try
 			{
 				checkMinParameters(split);
-				Person delegate = specToPerson(cliJPanel.getPersistenceManager(), transaction, split.get(0));
+				Person delegate = specToPerson(from.getPersistenceManager(), transaction, split.get(0));
 				if (delegate == null)
 					throw new CommandParseException("Not a person with this UUID or with this nick, or the nick is not unique.");
 				Statement statement;
 				Namespace prefix;
 				if (split.size() > 1)
 				{
-					statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(1));
+					statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(1));
 					if (statement == null)
 						throw new CommandParseException("Invalid statement");
 					if (split.size() > 2)
@@ -85,7 +84,7 @@ public class ResetDelegateAuthorizer extends TransactionalCommand
 				}
 				else
 				{
-					statement = cliJPanel.getActiveContext();
+					statement = from.getActiveContext();
 					if (statement == null)
 						throw new NotActiveContextException();
 					prefix = RootNamespace.instance;
@@ -96,7 +95,7 @@ public class ResetDelegateAuthorizer extends TransactionalCommand
 				DelegateAuthorizer delegateAuthorizer = statementAuthority.getDelegateAuthorizer(transaction, prefix, delegate);
 				if (delegateAuthorizer == null)
 					throw new CommandParseException("Not existing delegate authorizer");
-				return new ResetDelegateAuthorizer(cliJPanel, transaction, delegateAuthorizer);
+				return new ResetDelegateAuthorizer(from, transaction, delegateAuthorizer);
 			}
 			catch (InvalidNameException | NotActiveContextException e)
 			{

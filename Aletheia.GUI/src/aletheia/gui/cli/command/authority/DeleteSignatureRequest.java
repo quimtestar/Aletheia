@@ -22,9 +22,8 @@ package aletheia.gui.cli.command.authority;
 import java.util.List;
 import java.util.UUID;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.SignatureRequest;
@@ -58,7 +57,7 @@ public class DeleteSignatureRequest extends TransactionalCommand
 		}
 
 		@Override
-		public DeleteSignatureRequest parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public DeleteSignatureRequest parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			UUID uuid;
@@ -70,10 +69,10 @@ public class DeleteSignatureRequest extends TransactionalCommand
 			{
 				throw new CommandParseException(e);
 			}
-			SignatureRequest signatureRequest = cliJPanel.getPersistenceManager().getSignatureRequest(transaction, uuid);
+			SignatureRequest signatureRequest = from.getPersistenceManager().getSignatureRequest(transaction, uuid);
 			if (signatureRequest == null)
 				throw new CommandParseException("Request not found.");
-			return new DeleteSignatureRequest(cliJPanel, transaction, signatureRequest);
+			return new DeleteSignatureRequest(from, transaction, signatureRequest);
 		}
 
 		@Override

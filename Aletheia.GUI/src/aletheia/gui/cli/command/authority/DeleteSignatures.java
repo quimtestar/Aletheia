@@ -22,9 +22,8 @@ package aletheia.gui.cli.command.authority;
 import java.util.Collection;
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.StatementAuthoritySignature;
@@ -59,12 +58,12 @@ public class DeleteSignatures extends TransactionalCommand
 		}
 
 		@Override
-		public DeleteSignatures parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public DeleteSignatures parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Collection<StatementAuthoritySignature> signatures = specToStatementAuthoritySignatures(cliJPanel.getPersistenceManager(), transaction,
-					cliJPanel.getActiveContext(), split);
-			return new DeleteSignatures(cliJPanel, transaction, signatures);
+			Collection<StatementAuthoritySignature> signatures = specToStatementAuthoritySignatures(from.getPersistenceManager(), transaction,
+					from.getActiveContext(), split);
+			return new DeleteSignatures(from, transaction, signatures);
 		}
 
 		@Override

@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.statement;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
@@ -74,17 +73,17 @@ public class IdentifyAssumption extends TransactionalCommand
 	{
 
 		@Override
-		public IdentifyAssumption parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public IdentifyAssumption parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			try
 			{
 				Identifier identifier = Identifier.parse(split.get(0));
 				int i = Integer.parseInt(split.get(1));
-				if (cliJPanel.getActiveContext() == null)
+				if (from.getActiveContext() == null)
 					throw new NotActiveContextException();
-				Statement statement = cliJPanel.getActiveContext().assumptions(transaction).get(i);
-				return new IdentifyAssumption(cliJPanel, transaction, identifier, statement);
+				Statement statement = from.getActiveContext().assumptions(transaction).get(i);
+				return new IdentifyAssumption(from, transaction, identifier, statement);
 			}
 			catch (InvalidNameException | NotActiveContextException e)
 			{

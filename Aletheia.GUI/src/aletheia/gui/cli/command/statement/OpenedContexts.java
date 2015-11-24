@@ -23,9 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
@@ -90,9 +89,9 @@ public class OpenedContexts extends TransactionalCommand
 		}
 
 		@Override
-		public OpenedContexts parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public OpenedContexts parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
-			return new OpenedContexts(cliJPanel, transaction);
+			return new OpenedContexts(from, transaction);
 		}
 
 		@Override

@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.peertopeer;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.persistence.Transaction;
@@ -54,10 +53,10 @@ public class ClearHookList extends TransactionalCommand
 		}
 
 		@Override
-		public ClearHookList parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public ClearHookList parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			return new ClearHookList(cliJPanel, transaction);
+			return new ClearHookList(from, transaction);
 		}
 
 		@Override

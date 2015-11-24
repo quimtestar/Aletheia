@@ -22,9 +22,8 @@ package aletheia.gui.cli.command.peertopeer;
 import java.util.List;
 import java.util.UUID;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.SignatureRequest;
@@ -102,10 +101,10 @@ public class SendSignatureRequest extends PeerToPeerCommand
 		}
 
 		@Override
-		public SendSignatureRequest parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public SendSignatureRequest parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Person person = specToPerson(cliJPanel.getPersistenceManager(), transaction, split.get(0));
+			Person person = specToPerson(from.getPersistenceManager(), transaction, split.get(0));
 			if (person == null)
 				throw new CommandParseException("Person not found.");
 			UUID signatureRequestUuid;
@@ -117,7 +116,7 @@ public class SendSignatureRequest extends PeerToPeerCommand
 			{
 				throw new CommandParseException(e);
 			}
-			SignatureRequest signatureRequest = cliJPanel.getPersistenceManager().getSignatureRequest(transaction, signatureRequestUuid);
+			SignatureRequest signatureRequest = from.getPersistenceManager().getSignatureRequest(transaction, signatureRequestUuid);
 			if (signatureRequest == null)
 				throw new CommandParseException("Request not found.");
 			if (signatureRequest instanceof UnpackedSignatureRequest)
@@ -125,7 +124,7 @@ public class SendSignatureRequest extends PeerToPeerCommand
 				if (((UnpackedSignatureRequest) signatureRequest).rootContextSignatureUuid(transaction) == null)
 					throw new CommandParseException("Missing root context signature");
 			}
-			return new SendSignatureRequest(cliJPanel, person, signatureRequest);
+			return new SendSignatureRequest(from, person, signatureRequest);
 		}
 
 		@Override

@@ -21,10 +21,9 @@ package aletheia.gui.cli.command.prooffinder;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.Command;
-import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.persistence.Transaction;
 
@@ -47,9 +46,9 @@ public class ClearProofFinderCache extends Command
 	{
 
 		@Override
-		public ClearProofFinderCache parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public ClearProofFinderCache parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
-			return new ClearProofFinderCache(cliJPanel);
+			return new ClearProofFinderCache(from);
 		}
 
 		@Override

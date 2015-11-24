@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.statement;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
@@ -114,13 +113,13 @@ public class StatementOut extends TransactionalCommand
 		}
 
 		@Override
-		public StatementOut parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public StatementOut parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Statement statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(0));
+			Statement statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 			if (statement == null)
 				throw new CommandParseException("Invalid statement");
-			return new StatementOut(cliJPanel, transaction, statement);
+			return new StatementOut(from, transaction, statement);
 		}
 
 		@Override

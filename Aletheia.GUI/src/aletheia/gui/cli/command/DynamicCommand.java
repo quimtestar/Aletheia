@@ -21,7 +21,7 @@ package aletheia.gui.cli.command;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.persistence.Transaction;
 
 public abstract class DynamicCommand extends Command
@@ -54,11 +54,11 @@ public abstract class DynamicCommand extends Command
 		}
 
 		@Override
-		public final C parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public final C parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			try
 			{
-				return dynamicParse(cliJPanel, transaction, split);
+				return dynamicParse(from, transaction, split);
 			}
 			catch (Throwable t)
 			{

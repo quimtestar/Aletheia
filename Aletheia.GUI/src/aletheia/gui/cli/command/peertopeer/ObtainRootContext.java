@@ -22,9 +22,8 @@ package aletheia.gui.cli.command.peertopeer;
 import java.util.List;
 import java.util.UUID;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.statement.RootContext;
 import aletheia.persistence.Transaction;
@@ -100,11 +99,11 @@ public class ObtainRootContext extends PeerToPeerCommand
 		}
 
 		@Override
-		public ObtainRootContext parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public ObtainRootContext parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			UUID uuid = UUID.fromString(split.get(0));
-			return new ObtainRootContext(cliJPanel, uuid);
+			return new ObtainRootContext(from, uuid);
 		}
 
 		@Override

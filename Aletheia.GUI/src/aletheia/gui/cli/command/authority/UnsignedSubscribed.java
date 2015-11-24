@@ -22,9 +22,8 @@ package aletheia.gui.cli.command.authority;
 import java.util.List;
 import java.util.Stack;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.StatementAuthority;
@@ -82,7 +81,7 @@ public class UnsignedSubscribed extends TransactionalCommand
 		}
 
 		@Override
-		public UnsignedSubscribed parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public UnsignedSubscribed parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			try
 			{
@@ -90,7 +89,7 @@ public class UnsignedSubscribed extends TransactionalCommand
 				Context context;
 				if (split.size() > 0)
 				{
-					Statement statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(1));
+					Statement statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(1));
 					if (statement == null)
 						throw new CommandParseException("Invalid statement");
 					if (!(statement instanceof Context))
@@ -99,11 +98,11 @@ public class UnsignedSubscribed extends TransactionalCommand
 				}
 				else
 				{
-					context = cliJPanel.getActiveContext();
+					context = from.getActiveContext();
 					if (context == null)
 						throw new NotActiveContextException();
 				}
-				return new UnsignedSubscribed(cliJPanel, transaction, context);
+				return new UnsignedSubscribed(from, transaction, context);
 			}
 			catch (NotActiveContextException e)
 			{

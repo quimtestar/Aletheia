@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
@@ -63,12 +62,12 @@ public class NewDeclaration extends NewContext
 	{
 
 		@Override
-		public NewDeclaration parse(CliJPanel cliJPanel, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
+		public NewDeclaration parse(CommandSource from, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<ParameterVariableTerm, Identifier>();
-			Term value = parseTerm(cliJPanel.getActiveContext(), transaction, split.get(0), parameterIdentifiers);
-			return new NewDeclaration(cliJPanel, transaction, identifier, value, parameterIdentifiers);
+			Term value = parseTerm(from.getActiveContext(), transaction, split.get(0), parameterIdentifiers);
+			return new NewDeclaration(from, transaction, identifier, value, parameterIdentifiers);
 		}
 
 		@Override

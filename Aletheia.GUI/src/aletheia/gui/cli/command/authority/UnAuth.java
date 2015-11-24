@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.authority;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Statement;
@@ -59,14 +58,14 @@ public class UnAuth extends TransactionalCommand
 		}
 
 		@Override
-		public UnAuth parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public UnAuth parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Statement statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(0));
+			Statement statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 			if (statement == null)
 				throw new CommandParseException("Invalid statement");
 			boolean force = split.size() > 1 && split.get(1).equals("force");
-			return new UnAuth(cliJPanel, transaction, statement, force);
+			return new UnAuth(from, transaction, statement, force);
 		}
 
 		@Override

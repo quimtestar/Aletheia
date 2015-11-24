@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.authority;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.PrivatePerson;
@@ -62,11 +61,11 @@ public class DeletePrivatePerson extends TransactionalCommand
 		}
 
 		@Override
-		public DeletePrivatePerson parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public DeletePrivatePerson parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			String nick = split.get(0);
-			return new DeletePrivatePerson(cliJPanel, transaction, nick);
+			return new DeletePrivatePerson(from, transaction, nick);
 		}
 
 		@Override

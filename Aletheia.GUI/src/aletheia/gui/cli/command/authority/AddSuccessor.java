@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.authority;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.DelegateTreeRootNode;
@@ -63,31 +62,31 @@ public class AddSuccessor extends TransactionalCommand
 		}
 
 		@Override
-		public AddSuccessor parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public AddSuccessor parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			try
 			{
 				checkMinParameters(split);
-				Person delegate = specToPerson(cliJPanel.getPersistenceManager(), transaction, split.get(0));
+				Person delegate = specToPerson(from.getPersistenceManager(), transaction, split.get(0));
 				if (delegate == null)
 					throw new CommandParseException("Not a person with this UUID or with this nick, or the nick is not unique.");
 				Statement statement;
 				if (split.size() > 1)
 				{
-					statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(1));
+					statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(1));
 					if (statement == null)
 						throw new CommandParseException("Invalid statement");
 				}
 				else
 				{
-					statement = cliJPanel.getActiveContext();
+					statement = from.getActiveContext();
 					if (statement == null)
 						throw new NotActiveContextException();
 				}
 				StatementAuthority statementAuthority = statement.getAuthority(transaction);
 				if (statementAuthority == null)
 					throw new CommandParseException("Statement not authored");
-				return new AddSuccessor(cliJPanel, transaction, delegate, statementAuthority);
+				return new AddSuccessor(from, transaction, delegate, statementAuthority);
 			}
 			catch (NotActiveContextException e)
 			{

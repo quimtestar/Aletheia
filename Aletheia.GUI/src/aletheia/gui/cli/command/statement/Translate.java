@@ -24,9 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
@@ -96,15 +95,15 @@ public class Translate extends TransactionalCommand
 		}
 
 		@Override
-		public Translate parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public Translate parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			try
 			{
-				Context context = (Context) findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(0));
+				Context context = (Context) findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 				if (context == null)
 					throw new CommandParseException("Bad statement path: " + split.get(0));
-				return new Translate(cliJPanel, transaction, context);
+				return new Translate(from, transaction, context);
 			}
 			catch (ClassCastException e)
 			{

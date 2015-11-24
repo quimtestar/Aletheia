@@ -19,7 +19,6 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.authority;
 
-import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.authority.DelegateAuthorizer;
@@ -82,12 +81,12 @@ public class SignRec extends Sign
 	{
 
 		@Override
-		protected SignRec makeSign(CliJPanel cliJPanel, Transaction transaction, Statement statement, StatementAuthority statementAuthority,
+		protected SignRec makeSign(CommandSource from, Transaction transaction, Statement statement, StatementAuthority statementAuthority,
 				PrivatePerson delegate) throws CommandParseException
 		{
 			if (!(statement instanceof Context))
 				throw new CommandParseException("Not a context");
-			return new SignRec(cliJPanel, transaction, (Context) statement, statementAuthority, delegate);
+			return new SignRec(from, transaction, (Context) statement, statementAuthority, delegate);
 		}
 
 		@Override

@@ -21,15 +21,15 @@ package aletheia.gui.cli.command;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.Command.CommandParseException;
 import aletheia.persistence.Transaction;
 
 public abstract class AbstractVoidCommandFactory<C extends Command> extends AbstractCommandFactory<C, Void>
 {
 
-	protected C parse(CliJPanel cliJPanel, Transaction transaction, List<String> split) throws CommandParseException
+	protected C parse(CommandSource from, Transaction transaction, List<String> split) throws CommandParseException
 	{
-		return parse(cliJPanel, transaction, null, split);
+		return parse(from, transaction, null, split);
 	}
 }

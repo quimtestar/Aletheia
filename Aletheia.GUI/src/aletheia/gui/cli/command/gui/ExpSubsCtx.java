@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.gui;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Context;
@@ -57,9 +56,9 @@ public class ExpSubsCtx extends TransactionalCommand
 		}
 
 		@Override
-		public ExpSubsCtx parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public ExpSubsCtx parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
-			return new ExpSubsCtx(cliJPanel, transaction);
+			return new ExpSubsCtx(from, transaction);
 		}
 
 		@Override

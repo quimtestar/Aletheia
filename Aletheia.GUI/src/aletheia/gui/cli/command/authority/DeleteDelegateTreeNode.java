@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.authority;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.DelegateTreeNode;
@@ -80,7 +79,7 @@ public class DeleteDelegateTreeNode extends TransactionalCommand
 		}
 
 		@Override
-		public DeleteDelegateTreeNode parse(CliJPanel cliJPanel, final Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public DeleteDelegateTreeNode parse(CommandSource from, final Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			try
 			{
@@ -89,7 +88,7 @@ public class DeleteDelegateTreeNode extends TransactionalCommand
 				Namespace prefix;
 				if (split.size() > 0)
 				{
-					statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(0));
+					statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 					if (statement == null)
 						throw new CommandParseException("Invalid statement");
 					if (split.size() > 1)
@@ -99,7 +98,7 @@ public class DeleteDelegateTreeNode extends TransactionalCommand
 				}
 				else
 				{
-					statement = cliJPanel.getActiveContext();
+					statement = from.getActiveContext();
 					if (statement == null)
 						throw new NotActiveContextException();
 					prefix = RootNamespace.instance;
@@ -110,7 +109,7 @@ public class DeleteDelegateTreeNode extends TransactionalCommand
 				DelegateTreeNode node = statementAuthority.getDelegateTreeNode(transaction, prefix);
 				if (node == null)
 					throw new CommandParseException("Not a delegate on that prefix");
-				return new DeleteDelegateTreeNode(cliJPanel, transaction, node);
+				return new DeleteDelegateTreeNode(from, transaction, node);
 			}
 			catch (InvalidNameException | NotActiveContextException e)
 			{

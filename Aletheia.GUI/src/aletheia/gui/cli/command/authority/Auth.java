@@ -22,9 +22,8 @@ package aletheia.gui.cli.command.authority;
 import java.util.List;
 import java.util.Stack;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.PrivatePerson;
@@ -99,34 +98,34 @@ public class Auth extends TransactionalCommand
 			return 1;
 		}
 
-		protected Auth makeAuth(CliJPanel cliJPanel, Transaction transaction, PrivatePerson author, Statement statement) throws CommandParseException
+		protected Auth makeAuth(CommandSource from, Transaction transaction, PrivatePerson author, Statement statement) throws CommandParseException
 		{
-			return new Auth(cliJPanel, transaction, author, statement);
+			return new Auth(from, transaction, author, statement);
 		}
 
 		@Override
-		public Auth parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public Auth parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			try
 			{
 				checkMinParameters(split);
-				PrivatePerson author = cliJPanel.getPersistenceManager().privatePersonsByNick(transaction).get(split.get(0));
+				PrivatePerson author = from.getPersistenceManager().privatePersonsByNick(transaction).get(split.get(0));
 				if (author == null)
 					throw new CommandParseException("Invalid nick");
 				Statement statement;
 				if (split.size() > 1)
 				{
-					statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(1));
+					statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(1));
 					if (statement == null)
 						throw new CommandParseException("Invalid statement");
 				}
 				else
 				{
-					statement = cliJPanel.getActiveContext();
+					statement = from.getActiveContext();
 					if (statement == null)
 						throw new NotActiveContextException();
 				}
-				return makeAuth(cliJPanel, transaction, author, statement);
+				return makeAuth(from, transaction, author, statement);
 			}
 			catch (NotActiveContextException e)
 			{

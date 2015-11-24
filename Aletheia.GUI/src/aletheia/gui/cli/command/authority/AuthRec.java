@@ -19,7 +19,6 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.authority;
 
-import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.authority.PrivatePerson;
@@ -58,11 +57,11 @@ public class AuthRec extends Auth
 	{
 
 		@Override
-		protected AuthRec makeAuth(CliJPanel cliJPanel, Transaction transaction, PrivatePerson author, Statement statement) throws CommandParseException
+		protected AuthRec makeAuth(CommandSource from, Transaction transaction, PrivatePerson author, Statement statement) throws CommandParseException
 		{
 			if (!(statement instanceof Context))
 				throw new CommandParseException("Not a context");
-			return new AuthRec(cliJPanel, transaction, author, (Context) statement);
+			return new AuthRec(from, transaction, author, (Context) statement);
 		}
 
 		@Override

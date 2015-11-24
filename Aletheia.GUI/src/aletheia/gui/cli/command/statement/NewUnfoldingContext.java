@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
@@ -65,19 +64,19 @@ public class NewUnfoldingContext extends NewContext
 	{
 
 		@Override
-		public NewUnfoldingContext parse(CliJPanel cliJPanel, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
+		public NewUnfoldingContext parse(CommandSource from, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			try
 			{
-				if (cliJPanel.getActiveContext() == null)
+				if (from.getActiveContext() == null)
 					throw new NotActiveContextException();
 				Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<ParameterVariableTerm, Identifier>();
-				Term term = parseTerm(cliJPanel.getActiveContext(), transaction, split.get(0), parameterIdentifiers);
-				Declaration declaration = (Declaration) cliJPanel.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(1)));
+				Term term = parseTerm(from.getActiveContext(), transaction, split.get(0), parameterIdentifiers);
+				Declaration declaration = (Declaration) from.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(1)));
 				if (declaration == null)
 					throw new CommandParseException("Bad unfolding statement:" + split.get(1));
-				return new NewUnfoldingContext(cliJPanel, transaction, identifier, term, parameterIdentifiers, declaration);
+				return new NewUnfoldingContext(from, transaction, identifier, term, parameterIdentifiers, declaration);
 			}
 			catch (NotActiveContextException | InvalidNameException e)
 			{

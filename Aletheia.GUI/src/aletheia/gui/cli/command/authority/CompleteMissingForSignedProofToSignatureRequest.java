@@ -23,9 +23,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.UnpackedSignatureRequest;
@@ -62,7 +61,7 @@ public class CompleteMissingForSignedProofToSignatureRequest extends Transaction
 		}
 
 		@Override
-		public CompleteMissingForSignedProofToSignatureRequest parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split)
+		public CompleteMissingForSignedProofToSignatureRequest parse(CommandSource from, Transaction transaction, Void extra, List<String> split)
 				throws CommandParseException
 		{
 			checkMinParameters(split);
@@ -75,10 +74,10 @@ public class CompleteMissingForSignedProofToSignatureRequest extends Transaction
 			{
 				throw new CommandParseException(e);
 			}
-			UnpackedSignatureRequest unpackedSignatureRequest = cliJPanel.getPersistenceManager().getUnpackedSignatureRequest(transaction, uuid);
+			UnpackedSignatureRequest unpackedSignatureRequest = from.getPersistenceManager().getUnpackedSignatureRequest(transaction, uuid);
 			if (unpackedSignatureRequest == null)
 				throw new CommandParseException("Request not found.");
-			return new CompleteMissingForSignedProofToSignatureRequest(cliJPanel, transaction, unpackedSignatureRequest);
+			return new CompleteMissingForSignedProofToSignatureRequest(from, transaction, unpackedSignatureRequest);
 		}
 
 		@Override

@@ -26,7 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.model.authority.UnpackedSignatureRequest;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
@@ -289,9 +289,9 @@ public abstract class Command
 					new AdaptedMap<VariableTerm, Identifier>(ctx.variableToIdentifier(transaction))));
 	}
 
-	public static Command parse(CliJPanel cliJPanel, Transaction transaction, String command) throws CommandParseException
+	public static Command parse(CommandSource from, Transaction transaction, String command) throws CommandParseException
 	{
-		return factory.parse(cliJPanel, transaction, command);
+		return factory.parse(from, transaction, command);
 	}
 
 	public abstract void run() throws Exception;

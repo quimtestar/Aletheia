@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.term;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Context;
@@ -60,11 +59,11 @@ public class TermOut extends TransactionalCommand
 	{
 
 		@Override
-		public TermOut parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public TermOut parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Term term = parseTerm(cliJPanel.getActiveContext(), transaction, split.get(0));
-			return new TermOut(cliJPanel, transaction, term);
+			Term term = parseTerm(from.getActiveContext(), transaction, split.get(0));
+			return new TermOut(from, transaction, term);
 		}
 
 		@Override

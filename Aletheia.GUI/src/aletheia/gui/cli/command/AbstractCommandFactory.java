@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.Command.CommandParseEmbeddedException;
 import aletheia.gui.cli.command.Command.CommandParseException;
 import aletheia.model.authority.DelegateAuthorizer;
@@ -252,7 +252,7 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 			throw new MissingParametersException();
 	}
 
-	public abstract C parse(CliJPanel cliJPanel, Transaction transaction, E extra, List<String> split) throws CommandParseException;
+	public abstract C parse(CommandSource from, Transaction transaction, E extra, List<String> split) throws CommandParseException;
 
 	public RootCommandGroup rootCommandGroup()
 	{

@@ -24,9 +24,8 @@ import java.util.UUID;
 
 import javax.swing.SwingUtilities;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.UnpackedSignatureRequest;
@@ -80,7 +79,7 @@ public class AddStatementToSignatureRequest extends TransactionalCommand
 		}
 
 		@Override
-		public AddStatementToSignatureRequest parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public AddStatementToSignatureRequest parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			UUID uuid;
@@ -92,13 +91,13 @@ public class AddStatementToSignatureRequest extends TransactionalCommand
 			{
 				throw new CommandParseException(e);
 			}
-			UnpackedSignatureRequest unpackedSignatureRequest = cliJPanel.getPersistenceManager().getUnpackedSignatureRequest(transaction, uuid);
+			UnpackedSignatureRequest unpackedSignatureRequest = from.getPersistenceManager().getUnpackedSignatureRequest(transaction, uuid);
 			if (unpackedSignatureRequest == null)
 				throw new CommandParseException("Request not found.");
-			Statement statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(1));
+			Statement statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(1));
 			if (statement == null)
 				throw new CommandParseException("Invalid statement");
-			return new AddStatementToSignatureRequest(cliJPanel, transaction, unpackedSignatureRequest, statement);
+			return new AddStatementToSignatureRequest(from, transaction, unpackedSignatureRequest, statement);
 		}
 
 		@Override

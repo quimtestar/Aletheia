@@ -22,9 +22,8 @@ package aletheia.gui.cli.command.statement;
 import java.util.List;
 import java.util.Stack;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.local.ContextLocal;
@@ -88,14 +87,14 @@ public class SubscribedHighestContext extends TransactionalCommand
 		}
 
 		@Override
-		public SubscribedHighestContext parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public SubscribedHighestContext parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Statement statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(0));
+			Statement statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 			if (!(statement instanceof Context))
 				throw new CommandParseException("Not a context.");
 			boolean unsigned = split.size() > 1 && split.get(1).equals("unsigned");
-			return new SubscribedHighestContext(cliJPanel, transaction, (Context) statement, unsigned);
+			return new SubscribedHighestContext(from, transaction, (Context) statement, unsigned);
 		}
 
 		@Override

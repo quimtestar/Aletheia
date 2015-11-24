@@ -23,9 +23,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Statement;
@@ -63,7 +62,7 @@ public class Export extends TransactionalCommand
 		}
 
 		@Override
-		public Export parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public Export parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 
@@ -77,13 +76,13 @@ public class Export extends TransactionalCommand
 					signed = true;
 				else
 				{
-					Statement st = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(i));
+					Statement st = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(i));
 					if (st == null)
 						throw new CommandParseException("Bad statement path: " + split.get(i));
 					statements.add(st);
 				}
 			}
-			return new Export(cliJPanel, transaction, file, statements, signed);
+			return new Export(from, transaction, file, statements, signed);
 		}
 
 		@Override

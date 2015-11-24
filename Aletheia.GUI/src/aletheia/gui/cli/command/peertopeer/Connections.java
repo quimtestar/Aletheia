@@ -22,9 +22,8 @@ package aletheia.gui.cli.command.peertopeer;
 import java.net.InetSocketAddress;
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.peertopeer.PeerToPeerConnection;
 import aletheia.peertopeer.PeerToPeerConnection.Gender;
@@ -61,9 +60,9 @@ public class Connections extends PeerToPeerCommand
 		}
 
 		@Override
-		public Connections parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public Connections parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
-			return new Connections(cliJPanel);
+			return new Connections(from);
 		}
 
 		@Override

@@ -21,7 +21,6 @@ package aletheia.gui.cli.command.statement;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
@@ -59,13 +58,13 @@ public class NewCopy extends NewStatement
 	{
 
 		@Override
-		public NewCopy parse(CliJPanel cliJPanel, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
+		public NewCopy parse(CommandSource from, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Statement statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(0));
+			Statement statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 			if (statement == null)
 				throw new CommandParseException("Bad statement path: " + split.get(0));
-			return new NewCopy(cliJPanel, transaction, identifier, statement);
+			return new NewCopy(from, transaction, identifier, statement);
 		}
 
 		@Override

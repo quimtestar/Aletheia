@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.gui;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Context;
@@ -56,9 +55,9 @@ public class Up extends TransactionalCommand
 	{
 
 		@Override
-		public Up parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split)
+		public Up parse(CommandSource from, Transaction transaction, Void extra, List<String> split)
 		{
-			return new Up(cliJPanel, transaction);
+			return new Up(from, transaction);
 		}
 
 		@Override

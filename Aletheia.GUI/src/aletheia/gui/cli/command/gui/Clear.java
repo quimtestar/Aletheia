@@ -21,10 +21,9 @@ package aletheia.gui.cli.command.gui;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.Command;
-import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.persistence.Transaction;
 
@@ -53,9 +52,9 @@ public class Clear extends Command
 		}
 
 		@Override
-		public Clear parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public Clear parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
-			return new Clear(cliJPanel);
+			return new Clear(from);
 		}
 
 		@Override

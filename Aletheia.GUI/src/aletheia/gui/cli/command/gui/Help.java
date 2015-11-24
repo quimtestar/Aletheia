@@ -23,12 +23,11 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Stack;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.AbstractCommandFactory;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.Command;
 import aletheia.gui.cli.command.CommandGroup;
-import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.SubCommandGroup;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.persistence.Transaction;
@@ -97,7 +96,7 @@ public class Help extends Command
 		}
 
 		@Override
-		public Help parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public Help parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			String tag = null;
 			AbstractCommandFactory<?, ?> factory = Command.factory;
@@ -130,7 +129,7 @@ public class Help extends Command
 			}
 			if (commandGroup == null)
 				commandGroup = factory.rootCommandGroup();
-			return new Help(cliJPanel, tag, factory, commandGroup);
+			return new Help(from, tag, factory, commandGroup);
 		}
 
 		@Override

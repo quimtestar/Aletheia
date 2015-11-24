@@ -23,9 +23,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.authority.Person;
 import aletheia.persistence.Transaction;
@@ -101,21 +100,21 @@ public class SendPersonCredentials extends PeerToPeerCommand
 		}
 
 		@Override
-		public SendPersonCredentials parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public SendPersonCredentials parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Person recipient = specToPerson(cliJPanel.getPersistenceManager(), transaction, split.get(0));
+			Person recipient = specToPerson(from.getPersistenceManager(), transaction, split.get(0));
 			if (recipient == null)
 				throw new CommandParseException("Recipient not found.");
 			Collection<Person> persons = new ArrayList<Person>();
 			for (int i = 1; i < split.size(); i++)
 			{
-				Person person = specToPerson(cliJPanel.getPersistenceManager(), transaction, split.get(i));
+				Person person = specToPerson(from.getPersistenceManager(), transaction, split.get(i));
 				if (person == null)
 					throw new CommandParseException("Person not found.");
 				persons.add(person);
 			}
-			return new SendPersonCredentials(cliJPanel, recipient, persons);
+			return new SendPersonCredentials(from, recipient, persons);
 		}
 
 		@Override

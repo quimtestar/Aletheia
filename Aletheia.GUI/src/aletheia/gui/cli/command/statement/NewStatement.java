@@ -26,11 +26,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.AbstractCommandFactory;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.Command;
-import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.CommandGroup.CommandGroupException;
 import aletheia.gui.cli.command.RootCommandGroup;
 import aletheia.gui.cli.command.TaggedCommand;
@@ -136,7 +135,7 @@ public abstract class NewStatement extends TransactionalCommand
 		}
 
 		@Override
-		public NewStatement parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public NewStatement parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			try
@@ -146,7 +145,7 @@ public abstract class NewStatement extends TransactionalCommand
 				AbstractNewStatementFactory<? extends NewStatement> factory = taggedFactories.get(tag);
 				if (factory == null)
 					throw new CommandParseException("Bad new statement command");
-				return factory.parse(cliJPanel, transaction, identifier, split.subList(2, split.size()));
+				return factory.parse(from, transaction, identifier, split.subList(2, split.size()));
 			}
 			catch (InvalidNameException e)
 			{

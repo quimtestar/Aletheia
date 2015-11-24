@@ -23,9 +23,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.PackedSignatureRequest;
@@ -137,7 +136,7 @@ public class ObtainRootContextFromUnpackedSignatureRequestCollection extends Tra
 		}
 
 		@Override
-		public ObtainRootContextFromUnpackedSignatureRequestCollection parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split)
+		public ObtainRootContextFromUnpackedSignatureRequestCollection parse(CommandSource from, Transaction transaction, Void extra, List<String> split)
 				throws CommandParseException
 		{
 			checkMinParameters(split);
@@ -151,12 +150,12 @@ public class ObtainRootContextFromUnpackedSignatureRequestCollection extends Tra
 				throw new CommandParseException(e);
 			}
 			CloseableCollection<PackedSignatureRequest> packedSignatureRequestCollection;
-			PackedSignatureRequest packedSignatureRequest = cliJPanel.getPersistenceManager().getPackedSignatureRequest(transaction, uuid);
+			PackedSignatureRequest packedSignatureRequest = from.getPersistenceManager().getPackedSignatureRequest(transaction, uuid);
 			if (packedSignatureRequest != null)
 				packedSignatureRequestCollection = new TrivialCloseableCollection<>(Collections.singleton(packedSignatureRequest));
 			else
-				packedSignatureRequestCollection = cliJPanel.getPersistenceManager().packedSignatureRequestContextPackingDateCollection(transaction, uuid);
-			return new ObtainRootContextFromUnpackedSignatureRequestCollection(cliJPanel, transaction, packedSignatureRequestCollection);
+				packedSignatureRequestCollection = from.getPersistenceManager().packedSignatureRequestContextPackingDateCollection(transaction, uuid);
+			return new ObtainRootContextFromUnpackedSignatureRequestCollection(from, transaction, packedSignatureRequestCollection);
 		}
 
 		@Override

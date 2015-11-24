@@ -22,9 +22,8 @@ package aletheia.gui.cli.command.authority;
 import java.util.List;
 import java.util.UUID;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.PackedSignatureRequest;
@@ -60,7 +59,7 @@ public class UnpackSignatureRequest extends TransactionalCommand
 		}
 
 		@Override
-		public UnpackSignatureRequest parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public UnpackSignatureRequest parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			UUID uuid;
@@ -72,10 +71,10 @@ public class UnpackSignatureRequest extends TransactionalCommand
 			{
 				throw new CommandParseException(e);
 			}
-			PackedSignatureRequest packedSignatureRequest = cliJPanel.getPersistenceManager().getPackedSignatureRequest(transaction, uuid);
+			PackedSignatureRequest packedSignatureRequest = from.getPersistenceManager().getPackedSignatureRequest(transaction, uuid);
 			if (packedSignatureRequest == null)
 				throw new CommandParseException("Request not found.");
-			return new UnpackSignatureRequest(cliJPanel, transaction, packedSignatureRequest);
+			return new UnpackSignatureRequest(from, transaction, packedSignatureRequest);
 		}
 
 		@Override

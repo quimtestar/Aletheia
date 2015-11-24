@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.term;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Context;
@@ -144,12 +143,12 @@ public class TermDiff extends TransactionalCommand
 		}
 
 		@Override
-		public TermDiff parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public TermDiff parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Term term0 = parseTerm(cliJPanel.getActiveContext(), transaction, split.get(0));
-			Term term1 = parseTerm(cliJPanel.getActiveContext(), transaction, split.get(1));
-			return new TermDiff(cliJPanel, transaction, term0, term1);
+			Term term0 = parseTerm(from.getActiveContext(), transaction, split.get(0));
+			Term term1 = parseTerm(from.getActiveContext(), transaction, split.get(1));
+			return new TermDiff(from, transaction, term0, term1);
 		}
 
 		@Override

@@ -24,9 +24,8 @@ import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.peertopeer.FemalePeerToPeerNode;
 import aletheia.peertopeer.PeerToPeerNode;
@@ -67,7 +66,7 @@ public class FemaleNetworkJoin extends PeerToPeerCommand
 		}
 
 		@Override
-		public FemaleNetworkJoin parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public FemaleNetworkJoin parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			try
@@ -75,7 +74,7 @@ public class FemaleNetworkJoin extends PeerToPeerCommand
 				InetAddress inetAddress = InetAddress.getByName(split.get(0));
 				int port = Integer.parseInt(split.get(1));
 				InetSocketAddress inetSocketAddress = new InetSocketAddress(inetAddress, port);
-				return new FemaleNetworkJoin(cliJPanel, inetSocketAddress);
+				return new FemaleNetworkJoin(from, inetSocketAddress);
 			}
 			catch (UnknownHostException | NumberFormatException e)
 			{

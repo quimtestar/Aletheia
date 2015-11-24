@@ -22,7 +22,6 @@ package aletheia.gui.cli.command.statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
@@ -81,23 +80,23 @@ public class NewSpecialization extends NewStatement
 	{
 
 		@Override
-		public NewSpecialization parse(CliJPanel cliJPanel, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
+		public NewSpecialization parse(CommandSource from, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			try
 			{
-				if (cliJPanel.getActiveContext() == null)
+				if (from.getActiveContext() == null)
 					throw new NotActiveContextException();
-				Statement general = cliJPanel.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(0)));
+				Statement general = from.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(0)));
 				if (general == null)
 					throw new CommandParseException("Statement not found: " + split.get(0));
 				List<Term> instances = new ArrayList<Term>();
 				for (int i = 1; i < split.size(); i++)
 				{
-					Term instance = parseTerm(cliJPanel.getActiveContext(), transaction, split.get(i));
+					Term instance = parseTerm(from.getActiveContext(), transaction, split.get(i));
 					instances.add(instance);
 				}
-				return new NewSpecialization(cliJPanel, transaction, identifier, general, instances);
+				return new NewSpecialization(from, transaction, identifier, general, instances);
 			}
 			catch (NotActiveContextException | InvalidNameException e)
 			{

@@ -21,10 +21,9 @@ package aletheia.gui.cli.command.gui;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.Command;
-import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.persistence.Transaction;
 
@@ -39,7 +38,7 @@ public class Frame extends Command
 		this.extraTitle = extraTitle;
 	}
 
-	public Frame(CliJPanel from)
+	public Frame(CommandSource from)
 	{
 		this(from, null);
 	}
@@ -60,12 +59,12 @@ public class Frame extends Command
 		}
 
 		@Override
-		public Frame parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public Frame parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			if (split.size() > 0)
-				return new Frame(cliJPanel, split.get(0));
+				return new Frame(from, split.get(0));
 			else
-				return new Frame(cliJPanel);
+				return new Frame(from);
 		}
 
 		@Override

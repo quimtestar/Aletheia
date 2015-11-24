@@ -22,10 +22,9 @@ package aletheia.gui.cli.command.statement;
 import java.io.File;
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.Command;
-import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.aborter.ListenableAborter;
@@ -88,11 +87,11 @@ public class Import extends Command
 		}
 
 		@Override
-		public Import parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public Import parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			File file = new File(split.get(0));
-			return new Import(cliJPanel, file);
+			return new Import(from, file);
 		}
 
 		@Override

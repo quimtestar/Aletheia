@@ -24,9 +24,8 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.authority.UnpackedSignatureRequest;
@@ -80,13 +79,13 @@ public class CreateSignatureRequest extends TransactionalCommand
 		}
 
 		@Override
-		public CreateSignatureRequest parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public CreateSignatureRequest parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			Context context;
 			if (split.size() > 0)
 			{
-				Statement statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(0));
+				Statement statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 				if (statement == null)
 					throw new CommandParseException("Invalid statement");
 				if (!(statement instanceof Context))
@@ -95,11 +94,11 @@ public class CreateSignatureRequest extends TransactionalCommand
 			}
 			else
 			{
-				context = cliJPanel.getActiveContext();
+				context = from.getActiveContext();
 				if (context == null)
 					throw new CommandParseException("No active context");
 			}
-			return new CreateSignatureRequest(cliJPanel, transaction, context);
+			return new CreateSignatureRequest(from, transaction, context);
 		}
 
 		@Override

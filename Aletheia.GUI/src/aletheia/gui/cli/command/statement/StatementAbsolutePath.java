@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.statement;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Statement;
@@ -56,19 +55,19 @@ public class StatementAbsolutePath extends TransactionalCommand
 	{
 
 		@Override
-		public StatementAbsolutePath parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public StatementAbsolutePath parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			Statement statement;
 			if (split.size() > 0)
 			{
-				statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(0));
+				statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 				if (statement == null)
 					throw new CommandParseException("Bad statement path: " + split.get(0));
 			}
 			else
-				statement = cliJPanel.getActiveContext();
-			return new StatementAbsolutePath(cliJPanel, transaction, statement);
+				statement = from.getActiveContext();
+			return new StatementAbsolutePath(from, transaction, statement);
 		}
 
 		@Override

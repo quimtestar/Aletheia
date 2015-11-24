@@ -21,9 +21,8 @@ package aletheia.gui.cli.command.local;
 
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Context;
@@ -56,10 +55,10 @@ public abstract class SubscribeCommand extends TransactionalCommand
 		}
 
 		@Override
-		public SubscribeCommand parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public SubscribeCommand parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Statement statement = findStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(0));
+			Statement statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 			if (statement == null)
 				throw new CommandParseException("Invalid statement");
 			switch (split.get(1))
@@ -67,11 +66,11 @@ public abstract class SubscribeCommand extends TransactionalCommand
 			case "statements":
 				if (!(statement instanceof Context))
 					throw new CommandParseException("Not a context");
-				return new SubscribeStatementsCommand(cliJPanel, transaction, (Context) statement);
+				return new SubscribeStatementsCommand(from, transaction, (Context) statement);
 			case "proof":
-				return new SubscribeProofCommand(cliJPanel, transaction, statement);
+				return new SubscribeProofCommand(from, transaction, statement);
 			case "none":
-				return new SubscribeNoneCommand(cliJPanel, transaction, statement);
+				return new SubscribeNoneCommand(from, transaction, statement);
 			default:
 				throw new CommandParseException("Bad subcommand");
 			}

@@ -23,9 +23,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Context;
@@ -70,17 +69,17 @@ public class MultiCopy extends TransactionalCommand
 		}
 
 		@Override
-		public MultiCopy parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public MultiCopy parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			List<Statement> statements = new ArrayList<Statement>();
 			for (int i = 0; i < split.size(); i++)
 			{
-				Collection<Statement> st = findMultiStatementPath(cliJPanel.getPersistenceManager(), transaction, cliJPanel.getActiveContext(), split.get(i));
+				Collection<Statement> st = findMultiStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(i));
 				if (st.isEmpty())
 					throw new CommandParseException("Bad statement path: " + split.get(i));
 				statements.addAll(st);
 			}
-			return new MultiCopy(cliJPanel, transaction, statements);
+			return new MultiCopy(from, transaction, statements);
 		}
 
 		@Override

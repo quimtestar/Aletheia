@@ -23,9 +23,8 @@ import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 
-import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.log4j.LoggerManager;
@@ -59,19 +58,19 @@ public class ProofFind extends TransactionalCommand
 	{
 
 		@Override
-		public ProofFind parse(CliJPanel cliJPanel, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public ProofFind parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			try
 			{
-				if (cliJPanel.getActiveContext() == null)
+				if (from.getActiveContext() == null)
 					throw new NotActiveContextException();
 				Context context;
 				if (split.size() > 1)
 				{
 					try
 					{
-						context = (Context) cliJPanel.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(1)));
+						context = (Context) from.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(1)));
 						if (context == null)
 							throw new CommandParseException("Invalid context");
 					}
@@ -81,8 +80,8 @@ public class ProofFind extends TransactionalCommand
 					}
 				}
 				else
-					context = cliJPanel.getActiveContext();
-				return new ProofFind(cliJPanel, transaction, context);
+					context = from.getActiveContext();
+				return new ProofFind(from, transaction, context);
 			}
 			catch (InvalidNameException | NotActiveContextException e)
 			{
