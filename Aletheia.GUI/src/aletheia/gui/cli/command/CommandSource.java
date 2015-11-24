@@ -33,6 +33,8 @@ public interface CommandSource
 
 	void setActiveContext(Context activeContext);
 
+	Context getActiveContext();
+
 	void signatureRequestJTreeSelectStatement(UnpackedSignatureRequest unpackedSignatureRequest, Statement statement);
 
 	void signatureRequestJTreeSelectUnpackedSignatureRequest(UnpackedSignatureRequest unpackedSignatureRequest);
@@ -42,8 +44,6 @@ public interface CommandSource
 	void pushSelectStatement(Statement statement);
 
 	void pushSelectStatement(Transaction transaction, Statement statement);
-
-	Context getActiveContext();
 
 	char[] passPhrase();
 
