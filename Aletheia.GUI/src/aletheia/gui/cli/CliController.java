@@ -229,7 +229,7 @@ public class CliController extends Thread
 				}
 				else
 				{
-					activeCommand.waitCursor(true);
+					waitCursor(activeCommand, true);
 					try
 					{
 						activeCommand.run();
@@ -250,20 +250,30 @@ public class CliController extends Thread
 			}
 			finally
 			{
-				try
-				{
-					activeCommand.commandDone();
-				}
-				catch (InterruptedException e)
-				{
-				}
-				activeCommand.waitCursor(false);
+				commandDone(activeCommand);
+				waitCursor(activeCommand, false);
 			}
 			synchronized (this)
 			{
 				activeCommand = null;
 			}
 		}
+	}
+
+	private void commandDone(Command command)
+	{
+		try
+		{
+			((CliJPanel) command.getFrom()).commandDone(command);
+		}
+		catch (InterruptedException e)
+		{
+		}
+	}
+
+	private void waitCursor(Command command, boolean wait)
+	{
+		((CliJPanel) command.getFrom()).waitCursor(wait);
 	}
 
 }

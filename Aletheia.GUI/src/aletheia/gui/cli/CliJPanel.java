@@ -44,7 +44,6 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -2028,13 +2027,12 @@ public class CliJPanel extends JPanel implements CommandSource
 	}
 
 	@Override
-	public void lock(Collection<Transaction> owners)
+	public void lock(Collection<? extends Transaction> owners)
 	{
 		catalogJTreeLayerUI.lock(owners);
 	}
 
-	@Override
-	public void commandDone(Command command) throws InterruptedException
+	protected void commandDone(Command command) throws InterruptedException
 	{
 		if (promptWhenDone == command)
 		{
@@ -2093,15 +2091,9 @@ public class CliJPanel extends JPanel implements CommandSource
 		return getAletheiaJPanel().getContextJTree().getSelectedStatement();
 	}
 
-	@Override
-	public void waitCursor(boolean wait)
+	protected void waitCursor(boolean wait)
 	{
 		aletheiaJPanel.waitCursor(wait);
-	}
-
-	public void lock(Transaction owner)
-	{
-		aletheiaJPanel.lock(Collections.singleton(owner));
 	}
 
 	@Override

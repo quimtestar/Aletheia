@@ -25,11 +25,7 @@ public interface CommandSource
 
 	PersistenceManager getPersistenceManager();
 
-	void waitCursor(boolean wait);
-
-	void lock(Collection<Transaction> singleton);
-
-	void commandDone(Command command) throws InterruptedException;
+	void lock(Collection<? extends Transaction> owners);
 
 	void setActiveContext(Context activeContext);
 

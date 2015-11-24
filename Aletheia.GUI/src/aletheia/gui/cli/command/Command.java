@@ -20,6 +20,7 @@
 package aletheia.gui.cli.command;
 
 import java.io.PrintStream;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -70,7 +71,7 @@ public abstract class Command
 		return from.getOutB();
 	}
 
-	public PrintStream getErr()
+	protected PrintStream getErr()
 	{
 		return from.getErr();
 	}
@@ -85,14 +86,14 @@ public abstract class Command
 		return from.getPersistenceManager();
 	}
 
-	public void waitCursor(boolean wait)
-	{
-		from.waitCursor(wait);
-	}
-
-	public void lock(Transaction owner)
+	protected void lock(Transaction owner)
 	{
 		from.lock(Collections.singleton(owner));
+	}
+
+	protected void lock(Collection<Transaction> owners)
+	{
+		from.lock(owners);
 	}
 
 	protected void setActiveContext(Context activeContext)
@@ -196,11 +197,6 @@ public abstract class Command
 	protected void command(Command command) throws InterruptedException
 	{
 		from.command(command);
-	}
-
-	public void commandDone() throws InterruptedException
-	{
-		from.commandDone(this);
 	}
 
 	protected TaggedCommand taggedCommand()

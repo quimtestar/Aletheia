@@ -81,19 +81,8 @@ public class CliConsole implements CommandSource
 	}
 
 	@Override
-	public void waitCursor(boolean wait)
+	public void lock(Collection<? extends Transaction> owners)
 	{
-	}
-
-	@Override
-	public void lock(Collection<Transaction> singleton)
-	{
-	}
-
-	@Override
-	public void commandDone(Command command) throws InterruptedException
-	{
-		System.out.print("% ");
 	}
 
 	@Override
