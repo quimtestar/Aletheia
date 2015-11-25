@@ -126,9 +126,33 @@ public class CliJPanel extends JPanel implements CommandSource
 
 	private static final AttributeSet defaultAttributeSet = new SimpleAttributeSet();
 	private static final AttributeSet defaultBAttributeSet = new SimpleAttributeSet(defaultAttributeSet);
+
+	static
+	{
+		StyleConstants.setBold((MutableAttributeSet) defaultBAttributeSet, true);
+	}
+
 	private static final AttributeSet errAttributeSet = new SimpleAttributeSet(defaultAttributeSet);
+
+	static
+	{
+		StyleConstants.setForeground((MutableAttributeSet) errAttributeSet, Color.red);
+	}
+
 	private static final AttributeSet errBAttributeSet = new SimpleAttributeSet(errAttributeSet);
+
+	static
+	{
+		StyleConstants.setBold((MutableAttributeSet) errBAttributeSet, true);
+		StyleConstants.setUnderline((MutableAttributeSet) errBAttributeSet, true);
+	}
+
 	private static final AttributeSet multilinePromptAttributeSet = new SimpleAttributeSet(defaultAttributeSet);
+
+	static
+	{
+		StyleConstants.setForeground((MutableAttributeSet) multilinePromptAttributeSet, Color.lightGray);
+	}
 
 	private static class CommandHistory
 	{
@@ -1092,11 +1116,6 @@ public class CliJPanel extends JPanel implements CommandSource
 		add(splitPane, BorderLayout.CENTER);
 		textPane.addKeyListener(new MyKeyListener());
 		textPane.addCaretListener(new MyCaretListener());
-		StyleConstants.setBold((MutableAttributeSet) defaultBAttributeSet, true);
-		StyleConstants.setForeground((MutableAttributeSet) errAttributeSet, Color.red);
-		StyleConstants.setBold((MutableAttributeSet) errBAttributeSet, true);
-		StyleConstants.setUnderline((MutableAttributeSet) errBAttributeSet, true);
-		StyleConstants.setForeground((MutableAttributeSet) multilinePromptAttributeSet, Color.lightGray);
 		readerThread = new ReaderThread();
 		readerThread.start();
 		out = readerThread.getOut(defaultAttributeSet);
