@@ -8,6 +8,10 @@ import java.io.PrintStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.status.StatusLogger;
+
 import aletheia.gui.cli.command.Command;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TransactionalCommand;
@@ -246,6 +250,7 @@ public class AletheiaCliConsole implements CommandSource
 
 	public static void main(String[] args) throws CommandLineArgumentsException, ArgumentsException
 	{
+		StatusLogger.getLogger().setLevel(Level.OFF);
 		Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler()
 		{
 			@Override
@@ -277,9 +282,19 @@ public class AletheiaCliConsole implements CommandSource
 			configuration.setDbFile(dbFile);
 			configuration.setReadOnly(readOnly);
 
-			BerkeleyDBPersistenceManager persistenceManager = new BerkeleyDBPersistenceManager(configuration);
+			final BerkeleyDBPersistenceManager persistenceManager = new BerkeleyDBPersistenceManager(configuration);
 			try
 			{
+				Runtime.getRuntime().addShutdownHook(new Thread()
+				{
+					@Override
+					public void run()
+					{
+						if (persistenceManager.isOpen())
+							persistenceManager.close();
+					}
+				});
+
 				AletheiaCliConsole cliConsole = new AletheiaCliConsole(persistenceManager);
 				cliConsole.run();
 			}

@@ -8,7 +8,6 @@
                 <attribute name="Class-Path" value="."/>
             	<attribute name="SplashScreen-Image" value="aletheia/gui/app/splash.png" />
             </manifest>
-            <fileset dir="bin"/>
             <fileset dir="${Aletheia.Base.location}/bin"/>
             <fileset dir="${Aletheia.ParserGenerator.location}/bin"/>
             <fileset dir="${Aletheia.log4j.location}/bin"/>
@@ -21,6 +20,7 @@
             <fileset dir="${Aletheia.GUI.Fonts.location}/bin"/>
             <fileset dir="${Aletheia.Protocol.location}/bin"/>
             <fileset dir="${Aletheia.Version.location}/bin"/>
+            <fileset dir="bin"/>
             <zipfileset excludes="META-INF/*.SF" src="${Aletheia.BerkeleyDB.location}/je-6.4.9.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-api-2.3.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-core-2.3.jar"/>
@@ -33,7 +33,6 @@
                 <attribute name="Main-Class" value="aletheia.gui.app.AletheiaCliConsole"/>
                 <attribute name="Class-Path" value="."/>
             </manifest>
-            <fileset dir="bin"/>
             <fileset dir="${Aletheia.Base.location}/bin"/>
             <fileset dir="${Aletheia.ParserGenerator.location}/bin"/>
             <fileset dir="${Aletheia.log4j.location}/bin"/>
@@ -46,6 +45,7 @@
             <fileset dir="${Aletheia.GUI.Fonts.location}/bin"/>
             <fileset dir="${Aletheia.Protocol.location}/bin"/>
             <fileset dir="${Aletheia.Version.location}/bin"/>
+            <fileset dir="bin"/>
             <zipfileset excludes="META-INF/*.SF" src="${Aletheia.BerkeleyDB.location}/je-6.4.9.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-api-2.3.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-core-2.3.jar"/>
