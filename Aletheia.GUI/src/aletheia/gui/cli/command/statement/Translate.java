@@ -52,12 +52,13 @@ public class Translate extends TransactionalCommand
 		Context activeContext = getActiveContext();
 		if (activeContext == null)
 			throw new NotActiveContextException();
+		Context ctx1 = activeContext;
 
 		Map<Statement, Statement> map = new HashMap<Statement, Statement>();
 
-		while (!activeContext.isDescendent(getTransaction(), context))
+		while (!ctx1.isDescendent(getTransaction(), context))
 		{
-			for (Statement st : activeContext.localStatements(getTransaction()).values())
+			for (Statement st : ctx1.localStatements(getTransaction()).values())
 			{
 				Identifier id = st.identifier(getTransaction());
 				if (id != null)
@@ -67,9 +68,9 @@ public class Translate extends TransactionalCommand
 						map.put(st_, st);
 				}
 			}
-			if (activeContext instanceof RootContext)
+			if (ctx1 instanceof RootContext)
 				break;
-			activeContext = activeContext.getContext(getTransaction());
+			ctx1 = ctx1.getContext(getTransaction());
 		}
 
 		List<Statement> list = new ArrayList<Statement>();
