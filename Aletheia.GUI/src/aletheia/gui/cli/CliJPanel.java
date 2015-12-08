@@ -348,7 +348,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		@Override
 		public void keyTyped(KeyEvent e)
 		{
-			if (e.getKeyChar() == '\n')
+			if (e.getKeyChar() == '\n' && !e.isAltDown() && !e.isControlDown() && !e.isAltGraphDown())
 			{
 				bracketHighLightManager.clearHighLights();
 				try
