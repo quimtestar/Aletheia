@@ -89,7 +89,7 @@ public class UnsignedSubscribed extends TransactionalCommand
 				Context context;
 				if (split.size() > 0)
 				{
-					Statement statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(1));
+					Statement statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 					if (statement == null)
 						throw new CommandParseException("Invalid statement");
 					if (!(statement instanceof Context))
