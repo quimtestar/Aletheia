@@ -56,20 +56,25 @@ public class Translate extends TransactionalCommand
 
 		Map<Statement, Statement> map = new HashMap<Statement, Statement>();
 
+		Context ctx2 = null;
 		while (!ctx1.isDescendent(getTransaction(), context))
 		{
 			for (Statement st : ctx1.localStatements(getTransaction()).values())
 			{
-				Identifier id = st.identifier(getTransaction());
-				if (id != null)
+				if (!st.equals(ctx2))
 				{
-					Statement st_ = context.identifierToStatement(getTransaction()).get(id);
-					if ((st_ != null) && (!map.containsKey(st_)))
-						map.put(st_, st);
+					Identifier id = st.identifier(getTransaction());
+					if (id != null)
+					{
+						Statement st_ = context.identifierToStatement(getTransaction()).get(id);
+						if ((st_ != null) && (!map.containsKey(st_)))
+							map.put(st_, st);
+					}
 				}
 			}
 			if (ctx1 instanceof RootContext)
 				break;
+			ctx2 = ctx1;
 			ctx1 = ctx1.getContext(getTransaction());
 		}
 
