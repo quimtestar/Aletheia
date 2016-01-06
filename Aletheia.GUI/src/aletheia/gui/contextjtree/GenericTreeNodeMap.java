@@ -24,10 +24,15 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.logging.log4j.Logger;
+
+import aletheia.log4j.LoggerManager;
 import aletheia.utilities.collections.SoftCacheWithCleanerMap;
 
 public abstract class GenericTreeNodeMap<K, N> extends AbstractMap<K, N>
 {
+	private final static Logger logger = LoggerManager.instance.logger();
+
 	private final SoftCacheWithCleanerMap<K, N> map;
 
 	private class CacheListener implements SoftCacheWithCleanerMap.Listener<K>
@@ -38,6 +43,7 @@ public abstract class GenericTreeNodeMap<K, N> extends AbstractMap<K, N>
 		{
 			synchronized (map)
 			{
+				logger.trace("removing key: " + key);
 				keyRemoved(key);
 			}
 		}
