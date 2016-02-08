@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <eclipse-userlibraries version="2">
     <library name="Berkeley DB Library" systemlibrary="false">
-        <archive javadoc="file:/mnt/vlb0/quim/Software/BerkeleyDB/je-6.4.9/docs/java/" path="/Aletheia.BerkeleyDB/je-6.4.9.jar" source="/mnt/vlb0/quim/Software/BerkeleyDB/je-6.4.9/src"/>
+        <archive javadoc="file:/mnt/vlb0/quim/Software/BerkeleyDB/je-6.4.25/docs/java/" path="/Aletheia.BerkeleyDB/je-6.4.25.jar" source="/mnt/vlb0/quim/Software/BerkeleyDB/je-6.4.25/src"/>
     </library>
     <library name="ItextPdf Library" systemlibrary="false">
-        <archive javadoc="jar:file:/mnt/vlb0/quim/Software/iText/5.5.6/itextpdf-5.5.6-javadoc.jar!/" path="/Aletheia.PdfExport/itextpdf-5.5.6.jar" source="/mnt/vlb0/quim/Software/iText/5.5.6/itextpdf-5.5.6-sources.jar"/>
+        <archive javadoc="jar:file:/mnt/vlb0/quim/Software/iText/5.5.8/itextpdf-5.5.8-javadoc.jar!/" path="/Aletheia.PdfExport/itextpdf-5.5.8.jar" source="/mnt/vlb0/quim/Software/iText/5.5.8/itextpdf-5.5.8-sources.jar"/>
     </library>
     <library name="Log4j Library" systemlibrary="false">
-        <archive javadoc="jar:file:/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.3-bin/log4j-api-2.3-javadoc.jar!/" path="/Aletheia.log4j/log4j-api-2.3.jar" source="/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.3-bin/log4j-api-2.3-sources.jar"/>
-        <archive javadoc="jar:file:/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.3-bin/log4j-core-2.3-javadoc.jar!/" path="/Aletheia.log4j/log4j-core-2.3.jar" source="/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.3-bin/log4j-core-2.3-sources.jar"/>
+        <archive javadoc="jar:file:/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.5-bin/log4j-1.2-api-2.5-javadoc.jar!/" path="/Aletheia.log4j/log4j-api-2.5.jar" source="/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.5-bin/log4j-api-2.5-sources.jar"/>
+        <archive javadoc="jar:file:/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.5-bin/log4j-core-2.5-javadoc.jar!/" path="/Aletheia.log4j/log4j-core-2.5.jar" source="/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.5-bin/log4j-core-2.5-sources.jar"/>
     </library>
 </eclipse-userlibraries>
