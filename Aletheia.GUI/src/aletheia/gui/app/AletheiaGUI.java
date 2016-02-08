@@ -19,21 +19,30 @@
  ******************************************************************************/
 package aletheia.gui.app;
 
+import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.icons.IconManager;
 import aletheia.gui.lookandfeel.MyLookAndFeel;
+import aletheia.gui.preferences.GUIAletheiaPreferences;
+import aletheia.gui.preferences.PersistenceClass;
 import aletheia.log4j.LoggerManager;
+import aletheia.persistence.PersistenceManager;
+import aletheia.persistence.gui.PersistenceGUIFactory.CreatePersistenceManagerException;
 import aletheia.utilities.CommandLineArguments;
 import aletheia.utilities.MiscUtilities;
+import aletheia.utilities.CommandLineArguments.Switch;
 import aletheia.version.VersionManager;
 
 public class AletheiaGUI
@@ -86,23 +95,69 @@ public class AletheiaGUI
 		virtualFrame.dispose();
 	}
 
+	private static void version()
+	{
+		System.out.println(VersionManager.getVersion());
+	}
+
+	private static void console() throws CreatePersistenceManagerException
+	{
+		final PersistenceManager persistenceManager;
+		SplashStartupProgressListener startupProgressListener = new SplashStartupProgressListener();
+		try
+		{
+			GUIAletheiaPreferences preferences = GUIAletheiaPreferences.instance;
+			PersistenceClass persistenceClass = preferences.getPersistenceClass();
+			persistenceManager = persistenceClass.persistenceGUIFactory.createPersistenceManager(null, startupProgressListener);
+		}
+		finally
+		{
+			startupProgressListener.close();
+		}
+		try
+		{
+			Runtime.getRuntime().addShutdownHook(new Thread()
+			{
+				@Override
+				public void run()
+				{
+					if (persistenceManager.isOpen())
+						persistenceManager.close();
+				}
+			});
+
+			AletheiaCliConsole cliConsole = new AletheiaCliConsole(persistenceManager);
+			cliConsole.run();
+		}
+		finally
+		{
+			persistenceManager.close();
+		}
+	}
+
+	private static void gui() throws UnsupportedLookAndFeelException
+	{
+		Properties props = System.getProperties();
+		props.setProperty("awt.useSystemAAFontSettings", "on");
+		LoggerManager.instance.setUncaughtExceptionHandler();
+		LookAndFeel laf = new MyLookAndFeel();
+		UIManager.setLookAndFeel(laf);
+		AletheiaGUI aletheiaGUI = new AletheiaGUI();
+		aletheiaGUI.run();
+	}
+
 	public static void main(String[] args)
 	{
 		try
 		{
 			CommandLineArguments cla = new CommandLineArguments(args);
-			if (cla.getGlobalSwitches().containsKey("v"))
-				System.out.println(VersionManager.getVersion());
+			Map<String, Switch> globalSwitches = new HashMap<String, Switch>(cla.getGlobalSwitches());
+			if (globalSwitches.remove("v") != null)
+				version();
+			else if ((globalSwitches.remove("c") != null) || GraphicsEnvironment.isHeadless())
+				console();
 			else
-			{
-				Properties props = System.getProperties();
-				props.setProperty("awt.useSystemAAFontSettings", "on");
-				LoggerManager.instance.setUncaughtExceptionHandler();
-				LookAndFeel laf = new MyLookAndFeel();
-				UIManager.setLookAndFeel(laf);
-				AletheiaGUI aletheiaGUI = new AletheiaGUI();
-				aletheiaGUI.run();
-			}
+				gui();
 			System.exit(0);
 		}
 		catch (Exception e)

@@ -22,6 +22,7 @@ package aletheia.gui.app;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.HeadlessException;
 import java.awt.SplashScreen;
 
 import aletheia.persistence.PersistenceManager.StartupProgressListener;
@@ -50,9 +51,21 @@ public class SplashStartupProgressListener implements StartupProgressListener
 		}
 	}
 
+	private static SplashScreen getSplashScreen()
+	{
+		try
+		{
+			return SplashScreen.getSplashScreen();
+		}
+		catch (HeadlessException e)
+		{
+			return null;
+		}
+	}
+
 	public SplashStartupProgressListener()
 	{
-		this(SplashScreen.getSplashScreen());
+		this(getSplashScreen());
 	}
 
 	@Override
@@ -69,6 +82,8 @@ public class SplashStartupProgressListener implements StartupProgressListener
 
 	public void close()
 	{
+		if (splashScreen != null && splashScreen.isVisible())
+			splashScreen.close();
 	}
 
 }
