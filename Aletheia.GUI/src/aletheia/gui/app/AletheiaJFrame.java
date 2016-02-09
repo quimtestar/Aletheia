@@ -190,8 +190,6 @@ public class AletheiaJFrame extends JFrame
 		this.addWindowListener(windowListener);
 		this.exitLock = new ExitLock(ExitState.OPENED);
 		this.extraJFrames = Collections.synchronizedSet(new HashSet<ExtraJFrame>());
-		pack();
-		setVisible(true);
 		updateContentPane(true);
 		updateServerStatus(true);
 	}
@@ -445,6 +443,8 @@ public class AletheiaJFrame extends JFrame
 				{
 					if (persistenceManager.getSecretKeyManager().isSecretSet())
 					{
+						pack();
+						setVisible(true);
 						while (true)
 						{
 							PassphraseDialog dialog = new PassphraseDialog(this);
