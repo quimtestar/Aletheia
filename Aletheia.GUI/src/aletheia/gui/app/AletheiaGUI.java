@@ -21,6 +21,7 @@ package aletheia.gui.app;
 
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -39,9 +40,11 @@ import aletheia.gui.preferences.GUIAletheiaPreferences;
 import aletheia.gui.preferences.PersistenceClass;
 import aletheia.log4j.LoggerManager;
 import aletheia.persistence.PersistenceManager;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.gui.PersistenceGUIFactory.CreatePersistenceManagerException;
 import aletheia.utilities.CommandLineArguments;
 import aletheia.utilities.MiscUtilities;
+import aletheia.utilities.CommandLineArguments.Option;
 import aletheia.utilities.CommandLineArguments.Switch;
 import aletheia.version.VersionManager;
 
@@ -100,15 +103,50 @@ public class AletheiaGUI
 		System.out.println(VersionManager.getVersion());
 	}
 
-	private static void console() throws CreatePersistenceManagerException
+	private static class ArgumentsException extends Exception
+	{
+		private static final long serialVersionUID = -5342220710448665920L;
+
+		private ArgumentsException(String message)
+		{
+			super(message);
+		}
+
+	}
+
+	private static void console(Map<String, Switch> globalSwitches) throws CreatePersistenceManagerException, ArgumentsException
 	{
 		final PersistenceManager persistenceManager;
 		SplashStartupProgressListener startupProgressListener = new SplashStartupProgressListener();
 		try
 		{
-			GUIAletheiaPreferences preferences = GUIAletheiaPreferences.instance;
-			PersistenceClass persistenceClass = preferences.getPersistenceClass();
-			persistenceManager = persistenceClass.persistenceGUIFactory.createPersistenceManager(null, startupProgressListener);
+			Switch swDbFile = globalSwitches.remove("dbFile");
+			if (swDbFile != null)
+			{
+				if (!(swDbFile instanceof Option))
+					throw new ArgumentsException("Missing option dbFile");
+				String sDbFile = ((Option) swDbFile).getValue();
+				if (sDbFile == null)
+					throw new ArgumentsException("Missing option value dbFile");
+				File dbFile = new File(sDbFile);
+				boolean readOnly = false;
+				Switch swReadWrite = globalSwitches.remove("ro");
+				if (swReadWrite != null)
+					readOnly = true;
+				if (!globalSwitches.isEmpty())
+					throw new ArgumentsException("Unrecognized switches/options: " + globalSwitches.keySet());
+				BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
+				configuration.setDbFile(dbFile);
+				configuration.setReadOnly(readOnly);
+				configuration.setStartupProgressListener(startupProgressListener);
+				persistenceManager = new BerkeleyDBPersistenceManager(configuration);
+			}
+			else
+			{
+				GUIAletheiaPreferences preferences = GUIAletheiaPreferences.instance;
+				PersistenceClass persistenceClass = preferences.getPersistenceClass();
+				persistenceManager = persistenceClass.persistenceGUIFactory.createPersistenceManager(null, startupProgressListener);
+			}
 		}
 		finally
 		{
@@ -155,7 +193,7 @@ public class AletheiaGUI
 			if (globalSwitches.remove("v") != null)
 				version();
 			else if ((globalSwitches.remove("c") != null) || GraphicsEnvironment.isHeadless())
-				console();
+				console(globalSwitches);
 			else
 				gui();
 			System.exit(0);
