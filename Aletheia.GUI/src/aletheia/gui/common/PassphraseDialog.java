@@ -188,9 +188,8 @@ public class PassphraseDialog extends JDialog
 		this.add(buttonPanel, BorderLayout.SOUTH);
 
 		this.setResizable(false);
-		this.setLocationRelativeTo(aletheiaJFrame);
-
 		this.pack();
+		this.setLocationRelativeTo(aletheiaJFrame);
 		this.setVisible(true);
 
 	}
