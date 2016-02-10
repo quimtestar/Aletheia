@@ -75,7 +75,7 @@ public class MyJSplitPane extends JSplitPane
 		if (setProportionalLocationWhenValid && isValid() && getParent() != null && getParent().isValid() && getParent().isVisible())
 		{
 			// For unknown reasons, without this delay it doesn't work properly sometimes
-			Timer timer = new Timer();
+			final Timer timer = new Timer();
 			timer.schedule(new TimerTask()
 			{
 				@Override
@@ -83,6 +83,7 @@ public class MyJSplitPane extends JSplitPane
 				{
 					setDividerLocationOrExpand(proportionalLocationWhenValid);
 					setLastDividerLocation(getDividerLocation());
+					timer.cancel();
 				}
 			}, 100);
 			setProportionalLocationWhenValid = false;
