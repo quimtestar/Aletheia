@@ -86,6 +86,12 @@ public class AletheiaCliConsole implements CommandSource
 	}
 
 	@Override
+	public PrintStream getOutP()
+	{
+		return System.out;
+	}
+
+	@Override
 	public PrintStream getErr()
 	{
 		return System.err;

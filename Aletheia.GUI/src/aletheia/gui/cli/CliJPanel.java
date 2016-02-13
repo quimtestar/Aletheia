@@ -154,6 +154,15 @@ public class CliJPanel extends JPanel implements CommandSource
 		StyleConstants.setForeground((MutableAttributeSet) multilinePromptAttributeSet, Color.lightGray);
 	}
 
+	private static final Object flushCommandBufferAttribute = new Object();
+
+	private static final SimpleAttributeSet outPAttributeSet = new SimpleAttributeSet(defaultAttributeSet);
+
+	static
+	{
+		outPAttributeSet.addAttribute(flushCommandBufferAttribute, true);
+	}
+
 	private static class CommandHistory
 	{
 		private final static int sizeLimit = 1500;
@@ -265,7 +274,7 @@ public class CliJPanel extends JPanel implements CommandSource
 				{
 					try
 					{
-						String s = getCommandMultilineFiltered();
+						String s = getCommandMultilineFiltered().trim();
 						if (commandHistory.atEnd() || !s.equals(commandHistory.current()))
 							commandHistory.add(s);
 						document.remove(minimalCaretPosition, document.getLength() - minimalCaretPosition);
@@ -286,7 +295,7 @@ public class CliJPanel extends JPanel implements CommandSource
 				{
 					try
 					{
-						String s = getCommandMultilineFiltered();
+						String s = getCommandMultilineFiltered().trim();
 						if (commandHistory.atEnd() || !s.equals(commandHistory.current()))
 							commandHistory.add(s);
 						document.remove(minimalCaretPosition, document.getLength() - minimalCaretPosition);
@@ -355,9 +364,9 @@ public class CliJPanel extends JPanel implements CommandSource
 				{
 					if (!e.isShiftDown())
 					{
-						String s = getCommandMultilineFiltered();
-						command(s);
+						String s = getCommandMultilineFiltered().trim();
 						updateMinimalCaretPosition();
+						command(s);
 					}
 					else
 					{
@@ -1073,6 +1082,7 @@ public class CliJPanel extends JPanel implements CommandSource
 	private final ReaderThread readerThread;
 	private final PrintStream out;
 	private final PrintStream outB;
+	private final PrintStream outP;
 	private final PrintStream err;
 	private final PrintStream errB;
 	private final ActiveContextJLabel activeContextJLabel;
@@ -1088,6 +1098,7 @@ public class CliJPanel extends JPanel implements CommandSource
 	private boolean opened;
 	private Context activeContext;
 	private Command promptWhenDone;
+	private StringBuffer commandBuffer;
 
 	public CliJPanel(AletheiaJPanel aletheiaJPanel, CliController controller) throws InterruptedException
 	{
@@ -1120,6 +1131,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		readerThread.start();
 		out = readerThread.getOut(defaultAttributeSet);
 		outB = readerThread.getOut(defaultBAttributeSet);
+		outP = readerThread.getOut(outPAttributeSet);
 		err = readerThread.getOut(errAttributeSet);
 		errB = readerThread.getOut(errBAttributeSet);
 		opened = true;
@@ -1137,6 +1149,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		this.bracketHighLightManager = new BracketHighLightManager();
 		controller.command(new Prompt(this));
 		promptWhenDone = null;
+		commandBuffer = new StringBuffer();
 	}
 
 	public AletheiaJPanel getAletheiaJPanel()
@@ -1165,6 +1178,12 @@ public class CliJPanel extends JPanel implements CommandSource
 	public PrintStream getOutB()
 	{
 		return outB;
+	}
+
+	@Override
+	public PrintStream getOutP()
+	{
+		return outP;
 	}
 
 	@Override
@@ -1244,13 +1263,18 @@ public class CliJPanel extends JPanel implements CommandSource
 
 	private synchronized void printString(String s, AttributeSet attributeSet)
 	{
-		String c = consumeCommand();
-		if (!c.isEmpty())
-			commandHistory.addAndPosition(c);
+		commandBuffer.append(getCommandMultilineFiltered());
 		try
 		{
 			moveCaretToEnd();
 			document.insertString(document.getEndPosition().getOffset() - 1, s, attributeSet);
+			updateMinimalCaretPosition();
+			if (attributeSet.containsAttribute(flushCommandBufferAttribute, true))
+			{
+				document.insertString(document.getEndPosition().getOffset() - 1, commandBuffer.toString(), attributeSet);
+				commandBuffer = new StringBuffer();
+				moveCaretToEnd();
+			}
 			if (attributeSet != defaultAttributeSet)
 				textPane.setCharacterAttributes(defaultAttributeSet, true);
 		}
@@ -1258,7 +1282,6 @@ public class CliJPanel extends JPanel implements CommandSource
 		{
 			throw new Error(e);
 		}
-		updateMinimalCaretPosition();
 	}
 
 	private synchronized void moveCaretToMinimal()
@@ -1279,9 +1302,18 @@ public class CliJPanel extends JPanel implements CommandSource
 
 	protected void escape() throws InterruptedException
 	{
-		String s = consumeCommand(true);
-		if (!s.isEmpty())
-			commandHistory.addAndPosition(s);
+		String s = getCommandMultilineFiltered().trim();
+		moveCaretToEnd();
+		try
+		{
+			document.insertString(textPane.getCaretPosition(), "\n", defaultAttributeSet);
+		}
+		catch (BadLocationException e2)
+		{
+			throw new Error(e2);
+		}
+		bracketHighLightManager.clearHighLights();
+		commandHistory.addAndPosition(s);
 		command(new EmptyCommand(this));
 	}
 
@@ -1345,7 +1377,7 @@ public class CliJPanel extends JPanel implements CommandSource
 
 	}
 
-	private String getCommand()
+	private synchronized String getCommand()
 	{
 		try
 		{
@@ -1364,7 +1396,7 @@ public class CliJPanel extends JPanel implements CommandSource
 
 	private String getCommandMultilineFiltered()
 	{
-		return filterMultiline(getCommand()).trim();
+		return filterMultiline(getCommand());
 	}
 
 	private enum BHLMTokenType
@@ -2060,35 +2092,9 @@ public class CliJPanel extends JPanel implements CommandSource
 		}
 	}
 
-	private String consumeCommand()
-	{
-		return consumeCommand(false);
-	}
-
-	private String consumeCommand(boolean forceNl)
-	{
-		String s = getCommandMultilineFiltered();
-		if (forceNl || !s.isEmpty())
-		{
-			moveCaretToEnd();
-			try
-			{
-				document.insertString(textPane.getCaretPosition(), "\n", defaultAttributeSet);
-			}
-			catch (BadLocationException e2)
-			{
-				throw new Error(e2);
-			}
-			bracketHighLightManager.clearHighLights();
-		}
-		return s;
-	}
-
 	public void exception(String message, Exception exception) throws InterruptedException
 	{
-		String s = consumeCommand();
-		if (!s.isEmpty())
-			commandHistory.addAndPosition(s);
+		commandBuffer.append(getCommandMultilineFiltered());
 		command(new TraceException(this, message, exception));
 	}
 
@@ -2099,9 +2105,7 @@ public class CliJPanel extends JPanel implements CommandSource
 
 	public void message(String message) throws InterruptedException
 	{
-		String s = consumeCommand();
-		if (!s.isEmpty())
-			commandHistory.addAndPosition(s);
+		commandBuffer.append(getCommandMultilineFiltered());
 		command(new SimpleMessage(this, message));
 	}
 

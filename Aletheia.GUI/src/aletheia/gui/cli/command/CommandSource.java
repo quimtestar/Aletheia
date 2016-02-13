@@ -38,6 +38,8 @@ public interface CommandSource
 
 	PrintStream getOutB();
 
+	PrintStream getOutP();
+
 	PrintStream getErr();
 
 	PrintStream getErrB();

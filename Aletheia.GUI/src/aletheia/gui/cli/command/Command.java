@@ -71,6 +71,11 @@ public abstract class Command
 		return from.getOutB();
 	}
 
+	protected PrintStream getOutP()
+	{
+		return from.getOutP();
+	}
+
 	protected PrintStream getErr()
 	{
 		return from.getErr();

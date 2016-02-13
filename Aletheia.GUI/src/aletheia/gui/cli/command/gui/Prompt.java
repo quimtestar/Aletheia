@@ -33,8 +33,8 @@ public class Prompt extends NonOperationalCommand
 	@Override
 	public void run()
 	{
-		getOut().print("% ");
-		getOut().flush();
+		getOutP().print("% ");
+		getOutP().flush();
 	}
 
 }
