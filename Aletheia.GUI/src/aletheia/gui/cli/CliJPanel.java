@@ -1313,7 +1313,8 @@ public class CliJPanel extends JPanel implements CommandSource
 			throw new Error(e2);
 		}
 		bracketHighLightManager.clearHighLights();
-		commandHistory.addAndPosition(s);
+		if (!s.isEmpty())
+			commandHistory.addAndPosition(s);
 		command(new EmptyCommand(this));
 	}
 
