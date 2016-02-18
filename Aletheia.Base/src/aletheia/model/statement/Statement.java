@@ -1569,6 +1569,18 @@ public abstract class Statement implements Exportable
 	}
 
 	/**
+	 * Dependencies for this statement to get its proof status valid.
+	 * 
+	 * Caution: When a dependency is disjunctive it includes the full set of
+	 * statements and that may generate plenty of dependency cycles. (in fact it
+	 * does)
+	 */
+	public Collection<Statement> proofDependencies(Transaction transaction)
+	{
+		return dependenciesThisAndDescendents(transaction);
+	}
+
+	/**
 	 * Decides if a statement descends from this context
 	 *
 	 * @param transaction

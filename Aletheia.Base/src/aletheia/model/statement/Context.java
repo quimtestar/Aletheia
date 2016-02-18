@@ -83,6 +83,7 @@ import aletheia.persistence.entities.statement.ContextEntity;
 import aletheia.utilities.collections.AdaptedList;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCloseableSet;
+import aletheia.utilities.collections.BijectionCollection;
 import aletheia.utilities.collections.BijectionList;
 import aletheia.utilities.collections.BufferedList;
 import aletheia.utilities.collections.CastBijection;
@@ -92,14 +93,18 @@ import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableMap;
 import aletheia.utilities.collections.CloseableSet;
 import aletheia.utilities.collections.CombinedCloseableMultimap;
+import aletheia.utilities.collections.CombinedCollection;
 import aletheia.utilities.collections.CombinedMap;
 import aletheia.utilities.collections.CombinedSet;
 import aletheia.utilities.collections.EmptyCloseableSet;
+import aletheia.utilities.collections.Filter;
 import aletheia.utilities.collections.FilteredCloseableSet;
+import aletheia.utilities.collections.FilteredCollection;
 import aletheia.utilities.collections.NotNullFilter;
 import aletheia.utilities.collections.ReverseList;
 import aletheia.utilities.collections.TrivialCloseableCollection;
 import aletheia.utilities.collections.TrivialCloseableIterable;
+import aletheia.utilities.collections.UnionCollection;
 import aletheia.utilities.collections.UnmodifiableCloseableMap;
 
 /**
@@ -2176,14 +2181,13 @@ public class Context extends Statement
 	{
 		Context context = super.highestContext(transaction);
 		Context context_ = null;
-		Context ctx = this;
-		for (Context subctx : ctx.descendentContexts(transaction))
+		for (Context subctx : descendentContexts(transaction))
 		{
 			for (Statement sol : subctx.solvers(transaction))
 			{
 				if (sol.isProved())
 				{
-					if (!ctx.isDescendent(transaction, sol))
+					if (!isDescendent(transaction, sol))
 					{
 						Context ctx_ = sol.getContext(transaction);
 						if (context_ == null || context_.isDescendent(transaction, ctx_))
@@ -2195,6 +2199,39 @@ public class Context extends Statement
 		if (context_ != null && context.isDescendent(transaction, context_))
 			context = context_;
 		return context;
+	}
+
+	@Override
+	public Collection<Statement> proofDependencies(final Transaction transaction)
+	{
+		Bijection<Context, Set<Statement>> bijection = new Bijection<Context, Set<Statement>>()
+		{
+
+			@Override
+			public Set<Statement> forward(Context subctx)
+			{
+				return subctx.solvers(transaction);
+			}
+
+			@Override
+			public Context backward(Set<Statement> output)
+			{
+				throw new UnsupportedOperationException();
+			}
+		};
+
+		Filter<Statement> filter = new Filter<Statement>()
+		{
+			@Override
+			public boolean filter(Statement sol)
+			{
+				return sol.isProved() && !isDescendent(transaction, sol);
+			}
+		};
+
+		return new CombinedCollection<Statement>(super.proofDependencies(transaction), new FilteredCollection<>(filter, new UnionCollection<Statement>(
+				new BijectionCollection<Context, Set<Statement>>(bijection, new BufferedList<>(descendentContexts(transaction))))));
+
 	}
 
 }
