@@ -97,9 +97,7 @@ import aletheia.utilities.collections.CombinedCollection;
 import aletheia.utilities.collections.CombinedMap;
 import aletheia.utilities.collections.CombinedSet;
 import aletheia.utilities.collections.EmptyCloseableSet;
-import aletheia.utilities.collections.Filter;
 import aletheia.utilities.collections.FilteredCloseableSet;
-import aletheia.utilities.collections.FilteredCollection;
 import aletheia.utilities.collections.NotNullFilter;
 import aletheia.utilities.collections.ReverseList;
 import aletheia.utilities.collections.TrivialCloseableCollection;
@@ -2204,33 +2202,46 @@ public class Context extends Statement
 	@Override
 	public Collection<Statement> proofDependencies(final Transaction transaction)
 	{
-		Bijection<Context, Set<Statement>> bijection = new Bijection<Context, Set<Statement>>()
+
+		Bijection<Context, Collection<Statement>> bijection = new Bijection<Context, Collection<Statement>>()
 		{
 
 			@Override
-			public Set<Statement> forward(Context subctx)
+			public Collection<Statement> forward(Context subctx)
 			{
-				return subctx.solvers(transaction);
+				Collection<Statement> filtered = new ArrayList<Statement>();
+				CloseableSet<Statement> solvers = subctx.solvers(transaction);
+				CloseableIterator<Statement> iterator = solvers.iterator();
+				try
+				{
+					while (iterator.hasNext())
+					{
+						Statement sol = iterator.next();
+						if (sol.isProved())
+						{
+							if (!equals(sol) && isDescendent(transaction, sol))
+								return Collections.emptySet();
+							else
+								filtered.add(sol);
+						}
+					}
+				}
+				finally
+				{
+					iterator.close();
+				}
+				return filtered;
 			}
 
 			@Override
-			public Context backward(Set<Statement> output)
+			public Context backward(Collection<Statement> output)
 			{
 				throw new UnsupportedOperationException();
 			}
 		};
 
-		Filter<Statement> filter = new Filter<Statement>()
-		{
-			@Override
-			public boolean filter(Statement sol)
-			{
-				return sol.isProved() && !isDescendent(transaction, sol);
-			}
-		};
-
-		return new CombinedCollection<Statement>(super.proofDependencies(transaction), new FilteredCollection<>(filter, new UnionCollection<Statement>(
-				new BijectionCollection<Context, Set<Statement>>(bijection, new BufferedList<>(descendentContexts(transaction))))));
+		return new CombinedCollection<Statement>(super.proofDependencies(transaction), new UnionCollection<Statement>(
+				new BijectionCollection<Context, Collection<Statement>>(bijection, new BufferedList<>(descendentContexts(transaction)))));
 
 	}
 
