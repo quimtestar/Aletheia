@@ -1263,7 +1263,7 @@ public class CliJPanel extends JPanel implements CommandSource
 
 	private synchronized void printString(String s, AttributeSet attributeSet)
 	{
-		commandBuffer.append(getCommandMultilineFiltered());
+		commandBuffer.append(getCommandMultilineFiltered(true));
 		try
 		{
 			moveCaretToEnd();
@@ -1378,11 +1378,14 @@ public class CliJPanel extends JPanel implements CommandSource
 
 	}
 
-	private synchronized String getCommand()
+	private synchronized String getCommand(boolean remove)
 	{
 		try
 		{
-			return document.getText(minimalCaretPosition, document.getLength() - minimalCaretPosition);
+			String text = document.getText(minimalCaretPosition, document.getLength() - minimalCaretPosition);
+			if (remove && minimalCaretPosition < document.getLength())
+				document.remove(minimalCaretPosition, document.getLength() - minimalCaretPosition);
+			return text;
 		}
 		catch (BadLocationException e)
 		{
@@ -1390,14 +1393,24 @@ public class CliJPanel extends JPanel implements CommandSource
 		}
 	}
 
+	private String getCommand()
+	{
+		return getCommand(false);
+	}
+
 	private String filterMultiline(String s)
 	{
 		return multiLinePattern.matcher(s).replaceAll(" ");
 	}
 
+	private String getCommandMultilineFiltered(boolean remove)
+	{
+		return filterMultiline(getCommand(remove));
+	}
+
 	private String getCommandMultilineFiltered()
 	{
-		return filterMultiline(getCommand());
+		return getCommandMultilineFiltered(false);
 	}
 
 	private enum BHLMTokenType
