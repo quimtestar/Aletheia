@@ -133,6 +133,12 @@ public class Graph
 						return current;
 					}
 
+					@Override
+					public void remove()
+					{
+						throw new UnsupportedOperationException();
+					}
+
 				};
 			}
 
