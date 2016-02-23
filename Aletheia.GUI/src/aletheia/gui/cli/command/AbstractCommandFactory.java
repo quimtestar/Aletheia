@@ -57,6 +57,23 @@ import aletheia.utilities.collections.TrivialCloseableSet;
 public abstract class AbstractCommandFactory<C extends Command, E>
 {
 
+	protected static Statement findStatementSpec(PersistenceManager persistenceManager, Transaction transaction, Context ctx, String spec)
+			throws CommandParseException
+	{
+		if (spec.startsWith("$"))
+			return ctx.getStatementByHexRef(transaction, spec);
+		else
+			try
+			{
+				return persistenceManager.getStatement(transaction, UUID.fromString(spec));
+			}
+			catch (IllegalArgumentException e)
+			{
+				return findStatementPath(persistenceManager, transaction, ctx, spec);
+			}
+
+	}
+
 	protected static Statement findStatementPath(PersistenceManager persistenceManager, Transaction transaction, Context ctx, String path)
 			throws CommandParseException
 	{
@@ -285,7 +302,7 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 	protected Collection<StatementAuthoritySignature> specToStatementAuthoritySignatures(PersistenceManager persistenceManager, Transaction transaction,
 			Context activeContext, List<String> split) throws CommandParseException
 	{
-		Statement statement = findStatementPath(persistenceManager, transaction, activeContext, split.get(0));
+		Statement statement = findStatementSpec(persistenceManager, transaction, activeContext, split.get(0));
 		if (statement == null)
 			throw new CommandParseException("Invalid statement");
 		StatementAuthority statementAuthority = statement.getAuthority(transaction);
@@ -304,7 +321,7 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 		}
 		else if (split.size() > 3)
 		{
-			Statement ctxSt = findStatementPath(persistenceManager, transaction, activeContext, split.get(1));
+			Statement ctxSt = findStatementSpec(persistenceManager, transaction, activeContext, split.get(1));
 			Namespace prefix;
 			try
 			{

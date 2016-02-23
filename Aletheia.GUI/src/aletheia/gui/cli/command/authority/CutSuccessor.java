@@ -68,7 +68,7 @@ public class CutSuccessor extends TransactionalCommand
 				Statement statement;
 				if (split.size() > 0)
 				{
-					statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
+					statement = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 					if (statement == null)
 						throw new CommandParseException("Invalid statement");
 				}

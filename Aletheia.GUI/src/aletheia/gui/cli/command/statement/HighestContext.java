@@ -75,7 +75,7 @@ public class HighestContext extends TransactionalCommand
 		public HighestContext parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Statement statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
+			Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 			return new HighestContext(from, transaction, statement);
 		}
 

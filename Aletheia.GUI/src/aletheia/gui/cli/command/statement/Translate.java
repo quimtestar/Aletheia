@@ -106,7 +106,7 @@ public class Translate extends TransactionalCommand
 			checkMinParameters(split);
 			try
 			{
-				Context context = (Context) findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
+				Context context = (Context) findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 				if (context == null)
 					throw new CommandParseException("Bad statement path: " + split.get(0));
 				return new Translate(from, transaction, context);

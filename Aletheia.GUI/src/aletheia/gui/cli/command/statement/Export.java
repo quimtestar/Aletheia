@@ -76,7 +76,7 @@ public class Export extends TransactionalCommand
 					signed = true;
 				else
 				{
-					Statement st = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(i));
+					Statement st = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(i));
 					if (st == null)
 						throw new CommandParseException("Bad statement path: " + split.get(i));
 					statements.add(st);

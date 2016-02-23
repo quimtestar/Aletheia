@@ -20,13 +20,10 @@
 package aletheia.gui.cli.command.statement;
 
 import java.util.List;
-import java.util.UUID;
-
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
-import aletheia.gui.cli.command.gui.SelectContext;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
@@ -62,19 +59,7 @@ public class SelectStatement extends TransactionalCommand
 		{
 			Statement statement;
 			if (split.size() > 0)
-			{
-				if (split.get(0).startsWith("$"))
-					statement = from.getActiveContext().getStatementByHexRef(transaction, split.get(0));
-				else
-					try
-					{
-						statement = from.getPersistenceManager().getStatement(transaction, UUID.fromString(split.get(0)));
-					}
-					catch (IllegalArgumentException e)
-					{
-						statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
-					}
-			}
+				statement = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 			else
 				statement = from.getActiveContext();
 			if (statement == null)

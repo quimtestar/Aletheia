@@ -73,7 +73,7 @@ public class IdentifyStatement extends TransactionalCommand
 			checkMinParameters(split);
 			try
 			{
-				Statement statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
+				Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 				Identifier identifier = null;
 				if (split.size() > 1)
 					identifier = Identifier.parse(split.get(1));

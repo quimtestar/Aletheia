@@ -61,7 +61,7 @@ public class NewCopy extends NewStatement
 		public NewCopy parse(CommandSource from, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Statement statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
+			Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 			if (statement == null)
 				throw new CommandParseException("Bad statement path: " + split.get(0));
 			return new NewCopy(from, transaction, identifier, statement);

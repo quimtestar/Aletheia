@@ -92,7 +92,7 @@ public class DeleteDelegateAuthorizer extends TransactionalCommand
 				Namespace prefix;
 				if (split.size() > 1)
 				{
-					statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(1));
+					statement = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(1));
 					if (statement == null)
 						throw new CommandParseException("Invalid statement");
 					if (split.size() > 2)

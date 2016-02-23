@@ -76,7 +76,7 @@ public class RemoveStatementFromSignatureRequest extends TransactionalCommand
 			UnpackedSignatureRequest unpackedSignatureRequest = from.getPersistenceManager().getUnpackedSignatureRequest(transaction, uuid);
 			if (unpackedSignatureRequest == null)
 				throw new CommandParseException("Request not found.");
-			Statement statement = findStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(1));
+			Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(1));
 			if (statement == null)
 				throw new CommandParseException("Invalid statement");
 			if (!unpackedSignatureRequest.statements(transaction).contains(statement))
