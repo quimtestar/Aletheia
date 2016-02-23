@@ -17,10 +17,9 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.cli.command.gui;
+package aletheia.gui.cli.command.statement;
 
 import aletheia.gui.cli.command.CommandSource;
-import aletheia.gui.cli.command.statement.SelectStatement;
 import aletheia.model.statement.Context;
 import aletheia.persistence.Transaction;
 
