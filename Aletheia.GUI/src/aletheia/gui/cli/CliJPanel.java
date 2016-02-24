@@ -2108,7 +2108,6 @@ public class CliJPanel extends JPanel implements CommandSource
 
 	public void exception(String message, Exception exception) throws InterruptedException
 	{
-		commandBuffer.append(getCommandMultilineFiltered());
 		command(new TraceException(this, message, exception));
 	}
 
@@ -2119,7 +2118,6 @@ public class CliJPanel extends JPanel implements CommandSource
 
 	public void message(String message) throws InterruptedException
 	{
-		commandBuffer.append(getCommandMultilineFiltered());
 		command(new SimpleMessage(this, message));
 	}
 
