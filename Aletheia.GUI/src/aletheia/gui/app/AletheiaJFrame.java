@@ -247,7 +247,7 @@ public class AletheiaJFrame extends JFrame
 		catch (Exception ex)
 		{
 			logger.error(ex.getMessage(), ex);
-			JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, MiscUtilities.wrapText(ex.getMessage(), 80), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
