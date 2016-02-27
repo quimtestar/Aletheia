@@ -61,7 +61,11 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 			throws CommandParseException
 	{
 		if (spec.startsWith("$"))
+		{
+			if (ctx == null)
+				return null;
 			return ctx.getStatementByHexRef(transaction, spec);
+		}
 		else
 			try
 			{
