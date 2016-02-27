@@ -30,7 +30,6 @@ import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
-import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
@@ -145,23 +144,10 @@ public class Dependents extends TransactionalCommand
 		public Dependents parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			try
-			{
-				if (from.getActiveContext() == null)
-					throw new NotActiveContextException();
-				Statement statement = from.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(0)));
-				if (statement == null)
-					throw new CommandParseException("Bad statement:" + split.get(0));
-				return new Dependents(from, transaction, statement);
-			}
-			catch (InvalidNameException | NotActiveContextException e)
-			{
-				throw CommandParseEmbeddedException.embed(e);
-			}
-			finally
-			{
-
-			}
+			Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
+			if (statement == null)
+				throw new CommandParseException("Bad statement:" + split.get(0));
+			return new Dependents(from, transaction, statement);
 		}
 
 		@Override
