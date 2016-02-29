@@ -39,7 +39,6 @@ import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.statement.Context;
-import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
@@ -49,6 +48,7 @@ import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.collections.authority.StatementAuthoritySignatureMap;
 import aletheia.persistence.collections.statement.GenericRootContextsMap;
+import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableSet;
 import aletheia.utilities.collections.EmptyCloseableSet;
@@ -60,22 +60,14 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 	protected static Statement findStatementSpec(PersistenceManager persistenceManager, Transaction transaction, Context ctx, String spec)
 			throws CommandParseException
 	{
-		if (spec.startsWith("$"))
+		try
 		{
-			if (ctx == null)
-				return null;
-			return ctx.getStatementByHexRef(transaction, spec);
+			return persistenceManager.getStatement(transaction, UUID.fromString(spec));
 		}
-		else
-			try
-			{
-				return persistenceManager.getStatement(transaction, UUID.fromString(spec));
-			}
-			catch (IllegalArgumentException e)
-			{
-				return findStatementPath(persistenceManager, transaction, ctx, spec);
-			}
-
+		catch (IllegalArgumentException e)
+		{
+			return findStatementPath(persistenceManager, transaction, ctx, spec);
+		}
 	}
 
 	protected static Statement findStatementPath(PersistenceManager persistenceManager, Transaction transaction, Context ctx, String path)
@@ -101,15 +93,7 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 				GenericRootContextsMap map = persistenceManager.identifierToRootContexts(transaction).get(Identifier.parse(sroot));
 				if (map == null || map.isEmpty())
 					return null;
-				CloseableIterator<RootContext> iterator = map.values().iterator();
-				try
-				{
-					st = iterator.next();
-				}
-				finally
-				{
-					iterator.close();
-				}
+				st = MiscUtilities.firstFromCloseableIterable(map.values());
 			}
 			else
 			{
@@ -130,15 +114,7 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 					GenericRootContextsMap map = persistenceManager.identifierToRootContexts(transaction).get(Identifier.parse(sroot));
 					if (map == null || map.isEmpty())
 						return null;
-					CloseableIterator<RootContext> iterator = map.values().iterator();
-					try
-					{
-						st = iterator.next();
-					}
-					finally
-					{
-						iterator.close();
-					}
+					st = MiscUtilities.firstFromCloseableIterable(map.values());
 				}
 				else
 					st = ctx;
@@ -149,7 +125,11 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 				{
 					if ((st == null) || !(st instanceof Context))
 						return null;
-					st = ((Context) st).identifierToStatement(transaction).get(Identifier.parse(s));
+					ctx = (Context) st;
+					if (s.startsWith("$"))
+						st = ctx.getStatementByHexRef(transaction, s);
+					else
+						st = ctx.identifierToStatement(transaction).get(Identifier.parse(s));
 				}
 			}
 			else
