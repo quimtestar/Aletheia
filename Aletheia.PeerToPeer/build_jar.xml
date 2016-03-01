@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project basedir="." default="runnable">
+<project basedir="." default="jar">
     <import file="build.xml"/>
-    <target depends="build" name="runnable">
+    <target depends="build" name="jar">
         <jar destfile="aletheia.p2pnode.jar" filesetmanifest="mergewithoutmain">
             <manifest>
                 <attribute name="Main-Class" value="aletheia.peertopeer.standalone.StandAlonePeerToPeerNodeManager"/>

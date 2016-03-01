@@ -2,15 +2,15 @@
 <project basedir="." default="jars">
 	<target name="jars" depends="gui,p2pnode,berkeleydb"/>
 	<target name="gui">
-		<ant dir="../Aletheia.GUI" antfile="build_runnable.xml" target="runnable" />
+		<ant dir="../Aletheia.GUI" antfile="build_jar.xml" target="jar" />
 		<copy file="../Aletheia.GUI/aletheiagui.jar" todir="."/>
 	</target>
 	<target name="p2pnode">
-		<ant dir="../Aletheia.PeerToPeer" antfile="build_runnable.xml" target="runnable" />
+		<ant dir="../Aletheia.PeerToPeer" antfile="build_jar.xml" target="jar" />
 		<copy file="../Aletheia.PeerToPeer/aletheia.p2pnode.jar" todir="."/>
 	</target>
 	<target name="berkeleydb">
-		<ant dir="../Aletheia.BerkeleyDB" antfile="build_runnable.xml" target="runnable" />
+		<ant dir="../Aletheia.BerkeleyDB" antfile="build_jar.xml" target="jar" />
 		<copy file="../Aletheia.BerkeleyDB/berkeleydb.aletheia.tool.jar" todir="."/>
 	</target>
 </project>
