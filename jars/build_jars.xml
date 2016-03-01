@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="jars">
+	<target name="jars" depends="gui,p2pnode,berkeleydb"/>
+	<target name="gui">
+		<ant dir="../Aletheia.GUI" antfile="build_runnable.xml" target="runnable" />
+		<copy file="../Aletheia.GUI/aletheiagui.jar" todir="."/>
+	</target>
+	<target name="p2pnode">
+		<ant dir="../Aletheia.PeerToPeer" antfile="build_runnable.xml" target="runnable" />
+		<copy file="../Aletheia.PeerToPeer/aletheia.p2pnode.jar" todir="."/>
+	</target>
+	<target name="berkeleydb">
+		<ant dir="../Aletheia.BerkeleyDB" antfile="build_runnable.xml" target="runnable" />
+		<copy file="../Aletheia.BerkeleyDB/berkeleydb.aletheia.tool.jar" todir="."/>
+	</target>
+</project>
+
