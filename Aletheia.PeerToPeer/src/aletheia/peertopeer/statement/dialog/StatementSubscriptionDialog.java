@@ -144,7 +144,7 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 
 	private ContextStatementSignaturesResponseMessage dialogateContextStatementSignaturesResponse(
 			List<ContextStatementSignaturesResponseMessage.Entry> contextStatementSignaturesEntryList)
-					throws IOException, ProtocolException, InterruptedException
+			throws IOException, ProtocolException, InterruptedException
 	{
 		ContextStatementSignaturesResponseMessage sended = new ContextStatementSignaturesResponseMessage(contextStatementSignaturesEntryList);
 		sendMessage(sended);
@@ -418,7 +418,7 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 
 	private DelegateTreeSuccessorDependencyResponseMessage dialogateDelegateTreeSuccessorDependencyResponse(
 			DelegateTreeSuccessorDependencyRequestMessage delegateTreeSuccessorDependencyRequestMessage)
-					throws InterruptedException, IOException, ProtocolException
+			throws InterruptedException, IOException, ProtocolException
 	{
 		List<AbstractUUIDPersistentInfoMessage.Entry<Person>> successorEntryList = new ArrayList<AbstractUUIDPersistentInfoMessage.Entry<Person>>();
 		for (UUID uuid : delegateTreeSuccessorDependencyRequestMessage.getUuids())
@@ -433,7 +433,7 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 
 	private DelegateTreeDelegateDependencyResponseMessage dialogateDelegateTreeDelegateDependencyResponse(
 			DelegateTreeDelegateDependencyRequestMessage delegateTreeDelegateDependencyRequestMessage)
-					throws InterruptedException, IOException, ProtocolException
+			throws InterruptedException, IOException, ProtocolException
 	{
 		List<AbstractUUIDPersistentInfoMessage.Entry<Person>> delegateEntryList = new ArrayList<AbstractUUIDPersistentInfoMessage.Entry<Person>>();
 		for (UUID uuid : delegateTreeDelegateDependencyRequestMessage.getUuids())

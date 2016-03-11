@@ -401,7 +401,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 
 	public synchronized SuccessorEntry updateSuccessorEntriesSet(Transaction transaction, int position, UUID successorUuid, Date signatureDate,
 			int signatureVersion, SignatureData signatureData)
-					throws SignatureVerifyException, DateConsistenceException, DuplicateSuccessorException, SignatureVersionException
+			throws SignatureVerifyException, DateConsistenceException, DuplicateSuccessorException, SignatureVersionException
 	{
 		List<SuccessorEntry> successorEntries = getSuccessorEntries();
 		successorEntries.subList(position, successorEntries.size()).clear();
