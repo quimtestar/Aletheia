@@ -39,7 +39,6 @@ import aletheia.model.term.Term.ReplaceTypeException;
 import aletheia.model.term.VariableTerm;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
-import aletheia.prooffinder.TermMatcher.TermMatch;
 import aletheia.utilities.collections.AdaptedCollection;
 import aletheia.utilities.collections.CacheWithCleanerMap;
 import aletheia.utilities.collections.CombinedCollection;
@@ -294,7 +293,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 			varSet.add(func.getParameter());
 			term_ = func.getBody();
 		}
-		TermMatch termMatch = TermMatcher.match(term_, varSet, target, Collections.singleton(variable));
+		Term.TermMatch termMatch = term_.match(varSet, target, Collections.singleton(variable));
 		if (termMatch == null)
 			return null;
 		Term t = termMatch.getAssignMapRight().get(variable);

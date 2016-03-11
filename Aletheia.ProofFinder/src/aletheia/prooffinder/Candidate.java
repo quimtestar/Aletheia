@@ -37,7 +37,6 @@ import aletheia.model.term.Term.ReplaceTypeException;
 import aletheia.model.term.VariableTerm;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
-import aletheia.prooffinder.TermMatcher.TermMatch;
 
 public abstract class Candidate
 {
@@ -66,7 +65,7 @@ public abstract class Candidate
 			term = func.getBody();
 		}
 		this.consequent = (SimpleTerm) term;
-		TermMatch termMatch = TermMatcher.match(consequent, varSet, target, Collections.<VariableTerm> emptySet());
+		Term.TermMatch termMatch = consequent.match(varSet, target, Collections.<VariableTerm> emptySet());
 		if (termMatch != null)
 		{
 			this.assignMap = termMatch.getAssignMapLeft();
