@@ -65,7 +65,7 @@ public abstract class Candidate
 			term = func.getBody();
 		}
 		this.consequent = (SimpleTerm) term;
-		Term.TermMatch termMatch = consequent.match(varSet, target, Collections.<VariableTerm> emptySet());
+		Term.Match termMatch = consequent.match(varSet, target, Collections.<VariableTerm> emptySet());
 		if (termMatch != null)
 		{
 			this.assignMap = termMatch.getAssignMapLeft();

@@ -632,12 +632,12 @@ public abstract class Term implements Serializable, Exportable
 		return new ParameterNumerator();
 	}
 
-	public static class TermMatch
+	public static class Match
 	{
 		private final Map<VariableTerm, Term> assignMapLeft;
 		private final Map<VariableTerm, Term> assignMapRight;
 
-		private TermMatch(Map<VariableTerm, Term> assignMapLeft, Map<VariableTerm, Term> assignMapRight)
+		private Match(Map<VariableTerm, Term> assignMapLeft, Map<VariableTerm, Term> assignMapRight)
 		{
 			super();
 			this.assignMapLeft = assignMapLeft;
@@ -655,7 +655,12 @@ public abstract class Term implements Serializable, Exportable
 		}
 	}
 
-	public TermMatch match(Set<VariableTerm> assignableVarsLeft, Term termRight, Set<VariableTerm> assignableVarsRight)
+	public Match match(Set<VariableTerm> assignableVars, Term term)
+	{
+		return match(assignableVars, term, Collections.<VariableTerm> emptySet());
+	}
+
+	public Match match(Set<VariableTerm> assignableVarsLeft, Term termRight, Set<VariableTerm> assignableVarsRight)
 	{
 		Term termLeft = this;
 		Map<VariableTerm, Term> assignMapLeft = new HashMap<VariableTerm, Term>();
@@ -792,8 +797,21 @@ public abstract class Term implements Serializable, Exportable
 			}
 		}
 
-		return new TermMatch(assignMapLeft, assignMapRight);
+		return new Match(assignMapLeft, assignMapRight);
 
+	}
+
+	public Match match(Term term)
+	{
+		Set<VariableTerm> assignable = new HashSet<VariableTerm>();
+		Term t = this;
+		while (t instanceof FunctionTerm)
+		{
+			FunctionTerm f = (FunctionTerm) t;
+			assignable.add(f.getParameter());
+			t = f.getBody();
+		}
+		return match(assignable, t);
 	}
 
 }

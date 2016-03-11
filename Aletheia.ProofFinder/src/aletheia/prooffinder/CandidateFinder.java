@@ -293,7 +293,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 			varSet.add(func.getParameter());
 			term_ = func.getBody();
 		}
-		Term.TermMatch termMatch = term_.match(varSet, target, Collections.singleton(variable));
+		Term.Match termMatch = term_.match(varSet, target, Collections.singleton(variable));
 		if (termMatch == null)
 			return null;
 		Term t = termMatch.getAssignMapRight().get(variable);
