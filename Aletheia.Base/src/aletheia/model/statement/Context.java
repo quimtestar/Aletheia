@@ -92,9 +92,9 @@ import aletheia.utilities.collections.CloseableIterable;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableMap;
 import aletheia.utilities.collections.CloseableSet;
+import aletheia.utilities.collections.CombinedCloseableMap;
 import aletheia.utilities.collections.CombinedCloseableMultimap;
 import aletheia.utilities.collections.CombinedCollection;
-import aletheia.utilities.collections.CombinedMap;
 import aletheia.utilities.collections.CombinedSet;
 import aletheia.utilities.collections.EmptyCloseableSet;
 import aletheia.utilities.collections.FilteredCloseableSet;
@@ -741,9 +741,9 @@ public class Context extends Statement
 	 *            The transaction to be used in the operations on the map.
 	 * @return The map.
 	 */
-	public Map<IdentifiableVariableTerm, Statement> statements(Transaction transaction)
+	public CloseableMap<IdentifiableVariableTerm, Statement> statements(Transaction transaction)
 	{
-		return new CombinedMap<IdentifiableVariableTerm, Statement>(getLocalStatements(transaction), getContext(transaction).statements(transaction));
+		return new CombinedCloseableMap<IdentifiableVariableTerm, Statement>(getLocalStatements(transaction), getContext(transaction).statements(transaction));
 	}
 
 	/**
@@ -2244,5 +2244,26 @@ public class Context extends Statement
 				new BijectionCollection<Context, Collection<Statement>>(bijection, new BufferedList<>(descendentContexts(transaction)))));
 
 	}
+
+	/*
+	public Collection<Term.Match> lookup(Transaction transaction)
+	{
+		
+		
+		
+		
+		return new FilteredCollection<Term.Match>(
+				
+				new Filter<Term.Match>(){
+	
+			@Override
+			public boolean filter(Term.Match e)
+			{
+				// TODO Auto-generated method stub
+				return false;
+			}}, statements(transaction).values());
+		
+	}
+	*/
 
 }

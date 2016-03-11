@@ -24,7 +24,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.UUID;
@@ -54,6 +53,7 @@ import aletheia.utilities.collections.CloseableIterable;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableMap;
 import aletheia.utilities.collections.CloseableSet;
+import aletheia.utilities.collections.UnmodifiableCloseableMap;
 
 /**
  * <p>
@@ -131,9 +131,9 @@ public class RootContext extends Context
 	}
 
 	@Override
-	public Map<IdentifiableVariableTerm, Statement> statements(Transaction transaction)
+	public CloseableMap<IdentifiableVariableTerm, Statement> statements(Transaction transaction)
 	{
-		return Collections.unmodifiableMap(getLocalStatements(transaction));
+		return new UnmodifiableCloseableMap<>(getLocalStatements(transaction));
 	}
 
 	@Override
