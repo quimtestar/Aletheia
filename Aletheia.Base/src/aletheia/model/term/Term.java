@@ -811,7 +811,7 @@ public abstract class Term implements Serializable, Exportable
 			assignable.add(f.getParameter());
 			t = f.getBody();
 		}
-		return match(assignable, t);
+		return t.match(assignable, term);
 	}
 
 }
