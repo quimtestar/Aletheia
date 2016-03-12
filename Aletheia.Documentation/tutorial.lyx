@@ -409,7 +409,7 @@ status open
 
 \begin_layout Plain Layout
 
-$ ant -f build_runnable.xml
+$ ant -f build_jar.xml
 \end_layout
 
 \end_inset
@@ -422,7 +422,7 @@ It will generate the package file named
 \emph on
 aletheiagui.jar
 \emph default
- in the current directory
+ in the current directory.
 \end_layout
 
 \end_deeper
