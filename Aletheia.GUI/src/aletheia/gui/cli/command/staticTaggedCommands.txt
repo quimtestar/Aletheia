@@ -92,6 +92,7 @@ aletheia.gui.cli.command.statement.Import
 aletheia.gui.cli.command.statement.Export
 aletheia.gui.cli.command.statement.HighestContext
 aletheia.gui.cli.command.statement.SubscribedHighestContext
+aletheia.gui.cli.command.statement.LookUp
 
 aletheia.gui.cli.command.term.TermDiff
 aletheia.gui.cli.command.term.TermOut

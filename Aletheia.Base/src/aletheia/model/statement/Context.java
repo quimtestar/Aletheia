@@ -2280,8 +2280,9 @@ public class Context extends Statement
 
 	}
 
-	public CloseableCollection<Match> lookupMatches(Transaction transaction, final Term target)
+	public CloseableCollection<Match> lookupMatches(Transaction transaction, Term target)
 	{
+		final Term target_ = target != null ? target : getConsequent();
 
 		Bijection<Statement, Match> bijection = new Bijection<Statement, Match>()
 		{
@@ -2295,7 +2296,7 @@ public class Context extends Statement
 				SimpleTerm t = statement.getTerm().consequent(assignable);
 				if (assignable.contains(t.components().get(0)))
 					return null;
-				Term.Match termMatch = t.match(new AdaptedSet<VariableTerm>(assignable), target);
+				Term.Match termMatch = t.match(new AdaptedSet<VariableTerm>(assignable), target_);
 				if (termMatch == null)
 					return null;
 				return new Match(statement, assignable, termMatch);
@@ -2314,7 +2315,7 @@ public class Context extends Statement
 
 	public CloseableCollection<Match> lookupMatches(Transaction transaction)
 	{
-		return lookupMatches(transaction, getConsequent());
+		return lookupMatches(transaction, null);
 	}
 
 }

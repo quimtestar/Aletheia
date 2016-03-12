@@ -102,6 +102,21 @@ public class DiamondPriorityDiscardingQueue<E> implements Queue<E>
 		this(height, null);
 	}
 
+	public int getHeight()
+	{
+		return height;
+	}
+
+	public int getCapacity()
+	{
+		return capacity;
+	}
+
+	public static int heightForCapacity(int capacity)
+	{
+		return Integer.SIZE - Integer.numberOfLeadingZeros((capacity + 1) / 3);
+	}
+
 	@Override
 	public int size()
 	{
