@@ -19,7 +19,9 @@
  ******************************************************************************/
 package aletheia.model.term;
 
+import java.util.Collections;
 import java.util.Deque;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -49,5 +51,17 @@ public abstract class AtomicTerm extends SimpleTerm
 
 	@Override
 	public abstract Term unproject() throws UnprojectException;
+
+	@Override
+	public List<Term> components()
+	{
+		return Collections.<Term> singletonList(this);
+	}
+
+	@Override
+	public List<Term> aggregateComponents()
+	{
+		return Collections.<Term> singletonList(this);
+	}
 
 }

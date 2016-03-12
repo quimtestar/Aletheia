@@ -62,6 +62,7 @@ import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
 import aletheia.model.nomenclator.SubNomenclator;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
+import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.SimpleTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.ReplaceTypeException;
@@ -81,7 +82,9 @@ import aletheia.persistence.collections.statement.LocalStatementsMap;
 import aletheia.persistence.collections.statement.SubContextsSet;
 import aletheia.persistence.entities.statement.ContextEntity;
 import aletheia.utilities.collections.AdaptedList;
+import aletheia.utilities.collections.AdaptedSet;
 import aletheia.utilities.collections.Bijection;
+import aletheia.utilities.collections.BijectionCloseableCollection;
 import aletheia.utilities.collections.BijectionCloseableSet;
 import aletheia.utilities.collections.BijectionCollection;
 import aletheia.utilities.collections.BijectionList;
@@ -97,6 +100,7 @@ import aletheia.utilities.collections.CombinedCloseableMultimap;
 import aletheia.utilities.collections.CombinedCollection;
 import aletheia.utilities.collections.CombinedSet;
 import aletheia.utilities.collections.EmptyCloseableSet;
+import aletheia.utilities.collections.FilteredCloseableCollection;
 import aletheia.utilities.collections.FilteredCloseableSet;
 import aletheia.utilities.collections.NotNullFilter;
 import aletheia.utilities.collections.ReverseList;
@@ -2245,25 +2249,72 @@ public class Context extends Statement
 
 	}
 
-	/*
-	public Collection<Term.Match> lookup(Transaction transaction)
+	public class Match
 	{
-		
-		
-		
-		
-		return new FilteredCollection<Term.Match>(
-				
-				new Filter<Term.Match>(){
-	
-			@Override
-			public boolean filter(Term.Match e)
-			{
-				// TODO Auto-generated method stub
-				return false;
-			}}, statements(transaction).values());
-		
+		private final Statement statement;
+		private final Set<ParameterVariableTerm> assignable;
+		private final Term.Match termMatch;
+
+		private Match(Statement statement, Set<ParameterVariableTerm> assignable, Term.Match termMatch)
+		{
+			super();
+			this.statement = statement;
+			this.assignable = assignable;
+			this.termMatch = termMatch;
+		}
+
+		public Statement getStatement()
+		{
+			return statement;
+		}
+
+		public Set<ParameterVariableTerm> getAssignable()
+		{
+			return assignable;
+		}
+
+		public Term.Match getTermMatch()
+		{
+			return termMatch;
+		}
+
 	}
-	*/
+
+	public CloseableCollection<Match> lookupMatches(Transaction transaction, final Term target)
+	{
+
+		Bijection<Statement, Match> bijection = new Bijection<Statement, Match>()
+		{
+
+			@Override
+			public Match forward(Statement statement)
+			{
+				if (!statement.isProved())
+					return null;
+				Set<ParameterVariableTerm> assignable = new HashSet<ParameterVariableTerm>();
+				SimpleTerm t = statement.getTerm().consequent(assignable);
+				if (assignable.contains(t.components().get(0)))
+					return null;
+				Term.Match termMatch = t.match(new AdaptedSet<VariableTerm>(assignable), target);
+				if (termMatch == null)
+					return null;
+				return new Match(statement, assignable, termMatch);
+			}
+
+			@Override
+			public Statement backward(Match match)
+			{
+				return match.getStatement();
+			}
+
+		};
+
+		return new FilteredCloseableCollection<>(new NotNullFilter<Match>(), new BijectionCloseableCollection<>(bijection, statements(transaction).values()));
+	}
+
+	public CloseableCollection<Match> lookupMatches(Transaction transaction)
+	{
+		return lookupMatches(transaction, getConsequent());
+	}
 
 }

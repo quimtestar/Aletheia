@@ -19,6 +19,9 @@
  ******************************************************************************/
 package aletheia.model.term;
 
+import java.util.Collection;
+import java.util.List;
+
 import aletheia.model.term.CompositionTerm.CompositionTypeException;
 
 /**
@@ -78,7 +81,7 @@ public abstract class SimpleTerm extends Term
 	 * The consequent of a simple term is itself.
 	 */
 	@Override
-	public SimpleTerm consequent()
+	public SimpleTerm consequent(Collection<ParameterVariableTerm> parameters)
 	{
 		return this;
 	}
@@ -90,5 +93,9 @@ public abstract class SimpleTerm extends Term
 	 * @return The length.
 	 */
 	public abstract int length();
+
+	public abstract List<Term> components();
+
+	public abstract List<Term> aggregateComponents();
 
 }

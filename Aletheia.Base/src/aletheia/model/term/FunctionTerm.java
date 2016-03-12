@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.model.term;
 
+import java.util.Collection;
 import java.util.Deque;
 import java.util.Map;
 import java.util.Set;
@@ -344,9 +345,11 @@ public class FunctionTerm extends Term
 	 * The consequent of this function. That is, the consequent of its body.
 	 */
 	@Override
-	public SimpleTerm consequent()
+	public SimpleTerm consequent(Collection<ParameterVariableTerm> parameters)
 	{
-		return getBody().consequent();
+		if (parameters != null)
+			parameters.add(getParameter());
+		return getBody().consequent(parameters);
 	}
 
 	/**

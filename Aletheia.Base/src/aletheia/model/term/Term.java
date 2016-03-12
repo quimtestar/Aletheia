@@ -20,6 +20,7 @@
 package aletheia.model.term;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Deque;
@@ -493,6 +494,8 @@ public abstract class Term implements Serializable, Exportable
 	 */
 	public abstract Term compose(Term term) throws ComposeTypeException;
 
+	public abstract SimpleTerm consequent(Collection<ParameterVariableTerm> parameters);
+
 	/**
 	 * The consequent of a term is defined to be itself if it's a simple term or
 	 * the consequent of the body if it's a function
@@ -500,7 +503,20 @@ public abstract class Term implements Serializable, Exportable
 	 *
 	 * @return The consequent of this term.
 	 */
-	public abstract SimpleTerm consequent();
+	public SimpleTerm consequent()
+	{
+		return consequent(null);
+	}
+
+	/**
+	 * The list of parameter variables of this function.
+	 */
+	public List<ParameterVariableTerm> parameters()
+	{
+		List<ParameterVariableTerm> parameters = new ArrayList<ParameterVariableTerm>();
+		consequent(parameters);
+		return parameters;
+	}
 
 	/**
 	 * If a {@link FunctionTerm}, takes out every parameter which is independent
@@ -799,19 +815,6 @@ public abstract class Term implements Serializable, Exportable
 
 		return new Match(assignMapLeft, assignMapRight);
 
-	}
-
-	public Match match(Term term)
-	{
-		Set<VariableTerm> assignable = new HashSet<VariableTerm>();
-		Term t = this;
-		while (t instanceof FunctionTerm)
-		{
-			FunctionTerm f = (FunctionTerm) t;
-			assignable.add(f.getParameter());
-			t = f.getBody();
-		}
-		return t.match(assignable, term);
 	}
 
 }

@@ -19,14 +19,13 @@
  ******************************************************************************/
 package aletheia.model.term;
 
-import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import aletheia.model.identifier.Identifier;
-import aletheia.utilities.collections.CombinedList;
+import aletheia.utilities.collections.TailList;
 
 /**
  * A composition is composed by two parts; a head, which must be an
@@ -286,24 +285,16 @@ public class CompositionTerm extends SimpleTerm
 		}
 	}
 
+	@Override
 	public List<Term> components()
 	{
-		List<Term> headComponents;
-		if (head instanceof CompositionTerm)
-			headComponents = ((CompositionTerm) head).components();
-		else
-			headComponents = Collections.<Term> singletonList(head);
-		return new CombinedList<Term>(headComponents, Collections.singletonList(tail));
+		return new TailList<Term>(head.components(), tail);
 	}
 
+	@Override
 	public List<Term> aggregateComponents()
 	{
-		List<Term> headComponents;
-		if (head instanceof CompositionTerm)
-			headComponents = ((CompositionTerm) head).aggregateComponents();
-		else
-			headComponents = Collections.<Term> singletonList(head);
-		return new CombinedList<Term>(headComponents, Collections.<Term> singletonList(this));
+		return new TailList<Term>(head.aggregateComponents(), tail);
 	}
 
 }
