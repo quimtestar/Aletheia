@@ -2280,26 +2280,27 @@ public class Context extends Statement
 
 	}
 
-	public CloseableCollection<Match> lookupMatches(Transaction transaction, Term target)
+	public Match match(Statement statement, Term target)
 	{
-		final Term target_ = target != null ? target : getConsequent();
+		Set<ParameterVariableTerm> assignable = new HashSet<ParameterVariableTerm>();
+		SimpleTerm t = statement.getTerm().consequent(assignable);
+		if (assignable.contains(t.components().get(0)))
+			return null;
+		Term.Match termMatch = t.match(new AdaptedSet<VariableTerm>(assignable), target != null ? target : getConsequent());
+		if (termMatch == null)
+			return null;
+		return new Match(statement, assignable, termMatch);
+	}
 
+	public CloseableCollection<Match> lookupMatches(Transaction transaction, final Term target)
+	{
 		Bijection<Statement, Match> bijection = new Bijection<Statement, Match>()
 		{
 
 			@Override
 			public Match forward(Statement statement)
 			{
-				if (!statement.isProved())
-					return null;
-				Set<ParameterVariableTerm> assignable = new HashSet<ParameterVariableTerm>();
-				SimpleTerm t = statement.getTerm().consequent(assignable);
-				if (assignable.contains(t.components().get(0)))
-					return null;
-				Term.Match termMatch = t.match(new AdaptedSet<VariableTerm>(assignable), target_);
-				if (termMatch == null)
-					return null;
-				return new Match(statement, assignable, termMatch);
+				return match(statement, target);
 			}
 
 			@Override

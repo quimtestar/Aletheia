@@ -100,9 +100,9 @@ public class LookUp extends TransactionalCommand
 		@Override
 		public LookUp parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
+			checkMinParameters(split);
 			try
 			{
-				checkMinParameters(split);
 				Context ctx = from.getActiveContext();
 				if (ctx == null)
 					throw new NotActiveContextException();
