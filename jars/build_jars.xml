@@ -13,5 +13,10 @@
 		<ant dir="../Aletheia.BerkeleyDB" antfile="build_jar.xml" target="jar" />
 		<copy file="../Aletheia.BerkeleyDB/berkeleydb.aletheia.tool.jar" todir="."/>
 	</target>
+	<target name="cleanall">
+		<ant dir="../Aletheia.GUI" antfile="build_jar.xml" target="cleanall" />
+		<ant dir="../Aletheia.PeerToPeer" antfile="build_jar.xml" target="cleanall" />
+		<ant dir="../Aletheia.BerkeleyDB" antfile="build_jar.xml" target="cleanall" />
+	</target>
 </project>
 
