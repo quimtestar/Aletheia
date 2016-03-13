@@ -52,6 +52,7 @@ aletheia.gui.cli.command.gui.Help
 aletheia.gui.cli.command.gui.Up
 aletheia.gui.cli.command.gui.Frame
 aletheia.gui.cli.command.gui.Version
+aletheia.gui.cli.command.gui.Exit
 
 aletheia.gui.cli.command.local.SubscribeCommand
 

@@ -1318,7 +1318,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		command(new EmptyCommand(this));
 	}
 
-	protected void command(String s) throws InterruptedException
+	protected Command command(String s) throws InterruptedException
 	{
 		Transaction transaction = getPersistenceManager().beginTransaction();
 		try
@@ -1327,14 +1327,20 @@ public class CliJPanel extends JPanel implements CommandSource
 			command(cmd);
 			if (!(cmd instanceof TransactionalCommand))
 				transaction.abort();
+			return cmd;
 		}
 		catch (CommandParseException e)
 		{
 			transaction.abort();
-			command(new TraceException(this, e));
+			Command cmd = new TraceException(this, e);
+			command(cmd);
+			return cmd;
 		}
-		if (!s.isEmpty())
-			commandHistory.addAndPosition(s);
+		finally
+		{
+			if (!s.isEmpty())
+				commandHistory.addAndPosition(s);
+		}
 	}
 
 	@Override
@@ -2221,6 +2227,12 @@ public class CliJPanel extends JPanel implements CommandSource
 		{
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Override
+	public void exit()
+	{
+		getAletheiaJPanel().getAletheiaJFrame().exit();
 	}
 
 }

@@ -169,6 +169,11 @@ public abstract class Command
 		from.clear();
 	}
 
+	protected void exit() throws Exception
+	{
+		from.exit();
+	}
+
 	protected void collapseAll(Context context)
 	{
 		from.collapseAll(context);
