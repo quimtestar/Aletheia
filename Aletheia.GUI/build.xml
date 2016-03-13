@@ -17,6 +17,7 @@
     <property name="Aletheia.PdfExport.location" value="../Aletheia.PdfExport"/>
     <property name="Aletheia.BerkeleyDB.location" value="../Aletheia.BerkeleyDB"/>
     <property name="Aletheia.PeerToPeer.location" value="../Aletheia.PeerToPeer"/>
+    <property name="debug" value="true"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.7"/>
     <property name="source" value="1.7"/>
