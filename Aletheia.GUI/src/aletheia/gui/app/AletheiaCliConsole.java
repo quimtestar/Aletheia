@@ -35,6 +35,7 @@ import aletheia.gui.cli.command.Command;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.gui.cli.command.Command.CommandParseException;
+import aletheia.gui.cli.command.gui.Exit;
 import aletheia.gui.cli.command.gui.TraceException;
 import aletheia.model.authority.UnpackedSignatureRequest;
 import aletheia.model.identifier.Namespace;
@@ -225,7 +226,12 @@ public class AletheiaCliConsole implements CommandSource
 		}
 	}
 
-	protected void command(String s)
+	@Override
+	public void exit()
+	{
+	}
+
+	protected Command command(String s)
 	{
 		Transaction transaction = getPersistenceManager().beginTransaction();
 		try
@@ -234,11 +240,14 @@ public class AletheiaCliConsole implements CommandSource
 			command(cmd);
 			if (!(cmd instanceof TransactionalCommand))
 				transaction.abort();
+			return cmd;
 		}
 		catch (CommandParseException e)
 		{
 			transaction.abort();
-			command(new TraceException(this, e));
+			Command cmd = new TraceException(this, e);
+			command(cmd);
+			return cmd;
 		}
 	}
 
@@ -253,7 +262,9 @@ public class AletheiaCliConsole implements CommandSource
 				String s = in.readLine();
 				if (s == null)
 					break;
-				command(s);
+				Command cmd = command(s);
+				if (cmd instanceof Exit)
+					break;
 			}
 		}
 		catch (IOException e)

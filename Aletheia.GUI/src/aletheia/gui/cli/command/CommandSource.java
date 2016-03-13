@@ -84,4 +84,6 @@ public interface CommandSource
 
 	void command(Command command) throws InterruptedException;
 
+	void exit();
+
 }
