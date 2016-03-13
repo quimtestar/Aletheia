@@ -138,9 +138,14 @@ public class AletheiaGUI
 				Switch swReadWrite = globalSwitches.remove("ro");
 				if (swReadWrite != null)
 					readOnly = true;
+				boolean allowCreate = false;
+				Switch swAllowCreate = globalSwitches.remove("ac");
+				if (swAllowCreate != null)
+					allowCreate = true;
 				BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
 				configuration.setDbFile(dbFile);
 				configuration.setReadOnly(readOnly);
+				configuration.setAllowCreate(allowCreate);
 				configuration.setStartupProgressListener(startupProgressListener);
 				persistenceManager = new BerkeleyDBPersistenceManager(configuration);
 			}
