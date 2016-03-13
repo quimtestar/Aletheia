@@ -154,6 +154,8 @@ public class AletheiaGUI
 				GUIAletheiaPreferences preferences = GUIAletheiaPreferences.instance;
 				PersistenceClass persistenceClass = preferences.getPersistenceClass();
 				persistenceManager = persistenceClass.persistenceGUIFactory.createPersistenceManager(null, startupProgressListener);
+				if (persistenceManager == null)
+					throw new ArgumentsException("Persistence manager not set in preferences.");
 			}
 		}
 		finally
