@@ -66,11 +66,11 @@ public abstract class AletheiaCliConsole implements CommandSource
 		this.activeContext = null;
 	}
 
-	public class UnsupportedOperation extends RuntimeException
+	public class UnsupportedOperationException extends java.lang.UnsupportedOperationException
 	{
 		private static final long serialVersionUID = -3793027160064762455L;
 
-		private UnsupportedOperation()
+		private UnsupportedOperationException()
 		{
 			super("Operation not suported in the console CLI");
 		}
