@@ -20,6 +20,7 @@
 package aletheia.gui.app;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -50,15 +51,16 @@ import aletheia.utilities.CommandLineArguments;
 import aletheia.utilities.CommandLineArguments.CommandLineArgumentsException;
 import aletheia.utilities.CommandLineArguments.Option;
 import aletheia.utilities.CommandLineArguments.Switch;
+import aletheia.utilities.io.WriterOutputStream;
 import aletheia.version.VersionManager;
 
-public class AletheiaCliConsole implements CommandSource
+public abstract class AletheiaCliConsole implements CommandSource
 {
 	private final PersistenceManager persistenceManager;
 
 	private Context activeContext;
 
-	public AletheiaCliConsole(PersistenceManager persistenceManager)
+	private AletheiaCliConsole(PersistenceManager persistenceManager)
 	{
 		this.persistenceManager = persistenceManager;
 		this.activeContext = null;
@@ -75,33 +77,29 @@ public class AletheiaCliConsole implements CommandSource
 	}
 
 	@Override
-	public PrintStream getOut()
-	{
-		return System.out;
-	}
+	public abstract PrintStream getOut();
+
+	public abstract String readLine();
 
 	@Override
 	public PrintStream getOutB()
 	{
-		return System.out;
+		return getOut();
 	}
 
 	@Override
 	public PrintStream getOutP()
 	{
-		return System.out;
+		return getOut();
 	}
 
 	@Override
-	public PrintStream getErr()
-	{
-		return System.err;
-	}
+	public abstract PrintStream getErr();
 
 	@Override
 	public PrintStream getErrB()
 	{
-		return System.err;
+		return getErrB();
 	}
 
 	@Override
@@ -253,24 +251,94 @@ public class AletheiaCliConsole implements CommandSource
 
 	public void run()
 	{
-		try
+		while (true)
 		{
-			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-			while (true)
+			System.out.print("% ");
+			String s = readLine();
+			if (s == null)
+				break;
+			Command cmd = command(s);
+			if (cmd instanceof Exit)
+				break;
+		}
+	}
+
+	private static class StdIO extends AletheiaCliConsole
+	{
+
+		private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+		private StdIO(PersistenceManager persistenceManager)
+		{
+			super(persistenceManager);
+		}
+
+		@Override
+		public PrintStream getOut()
+		{
+			return System.out;
+		}
+
+		@Override
+		public PrintStream getErr()
+		{
+			return System.err;
+		}
+
+		@Override
+		public String readLine()
+		{
+			try
 			{
-				System.out.print("% ");
-				String s = in.readLine();
-				if (s == null)
-					break;
-				Command cmd = command(s);
-				if (cmd instanceof Exit)
-					break;
+				return reader.readLine();
+			}
+			catch (IOException e)
+			{
+				throw new RuntimeException(e);
 			}
 		}
-		catch (IOException e)
+
+	}
+
+	private static class SystemConsole extends AletheiaCliConsole
+	{
+		private final Console console;
+		private final PrintStream out;
+
+		private SystemConsole(PersistenceManager persistenceManager, Console console)
 		{
-			e.printStackTrace();
+			super(persistenceManager);
+			this.console = console;
+			this.out = new PrintStream(new WriterOutputStream(console.writer()));
 		}
+
+		@Override
+		public PrintStream getOut()
+		{
+			return out;
+		}
+
+		@Override
+		public PrintStream getErr()
+		{
+			return out;
+		}
+
+		@Override
+		public String readLine()
+		{
+			return console.readLine();
+		}
+
+	}
+
+	public static AletheiaCliConsole cliConsole(PersistenceManager persistenceManager)
+	{
+		Console console = System.console();
+		if (console != null)
+			return new SystemConsole(persistenceManager, console);
+		else
+			return new StdIO(persistenceManager);
 	}
 
 	private static class ArgumentsException extends Exception
@@ -331,7 +399,7 @@ public class AletheiaCliConsole implements CommandSource
 					}
 				});
 
-				AletheiaCliConsole cliConsole = new AletheiaCliConsole(persistenceManager);
+				AletheiaCliConsole cliConsole = cliConsole(persistenceManager);
 				cliConsole.run();
 			}
 			finally

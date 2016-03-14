@@ -174,7 +174,7 @@ public class AletheiaGUI
 				}
 			});
 
-			AletheiaCliConsole cliConsole = new AletheiaCliConsole(persistenceManager);
+			AletheiaCliConsole cliConsole = AletheiaCliConsole.cliConsole(persistenceManager);
 			cliConsole.run();
 		}
 		finally
