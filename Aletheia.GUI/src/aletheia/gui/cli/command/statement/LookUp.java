@@ -76,7 +76,8 @@ public class LookUp extends TransactionalCommand
 			for (ParameterVariableTerm p : m.getStatement().getTerm().parameters())
 			{
 				Term t = m.getTermMatch().getAssignMapLeft().get(p);
-				getOut().print("[ " + "@" + i + " <- " + (t != null ? t.toString(context.variableToIdentifier(getTransaction())) : "?") + " ] ");
+				if (t != null)
+					getOut().print("[ " + "@" + i + " <- " + t.toString(context.variableToIdentifier(getTransaction())) + " ] ");
 				i++;
 			}
 			getOut().println();
