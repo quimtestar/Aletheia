@@ -80,6 +80,8 @@ public class Match extends TransactionalCommand
 				if (ctx == null)
 					throw new NotActiveContextException();
 				Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, ctx, split.get(0));
+				if (statement == null)
+					throw new CommandParseException("Invalid statement");
 				Term term = null;
 				if (split.size() > 1)
 					term = ctx.parseTerm(transaction, split.get(1));
