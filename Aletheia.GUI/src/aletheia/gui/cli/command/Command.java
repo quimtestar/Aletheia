@@ -372,7 +372,7 @@ public abstract class Command
 
 		public CommandParseException(Throwable cause)
 		{
-			super(cause);
+			super(cause.getMessage(), cause);
 		}
 
 	}
