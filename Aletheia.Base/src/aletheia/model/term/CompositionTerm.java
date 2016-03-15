@@ -294,7 +294,7 @@ public class CompositionTerm extends SimpleTerm
 	@Override
 	public List<Term> aggregateComponents()
 	{
-		return new TailList<Term>(head.aggregateComponents(), tail);
+		return new TailList<Term>(head.aggregateComponents(), this);
 	}
 
 }
