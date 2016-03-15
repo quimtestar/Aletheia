@@ -86,4 +86,8 @@ public interface CommandSource
 
 	void exit();
 
+	char[] getPassphrase(boolean confirm);
+
+	boolean confirmDialog(String text);
+
 }

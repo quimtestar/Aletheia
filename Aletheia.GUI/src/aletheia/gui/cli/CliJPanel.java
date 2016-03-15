@@ -56,6 +56,7 @@ import java.util.regex.Pattern;
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -115,6 +116,7 @@ import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.prooffinder.ProofFinder;
+import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.gui.MyJSplitPane;
 
 public class CliJPanel extends JPanel implements CommandSource
@@ -2233,6 +2235,21 @@ public class CliJPanel extends JPanel implements CommandSource
 	public void exit()
 	{
 		getAletheiaJPanel().getAletheiaJFrame().exit();
+	}
+
+	@Override
+	public char[] getPassphrase(boolean confirm)
+	{
+		PassphraseDialog dialog = new PassphraseDialog(aletheiaJPanel.getAletheiaJFrame(), confirm);
+		return dialog.getPassphrase();
+	}
+
+	@Override
+	public boolean confirmDialog(String text)
+	{
+		int option = JOptionPane.showConfirmDialog(aletheiaJPanel.getAletheiaJFrame(),
+				MiscUtilities.wrapText((text != null ? text + "\n" : "") + "Are you sure you want to continue?", 80));
+		return option == JOptionPane.OK_OPTION;
 	}
 
 }

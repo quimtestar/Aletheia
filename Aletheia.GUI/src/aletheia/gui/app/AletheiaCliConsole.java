@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -298,6 +299,14 @@ public abstract class AletheiaCliConsole implements CommandSource
 			}
 		}
 
+		@Override
+		public char[] getPassphrase(boolean confirm)
+		{
+			getErr().println("Warning: echo not disabled!");
+			getOut().print("Enter passphrase: ");
+			return readLine().toCharArray();
+		}
+
 	}
 
 	private static class SystemConsole extends AletheiaCliConsole
@@ -309,7 +318,7 @@ public abstract class AletheiaCliConsole implements CommandSource
 		{
 			super(persistenceManager);
 			this.console = console;
-			this.out = new PrintStream(new WriterOutputStream(console.writer()));
+			this.out = new PrintStream(new WriterOutputStream(console.writer()), true);
 		}
 
 		@Override
@@ -328,6 +337,23 @@ public abstract class AletheiaCliConsole implements CommandSource
 		public String readLine()
 		{
 			return console.readLine();
+		}
+
+		@Override
+		public char[] getPassphrase(boolean confirm)
+		{
+			char[] passwd = console.readPassword("Enter passphrase: ");
+			if (passwd != null && confirm)
+			{
+				char[] passwdc = console.readPassword("Confirm passphrase: ");
+				if (!Arrays.equals(passwd, passwdc))
+				{
+					getErr().println("Not matched.");
+					return null;
+				}
+			}
+
+			return passwd;
 		}
 
 	}
@@ -407,6 +433,16 @@ public abstract class AletheiaCliConsole implements CommandSource
 				persistenceManager.close();
 			}
 		}
+	}
+
+	@Override
+	public boolean confirmDialog(String text)
+	{
+		if (text != null)
+			getOut().println(text);
+		getOut().println("Are you sure you want to continue? (yes/no)");
+		String s = readLine();
+		return s != null && s.trim().toLowerCase().equals("yes");
 	}
 
 }

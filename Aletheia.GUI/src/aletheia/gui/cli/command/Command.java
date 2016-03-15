@@ -204,6 +204,26 @@ public abstract class Command
 		return from.getProofFinder();
 	}
 
+	protected char[] getPassphrase(boolean confirm)
+	{
+		return from.getPassphrase(confirm);
+	}
+
+	protected char[] getPassphrase()
+	{
+		return getPassphrase(false);
+	}
+
+	protected boolean confirmDialog(String text)
+	{
+		return from.confirmDialog(text);
+	}
+
+	protected boolean confirmDialog()
+	{
+		return from.confirmDialog(null);
+	}
+
 	protected void command(Command command) throws InterruptedException
 	{
 		from.command(command);
