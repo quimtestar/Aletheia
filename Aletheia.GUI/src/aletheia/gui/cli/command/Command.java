@@ -169,7 +169,7 @@ public abstract class Command
 		from.clear();
 	}
 
-	protected void exit() throws Exception
+	protected void exit()
 	{
 		from.exit();
 	}
