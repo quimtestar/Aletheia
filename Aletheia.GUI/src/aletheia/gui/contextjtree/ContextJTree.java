@@ -861,55 +861,68 @@ public class ContextJTree extends PersistentJTree
 
 	}
 
-	public void expandSubscribedContexts(final Context context)
+	public void expandSubscribedContexts(Context context)
 	{
-		SwingUtilities.invokeLater(new Runnable()
+		Transaction transaction = getPersistenceManager().beginTransaction();
+		try
 		{
-
-			@Override
-			public void run()
+			final ContextLocal ctxLocal = context.getLocal(transaction);
+			if (ctxLocal != null)
 			{
-				Transaction transaction = getPersistenceManager().beginTransaction();
-				try
+				SwingUtilities.invokeLater(new Runnable()
 				{
-					Stack<ContextLocal> stack = new Stack<ContextLocal>();
-					stack.push(context.getLocal(transaction));
-					while (!stack.isEmpty())
+
+					@Override
+					public void run()
 					{
-						ContextLocal ctxLocal = stack.pop();
-						ContextSorterContextJTreeNode node = (ContextSorterContextJTreeNode) getModel().getNodeMap()
-								.getByStatement(ctxLocal.getStatement(transaction));
-						boolean pushed = false;
-						for (ContextLocal ctxLocal_ : ctxLocal.subscribeStatementsContextLocalSet(transaction))
+						Transaction transaction = getPersistenceManager().beginTransaction();
+						try
 						{
-							StatementContextJTreeNode node_ = getModel().getNodeMap().getByStatement(ctxLocal_.getStatement(transaction));
-							GroupSorterContextJTreeNode<?> parent = node_.getParent();
-							while (true)
+							Stack<ContextLocal> stack = new Stack<ContextLocal>();
+							stack.push(ctxLocal);
+							while (!stack.isEmpty())
 							{
-								for (ContextJTreeNode n : parent.childrenIterable())
-									collapsePath(n.path());
-								if (parent.equals(node))
-									break;
-								parent = parent.getParent();
+								ContextLocal ctxLocal = stack.pop();
+								ContextSorterContextJTreeNode node = (ContextSorterContextJTreeNode) getModel().getNodeMap()
+										.getByStatement(ctxLocal.getStatement(transaction));
+								boolean pushed = false;
+								for (ContextLocal ctxLocal_ : ctxLocal.subscribeStatementsContextLocalSet(transaction))
+								{
+									StatementContextJTreeNode node_ = getModel().getNodeMap().getByStatement(ctxLocal_.getStatement(transaction));
+									GroupSorterContextJTreeNode<?> parent = node_.getParent();
+									while (true)
+									{
+										for (ContextJTreeNode n : parent.childrenIterable())
+											collapsePath(n.path());
+										if (parent.equals(node))
+											break;
+										parent = parent.getParent();
+									}
+									expandPath(node_.path());
+									stack.push(ctxLocal_);
+									pushed = true;
+								}
+								if (!pushed)
+								{
+									for (ContextJTreeNode n : node.childrenIterable())
+										collapsePath(n.path());
+								}
 							}
-							expandPath(node_.path());
-							stack.push(ctxLocal_);
-							pushed = true;
 						}
-						if (!pushed)
+						finally
 						{
-							for (ContextJTreeNode n : node.childrenIterable())
-								collapsePath(n.path());
+							transaction.abort();
 						}
 					}
-				}
-				finally
-				{
-					transaction.abort();
-				}
-			}
 
-		});
+				});
+
+			}
+		}
+		finally
+		{
+			transaction.abort();
+		}
 
 	}
 
