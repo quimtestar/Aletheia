@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -1442,36 +1443,6 @@ public class Context extends Statement
 		}
 	}
 
-	/**
-	 * Translates a term from one context to another using an specified
-	 * statement map. In other words, it replaces in the term all the variables
-	 * that make sense on one context by corresponding variables on the other
-	 * context.
-	 *
-	 * @param transaction
-	 *            The transaction used in the operation.
-	 * @param map
-	 *            The statement map used for the translation.
-	 * @param ctxOrig
-	 *            The original context of the term.
-	 * @param term
-	 *            The original term.
-	 * @return The translated term.
-	 * @throws ReplaceTypeException
-	 */
-	private Term translateTerm(Transaction transaction, Map<Statement, Statement> map, Context ctxOrig, Term term) throws ReplaceTypeException
-	{
-		List<Term.Replace> replaces = new ArrayList<Term.Replace>();
-		for (VariableTerm var : term.freeVariables())
-		{
-			Statement stOrig = ctxOrig.statements(transaction).get(var);
-			Statement stDest = map.get(stOrig);
-			if (stDest != null)
-				replaces.add(new Term.Replace(var, stDest.getVariable()));
-		}
-		return term.replace(replaces);
-	}
-
 	public class CopyStatementException extends StatementException
 	{
 		private static final long serialVersionUID = -3007370131448437354L;
@@ -1580,6 +1551,9 @@ public class Context extends Statement
 			Set<Statement> excludeFromIdentify) throws CopyStatementException
 	{
 		Map<Statement, Statement> map = new HashMap<Statement, Statement>(initMap);
+		List<Term.Replace> replaces = new LinkedList<Term.Replace>();
+		for (Map.Entry<Statement, Statement> e : map.entrySet())
+			replaces.add(new Term.Replace(e.getKey().getVariable(), e.getValue().getVariable()));
 		Set<Statement> copied = new HashSet<Statement>(initMap.values());
 		Queue<Statement> queue = new ArrayDeque<Statement>();
 		queue.addAll(statements);
@@ -1604,15 +1578,15 @@ public class Context extends Statement
 				Declaration decDest;
 				try
 				{
-					decDest = ctxParentDest.declare(transaction, translateTerm(transaction, map, ctxStOrig, decOrig.getValue()));
+					decDest = ctxParentDest.declare(transaction, decOrig.getValue().replace(replaces));
 				}
 				catch (ReplaceTypeException e)
 				{
-					throw new CopyStatementException(e);
+					throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
 				}
 				catch (StatementException e)
 				{
-					throw new CopyStatementException(e);
+					throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
 				}
 				stDest = decDest;
 			}
@@ -1625,15 +1599,15 @@ public class Context extends Statement
 				Specialization specDest;
 				try
 				{
-					specDest = ctxParentDest.specialize(transaction, genDest, translateTerm(transaction, map, ctxStOrig, specOrig.getInstance()));
+					specDest = ctxParentDest.specialize(transaction, genDest, specOrig.getInstance().replace(replaces));
 				}
 				catch (ReplaceTypeException e)
 				{
-					throw new CopyStatementException(e.getMessage(), e);
+					throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
 				}
 				catch (StatementException e)
 				{
-					throw new CopyStatementException(e.getMessage(), e);
+					throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
 				}
 				stDest = specDest;
 			}
@@ -1649,15 +1623,15 @@ public class Context extends Statement
 					UnfoldingContext unfDest;
 					try
 					{
-						unfDest = ctxParentDest.openUnfoldingSubContext(transaction, translateTerm(transaction, map, ctxStOrig, unfOrig.getTerm()), decDest);
+						unfDest = ctxParentDest.openUnfoldingSubContext(transaction, unfOrig.getTerm().replace(replaces), decDest);
 					}
 					catch (ReplaceTypeException e)
 					{
-						throw new CopyStatementException(e);
+						throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
 					}
 					catch (StatementException e)
 					{
-						throw new CopyStatementException(e);
+						throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
 					}
 					stDest = unfDest;
 				}
@@ -1668,15 +1642,15 @@ public class Context extends Statement
 					Context ctxDest;
 					try
 					{
-						ctxDest = ctxParentDest.openSubContext(transaction, translateTerm(transaction, map, ctxStOrig, ctxOrig.getTerm()));
+						ctxDest = ctxParentDest.openSubContext(transaction, ctxOrig.getTerm().replace(replaces));
 					}
 					catch (ReplaceTypeException e)
 					{
-						throw new CopyStatementException(e);
+						throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
 					}
 					catch (StatementException e)
 					{
-						throw new CopyStatementException(e);
+						throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
 					}
 					stDest = ctxDest;
 				}
@@ -1685,6 +1659,7 @@ public class Context extends Statement
 			else
 				throw new Error();
 			map.put(stOrig, stDest);
+			replaces.add(new Term.Replace(stOrig.getVariable(), stDest.getVariable()));
 			copied.add(stDest);
 			if (!excludeFromIdentify.contains(stOrig))
 			{
@@ -1694,11 +1669,11 @@ public class Context extends Statement
 					if (stDest.identifier(transaction) == null)
 						try
 						{
-							stDest.getContext(transaction).identifyStatement(transaction, id, stDest);
+							stDest.identify(transaction, id);
 						}
 						catch (NomenclatorException e)
 						{
-							throw new CopyStatementException(e);
+							throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
 						}
 				}
 			}
