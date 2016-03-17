@@ -62,8 +62,6 @@ public interface CommandSource
 
 	void pushSelectStatement(Transaction transaction, Statement statement);
 
-	char[] passPhrase();
-
 	void expandAllContexts(Context context);
 
 	void nodeStructureReset(Context context);
@@ -86,7 +84,7 @@ public interface CommandSource
 
 	void exit();
 
-	char[] getPassphrase(boolean confirm);
+	char[] passphrase(boolean confirm);
 
 	boolean confirmDialog(String text);
 

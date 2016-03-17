@@ -2176,13 +2176,6 @@ public class CliJPanel extends JPanel implements CommandSource
 	}
 
 	@Override
-	public char[] passPhrase()
-	{
-		PassphraseDialog dialog = new PassphraseDialog(aletheiaJPanel.getAletheiaJFrame(), true);
-		return dialog.getPassphrase();
-	}
-
-	@Override
 	public void expandAllContexts(Context context)
 	{
 		aletheiaJPanel.getContextJTree().expandAllContexts(context);
@@ -2238,16 +2231,16 @@ public class CliJPanel extends JPanel implements CommandSource
 	}
 
 	@Override
-	public char[] getPassphrase(boolean confirm)
+	public char[] passphrase(boolean confirm)
 	{
-		PassphraseDialog dialog = new PassphraseDialog(aletheiaJPanel.getAletheiaJFrame(), confirm);
+		PassphraseDialog dialog = new PassphraseDialog(aletheiaJPanel.getOwnerFrame(), confirm);
 		return dialog.getPassphrase();
 	}
 
 	@Override
 	public boolean confirmDialog(String text)
 	{
-		int option = JOptionPane.showConfirmDialog(aletheiaJPanel.getAletheiaJFrame(),
+		int option = JOptionPane.showConfirmDialog(aletheiaJPanel.getOwnerFrame(),
 				MiscUtilities.wrapText((text != null ? text + "\n" : "") + "Are you sure you want to continue?", 80));
 		return option == JOptionPane.OK_OPTION;
 	}

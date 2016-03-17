@@ -27,11 +27,11 @@ import aletheia.gui.cli.command.Command;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.persistence.Transaction;
 
-@TaggedCommand(tag = "passphrase", groupPath = "/security", factory = EnterPassphrase.Factory.class)
-public class EnterPassphrase extends Command
+@TaggedCommand(tag = "passphrase", groupPath = "/security", factory = Passphrase.Factory.class)
+public class Passphrase extends Command
 {
 
-	public EnterPassphrase(CommandSource from)
+	public Passphrase(CommandSource from)
 	{
 		super(from);
 	}
@@ -39,12 +39,12 @@ public class EnterPassphrase extends Command
 	@Override
 	public void run() throws Exception
 	{
-		char[] passphrase = getPassphrase();
+		char[] passphrase = passphrase();
 		if (passphrase != null)
 			getPersistenceManager().getSecretKeyManager().enterPassphrase(passphrase);
 	}
 
-	public static class Factory extends AbstractVoidCommandFactory<EnterPassphrase>
+	public static class Factory extends AbstractVoidCommandFactory<Passphrase>
 	{
 
 		@Override
@@ -54,9 +54,9 @@ public class EnterPassphrase extends Command
 		}
 
 		@Override
-		public EnterPassphrase parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public Passphrase parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
-			return new EnterPassphrase(from);
+			return new Passphrase(from);
 		}
 
 		@Override

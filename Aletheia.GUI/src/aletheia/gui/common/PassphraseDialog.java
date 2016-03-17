@@ -29,33 +29,32 @@ import java.util.Arrays;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import aletheia.gui.app.AletheiaJFrame;
-
 public class PassphraseDialog extends JDialog
 {
 	private static final long serialVersionUID = 5591536684887229752L;
-	private final AletheiaJFrame aletheiaJFrame;
+	private final JFrame frame;
 	private final JPasswordField passwordField;
 	private final JPasswordField confirmField;
 	private final JButton okButton;
 	private final JButton cancelButton;
 	private char[] passphrase;
 
-	public PassphraseDialog(AletheiaJFrame aletheiaJFrame)
+	public PassphraseDialog(JFrame frame)
 	{
-		this(aletheiaJFrame, false);
+		this(frame, false);
 	}
 
-	public PassphraseDialog(AletheiaJFrame aletheiaJFrame, boolean confirm)
+	public PassphraseDialog(JFrame frame, boolean confirm)
 	{
-		super(aletheiaJFrame, "Enter passphrase", true);
-		this.aletheiaJFrame = aletheiaJFrame;
+		super(frame, "Enter passphrase", true);
+		this.frame = frame;
 		this.setLayout(new BorderLayout());
 		DocumentListener documentListener = new DocumentListener()
 		{
@@ -189,14 +188,14 @@ public class PassphraseDialog extends JDialog
 
 		this.setResizable(false);
 		this.pack();
-		this.setLocationRelativeTo(aletheiaJFrame);
+		this.setLocationRelativeTo(frame);
 		this.setVisible(true);
 
 	}
 
-	protected AletheiaJFrame getAletheiaJFrame()
+	protected JFrame getFrame()
 	{
-		return aletheiaJFrame;
+		return frame;
 	}
 
 	public char[] getPassphrase()

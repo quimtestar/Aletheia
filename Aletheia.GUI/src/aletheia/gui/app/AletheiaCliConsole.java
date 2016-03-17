@@ -153,12 +153,6 @@ public abstract class AletheiaCliConsole implements CommandSource
 	}
 
 	@Override
-	public char[] passPhrase()
-	{
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
 	public void expandAllContexts(Context context)
 	{
 		throw new UnsupportedOperationException();
@@ -300,7 +294,7 @@ public abstract class AletheiaCliConsole implements CommandSource
 		}
 
 		@Override
-		public char[] getPassphrase(boolean confirm)
+		public char[] passphrase(boolean confirm)
 		{
 			getErr().println("Warning: echo not disabled!");
 			getOut().print("Enter passphrase: ");
@@ -340,7 +334,7 @@ public abstract class AletheiaCliConsole implements CommandSource
 		}
 
 		@Override
-		public char[] getPassphrase(boolean confirm)
+		public char[] passphrase(boolean confirm)
 		{
 			char[] passwd = console.readPassword("Enter passphrase: ");
 			if (passwd != null && confirm)

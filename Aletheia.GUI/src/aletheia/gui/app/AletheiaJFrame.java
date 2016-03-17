@@ -147,7 +147,7 @@ public class AletheiaJFrame extends JFrame
 		public ExtraJFrame(PersistenceManager persistenceManager, String extraTitle) throws InterruptedException
 		{
 			super();
-			this.aletheiaJPanel = new AletheiaJPanel(AletheiaJFrame.this, persistenceManager);
+			this.aletheiaJPanel = new AletheiaJPanel(AletheiaJFrame.this, this, persistenceManager);
 			this.setTitle(AletheiaConstants.TITLE + (extraTitle != null ? " " + extraTitle : ""));
 			this.setIconImages(IconManager.instance.aletheiaIconList);
 			this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -462,7 +462,7 @@ public class AletheiaJFrame extends JFrame
 							}
 						}
 					}
-					aletheiaContentPane = new AletheiaJPanel(this, persistenceManager);
+					aletheiaContentPane = new AletheiaJPanel(this, this, persistenceManager);
 					getJMenuBar().getDataMenu().getPersonsAction().setEnabled(true);
 					getJMenuBar().getSecurityMenu().updatePersistenceManager();
 				}

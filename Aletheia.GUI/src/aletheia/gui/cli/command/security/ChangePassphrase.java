@@ -39,7 +39,7 @@ public class ChangePassphrase extends Command
 	@Override
 	public void run() throws Exception
 	{
-		char[] passphrase = getPassphrase(true);
+		char[] passphrase = passphrase(true);
 		if (passphrase != null
 				&& confirmDialog("This action might take some minutes, since all the private keys must be (re)encrypted with the new passphrase."))
 			getPersistenceManager().getSecretKeyManager().changePassphrase(passphrase);

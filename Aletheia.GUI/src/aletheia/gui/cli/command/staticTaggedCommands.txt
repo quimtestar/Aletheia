@@ -100,7 +100,7 @@ aletheia.gui.cli.command.term.TermDiff
 aletheia.gui.cli.command.term.TermOut
 aletheia.gui.cli.command.term.TermType
 
-aletheia.gui.cli.command.security.EnterPassphrase
+aletheia.gui.cli.command.security.Passphrase
 aletheia.gui.cli.command.security.ClearPassphrase
 aletheia.gui.cli.command.security.ChangePassphrase
 aletheia.gui.cli.command.security.DeletePassphrase

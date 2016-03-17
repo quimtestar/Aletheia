@@ -149,11 +149,6 @@ public abstract class Command
 		return from.getActiveContext();
 	}
 
-	protected char[] passPhrase()
-	{
-		return from.passPhrase();
-	}
-
 	protected void expandAllContexts(Context context)
 	{
 		from.expandAllContexts(context);
@@ -204,14 +199,14 @@ public abstract class Command
 		return from.getProofFinder();
 	}
 
-	protected char[] getPassphrase(boolean confirm)
+	protected char[] passphrase(boolean confirm)
 	{
-		return from.getPassphrase(confirm);
+		return from.passphrase(confirm);
 	}
 
-	protected char[] getPassphrase()
+	protected char[] passphrase()
 	{
-		return getPassphrase(false);
+		return passphrase(false);
 	}
 
 	protected boolean confirmDialog(String text)
