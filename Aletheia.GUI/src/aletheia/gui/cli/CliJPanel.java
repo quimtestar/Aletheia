@@ -1351,7 +1351,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		command(command, true);
 	}
 
-	public void command(Command command, boolean promptWhenDone) throws InterruptedException
+	public synchronized void command(Command command, boolean promptWhenDone) throws InterruptedException
 	{
 		if (promptWhenDone)
 			this.promptWhenDone = command;
@@ -2105,9 +2105,9 @@ public class CliJPanel extends JPanel implements CommandSource
 		catalogJTreeLayerUI.lock(owners);
 	}
 
-	protected void commandDone(Command command) throws InterruptedException
+	protected synchronized void commandDone(Command command, Exception e) throws InterruptedException
 	{
-		if (promptWhenDone == command)
+		if (promptWhenDone == command || e != null)
 		{
 			promptWhenDone = null;
 			controller.command(new Prompt(this));

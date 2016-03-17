@@ -221,6 +221,7 @@ public class CliController extends Thread
 			{
 				break;
 			}
+			Exception exception = null;
 			try
 			{
 				if (activeCommand instanceof NonOperationalCommand)
@@ -240,6 +241,7 @@ public class CliController extends Thread
 						try
 						{
 							queue.put(new TraceException(activeCommand.getFrom(), e));
+							exception = e;
 						}
 						catch (InterruptedException e1)
 						{
@@ -250,7 +252,7 @@ public class CliController extends Thread
 			}
 			finally
 			{
-				commandDone(activeCommand);
+				commandDone(activeCommand, exception);
 				waitCursor(activeCommand, false);
 			}
 			synchronized (this)
@@ -260,11 +262,11 @@ public class CliController extends Thread
 		}
 	}
 
-	private void commandDone(Command command)
+	private void commandDone(Command command, Exception exception)
 	{
 		try
 		{
-			((CliJPanel) command.getFrom()).commandDone(command);
+			((CliJPanel) command.getFrom()).commandDone(command, exception);
 		}
 		catch (InterruptedException e)
 		{
