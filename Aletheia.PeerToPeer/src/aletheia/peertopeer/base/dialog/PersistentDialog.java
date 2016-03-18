@@ -158,6 +158,11 @@ public abstract class PersistentDialog extends Dialog
 			transaction.commit();
 			throw e;
 		}
+		catch (Exception e)
+		{
+			logger.warn("Aborting transaction!!!!");
+			throw e;
+		}
 		finally
 		{
 			transaction.abort();
