@@ -45,15 +45,15 @@ public abstract class Dialog extends SubPhase
 	{
 		private static final long serialVersionUID = 8236307834018141784L;
 
-		public DialogStreamException(NonBlockingSocketChannelStream.StreamException cause)
+		public DialogStreamException(IOException cause)
 		{
 			super(cause);
 		}
 
 		@Override
-		public synchronized NonBlockingSocketChannelStream.StreamException getCause()
+		public synchronized IOException getCause()
 		{
-			return (NonBlockingSocketChannelStream.StreamException) super.getCause();
+			return (IOException) super.getCause();
 		}
 	}
 
@@ -162,7 +162,7 @@ public abstract class Dialog extends SubPhase
 				sender.shutdown();
 			}
 		}
-		catch (NonBlockingSocketChannelStream.StreamException e)
+		catch (IOException e)
 		{
 			throw new DialogStreamException(e);
 		}
