@@ -1322,6 +1322,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 						}
 						catch (PersistenceLockTimeoutException e)
 						{
+							logger.trace(e.getMessage(), e);
 							List<Sorter> sorterList = node.getSorterList();
 							if (sorterList != null)
 								for (Sorter sorter : sorterList)
