@@ -277,7 +277,7 @@ public class CliJPanel extends JPanel implements CommandSource
 					try
 					{
 						String s = getCommandMultilineFiltered().trim();
-						if (commandHistory.atEnd() || !s.equals(commandHistory.current()))
+						if (!s.isEmpty() && (commandHistory.atEnd() || !s.equals(commandHistory.current())))
 							commandHistory.add(s);
 						document.remove(minimalCaretPosition, document.getLength() - minimalCaretPosition);
 						document.insertString(minimalCaretPosition, commandHistory.decrease(), defaultAttributeSet);
@@ -298,7 +298,7 @@ public class CliJPanel extends JPanel implements CommandSource
 					try
 					{
 						String s = getCommandMultilineFiltered().trim();
-						if (commandHistory.atEnd() || !s.equals(commandHistory.current()))
+						if (!s.isEmpty() && (commandHistory.atEnd() || !s.equals(commandHistory.current())))
 							commandHistory.add(s);
 						document.remove(minimalCaretPosition, document.getLength() - minimalCaretPosition);
 						document.insertString(minimalCaretPosition, commandHistory.increase(), defaultAttributeSet);
