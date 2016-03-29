@@ -159,6 +159,7 @@ import aletheia.security.utilities.PassphraseEncryptedStreamer.BadPassphraseExce
 import aletheia.utilities.aborter.Aborter.AbortException;
 import aletheia.utilities.aborter.ListenableAborter;
 import aletheia.utilities.collections.AdaptedCloseableSet;
+import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableSet;
 import aletheia.utilities.collections.CombinedCloseableSet;
 
@@ -615,6 +616,25 @@ public abstract class PersistenceManager
 	public abstract RootContextsMap rootContexts(Transaction transaction);
 
 	public abstract SortedRootContexts sortedRootContexts(Transaction transaction);
+
+	public RootContext getRootContextByHexRef(Transaction transaction, String hexRef)
+	{
+		CloseableIterator<RootContext> iterator = rootContexts(transaction).values().iterator();
+		try
+		{
+			while (iterator.hasNext())
+			{
+				RootContext rc = iterator.next();
+				if (hexRef.equals(rc.hexRef()))
+					return rc;
+			}
+		}
+		finally
+		{
+			iterator.close();
+		}
+		return null;
+	}
 
 	/**
 	 * Synchronizes any buffering done in the persistence environment. In other
