@@ -67,4 +67,33 @@ public abstract class SorterContextJTreeNode extends ContextJTreeNode
 		return super.toString() + "[Sorter: " + getSorter() + "]";
 	}
 
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((sorter == null) ? 0 : sorter.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SorterContextJTreeNode other = (SorterContextJTreeNode) obj;
+		if (sorter == null)
+		{
+			if (other.sorter != null)
+				return false;
+		}
+		else if (!sorter.equals(other.sorter))
+			return false;
+		return true;
+	}
+
 }

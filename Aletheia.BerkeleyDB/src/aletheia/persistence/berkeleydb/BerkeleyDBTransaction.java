@@ -342,6 +342,7 @@ public class BerkeleyDBTransaction extends Transaction
 	{
 		try
 		{
+			logger.trace("Warning: slow iterative cursor.count()");
 			return cursor.count();
 		}
 		catch (DatabaseException e)
