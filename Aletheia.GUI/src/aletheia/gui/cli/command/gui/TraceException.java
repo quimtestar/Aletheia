@@ -68,6 +68,7 @@ public class TraceException extends NonOperationalCommand
 		{
 			if (exception.getMessage() != null)
 			{
+				logger.debug(exception.getMessage(), exception);
 				getErr().println(exception.getMessage());
 			}
 			else
