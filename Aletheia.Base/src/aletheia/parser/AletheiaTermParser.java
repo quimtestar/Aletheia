@@ -28,6 +28,7 @@ import java.io.StringReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
@@ -63,7 +64,10 @@ import aletheia.parsergenerator.symbols.TaggedTerminalSymbol;
 import aletheia.parsergenerator.symbols.TerminalSymbol;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.TaggedTerminalToken;
+import aletheia.parsergenerator.tokens.TerminalToken;
 import aletheia.persistence.Transaction;
+import aletheia.persistence.collections.statement.GenericRootContextsMap;
+import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.collections.BufferedList;
 
 /**
@@ -340,8 +344,8 @@ public class AletheiaTermParser extends Parser
 				}
 				else if (token.getProduction().getRight().get(0).equals(taggedNonTerminalSymbols.get("R")))
 				{
-					if (context == null || transaction == null)
-						throw new TermParserException("No context to use the reference", token.getChildren().get(0).getStartLocation(),
+					if (transaction == null)
+						throw new TermParserException("Can't process references", token.getChildren().get(0).getStartLocation(),
 								token.getChildren().get(0).getStopLocation(), input);
 					return processReference(context, transaction, (NonTerminalToken) token.getChildren().get(0), input);
 				}
@@ -576,31 +580,164 @@ public class AletheiaTermParser extends Parser
 
 	private Term processReference(Context context, Transaction transaction, NonTerminalToken token, String input) throws TermParserException
 	{
-		NonTerminalToken refToken = (NonTerminalToken) token.getChildren().get(1);
-		if (refToken.getProduction().getRight().get(0).equals(taggedNonTerminalSymbols.get("I")))
+		if (token.getProduction().getRight().size() == 2)
+			return processStatementReference_terminal_s(context, transaction, (NonTerminalToken) token.getChildren().get(1), input);
+		else if (token.getProduction().getRight().size() == 4)
 		{
-			Identifier identifier = processIdentifier((NonTerminalToken) refToken.getChildren().get(0), input);
-			Statement statement = context.identifierToStatement(transaction).get(identifier);
-			if (statement == null)
-				throw new TermParserException("Identifier: " + "'" + identifier + "'" + " not defined", token.getChildren().get(1).getStartLocation(),
-						token.getChildren().get(1).getStopLocation(), input);
-			return statement.getTerm();
+			Term term = processStatementReference_path_s(context, transaction, (NonTerminalToken) token.getChildren().get(2), input);
+			for (IdentifiableVariableTerm v : term.freeIdentifiableVariables())
+			{
+				if (context == null)
+					throw new TermParserException("Referenced term contains free variables", token.getChildren().get(2).getStartLocation(),
+							token.getChildren().get(2).getStopLocation(), input);
+				else if (!context.statements(transaction).containsKey(v))
+				{
+					throw new TermParserException("Referenced term contains free variables not of this context", token.getChildren().get(2).getStartLocation(),
+							token.getChildren().get(2).getStopLocation(), input);
+				}
+			}
+			return term;
 		}
-		else if (refToken.getProduction().getRight().get(0).equals(taggedTerminalSymbols.get("hexref")))
+		else
+			throw new Error();
+	}
+
+	private Term processStatementReference_terminal_s(Context context, Transaction transaction, NonTerminalToken token, String input) throws TermParserException
+	{
+		if (token.getProduction().getRight().get(0).equals(taggedNonTerminalSymbols.get("S_t")))
+			return processStatementReference_terminal(context, transaction, (NonTerminalToken) token.getChildren().get(0), input);
+		else if (token.getProduction().getRight().get(0).equals(taggedTerminalSymbols.get("uuid")))
 		{
-			String hexRef = ((TaggedTerminalToken) refToken.getChildren().get(0)).getText();
-			Statement statement = context.getStatementByHexRef(transaction, hexRef);
+			UUID uuid = processUuid((TerminalToken) token.getChildren().get(0), input);
+			Statement statement = transaction.getPersistenceManager().getStatement(transaction, uuid);
 			if (statement == null)
-				throw new TermParserException("Reference not found on context", token.getChildren().get(0).getStartLocation(),
+				throw new TermParserException("Statement not found with UUID: " + uuid, token.getChildren().get(0).getStartLocation(),
 						token.getChildren().get(0).getStopLocation(), input);
 			return statement.getTerm();
 		}
-		else if (refToken.getProduction().getRight().get(0).equals(taggedTerminalSymbols.get("turnstile")))
+		else
+			throw new Error();
+	}
+
+	private Term processStatementReference_terminal(Context context, Transaction transaction, NonTerminalToken token, String input) throws TermParserException
+	{
+		if (token.getProduction().getRight().get(0).equals(taggedNonTerminalSymbols.get("S")))
+			return processStatementReference(context, transaction, (NonTerminalToken) token.getChildren().get(0), input).getTerm();
+		else if (token.getProduction().getRight().get(0).equals(taggedTerminalSymbols.get("turnstile")))
 		{
+			if (context == null)
+				throw new TermParserException("Cannot refer to the consequent without a context", token.getChildren().get(0).getStartLocation(),
+						token.getChildren().get(0).getStopLocation(), input);
 			return context.getConsequent();
 		}
 		else
 			throw new Error();
+	}
+
+	private Statement processStatementReference(Context context, Transaction transaction, NonTerminalToken token, String input) throws TermParserException
+	{
+
+		if (token.getProduction().getRight().get(0).equals(taggedNonTerminalSymbols.get("I")))
+		{
+			Identifier identifier = processIdentifier((NonTerminalToken) token.getChildren().get(0), input);
+			if (context == null)
+			{
+				GenericRootContextsMap rcm = transaction.getPersistenceManager().identifierToRootContexts(transaction).get(identifier);
+				if (rcm == null || rcm.size() < 1)
+					throw new TermParserException("Identifier: " + "'" + identifier + "'" + " not defined at root level",
+							token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation(), input);
+				if (rcm.size() > 1)
+					throw new TermParserException("Multiple root contexts with identifier: " + "'" + identifier + "'",
+							token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation(), input);
+				else
+					return MiscUtilities.firstFromCloseableIterable(rcm.values());
+			}
+			else
+			{
+				Statement statement = context.identifierToStatement(transaction).get(identifier);
+				if (statement == null)
+					throw new TermParserException("Identifier: " + "'" + identifier + "'" + " not defined in context: \"" + context.label() + "\"",
+							token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation(), input);
+				return statement;
+			}
+		}
+		else if (token.getProduction().getRight().get(0).equals(taggedTerminalSymbols.get("hexref")))
+		{
+			String hexRef = ((TaggedTerminalToken) token.getChildren().get(0)).getText();
+			if (context == null)
+			{
+				Statement statement = transaction.getPersistenceManager().getRootContextByHexRef(transaction, hexRef);
+				if (statement == null)
+					throw new TermParserException("Reference: + " + "'" + hexRef + "'" + " not found on root level",
+							token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation(), input);
+				return statement;
+			}
+			else
+			{
+				Statement statement = context.getStatementByHexRef(transaction, hexRef);
+				if (statement == null)
+					throw new TermParserException("Reference: + " + "'" + hexRef + "'" + " not found on context: \"" + context.label() + "\"",
+							token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation(), input);
+				return statement;
+			}
+		}
+		else
+			throw new Error();
+
+	}
+
+	private Term processStatementReference_path_s(Context context, Transaction transaction, NonTerminalToken token, String input) throws TermParserException
+	{
+		if (token.getProduction().getRight().size() == 2)
+			return processStatementReference_path(null, transaction, (NonTerminalToken) token.getChildren().get(1), input);
+		else if (token.getProduction().getRight().size() == 3)
+		{
+			UUID uuid = processUuid((TerminalToken) token.getChildren().get(0), input);
+			Statement st = transaction.getPersistenceManager().getStatement(transaction, uuid);
+			if (st == null)
+				throw new TermParserException("Statement not found with UUID: " + uuid, token.getChildren().get(0).getStartLocation(),
+						token.getChildren().get(0).getStopLocation(), input);
+			if (!(st instanceof Context))
+				throw new TermParserException("Statement: " + "\"" + st.label() + "\"" + " not a context", token.getChildren().get(0).getStartLocation(),
+						token.getChildren().get(0).getStopLocation(), input);
+			return processStatementReference_path((Context) st, transaction, (NonTerminalToken) token.getChildren().get(2), input);
+		}
+		else if (token.getProduction().getRight().size() == 1)
+		{
+			return processStatementReference_path(context, transaction, (NonTerminalToken) token.getChildren().get(0), input);
+		}
+		else
+			throw new Error();
+	}
+
+	private Term processStatementReference_path(Context context, Transaction transaction, NonTerminalToken token, String input) throws TermParserException
+	{
+		if (token.getProduction().getRight().size() == 3)
+		{
+			Statement st = processStatementReference(context, transaction, (NonTerminalToken) token.getChildren().get(0), input);
+			if (!(st instanceof Context))
+				throw new TermParserException("Statement: " + "\"" + st.label() + "\"" + " not a context", token.getChildren().get(0).getStartLocation(),
+						token.getChildren().get(0).getStopLocation(), input);
+			return processStatementReference_path((Context) st, transaction, (NonTerminalToken) token.getChildren().get(2), input);
+		}
+		else if (token.getProduction().getRight().size() == 2)
+			return processStatementReference_path(null, transaction, (NonTerminalToken) token.getChildren().get(1), input);
+		else if (token.getProduction().getRight().size() == 1)
+			return processStatementReference_terminal(context, transaction, (NonTerminalToken) token.getChildren().get(0), input);
+		else
+			throw new Error();
+	}
+
+	private UUID processUuid(TerminalToken token, String input) throws TermParserException
+	{
+		try
+		{
+			return UUID.fromString(((TaggedTerminalToken) token).getText());
+		}
+		catch (IllegalArgumentException e)
+		{
+			throw new TermParserException("Bad UUID string", token.getStartLocation(), token.getStopLocation(), input);
+		}
 	}
 
 	public static AutomatonSet createAutomatonSet() throws ParserLexerException, IOException
