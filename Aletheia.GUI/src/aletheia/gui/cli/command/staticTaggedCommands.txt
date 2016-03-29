@@ -85,6 +85,7 @@ aletheia.gui.cli.command.statement.Solves
 aletheia.gui.cli.command.statement.StatementAbsolutePath
 aletheia.gui.cli.command.statement.StatementOut
 aletheia.gui.cli.command.statement.StatementUuid
+aletheia.gui.cli.command.statement.StatementHexRef
 aletheia.gui.cli.command.statement.Translate
 aletheia.gui.cli.command.statement.UnidentifyAssumption
 aletheia.gui.cli.command.statement.RootContextSignatureUuid
