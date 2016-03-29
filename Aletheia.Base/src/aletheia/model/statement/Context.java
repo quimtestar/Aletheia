@@ -2146,6 +2146,8 @@ public class Context extends Statement
 			{
 				iterator.close();
 			}
+			if (hexRef.equals(ctx.hexRef()))
+				return ctx;
 			if (ctx instanceof RootContext)
 				break;
 			ctx = ctx.getContext(transaction);
