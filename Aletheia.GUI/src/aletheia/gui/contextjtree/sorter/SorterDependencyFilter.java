@@ -19,9 +19,11 @@
  ******************************************************************************/
 package aletheia.gui.contextjtree.sorter;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -34,6 +36,7 @@ import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.BufferedList;
+import aletheia.utilities.collections.ReverseList;
 import aletheia.utilities.collections.UnionIterable;
 
 public class SorterDependencyFilter<S extends Sorter> implements Iterable<S>
@@ -126,12 +129,12 @@ public class SorterDependencyFilter<S extends Sorter> implements Iterable<S>
 					@Override
 					public Iterable<S> next()
 					{
-						Stack<S> stack = new Stack<S>();
-						stack.push(iterator.next());
+						Deque<S> stack = new ArrayDeque<S>();
+						stack.offer(iterator.next());
 						Stack<S> stack2 = new Stack<S>();
 						while (!stack.isEmpty())
 						{
-							S sorter = stack.pop();
+							S sorter = stack.poll();
 							stack2.push(sorter);
 							Statement st = sorter2Statement(sorter);
 							if (st != null)
@@ -144,7 +147,7 @@ public class SorterDependencyFilter<S extends Sorter> implements Iterable<S>
 										depSList.add(depS);
 								}
 								Collections.sort(depSList, sorterComparator);
-								stack.addAll(depSList);
+								stack.addAll(new ReverseList<>(depSList));
 							}
 						}
 						List<S> list = new ArrayList<S>();
