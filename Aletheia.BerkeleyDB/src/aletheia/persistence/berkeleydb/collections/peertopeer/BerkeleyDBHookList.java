@@ -131,7 +131,7 @@ public class BerkeleyDBHookList extends AbstractCloseableList<Hook> implements H
 				Long k = transaction.next(cursor);
 				if (k == null)
 					break;
-				n += cursor.count();
+				n += transaction.count(cursor);
 			}
 			return n;
 		}

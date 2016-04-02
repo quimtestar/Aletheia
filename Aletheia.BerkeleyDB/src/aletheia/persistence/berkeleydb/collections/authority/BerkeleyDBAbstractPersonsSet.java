@@ -210,7 +210,7 @@ public abstract class BerkeleyDBAbstractPersonsSet<K> extends AbstractCloseableS
 				K k = transaction.next(cursor);
 				if (k == null)
 					break;
-				n += cursor.count();
+				n += transaction.count(cursor);
 			}
 			return n;
 		}

@@ -92,7 +92,7 @@ public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID
 				PrimaryKeyData k = transaction.next(cursor);
 				if (k == null)
 					break;
-				n += cursor.count();
+				n += transaction.count(cursor);
 			}
 			return n;
 		}
@@ -166,7 +166,7 @@ public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID
 				PrimaryKeyData k = transaction.next(cursor);
 				if (k == null)
 					break;
-				cursor.delete();
+				transaction.delete(cursor);
 			}
 		}
 		finally

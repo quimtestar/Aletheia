@@ -177,7 +177,7 @@ public abstract class BerkeleyDBGenericSignatureRequestCollection<S extends Sign
 				K k = transaction.next(cursor);
 				if (k == null)
 					break;
-				n += cursor.count();
+				n += transaction.count(cursor);
 			}
 			return n;
 		}

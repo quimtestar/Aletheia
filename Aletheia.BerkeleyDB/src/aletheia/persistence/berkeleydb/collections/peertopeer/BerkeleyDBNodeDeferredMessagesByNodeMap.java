@@ -155,7 +155,7 @@ public class BerkeleyDBNodeDeferredMessagesByNodeMap extends AbstractCloseableMa
 						NodeDeferredMessageRecipientSecondaryKeyData k = transaction.nextNoDup(cursor);
 						if (k == null)
 							break;
-						n += cursor.count();
+						n += transaction.count(cursor);
 					}
 					return n;
 				}
@@ -237,7 +237,7 @@ public class BerkeleyDBNodeDeferredMessagesByNodeMap extends AbstractCloseableMa
 						NodeDeferredMessageRecipientSecondaryKeyData k = transaction.next(cursor);
 						if (k == null)
 							break;
-						cursor.delete();
+						transaction.delete(cursor);
 					}
 				}
 				finally

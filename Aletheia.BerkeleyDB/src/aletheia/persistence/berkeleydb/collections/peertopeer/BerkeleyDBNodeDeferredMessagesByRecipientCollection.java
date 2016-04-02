@@ -185,7 +185,7 @@ public class BerkeleyDBNodeDeferredMessagesByRecipientCollection extends Abstrac
 				NodeDeferredMessageRecipientDateSecondaryKeyData k = transaction.next(cursor);
 				if (k == null)
 					break;
-				n += cursor.count();
+				n += transaction.count(cursor);
 			}
 			return n;
 		}
@@ -268,7 +268,7 @@ public class BerkeleyDBNodeDeferredMessagesByRecipientCollection extends Abstrac
 				NodeDeferredMessageRecipientDateSecondaryKeyData k = transaction.next(cursor);
 				if (k == null)
 					break;
-				cursor.delete();
+				transaction.delete(cursor);
 			}
 		}
 		finally
