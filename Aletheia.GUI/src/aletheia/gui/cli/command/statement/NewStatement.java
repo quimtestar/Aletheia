@@ -98,7 +98,8 @@ public abstract class NewStatement extends TransactionalCommand
 				NewUnfoldingContext.class,
 				NewStrip.class,
 				NewCopy.class,
-				NewRootContext.class
+				NewRootContext.class,
+				NewAuto.class
 				);
 		// @formatter:on
 
