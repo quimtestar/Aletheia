@@ -2170,6 +2170,18 @@ public class CliJPanel extends JPanel implements CommandSource
 	}
 
 	@Override
+	public void pushSelectContextConsequent(Context context)
+	{
+		aletheiaJPanel.getContextJTree().pushSelectContextConsequent(context);
+	}
+
+	@Override
+	public void pushSelectContextConsequent(Transaction transaction, Context context)
+	{
+		aletheiaJPanel.getContextJTree().pushSelectContextConsequent(transaction, context);
+	}
+
+	@Override
 	public ProofFinder getProofFinder()
 	{
 		return aletheiaJPanel.getProofFinder();

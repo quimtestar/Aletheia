@@ -144,6 +144,11 @@ public abstract class Command
 		from.pushSelectStatement(transaction, statement);
 	}
 
+	protected void pushSelectContextConsequent(Transaction transaction, Context context)
+	{
+		from.pushSelectContextConsequent(transaction, context);
+	}
+
 	protected Context getActiveContext()
 	{
 		return from.getActiveContext();

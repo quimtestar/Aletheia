@@ -195,6 +195,14 @@ public class ContextJTreeModel extends PersistentTreeModel
 		return node.path();
 	}
 
+	public synchronized TreePath pathForContextConsequent(Context context)
+	{
+		ContextSorterContextJTreeNode node = (ContextSorterContextJTreeNode) nodeMap.getByStatement(context);
+		if (node == null)
+			return null;
+		return node.getConsequentNode().path();
+	}
+
 	private synchronized StatementContextJTreeNode deleteStatement(Statement statement)
 	{
 		return nodeMap.cachedByStatement(statement);
@@ -376,6 +384,27 @@ public class ContextJTreeModel extends PersistentTreeModel
 		public ContextJTree getContextJTree()
 		{
 			return contextJTree;
+		}
+
+	}
+
+	private class ContextConsequentSelect extends StatementSelect
+	{
+
+		public ContextConsequentSelect(Transaction transaction, Context context, ContextJTree contextJTree)
+		{
+			super(transaction, context, contextJTree);
+		}
+
+		@Override
+		public Context getStatement()
+		{
+			return (Context) super.getStatement();
+		}
+
+		public Context getContext()
+		{
+			return getStatement();
 		}
 
 	}
@@ -648,6 +677,18 @@ public class ContextJTreeModel extends PersistentTreeModel
 		}
 	}
 
+	public void pushSelectContextConsequent(Transaction transaction, Context context, ContextJTree contextJTree)
+	{
+		try
+		{
+			statementStateChangeQueue.put(new ContextConsequentSelect(transaction, context, contextJTree));
+		}
+		catch (InterruptedException e)
+		{
+			logger.error(e.getMessage(), e);
+		}
+	}
+
 	public void shutdown() throws InterruptedException
 	{
 		getPersistenceManager().getListenerManager().getRootContextTopStateListeners().remove(statementListener);
@@ -705,6 +746,8 @@ public class ContextJTreeModel extends PersistentTreeModel
 									statementIdentified((StatementIdentifiedChange) c, transaction);
 								else if (c instanceof StatementUnidentifiedChange)
 									statementUnidentified((StatementUnidentifiedChange) c, transaction);
+								else if (c instanceof ContextConsequentSelect)
+									contextConsequentSelect((ContextConsequentSelect) c, transaction);
 								else if (c instanceof StatementSelect)
 									statementSelect((StatementSelect) c, transaction);
 								else if (c instanceof SubscribedStateChange)
@@ -1131,6 +1174,39 @@ public class ContextJTreeModel extends PersistentTreeModel
 								contextJTree.expandStatement(statement);
 							contextJTree.selectStatement(statement, false);
 							contextJTree.scrollToVisible(statement);
+						}
+					}
+					catch (PersistenceLockTimeoutException e)
+					{
+						logger.error(e.getMessage(), e);
+					}
+				}
+			});
+		}
+
+		private void contextConsequentSelect(ContextConsequentSelect c, Transaction transaction)
+		{
+			contextConsequentSelect(c.getContext(), c.getContextJTree(), transaction);
+		}
+
+		private void contextConsequentSelect(final Context context, final ContextJTree contextJTree, Transaction transaction)
+		{
+			SwingUtilities.invokeLater(new Runnable()
+			{
+
+				@Override
+				public void run()
+				{
+					try
+					{
+						if (context == null)
+						{
+							contextJTree.clearSelection();
+						}
+						else
+						{
+							contextJTree.selectContextConsequent(context, false);
+							contextJTree.scrollToVisibleConsequent(context);
 						}
 					}
 					catch (PersistenceLockTimeoutException e)

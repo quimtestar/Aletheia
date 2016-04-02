@@ -685,8 +685,17 @@ public class ContextJTree extends PersistentJTree
 
 	public void selectStatement(Statement statement, boolean edit)
 	{
+		selectTreePath(getModel().pathForStatement(statement), edit);
+	}
+
+	public void selectContextConsequent(Context context, boolean edit)
+	{
+		selectTreePath(getModel().pathForContextConsequent(context), edit);
+	}
+
+	private void selectTreePath(TreePath path, boolean edit)
+	{
 		cancelEditing();
-		TreePath path = getModel().pathForStatement(statement);
 		if (edit)
 			startEditingAtPath(path);
 		else
@@ -823,6 +832,11 @@ public class ContextJTree extends PersistentJTree
 	public void scrollToVisible(Statement statement)
 	{
 		scrollPathToVisible(getModel().pathForStatement(statement));
+	}
+
+	public void scrollToVisibleConsequent(Context context)
+	{
+		scrollPathToVisible(getModel().pathForContextConsequent(context));
 	}
 
 	public void expandUnprovedContexts(final Context context)
@@ -1051,6 +1065,16 @@ public class ContextJTree extends PersistentJTree
 	public void pushSelectStatement(Statement statement)
 	{
 		getModel().pushSelectStatement(null, statement, this);
+	}
+
+	public void pushSelectContextConsequent(Transaction transaction, Context context)
+	{
+		getModel().pushSelectContextConsequent(transaction, context, this);
+	}
+
+	public void pushSelectContextConsequent(Context context)
+	{
+		getModel().pushSelectContextConsequent(null, context, this);
 	}
 
 	public void close() throws InterruptedException

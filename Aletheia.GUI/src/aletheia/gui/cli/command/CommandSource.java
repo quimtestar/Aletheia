@@ -62,6 +62,10 @@ public interface CommandSource
 
 	void pushSelectStatement(Transaction transaction, Statement statement);
 
+	void pushSelectContextConsequent(Context context);
+
+	void pushSelectContextConsequent(Transaction transaction, Context context);
+
 	void expandAllContexts(Context context);
 
 	void nodeStructureReset(Context context);

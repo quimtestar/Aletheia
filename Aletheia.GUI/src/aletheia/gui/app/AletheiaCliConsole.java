@@ -153,6 +153,16 @@ public abstract class AletheiaCliConsole implements CommandSource
 	}
 
 	@Override
+	public void pushSelectContextConsequent(Context context)
+	{
+	}
+
+	@Override
+	public void pushSelectContextConsequent(Transaction transaction, Context context)
+	{
+	}
+
+	@Override
 	public void expandAllContexts(Context context)
 	{
 		throw new UnsupportedOperationException();
