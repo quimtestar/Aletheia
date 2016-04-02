@@ -28,6 +28,7 @@ import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
+import aletheia.parser.TermParserException;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "m", groupPath = "/statement", factory = Match.Factory.class)
@@ -74,23 +75,23 @@ public class Match extends TransactionalCommand
 		public Match parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			try
-			{
-				Context ctx = from.getActiveContext();
-				if (ctx == null)
-					throw new NotActiveContextException();
-				Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, ctx, split.get(0));
-				if (statement == null)
-					throw new CommandParseException("Invalid statement");
-				Term term = null;
-				if (split.size() > 1)
+			Context ctx = from.getActiveContext();
+			if (ctx == null)
+				throw new CommandParseException(new NotActiveContextException());
+			Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, ctx, split.get(0));
+			if (statement == null)
+				throw new CommandParseException("Invalid statement");
+			Term term = null;
+			if (split.size() > 1)
+				try
+				{
 					term = ctx.parseTerm(transaction, split.get(1));
-				return new Match(from, transaction, ctx, statement, term);
-			}
-			catch (Exception e)
-			{
-				throw new CommandParseException(e);
-			}
+				}
+				catch (TermParserException e)
+				{
+					throw new CommandParseException(e);
+				}
+			return new Match(from, transaction, ctx, statement, term);
 		}
 
 		@Override
