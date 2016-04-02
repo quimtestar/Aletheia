@@ -25,10 +25,8 @@ import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
-import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
-import aletheia.model.statement.Statement.StatementException;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
@@ -50,7 +48,7 @@ public class NewStrip extends NewStatement
 	}
 
 	@Override
-	protected RunNewStatementReturnData runNewStatement() throws NomenclatorException, InvalidNameException, StatementException, NotActiveContextException
+	protected RunNewStatementReturnData runNewStatement() throws Exception
 	{
 		Context ctx = getActiveContext();
 		if (ctx == null)
@@ -97,6 +95,8 @@ public class NewStrip extends NewStatement
 			}
 			term = functionTerm.getBody();
 		}
+		if (statement == this.statement)
+			throw new Exception("Statement not strippable");
 		return new RunNewStatementReturnData(statement);
 	}
 

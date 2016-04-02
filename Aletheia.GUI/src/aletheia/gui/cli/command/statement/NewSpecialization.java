@@ -111,13 +111,13 @@ public class NewSpecialization extends NewStatement
 		@Override
 		protected int minParameters()
 		{
-			return 1;
+			return 2;
 		}
 
 		@Override
 		protected String paramSpec()
 		{
-			return "<statement> <term>*";
+			return "<statement> <term>+";
 		}
 
 		@Override

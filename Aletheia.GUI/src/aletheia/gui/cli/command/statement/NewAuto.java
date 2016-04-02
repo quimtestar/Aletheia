@@ -52,7 +52,7 @@ public class NewAuto extends NewStatement
 	{
 		Context.Match m = context.match(general, term);
 		if (m == null)
-			throw new Exception("No match.");
+			throw new Exception("No match");
 		Statement statement = general;
 		int i = -1;
 
@@ -108,6 +108,8 @@ public class NewAuto extends NewStatement
 			statement = st_;
 			term = body;
 		}
+		if (statement == general)
+			throw new Exception("Statement not automatically boundable to the target term");
 		return new RunNewStatementReturnData(statement);
 	}
 

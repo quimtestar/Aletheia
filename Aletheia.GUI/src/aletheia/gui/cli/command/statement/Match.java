@@ -52,7 +52,7 @@ public class Match extends TransactionalCommand
 		getOut().println(statement.getTerm().toString(context.variableToIdentifier(getTransaction())));
 		Context.Match m = context.match(statement, term);
 		if (m == null)
-			throw new Exception("No match.");
+			throw new Exception("No match");
 		int i = 0;
 		for (ParameterVariableTerm p : m.getStatement().getTerm().parameters())
 		{
