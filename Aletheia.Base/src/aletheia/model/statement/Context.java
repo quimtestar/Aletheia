@@ -1124,7 +1124,7 @@ public class Context extends Statement
 					if (st instanceof Context)
 					{
 						Collection<Statement> locals = ((Context) st).localStatements(transaction).values();
-						if (locals.size() > 0)
+						if (!locals.isEmpty())
 						{
 							stack.addAll(locals);
 							pushed = true;
