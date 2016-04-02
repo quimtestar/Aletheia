@@ -29,6 +29,7 @@ import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBContextEntity;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBStatementEntity;
 import aletheia.persistence.collections.statement.SubContextsSet;
+import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
 
@@ -173,6 +174,18 @@ public class BerkeleyDBSubContextsSet extends AbstractCloseableSet<Context> impl
 		{
 			transaction.close(cursor);
 		}
+	}
+
+	@Override
+	public Object[] toArray()
+	{
+		return MiscUtilities.iterableToArray(this);
+	}
+
+	@Override
+	public <T> T[] toArray(T[] a)
+	{
+		return MiscUtilities.iterableToArray(this, a);
 	}
 
 }
