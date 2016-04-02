@@ -40,8 +40,7 @@ public class SelectContext extends SelectStatement
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
 		setActiveContext(getStatement());
-		pushSelectStatement(getTransaction(), getStatement());
-		return null;
+		return super.runTransactional();
 	}
 
 }
