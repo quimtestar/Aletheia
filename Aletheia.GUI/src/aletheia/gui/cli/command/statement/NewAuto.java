@@ -64,6 +64,11 @@ public class NewAuto extends NewStatement
 			Term type = parameter.getType();
 			Term body = functionTerm.getBody();
 			Term t = m.getTermMatch().getAssignMapLeft().get(parameter);
+			if (t == null && body.freeVariables().contains(parameter))
+				break;
+			if (i >= 0)
+				statement.identify(getTransaction(), new Identifier(getIdentifier(), String.format("sub_%02d", i)));
+			i++;
 			Statement st_;
 			if (t != null)
 			{
@@ -72,9 +77,6 @@ public class NewAuto extends NewStatement
 			}
 			else
 			{
-
-				if (body.freeVariables().contains(parameter))
-					break;
 				Statement solver = null;
 				for (Statement stsol : new BufferedList<>(context.statementsByTerm(getTransaction()).get(type)))
 				{
@@ -100,11 +102,7 @@ public class NewAuto extends NewStatement
 					subctx.identify(getTransaction(), new Identifier(getIdentifier(), String.format("sub_%02d", i++)));
 					st_ = context.specialize(getTransaction(), statement, subctx.getVariable());
 				}
-
 			}
-			if (i >= 0)
-				statement.identify(getTransaction(), new Identifier(getIdentifier(), String.format("sub_%02d", i)));
-			i++;
 			statement = st_;
 			term = body;
 		}
