@@ -19,6 +19,9 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.statement;
 
+import java.io.PrintStream;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
@@ -38,13 +41,15 @@ public class NewAuto extends NewStatement
 	private final Context context;
 	private final Statement general;
 	private final Term term;
+	private final List<Term> hints;
 
-	public NewAuto(CommandSource from, Transaction transaction, Identifier identifier, Context context, Statement general, Term term)
+	public NewAuto(CommandSource from, Transaction transaction, Identifier identifier, Context context, Statement general, Term term, List<Term> hints)
 	{
 		super(from, transaction, identifier);
 		this.context = context;
 		this.general = general;
 		this.term = term;
+		this.hints = hints;
 	}
 
 	@Override
@@ -65,7 +70,21 @@ public class NewAuto extends NewStatement
 			Term body = functionTerm.getBody();
 			Term t = m.getTermMatch().getAssignMapLeft().get(parameter);
 			if (t == null && body.freeVariables().contains(parameter))
-				break;
+			{
+				Iterator<Term> hi = hints.iterator();
+				while (hi.hasNext())
+				{
+					Term hint = hi.next();
+					if (hint.getType().equals(type))
+					{
+						t = hint;
+						hi.remove();
+						break;
+					}
+				}
+				if (t == null)
+					break;
+			}
 			if (i >= 0)
 				statement.identify(getTransaction(), new Identifier(getIdentifier(), String.format("sub_%02d", i)));
 			i++;
@@ -130,28 +149,38 @@ public class NewAuto extends NewStatement
 			if (statement == null)
 				throw new CommandParseException("Invalid statement");
 			Term term = null;
+			List<Term> hints = new LinkedList<Term>();
 			if (split.size() > 1)
 				try
 				{
 					term = ctx.parseTerm(transaction, split.get(1));
+					for (String s : split.subList(2, split.size()))
+						hints.add(ctx.parseTerm(transaction, s));
 				}
 				catch (TermParserException e)
 				{
 					throw new CommandParseException(e);
 				}
-			return new NewAuto(from, transaction, identifier, ctx, statement, term);
+			return new NewAuto(from, transaction, identifier, ctx, statement, term, hints);
 		}
 
 		@Override
 		protected String paramSpec()
 		{
-			return "<statement> [<term>]";
+			return "<statement> [<term> <hint>*]";
 		}
 
 		@Override
 		public String shortHelp()
 		{
 			return "Automatically specialize the given statement matching it to produce the active context's consequent or the given term.";
+		}
+
+		@Override
+		public void longHelp(PrintStream out)
+		{
+			super.longHelp(out);
+			out.println("A list of hint terms might be provided to be assigned to the parameters left undetermined.");
 		}
 
 	}
