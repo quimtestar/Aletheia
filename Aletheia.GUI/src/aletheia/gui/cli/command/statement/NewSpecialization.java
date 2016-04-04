@@ -111,7 +111,7 @@ public class NewSpecialization extends NewStatement
 		@Override
 		protected int minParameters()
 		{
-			return 2;
+			return 1;
 		}
 
 		@Override
