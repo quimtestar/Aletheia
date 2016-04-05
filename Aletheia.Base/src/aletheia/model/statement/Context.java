@@ -2261,8 +2261,6 @@ public class Context extends Statement
 	{
 		Set<ParameterVariableTerm> assignable = new HashSet<ParameterVariableTerm>();
 		SimpleTerm t = statement.getTerm().consequent(assignable);
-		if (assignable.contains(t.components().get(0)))
-			return null;
 		Term.Match termMatch = t.match(new AdaptedSet<VariableTerm>(assignable), target != null ? target : getConsequent());
 		if (termMatch == null)
 			return null;
@@ -2277,6 +2275,10 @@ public class Context extends Statement
 			@Override
 			public Match forward(Statement statement)
 			{
+				Set<ParameterVariableTerm> assignable = new HashSet<ParameterVariableTerm>();
+				SimpleTerm t = statement.getTerm().consequent(assignable);
+				if (assignable.contains(t.head()))
+					return null;
 				return match(statement, target);
 			}
 

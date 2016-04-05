@@ -286,6 +286,12 @@ public class CompositionTerm extends SimpleTerm
 	}
 
 	@Override
+	public SimpleTerm head()
+	{
+		return head;
+	}
+
+	@Override
 	public List<Term> components()
 	{
 		return new TailList<Term>(head.components(), tail);

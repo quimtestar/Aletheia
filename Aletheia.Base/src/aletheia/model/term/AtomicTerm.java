@@ -53,6 +53,12 @@ public abstract class AtomicTerm extends SimpleTerm
 	public abstract Term unproject() throws UnprojectException;
 
 	@Override
+	public SimpleTerm head()
+	{
+		return this;
+	}
+
+	@Override
 	public List<Term> components()
 	{
 		return Collections.<Term> singletonList(this);

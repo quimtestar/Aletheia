@@ -94,6 +94,8 @@ public abstract class SimpleTerm extends Term
 	 */
 	public abstract int length();
 
+	public abstract SimpleTerm head();
+
 	public abstract List<Term> components();
 
 	public abstract List<Term> aggregateComponents();
