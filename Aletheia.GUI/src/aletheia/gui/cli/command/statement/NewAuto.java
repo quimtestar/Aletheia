@@ -40,24 +40,28 @@ public class NewAuto extends NewStatement
 {
 	private final Context context;
 	private final Statement general;
-	private final Term term;
+	private final Term target;
 	private final List<Term> hints;
 
-	public NewAuto(CommandSource from, Transaction transaction, Identifier identifier, Context context, Statement general, Term term, List<Term> hints)
+	public NewAuto(CommandSource from, Transaction transaction, Identifier identifier, Context context, Statement general, Term target, List<Term> hints)
 	{
 		super(from, transaction, identifier);
 		this.context = context;
 		this.general = general;
-		this.term = term;
+		this.target = target;
 		this.hints = hints;
 	}
 
 	@Override
 	protected RunNewStatementReturnData runNewStatement() throws Exception
 	{
-		Context.Match m = context.match(general, term);
-		if (m == null)
-			throw new Exception("No match");
+		Context.Match m = null;
+		if (target != null)
+		{
+			m = context.match(general, target);
+			if (m == null)
+				throw new Exception("No match");
+		}
 		Statement statement = general;
 		int i = -1;
 
@@ -68,7 +72,7 @@ public class NewAuto extends NewStatement
 			ParameterVariableTerm parameter = functionTerm.getParameter();
 			Term type = parameter.getType();
 			Term body = functionTerm.getBody();
-			Term t = m.getTermMatch().getAssignMapLeft().get(parameter);
+			Term t = m != null ? m.getTermMatch().getAssignMapLeft().get(parameter) : null;
 			if (t == null && body.freeVariables().contains(parameter))
 			{
 				Iterator<Term> hi = hints.iterator();
@@ -126,7 +130,7 @@ public class NewAuto extends NewStatement
 			term = body;
 		}
 		if (statement == general)
-			throw new Exception("Statement not automatically boundable to the target term");
+			throw new Exception("Nothing boundable :(");
 		return new RunNewStatementReturnData(statement);
 	}
 
@@ -147,7 +151,7 @@ public class NewAuto extends NewStatement
 				throw new CommandParseException(new NotActiveContextException());
 			Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, ctx, split.get(0));
 			if (statement == null)
-				throw new CommandParseException("Invalid statement");
+				throw new CommandParseException("Bad statement: " + split.get(0));
 			Term term = null;
 			List<Term> hints = new LinkedList<Term>();
 			if (split.size() > 1)
@@ -161,6 +165,8 @@ public class NewAuto extends NewStatement
 				{
 					throw new CommandParseException(e);
 				}
+			else
+				term = ctx.getConsequent();
 			return new NewAuto(from, transaction, identifier, ctx, statement, term, hints);
 		}
 
