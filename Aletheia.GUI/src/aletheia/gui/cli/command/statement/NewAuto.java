@@ -151,7 +151,7 @@ public class NewAuto extends NewStatement
 				throw new CommandParseException(new NotActiveContextException());
 			Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, ctx, split.get(0));
 			if (statement == null)
-				throw new CommandParseException("Bad statement: " + split.get(0));
+				throw new CommandParseException("Statement not found: " + split.get(0));
 			Term term = null;
 			List<Term> hints = new LinkedList<Term>();
 			if (split.size() > 1)

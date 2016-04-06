@@ -56,7 +56,7 @@ public class NewStrip extends NewAuto
 					throw new NotActiveContextException();
 				Statement statement = ctx.identifierToStatement(transaction).get(Identifier.parse(split.get(0)));
 				if (statement == null)
-					throw new CommandParseException("Bad statement: " + split.get(0));
+					throw new CommandParseException("Statement not found: " + split.get(0));
 				List<Term> hints = new LinkedList<Term>();
 				for (String s : split.subList(1, split.size()))
 					hints.add(ctx.parseTerm(transaction, s));
