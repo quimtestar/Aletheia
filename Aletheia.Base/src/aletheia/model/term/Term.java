@@ -719,9 +719,11 @@ public abstract class Term implements Serializable, Exportable
 		}
 		;
 
+		List<Replace> replaceLeft = new ArrayList<Replace>();
+		List<Replace> replaceRight = new ArrayList<Replace>();
+
 		Stack<StackEntry> stack = new Stack<StackEntry>();
 		stack.push(new StackEntry(termLeft, termRight));
-
 		while (!stack.isEmpty())
 		{
 			StackEntry e = stack.pop();
@@ -746,9 +748,19 @@ public abstract class Term implements Serializable, Exportable
 							Term t = assignMapLeft.get(var);
 							if (t == null)
 							{
-								if ((e.termRight instanceof TTerm) || !var.getType().equals(e.termRight.getType()))
+								if (e.termRight instanceof TTerm)
 									return null;
+								try
+								{
+									if (!var.getType().replace(replaceLeft).equals(e.termRight.getType()))
+										return null;
+								}
+								catch (ReplaceTypeException e1)
+								{
+									throw new Error(e1);
+								}
 								assignMapLeft.put(var, e.termRight);
+								replaceLeft.add(new Term.Replace(var, e.termRight));
 							}
 							else
 								stack.push(new StackEntry(e.parameterCorrespondence, t, e.termRight));
@@ -775,9 +787,19 @@ public abstract class Term implements Serializable, Exportable
 							Term t = assignMapRight.get(var);
 							if (t == null)
 							{
-								if ((e.termLeft instanceof TTerm) || (!var.getType().equals(e.termLeft.getType())))
+								if (e.termLeft instanceof TTerm)
 									return null;
+								try
+								{
+									if (!var.getType().replace(replaceRight).equals(e.termLeft.getType()))
+										return null;
+								}
+								catch (ReplaceTypeException e1)
+								{
+									throw new Error(e1);
+								}
 								assignMapRight.put(var, e.termLeft);
+								replaceRight.add(new Term.Replace(var, e.termLeft));
 							}
 							else
 								stack.push(new StackEntry(e.parameterCorrespondence, e.termLeft, t));
@@ -804,8 +826,8 @@ public abstract class Term implements Serializable, Exportable
 							return null;
 						CompositionTerm cl = (CompositionTerm) e.termLeft;
 						CompositionTerm cr = (CompositionTerm) e.termRight;
-						stack.push(new StackEntry(e.parameterCorrespondence, cl.getHead(), cr.getHead()));
 						stack.push(new StackEntry(e.parameterCorrespondence, cl.getTail(), cr.getTail()));
+						stack.push(new StackEntry(e.parameterCorrespondence, cl.getHead(), cr.getHead()));
 					}
 					else
 						return null;
