@@ -66,13 +66,14 @@ public class NewAuto extends NewStatement
 		int i = -1;
 
 		Term term = general.getTerm();
+		Iterator<ParameterVariableTerm> oParamIt = term.parameters().iterator();
 		while (term instanceof FunctionTerm)
 		{
 			FunctionTerm functionTerm = (FunctionTerm) term;
 			ParameterVariableTerm parameter = functionTerm.getParameter();
 			Term type = parameter.getType();
 			Term body = functionTerm.getBody();
-			Term t = m != null ? m.getTermMatch().getAssignMapLeft().get(parameter) : null;
+			Term t = m != null && oParamIt.hasNext() ? m.getTermMatch().getAssignMapLeft().get(oParamIt.next()) : null;
 			if (t == null && body.freeVariables().contains(parameter))
 			{
 				Iterator<Term> hi = hints.iterator();
