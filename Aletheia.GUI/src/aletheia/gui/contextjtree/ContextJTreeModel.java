@@ -1010,21 +1010,27 @@ public class ContextJTreeModel extends PersistentTreeModel
 								if (node__ != null)
 									nodeChanged(node__.getConsequentNode());
 							}
-						}
-						else if (user instanceof Declaration)
-						{
-							Declaration dec = (Declaration) user;
-							for (UnfoldingContext unf : dec.unfoldingContexts(transaction))
+							if (user instanceof Declaration)
 							{
-								ContextSorterContextJTreeNode node__ = (ContextSorterContextJTreeNode) nodeMap.cachedByStatement(unf);
-								if (node__ != null)
+								Declaration dec = (Declaration) user;
+								for (UnfoldingContext unf : dec.unfoldingContexts(transaction))
 								{
-									if (unf.getConsequent().freeVariables().contains(statement.getVariable())
-											|| unf.getConsequent().equals(statement.getTerm()))
-										nodeChanged(node__.getConsequentNode());
+									ContextSorterContextJTreeNode node__ = (ContextSorterContextJTreeNode) nodeMap.cachedByStatement(unf);
+									if (node__ != null)
+									{
+										if (unf.getConsequent().freeVariables().contains(statement.getVariable())
+												|| unf.getConsequent().equals(statement.getTerm()))
+											nodeChanged(node__.getConsequentNode());
+									}
 								}
 							}
 						}
+					}
+					else
+					{
+						SorterContextJTreeNode node__ = cachedByPrefix(transaction, user);
+						if (node__ != null)
+							nodeChangedNoDep(node__);
 					}
 				}
 			}
@@ -1057,6 +1063,26 @@ public class ContextJTreeModel extends PersistentTreeModel
 				}
 			}
 
+		}
+
+		private SorterContextJTreeNode cachedByPrefix(Transaction transaction, Statement statement)
+		{
+			if (statement.getIdentifier() == null)
+				return null;
+			synchronized (nodeMap)
+			{
+				GroupSorterContextJTreeNode<?> node;
+				if (statement instanceof RootContext)
+					node = getRootTreeNode();
+				else
+					node = (ContextSorterContextJTreeNode) nodeMap.cachedByStatement(statement.getContext(transaction));
+				if (node == null)
+					return null;
+				Sorter sorter = node.getSorter().findByPrefix(transaction, statement.getIdentifier());
+				if (sorter == null)
+					return null;
+				return nodeMap.cached(sorter);
+			}
 		}
 
 		private void statementDeletedFromContext(StatementDeletedFromContextChange c, Transaction transaction)
