@@ -19,6 +19,9 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.statement;
 
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import aletheia.gui.cli.command.CommandSource;
@@ -27,10 +30,9 @@ import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
-import aletheia.model.statement.RootContext;
-import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.collections.BufferedList;
 
 @TaggedCommand(tag = "solves", groupPath = "/statement", factory = Solves.Factory.class)
 public class Solves extends TransactionalCommand
@@ -51,29 +53,42 @@ public class Solves extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		Context ctx = getActiveContext();
+		final Context ctx = getActiveContext();
 		if (ctx == null)
 			throw new NotActiveContextException();
 		Term term = this.term;
-		for (Context st : ctx.descendantContextsByConsequent(getTransaction(), term))
+		List<Context> list = new BufferedList<>(ctx.descendantContextsByConsequent(getTransaction(), term));
+		Comparator<Context> comparator = new Comparator<Context>()
 		{
-			List<? extends Statement> path = st.statementPath(getTransaction(), ctx);
-			StringBuffer sbpath = new StringBuffer();
-			for (Statement st2 : path)
+
+			@Override
+			public int compare(Context ctx1, Context ctx2)
 			{
-				if (!(st2 instanceof RootContext))
+				Iterator<? extends Context> i1 = ctx1.statementPath(getTransaction(), ctx).iterator();
+				Iterator<? extends Context> i2 = ctx2.statementPath(getTransaction(), ctx).iterator();
+				while (i1.hasNext() && i2.hasNext())
 				{
-					Identifier id = st2.identifier(getTransaction());
-					if (id != null)
-						sbpath.append(id.toString());
-					else
-						sbpath.append(st2.getVariable().toString());
+					Context cp1 = i1.next();
+					Context cp2 = i2.next();
+					Identifier id1 = cp1.getIdentifier();
+					Identifier id2 = cp2.getIdentifier();
+					int c;
+					c = Boolean.compare(id1 == null, id2 == null);
+					if (c != 0)
+						return c;
+					if (id1 != null)
+					{
+						c = id1.compareTo(id2);
+						if (c != 0)
+							return c;
+					}
 				}
-				if (!st2.equals(st))
-					sbpath.append("/");
+				return Boolean.compare(i1.hasNext(), i2.hasNext());
 			}
-			getOut().println(" -> " + sbpath);
-		}
+		};
+		Collections.<Context> sort(list, comparator);
+		for (Context st : list)
+			getOut().println(" -> " + st.statementPathString(getTransaction(), ctx) + " " + (st.isProved() ? "\u2713" : ""));
 		getOut().println("end.");
 		return null;
 	}
