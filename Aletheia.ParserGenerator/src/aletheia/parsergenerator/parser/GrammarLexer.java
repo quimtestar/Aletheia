@@ -23,6 +23,7 @@ import java.io.Reader;
 
 import aletheia.parsergenerator.lexer.IgnoreWhitespaceLexer;
 import aletheia.parsergenerator.symbols.TaggedTerminalSymbol;
+import aletheia.parsergenerator.tokens.EndToken;
 import aletheia.parsergenerator.tokens.Location;
 import aletheia.parsergenerator.tokens.TerminalToken;
 
@@ -126,6 +127,19 @@ public class GrammarLexer extends IgnoreWhitespaceLexer
 		}
 		catch (UnrecognizedInputException e)
 		{
+			while (getNext() == '#')
+			{
+				eat();
+				while (!isAtEnd() && getNext() != '\n')
+					eat();
+				if (isAtEnd())
+					return new EndToken(getLocation());
+				eat();
+				while (!isAtEnd() && Character.isWhitespace(getNext()))
+					eat();
+				if (isAtEnd())
+					return new EndToken(getLocation());
+			}
 			if (((getNext() >= 'a') && (getNext() <= 'z')) || ((getNext() >= 'A') && (getNext() <= 'Z')) || (getNext() == '_')
 					|| ((getNext() >= '0') && (getNext() <= '9')))
 			{

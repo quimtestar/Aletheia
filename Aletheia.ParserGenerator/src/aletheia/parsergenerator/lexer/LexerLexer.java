@@ -471,6 +471,19 @@ public class LexerLexer extends AbstractLexer
 					eat();
 				if (isAtEnd())
 					return new EndToken(location);
+				while (getNext() == '#')
+				{
+					eat();
+					while (!isAtEnd() && getNext() != '\n')
+						eat();
+					if (isAtEnd())
+						return new EndToken(getLocation());
+					eat();
+					while (!isAtEnd() && Character.isWhitespace(getNext()))
+						eat();
+					if (isAtEnd())
+						return new EndToken(getLocation());
+				}
 				location = getLocation();
 				switch (getNext())
 				{
