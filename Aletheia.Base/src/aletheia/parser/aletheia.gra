@@ -1,38 +1,55 @@
-T;
-T -> T A;
+# Start variable: The term.
+T; 							
+
+# A term is a nonempty list of atoms.
+T -> T A;										 
 T -> A;
-A -> ttype;
-A -> I;
-A -> atparam;
-A -> F;
-A -> R;
-A -> hexref;
-A -> A projection;
-A -> A percent;
-A -> A sharp;
-A -> A apostrophe;
-A -> A bang I;
-A -> A bar I;
-A -> equals bang I;
-A -> openpar T closepar;
-A -> A comma number M;
-F -> openfun P colon T arrow T closefun;
-P -> I;
-P -> atparam;
+
+# An atom might be:
+A -> ttype;						# The primitive type "T".
+A -> I;							# An identifier.
+A -> atparam;					# An 'at' parameter of the form "@n" where n is a natural number. 
+A -> F;							# A function term : "<parameter:type -> body>".
+A -> R;							# A reference to a statement: "&something".
+A -> hexref;					# An hexadecimal reference to a variable of the form "#xxxxxxxx" where xxxxxxxx are hexadecimal digits. 
+A -> A projection;				# Another atom (which should resolve to a function) projected: "<p:t->b>*".
+A -> A percent;					# The '%' operator resolves to the parameter's type of the given function: "<p:t->b>%" ~> "t".   
+A -> A sharp;					# the '#' operator resolves to the type of the given atom.
+A -> A apostrophe;				# The ''' operator resolves to the body of the given function "<p:t->b>'" ~> "b".
+A -> A bang I;					# The '!' operator unfolds the given identified variable as its value as a declaration statement in the active context.  
+A -> A bar I;					# The '/' operator turns extracts the given identified variable of this atom and turns it into a function with it as a parameter: "f(i)/i" ~> "<x:i# -> f(x)>". 
+A -> equals bang I;				# The '=!' operator is equivalent to a reflexive application of the binary '!': "=!i" ~> "i!i". 
+A -> openpar T closepar;		# A term (list of atoms) between parentheses.
+A -> A comma number M;			# The ',n' operator resolves to the nth atomic component (starting by zero) of the given term: "(a b c),1" ~> "b".
+								# The ',n-' operator resolves to the first n+1 atomic components of the given term: "(a b c),1-" ~> "a b".
+								   
+ 
+
+F -> openfun P colon T arrow T closefun;		# A function term : "<parameter:type -> body>".
+
+# The function parameter:
+P -> I;											# An identifier.
+P -> atparam;									# An 'at' parameter of the form "@n" where n is a natural number.
+
+# An identifier is a non empty list of "id" words of the form "[a-zA-Z\_][a-zA-Z\_\0-\9]*" separated by dots. 
 I -> I dot id;
 I -> id;
-R -> ampersand S_ts;
-R -> ampersand openpar S_ps closepar;
-S_ts -> uuid;
+
+# References.
+R -> ampersand S_ts;						# Without path.
+R -> ampersand openpar S_ps closepar;		# With path (must use parentheses to disambiguate): list of components separated by "/".
+S_ts -> uuid;								# Reference by UUID. If used in a path must be at the top: "&2c70597f-966a-4281-9ace-2e161544dbd1" or "&(2c70597f-966a-4281-9ace-2e161544dbd1/s002.sub_00/s003)".
 S_ts -> S_t;
 S_t -> S;
-S_t -> turnstile;
-S_ps -> bar S_p;
-S_ps -> uuid bar S_p;
+S_t -> turnstile;							# Refers to a context's consequence. If in a reference without path the active context, if with path the previously referenced one: "&|-" or "&(Set.Equal.th.symm/s003/|-)"
+S_ps -> bar S_p;							# Absolute path: begins with "/".
+S_ps -> uuid bar S_p;						# Path beginning with uuid.
 S_ps -> S_p;
-S_p -> S bar S_p;
+S_p -> S bar S_p;							# Path separator is "/".
 S_p -> S_t;
-S -> I;
-S -> hexref;
+S -> I;										# Path component might be an identifier.
+S -> hexref;								# Path component might be an hexadecimal reference.
+
+# An hyphen or nothing for the ',n[-]' operator.
 M -> hyphen;
 M -> ;
