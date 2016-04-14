@@ -26,15 +26,20 @@ import java.util.Stack;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
+import org.apache.logging.log4j.Logger;
+
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeModel;
 import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.EmptyContextJTreeNodeRenderer;
+import aletheia.log4j.LoggerManager;
 import aletheia.model.statement.Statement;
 import aletheia.utilities.collections.ReverseList;
 
 public abstract class ContextJTreeNode implements TreeNode
 {
+	private static final Logger logger = LoggerManager.instance.logger();
+
 	private final ContextJTreeModel model;
 
 	private SoftReference<ContextJTreeNodeRenderer> rendererRef;
@@ -115,7 +120,11 @@ public abstract class ContextJTreeNode implements TreeNode
 		{
 			renderer = buildRenderer(contextJTree);
 			if (renderer == null)
+			{
+				logger.trace("Couldn't build renderer for node: " + this);
 				renderer = new EmptyContextJTreeNodeRenderer(contextJTree);
+				getModel().nodeStructureChangedDegenerateCheck(getParent());
+			}
 			else
 				rendererRef = new SoftReference<ContextJTreeNodeRenderer>(renderer);
 		}

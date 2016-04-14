@@ -1345,13 +1345,6 @@ public class ContextJTreeModel extends PersistentTreeModel
 		}
 	}
 
-	public void nodeStructureReset(Context context)
-	{
-		ContextSorterContextJTreeNode node = (ContextSorterContextJTreeNode) nodeMap.getByStatement(context);
-		if (node != null)
-			resetSubtree(node);
-	}
-
 	private boolean nodeStructureChanged(final GroupSorterContextJTreeNode<? extends Statement> node)
 	{
 		node.cleanRenderer();
@@ -1445,27 +1438,49 @@ public class ContextJTreeModel extends PersistentTreeModel
 		return false;
 	}
 
-	public void resetSubtree(final GroupSorterContextJTreeNode<?> node)
+	public boolean nodeStructureChangedDegenerateCheck(GroupSorterContextJTreeNode<? extends Statement> node)
 	{
-		final TreeModelEvent e = new TreeModelEvent(this, node.path());
+		boolean change = false;
+		while (node != null)
+		{
+			if (nodeStructureChanged(node))
+			{
+				change = true;
+				if (!node.isDegenerate())
+					break;
+			}
+			else
+				break;
+			node = node.getParent();
+		}
+		return change;
+	}
+
+	public void nodeStructureReset(Context context)
+	{
+		ContextSorterContextJTreeNode node = (ContextSorterContextJTreeNode) nodeMap.getByStatement(context);
+		if (node != null)
+			nodeStructureReset(node);
+	}
+
+	public void nodeStructureReset(GroupSorterContextJTreeNode<?> node)
+	{
+		List<Sorter> sorterList = node.getSorterList();
+		if (sorterList != null)
+			for (Sorter sorter : sorterList)
+				nodeMapRemoveRecursive(sorter);
+		node.changeSorterList();
+		final TreeModelEvent eStructure = new TreeModelEvent(this, node.path());
 		SwingUtilities.invokeLater(new Runnable()
 		{
 			@Override
 			public void run()
 			{
-				List<Sorter> sorterList = node.getSorterList();
-				if (sorterList != null)
-					for (Sorter sorter : sorterList)
-						nodeMapRemoveRecursive(sorter);
-				synchronized (getListeners())
-				{
-					for (TreeModelListener l : getListeners())
-						l.treeStructureChanged(e);
-				}
+				for (TreeModelListener l : getListeners())
+					persistenceLockTimeoutSwingInvokeLaterTreeStructureChanged(l, eStructure);
 			}
 
 		});
-
 	}
 
 }

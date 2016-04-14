@@ -122,6 +122,7 @@ public class ContextJTree extends PersistentJTree
 			}
 			catch (PersistenceLockTimeoutException e)
 			{
+				logger.trace("Couldn't build renderer for node: " + this, e);
 				getModel().nodeChanged(node);
 				return new EmptyContextJTreeNodeRenderer(ContextJTree.this);
 			}
@@ -1118,7 +1119,7 @@ public class ContextJTree extends PersistentJTree
 					if (isExpanded(path) || path.equals(getSelectionPath()))
 						stack.push(gn);
 					else
-						getModel().resetSubtree(gn);
+						getModel().nodeStructureReset(gn);
 				}
 			}
 		}
