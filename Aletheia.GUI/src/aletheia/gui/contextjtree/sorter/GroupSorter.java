@@ -285,13 +285,19 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 		{
 			Namespace prefix = identified.first().getIdentifier().commonPrefix(identified.last().getIdentifier());
 			if (prefix instanceof NodeNamespace)
+			{
+				if (getPrefix() != null && !getPrefix().isPrefixOf(prefix))
+					return null;
 				return subGroupSorter(((NodeNamespace) prefix).asIdentifier());
+			}
 		}
 		for (NodeNamespace prefix : nodeNamespace.prefixList())
 		{
 			Identifier iPrefix = prefix.asIdentifier();
 			if (!identified.headSet(iPrefix).isEmpty() || !identified.tailSet(iPrefix.terminator()).isEmpty())
 			{
+				if (getPrefix() != null && !getPrefix().isPrefixOf(iPrefix))
+					return null;
 				GroupSorter<S> subGroupSorter = subGroupSorter(iPrefix);
 				if (subGroupSorter.sortedStatements(transaction).smaller(minSubGroupSize))
 					return null;
