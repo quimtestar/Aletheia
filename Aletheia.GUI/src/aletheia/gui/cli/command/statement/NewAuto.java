@@ -102,7 +102,8 @@ public class NewAuto extends NewStatement
 			else
 			{
 				Statement solver = null;
-				for (Statement stsol : new BufferedList<>(context.statementsByTerm(getTransaction()).get(type)))
+				Term type_ = type.unproject();
+				for (Statement stsol : new BufferedList<>(context.statementsByTerm(getTransaction()).get(type_)))
 				{
 					if (stsol.isProved())
 					{
@@ -112,7 +113,7 @@ public class NewAuto extends NewStatement
 				}
 				if (solver == null)
 				{
-					for (Statement stsol : new BufferedList<>(context.localStatementsByTerm(getTransaction()).get(type)))
+					for (Statement stsol : new BufferedList<>(context.localStatementsByTerm(getTransaction()).get(type_)))
 					{
 						solver = stsol;
 						break;
