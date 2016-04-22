@@ -20,6 +20,7 @@
 package aletheia.gui.cli.command;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -143,6 +144,19 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 		finally
 		{
 
+		}
+	}
+
+	protected static Collection<Statement> findMultiStatementSpec(PersistenceManager persistenceManager, Transaction transaction, Context ctx, String spec)
+			throws CommandParseException
+	{
+		try
+		{
+			return Collections.singleton(persistenceManager.getStatement(transaction, UUID.fromString(spec)));
+		}
+		catch (IllegalArgumentException e)
+		{
+			return findMultiStatementPath(persistenceManager, transaction, ctx, spec);
 		}
 	}
 
@@ -286,50 +300,53 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 	protected Collection<StatementAuthoritySignature> specToStatementAuthoritySignatures(PersistenceManager persistenceManager, Transaction transaction,
 			Context activeContext, List<String> split) throws CommandParseException
 	{
-		Statement statement = findStatementSpec(persistenceManager, transaction, activeContext, split.get(0));
-		if (statement == null)
+		Collection<Statement> statements = findMultiStatementSpec(persistenceManager, transaction, activeContext, split.get(0));
+		if (statements == null || statements.isEmpty())
 			throw new CommandParseException("Invalid statement");
-		StatementAuthority statementAuthority = statement.getAuthority(transaction);
-		if (statementAuthority == null)
-			throw new CommandParseException("Statement not authored");
-		StatementAuthoritySignatureMap signatureMap = statementAuthority.signatureMap(transaction);
-		if (split.size() <= 1)
-			return signatureMap.values();
-		else if (split.size() <= 2)
+		Collection<StatementAuthoritySignature> signatures = new ArrayList<StatementAuthoritySignature>();
+		for (Statement statement : statements)
 		{
-			Signatory authorizer = persistenceManager.getSignatory(transaction, UUID.fromString(split.get(1)));
-			StatementAuthoritySignature signature = signatureMap.get(authorizer);
-			if (signature == null)
-				throw new CommandParseException("Signature not found");
-			return Collections.singleton(signature);
-		}
-		else if (split.size() > 3)
-		{
-			Statement ctxSt = findStatementSpec(persistenceManager, transaction, activeContext, split.get(1));
-			Namespace prefix;
-			try
+			StatementAuthority statementAuthority = statement.getAuthority(transaction);
+			if (statementAuthority == null)
+				throw new CommandParseException("Statement not authored");
+			StatementAuthoritySignatureMap signatureMap = statementAuthority.signatureMap(transaction);
+			if (split.size() <= 1)
+				signatures.addAll(signatureMap.values());
+			else if (split.size() <= 2)
 			{
-				prefix = Namespace.parse(split.get(2));
+				Signatory authorizer = persistenceManager.getSignatory(transaction, UUID.fromString(split.get(1)));
+				StatementAuthoritySignature signature = signatureMap.get(authorizer);
+				if (signature == null)
+					throw new CommandParseException("Signature not found");
+				signatures.add(signature);
 			}
-			catch (InvalidNameException e1)
+			else if (split.size() > 3)
 			{
-				throw new CommandParseException(e1);
+				Statement ctxSt = findStatementSpec(persistenceManager, transaction, activeContext, split.get(1));
+				Namespace prefix;
+				try
+				{
+					prefix = Namespace.parse(split.get(2));
+				}
+				catch (InvalidNameException e1)
+				{
+					throw new CommandParseException(e1);
+				}
+				Person delegate = specToPerson(persistenceManager, transaction, split.get(3));
+				DelegateAuthorizer da = ctxSt.getAuthority(transaction).getDelegateAuthorizer(transaction, prefix, delegate);
+				if (da == null)
+					throw new CommandParseException("Bad context/prefix/delegate");
+				Signatory authorizer = da.getAuthorizer(transaction);
+				if (authorizer == null)
+					throw new CommandParseException("Authorizer not setted");
+				StatementAuthoritySignature signature = signatureMap.get(authorizer);
+				if (signature == null)
+					throw new CommandParseException("Signature not found");
+				signatures.add(signature);
 			}
-			Person delegate = specToPerson(persistenceManager, transaction, split.get(3));
-			DelegateAuthorizer da = ctxSt.getAuthority(transaction).getDelegateAuthorizer(transaction, prefix, delegate);
-			if (da == null)
-				throw new CommandParseException("Bad context/prefix/delegate");
-			Signatory authorizer = da.getAuthorizer(transaction);
-			if (authorizer == null)
-				throw new CommandParseException("Authorizer not setted");
-			StatementAuthoritySignature signature = signatureMap.get(authorizer);
-			if (signature == null)
-				throw new CommandParseException("Signature not found");
-			return Collections.singleton(signature);
+			else
+				throw new MissingParametersException();
 		}
-		else
-			throw new MissingParametersException();
-
+		return signatures;
 	}
-
 }
