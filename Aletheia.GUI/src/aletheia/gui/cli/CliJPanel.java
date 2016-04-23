@@ -2245,7 +2245,7 @@ public class CliJPanel extends JPanel implements CommandSource
 	@Override
 	public void exit()
 	{
-		getAletheiaJPanel().getAletheiaJFrame().exit();
+		getAletheiaJPanel().getOwnerFrame().exit();
 	}
 
 	@Override

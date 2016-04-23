@@ -153,6 +153,26 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 			this.setVisible(true);
 		}
 
+		@Override
+		public void setExtraTitle(String extraTitle)
+		{
+			setTitle(AletheiaConstants.TITLE + (extraTitle != null ? " " + extraTitle : ""));
+		}
+
+		@Override
+		public void exit()
+		{
+			try
+			{
+				close();
+			}
+			catch (InterruptedException | IOException e)
+			{
+				logger.error("Exception caught", e);
+			}
+			dispose();
+		}
+
 		private void updateFontSize()
 		{
 			aletheiaJPanel.updateFontSize();
@@ -162,6 +182,7 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 		{
 			aletheiaJPanel.close();
 		}
+
 	}
 
 	private final Collection<ExtraJFrame> extraJFrames;
@@ -271,6 +292,7 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 
 	}
 
+	@Override
 	public void exit()
 	{
 		exit(ExitState.EXIT);
