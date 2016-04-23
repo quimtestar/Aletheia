@@ -159,7 +159,7 @@ public class CliController extends Thread
 		this.activeCommand = null;
 	}
 
-	public void addCliJPanel(CliJPanel cliJPanel) throws InterruptedException
+	public void addCliJPanel(CliJPanel cliJPanel)
 	{
 		if (cliJPanel.getController() != this)
 			throw new Error("Bad controller");

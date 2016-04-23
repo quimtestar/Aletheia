@@ -185,7 +185,7 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 
 	}
 
-	private final Collection<ExtraJFrame> extraJFrames;
+	private final Collection<ExtraJFrame> extraFrames;
 
 	private PersistenceManager persistenceManager;
 	private AbstractAletheiaContentPane aletheiaContentPane;
@@ -207,7 +207,7 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 		this.windowListener = new MyWindowListener();
 		this.addWindowListener(windowListener);
 		this.exitLock = new ExitLock(ExitState.OPENED);
-		this.extraJFrames = Collections.synchronizedSet(new HashSet<ExtraJFrame>());
+		this.extraFrames = Collections.synchronizedSet(new HashSet<ExtraJFrame>());
 		updateContentPane(true);
 		updateServerStatus(true);
 	}
@@ -261,7 +261,7 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 			if (personsDialog != null)
 				personsDialog.close();
 			aletheiaContentPane.close();
-			extraJFramesClose();
+			extraFramesClose();
 			if (persistenceManager != null)
 			{
 				persistenceManager.close();
@@ -437,7 +437,7 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 			{
 				aletheiaContentPane.close();
 				aletheiaContentPane.setVisible(false);
-				extraJFramesClose();
+				extraFramesClose();
 			}
 			if (persistenceManager != null)
 			{
@@ -535,7 +535,7 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 		aletheiaContentPane.updateFontSize();
 		if (personsDialog != null)
 			personsDialog.updateFontSize();
-		extraJFramesUpdateFontSize();
+		extraFramesUpdateFontSize();
 	}
 
 	public void lock(Collection<Transaction> owners)
@@ -583,7 +583,7 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 				{
 					logger.error("Exception caught", e1);
 				}
-				extraJFrames.remove(frame);
+				extraFrames.remove(frame);
 			}
 
 			@Override
@@ -606,7 +606,7 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 			{
 			}
 		});
-		extraJFrames.add(frame);
+		extraFrames.add(frame);
 	}
 
 	public void openExtraFrame() throws InterruptedException
@@ -614,20 +614,20 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 		openExtraFrame(null);
 	}
 
-	public void extraJFramesUpdateFontSize()
+	public void extraFramesUpdateFontSize()
 	{
-		synchronized (extraJFrames)
+		synchronized (extraFrames)
 		{
-			for (ExtraJFrame frame : extraJFrames)
+			for (ExtraJFrame frame : extraFrames)
 				frame.updateFontSize();
 		}
 	}
 
-	public void extraJFramesClose()
+	public void extraFramesClose()
 	{
-		synchronized (extraJFrames)
+		synchronized (extraFrames)
 		{
-			for (ExtraJFrame frame : extraJFrames)
+			for (ExtraJFrame frame : extraFrames)
 			{
 				try
 				{
