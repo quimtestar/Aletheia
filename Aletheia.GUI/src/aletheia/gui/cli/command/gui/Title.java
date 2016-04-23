@@ -27,18 +27,18 @@ import aletheia.gui.cli.command.Command;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.persistence.Transaction;
 
-@TaggedCommand(tag = "frame", groupPath = "/gui", factory = Frame.Factory.class)
-public class Frame extends Command
+@TaggedCommand(tag = "title", groupPath = "/gui", factory = Title.Factory.class)
+public class Title extends Command
 {
 	private final String extraTitle;
 
-	public Frame(CommandSource from, String extraTitle)
+	public Title(CommandSource from, String extraTitle)
 	{
 		super(from);
 		this.extraTitle = extraTitle;
 	}
 
-	public Frame(CommandSource from)
+	public Title(CommandSource from)
 	{
 		this(from, null);
 	}
@@ -46,37 +46,35 @@ public class Frame extends Command
 	@Override
 	public void run() throws Exception
 	{
-		openExtraFrame(extraTitle);
+		setExtraTitle(extraTitle);
 	}
 
-	public static class Factory extends AbstractVoidCommandFactory<Frame>
+	public static class Factory extends AbstractVoidCommandFactory<Title>
 	{
 
 		@Override
 		protected int minParameters()
 		{
-			return 0;
+			return 1;
 		}
 
 		@Override
-		public Frame parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
+		public Title parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
-			if (split.size() > 0)
-				return new Frame(from, split.get(0));
-			else
-				return new Frame(from);
+			checkMinParameters(split);
+			return new Title(from, split.get(0));
 		}
 
 		@Override
 		protected String paramSpec()
 		{
-			return "[<title>]";
+			return "<title>";
 		}
 
 		@Override
 		public String shortHelp()
 		{
-			return "Opens an extra application frame.";
+			return "Change the frame's title (just extra frames, not the main one).";
 		}
 
 	}

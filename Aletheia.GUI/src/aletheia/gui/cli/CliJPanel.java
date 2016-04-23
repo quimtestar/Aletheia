@@ -2237,6 +2237,12 @@ public class CliJPanel extends JPanel implements CommandSource
 	}
 
 	@Override
+	public void setExtraTitle(String extraTitle)
+	{
+		aletheiaJPanel.getOwnerFrame().setExtraTitle(extraTitle);
+	}
+
+	@Override
 	public void exit()
 	{
 		getAletheiaJPanel().getAletheiaJFrame().exit();

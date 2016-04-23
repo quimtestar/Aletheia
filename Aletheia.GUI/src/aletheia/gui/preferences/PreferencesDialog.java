@@ -54,7 +54,7 @@ import javax.swing.SpinnerNumberModel;
 
 import org.apache.logging.log4j.Logger;
 
-import aletheia.gui.app.AletheiaJFrame;
+import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.log4j.LoggerManager;
 import aletheia.persistence.gui.PersistencePreferencesJPanel;
 import aletheia.utilities.MiscUtilities;
@@ -68,7 +68,7 @@ public class PreferencesDialog extends JDialog
 	private static final long serialVersionUID = -7370115847771157684L;
 	private static final Logger logger = LoggerManager.instance.logger();
 
-	private final AletheiaJFrame aletheiaJFrame;
+	private final MainAletheiaJFrame aletheiaJFrame;
 	private final GUIAletheiaPreferences preferences;
 
 	private final JComboBox<PersistenceClass> persistenceClassComboBox;
@@ -310,7 +310,7 @@ public class PreferencesDialog extends JDialog
 		comp.setFont(comp.getFont().deriveFont(Font.PLAIN));
 	}
 
-	public PreferencesDialog(AletheiaJFrame aletheiaJFrame)
+	public PreferencesDialog(MainAletheiaJFrame aletheiaJFrame)
 	{
 		super(aletheiaJFrame, "Aletheia Preferences", true);
 		this.aletheiaJFrame = aletheiaJFrame;

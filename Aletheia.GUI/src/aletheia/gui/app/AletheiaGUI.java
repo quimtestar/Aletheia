@@ -73,10 +73,10 @@ public class AletheiaGUI
 		{
 			try
 			{
-				AletheiaJFrame aletheiaJFrame = new AletheiaJFrame(this);
+				MainAletheiaJFrame aletheiaJFrame = new MainAletheiaJFrame(this);
 				aletheiaJFrame.pack();
 				aletheiaJFrame.setVisible(true);
-				AletheiaJFrame.ExitState state = aletheiaJFrame.waitForClose();
+				MainAletheiaJFrame.ExitState state = aletheiaJFrame.waitForClose();
 				aletheiaJFrame.dispose();
 				switch (state)
 				{

@@ -82,6 +82,8 @@ public interface CommandSource
 
 	void openExtraFrame(String extraTitle);
 
+	void setExtraTitle(String extraTitle);
+
 	ProofFinder getProofFinder();
 
 	void command(Command command) throws InterruptedException;

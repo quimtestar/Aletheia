@@ -211,6 +211,12 @@ public abstract class AletheiaCliConsole implements CommandSource
 	}
 
 	@Override
+	public void setExtraTitle(String extraTitle)
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public ProofFinder getProofFinder()
 	{
 		throw new UnsupportedOperationException();

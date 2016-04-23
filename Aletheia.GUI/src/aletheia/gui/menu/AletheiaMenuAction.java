@@ -21,7 +21,7 @@ package aletheia.gui.menu;
 
 import javax.swing.AbstractAction;
 
-import aletheia.gui.app.AletheiaJFrame;
+import aletheia.gui.app.MainAletheiaJFrame;
 
 public abstract class AletheiaMenuAction extends AbstractAction
 {
@@ -46,7 +46,7 @@ public abstract class AletheiaMenuAction extends AbstractAction
 		return getAletheiaJMenu().getAletheiaJMenuBar();
 	}
 
-	public AletheiaJFrame getAletheiaJFrame()
+	public MainAletheiaJFrame getAletheiaJFrame()
 	{
 		return getAletheiaJMenuBar().getAletheiaJFrame();
 	}

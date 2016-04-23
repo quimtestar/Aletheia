@@ -36,7 +36,7 @@ import javax.swing.JPanel;
 import javax.swing.plaf.LayerUI;
 
 import aletheia.gui.app.AletheiaEventQueue;
-import aletheia.gui.app.AletheiaJFrame;
+import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
 
@@ -118,7 +118,7 @@ public class PersistentJTreeLayerUI<T extends JComponent> extends LayerUI<T>
 		}
 	}
 
-	private final AletheiaJFrame aletheiaJFrame;
+	private final MainAletheiaJFrame aletheiaJFrame;
 	private final MyThrowableProcessor myThrowableProcessor;
 	private final LockGlassPane lockGlassPane;
 
@@ -167,7 +167,7 @@ public class PersistentJTreeLayerUI<T extends JComponent> extends LayerUI<T>
 
 	private JLayer<T> jLayer;
 
-	public PersistentJTreeLayerUI(AletheiaJFrame aletheiaJFrame, T view)
+	public PersistentJTreeLayerUI(MainAletheiaJFrame aletheiaJFrame, T view)
 	{
 		super();
 		this.aletheiaJFrame = aletheiaJFrame;

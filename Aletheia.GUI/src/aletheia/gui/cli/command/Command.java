@@ -199,6 +199,11 @@ public abstract class Command
 		from.openExtraFrame(extraTitle);
 	}
 
+	protected void setExtraTitle(String extraTitle)
+	{
+		from.setExtraTitle(extraTitle);
+	}
+
 	protected ProofFinder getProofFinder()
 	{
 		return from.getProofFinder();

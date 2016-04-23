@@ -53,7 +53,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import aletheia.gui.app.AletheiaJFrame;
+import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.gui.app.AletheiaJPanel;
 import aletheia.gui.cli.command.authority.DeleteSignatures;
 import aletheia.gui.common.AbstractRenderer;
@@ -583,7 +583,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 		return getContextJTreeJPanel().getAletheiaJPanel();
 	}
 
-	protected AletheiaJFrame getAletheiaJFrame()
+	protected MainAletheiaJFrame getAletheiaJFrame()
 	{
 		return getAletheiaJPanel().getAletheiaJFrame();
 	}

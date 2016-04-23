@@ -51,6 +51,7 @@ aletheia.gui.cli.command.gui.CollapseAll
 aletheia.gui.cli.command.gui.Help
 aletheia.gui.cli.command.gui.Up
 aletheia.gui.cli.command.gui.Frame
+aletheia.gui.cli.command.gui.Title
 aletheia.gui.cli.command.gui.Version
 aletheia.gui.cli.command.gui.Exit
 

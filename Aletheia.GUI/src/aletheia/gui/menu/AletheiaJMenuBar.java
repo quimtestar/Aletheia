@@ -21,7 +21,7 @@ package aletheia.gui.menu;
 
 import javax.swing.JMenuBar;
 
-import aletheia.gui.app.AletheiaJFrame;
+import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.gui.menu.configuration.ConfigurationMenu;
 import aletheia.gui.menu.data.DataMenu;
 import aletheia.gui.menu.help.HelpMenu;
@@ -31,13 +31,13 @@ public class AletheiaJMenuBar extends JMenuBar
 {
 	private static final long serialVersionUID = 7019581855541691246L;
 
-	private final AletheiaJFrame aletheiaJFrame;
+	private final MainAletheiaJFrame aletheiaJFrame;
 	private final ConfigurationMenu configurationMenu;
 	private final SecurityMenu securityMenu;
 	private final DataMenu dataMenu;
 	private final HelpMenu helpMenu;
 
-	public AletheiaJMenuBar(AletheiaJFrame aletheiaJFrame)
+	public AletheiaJMenuBar(MainAletheiaJFrame aletheiaJFrame)
 	{
 		super();
 		this.aletheiaJFrame = aletheiaJFrame;
@@ -51,7 +51,7 @@ public class AletheiaJMenuBar extends JMenuBar
 		this.add(helpMenu);
 	}
 
-	public AletheiaJFrame getAletheiaJFrame()
+	public MainAletheiaJFrame getAletheiaJFrame()
 	{
 		return aletheiaJFrame;
 	}

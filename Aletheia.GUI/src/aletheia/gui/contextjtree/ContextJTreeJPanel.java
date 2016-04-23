@@ -25,7 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
-import aletheia.gui.app.AletheiaJFrame;
+import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.gui.app.AletheiaJPanel;
 import aletheia.gui.authority.AuthorityJPanel;
 import aletheia.persistence.PersistenceManager;
@@ -61,7 +61,7 @@ public class ContextJTreeJPanel extends JPanel
 		return aletheiaJPanel;
 	}
 
-	public AletheiaJFrame getAletheiaJFrame()
+	public MainAletheiaJFrame getAletheiaJFrame()
 	{
 		return aletheiaJPanel.getAletheiaJFrame();
 	}

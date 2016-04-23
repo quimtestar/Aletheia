@@ -32,7 +32,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Scrollable;
 
-import aletheia.gui.app.AletheiaJFrame;
+import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.gui.common.BoldTextLabelRenderer;
 import aletheia.gui.common.DateLabelRenderer;
 import aletheia.gui.common.PersonLabelRenderer;
@@ -231,7 +231,7 @@ public class AuthorityHeaderJPanel extends JPanel implements Scrollable
 		return authorityJPanel.getPersistenceManager();
 	}
 
-	protected AletheiaJFrame getAletheiaJFrame()
+	protected MainAletheiaJFrame getAletheiaJFrame()
 	{
 		return authorityJPanel.getContextJTreeJPanel().getAletheiaJPanel().getAletheiaJFrame();
 	}

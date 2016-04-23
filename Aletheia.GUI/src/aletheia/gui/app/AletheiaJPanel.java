@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 
-import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
@@ -45,8 +44,8 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 {
 	private static final long serialVersionUID = -1729417409537499892L;
 
-	private final AletheiaJFrame aletheiaJFrame;
-	private final JFrame ownerFrame;
+	private final MainAletheiaJFrame aletheiaJFrame;
+	private final AletheiaJFrame ownerFrame;
 	private final PersistenceManager persistenceManager;
 	private final ContextJTreeJPanel contextJTreeJPanel;
 	private final PersistentJTreeLayerUI<ContextJTreeJPanel> contextJTreeLayerUI;
@@ -60,7 +59,7 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 
 	private boolean closed;
 
-	public AletheiaJPanel(AletheiaJFrame aletheiaJFrame, JFrame ownerFrame, PersistenceManager persistenceManager) throws InterruptedException
+	public AletheiaJPanel(MainAletheiaJFrame aletheiaJFrame, AletheiaJFrame ownerFrame, PersistenceManager persistenceManager) throws InterruptedException
 	{
 		super();
 		this.aletheiaJFrame = aletheiaJFrame;
@@ -91,12 +90,12 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 		this.closed = false;
 	}
 
-	public AletheiaJFrame getAletheiaJFrame()
+	public MainAletheiaJFrame getAletheiaJFrame()
 	{
 		return aletheiaJFrame;
 	}
 
-	public JFrame getOwnerFrame()
+	public AletheiaJFrame getOwnerFrame()
 	{
 		return ownerFrame;
 	}

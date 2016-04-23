@@ -22,7 +22,7 @@ package aletheia.gui.menu.configuration;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import aletheia.gui.app.AletheiaJFrame;
+import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.gui.menu.AletheiaMenuAction;
 
 public class RestartAction extends AletheiaMenuAction
@@ -37,7 +37,7 @@ public class RestartAction extends AletheiaMenuAction
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		getAletheiaJFrame().exit(AletheiaJFrame.ExitState.RESTART);
+		getAletheiaJFrame().exit(MainAletheiaJFrame.ExitState.RESTART);
 	}
 
 }
