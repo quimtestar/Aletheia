@@ -145,6 +145,8 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 		{
 			super();
 			this.aletheiaJPanel = new AletheiaJPanel(MainAletheiaJFrame.this, this, persistenceManager);
+			this.setPreferredSize(MainAletheiaJFrame.this.getSize());
+			this.setLocation(MainAletheiaJFrame.this.getLocation());
 			this.setExtraTitle(extraTitle);
 			this.setIconImages(IconManager.instance.aletheiaIconList);
 			this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
