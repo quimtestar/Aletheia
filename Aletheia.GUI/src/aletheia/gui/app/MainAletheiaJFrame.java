@@ -153,6 +153,7 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 			this.setContentPane(aletheiaJPanel);
 			this.pack();
 			this.setVisible(true);
+			this.aletheiaJPanel.getCliJPanel().textPaneRequestFocus();
 		}
 
 		@Override

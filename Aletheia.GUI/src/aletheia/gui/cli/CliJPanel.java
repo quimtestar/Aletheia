@@ -1159,6 +1159,11 @@ public class CliJPanel extends JPanel implements CommandSource
 		return aletheiaJPanel;
 	}
 
+	public void textPaneRequestFocus()
+	{
+		textPane.requestFocus();
+	}
+
 	@Override
 	public PersistenceManager getPersistenceManager()
 	{
