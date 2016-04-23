@@ -42,4 +42,10 @@ public class DataMenu extends AletheiaJMenu
 	{
 		return personsAction;
 	}
+
+	public void updatePersistenceManager()
+	{
+		boolean enable = getAletheiaJFrame().getPersistenceManager() != null;
+		personsAction.setEnabled(enable);
+	}
 }

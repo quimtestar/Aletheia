@@ -22,10 +22,13 @@ package aletheia.gui.menu.window;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JOptionPane;
+
 import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.menu.AletheiaMenuAction;
 import aletheia.log4j.LoggerManager;
+import aletheia.utilities.MiscUtilities;
 
 public class OpenExtraFrameAction extends AletheiaMenuAction
 {
@@ -45,9 +48,13 @@ public class OpenExtraFrameAction extends AletheiaMenuAction
 		{
 			getAletheiaJFrame().openExtraFrame();
 		}
-		catch (InterruptedException e1)
+		catch (Exception e1)
 		{
-			logger.error("Exception caught", e);
+			logger.error("Exception caught", e1);
+			String message = e1.getMessage();
+			if (message == null)
+				message = e.toString();
+			JOptionPane.showMessageDialog(getAletheiaJFrame(), MiscUtilities.wrapText(message, 80), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

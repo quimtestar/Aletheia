@@ -45,4 +45,10 @@ public class WindowMenu extends AletheiaJMenu
 	{
 		return openExtraFrameAction;
 	}
+
+	public void updatePersistenceManager()
+	{
+		boolean enable = getAletheiaJFrame().getPersistenceManager() != null;
+		openExtraFrameAction.setEnabled(enable);
+	}
 }

@@ -461,8 +461,7 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 				if (persistenceManager == null)
 				{
 					aletheiaContentPane = new VoidAletheiaContentPane();
-					getJMenuBar().getDataMenu().getPersonsAction().setEnabled(false);
-					getJMenuBar().getSecurityMenu().updatePersistenceManager();
+					getJMenuBar().updatePersistenceManager();
 				}
 				else
 				{
@@ -472,16 +471,14 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 						setVisible(true);
 					}
 					aletheiaContentPane = new AletheiaJPanel(this, this, persistenceManager);
-					getJMenuBar().getDataMenu().getPersonsAction().setEnabled(true);
-					getJMenuBar().getSecurityMenu().updatePersistenceManager();
+					getJMenuBar().updatePersistenceManager();
 				}
 				refreshContentPane();
 			}
 			catch (RedialogCreatePersistenceManagerException e)
 			{
 				aletheiaContentPane = new VoidAletheiaContentPane();
-				getJMenuBar().getDataMenu().getPersonsAction().setEnabled(false);
-				getJMenuBar().getSecurityMenu().updatePersistenceManager();
+				getJMenuBar().updatePersistenceManager();
 				refreshContentPane();
 				return false;
 			}
@@ -509,6 +506,7 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 				persistenceManager = null;
 			}
 			aletheiaContentPane = new VoidAletheiaContentPane();
+			getJMenuBar().updatePersistenceManager();
 			refreshContentPane();
 			String message = e.getMessage();
 			if (message == null)
@@ -558,6 +556,8 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 
 	public void openExtraFrame(String extraTitle) throws InterruptedException
 	{
+		if (persistenceManager == null)
+			throw new IllegalStateException("No persistence initialized");
 		final ExtraJFrame frame = new ExtraJFrame(persistenceManager, extraTitle);
 		frame.addWindowListener(new WindowListener()
 		{

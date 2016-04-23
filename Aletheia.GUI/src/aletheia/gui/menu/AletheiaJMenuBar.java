@@ -86,4 +86,11 @@ public class AletheiaJMenuBar extends JMenuBar
 		return helpMenu;
 	}
 
+	public void updatePersistenceManager()
+	{
+		securityMenu.updatePersistenceManager();
+		dataMenu.updatePersistenceManager();
+		windowMenu.updatePersistenceManager();
+	}
+
 }
