@@ -49,68 +49,74 @@ public abstract class Candidate
 	private final Map<VariableTerm, Term> antecedentMap;
 	private final Map<VariableTerm, Set<VariableTerm>> antecedentDependentMap;
 
-	public Candidate(Term term, SimpleTerm target)
+	public Candidate(final Term term, SimpleTerm target)
 	{
 		this.term = term;
 		this.target = target;
 		this.varList = new ArrayList<VariableTerm>();
 		Set<VariableTerm> varSet = new HashSet<VariableTerm>();
-		while (term instanceof FunctionTerm)
+		Term term_ = term;
+		while (term_ instanceof FunctionTerm)
 		{
-			FunctionTerm func = (FunctionTerm) term;
+			FunctionTerm func = (FunctionTerm) term_;
 			VariableTerm var = func.getParameter();
 			varList.add(var);
 			if (!varSet.add(var))
 				throw new RuntimeException();
-			term = func.getBody();
+			term_ = func.getBody();
 		}
-		this.consequent = (SimpleTerm) term;
+		this.consequent = (SimpleTerm) term_;
 		Term.Match termMatch = consequent.match(varSet, target, Collections.<VariableTerm> emptySet());
+		Map<VariableTerm, Term> assignMap = null;
+		Set<VariableTerm> unassignedVarSet = null;
+		Map<VariableTerm, Term> antecedentMap = null;
+		Map<VariableTerm, Set<VariableTerm>> antecedentDependentMap = null;
 		if (termMatch != null)
 		{
-			this.assignMap = termMatch.getAssignMapLeft();
-			this.unassignedVarSet = new HashSet<VariableTerm>(varList);
-			this.unassignedVarSet.removeAll(assignMap.keySet());
-			this.antecedentMap = new HashMap<VariableTerm, Term>();
-			Set<VariableTerm> antecedentDependentMapKeys = new HashSet<VariableTerm>();
-			Map<VariableTerm, Set<VariableTerm>> antecedentDependentMap_ = new HashMap<VariableTerm, Set<VariableTerm>>();
-			for (int i = 0; i < varList.size(); i++)
+			try
 			{
-				VariableTerm v = varList.get(i);
-				Term t = v.getType();
-				Set<VariableTerm> fv = t.freeVariables();
-				for (VariableTerm v_ : varList.subList(0, i))
+				assignMap = termMatch.getAssignMapLeft();
+				unassignedVarSet = new HashSet<VariableTerm>(varList);
+				unassignedVarSet.removeAll(assignMap.keySet());
+				antecedentMap = new HashMap<VariableTerm, Term>();
+				Set<VariableTerm> antecedentDependentMapKeys = new HashSet<VariableTerm>();
+				Map<VariableTerm, Set<VariableTerm>> antecedentDependentMap_ = new HashMap<VariableTerm, Set<VariableTerm>>();
+				for (int i = 0; i < varList.size(); i++)
 				{
-					Term t_ = assignMap.get(v_);
-					if (t_ != null)
-						try
-						{
-							t = t.replace(v_, t_);
-						}
-						catch (ReplaceTypeException e)
-						{
-							throw new Error(e);
-						}
-					else if (fv.contains(v_))
+					VariableTerm v = varList.get(i);
+					Term t = v.getType();
+					Set<VariableTerm> fv = t.freeVariables();
+					List<Term.Replace> replaces = new ArrayList<Term.Replace>();
+					for (VariableTerm v_ : varList.subList(0, i))
 					{
-						antecedentDependentMap_.get(v_).add(v);
-						antecedentDependentMapKeys.add(v_);
+						Term t_ = assignMap.get(v_);
+						if (t_ != null)
+							replaces.add(new Term.Replace(v_, t_));
+						else if (fv.contains(v_))
+						{
+							antecedentDependentMap_.get(v_).add(v);
+							antecedentDependentMapKeys.add(v_);
+						}
 					}
+					antecedentMap.put(v, t.replace(replaces));
+					antecedentDependentMap_.put(v, new HashSet<VariableTerm>());
 				}
-				antecedentDependentMap_.put(v, new HashSet<VariableTerm>());
-				antecedentMap.put(v, t);
+				antecedentDependentMap = new HashMap<VariableTerm, Set<VariableTerm>>();
+				for (VariableTerm v : antecedentDependentMapKeys)
+					antecedentDependentMap.put(v, Collections.unmodifiableSet(antecedentDependentMap_.get(v)));
 			}
-			this.antecedentDependentMap = new HashMap<VariableTerm, Set<VariableTerm>>();
-			for (VariableTerm v : antecedentDependentMapKeys)
-				antecedentDependentMap.put(v, Collections.unmodifiableSet(antecedentDependentMap_.get(v)));
+			catch (ReplaceTypeException e) // XXX
+			{
+				assignMap = null;
+				unassignedVarSet = null;
+				antecedentMap = null;
+				antecedentDependentMap = null;
+			}
 		}
-		else
-		{
-			this.assignMap = null;
-			this.unassignedVarSet = null;
-			this.antecedentMap = null;
-			this.antecedentDependentMap = null;
-		}
+		this.assignMap = assignMap;
+		this.unassignedVarSet = unassignedVarSet;
+		this.antecedentMap = antecedentMap;
+		this.antecedentDependentMap = antecedentDependentMap;
 	}
 
 	protected Candidate(Candidate other)

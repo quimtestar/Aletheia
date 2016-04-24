@@ -308,9 +308,9 @@ public class CandidateFinder implements StatementCacheTree.Listener
 				{
 					t = t.replace(v_, t_);
 				}
-				catch (ReplaceTypeException e1)
+				catch (ReplaceTypeException e1) // XXX
 				{
-					throw new Error(e1);
+					return null;
 				}
 			}
 		}
