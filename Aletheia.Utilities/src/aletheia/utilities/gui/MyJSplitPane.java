@@ -85,7 +85,7 @@ public class MyJSplitPane extends JSplitPane
 					setLastDividerLocation(getDividerLocation());
 					timer.cancel();
 				}
-			}, 100);
+			}, 150);
 			setProportionalLocationWhenValid = false;
 		}
 	}
