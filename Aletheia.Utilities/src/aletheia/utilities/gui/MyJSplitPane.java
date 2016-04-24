@@ -72,7 +72,7 @@ public class MyJSplitPane extends JSplitPane
 
 	private synchronized void updateProportionalLocationWhenValid()
 	{
-		if (setProportionalLocationWhenValid && isValid() && getParent() != null && getParent().isValid() && getParent().isVisible())
+		if (setProportionalLocationWhenValid && isValid())
 		{
 			// For unknown reasons, without this delay it doesn't work properly sometimes
 			final Timer timer = new Timer();
