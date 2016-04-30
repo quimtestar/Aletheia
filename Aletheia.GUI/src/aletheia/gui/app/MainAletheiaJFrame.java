@@ -44,6 +44,8 @@ import aletheia.gui.preferences.GUIAletheiaPreferences;
 import aletheia.gui.preferences.PeerToPeerNodeGender;
 import aletheia.gui.preferences.PersistenceClass;
 import aletheia.log4j.LoggerManager;
+import aletheia.model.statement.Context;
+import aletheia.model.statement.Statement;
 import aletheia.peertopeer.FemalePeerToPeerNode;
 import aletheia.peertopeer.MalePeerToPeerNode;
 import aletheia.peertopeer.PeerToPeerNode;
@@ -186,6 +188,17 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 			aletheiaJPanel.close();
 		}
 
+		@Override
+		public void selectStatement(Statement statement)
+		{
+			aletheiaJPanel.selectStatement(statement);
+		}
+
+		@Override
+		public void setActiveContext(Context context)
+		{
+			aletheiaJPanel.setActiveContext(context);
+		}
 	}
 
 	private final Collection<ExtraJFrame> extraFrames;
@@ -557,7 +570,7 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 		exit();
 	}
 
-	public void openExtraFrame(String extraTitle) throws InterruptedException
+	public AletheiaJFrame openExtraFrame(String extraTitle) throws InterruptedException
 	{
 		if (persistenceManager == null)
 			throw new IllegalStateException("No persistence initialized");
@@ -610,11 +623,12 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 			}
 		});
 		extraFrames.add(frame);
+		return frame;
 	}
 
-	public void openExtraFrame() throws InterruptedException
+	public AletheiaJFrame openExtraFrame() throws InterruptedException
 	{
-		openExtraFrame(null);
+		return openExtraFrame(null);
 	}
 
 	public void extraFramesUpdateFontSize()
@@ -643,6 +657,18 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 				frame.dispose();
 			}
 		}
+	}
+
+	@Override
+	public void selectStatement(Statement statement)
+	{
+		aletheiaContentPane.selectStatement(statement);
+	}
+
+	@Override
+	public void setActiveContext(Context context)
+	{
+		aletheiaContentPane.setActiveContext(context);
 	}
 
 }

@@ -26,6 +26,8 @@ import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
 import aletheia.gui.font.FontManager;
+import aletheia.model.statement.Context;
+import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 
 public class VoidAletheiaContentPane extends AbstractAletheiaContentPane
@@ -60,6 +62,16 @@ public class VoidAletheiaContentPane extends AbstractAletheiaContentPane
 
 	@Override
 	public void exception(String message, Exception exception)
+	{
+	}
+
+	@Override
+	public void selectStatement(Statement statement)
+	{
+	}
+
+	@Override
+	public void setActiveContext(Context context)
 	{
 	}
 

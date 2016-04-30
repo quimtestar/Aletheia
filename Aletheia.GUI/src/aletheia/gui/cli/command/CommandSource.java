@@ -22,6 +22,7 @@ package aletheia.gui.cli.command;
 import java.io.PrintStream;
 import java.util.Collection;
 
+import aletheia.gui.app.AletheiaJFrame;
 import aletheia.model.authority.UnpackedSignatureRequest;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.statement.Context;
@@ -80,7 +81,7 @@ public interface CommandSource
 
 	void expandUnprovedContexts(Context context);
 
-	void openExtraFrame(String extraTitle);
+	AletheiaJFrame openExtraFrame(String extraTitle);
 
 	void setExtraTitle(String extraTitle);
 

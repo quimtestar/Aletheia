@@ -24,10 +24,12 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.SwingUtilities;
 
 import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.gui.app.AletheiaJPanel;
 import aletheia.gui.authority.AuthorityJPanel;
+import aletheia.model.statement.Statement;
 import aletheia.persistence.PersistenceManager;
 import aletheia.utilities.gui.MyJSplitPane;
 
@@ -86,6 +88,22 @@ public class ContextJTreeJPanel extends JPanel
 	{
 		contextJTree.updateFontSize();
 		authorityJPanel.updateFontSize();
+	}
+
+	public void selectStatement(final Statement statement)
+	{
+		SwingUtilities.invokeLater(new Runnable()
+		{
+
+			@Override
+			public void run()
+			{
+				contextJTree.selectStatement(statement, false);
+				contextJTree.expandStatement(statement);
+				contextJTree.scrollToVisible(statement);
+			}
+
+		});
 	}
 
 }

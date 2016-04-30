@@ -23,6 +23,8 @@ import java.util.Collection;
 
 import javax.swing.JPanel;
 
+import aletheia.model.statement.Context;
+import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 
 public abstract class AbstractAletheiaContentPane extends JPanel
@@ -36,5 +38,9 @@ public abstract class AbstractAletheiaContentPane extends JPanel
 	public abstract void lock(Collection<Transaction> owners);
 
 	public abstract void exception(String message, Exception exception);
+
+	public abstract void selectStatement(Statement statement);
+
+	public abstract void setActiveContext(Context context);
 
 }

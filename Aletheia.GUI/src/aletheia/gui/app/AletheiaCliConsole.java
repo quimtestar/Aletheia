@@ -205,7 +205,7 @@ public abstract class AletheiaCliConsole implements CommandSource
 	}
 
 	@Override
-	public void openExtraFrame(String extraTitle)
+	public AletheiaJFrame openExtraFrame(String extraTitle)
 	{
 		throw new UnsupportedOperationException();
 	}

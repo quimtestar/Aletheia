@@ -86,6 +86,7 @@ import javax.swing.text.ViewFactory;
 
 import org.apache.logging.log4j.Logger;
 
+import aletheia.gui.app.AletheiaJFrame;
 import aletheia.gui.app.AletheiaJPanel;
 import aletheia.gui.catalogjtree.CatalogJTree;
 import aletheia.gui.cli.command.Command;
@@ -2229,11 +2230,11 @@ public class CliJPanel extends JPanel implements CommandSource
 	}
 
 	@Override
-	public void openExtraFrame(String extraTitle)
+	public AletheiaJFrame openExtraFrame(String extraTitle)
 	{
 		try
 		{
-			aletheiaJPanel.getAletheiaJFrame().openExtraFrame(extraTitle);
+			return aletheiaJPanel.getAletheiaJFrame().openExtraFrame(extraTitle);
 		}
 		catch (InterruptedException e)
 		{

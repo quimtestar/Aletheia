@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import aletheia.gui.app.AletheiaJFrame;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.model.authority.UnpackedSignatureRequest;
 import aletheia.model.identifier.Identifier;
@@ -194,9 +195,9 @@ public abstract class Command
 		from.expandUnprovedContexts(context);
 	}
 
-	protected void openExtraFrame(String extraTitle)
+	protected AletheiaJFrame openExtraFrame(String extraTitle)
 	{
-		from.openExtraFrame(extraTitle);
+		return from.openExtraFrame(extraTitle);
 	}
 
 	protected void setExtraTitle(String extraTitle)

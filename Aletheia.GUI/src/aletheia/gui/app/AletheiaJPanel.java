@@ -35,6 +35,8 @@ import aletheia.gui.common.PersistentJTreeLayerUI;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeJPanel;
 import aletheia.gui.signaturerequestjtree.SignatureRequestJTree;
+import aletheia.model.statement.Context;
+import aletheia.model.statement.Statement;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.prooffinder.ProofFinder;
@@ -188,6 +190,18 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 		catch (InterruptedException e)
 		{
 		}
+	}
+
+	@Override
+	public void selectStatement(Statement statement)
+	{
+		contextJTreeJPanel.selectStatement(statement);
+	}
+
+	@Override
+	public void setActiveContext(Context context)
+	{
+		cliJPanel.setActiveContext(context);
 	}
 
 }

@@ -21,6 +21,9 @@ package aletheia.gui.app;
 
 import javax.swing.JFrame;
 
+import aletheia.model.statement.Context;
+import aletheia.model.statement.Statement;
+
 public abstract class AletheiaJFrame extends JFrame
 {
 	private static final long serialVersionUID = -5082905593301164532L;
@@ -29,4 +32,7 @@ public abstract class AletheiaJFrame extends JFrame
 
 	public abstract void exit();
 
+	public abstract void selectStatement(Statement statement);
+
+	public abstract void setActiveContext(Context context);
 }

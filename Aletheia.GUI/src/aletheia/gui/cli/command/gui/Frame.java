@@ -22,20 +22,30 @@ package aletheia.gui.cli.command.gui;
 import java.util.List;
 
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.app.AletheiaJFrame;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.Command;
 import aletheia.gui.cli.command.TaggedCommand;
+import aletheia.model.statement.Context;
+import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "frame", groupPath = "/gui", factory = Frame.Factory.class)
 public class Frame extends Command
 {
 	private final String extraTitle;
+	private final Context context;
 
-	public Frame(CommandSource from, String extraTitle)
+	public Frame(CommandSource from, String extraTitle, Context context)
 	{
 		super(from);
 		this.extraTitle = extraTitle;
+		this.context = context;
+	}
+
+	public Frame(CommandSource from, String extraTitle)
+	{
+		this(from, extraTitle, null);
 	}
 
 	public Frame(CommandSource from)
@@ -46,7 +56,13 @@ public class Frame extends Command
 	@Override
 	public void run() throws Exception
 	{
-		openExtraFrame(extraTitle);
+		AletheiaJFrame frame = openExtraFrame(extraTitle);
+		if (context != null)
+		{
+			frame.setActiveContext(context);
+			Thread.sleep(150);
+			frame.selectStatement(context);
+		}
 	}
 
 	public static class Factory extends AbstractVoidCommandFactory<Frame>
@@ -61,16 +77,31 @@ public class Frame extends Command
 		@Override
 		public Frame parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
+			String title = "";
+			Context context = from.getActiveContext();
 			if (split.size() > 0)
-				return new Frame(from, split.get(0));
-			else
-				return new Frame(from);
+			{
+				title = split.get(0);
+				if (split.size() > 1)
+				{
+					if (split.size() > 0)
+					{
+						Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(1));
+						if (statement == null)
+							throw new CommandParseException("Invalid statement");
+						if (!(statement instanceof Context))
+							throw new CommandParseException("Not a context");
+						context = (Context) statement;
+					}
+				}
+			}
+			return new Frame(from, title, context);
 		}
 
 		@Override
 		protected String paramSpec()
 		{
-			return "[<title>]";
+			return "[<title> [<path>]]";
 		}
 
 		@Override
