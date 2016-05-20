@@ -829,6 +829,14 @@ public abstract class Term implements Serializable, Exportable
 						stack.push(new StackEntry(e.parameterCorrespondence, cl.getTail(), cr.getTail()));
 						stack.push(new StackEntry(e.parameterCorrespondence, cl.getHead(), cr.getHead()));
 					}
+					else if (e.termLeft instanceof ProjectionTerm)
+					{
+						if (!(e.termRight instanceof ProjectionTerm))
+							return null;
+						FunctionTerm fl = ((ProjectionTerm) e.termLeft).getFunction();
+						FunctionTerm fr = ((ProjectionTerm) e.termRight).getFunction();
+						stack.push(new StackEntry(e.parameterCorrespondence, fl, fr));
+					}
 					else
 						return null;
 				}
