@@ -56,8 +56,11 @@ I -> I dot id;
 I -> id;
 
 # References.
-R -> ampersand S_ts;						# Without path.
-R -> ampersand openpar S_ps closepar;		# With path (must use parentheses to disambiguate): list of components separated by "/".
+R -> R_t S_ts;								# Without path.
+R -> R_t openpar S_ps closepar;				# With path (must use parentheses to disambiguate): list of components separated by "/".
+R_t -> ampersand;							# References the statement's type.
+R_t -> ampersand caret;						# References the specializations' instance.
+R_t -> ampersand bang;						# References the declarations' value.
 S_ts -> uuid;								# Reference by UUID. If used in a path must be at the top: "&2c70597f-966a-4281-9ace-2e161544dbd1" or "&(2c70597f-966a-4281-9ace-2e161544dbd1/s002.sub_00/s003)".
 S_ts -> S_t;
 S_t -> S;

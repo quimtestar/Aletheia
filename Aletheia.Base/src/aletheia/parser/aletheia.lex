@@ -28,6 +28,7 @@
 '\.'															: dot;				# Separate the identifier qualifying components.
 'T'																: ttype;			# The primitive type symbol.
 '&'																: ampersand;		# Begins a reference.
+'\^'															: caret;			# Refers to the instance of a specialization statement. 
 '\,'															: comma;			# For the component number operator.
 '\|\-'															: turnstile;		# "|-" symbol to refer to the consequent of a context.
 '%'																: percent;			# Parameter's type operator.

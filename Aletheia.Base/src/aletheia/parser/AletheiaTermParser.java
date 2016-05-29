@@ -34,6 +34,7 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
+import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.CompositionTerm;
 import aletheia.model.term.FunctionTerm;
@@ -62,6 +63,7 @@ import aletheia.parsergenerator.symbols.NonTerminalSymbol;
 import aletheia.parsergenerator.symbols.TaggedNonTerminalSymbol;
 import aletheia.parsergenerator.symbols.TaggedTerminalSymbol;
 import aletheia.parsergenerator.symbols.TerminalSymbol;
+import aletheia.parsergenerator.tokens.Location;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.TaggedTerminalToken;
 import aletheia.parsergenerator.tokens.TerminalToken;
@@ -578,13 +580,36 @@ public class AletheiaTermParser extends Parser
 
 	}
 
+	enum ReferenceType
+	{
+		TYPE, INSTANCE, VALUE,
+	};
+
+	private ReferenceType processReferenceType(NonTerminalToken token)
+	{
+		if (token.getProduction().getRight().size() == 1)
+			return ReferenceType.TYPE;
+		else if (token.getProduction().getRight().size() == 2)
+		{
+			if (token.getProduction().getRight().get(1).equals(taggedTerminalSymbols.get("caret")))
+				return ReferenceType.INSTANCE;
+			else if (token.getProduction().getRight().get(1).equals(taggedTerminalSymbols.get("bang")))
+				return ReferenceType.VALUE;
+			else
+				throw new Error();
+		}
+		else
+			throw new Error();
+	}
+
 	private Term processReference(Context context, Transaction transaction, NonTerminalToken token, String input) throws TermParserException
 	{
+		ReferenceType referenceType = processReferenceType((NonTerminalToken) token.getChildren().get(0));
 		if (token.getProduction().getRight().size() == 2)
-			return processStatementReference_terminal_s(context, transaction, (NonTerminalToken) token.getChildren().get(1), input);
+			return processStatementReference_terminal_s(context, transaction, referenceType, (NonTerminalToken) token.getChildren().get(1), input);
 		else if (token.getProduction().getRight().size() == 4)
 		{
-			Term term = processStatementReference_path_s(context, transaction, (NonTerminalToken) token.getChildren().get(2), input);
+			Term term = processStatementReference_path_s(context, transaction, referenceType, (NonTerminalToken) token.getChildren().get(2), input);
 			for (IdentifiableVariableTerm v : term.freeIdentifiableVariables())
 			{
 				if (context == null)
@@ -602,10 +627,35 @@ public class AletheiaTermParser extends Parser
 			throw new Error();
 	}
 
-	private Term processStatementReference_terminal_s(Context context, Transaction transaction, NonTerminalToken token, String input) throws TermParserException
+	private Term dereferenceStatement(Statement statement, ReferenceType referenceType, Location startLocation, Location stopLocation, String input)
+			throws TermParserException
+	{
+		switch (referenceType)
+		{
+		case TYPE:
+			return statement.getTerm();
+		case INSTANCE:
+		{
+			if (!(statement instanceof Specialization))
+				throw new TermParserException("Cannot reference the instance of a non-specialization statement", startLocation, stopLocation, input);
+			return ((Specialization) statement).getInstance();
+		}
+		case VALUE:
+		{
+			if (!(statement instanceof Declaration))
+				throw new TermParserException("Cannot reference the value of a non-declaration statement", startLocation, stopLocation, input);
+			return ((Declaration) statement).getValue();
+		}
+		default:
+			throw new Error();
+		}
+	}
+
+	private Term processStatementReference_terminal_s(Context context, Transaction transaction, ReferenceType referenceType, NonTerminalToken token,
+			String input) throws TermParserException
 	{
 		if (token.getProduction().getRight().get(0).equals(taggedNonTerminalSymbols.get("S_t")))
-			return processStatementReference_terminal(context, transaction, (NonTerminalToken) token.getChildren().get(0), input);
+			return processStatementReference_terminal(context, transaction, referenceType, (NonTerminalToken) token.getChildren().get(0), input);
 		else if (token.getProduction().getRight().get(0).equals(taggedTerminalSymbols.get("uuid")))
 		{
 			UUID uuid = processUuid((TerminalToken) token.getChildren().get(0), input);
@@ -613,20 +663,29 @@ public class AletheiaTermParser extends Parser
 			if (statement == null)
 				throw new TermParserException("Statement not found with UUID: " + uuid, token.getChildren().get(0).getStartLocation(),
 						token.getChildren().get(0).getStopLocation(), input);
-			return statement.getTerm();
+			return dereferenceStatement(statement, referenceType, token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation(),
+					input);
 		}
 		else
 			throw new Error();
 	}
 
-	private Term processStatementReference_terminal(Context context, Transaction transaction, NonTerminalToken token, String input) throws TermParserException
+	private Term processStatementReference_terminal(Context context, Transaction transaction, ReferenceType referenceType, NonTerminalToken token, String input)
+			throws TermParserException
 	{
 		if (token.getProduction().getRight().get(0).equals(taggedNonTerminalSymbols.get("S")))
-			return processStatementReference(context, transaction, (NonTerminalToken) token.getChildren().get(0), input).getTerm();
+		{
+			Statement statement = processStatementReference(context, transaction, (NonTerminalToken) token.getChildren().get(0), input);
+			return dereferenceStatement(statement, referenceType, token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation(),
+					input);
+		}
 		else if (token.getProduction().getRight().get(0).equals(taggedTerminalSymbols.get("turnstile")))
 		{
 			if (context == null)
 				throw new TermParserException("Cannot refer to the consequent without a context", token.getChildren().get(0).getStartLocation(),
+						token.getChildren().get(0).getStopLocation(), input);
+			if (referenceType != ReferenceType.TYPE)
+				throw new TermParserException("Invalid reference type to the consequent", token.getChildren().get(0).getStartLocation(),
 						token.getChildren().get(0).getStopLocation(), input);
 			return context.getConsequent();
 		}
@@ -636,7 +695,6 @@ public class AletheiaTermParser extends Parser
 
 	private Statement processStatementReference(Context context, Transaction transaction, NonTerminalToken token, String input) throws TermParserException
 	{
-
 		if (token.getProduction().getRight().get(0).equals(taggedNonTerminalSymbols.get("I")))
 		{
 			Identifier identifier = processIdentifier((NonTerminalToken) token.getChildren().get(0), input);
@@ -686,10 +744,11 @@ public class AletheiaTermParser extends Parser
 
 	}
 
-	private Term processStatementReference_path_s(Context context, Transaction transaction, NonTerminalToken token, String input) throws TermParserException
+	private Term processStatementReference_path_s(Context context, Transaction transaction, ReferenceType referenceType, NonTerminalToken token, String input)
+			throws TermParserException
 	{
 		if (token.getProduction().getRight().size() == 2)
-			return processStatementReference_path(null, transaction, (NonTerminalToken) token.getChildren().get(1), input);
+			return processStatementReference_path(null, transaction, referenceType, (NonTerminalToken) token.getChildren().get(1), input);
 		else if (token.getProduction().getRight().size() == 3)
 		{
 			UUID uuid = processUuid((TerminalToken) token.getChildren().get(0), input);
@@ -700,17 +759,18 @@ public class AletheiaTermParser extends Parser
 			if (!(st instanceof Context))
 				throw new TermParserException("Statement: " + "\"" + st.label() + "\"" + " not a context", token.getChildren().get(0).getStartLocation(),
 						token.getChildren().get(0).getStopLocation(), input);
-			return processStatementReference_path((Context) st, transaction, (NonTerminalToken) token.getChildren().get(2), input);
+			return processStatementReference_path((Context) st, transaction, referenceType, (NonTerminalToken) token.getChildren().get(2), input);
 		}
 		else if (token.getProduction().getRight().size() == 1)
 		{
-			return processStatementReference_path(context, transaction, (NonTerminalToken) token.getChildren().get(0), input);
+			return processStatementReference_path(context, transaction, referenceType, (NonTerminalToken) token.getChildren().get(0), input);
 		}
 		else
 			throw new Error();
 	}
 
-	private Term processStatementReference_path(Context context, Transaction transaction, NonTerminalToken token, String input) throws TermParserException
+	private Term processStatementReference_path(Context context, Transaction transaction, ReferenceType referenceType, NonTerminalToken token, String input)
+			throws TermParserException
 	{
 		if (token.getProduction().getRight().size() == 3)
 		{
@@ -718,12 +778,12 @@ public class AletheiaTermParser extends Parser
 			if (!(st instanceof Context))
 				throw new TermParserException("Statement: " + "\"" + st.label() + "\"" + " not a context", token.getChildren().get(0).getStartLocation(),
 						token.getChildren().get(0).getStopLocation(), input);
-			return processStatementReference_path((Context) st, transaction, (NonTerminalToken) token.getChildren().get(2), input);
+			return processStatementReference_path((Context) st, transaction, referenceType, (NonTerminalToken) token.getChildren().get(2), input);
 		}
 		else if (token.getProduction().getRight().size() == 2)
-			return processStatementReference_path(null, transaction, (NonTerminalToken) token.getChildren().get(1), input);
+			return processStatementReference_path(null, transaction, referenceType, (NonTerminalToken) token.getChildren().get(1), input);
 		else if (token.getProduction().getRight().size() == 1)
-			return processStatementReference_terminal(context, transaction, (NonTerminalToken) token.getChildren().get(0), input);
+			return processStatementReference_terminal(context, transaction, referenceType, (NonTerminalToken) token.getChildren().get(0), input);
 		else
 			throw new Error();
 	}
