@@ -30,6 +30,7 @@ import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.ParameterVariableTerm;
+import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.Term;
 import aletheia.parser.TermParserException;
 import aletheia.persistence.Transaction;
@@ -130,6 +131,8 @@ public class NewAuto extends NewStatement
 			}
 			statement = st_;
 			term = body;
+			if (term instanceof ProjectionTerm)
+				term = ((ProjectionTerm) term).getFunction();
 		}
 		if (statement == general)
 			throw new Exception("Nothing boundable :(");
