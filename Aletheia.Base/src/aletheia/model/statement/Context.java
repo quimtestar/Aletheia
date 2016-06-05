@@ -2159,9 +2159,9 @@ public class Context extends Statement
 	public Context highestContext(Transaction transaction)
 	{
 		Context context = super.highestContext(transaction);
-		Context context_ = null;
 		for (Context subctx : descendentContexts(transaction))
 		{
+			Context context_ = null;
 			for (Statement sol : subctx.solvers(transaction))
 			{
 				if (sol.isProved())
@@ -2169,14 +2169,14 @@ public class Context extends Statement
 					if (!isDescendent(transaction, sol))
 					{
 						Context ctx_ = sol.getContext(transaction);
-						if (context_ == null || context_.isDescendent(transaction, ctx_))
+						if (context_ == null || ctx_.isDescendent(transaction, context_))
 							context_ = ctx_;
 					}
 				}
 			}
+			if (context_ != null && context.isDescendent(transaction, context_))
+				context = context_;
 		}
-		if (context_ != null && context.isDescendent(transaction, context_))
-			context = context_;
 		return context;
 	}
 
