@@ -54,6 +54,7 @@ import aletheia.persistence.Transaction;
 import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
 import aletheia.persistence.gui.PersistenceGUIFactory.EncapsulatedCreatePersistenceManagerException;
 import aletheia.persistence.gui.PersistenceGUIFactory.RedialogCreatePersistenceManagerException;
+import aletheia.utilities.AsynchronousInvoker;
 import aletheia.utilities.MiscUtilities;
 
 public class MainAletheiaJFrame extends AletheiaJFrame
@@ -599,7 +600,14 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 				{
 					logger.error("Exception caught", e1);
 				}
-				extraFrames.remove(frame);
+				AsynchronousInvoker.instance.invoke(new AsynchronousInvoker.Invokable()
+				{
+					@Override
+					public void invoke()
+					{
+						extraFrames.remove(frame);
+					}
+				});
 			}
 
 			@Override
