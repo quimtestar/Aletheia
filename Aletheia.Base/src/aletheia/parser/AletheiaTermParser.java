@@ -368,7 +368,7 @@ public class AletheiaTermParser extends Parser
 				if (token.getProduction().getRight().get(0).equals(taggedNonTerminalSymbols.get("A")))
 				{
 					Term term = processTerm(context, transaction, tempParameterTable, (NonTerminalToken) token.getChildren().get(0), input);
-					if (token.getProduction().getRight().get(1).equals(taggedTerminalSymbols.get("projection")))
+					if (token.getProduction().getRight().get(1).equals(taggedTerminalSymbols.get("asterisk")))
 					{
 						if (term instanceof FunctionTerm)
 						{
@@ -383,6 +383,14 @@ public class AletheiaTermParser extends Parser
 						}
 						else
 							throw new TermParserException("Only can project a function term", token.getStartLocation(), token.getStopLocation(), input);
+					}
+					else if (token.getProduction().getRight().get(1).equals(taggedTerminalSymbols.get("tilde")))
+					{
+						if (term instanceof ProjectionTerm)
+							return ((ProjectionTerm) term).getFunction();
+						else
+							throw new TermParserException("Only can unproject a projected function term", token.getStartLocation(), token.getStopLocation(),
+									input);
 					}
 					else if (token.getProduction().getRight().get(1).equals(taggedTerminalSymbols.get("percent")))
 					{

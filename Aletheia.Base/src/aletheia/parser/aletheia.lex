@@ -22,7 +22,8 @@
 ':'																: colon;			# Separates the parameter name from its type in a function term.
 '\->'															: arrow;			# Separates the parameter from the body in a function term.
 '>'																: closefun;			# Close a function term.
-'\*'															: projection; 		# Applied to a function creates a projection term.
+'\*'															: asterisk; 		# Applied to a function creates a projection term.
+'~'																: tilde;			# Unproject a projected function.
 '\('															: openpar;			# Open parentheses.
 '\)'															: closepar;			# Close patentheses.
 '\.'															: dot;				# Separate the identifier qualifying components.
