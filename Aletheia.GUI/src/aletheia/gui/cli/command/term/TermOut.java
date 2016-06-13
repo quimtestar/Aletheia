@@ -58,26 +58,34 @@ public class TermOut extends TransactionalCommand
 		public TermOut parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Term term = parseTerm(from.getActiveContext(), transaction, split.get(0));
+			Term term;
+			if (split.size() < 1)
+			{
+				if (from.getActiveContext() == null)
+					throw new CommandParseException(new NotActiveContextException());
+				term = from.getActiveContext().getConsequent();
+			}
+			else
+				term = parseTerm(from.getActiveContext(), transaction, split.get(0));
 			return new TermOut(from, transaction, term);
 		}
 
 		@Override
 		protected int minParameters()
 		{
-			return 1;
+			return 0;
 		}
 
 		@Override
 		protected String paramSpec()
 		{
-			return "<term>";
+			return "[<term>]";
 		}
 
 		@Override
 		public String shortHelp()
 		{
-			return "Returns a parseable string corresponding to a given term.";
+			return "Returns a parseable string corresponding to a given term (the active context's consequent by default).";
 		}
 
 	}
