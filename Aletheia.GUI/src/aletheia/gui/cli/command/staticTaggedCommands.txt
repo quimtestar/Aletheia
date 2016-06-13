@@ -101,6 +101,7 @@ aletheia.gui.cli.command.statement.Search
 
 aletheia.gui.cli.command.term.TermDiff
 aletheia.gui.cli.command.term.TermOut
+aletheia.gui.cli.command.term.TermCb
 aletheia.gui.cli.command.term.TermType
 
 aletheia.gui.cli.command.security.Passphrase
