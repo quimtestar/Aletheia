@@ -810,46 +810,55 @@ public abstract class Term implements Serializable, Exportable
 				}
 				if (!processed)
 				{
+					Term termLeftR;
 					try
 					{
-						Term termLeftR = e.termLeft.replace(replaceLeft);
-						Term termRightR = e.termRight.replace(replaceRight);
-						if (!termLeftR.equals(termRightR))
-						{
-							if (termLeftR instanceof FunctionTerm)
-							{
-								if (!(termRightR instanceof FunctionTerm))
-									return null;
-								FunctionTerm fl = (FunctionTerm) termLeftR;
-								FunctionTerm fr = (FunctionTerm) termRightR;
-								stack.push(new StackEntry(e.parameterCorrespondence, fl.getParameter().getType(), fr.getParameter().getType()));
-								stack.push(new StackEntry(new ParameterCorrespondence(e.parameterCorrespondence, fl.getParameter(), fr.getParameter()),
-										fl.getBody(), fr.getBody()));
-							}
-							else if (termLeftR instanceof CompositionTerm)
-							{
-								if (!(termRightR instanceof CompositionTerm))
-									return null;
-								CompositionTerm cl = (CompositionTerm) termLeftR;
-								CompositionTerm cr = (CompositionTerm) termRightR;
-								stack.push(new StackEntry(e.parameterCorrespondence, cl.getTail(), cr.getTail()));
-								stack.push(new StackEntry(e.parameterCorrespondence, cl.getHead(), cr.getHead()));
-							}
-							else if (termLeftR instanceof ProjectionTerm)
-							{
-								if (!(termRightR instanceof ProjectionTerm))
-									return null;
-								FunctionTerm fl = ((ProjectionTerm) termLeftR).getFunction();
-								FunctionTerm fr = ((ProjectionTerm) termRightR).getFunction();
-								stack.push(new StackEntry(e.parameterCorrespondence, fl, fr));
-							}
-							else
-								return null;
-						}
+						termLeftR = e.termLeft.replace(replaceLeft);
 					}
 					catch (ReplaceTypeException e1)
 					{
-						throw new Error(e1);
+						termLeftR = e.termLeft;
+					}
+					Term termRightR;
+					try
+					{
+						termRightR = e.termRight.replace(replaceRight);
+					}
+					catch (ReplaceTypeException e1)
+					{
+						termRightR = e.termRight;
+					}
+					if (!termLeftR.equals(termRightR))
+					{
+						if (termLeftR instanceof FunctionTerm)
+						{
+							if (!(termRightR instanceof FunctionTerm))
+								return null;
+							FunctionTerm fl = (FunctionTerm) termLeftR;
+							FunctionTerm fr = (FunctionTerm) termRightR;
+							stack.push(new StackEntry(e.parameterCorrespondence, fl.getParameter().getType(), fr.getParameter().getType()));
+							stack.push(new StackEntry(new ParameterCorrespondence(e.parameterCorrespondence, fl.getParameter(), fr.getParameter()),
+									fl.getBody(), fr.getBody()));
+						}
+						else if (termLeftR instanceof CompositionTerm)
+						{
+							if (!(termRightR instanceof CompositionTerm))
+								return null;
+							CompositionTerm cl = (CompositionTerm) termLeftR;
+							CompositionTerm cr = (CompositionTerm) termRightR;
+							stack.push(new StackEntry(e.parameterCorrespondence, cl.getTail(), cr.getTail()));
+							stack.push(new StackEntry(e.parameterCorrespondence, cl.getHead(), cr.getHead()));
+						}
+						else if (termLeftR instanceof ProjectionTerm)
+						{
+							if (!(termRightR instanceof ProjectionTerm))
+								return null;
+							FunctionTerm fl = ((ProjectionTerm) termLeftR).getFunction();
+							FunctionTerm fr = ((ProjectionTerm) termRightR).getFunction();
+							stack.push(new StackEntry(e.parameterCorrespondence, fl, fr));
+						}
+						else
+							return null;
 					}
 				}
 			}
