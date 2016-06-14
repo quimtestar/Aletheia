@@ -83,7 +83,7 @@ public class Search extends TransactionalCommand
 		SortedMap<Identifier, Statement> map = ctx.identifierToStatement(getTransaction());
 		int iq = name.indexOf('?');
 		int ia = name.indexOf('*');
-		int p = Integer.min(iq >= 0 ? iq : name.length(), ia >= 0 ? ia : name.length());
+		int p = Math.min(iq >= 0 ? iq : name.length(), ia >= 0 ? ia : name.length());
 		Namespace prefix = Namespace.parse(name.substring(0, p));
 		if (prefix instanceof NodeNamespace)
 			map = map.subMap(((NodeNamespace) prefix).asIdentifier(), prefix.terminator());
