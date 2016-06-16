@@ -1429,7 +1429,7 @@ public class CliJPanel extends JPanel implements CommandSource
 
 	private enum BHLMTokenType
 	{
-		OpenQuote, CloseQuote, OpenPar, ClosePar, OpenFun, CloseFun, Arrow, Nothing, Out, Star
+		OpenQuote, CloseQuote, OpenPar, ClosePar, OpenFun, CloseFun, Arrow, Default, Blank, Out, Star
 	};
 
 	private class BracketHighLightManager
@@ -1617,8 +1617,11 @@ public class CliJPanel extends JPanel implements CommandSource
 							return new Token(BHLMTokenType.CloseFun, offset, pos, position);
 					case '*':
 						return new Token(BHLMTokenType.Star, offset, pos, position);
+					case ' ':
+					case '\t':
+						return new Token(BHLMTokenType.Blank, offset, pos, position);
 					default:
-						return new Token(BHLMTokenType.Nothing, offset, pos, position);
+						return new Token(BHLMTokenType.Default, offset, pos, position);
 					}
 				}
 				else
@@ -1626,6 +1629,11 @@ public class CliJPanel extends JPanel implements CommandSource
 			}
 
 			public Token forward()
+			{
+				return forward(true);
+			}
+
+			public Token forward(boolean skipdefaults)
 			{
 				if (position >= 0 && position < command.length())
 				{
@@ -1635,7 +1643,7 @@ public class CliJPanel extends JPanel implements CommandSource
 					{
 						position++;
 						token = token();
-					} while (token.type == BHLMTokenType.Nothing);
+					} while (token.type == BHLMTokenType.Blank || (skipdefaults && token.type == BHLMTokenType.Default));
 					return token;
 				}
 				else
@@ -1643,6 +1651,11 @@ public class CliJPanel extends JPanel implements CommandSource
 			}
 
 			public Token backward()
+			{
+				return backward(true);
+			}
+
+			public Token backward(boolean skipdefaults)
 			{
 				if (position > 0 && position <= command.length())
 				{
@@ -1652,7 +1665,7 @@ public class CliJPanel extends JPanel implements CommandSource
 					{
 						position--;
 						token = token();
-					} while (token.type == BHLMTokenType.Nothing);
+					} while (token.type == BHLMTokenType.Blank || (skipdefaults && token.type == BHLMTokenType.Default));
 					return token;
 				}
 				else
@@ -1884,7 +1897,7 @@ public class CliJPanel extends JPanel implements CommandSource
 					createHighLight(as, token.absBegin(), token.absEnd());
 				if (tarrow != null)
 					createHighLight(as, tarrow.absBegin(), tarrow.absEnd());
-				Token tstar = cursor.forward();
+				Token tstar = cursor.forward(false);
 				if (!tstar.type.equals(BHLMTokenType.Star))
 					tstar = null;
 				if (tstar != null)
@@ -1898,7 +1911,7 @@ public class CliJPanel extends JPanel implements CommandSource
 				int a = 1;
 				Token token;
 				Token tarrow = null;
-				Token tstar = cursor.forward();
+				Token tstar = cursor.forward(false);
 				if (!tstar.type.equals(BHLMTokenType.Star))
 					tstar = null;
 				cursor = new Cursor();
@@ -1984,7 +1997,7 @@ public class CliJPanel extends JPanel implements CommandSource
 						break;
 				}
 				boolean ok = (p == 0) && (f == 0) & (a == 0);
-				Token tstar = cursor.forward();
+				Token tstar = cursor.forward(false);
 				if (!tstar.type.equals(BHLMTokenType.Star))
 					tstar = null;
 				cursor = new Cursor();
@@ -2035,7 +2048,7 @@ public class CliJPanel extends JPanel implements CommandSource
 			case Star:
 			{
 				Token tstar = firstToken;
-				firstToken = cursor.backward();
+				firstToken = cursor.backward(false);
 				if (firstToken.type.equals(BHLMTokenType.CloseFun))
 				{
 					int p = 0;
@@ -2085,14 +2098,6 @@ public class CliJPanel extends JPanel implements CommandSource
 						createHighLight(as, token.absBegin(), token.absEnd());
 					if (tarrow != null)
 						createHighLight(as, tarrow.absBegin(), tarrow.absEnd());
-					if (tstar != null)
-						createHighLight(as, tstar.absBegin(), tstar.absEnd());
-				}
-				else
-				{
-					boolean ok = false;
-					AttributeSet as = ok ? activeAS : errorAS;
-					createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
 					if (tstar != null)
 						createHighLight(as, tstar.absBegin(), tstar.absEnd());
 				}
