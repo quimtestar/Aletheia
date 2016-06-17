@@ -324,4 +324,14 @@ public class NodeNamespace extends Namespace
 			}
 	}
 
+	public String headName()
+	{
+		if (parent instanceof RootNamespace)
+			return name;
+		else if (parent instanceof NodeNamespace)
+			return ((NodeNamespace) parent).headName();
+		else
+			throw new Error();
+	}
+
 }
