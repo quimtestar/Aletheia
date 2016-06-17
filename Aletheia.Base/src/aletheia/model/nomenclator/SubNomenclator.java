@@ -21,8 +21,6 @@ package aletheia.model.nomenclator;
 
 import java.io.Serializable;
 import java.util.Map;
-import java.util.SortedMap;
-
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
@@ -32,8 +30,9 @@ import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.protocol.Exportable;
 import aletheia.utilities.collections.CloseableMap;
+import aletheia.utilities.collections.CloseableSortedMap;
+import aletheia.utilities.collections.CombinedCloseableSortedMap;
 import aletheia.utilities.collections.CombinedMap;
-import aletheia.utilities.collections.CombinedSortedMap;
 
 /**
  * <p>
@@ -103,12 +102,12 @@ public class SubNomenclator extends Nomenclator implements Serializable, Exporta
 	}
 
 	@Override
-	public SortedMap<Identifier, Statement> identifierToStatement()
+	public CloseableSortedMap<Identifier, Statement> identifierToStatement()
 	{
 		Nomenclator parent = getParent();
 		if (parent == null)
 			return null;
-		return new CombinedSortedMap<Identifier, Statement>(getLocalIdentifierToStatement(), getParent().identifierToStatement());
+		return new CombinedCloseableSortedMap<Identifier, Statement>(getLocalIdentifierToStatement(), getParent().identifierToStatement());
 	}
 
 	@Override

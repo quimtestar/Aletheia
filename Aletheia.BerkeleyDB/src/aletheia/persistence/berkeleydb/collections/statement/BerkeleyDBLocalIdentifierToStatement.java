@@ -19,13 +19,10 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.collections.statement;
 
-import java.util.AbstractMap;
-import java.util.AbstractSet;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.SortedSet;
 import java.util.UUID;
 
 import aletheia.model.identifier.Identifier;
@@ -37,13 +34,16 @@ import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBStatementEntity;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBStatementEntity.UUIDContextIdentifier;
 import aletheia.persistence.collections.statement.LocalIdentifierToStatement;
+import aletheia.utilities.collections.AbstractCloseableMap;
+import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
+import aletheia.utilities.collections.CloseableSortedSet;
 
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
 
-public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractMap<Identifier, Statement> implements LocalIdentifierToStatement
+public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractCloseableMap<Identifier, Statement> implements LocalIdentifierToStatement
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final SecondaryIndex<UUIDContextIdentifier, UUIDKey, BerkeleyDBStatementEntity> statementEntityContextIdentifierSecondaryIndex;
@@ -143,7 +143,7 @@ public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractMap<I
 	}
 
 	@Override
-	public SortedSet<Entry<Identifier, Statement>> entrySet()
+	public CloseableSortedSet<Entry<Identifier, Statement>> entrySet()
 	{
 		class MyEntry implements Entry<Identifier, Statement>
 		{
@@ -182,7 +182,7 @@ public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractMap<I
 		}
 		;
 
-		class EntrySet extends AbstractSet<Map.Entry<Identifier, Statement>> implements SortedSet<Map.Entry<Identifier, Statement>>
+		class EntrySet extends AbstractCloseableSet<Map.Entry<Identifier, Statement>> implements CloseableSortedSet<Map.Entry<Identifier, Statement>>
 		{
 
 			@Override
@@ -319,19 +319,19 @@ public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractMap<I
 			}
 
 			@Override
-			public SortedSet<Map.Entry<Identifier, Statement>> headSet(Map.Entry<Identifier, Statement> from)
+			public CloseableSortedSet<Map.Entry<Identifier, Statement>> headSet(Map.Entry<Identifier, Statement> from)
 			{
 				return BerkeleyDBLocalIdentifierToStatement.this.headMap(from.getKey()).entrySet();
 			}
 
 			@Override
-			public SortedSet<Map.Entry<Identifier, Statement>> subSet(Map.Entry<Identifier, Statement> from, Map.Entry<Identifier, Statement> to)
+			public CloseableSortedSet<Map.Entry<Identifier, Statement>> subSet(Map.Entry<Identifier, Statement> from, Map.Entry<Identifier, Statement> to)
 			{
 				return BerkeleyDBLocalIdentifierToStatement.this.subMap(from.getKey(), to.getKey()).entrySet();
 			}
 
 			@Override
-			public SortedSet<Map.Entry<Identifier, Statement>> tailSet(Map.Entry<Identifier, Statement> to)
+			public CloseableSortedSet<Map.Entry<Identifier, Statement>> tailSet(Map.Entry<Identifier, Statement> to)
 			{
 				return BerkeleyDBLocalIdentifierToStatement.this.tailMap(to.getKey()).entrySet();
 			}

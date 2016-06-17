@@ -42,6 +42,8 @@ import aletheia.protocol.Exportable;
 import aletheia.utilities.collections.AbstractReadOnlyMap;
 import aletheia.utilities.collections.AbstractReadOnlySortedMap;
 import aletheia.utilities.collections.CloseableMap;
+import aletheia.utilities.collections.CloseableSortedMap;
+import aletheia.utilities.collections.UnmodifiableCloseableSortedMap;
 
 /**
  * <p>
@@ -147,7 +149,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 	 *
 	 * @return The map.
 	 */
-	public abstract SortedMap<Identifier, Statement> identifierToStatement();
+	public abstract CloseableSortedMap<Identifier, Statement> identifierToStatement();
 
 	/**
 	 * A mapping from accessible statements to identifiers.
@@ -508,9 +510,9 @@ public abstract class Nomenclator implements Serializable, Exportable
 	 *
 	 * @return The map.
 	 */
-	public SortedMap<Identifier, Statement> localIdentifierToStatement()
+	public CloseableSortedMap<Identifier, Statement> localIdentifierToStatement()
 	{
-		return Collections.unmodifiableSortedMap(localIdentifierToStatement);
+		return new UnmodifiableCloseableSortedMap<>(localIdentifierToStatement);
 	}
 
 	/**

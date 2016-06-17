@@ -19,13 +19,9 @@
  ******************************************************************************/
 package aletheia.model.nomenclator;
 
-import java.util.AbstractMap;
-import java.util.AbstractSet;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.SortedSet;
-
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.RootNamespace;
@@ -34,9 +30,12 @@ import aletheia.model.statement.Statement;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.collections.statement.LocalIdentifierToStatement;
+import aletheia.utilities.collections.AbstractCloseableMap;
+import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
+import aletheia.utilities.collections.CloseableSortedSet;
 
-public class RootLocalIdentifierToStatement extends AbstractMap<Identifier, Statement> implements LocalIdentifierToStatement
+public class RootLocalIdentifierToStatement extends AbstractCloseableMap<Identifier, Statement> implements LocalIdentifierToStatement
 {
 	private final PersistenceManager persistenceManager;
 	private final Transaction transaction;
@@ -111,7 +110,7 @@ public class RootLocalIdentifierToStatement extends AbstractMap<Identifier, Stat
 	}
 
 	@Override
-	public SortedSet<Entry<Identifier, Statement>> entrySet()
+	public CloseableSortedSet<Entry<Identifier, Statement>> entrySet()
 	{
 		class MyEntry implements Entry<Identifier, Statement>
 		{
@@ -150,7 +149,7 @@ public class RootLocalIdentifierToStatement extends AbstractMap<Identifier, Stat
 		}
 		;
 
-		class EntrySet extends AbstractSet<Map.Entry<Identifier, Statement>> implements SortedSet<Map.Entry<Identifier, Statement>>
+		class EntrySet extends AbstractCloseableSet<Map.Entry<Identifier, Statement>> implements CloseableSortedSet<Map.Entry<Identifier, Statement>>
 		{
 
 			@Override
@@ -255,19 +254,19 @@ public class RootLocalIdentifierToStatement extends AbstractMap<Identifier, Stat
 			}
 
 			@Override
-			public SortedSet<Map.Entry<Identifier, Statement>> headSet(Map.Entry<Identifier, Statement> from)
+			public CloseableSortedSet<Map.Entry<Identifier, Statement>> headSet(Map.Entry<Identifier, Statement> from)
 			{
 				return RootLocalIdentifierToStatement.this.headMap(from.getKey()).entrySet();
 			}
 
 			@Override
-			public SortedSet<Map.Entry<Identifier, Statement>> subSet(Map.Entry<Identifier, Statement> from, Map.Entry<Identifier, Statement> to)
+			public CloseableSortedSet<Map.Entry<Identifier, Statement>> subSet(Map.Entry<Identifier, Statement> from, Map.Entry<Identifier, Statement> to)
 			{
 				return RootLocalIdentifierToStatement.this.subMap(from.getKey(), to.getKey()).entrySet();
 			}
 
 			@Override
-			public SortedSet<Map.Entry<Identifier, Statement>> tailSet(Map.Entry<Identifier, Statement> to)
+			public CloseableSortedSet<Map.Entry<Identifier, Statement>> tailSet(Map.Entry<Identifier, Statement> to)
 			{
 				return RootLocalIdentifierToStatement.this.tailMap(to.getKey()).entrySet();
 			}

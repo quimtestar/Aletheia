@@ -19,16 +19,15 @@
  ******************************************************************************/
 package aletheia.persistence.collections.statement;
 
-import java.util.SortedMap;
-
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.collections.PersistenceManagerDataStructure;
+import aletheia.utilities.collections.CloseableSortedMap;
 
 /**
  * The map from {@link Identifier}s to {@link Statement}s.
  *
  */
-public interface LocalIdentifierToStatement extends PersistenceManagerDataStructure, SortedMap<Identifier, Statement>
+public interface LocalIdentifierToStatement extends PersistenceManagerDataStructure, CloseableSortedMap<Identifier, Statement>
 {
 }

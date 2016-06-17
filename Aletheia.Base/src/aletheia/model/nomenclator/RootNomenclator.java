@@ -21,8 +21,6 @@ package aletheia.model.nomenclator;
 
 import java.util.Collections;
 import java.util.Map;
-import java.util.SortedMap;
-
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
@@ -30,6 +28,7 @@ import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.CloseableMap;
+import aletheia.utilities.collections.CloseableSortedMap;
 import aletheia.utilities.collections.TrivialCloseableMap;
 
 /**
@@ -63,7 +62,7 @@ public class RootNomenclator extends Nomenclator
 	}
 
 	@Override
-	public SortedMap<Identifier, Statement> identifierToStatement()
+	public CloseableSortedMap<Identifier, Statement> identifierToStatement()
 	{
 		return localIdentifierToStatement();
 	}

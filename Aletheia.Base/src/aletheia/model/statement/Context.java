@@ -96,6 +96,7 @@ import aletheia.utilities.collections.CloseableIterable;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableMap;
 import aletheia.utilities.collections.CloseableSet;
+import aletheia.utilities.collections.CloseableSortedMap;
 import aletheia.utilities.collections.CombinedCloseableMap;
 import aletheia.utilities.collections.CombinedCloseableMultimap;
 import aletheia.utilities.collections.CombinedCollection;
@@ -950,7 +951,7 @@ public class Context extends Statement
 	 *
 	 * @see SubNomenclator#identifierToStatement()
 	 */
-	public SortedMap<Identifier, Statement> identifierToStatement(Transaction transaction)
+	public CloseableSortedMap<Identifier, Statement> identifierToStatement(Transaction transaction)
 	{
 		return getNomenclator(transaction).identifierToStatement();
 	}
@@ -964,7 +965,7 @@ public class Context extends Statement
 	 *
 	 * @see SubNomenclator#localIdentifierToStatement()
 	 */
-	public SortedMap<Identifier, Statement> localIdentifierToStatement(Transaction transaction)
+	public CloseableSortedMap<Identifier, Statement> localIdentifierToStatement(Transaction transaction)
 	{
 		return getNomenclator(transaction).localIdentifierToStatement();
 	}
