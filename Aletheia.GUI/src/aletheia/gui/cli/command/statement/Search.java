@@ -20,8 +20,8 @@
 package aletheia.gui.cli.command.statement;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
-import java.util.SortedMap;
 import java.util.regex.Pattern;
 
 import aletheia.gui.cli.command.CommandSource;
@@ -31,47 +31,184 @@ import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace;
+import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.identifier.RootNamespace;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.collections.CloseableIterator;
 
 @TaggedCommand(tag = "search", groupPath = "/statement", factory = Search.Factory.class)
 public class Search extends TransactionalCommand
 {
-	private final String name;
-
-	public Search(CommandSource from, Transaction transaction, String name)
+	private static abstract class NamespacePattern
 	{
-		super(from, transaction);
-		this.name = name;
-	}
 
-	private Pattern toPattern(String pattern)
-	{
-		StringBuilder regex = new StringBuilder();
-		int i = 0;
-		for (String s : pattern.split("[\\*\\?]"))
+		public static NamespacePattern instantiate(String expression)
 		{
-			regex.append(Pattern.quote(s));
-			i += s.length();
-			loop: while (i < pattern.length())
+			try
 			{
-				switch (pattern.charAt(i))
-				{
-				case '?':
-					regex.append(".");
-					break;
-				case '*':
-					regex.append(".*");
-					break;
-				default:
-					break loop;
-				}
-				i++;
+				return new ExpressionNamespacePattern(expression);
+			}
+			catch (InvalidNameException e)
+			{
+				return new VoidNamespacePattern();
 			}
 		}
-		return Pattern.compile(regex.toString());
+
+		public abstract Identifier fromKey();
+
+		public abstract boolean isPrefix(Identifier identifier);
+
+		public abstract boolean matches(Namespace namespace);
+
+		private static class VoidNamespacePattern extends NamespacePattern
+		{
+
+			private VoidNamespacePattern()
+			{
+
+			}
+
+			@Override
+			public Identifier fromKey()
+			{
+				return RootNamespace.instance.terminator();
+			}
+
+			@Override
+			public boolean isPrefix(Identifier identifier)
+			{
+				return false;
+			}
+
+			@Override
+			public boolean matches(Namespace namespace)
+			{
+				return false;
+			}
+
+		}
+
+		private static class ExpressionNamespacePattern extends NamespacePattern
+		{
+			private final Namespace prefix;
+			private final boolean dottedPrefix;
+			private final Pattern pattern;
+
+			private ExpressionNamespacePattern(String expression) throws InvalidNameException
+			{
+				int p = expression.length();
+
+				int iq = expression.indexOf('?');
+				if ((iq >= 0) && (iq < p))
+					p = iq;
+
+				int ia = expression.indexOf('*');
+				if ((ia >= 0) && (ia < p))
+					p = ia;
+
+				int ih = expression.indexOf('#');
+				if ((ih >= 0) && (ih < p))
+					p = ih;
+				String sPrefix = expression.substring(0, p);
+				this.prefix = Namespace.parse(sPrefix);
+				this.dottedPrefix = sPrefix.endsWith(".");
+
+				StringBuilder regex = new StringBuilder();
+				int i = 0;
+				for (String s : expression.split("[\\*\\?#]"))
+				{
+					regex.append(Pattern.quote(s));
+					i += s.length();
+					loop: while (i < expression.length())
+					{
+						switch (expression.charAt(i))
+						{
+						case '?':
+							regex.append(".");
+							break;
+						case '*':
+							regex.append(".*");
+							break;
+						case '#':
+							regex.append("[0-9]");
+							break;
+						default:
+							break loop;
+						}
+						i++;
+					}
+				}
+				loop: while (i < expression.length())
+				{
+					switch (expression.charAt(i))
+					{
+					case '?':
+						regex.append(".");
+						break;
+					case '*':
+						regex.append(".*");
+						break;
+					case '#':
+						regex.append("[0-9]");
+						break;
+					default:
+						break loop;
+					}
+					i++;
+				}
+				this.pattern = Pattern.compile(regex.toString());
+			}
+
+			@Override
+			public Identifier fromKey()
+			{
+				if (prefix instanceof NodeNamespace)
+					return ((NodeNamespace) prefix).asIdentifier();
+				else if (prefix instanceof RootNamespace)
+					return ((RootNamespace) prefix).initiator();
+				else
+					throw new Error();
+			}
+
+			@Override
+			public boolean isPrefix(Identifier identifier)
+			{
+				if (dottedPrefix || prefix instanceof RootNamespace)
+					return prefix.isPrefixOf(identifier);
+				else if (prefix instanceof NodeNamespace)
+				{
+					NodeNamespace nPrefix = (NodeNamespace) prefix;
+					if (!nPrefix.getParent().isPrefixOf(identifier))
+						return false;
+					Namespace suffix = identifier.makeSuffix(nPrefix.getParent());
+					if (suffix instanceof NodeNamespace)
+						if (!((NodeNamespace) suffix).headName().startsWith(nPrefix.getName()))
+							return false;
+					return true;
+				}
+				else
+					throw new Error();
+			}
+
+			@Override
+			public boolean matches(Namespace namespace)
+			{
+				return pattern.matcher(namespace.qualifiedName()).matches();
+			}
+
+		}
+
+	}
+
+	private final NamespacePattern namespacePattern;
+
+	public Search(CommandSource from, Transaction transaction, String expression)
+	{
+		super(from, transaction);
+		this.namespacePattern = NamespacePattern.instantiate(expression);
+
 	}
 
 	@Override
@@ -80,19 +217,23 @@ public class Search extends TransactionalCommand
 		final Context ctx = getActiveContext();
 		if (ctx == null)
 			throw new NotActiveContextException();
-		SortedMap<Identifier, Statement> map = ctx.identifierToStatement(getTransaction());
-		int iq = name.indexOf('?');
-		int ia = name.indexOf('*');
-		int p = Math.min(iq >= 0 ? iq : name.length(), ia >= 0 ? ia : name.length());
-		Namespace prefix = Namespace.parse(name.substring(0, p));
-		if (prefix instanceof NodeNamespace)
-			map = map.subMap(((NodeNamespace) prefix).asIdentifier(), prefix.terminator());
-		else if (!(prefix instanceof RootNamespace))
-			throw new Error();
-		Pattern pattern = toPattern(name);
-		for (Entry<Identifier, Statement> e : map.entrySet())
-			if (pattern.matcher(e.getKey().qualifiedName()).matches())
-				getOut().println(" -> " + e.getValue().statementPathString(getTransaction(), ctx));
+		CloseableIterator<Map.Entry<Identifier, Statement>> iterator = ctx.identifierToStatement(getTransaction()).tailMap(namespacePattern.fromKey())
+				.entrySet().iterator();
+		try
+		{
+			while (iterator.hasNext())
+			{
+				Entry<Identifier, Statement> e = iterator.next();
+				if (!namespacePattern.isPrefix(e.getKey()))
+					break;
+				if (namespacePattern.matches(e.getKey()))
+					getOut().println(" -> " + e.getValue().statementPathString(getTransaction(), ctx));
+			}
+		}
+		finally
+		{
+			iterator.close();
+		}
 		getOut().println("end.");
 		return null;
 	}
@@ -116,7 +257,7 @@ public class Search extends TransactionalCommand
 		@Override
 		protected String paramSpec()
 		{
-			return "<pattern>";
+			return "<expression>";
 		}
 
 		@Override
