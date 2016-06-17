@@ -127,21 +127,6 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 	}
 
 	@Override
-	public SortedMap<K, V> headMap(final K toKey)
-	{
-		return new AbstractCombinedSortedMap<K, V>(getFront().headMap(toKey))
-		{
-			private static final long serialVersionUID = 7624550350393322501L;
-
-			@Override
-			protected SortedMap<K, V> getBack()
-			{
-				return AbstractCombinedSortedMap.this.getBack().headMap(toKey);
-			}
-		};
-	}
-
-	@Override
 	public K lastKey()
 	{
 		K k1;
@@ -163,6 +148,21 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 			return getFront().lastKey();
 		}
 		return resolvedComparator().compare(k1, k2) >= 0 ? k1 : k2;
+	}
+
+	@Override
+	public SortedMap<K, V> headMap(final K toKey)
+	{
+		return new AbstractCombinedSortedMap<K, V>(getFront().headMap(toKey))
+		{
+			private static final long serialVersionUID = 7624550350393322501L;
+
+			@Override
+			protected SortedMap<K, V> getBack()
+			{
+				return AbstractCombinedSortedMap.this.getBack().headMap(toKey);
+			}
+		};
 	}
 
 	@Override

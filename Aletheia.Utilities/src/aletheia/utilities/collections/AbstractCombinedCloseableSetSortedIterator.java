@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2016 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -19,9 +19,6 @@
  ******************************************************************************/
 package aletheia.utilities.collections;
 
-import java.util.Comparator;
-import java.util.Set;
-
 /**
  * A combined set of any two other sets. The elements in the front set will
  * shadow the elements on the back set. The iterator is sorted according an
@@ -33,46 +30,61 @@ import java.util.Set;
  *
  * @author Quim Testar
  */
-class CombinedSetSortedIterator<E> extends AbstractCombinedSetSortedIterator<E>
+abstract class AbstractCombinedCloseableSetSortedIterator<E> extends AbstractCombinedSetSortedIterator<E> implements CloseableSet<E>
 {
-	private static final long serialVersionUID = -1286644014041708380L;
 
-	private final Set<E> back;
-	private final Comparator<? super E> comparator;
+	private static final long serialVersionUID = 6946119121966088525L;
 
 	/**
-	 * If the specified comparator is null the natural order of the elements
-	 * will be used.
-	 *
 	 * @param front
 	 *            The front set.
-	 * @param back
-	 *            The back set.
-	 * @param comparator
-	 *            The comparator.
 	 */
-	public CombinedSetSortedIterator(Set<E> front, Set<E> back, Comparator<? super E> comparator)
+	public AbstractCombinedCloseableSetSortedIterator(CloseableSet<E> front)
 	{
 		super(front);
-		this.comparator = comparator;
-		this.back = back;
 	}
 
 	@Override
-	protected Set<E> getBack()
+	protected CloseableSet<E> getFront()
 	{
-		return back;
+		return (CloseableSet<E>) super.getFront();
 	}
 
-	/**
-	 * The comparator specified ad construction time. Might be null.
-	 *
-	 * @return The comparator specified at construction time.
-	 */
 	@Override
-	public Comparator<? super E> comparator()
+	protected abstract CloseableSet<E> getBack();
+
+	protected class CombinedCloseableSortedIterator extends CombinedSortedIterator<E> implements CloseableIterator<E>
 	{
-		return comparator;
+		protected CombinedCloseableSortedIterator(CloseableIterator<E> frontIterator, CloseableIterator<E> backIterator)
+		{
+			super(frontIterator, backIterator, resolvedComparator());
+		}
+
+		@Override
+		protected CloseableIterator<? extends E> getFrontIterator()
+		{
+			return (CloseableIterator<? extends E>) super.getFrontIterator();
+		}
+
+		@Override
+		protected CloseableIterator<? extends E> getBackIterator()
+		{
+			return (CloseableIterator<? extends E>) super.getBackIterator();
+		}
+
+		@Override
+		public void close()
+		{
+			getFrontIterator().close();
+			getBackIterator().close();
+		}
+
+	}
+
+	@Override
+	public CloseableIterator<E> iterator()
+	{
+		return new CombinedCloseableSortedIterator(getFront().iterator(), getBack().iterator());
 	}
 
 }

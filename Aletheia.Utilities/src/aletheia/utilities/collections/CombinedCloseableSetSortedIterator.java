@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2016 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -20,24 +20,24 @@
 package aletheia.utilities.collections;
 
 import java.util.Comparator;
-import java.util.Set;
 
 /**
- * A combined set of any two other sets. The elements in the front set will
- * shadow the elements on the back set. The iterator is sorted according an
- * specified comparator or the natural order of the elements (assuming the
- * components' respective iterators are sorted using the very same comparator).
+ * A combined closeable set of any two other closeable sets. The elements in the
+ * front set will shadow the elements on the back set. The iterator is sorted
+ * according an specified comparator or the natural order of the elements
+ * (assuming the components' respective iterators are sorted using the very same
+ * comparator).
  *
  * @param <E>
  *            The elements' type.
  *
  * @author Quim Testar
  */
-class CombinedSetSortedIterator<E> extends AbstractCombinedSetSortedIterator<E>
+class CombinedCloseableSetSortedIterator<E> extends AbstractCombinedCloseableSetSortedIterator<E>
 {
-	private static final long serialVersionUID = -1286644014041708380L;
+	private static final long serialVersionUID = 6848104748723213218L;
 
-	private final Set<E> back;
+	private final CloseableSet<E> back;
 	private final Comparator<? super E> comparator;
 
 	/**
@@ -51,7 +51,7 @@ class CombinedSetSortedIterator<E> extends AbstractCombinedSetSortedIterator<E>
 	 * @param comparator
 	 *            The comparator.
 	 */
-	public CombinedSetSortedIterator(Set<E> front, Set<E> back, Comparator<? super E> comparator)
+	public CombinedCloseableSetSortedIterator(CloseableSet<E> front, CloseableSet<E> back, Comparator<? super E> comparator)
 	{
 		super(front);
 		this.comparator = comparator;
@@ -59,7 +59,7 @@ class CombinedSetSortedIterator<E> extends AbstractCombinedSetSortedIterator<E>
 	}
 
 	@Override
-	protected Set<E> getBack()
+	protected CloseableSet<E> getBack()
 	{
 		return back;
 	}

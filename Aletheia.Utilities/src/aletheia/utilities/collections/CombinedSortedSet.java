@@ -20,7 +20,6 @@
 package aletheia.utilities.collections;
 
 import java.util.Comparator;
-import java.util.NoSuchElementException;
 import java.util.SortedSet;
 
 /**
@@ -32,9 +31,12 @@ import java.util.SortedSet;
  *
  * @author Quim Testar
  */
-public class CombinedSortedSet<E> extends CombinedSetSortedIterator<E> implements SortedSet<E>
+public class CombinedSortedSet<E> extends AbstractCombinedSortedSet<E> implements SortedSet<E>
 {
 	private static final long serialVersionUID = 5196602047719292556L;
+
+	private final SortedSet<E> back;
+	private final Comparator<? super E> comparator;
 
 	/**
 	 * The comparators of front and back set must be the same, and will be used
@@ -47,7 +49,7 @@ public class CombinedSortedSet<E> extends CombinedSetSortedIterator<E> implement
 	 */
 	public CombinedSortedSet(SortedSet<E> front, SortedSet<E> back)
 	{
-		super(front, back, front.comparator());
+		super(front);
 		try
 		{
 			if ((front.comparator() != back.comparator()) && !front.comparator().equals(back.comparator()))
@@ -57,91 +59,26 @@ public class CombinedSortedSet<E> extends CombinedSetSortedIterator<E> implement
 		{
 			throw new Error("Comparators differ");
 		}
+		this.back = back;
+		this.comparator = front.comparator();
 	}
 
 	@Override
 	protected SortedSet<E> getFront()
 	{
-		return (SortedSet<E>) super.getFront();
+		return super.getFront();
 	}
 
 	@Override
 	protected SortedSet<E> getBack()
 	{
-		return (SortedSet<E>) super.getBack();
+		return back;
 	}
 
 	@Override
 	public Comparator<? super E> comparator()
 	{
-		return getFront().comparator();
-	}
-
-	@Override
-	public E first()
-	{
-		E e1;
-		try
-		{
-			e1 = getFront().first();
-		}
-		catch (NoSuchElementException e)
-		{
-			return getBack().first();
-		}
-		E e2;
-		try
-		{
-			e2 = getBack().first();
-		}
-		catch (NoSuchElementException e)
-		{
-			return getFront().first();
-		}
-		return resolvedComparator().compare(e1, e2) <= 0 ? e1 : e2;
-
-	}
-
-	@Override
-	public SortedSet<E> headSet(E toElement)
-	{
-		return new CombinedSortedSet<E>(getFront().headSet(toElement), getBack().headSet(toElement));
-	}
-
-	@Override
-	public E last()
-	{
-		E e1;
-		try
-		{
-			e1 = getFront().last();
-		}
-		catch (NoSuchElementException e)
-		{
-			return getBack().last();
-		}
-		E e2;
-		try
-		{
-			e2 = getBack().last();
-		}
-		catch (NoSuchElementException e)
-		{
-			return getFront().last();
-		}
-		return resolvedComparator().compare(e1, e2) >= 0 ? e1 : e2;
-	}
-
-	@Override
-	public SortedSet<E> subSet(E fromElement, E toElement)
-	{
-		return new CombinedSortedSet<E>(getFront().subSet(fromElement, toElement), getBack().subSet(fromElement, toElement));
-	}
-
-	@Override
-	public SortedSet<E> tailSet(E toElement)
-	{
-		return new CombinedSortedSet<E>(getFront().tailSet(toElement), getBack().tailSet(toElement));
+		return comparator;
 	}
 
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2016 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -22,28 +22,28 @@ package aletheia.utilities.collections;
 import java.util.Map;
 
 /**
- * An {@link AbstractCloseableMap} for {@link CloseableMap}s.
+ * An {@link AbstractCloseableSortedMap} for {@link CloseableSortedMap}s.
  *
  *
  * @author Quim Testar
  */
-public abstract class AbstractCombinedCloseableMap<K, V> extends AbstractCombinedMap<K, V> implements CloseableMap<K, V>
+public abstract class AbstractCombinedCloseableSortedMap<K, V> extends AbstractCombinedSortedMap<K, V> implements CloseableSortedMap<K, V>
 {
-	private static final long serialVersionUID = 9092716975104998675L;
+	private static final long serialVersionUID = 4434135098510257056L;
 
-	public AbstractCombinedCloseableMap(CloseableMap<K, V> front)
+	public AbstractCombinedCloseableSortedMap(CloseableSortedMap<K, V> front)
 	{
 		super(front);
 	}
 
 	@Override
-	protected CloseableMap<K, V> getFront()
+	protected CloseableSortedMap<K, V> getFront()
 	{
-		return (CloseableMap<K, V>) super.getFront();
+		return (CloseableSortedMap<K, V>) super.getFront();
 	}
 
 	@Override
-	protected abstract CloseableMap<K, V> getBack();
+	protected abstract CloseableSortedMap<K, V> getBack();
 
 	protected class EntrySet extends AbstractCombinedMap<K, V>.EntrySet implements CloseableSet<Entry<K, V>>
 	{
@@ -58,7 +58,7 @@ public abstract class AbstractCombinedCloseableMap<K, V> extends AbstractCombine
 			return (CloseableSet<K>) super.getKeySet();
 		}
 
-		protected class EntrySetIterator extends AbstractCombinedMap<K, V>.EntrySet.EntrySetIterator implements CloseableIterator<Entry<K, V>>
+		protected class EntrySetIterator extends AbstractCombinedSortedMap<K, V>.EntrySet.EntrySetIterator implements CloseableIterator<Entry<K, V>>
 		{
 
 			protected EntrySetIterator(CloseableIterator<K> keyIterator)
@@ -95,9 +95,9 @@ public abstract class AbstractCombinedCloseableMap<K, V> extends AbstractCombine
 	}
 
 	@Override
-	public CombinedCloseableSet<K> keySet()
+	public CloseableSet<K> keySet()
 	{
-		return new CombinedCloseableSet<K>(getFront().keySet(), getBack().keySet());
+		return new CombinedCloseableSetSortedIterator<K>(getFront().keySet(), getBack().keySet(), resolvedComparator());
 	}
 
 	protected class Values extends AbstractCombinedMap<K, V>.Values implements CloseableSet<V>
@@ -148,6 +148,53 @@ public abstract class AbstractCombinedCloseableMap<K, V> extends AbstractCombine
 	public CloseableCollection<V> values()
 	{
 		return new Values(entrySet());
+	}
+
+	@Override
+	public CloseableSortedMap<K, V> headMap(final K toKey)
+	{
+		return new AbstractCombinedCloseableSortedMap<K, V>(getFront().headMap(toKey))
+		{
+			private static final long serialVersionUID = -2512566498203919691L;
+
+			@Override
+			protected CloseableSortedMap<K, V> getBack()
+			{
+				return AbstractCombinedCloseableSortedMap.this.getBack().headMap(toKey);
+			}
+		};
+	}
+
+	@Override
+	public CloseableSortedMap<K, V> subMap(final K fromKey, final K toKey)
+	{
+		return new AbstractCombinedCloseableSortedMap<K, V>(getFront().subMap(fromKey, toKey))
+		{
+			private static final long serialVersionUID = -2899448591974596379L;
+
+			@Override
+			protected CloseableSortedMap<K, V> getBack()
+			{
+				return AbstractCombinedCloseableSortedMap.this.getBack().subMap(fromKey, toKey);
+			}
+
+		};
+	}
+
+	@Override
+	public CloseableSortedMap<K, V> tailMap(final K fromKey)
+	{
+		return new AbstractCombinedCloseableSortedMap<K, V>(getFront().tailMap(fromKey))
+		{
+			private static final long serialVersionUID = 1979312580696145790L;
+
+			@Override
+			protected CloseableSortedMap<K, V> getBack()
+			{
+				return AbstractCombinedCloseableSortedMap.this.getBack().tailMap(fromKey);
+			}
+
+		};
 	}
 
 }

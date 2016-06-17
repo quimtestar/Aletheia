@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2016 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -20,6 +20,7 @@
 package aletheia.utilities.collections;
 
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -33,35 +34,17 @@ import java.util.Set;
  *
  * @author Quim Testar
  */
-class CombinedSetSortedIterator<E> extends AbstractCombinedSetSortedIterator<E>
+abstract class AbstractCombinedSetSortedIterator<E> extends AbstractCombinedSet<E>
 {
-	private static final long serialVersionUID = -1286644014041708380L;
-
-	private final Set<E> back;
-	private final Comparator<? super E> comparator;
+	private static final long serialVersionUID = -2242012560285707716L;
 
 	/**
-	 * If the specified comparator is null the natural order of the elements
-	 * will be used.
-	 *
 	 * @param front
 	 *            The front set.
-	 * @param back
-	 *            The back set.
-	 * @param comparator
-	 *            The comparator.
 	 */
-	public CombinedSetSortedIterator(Set<E> front, Set<E> back, Comparator<? super E> comparator)
+	public AbstractCombinedSetSortedIterator(Set<E> front)
 	{
 		super(front);
-		this.comparator = comparator;
-		this.back = back;
-	}
-
-	@Override
-	protected Set<E> getBack()
-	{
-		return back;
 	}
 
 	/**
@@ -69,10 +52,38 @@ class CombinedSetSortedIterator<E> extends AbstractCombinedSetSortedIterator<E>
 	 *
 	 * @return The comparator specified at construction time.
 	 */
-	@Override
-	public Comparator<? super E> comparator()
+	public abstract Comparator<? super E> comparator();
+
+	/**
+	 * The comparator that will be used in the iterator. If no comparator was
+	 * specified at construction time, a natural comparator is created using the
+	 * {@link Comparable#compareTo(Object)} method of the elements. In that
+	 * case, a {@link ClassCastException} might be thrown (not now but when
+	 * using the comparator) if an element that does no implement
+	 * {@link Comparable} is found.
+	 *
+	 * @return The comparator.
+	 */
+	protected Comparator<? super E> resolvedComparator()
 	{
-		return comparator;
+		Comparator<? super E> comp = comparator();
+		if (comp != null)
+			return comp;
+		return new Comparator<E>()
+		{
+			@SuppressWarnings("unchecked")
+			@Override
+			public int compare(E e1, E e2) throws ClassCastException
+			{
+				return ((Comparable<E>) e1).compareTo(e2);
+			};
+		};
+	}
+
+	@Override
+	public Iterator<E> iterator()
+	{
+		return new CombinedSortedIterator<>(getFront().iterator(), getBack().iterator(), resolvedComparator());
 	}
 
 }
