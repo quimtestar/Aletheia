@@ -19,8 +19,10 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.statement;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 
 import aletheia.gui.cli.command.CommandSource;
@@ -30,10 +32,10 @@ import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.gui.common.NamespacePattern;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
+import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.CloseableIterator;
-import aletheia.utilities.collections.CloseableSortedMap;
 
 @TaggedCommand(tag = "lastid", groupPath = "/statement", factory = LastId.Factory.class)
 public class LastId extends TransactionalCommand
@@ -46,10 +48,11 @@ public class LastId extends TransactionalCommand
 		this.namespacePattern = NamespacePattern.instantiate(expression);
 	}
 
-	private Identifier localLastId(CloseableSortedMap<Identifier, Statement> identifierToStatement)
+	private Identifier localLastId(Context ctx)
 	{
 		Identifier lastId = null;
-		CloseableIterator<Map.Entry<Identifier, Statement>> iterator = identifierToStatement.tailMap(namespacePattern.fromKey()).entrySet().iterator();
+		CloseableIterator<Map.Entry<Identifier, Statement>> iterator = ctx.localIdentifierToStatement(getTransaction()).tailMap(namespacePattern.fromKey())
+				.entrySet().iterator();
 		try
 		{
 			while (iterator.hasNext())
@@ -80,15 +83,23 @@ public class LastId extends TransactionalCommand
 			throw new NotActiveContextException();
 		stack.push(activeContext);
 
+		Set<Context> visited = new HashSet<Context>();
+
 		while (!stack.isEmpty())
 		{
 			Context ctx = stack.pop();
-			Identifier id = localLastId(ctx == activeContext ? ctx.identifierToStatement(getTransaction()) : ctx.localIdentifierToStatement(getTransaction()));
-			if (id != null && (lastId == null || id.compareTo(lastId) > 0))
-				lastId = id;
-			for (Context ctx_ : ctx.subContexts(getTransaction()))
-				if (!ctx_.isProved())
-					stack.push(ctx_);
+			if (!visited.contains(ctx))
+			{
+				visited.add(ctx);
+				Identifier id = localLastId(ctx);
+				if (id != null && (lastId == null || id.compareTo(lastId) > 0))
+					lastId = id;
+				for (Context ctx_ : ctx.subContexts(getTransaction()))
+					if (!ctx_.isProved())
+						stack.push(ctx_);
+				if (!(ctx instanceof RootContext))
+					stack.push(ctx.getContext(getTransaction()));
+			}
 		}
 		if (lastId == null)
 			getErr().println("Pattern not found.");
