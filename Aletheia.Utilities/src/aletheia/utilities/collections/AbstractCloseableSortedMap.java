@@ -30,4 +30,7 @@ package aletheia.utilities.collections;
 public abstract class AbstractCloseableSortedMap<K, V> extends AbstractCloseableMap<K, V> implements CloseableSortedMap<K, V>
 {
 
+	@Override
+	public abstract CloseableSet<Entry<K, V>> entrySet();
+
 }
