@@ -55,7 +55,7 @@ public abstract class BerkeleyDBGenericSignatureRequestCollection<S extends Sign
 		this.persistenceManager = persistenceManager;
 		this.index = index;
 		this.transaction = transaction;
-		this.keyComparator = keyClass != null ? new BerkeleyDBKeyComparator<K>(keyClass) : null;
+		this.keyComparator = keyClass != null ? new BerkeleyDBKeyComparator<>(keyClass) : null;
 		this.fromKey = fromKey;
 		this.fromInclusive = fromInclusive;
 		this.toKey = toKey;

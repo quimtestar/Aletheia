@@ -47,7 +47,7 @@ public abstract class AbstractCacheMap<K, V, R extends Reference<V>> extends Abs
 	public AbstractCacheMap()
 	{
 		super();
-		innerMap = new HashMap<K, R>();
+		innerMap = new HashMap<>();
 	}
 
 	protected Map<K, R> getInnerMap()

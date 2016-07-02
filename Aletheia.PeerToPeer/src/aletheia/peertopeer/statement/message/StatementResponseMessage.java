@@ -49,7 +49,7 @@ public class StatementResponseMessage extends AbstractUUIDPersistentInfoMessage<
 		@Override
 		public Entry<Statement> forward(Statement statement)
 		{
-			return new Entry<Statement>(statement.getUuid(), statement);
+			return new Entry<>(statement.getUuid(), statement);
 		}
 
 		@Override
@@ -61,7 +61,7 @@ public class StatementResponseMessage extends AbstractUUIDPersistentInfoMessage<
 
 	public static StatementResponseMessage create(Collection<Statement> statements)
 	{
-		return new StatementResponseMessage(new BijectionCollection<Statement, Entry<Statement>>(entryBijection, statements));
+		return new StatementResponseMessage(new BijectionCollection<>(entryBijection, statements));
 	}
 
 	private StatementResponseMessage(Collection<Entry<Statement>> entries)

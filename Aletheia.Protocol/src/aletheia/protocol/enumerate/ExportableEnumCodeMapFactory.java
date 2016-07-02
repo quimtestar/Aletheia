@@ -127,7 +127,7 @@ public class ExportableEnumCodeMapFactory
 		ExportableEnumInfo exportableEnumInfo = exportableEnumClass.getAnnotation(ExportableEnumInfo.class);
 		if (exportableEnumInfo == null)
 			throw new MissingExportableEnumInfoException(exportableEnumClass);
-		return new ArrayAsList<Integer>(exportableEnumInfo.availableVersions());
+		return new ArrayAsList<>(exportableEnumInfo.availableVersions());
 	}
 
 	public synchronized <C, E extends ExportableEnum<C, ?>> Map<C, E> codeMap(Class<? extends E> enumClass, int enumVersion) throws DuplicateCodeException
@@ -136,13 +136,13 @@ public class ExportableEnumCodeMapFactory
 		Map<Integer, Map<Object, ExportableEnum<?, ?>>> versionCodeMap = map.get(enumClass);
 		if (versionCodeMap == null)
 		{
-			versionCodeMap = new HashMap<Integer, Map<Object, ExportableEnum<?, ?>>>();
+			versionCodeMap = new HashMap<>();
 			map.put(enumClass, versionCodeMap);
 		}
 		Map<Object, ExportableEnum<?, ?>> codeMap = versionCodeMap.get(enumVersion);
 		if (codeMap == null)
 		{
-			Map<C, ExportableEnum<C, ?>> codeMap_ = new HashMap<C, ExportableEnum<C, ?>>();
+			Map<C, ExportableEnum<C, ?>> codeMap_ = new HashMap<>();
 			for (E e : enumClass.getEnumConstants())
 			{
 				ExportableEnum<?, ?> e_ = codeMap_.put(e.getCode(enumVersion), e);
@@ -152,8 +152,8 @@ public class ExportableEnumCodeMapFactory
 			codeMap = Collections.<Object, ExportableEnum<?, ?>> unmodifiableMap(codeMap_);
 			versionCodeMap.put(enumVersion, codeMap);
 		}
-		return new BijectionMap<C, ExportableEnum<?, ?>, E>(new CastBijection<ExportableEnum<?, ?>, E>(),
-				new BijectionKeyMap<Object, C, ExportableEnum<?, ?>>(new CastBijection<Object, C>(), codeMap));
+		return new BijectionMap<>(new CastBijection<ExportableEnum<?, ?>, E>(),
+				new BijectionKeyMap<>(new CastBijection<Object, C>(), codeMap));
 	}
 
 }

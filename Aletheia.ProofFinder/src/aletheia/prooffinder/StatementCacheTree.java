@@ -52,7 +52,7 @@ public class StatementCacheTree implements ContextWatcher.Listener, CacheWithCle
 	{
 		this.persistenceManager = persistenceManager;
 		this.contextWatcher = contextWatcher;
-		this.localStatementsCacheMap = new WeakCacheWithCleanerMap<Context, Set<Statement>>();
+		this.localStatementsCacheMap = new WeakCacheWithCleanerMap<>();
 		this.listeners = Collections.synchronizedSet(new HashSet<Listener>());
 		this.contextWatcher.addListener(this);
 		this.localStatementsCacheMap.addListener(this);
@@ -110,7 +110,7 @@ public class StatementCacheTree implements ContextWatcher.Listener, CacheWithCle
 		Transaction transaction = persistenceManager.beginTransaction();
 		try
 		{
-			Stack<Context> stack = new Stack<Context>();
+			Stack<Context> stack = new Stack<>();
 			while (!(ctx instanceof RootContext))
 			{
 				stack.push(ctx);
@@ -118,7 +118,7 @@ public class StatementCacheTree implements ContextWatcher.Listener, CacheWithCle
 			}
 			Collection<Statement> col = getLocalStatementCollection(ctx);
 			while (!stack.isEmpty())
-				col = new CombinedCollection<Statement>(getLocalStatementCollection(stack.pop()), col);
+				col = new CombinedCollection<>(getLocalStatementCollection(stack.pop()), col);
 			transaction.commit();
 			return col;
 		}

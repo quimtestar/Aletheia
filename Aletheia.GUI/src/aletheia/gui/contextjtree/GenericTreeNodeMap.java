@@ -52,7 +52,7 @@ public abstract class GenericTreeNodeMap<K, N> extends AbstractMap<K, N>
 
 	public GenericTreeNodeMap()
 	{
-		this.map = new SoftCacheWithCleanerMap<K, N>();
+		this.map = new SoftCacheWithCleanerMap<>();
 		this.map.addListener(new CacheListener());
 	}
 

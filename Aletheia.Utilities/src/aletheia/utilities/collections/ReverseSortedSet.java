@@ -171,7 +171,7 @@ public class ReverseSortedSet<E> implements SortedSet<E>
 	{
 		SortedSet<E> tail = new ReverseSortedSet<>(inner.headSet(fromElement));
 		if (inner.contains(fromElement))
-			return new CombinedSortedSet<E>(new SingletonSortedSet<E>(fromElement, tail.comparator()), tail);
+			return new CombinedSortedSet<>(new SingletonSortedSet<>(fromElement, tail.comparator()), tail);
 		else
 			return tail;
 

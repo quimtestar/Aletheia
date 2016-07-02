@@ -52,7 +52,7 @@ public enum SubRootPhaseType implements ByteExportableEnum<SubRootPhaseType>
 
 	static
 	{
-		classTypeMap = new HashMap<Class<? extends SubRootPhase>, SubRootPhaseType>();
+		classTypeMap = new HashMap<>();
 		for (SubRootPhaseType type : values())
 		{
 			SubRootPhaseType old = classTypeMap.put(type.getSubRootPhaseClass(), type);

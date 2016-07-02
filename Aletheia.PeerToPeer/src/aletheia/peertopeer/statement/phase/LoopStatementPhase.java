@@ -395,7 +395,7 @@ public class LoopStatementPhase extends StatementSubPhase
 			this.statementStateListener = new StatementStateListener();
 			this.contextStateListener = new ContextStateListener();
 			getPersistenceManager().getListenerManager().getRootContextLocalStateListeners().add(contextStateListener);
-			this.listeningToContexts = new HashSet<Context>();
+			this.listeningToContexts = new HashSet<>();
 		}
 
 		@Override

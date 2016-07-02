@@ -55,7 +55,7 @@ public abstract class QueueEntry implements Comparable<QueueEntry>
 		super();
 		this.candidateFinder = candidateFinder;
 		this.proof = new Proof(proof);
-		this.otherSubEntries = new HashSet<QueueSubEntry>();
+		this.otherSubEntries = new HashSet<>();
 		QueueSubEntry first = null;
 		int sumMinUnassigned = 0;
 		int sumMinAntecedentDependent = 0;
@@ -111,12 +111,12 @@ public abstract class QueueEntry implements Comparable<QueueEntry>
 		if (firstSubEntry == null)
 			return Collections.emptySet();
 		else
-			return new CombinedSet<QueueSubEntry>(Collections.singleton(firstSubEntry), otherSubEntries);
+			return new CombinedSet<>(Collections.singleton(firstSubEntry), otherSubEntries);
 	}
 
 	public Collection<QueueEntry> offspring()
 	{
-		Collection<QueueEntry> offspring = new ArrayList<QueueEntry>();
+		Collection<QueueEntry> offspring = new ArrayList<>();
 		for (Proof.SolvedCandidate sc : firstSubEntry.solvedCandidates())
 			try
 			{

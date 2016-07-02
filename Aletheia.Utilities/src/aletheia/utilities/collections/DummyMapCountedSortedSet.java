@@ -42,19 +42,19 @@ public class DummyMapCountedSortedSet<E> extends DummyMapSortedSet<E> implements
 	@Override
 	public CountedSortedSet<E> subSet(E fromElement, E toElement)
 	{
-		return new DummyMapCountedSortedSet<E>(getMap().subMap(fromElement, toElement));
+		return new DummyMapCountedSortedSet<>(getMap().subMap(fromElement, toElement));
 	}
 
 	@Override
 	public CountedSortedSet<E> headSet(E toElement)
 	{
-		return new DummyMapCountedSortedSet<E>(getMap().headMap(toElement));
+		return new DummyMapCountedSortedSet<>(getMap().headMap(toElement));
 	}
 
 	@Override
 	public CountedSortedSet<E> tailSet(E fromElement)
 	{
-		return new DummyMapCountedSortedSet<E>(getMap().tailMap(fromElement));
+		return new DummyMapCountedSortedSet<>(getMap().tailMap(fromElement));
 	}
 
 	@Override

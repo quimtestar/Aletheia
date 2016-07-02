@@ -56,7 +56,7 @@ public class LexerParser extends Parser
 			'\u0009', '\n', '\u000B', '\u000C', '\r', '\u001C', '\u001D', '\u001E', '\u001F',
 	}));
 
-	private final static Collection<Character> eolChars=new HashSet<Character>(Arrays.asList(new Character[]{
+	private final static Collection<Character> eolChars=new HashSet<>(Arrays.asList(new Character[]{
 			'\n','\r','\u000b','\u000c','\u0085',
 			'\u2028','\u2029',
 	}));
@@ -71,7 +71,7 @@ public class LexerParser extends Parser
 
 	static
 	{
-		Collection<Character> col = new ArrayList<Character>();
+		Collection<Character> col = new ArrayList<>();
 		for (char c = 1; c < 128; c++)
 		{
 			if (!eolChars.contains(c))
@@ -278,7 +278,7 @@ public class LexerParser extends Parser
 					return processTokenRegExp((NonTerminalToken) token.getChildren().get(1));
 				if (token.getProduction().getRight().get(0).equals(new TaggedTerminalSymbol("OB")))
 				{
-					Set<Character> set = new TreeSet<Character>();
+					Set<Character> set = new TreeSet<>();
 					processTokenCharset((NonTerminalToken) token.getChildren().get(1), set);
 					return Automaton.charset(set);
 				}

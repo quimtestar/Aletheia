@@ -50,13 +50,13 @@ public class PropagateDeferredMessagesDialogClient extends PropagateDeferredMess
 	@Override
 	protected void dialogate() throws IOException, ProtocolException, InterruptedException, TimeoutException
 	{
-		final Map<UUID, DeferredMessage> map = new HashMap<UUID, DeferredMessage>();
+		final Map<UUID, DeferredMessage> map = new HashMap<>();
 		for (DeferredMessage deferredMessage : deferredMessages)
 			map.put(deferredMessage.getUuid(), deferredMessage);
 		sendMessage(new DeferredMessageInfoMessage(map.keySet()));
 		DeferredMessageRequestMessage deferredMessageRequestMessage = recvMessage(DeferredMessageRequestMessage.class);
-		Collection<DeferredMessage> deferredMessages = new FilteredCollection<DeferredMessage>(new NotNullFilter<DeferredMessage>(),
-				new BijectionCollection<UUID, DeferredMessage>(new Bijection<UUID, DeferredMessage>()
+		Collection<DeferredMessage> deferredMessages = new FilteredCollection<>(new NotNullFilter<DeferredMessage>(),
+				new BijectionCollection<>(new Bijection<UUID, DeferredMessage>()
 				{
 					@Override
 					public DeferredMessage forward(UUID uuid)

@@ -70,9 +70,9 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 		this.setLayout(new BorderLayout());
 		this.persistenceManager = persistenceManager;
 		this.contextJTreeJPanel = new ContextJTreeJPanel(this);
-		this.contextJTreeLayerUI = new PersistentJTreeLayerUI<ContextJTreeJPanel>(aletheiaJFrame, contextJTreeJPanel);
+		this.contextJTreeLayerUI = new PersistentJTreeLayerUI<>(aletheiaJFrame, contextJTreeJPanel);
 		this.signatureRequestJTree = new SignatureRequestJTree(this);
-		this.signatureRequestJTreeLayerUI = new PersistentJTreeLayerUI<SignatureRequestJTree>(aletheiaJFrame, signatureRequestJTree);
+		this.signatureRequestJTreeLayerUI = new PersistentJTreeLayerUI<>(aletheiaJFrame, signatureRequestJTree);
 		this.splitPane0 = new MyJSplitPane(JSplitPane.HORIZONTAL_SPLIT, contextJTreeLayerUI.getJLayer(),
 				new JScrollPane(signatureRequestJTreeLayerUI.getJLayer()));
 		this.splitPane0.setResizeWeight(1);

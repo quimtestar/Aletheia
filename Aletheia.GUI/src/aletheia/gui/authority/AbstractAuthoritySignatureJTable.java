@@ -142,7 +142,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 
 		protected MyTableCellRenderer()
 		{
-			this.myCellRendererComponents = new IdentityHashMap<T, MyCellRendererComponent>();
+			this.myCellRendererComponents = new IdentityHashMap<>();
 		}
 
 		@SuppressWarnings("unchecked")
@@ -457,7 +457,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 			case KeyEvent.VK_DELETE:
 				try
 				{
-					deleteSignatures(new BijectionList<Integer, StatementAuthoritySignature>(new Bijection<Integer, StatementAuthoritySignature>()
+					deleteSignatures(new BijectionList<>(new Bijection<Integer, StatementAuthoritySignature>()
 					{
 
 						@Override

@@ -772,7 +772,7 @@ public class CumulationSet
 	private final static ApproximateCountCumulation approximateCountCumulation = new ApproximateCountCumulation(0.5f);
 
 	private final static Set<Cumulation<?>> cumulations = Collections
-			.unmodifiableSet(new HashSet<Cumulation<?>>(Arrays.<Cumulation<?>> asList(approximateCountCumulation)));
+			.unmodifiableSet(new HashSet<>(Arrays.<Cumulation<?>> asList(approximateCountCumulation)));
 
 	public static Set<Cumulation<?>> getCumulations()
 	{
@@ -807,9 +807,9 @@ public class CumulationSet
 		super();
 		this.peerToPeerNode = peerToPeerNode;
 		this.localRouterSet = localRouterSet;
-		this.neighbourCumulationValues = new ArrayList<Map<Cumulation<?>, Cumulation.Value<?>>>();
-		this.routerCumulationValues = new ArrayList<Map<Cumulation<?>, Cumulation.Value<?>>>();
-		this.lastNeighbourList = new ArrayList<NetworkPhase>();
+		this.neighbourCumulationValues = new ArrayList<>();
+		this.routerCumulationValues = new ArrayList<>();
+		this.lastNeighbourList = new ArrayList<>();
 		localRouterSet.addListener(new LocalRouterSetListener());
 		updateLocalRouterSet();
 	}
@@ -840,7 +840,7 @@ public class CumulationSet
 		Map<Cumulation<?>, T> map = arrayList.get(i);
 		if (map == null)
 		{
-			map = new HashMap<Cumulation<?>, T>();
+			map = new HashMap<>();
 			arrayList.set(i, map);
 		}
 		return map.put(cumulation, value);

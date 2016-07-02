@@ -106,7 +106,7 @@ public class LocalRouterSet implements RouterSet
 
 		public Set<NetworkPhase> openNeighbours()
 		{
-			return new FilteredSet<NetworkPhase>(new Filter<NetworkPhase>()
+			return new FilteredSet<>(new Filter<NetworkPhase>()
 			{
 
 				@Override
@@ -193,9 +193,9 @@ public class LocalRouterSet implements RouterSet
 	{
 		this.nodeUuid = nodeUuid;
 		this.random = new Random(nodeUuid.getLeastSignificantBits());
-		this.neighbours = new ArrayList<NeighbourEntry>();
-		this.routers = new ArrayList<LocalRouter>();
-		this.listeners = new HashSet<Listener>();
+		this.neighbours = new ArrayList<>();
+		this.routers = new ArrayList<>();
+		this.listeners = new HashSet<>();
 	}
 
 	public UUID getNodeUuid()
@@ -205,7 +205,7 @@ public class LocalRouterSet implements RouterSet
 
 	public synchronized List<NetworkPhase> getNeighbours()
 	{
-		return Collections.unmodifiableList(new BijectionList<NeighbourEntry, NetworkPhase>(NeighbourEntry.bijection, neighbours));
+		return Collections.unmodifiableList(new BijectionList<>(NeighbourEntry.bijection, neighbours));
 	}
 
 	@Override
@@ -470,7 +470,7 @@ public class LocalRouterSet implements RouterSet
 	public synchronized Collection<NetworkPhase> neighbourCollection(int i)
 	{
 		if (i >= 0 && i < neighbours.size())
-			return new FilteredCollection<NetworkPhase>(new NotNullFilter<NetworkPhase>(),
+			return new FilteredCollection<>(new NotNullFilter<NetworkPhase>(),
 					new BijectionCollection<>(NeighbourEntry.bijection, neighbours.subList(i, neighbours.size())));
 		else
 			return Collections.emptyList();
@@ -553,9 +553,9 @@ public class LocalRouterSet implements RouterSet
 							}
 							else if (distance < minDistance)
 							{
-								rNeighbours = new HashSet<NetworkPhase>(Arrays.asList(neighbour));
+								rNeighbours = new HashSet<>(Arrays.asList(neighbour));
 								minDistance = distance;
-								rSpindle = new HashSet<UUID>(Arrays.asList(neighbour.getPeerNodeUuid()));
+								rSpindle = new HashSet<>(Arrays.asList(neighbour.getPeerNodeUuid()));
 								rSpindle.addAll(router.getSpindle());
 							}
 						}
@@ -711,7 +711,7 @@ public class LocalRouterSet implements RouterSet
 
 	public synchronized Collection<Integer> freeNeighbourSlots()
 	{
-		Collection<Integer> c = new ArrayList<Integer>();
+		Collection<Integer> c = new ArrayList<>();
 		for (int i = 0; i < routers.size(); i++)
 			if ((getRouter(i) != null) && (getNeighbour(i) == null))
 				c.add(i);

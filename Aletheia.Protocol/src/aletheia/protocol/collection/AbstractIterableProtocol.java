@@ -49,7 +49,7 @@ public abstract class AbstractIterableProtocol<E, I extends Iterable<E>> extends
 	@Override
 	public void send(DataOutput out, I iterable) throws IOException
 	{
-		List<E> list = new BufferedList<E>(iterable);
+		List<E> list = new BufferedList<>(iterable);
 		integerProtocol.send(out, list.size());
 		for (E e : list)
 			elementProtocol.send(out, e);
@@ -65,7 +65,7 @@ public abstract class AbstractIterableProtocol<E, I extends Iterable<E>> extends
 			throw new ProtocolException();
 		try
 		{
-			ArrayList<E> list = new ArrayList<E>(n);
+			ArrayList<E> list = new ArrayList<>(n);
 			for (int i = 0; i < n; i++)
 				list.add(elementProtocol.recv(in));
 			return makeIterable(list);

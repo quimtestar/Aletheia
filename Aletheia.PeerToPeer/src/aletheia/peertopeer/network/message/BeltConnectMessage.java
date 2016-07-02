@@ -58,7 +58,7 @@ public class BeltConnectMessage extends NonPersistentMessage
 	public static class SubProtocol extends NonPersistentMessage.SubProtocol<BeltConnectMessage>
 	{
 		private final NodeAddress.Protocol nodeAddressProtocol = new NodeAddress.Protocol(0);
-		private final EnumSetProtocol<Side> sideSetProtocol = new EnumSetProtocol<Side>(0, new Side.Protocol(0), Side.class);
+		private final EnumSetProtocol<Side> sideSetProtocol = new EnumSetProtocol<>(0, new Side.Protocol(0), Side.class);
 
 		public SubProtocol(int requiredVersion, MessageCode messageCode)
 		{

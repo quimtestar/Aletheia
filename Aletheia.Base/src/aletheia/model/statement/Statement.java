@@ -170,7 +170,7 @@ public abstract class Statement implements Exportable
 		{
 			super();
 			this.undefined = undefined;
-			this.undefinedIds = new HashSet<String>();
+			this.undefinedIds = new HashSet<>();
 			Map<IdentifiableVariableTerm, Identifier> var2id = context.variableToIdentifier(transaction);
 			for (VariableTerm var : undefined)
 			{
@@ -475,9 +475,9 @@ public abstract class Statement implements Exportable
 	{
 		PersistenceManager persistenceManager = transaction.getPersistenceManager();
 		int changes = 0;
-		Set<UUID> enqueued = new HashSet<UUID>();
+		Set<UUID> enqueued = new HashSet<>();
 		enqueued.addAll(statementUuids);
-		Queue<UUID> queue = new ArrayDeque<UUID>(enqueued);
+		Queue<UUID> queue = new ArrayDeque<>(enqueued);
 		while (!queue.isEmpty())
 		{
 			logger.trace("--> checkProved:" + queue.size() + " " + changes);
@@ -766,7 +766,7 @@ public abstract class Statement implements Exportable
 	 */
 	public Set<Statement> dependencies(final Transaction transaction)
 	{
-		return new BijectionSet<UUID, Statement>(new Bijection<UUID, Statement>()
+		return new BijectionSet<>(new Bijection<UUID, Statement>()
 		{
 
 			@Override
@@ -785,7 +785,7 @@ public abstract class Statement implements Exportable
 
 	public Set<Statement> localDependencies(Transaction transaction)
 	{
-		return new FilteredSet<Statement>(new Filter<Statement>()
+		return new FilteredSet<>(new Filter<Statement>()
 		{
 			@Override
 			public boolean filter(Statement statement)
@@ -899,10 +899,10 @@ public abstract class Statement implements Exportable
 	 */
 	public List<? extends Statement> statementPath(Transaction transaction, Context from)
 	{
-		Set<Statement> set = new HashSet<Statement>();
+		Set<Statement> set = new HashSet<>();
 		if (from != null)
 			set.addAll(from.statementPath(transaction));
-		LinkedList<Statement> path = new LinkedList<Statement>();
+		LinkedList<Statement> path = new LinkedList<>();
 		Statement st = this;
 		while (!set.contains(st))
 		{
@@ -1396,11 +1396,11 @@ public abstract class Statement implements Exportable
 	 */
 	public void rebuildProved(Transaction transaction)
 	{
-		Stack<Statement> stack = new Stack<Statement>();
+		Stack<Statement> stack = new Stack<>();
 		stack.push(this);
-		Set<UUID> visited = new HashSet<UUID>();
-		Collection<UUID> statements = new ArrayList<UUID>();
-		Collection<UUID> statementAuthorities = new ArrayList<UUID>();
+		Set<UUID> visited = new HashSet<>();
+		Collection<UUID> statements = new ArrayList<>();
+		Collection<UUID> statementAuthorities = new ArrayList<>();
 		int changes = 0;
 		while (!stack.isEmpty())
 		{
@@ -1408,7 +1408,7 @@ public abstract class Statement implements Exportable
 			if (!visited.contains(st.getUuid()))
 			{
 				visited.add(st.getUuid());
-				Stack<Statement> stack2 = new Stack<Statement>();
+				Stack<Statement> stack2 = new Stack<>();
 				stack2.add(st);
 				while (!stack2.isEmpty())
 				{
@@ -1450,7 +1450,7 @@ public abstract class Statement implements Exportable
 	public static CloseableCollection<Statement> dependencySortedStatements(final Transaction transaction,
 			final CloseableCollection<? extends Statement> collection)
 	{
-		return new UnionCloseableCollection<Statement>(new AbstractCloseableCollection<CloseableCollection<Statement>>()
+		return new UnionCloseableCollection<>(new AbstractCloseableCollection<CloseableCollection<Statement>>()
 		{
 			@SuppressWarnings("unchecked")
 			final Comparator<? super Statement> comparator = collection instanceof SortedSet ? ((SortedSet<? super Statement>) collection).comparator() : null;
@@ -1462,7 +1462,7 @@ public abstract class Statement implements Exportable
 				return new CloseableIterator<CloseableCollection<Statement>>()
 				{
 					final CloseableIterator<? extends Statement> iterator = collection.iterator();
-					final Set<Statement> visited = new HashSet<Statement>();
+					final Set<Statement> visited = new HashSet<>();
 
 					@Override
 					public boolean hasNext()
@@ -1473,10 +1473,10 @@ public abstract class Statement implements Exportable
 					@Override
 					public CloseableCollection<Statement> next()
 					{
-						Stack<Statement> stack = new Stack<Statement>();
+						Stack<Statement> stack = new Stack<>();
 						stack.push(iterator.next());
-						Stack<Statement> stack2 = new Stack<Statement>();
-						Map<Statement, List<Statement>> dependencyMap = new HashMap<Statement, List<Statement>>();
+						Stack<Statement> stack2 = new Stack<>();
+						Map<Statement, List<Statement>> dependencyMap = new HashMap<>();
 						while (!stack.isEmpty())
 						{
 							Statement st = stack.pop();
@@ -1484,7 +1484,7 @@ public abstract class Statement implements Exportable
 							List<Statement> list = dependencyMap.get(st);
 							if (list == null)
 							{
-								list = new ArrayList<Statement>(new FilteredCollection<Statement>(new Filter<Statement>()
+								list = new ArrayList<>(new FilteredCollection<>(new Filter<Statement>()
 								{
 									@Override
 									public boolean filter(Statement e)
@@ -1498,7 +1498,7 @@ public abstract class Statement implements Exportable
 							}
 							stack.addAll(list);
 						}
-						List<Statement> list = new ArrayList<Statement>();
+						List<Statement> list = new ArrayList<>();
 						while (!stack2.isEmpty())
 						{
 							Statement st = stack2.pop();
@@ -1550,7 +1550,7 @@ public abstract class Statement implements Exportable
 
 	public static Collection<Statement> dependencySortedStatements(Transaction transaction, final Collection<? extends Statement> collection)
 	{
-		return dependencySortedStatements(transaction, new TrivialCloseableCollection<Statement>(new AdaptedCollection<>(collection)));
+		return dependencySortedStatements(transaction, new TrivialCloseableCollection<>(new AdaptedCollection<>(collection)));
 	}
 
 	public Context highestContext(Transaction transaction)

@@ -256,7 +256,7 @@ public class BerkeleyDBAletheiaEnvironment extends Environment
 
 	public String unusedStoreName()
 	{
-		SortedSet<String> nameSet = new TreeSet<String>(getDatabaseNames());
+		SortedSet<String> nameSet = new TreeSet<>(getDatabaseNames());
 		for (int i = 0;; i++)
 		{
 			String storeName = "tmpStore" + i;

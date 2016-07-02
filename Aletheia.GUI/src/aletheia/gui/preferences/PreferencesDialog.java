@@ -328,7 +328,7 @@ public class PreferencesDialog extends JDialog
 			gbc.anchor = GridBagConstraints.WEST;
 			formPanel.add(new JLabel("Persistence Class"), gbc);
 		}
-		this.persistenceClassComboBox = new JComboBox<PersistenceClass>(PersistenceClass.values());
+		this.persistenceClassComboBox = new JComboBox<>(PersistenceClass.values());
 		this.persistenceClassComboBox.setSelectedItem(preferences.getPersistenceClass());
 		final JPanel persistenceManagerPanel = new JPanel();
 		final CardLayout persistenceManagerPanelCardLayout = new CardLayout(0, 0);
@@ -426,7 +426,7 @@ public class PreferencesDialog extends JDialog
 				p2pFemalePanel.add(new JLabel("External listen address"), gbc);
 			}
 			this.interfaceAddressComboBoxModel = new InterfaceAddressComboBoxModel();
-			this.p2pExternalAddressComboBox = new JComboBox<AddressComboBoxItem>(interfaceAddressComboBoxModel);
+			this.p2pExternalAddressComboBox = new JComboBox<>(interfaceAddressComboBoxModel);
 			this.p2pExternalAddressComboBox
 					.setSelectedIndex(interfaceAddressComboBoxModel.indexOf(preferences.peerToPeerNode().femalePeerToPeerNode().getP2pExternalAddress()));
 			this.p2pExternalPortSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 65535, 1));

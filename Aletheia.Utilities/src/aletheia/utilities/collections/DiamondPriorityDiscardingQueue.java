@@ -85,7 +85,7 @@ public class DiamondPriorityDiscardingQueue<E> implements Queue<E>
 		this.comparator = comparator != null ? new SuperComparator<>(comparator) : DiamondPriorityDiscardingQueue.<E> defaultComparator();
 		this.height = height;
 		this.capacity = 3 * (1 << height) - 2;
-		this.heap = new Vector<E>();
+		this.heap = new Vector<>();
 		this.size = 0;
 	}
 

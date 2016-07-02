@@ -43,8 +43,8 @@ import aletheia.protocol.primitive.StringProtocol;
  * <li>If it's a {@link NodeNamespace}:</li> <blockquote>
  * <li>Send the parent namespace recursively, in the same way described here.
  * </li>
- * <li>Send the name of this namespace, via the {@link StringProtocol}.
- * </li> </blockquote>
+ * <li>Send the name of this namespace, via the {@link StringProtocol}.</li>
+ * </blockquote>
  * </ul>
  *
  * @see NamespaceCodeProtocol

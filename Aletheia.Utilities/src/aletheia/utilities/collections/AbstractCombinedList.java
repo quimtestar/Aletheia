@@ -232,7 +232,7 @@ public abstract class AbstractCombinedList<E> extends AbstractCombinedCollection
 			if (toIndex <= getFront().size())
 				return getFront().subList(fromIndex, toIndex);
 			else
-				return new CombinedList<E>(getFront().subList(fromIndex, getFront().size()), getBack().subList(0, toIndex - getFront().size()));
+				return new CombinedList<>(getFront().subList(fromIndex, getFront().size()), getBack().subList(0, toIndex - getFront().size()));
 		}
 		else
 			return getBack().subList(fromIndex - getFront().size(), toIndex - getFront().size());

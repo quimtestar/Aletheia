@@ -57,13 +57,13 @@ public class DummyMapSet<E> implements Set<E>
 		@Override
 		public Set<Entry<E, Dummy>> entrySet()
 		{
-			return new BijectionSet<E, Entry<E, Dummy>>(new Bijection<E, Entry<E, Dummy>>()
+			return new BijectionSet<>(new Bijection<E, Entry<E, Dummy>>()
 			{
 
 				@Override
 				public Entry<E, Dummy> forward(E input)
 				{
-					return new SimpleEntry<E, Dummy>(input, dummy);
+					return new SimpleEntry<>(input, dummy);
 				}
 
 				@Override

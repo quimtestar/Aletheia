@@ -104,8 +104,8 @@ public class SuccessorsTableModel implements TableModel
 		final Transaction transaction = persistenceManager.beginTransaction();
 		try
 		{
-			this.successorEntryDataList = new BufferedList<SuccessorEntryData>(
-					new BijectionCollection<SuccessorEntry, SuccessorEntryData>(new Bijection<SuccessorEntry, SuccessorEntryData>()
+			this.successorEntryDataList = new BufferedList<>(
+					new BijectionCollection<>(new Bijection<SuccessorEntry, SuccessorEntryData>()
 					{
 
 						@Override
@@ -258,7 +258,7 @@ public class SuccessorsTableModel implements TableModel
 
 	private void personModified(Transaction transaction, final Person person)
 	{
-		final Collection<MyTableModelEvent> events = new ArrayList<MyTableModelEvent>();
+		final Collection<MyTableModelEvent> events = new ArrayList<>();
 		for (ListIterator<SuccessorEntryData> iterator = successorEntryDataList.listIterator(); iterator.hasNext();)
 		{
 			int i = iterator.nextIndex();

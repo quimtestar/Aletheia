@@ -50,7 +50,7 @@ public class LocalSubscription implements Subscription
 	{
 
 		SubscribeStatementsRootContextLocalSet subscribeStatementsRootContextLocalSet = persistenceManager.subscribeStatementsRootContextLocalSet(transaction);
-		return new BijectionCloseableSet<RootContextLocal, UUID>(new Bijection<RootContextLocal, UUID>()
+		return new BijectionCloseableSet<>(new Bijection<RootContextLocal, UUID>()
 		{
 
 			@Override

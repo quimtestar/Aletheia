@@ -223,7 +223,7 @@ public class StatementAuthoritySubMessage implements Exportable
 			checkVersionAvailability(SubProtocol.class, requiredVersion);
 			this.uuidProtocol = new UUIDProtocol(0);
 			this.booleanProtocol = new BooleanProtocol(0);
-			this.uuidCollectionProtocol = new CollectionProtocol<UUID>(0, uuidProtocol);
+			this.uuidCollectionProtocol = new CollectionProtocol<>(0, uuidProtocol);
 			this.nullableUuidProtocol = new NullableProtocol<>(0, uuidProtocol);
 			this.namespaceProtocol = new NamespaceProtocol(0);
 			this.nullableNamespaceProtocol = new NullableProtocol<>(0, namespaceProtocol);

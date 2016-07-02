@@ -304,7 +304,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 			public RouterSetCommand(Collection<UUID> clearing)
 			{
 				super(LoopNetworkDialogType.RouterSet);
-				this.clearing = new HashSet<UUID>(clearing);
+				this.clearing = new HashSet<>(clearing);
 			}
 
 			public Set<UUID> getClearing()
@@ -1154,7 +1154,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 		private synchronized void addSendingRouteableSubMessage(RouteableSubMessage routeableSubMessage)
 		{
 			if (sendingRouteableSubMessages == null)
-				sendingRouteableSubMessages = new ArrayList<RouteableSubMessage>();
+				sendingRouteableSubMessages = new ArrayList<>();
 			sendingRouteableSubMessages.add(routeableSubMessage);
 		}
 

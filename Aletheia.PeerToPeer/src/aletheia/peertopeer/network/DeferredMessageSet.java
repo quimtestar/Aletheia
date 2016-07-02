@@ -133,7 +133,7 @@ public class DeferredMessageSet
 		private RecipientData()
 		{
 			this.distance = Integer.MAX_VALUE;
-			this.neighbourDistance = new HashMap<NetworkPhase, Integer>();
+			this.neighbourDistance = new HashMap<>();
 		}
 
 	}
@@ -147,7 +147,7 @@ public class DeferredMessageSet
 		localRouterSet.addListener(new LocalRouterSetListener());
 		this.resourceTreeNodeSet = resourceTreeNodeSet;
 		resourceTreeNodeSet.addListener(new ResourceTreeNodeSetListener());
-		this.recipientDataMap = new HashMap<UUID, RecipientData>();
+		this.recipientDataMap = new HashMap<>();
 		clearDeferredMessages();
 	}
 
@@ -171,7 +171,7 @@ public class DeferredMessageSet
 
 	public synchronized Map<UUID, Integer> recipientDistanceMap()
 	{
-		return Collections.unmodifiableMap(new BijectionMap<UUID, RecipientData, Integer>(new Bijection<RecipientData, Integer>()
+		return Collections.unmodifiableMap(new BijectionMap<>(new Bijection<RecipientData, Integer>()
 		{
 
 			@Override
@@ -361,7 +361,7 @@ public class DeferredMessageSet
 
 	private CloseableCollection<DeferredMessage> propagableDeferredMessagesByRecipientCollection(final Transaction transaction, UUID recipientUuid)
 	{
-		return new BijectionCloseableCollection<NodeDeferredMessage, DeferredMessage>(new Bijection<NodeDeferredMessage, DeferredMessage>()
+		return new BijectionCloseableCollection<>(new Bijection<NodeDeferredMessage, DeferredMessage>()
 		{
 
 			@Override
@@ -388,7 +388,7 @@ public class DeferredMessageSet
 		final Transaction transaction = getPersistenceManager().beginTransaction();
 		try
 		{
-			return new BufferedList<DeferredMessage>(propagableDeferredMessagesByRecipientCollection(transaction, recipientUuid));
+			return new BufferedList<>(propagableDeferredMessagesByRecipientCollection(transaction, recipientUuid));
 		}
 		finally
 		{
@@ -516,9 +516,9 @@ public class DeferredMessageSet
 					{
 						NodeDeferredMessagesByRecipientCollection nodeDeferredMessagesByRecipientCollection = propagableNodeDeferredMessagesByRecipientCollection(
 								transaction, privatePersonResourceMetadata.getUuid());
-						List<NodeDeferredMessage> nodeDeferredMessages = new ArrayList<NodeDeferredMessage>();
-						List<UUID> deferredMessageUuids = new ArrayList<UUID>();
-						List<DeferredMessage> deferredMessages = new ArrayList<DeferredMessage>();
+						List<NodeDeferredMessage> nodeDeferredMessages = new ArrayList<>();
+						List<UUID> deferredMessageUuids = new ArrayList<>();
+						List<DeferredMessage> deferredMessages = new ArrayList<>();
 						for (NodeDeferredMessage nodeDeferredMessage : nodeDeferredMessagesByRecipientCollection)
 						{
 							nodeDeferredMessages.add(nodeDeferredMessage);
@@ -563,7 +563,7 @@ public class DeferredMessageSet
 			Transaction transaction = getPersistenceManager().beginTransaction();
 			try
 			{
-				Collection<UUID> propagateDeferredMessageUuids = new ArrayList<UUID>();
+				Collection<UUID> propagateDeferredMessageUuids = new ArrayList<>();
 				for (UUID uuid : deferredMessageUuids)
 				{
 					DeferredMessage deferredMessage = getPersistenceManager().getDeferredMessage(transaction, uuid);

@@ -126,7 +126,7 @@ public class StatementAuthoritySignature implements Exportable
 			throw new SignatureVersionException();
 		try
 		{
-			NullableProtocol<Date> nullableDateProtocol = new NullableProtocol<Date>(0, new DateProtocol(0));
+			NullableProtocol<Date> nullableDateProtocol = new NullableProtocol<>(0, new DateProtocol(0));
 			getStatementAuthority(transaction).signatureDataOutStatementAuthoritySignature(out, transaction, signatureVersion);
 			nullableDateProtocol.send(out, getSignatureDate());
 		}

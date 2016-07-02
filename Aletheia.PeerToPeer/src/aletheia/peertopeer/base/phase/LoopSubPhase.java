@@ -178,8 +178,8 @@ public abstract class LoopSubPhase<T extends LoopDialogType<?>> extends SubPhase
 		this.loopDialogTypeDialogPassiveClass = loopDialogTypeDialogPassiveClass;
 		this.selector = Selector.open();
 		getSocketChannel().register(selector, SelectionKey.OP_READ);
-		this.queue = new ArrayDeque<Command<?>>();
-		this.enqueued = new HashMap<Command<?>, Command<?>>();
+		this.queue = new ArrayDeque<>();
+		this.enqueued = new HashMap<>();
 		this.open = true;
 	}
 
@@ -250,7 +250,7 @@ public abstract class LoopSubPhase<T extends LoopDialogType<?>> extends SubPhase
 
 	protected void closeQueue()
 	{
-		Collection<Command<?>> commands = new ArrayList<Command<?>>();
+		Collection<Command<?>> commands = new ArrayList<>();
 		synchronized (this)
 		{
 			open = false;

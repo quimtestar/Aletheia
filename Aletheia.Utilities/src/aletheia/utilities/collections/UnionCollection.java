@@ -106,7 +106,7 @@ public class UnionCollection<E> extends AbstractReadOnlyCollection<E>
 	@Override
 	public Iterator<E> iterator()
 	{
-		return new UnionIterable<E>(inner).iterator();
+		return new UnionIterable<>(inner).iterator();
 	}
 
 	@Override

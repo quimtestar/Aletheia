@@ -46,7 +46,7 @@ public class MutationSet121117 extends MutationSet
 		private static final Class<BerkeleyDBStatementAuthoritySignatureEntity> entityClass = BerkeleyDBStatementAuthoritySignatureEntity.class;
 		private static final String className = entityClass.getName();
 		private static final int version = 2;
-		private static final Set<String> deletedKeys = new HashSet<String>(Arrays.asList("contextPrefixAuthorizers"));
+		private static final Set<String> deletedKeys = new HashSet<>(Arrays.asList("contextPrefixAuthorizers"));
 
 		public StatementAuthoritySignatureConversion()
 		{

@@ -47,7 +47,7 @@ public class BijectionCloseableCollection<I, O> extends BijectionCollection<I, O
 	@Override
 	public CloseableIterator<O> iterator()
 	{
-		return new BijectionCloseableIterator<I, O>(getBijection(), getInner().iterator());
+		return new BijectionCloseableIterator<>(getBijection(), getInner().iterator());
 	}
 
 }

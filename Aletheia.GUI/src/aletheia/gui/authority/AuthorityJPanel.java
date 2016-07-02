@@ -368,18 +368,18 @@ public class AuthorityJPanel extends JPanel
 		if (statementAuthority != null)
 		{
 			authorityHeaderJPanel = new AuthorityHeaderJPanel(this, statementAuthority);
-			authorityHeaderJPanelLayerUI = new PersistentJTreeLayerUI<AuthorityHeaderJPanel>(getAletheiaJFrame(), authorityHeaderJPanel);
+			authorityHeaderJPanelLayerUI = new PersistentJTreeLayerUI<>(getAletheiaJFrame(), authorityHeaderJPanel);
 			headerJScrollPane.setViewportView(authorityHeaderJPanelLayerUI.getJLayer());
 			if (statement instanceof RootContext)
 				authoritySignatureJTable = new RootContextAuthoritySignatureJTable(this, (RootContext) statement, statementAuthority);
 			else
 				authoritySignatureJTable = new AuthoritySignatureJTable(this, statement, statementAuthority);
-			authoritySignatureJTableLayerUI = new PersistentJTreeLayerUI<AbstractAuthoritySignatureJTable>(getAletheiaJFrame(), authoritySignatureJTable);
+			authoritySignatureJTableLayerUI = new PersistentJTreeLayerUI<>(getAletheiaJFrame(), authoritySignatureJTable);
 			authoritySignatureTableJScrollPane.setViewportView(authoritySignatureJTableLayerUI.getJLayer());
 			if (delegateTreeJTree != null)
 				delegateTreeJTree.close();
 			delegateTreeJTree = new DelegateTreeJTree(this, statementAuthority);
-			delegateTreeJTreeLayerUI = new PersistentJTreeLayerUI<DelegateTreeJTree>(getAletheiaJFrame(), delegateTreeJTree);
+			delegateTreeJTreeLayerUI = new PersistentJTreeLayerUI<>(getAletheiaJFrame(), delegateTreeJTree);
 			delegateTreeJScrollPane.setViewportView(delegateTreeJTreeLayerUI.getJLayer());
 			showContent();
 		}

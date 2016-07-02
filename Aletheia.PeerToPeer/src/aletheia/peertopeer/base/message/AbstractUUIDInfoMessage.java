@@ -74,8 +74,8 @@ public abstract class AbstractUUIDInfoMessage<V> extends NonPersistentMessage
 	public AbstractUUIDInfoMessage(Collection<? extends Entry<V>> entries)
 	{
 		super();
-		this.entries = new ArrayList<Entry<V>>(entries);
-		this.map = new HashMap<UUID, V>();
+		this.entries = new ArrayList<>(entries);
+		this.map = new HashMap<>();
 		for (Entry<V> e : entries)
 		{
 			if (!map.containsKey(e.getKey()))
@@ -132,12 +132,12 @@ public abstract class AbstractUUIDInfoMessage<V> extends NonPersistentMessage
 		protected List<Entry<V>> recvEntries(DataInput in) throws IOException, ProtocolException
 		{
 			int n = integerProtocol.recv(in);
-			List<Entry<V>> entries = new ArrayList<Entry<V>>();
+			List<Entry<V>> entries = new ArrayList<>();
 			for (int i = 0; i < n; i++)
 			{
 				UUID uuid = uuidProtocol.recv(in);
 				V v = recvValue(uuid, in);
-				entries.add(new Entry<V>(uuid, v));
+				entries.add(new Entry<>(uuid, v));
 			}
 			return entries;
 		}

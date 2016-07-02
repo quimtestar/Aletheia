@@ -31,7 +31,7 @@ public class NodeQueueEntry extends QueueEntry
 	public NodeQueueEntry(QueueEntry parent, QueueSubEntry queueSubEntry, Proof.SolvedCandidate solvedCandidate) throws UnsolvableQueueEntryException
 	{
 		super(parent.getCandidateFinder(), parent.getProof(),
-				new CombinedCollection<QueueSubEntry>(parent.getOtherSubEntries(), solvedCandidate.descendants()));
+				new CombinedCollection<>(parent.getOtherSubEntries(), solvedCandidate.descendants()));
 		this.parent = parent;
 		this.solvedCandidate = solvedCandidate;
 		this.age = parent.getAge() + 1;

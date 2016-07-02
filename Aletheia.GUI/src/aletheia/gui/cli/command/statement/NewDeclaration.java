@@ -65,7 +65,7 @@ public class NewDeclaration extends NewContext
 		public NewDeclaration parse(CommandSource from, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<ParameterVariableTerm, Identifier>();
+			Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<>();
 			Term value = parseTerm(from.getActiveContext(), transaction, split.get(0), parameterIdentifiers);
 			return new NewDeclaration(from, transaction, identifier, value, parameterIdentifiers);
 		}

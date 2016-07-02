@@ -48,8 +48,8 @@ public enum StatementLocalCode implements ByteExportableEnum<StatementLocalCode>
 
 	static
 	{
-		codeMap = new HashMap<Byte, StatementLocalCode>();
-		classMap = new HashMap<Class<? extends StatementLocal>, StatementLocalCode>();
+		codeMap = new HashMap<>();
+		classMap = new HashMap<>();
 
 		for (StatementLocalCode statementCode : values())
 		{
@@ -70,7 +70,7 @@ public enum StatementLocalCode implements ByteExportableEnum<StatementLocalCode>
 	private StatementLocalCode(byte code, Class<?>... classes)
 	{
 		this.code = code;
-		this.classes = new HashSet<Class<? extends StatementLocal>>();
+		this.classes = new HashSet<>();
 		for (Class<?> clazz : classes)
 			this.classes.add((Class<? extends StatementLocal>) clazz);
 	}

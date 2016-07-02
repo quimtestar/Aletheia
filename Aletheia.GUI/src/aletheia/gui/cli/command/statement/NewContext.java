@@ -83,7 +83,7 @@ public class NewContext extends NewStatement
 		Context context = openSubContext();
 		Term body = term;
 		Iterator<Assumption> assumptionIterator = context.assumptions(getTransaction()).iterator();
-		Map<Identifier, Assumption> identifyAssumptions = new HashMap<Identifier, Assumption>();
+		Map<Identifier, Assumption> identifyAssumptions = new HashMap<>();
 		while (body instanceof FunctionTerm)
 		{
 			if (!assumptionIterator.hasNext())
@@ -107,7 +107,7 @@ public class NewContext extends NewStatement
 		public NewContext parse(CommandSource from, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<ParameterVariableTerm, Identifier>();
+			Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<>();
 			Term term = parseTerm(from.getActiveContext(), transaction, split.get(0), parameterIdentifiers);
 			return new NewContext(from, transaction, identifier, term, parameterIdentifiers);
 		}

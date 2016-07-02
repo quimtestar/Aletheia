@@ -49,7 +49,7 @@ public class BeltConfirmMessage extends NonPersistentMessage
 	@ProtocolInfo(availableVersions = 0)
 	public static class SubProtocol extends NonPersistentMessage.SubProtocol<BeltConfirmMessage>
 	{
-		private final EnumSetProtocol<Side> sideSetProtocol = new EnumSetProtocol<Side>(0, new Side.Protocol(0), Side.class);
+		private final EnumSetProtocol<Side> sideSetProtocol = new EnumSetProtocol<>(0, new Side.Protocol(0), Side.class);
 
 		public SubProtocol(int requiredVersion, MessageCode messageCode)
 		{

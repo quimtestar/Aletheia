@@ -53,7 +53,7 @@ public abstract class AbstractRequisiteMessage extends AbstractUUIDInfoMessage<C
 	public static abstract class SubProtocol<M extends AbstractUUIDInfoMessage<Collection<UUID>>>
 			extends AbstractUUIDInfoMessage.SubProtocol<Collection<UUID>, M>
 	{
-		private final CollectionProtocol<UUID> uuidCollectionProtocol = new CollectionProtocol<UUID>(0, new UUIDProtocol(0));
+		private final CollectionProtocol<UUID> uuidCollectionProtocol = new CollectionProtocol<>(0, new UUIDProtocol(0));
 
 		public SubProtocol(int requiredVersion, MessageCode messageCode)
 		{

@@ -33,7 +33,7 @@ public class WeakCacheWithCleanerMap<K, V> extends AbstractCacheWithCleanerMap<K
 	@Override
 	protected WeakReference<V> makeRef(V value, ReferenceQueue<V> queue)
 	{
-		return new WeakReference<V>(value, queue);
+		return new WeakReference<>(value, queue);
 	}
 
 }

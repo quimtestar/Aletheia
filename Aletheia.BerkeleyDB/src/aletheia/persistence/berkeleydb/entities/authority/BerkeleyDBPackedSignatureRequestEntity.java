@@ -222,10 +222,10 @@ public class BerkeleyDBPackedSignatureRequestEntity extends BerkeleyDBSignatureR
 
 	public BerkeleyDBPackedSignatureRequestEntity()
 	{
-		this.contextUuidKeyPath = new ArrayList<UUIDKey>();
-		this.contextPackingDateSecondaryKeyDataList = new ArrayList<ContextPackingDateSecondaryKeyData>();
+		this.contextUuidKeyPath = new ArrayList<>();
+		this.contextPackingDateSecondaryKeyDataList = new ArrayList<>();
 		this.contextUuidKeyPathView = new ContextUuidKeyPathView();
-		this.dependencyUuidKeys = new HashSet<UUIDKey>();
+		this.dependencyUuidKeys = new HashSet<>();
 	}
 
 	@Override
@@ -289,7 +289,7 @@ public class BerkeleyDBPackedSignatureRequestEntity extends BerkeleyDBSignatureR
 	@Override
 	public Set<UUID> getDependencyUuids()
 	{
-		return new BijectionSet<UUIDKey, UUID>(new Bijection<UUIDKey, UUID>()
+		return new BijectionSet<>(new Bijection<UUIDKey, UUID>()
 		{
 
 			@Override

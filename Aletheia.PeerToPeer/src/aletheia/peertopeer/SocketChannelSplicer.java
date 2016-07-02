@@ -74,7 +74,7 @@ public class SocketChannelSplicer extends Thread
 		super(name);
 		this.bufferCapacity = bufferCapacity;
 		this.selector = Selector.open();
-		this.spliceMap = new HashMap<SocketChannel, Splice>();
+		this.spliceMap = new HashMap<>();
 
 		this.shutdown = false;
 	}
@@ -99,7 +99,7 @@ public class SocketChannelSplicer extends Thread
 
 	private synchronized void splices() throws IOException
 	{
-		Set<Splice> modified = new HashSet<Splice>();
+		Set<Splice> modified = new HashSet<>();
 		for (SelectionKey key : selector.selectedKeys())
 		{
 			if (key.isValid())

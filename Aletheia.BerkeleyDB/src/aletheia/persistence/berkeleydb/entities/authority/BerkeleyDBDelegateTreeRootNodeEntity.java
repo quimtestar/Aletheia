@@ -299,8 +299,8 @@ public class BerkeleyDBDelegateTreeRootNodeEntity extends BerkeleyDBDelegateTree
 	public BerkeleyDBDelegateTreeRootNodeEntity()
 	{
 		super();
-		this.successorEntryEntities = new LinkedList<BerkeleyDBSuccessorEntryEntity>();
-		this.successorUuidKeys = new HashSet<UUIDKey>();
+		this.successorEntryEntities = new LinkedList<>();
+		this.successorUuidKeys = new HashSet<>();
 	}
 
 	@Override
@@ -330,7 +330,7 @@ public class BerkeleyDBDelegateTreeRootNodeEntity extends BerkeleyDBDelegateTree
 	@Override
 	public Set<UUID> successorUuids()
 	{
-		return new BijectionSet<UUIDKey, UUID>(new Bijection<UUIDKey, UUID>()
+		return new BijectionSet<>(new Bijection<UUIDKey, UUID>()
 		{
 
 			@Override

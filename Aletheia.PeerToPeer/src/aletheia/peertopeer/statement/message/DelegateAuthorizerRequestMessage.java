@@ -68,8 +68,8 @@ public class DelegateAuthorizerRequestMessage extends AbstractUUIDInfoMessage<De
 				DelegateTreeInfoMessage.DelegateTreeNodeInfo delegateTreeInfoMessageNode)
 		{
 			super();
-			this.delegateUuids = new HashSet<UUID>();
-			this.subNodes = new HashMap<String, DelegateTreeSubNodeInfo>();
+			this.delegateUuids = new HashSet<>();
+			this.subNodes = new HashMap<>();
 			for (Map.Entry<UUID, DelegateTreeInfoMessage.DelegateAuthorizerInfo> e : delegateTreeInfoMessageNode.getDelegateAuthorizers().entrySet())
 			{
 				if (e.getValue() instanceof DelegateTreeInfoMessage.SignedDelegateAuthorizerInfo)
@@ -118,7 +118,7 @@ public class DelegateAuthorizerRequestMessage extends AbstractUUIDInfoMessage<De
 		private abstract static class MyProtocol<I extends DelegateTreeNodeInfo> extends ExportableProtocol<I>
 		{
 			private final static UUIDProtocol uuidProtocol = new UUIDProtocol(0);
-			private final static CollectionProtocol<UUID> uuidCollectionProtocol = new CollectionProtocol<UUID>(0, uuidProtocol);
+			private final static CollectionProtocol<UUID> uuidCollectionProtocol = new CollectionProtocol<>(0, uuidProtocol);
 			private final static StringProtocol stringProtocol = new StringProtocol(0);
 			private final static DelegateTreeSubNodeInfo.MyProtocol delegateTreeSubNodeInfoProtocol = new DelegateTreeSubNodeInfo.MyProtocol(0);
 			private final static MapProtocol<String, DelegateTreeSubNodeInfo> subNodesMapProtocol = new MapProtocol<>(0, stringProtocol,
@@ -244,7 +244,7 @@ public class DelegateAuthorizerRequestMessage extends AbstractUUIDInfoMessage<De
 	private static Collection<Entry> makeEntries(PersistenceManager persistenceManager, Transaction transaction,
 			DelegateTreeInfoMessage delegateTreeInfoMessage)
 	{
-		Collection<Entry> entries = new ArrayList<Entry>();
+		Collection<Entry> entries = new ArrayList<>();
 		for (AbstractUUIDInfoMessage.Entry<DelegateTreeInfoMessage.DelegateTreeRootNodeInfo> e : delegateTreeInfoMessage.getEntries())
 		{
 			DelegateTreeRootNode delegateTreeRootNode = persistenceManager.getDelegateTreeRootNode(transaction, e.getKey());

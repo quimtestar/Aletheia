@@ -68,7 +68,7 @@ public class Export extends TransactionalCommand
 
 			File file = new File(split.get(0));
 
-			List<Statement> statements = new ArrayList<Statement>();
+			List<Statement> statements = new ArrayList<>();
 			boolean signed = false;
 			for (int i = 1; i < split.size(); i++)
 			{

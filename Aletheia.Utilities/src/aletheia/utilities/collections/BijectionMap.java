@@ -145,7 +145,7 @@ public class BijectionMap<K, I, O> extends AbstractMap<K, O>
 	@Override
 	public Collection<O> values()
 	{
-		return new BijectionCollection<I, O>(bijection, inner.values());
+		return new BijectionCollection<>(bijection, inner.values());
 	}
 
 	@Override
@@ -210,7 +210,7 @@ public class BijectionMap<K, I, O> extends AbstractMap<K, O>
 
 		};
 
-		return new BijectionSet<Entry<K, I>, Entry<K, O>>(bijection_, inner.entrySet());
+		return new BijectionSet<>(bijection_, inner.entrySet());
 	}
 
 	@Override
@@ -235,13 +235,13 @@ public class BijectionMap<K, I, O> extends AbstractMap<K, O>
 	 */
 	protected static <I, O> Bijection<O, I> invertBijection(final Bijection<I, O> b)
 	{
-		return new InverseBijection<O, I>(b);
+		return new InverseBijection<>(b);
 	}
 
 	@Override
 	public void putAll(Map<? extends K, ? extends O> m)
 	{
-		inner.putAll(new BijectionMap<K, O, I>(invertBijection(bijection), new AdaptedMap<K, O>(m)));
+		inner.putAll(new BijectionMap<>(invertBijection(bijection), new AdaptedMap<>(m)));
 	}
 
 	@Override

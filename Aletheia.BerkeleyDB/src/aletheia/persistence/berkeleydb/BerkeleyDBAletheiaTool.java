@@ -442,8 +442,8 @@ public class BerkeleyDBAletheiaTool
 
 	public BerkeleyDBAletheiaTool(CommandLineArguments commandLineArguments) throws ArgumentsException
 	{
-		this.commandList = new ArrayList<Command>();
-		Map<String, Switch> globalSwitches = new HashMap<String, Switch>(commandLineArguments.getGlobalSwitches());
+		this.commandList = new ArrayList<>();
+		Map<String, Switch> globalSwitches = new HashMap<>(commandLineArguments.getGlobalSwitches());
 		if (globalSwitches.remove("v") != null)
 		{
 			dbFile = null;
@@ -467,7 +467,7 @@ public class BerkeleyDBAletheiaTool
 				this.dbFile = new File(sDbFile);
 				if (!globalSwitches.isEmpty())
 					throw new ArgumentsException("Unrecognized switches/options: " + globalSwitches.keySet());
-				Queue<Parameter> parameterQueue = new ArrayDeque<Parameter>(commandLineArguments.getParameters());
+				Queue<Parameter> parameterQueue = new ArrayDeque<>(commandLineArguments.getParameters());
 				while (!parameterQueue.isEmpty())
 					commandList.add(createCommand(parameterQueue));
 			}

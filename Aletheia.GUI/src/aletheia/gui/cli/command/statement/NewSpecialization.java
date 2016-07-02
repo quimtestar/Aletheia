@@ -45,7 +45,7 @@ public class NewSpecialization extends NewStatement
 	{
 		super(from, transaction, identifier);
 		this.general = general;
-		this.instances = new ArrayList<Term>(instances);
+		this.instances = new ArrayList<>(instances);
 	}
 
 	protected Statement getGeneral()
@@ -90,7 +90,7 @@ public class NewSpecialization extends NewStatement
 				Statement general = from.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(0)));
 				if (general == null)
 					throw new CommandParseException("Statement not found: " + split.get(0));
-				List<Term> instances = new ArrayList<Term>();
+				List<Term> instances = new ArrayList<>();
 				for (int i = 1; i < split.size(); i++)
 				{
 					Term instance = parseTerm(from.getActiveContext(), transaction, split.get(i));

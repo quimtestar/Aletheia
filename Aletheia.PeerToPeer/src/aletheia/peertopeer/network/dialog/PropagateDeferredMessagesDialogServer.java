@@ -51,8 +51,8 @@ public class PropagateDeferredMessagesDialogServer extends PropagateDeferredMess
 	protected void dialogate() throws IOException, ProtocolException, InterruptedException, TimeoutException
 	{
 		DeferredMessageInfoMessage deferredMessageInfoMessage = recvMessage(DeferredMessageInfoMessage.class);
-		Map<UUID, DeferredMessage> oldDeferredMessages = new HashMap<UUID, DeferredMessage>();
-		Collection<UUID> missingUuids = new ArrayList<UUID>();
+		Map<UUID, DeferredMessage> oldDeferredMessages = new HashMap<>();
+		Collection<UUID> missingUuids = new ArrayList<>();
 		for (UUID uuid : deferredMessageInfoMessage.getUuids())
 		{
 			DeferredMessage deferredMessage = getPersistenceManager().getDeferredMessage(getTransaction(), uuid);
@@ -78,7 +78,7 @@ public class PropagateDeferredMessagesDialogServer extends PropagateDeferredMess
 			}
 
 		}
-		final Collection<Added> added = new ArrayList<Added>();
+		final Collection<Added> added = new ArrayList<>();
 		for (DeferredMessage deferredMessage : new CombinedCollection<>(oldDeferredMessages.values(), newDeferredMessages.values()))
 		{
 			if (!deferredMessage.nodeDeferredMessagesMap(getTransaction()).containsKey(nodeUuid))

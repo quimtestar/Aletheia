@@ -66,7 +66,7 @@ public abstract class DelegateTreeModelNode implements TreeNode
 		if ((renderer == null) || (renderer.getPersistentJTree() != delegateTreeJTree))
 		{
 			renderer = buildRenderer(delegateTreeJTree);
-			rendererRef = new SoftReference<DelegateTreeModelNodeRenderer>(renderer);
+			rendererRef = new SoftReference<>(renderer);
 		}
 		return renderer;
 	}

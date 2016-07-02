@@ -69,7 +69,7 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 			try
 			{
 				subNodeList = new BufferedList<>(delegateTreeNode.localDelegateTreeSubNodeMap(transaction).values());
-				subNodeListRef = new SoftReference<List<DelegateTreeSubNode>>(subNodeList);
+				subNodeListRef = new SoftReference<>(subNodeList);
 			}
 			finally
 			{
@@ -104,7 +104,7 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 						return a1.getDelegate(transaction).getNick().compareTo(a2.getDelegate(transaction).getNick());
 					}
 				});
-				delegateAuthorizerListRef = new SoftReference<List<DelegateAuthorizer>>(delegateAuthorizerList);
+				delegateAuthorizerListRef = new SoftReference<>(delegateAuthorizerList);
 			}
 			finally
 			{
@@ -122,7 +122,7 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 
 	private List<DelegateTreeModelBranchSubNode> getBranchSubNodeList()
 	{
-		return new BijectionList<DelegateTreeSubNode, DelegateTreeModelBranchSubNode>(new Bijection<DelegateTreeSubNode, DelegateTreeModelBranchSubNode>()
+		return new BijectionList<>(new Bijection<DelegateTreeSubNode, DelegateTreeModelBranchSubNode>()
 		{
 
 			@Override
@@ -141,7 +141,7 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 
 	private List<DelegateTreeModelLeafNode> getLeafNodeList()
 	{
-		return new BijectionList<DelegateAuthorizer, DelegateTreeModelLeafNode>(new Bijection<DelegateAuthorizer, DelegateTreeModelLeafNode>()
+		return new BijectionList<>(new Bijection<DelegateAuthorizer, DelegateTreeModelLeafNode>()
 		{
 
 			@Override
@@ -161,7 +161,7 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 
 	private List<DelegateTreeModelNode> getChildList()
 	{
-		return new CombinedList<DelegateTreeModelNode>(new AdaptedList<DelegateTreeModelNode>(getBranchSubNodeList()),
+		return new CombinedList<>(new AdaptedList<DelegateTreeModelNode>(getBranchSubNodeList()),
 				new AdaptedList<DelegateTreeModelNode>(getLeafNodeList()));
 	}
 

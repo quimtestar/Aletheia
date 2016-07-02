@@ -124,7 +124,7 @@ public abstract class CatalogTreeNode implements TreeNode
 					transaction.abort();
 				}
 			}
-			refChildren = new SoftReference<ModifiableChildrenData>(children);
+			refChildren = new SoftReference<>(children);
 		}
 		return children;
 	}
@@ -207,7 +207,7 @@ public abstract class CatalogTreeNode implements TreeNode
 
 	public void cleanRenderer()
 	{
-		rendererRef = new SoftReference<CatalogJTreeNodeRenderer>(null);
+		rendererRef = new SoftReference<>(null);
 	}
 
 	public CatalogJTreeNodeRenderer renderer(CatalogJTree catalogJTree)
@@ -219,7 +219,7 @@ public abstract class CatalogTreeNode implements TreeNode
 			if (renderer == null)
 				renderer = new EmptyCatalogJTreeNodeRenderer(catalogJTree, this);
 			else
-				rendererRef = new SoftReference<CatalogJTreeNodeRenderer>(renderer);
+				rendererRef = new SoftReference<>(renderer);
 		}
 		return renderer;
 	}

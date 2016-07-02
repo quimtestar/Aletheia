@@ -52,9 +52,9 @@ public enum RouteableSubMessageCode implements ShortExportableEnum<RouteableSubM
 
 	static
 	{
-		codeMap = new HashMap<Short, RouteableSubMessageCode>();
-		classMap = new HashMap<Class<? extends RouteableSubMessage>, RouteableSubMessageCode>();
-		generalizedClassMap = new HashMap<Class<? extends RouteableSubMessage>, Set<RouteableSubMessageCode>>();
+		codeMap = new HashMap<>();
+		classMap = new HashMap<>();
+		generalizedClassMap = new HashMap<>();
 
 		for (RouteableSubMessageCode messageCode : values())
 		{
@@ -127,7 +127,7 @@ public enum RouteableSubMessageCode implements ShortExportableEnum<RouteableSubM
 
 	public static Map<Class<? extends RouteableSubMessage>, Set<RouteableSubMessageCode>> generalizedClassMap()
 	{
-		return Collections.unmodifiableMap(new BijectionMap<Class<? extends RouteableSubMessage>, Set<RouteableSubMessageCode>, Set<RouteableSubMessageCode>>(
+		return Collections.unmodifiableMap(new BijectionMap<>(
 				new Bijection<Set<RouteableSubMessageCode>, Set<RouteableSubMessageCode>>()
 				{
 

@@ -56,19 +56,19 @@ public class UnmodifiableCloseableSortedMap<K, V> extends UnmodifiableCloseableM
 	@Override
 	public UnmodifiableCloseableSortedMap<K, V> subMap(K fromKey, K toKey)
 	{
-		return new UnmodifiableCloseableSortedMap<K, V>(getInner().subMap(fromKey, toKey));
+		return new UnmodifiableCloseableSortedMap<>(getInner().subMap(fromKey, toKey));
 	}
 
 	@Override
 	public CloseableSortedMap<K, V> headMap(K toKey)
 	{
-		return new UnmodifiableCloseableSortedMap<K, V>(getInner().headMap(toKey));
+		return new UnmodifiableCloseableSortedMap<>(getInner().headMap(toKey));
 	}
 
 	@Override
 	public CloseableSortedMap<K, V> tailMap(K fromKey)
 	{
-		return new UnmodifiableCloseableSortedMap<K, V>(getInner().tailMap(fromKey));
+		return new UnmodifiableCloseableSortedMap<>(getInner().tailMap(fromKey));
 	}
 
 }

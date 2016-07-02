@@ -81,7 +81,7 @@ public class ObtainRootContextFromUnpackedSignatureRequestCollection extends Tra
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
 		PeerToPeerNode peerToPeerNode = getPeerToPeerNode();
-		CloseableIterator<UUID> iterator = new UniqueCloseableIterable<UUID>(new FilteredCloseableCollection<UUID>(new NotNullFilter<UUID>(),
+		CloseableIterator<UUID> iterator = new UniqueCloseableIterable<>(new FilteredCloseableCollection<>(new NotNullFilter<UUID>(),
 				new BijectionCloseableCollection<>(new Bijection<PackedSignatureRequest, UUID>()
 				{
 

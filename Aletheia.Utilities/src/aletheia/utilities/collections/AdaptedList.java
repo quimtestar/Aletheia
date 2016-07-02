@@ -168,7 +168,7 @@ public class AdaptedList<E> extends AdaptedCollection<E> implements List<E>
 	@Override
 	public List<E> subList(int fromIndex, int toIndex)
 	{
-		return new AdaptedList<E>(getInner().subList(fromIndex, toIndex));
+		return new AdaptedList<>(getInner().subList(fromIndex, toIndex));
 	}
 
 }

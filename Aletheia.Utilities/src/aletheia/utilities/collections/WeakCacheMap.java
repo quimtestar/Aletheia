@@ -32,7 +32,7 @@ public class WeakCacheMap<K, V> extends AbstractCacheMap<K, V, WeakReference<V>>
 	@Override
 	protected WeakReference<V> makeRef(V value)
 	{
-		return new WeakReference<V>(value);
+		return new WeakReference<>(value);
 	}
 
 }

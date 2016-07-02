@@ -44,7 +44,7 @@ public class BijectionIterable<I, O> implements Iterable<O>
 	 */
 	protected static <I, O> Bijection<O, I> invertBijection(final Bijection<I, O> b)
 	{
-		return new InverseBijection<O, I>(b);
+		return new InverseBijection<>(b);
 	}
 
 	private final Bijection<I, O> bijection;
@@ -81,7 +81,7 @@ public class BijectionIterable<I, O> implements Iterable<O>
 	@Override
 	public Iterator<O> iterator()
 	{
-		return new BijectionIterator<I, O>(bijection, inner.iterator());
+		return new BijectionIterator<>(bijection, inner.iterator());
 	}
 
 }

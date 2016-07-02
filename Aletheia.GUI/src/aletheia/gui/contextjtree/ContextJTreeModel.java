@@ -87,7 +87,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 		persistenceManager.getListenerManager().getRootContextTopStateListeners().add(statementListener);
 		persistenceManager.getListenerManager().getRootContextLocalStateListeners().add(statementListener);
 		listenRootContextNomenclators();
-		this.statementStateChangeQueue = new LinkedBlockingQueue<StatementStateChange>();
+		this.statementStateChangeQueue = new LinkedBlockingQueue<>();
 		this.statementStateProcessorThread = new StatementStateProcessorThread();
 		this.statementStateProcessorThread.start();
 		this.rootTreeNode = new RootContextJTreeNode(this);

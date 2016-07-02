@@ -60,7 +60,7 @@ public class DeferredMessageRemovalMessage extends NonPersistentMessage
 	public static class SubProtocol extends NonPersistentMessage.SubProtocol<DeferredMessageRemovalMessage>
 	{
 		private final UUIDProtocol uuidProtocol = new UUIDProtocol(0);
-		private final CollectionProtocol<UUID> uuidCollectionProtocol = new CollectionProtocol<UUID>(0, uuidProtocol);
+		private final CollectionProtocol<UUID> uuidCollectionProtocol = new CollectionProtocol<>(0, uuidProtocol);
 
 		public SubProtocol(int requiredVersion, MessageCode messageCode)
 		{

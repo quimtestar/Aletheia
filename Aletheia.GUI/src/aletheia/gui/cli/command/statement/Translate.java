@@ -54,7 +54,7 @@ public class Translate extends TransactionalCommand
 			throw new NotActiveContextException();
 		Context ctx1 = activeContext;
 
-		Map<Statement, Statement> map = new HashMap<Statement, Statement>();
+		Map<Statement, Statement> map = new HashMap<>();
 
 		Context ctx2 = null;
 		while (!ctx1.isDescendent(getTransaction(), context))
@@ -78,7 +78,7 @@ public class Translate extends TransactionalCommand
 			ctx1 = ctx1.getContext(getTransaction());
 		}
 
-		List<Statement> list = new ArrayList<Statement>();
+		List<Statement> list = new ArrayList<>();
 		for (Statement st : context.localDependencySortedStatements(getTransaction()))
 		{
 			if (!(st instanceof Assumption) && !map.containsKey(st))

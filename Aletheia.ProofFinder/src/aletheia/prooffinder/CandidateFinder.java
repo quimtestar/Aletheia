@@ -199,10 +199,10 @@ public class CandidateFinder implements StatementCacheTree.Listener
 		this.persistenceManager = persistenceManager;
 		this.contextWatcher = contextWatcher;
 		this.statementCacheTree = new StatementCacheTree(persistenceManager, contextWatcher);
-		this.pureCandidatesCacheMap = new WeakCacheWithCleanerMap<PureCandidatesCacheMapKey, Set<StatementCandidate>>();
-		this.pureCandidatesCacheMapKeys = new HashMap<Context, Set<PureCandidatesCacheMapKey>>();
-		this.impureCandidatesCacheMap = new WeakCacheWithCleanerMap<ImpureCandidatesCacheMapKey, Set<ImpureCandidate>>();
-		this.impureCandidatesCacheMapKeys = new HashMap<Context, Set<ImpureCandidatesCacheMapKey>>();
+		this.pureCandidatesCacheMap = new WeakCacheWithCleanerMap<>();
+		this.pureCandidatesCacheMapKeys = new HashMap<>();
+		this.impureCandidatesCacheMap = new WeakCacheWithCleanerMap<>();
+		this.impureCandidatesCacheMapKeys = new HashMap<>();
 		this.statementCacheTree.addListener(this);
 		this.pureCandidatesCacheMap.addListener(new PureCandidatesCacheMapListener());
 		this.impureCandidatesCacheMap.addListener(new ImpureCandidatesCacheMapListener());
@@ -219,7 +219,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 		Set<StatementCandidate> candidates = pureCandidatesCacheMap.get(new PureCandidatesCacheMapKey(context, target));
 		if (candidates == null)
 		{
-			candidates = new HashSet<StatementCandidate>();
+			candidates = new HashSet<>();
 			Collection<Statement> statements = statementCacheTree.getLocalStatementCollection(context);
 			synchronized (statements)
 			{
@@ -234,7 +234,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 			Set<PureCandidatesCacheMapKey> keySet = pureCandidatesCacheMapKeys.get(context);
 			if (keySet == null)
 			{
-				keySet = new HashSet<PureCandidatesCacheMapKey>();
+				keySet = new HashSet<>();
 				pureCandidatesCacheMapKeys.put(context, keySet);
 			}
 			keySet.add(key);
@@ -244,7 +244,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 
 	private Collection<VirtualStatementCandidate> virtualStatementCandidatesFor(List<VirtualStatement> virtualStatements, SimpleTerm target)
 	{
-		Collection<VirtualStatementCandidate> candidates = new ArrayList<VirtualStatementCandidate>();
+		Collection<VirtualStatementCandidate> candidates = new ArrayList<>();
 		for (VirtualStatement vs : virtualStatements)
 		{
 			VirtualStatementCandidate vc = new VirtualStatementCandidate(vs, target);
@@ -256,7 +256,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 
 	public Collection<PureCandidate> pureCandidatesFor(Context context, List<VirtualStatement> virtualStatements, SimpleTerm target)
 	{
-		Stack<Context> stack = new Stack<Context>();
+		Stack<Context> stack = new Stack<>();
 		Transaction transaction = persistenceManager.beginTransaction();
 		try
 		{
@@ -273,18 +273,18 @@ public class CandidateFinder implements StatementCacheTree.Listener
 		}
 		Collection<StatementCandidate> statementCandidates = localStatementCandidatesFor(context, target);
 		while (!stack.isEmpty())
-			statementCandidates = new CombinedCollection<StatementCandidate>(localStatementCandidatesFor(stack.pop(), target), statementCandidates);
+			statementCandidates = new CombinedCollection<>(localStatementCandidatesFor(stack.pop(), target), statementCandidates);
 
 		Collection<VirtualStatementCandidate> virtualStatementCandidates = virtualStatementCandidatesFor(virtualStatements, target);
 
-		return new CombinedCollection<PureCandidate>(new AdaptedCollection<PureCandidate>(virtualStatementCandidates),
+		return new CombinedCollection<>(new AdaptedCollection<PureCandidate>(virtualStatementCandidates),
 				new AdaptedCollection<PureCandidate>(statementCandidates));
 	}
 
 	private Term assignImpure(VariableTerm variable, Term target, Term term)
 	{
-		List<VariableTerm> varList = new ArrayList<VariableTerm>();
-		Set<VariableTerm> varSet = new HashSet<VariableTerm>();
+		List<VariableTerm> varList = new ArrayList<>();
+		Set<VariableTerm> varSet = new HashSet<>();
 		Term term_ = term;
 		while (term_ instanceof FunctionTerm)
 		{
@@ -328,7 +328,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 		Set<ImpureCandidate> impures = impureCandidatesCacheMap.get(key);
 		if (impures == null)
 		{
-			impures = new HashSet<ImpureCandidate>();
+			impures = new HashSet<>();
 			Term type = candidate.getAntecedentMap().get(variableDependent);
 			Term target = type.dropIndependentParameters();
 			Collection<Statement> statements = statementCacheTree.getLocalStatementCollection(context);
@@ -345,7 +345,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 			Set<ImpureCandidatesCacheMapKey> keySet = impureCandidatesCacheMapKeys.get(context);
 			if (keySet == null)
 			{
-				keySet = new HashSet<ImpureCandidatesCacheMapKey>();
+				keySet = new HashSet<>();
 				impureCandidatesCacheMapKeys.put(context, keySet);
 			}
 			keySet.add(key);
@@ -356,7 +356,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 	private Set<ImpureCandidate> virtualImpureCandidatesFor(List<VirtualStatement> virtualStatements, Candidate candidate, VariableTerm variable,
 			VariableTerm variableDependent)
 	{
-		Set<ImpureCandidate> impures = new HashSet<ImpureCandidate>();
+		Set<ImpureCandidate> impures = new HashSet<>();
 		Term type = candidate.getAntecedentMap().get(variableDependent);
 		Term target = type.dropIndependentParameters();
 		for (VirtualStatement vs : virtualStatements)
@@ -371,7 +371,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 	public Set<ImpureCandidate> impureCandidatesFor(Context context, List<VirtualStatement> virtualStatements, Candidate candidate, VariableTerm variable,
 			VariableTerm variableDependent)
 	{
-		Stack<Context> stack = new Stack<Context>();
+		Stack<Context> stack = new Stack<>();
 		Transaction transaction = persistenceManager.beginTransaction();
 		try
 		{
@@ -388,9 +388,9 @@ public class CandidateFinder implements StatementCacheTree.Listener
 		}
 		Set<ImpureCandidate> impureCandidates = localImpureCandidatesFor(context, candidate, variable, variableDependent);
 		while (!stack.isEmpty())
-			impureCandidates = new CombinedSet<ImpureCandidate>(localImpureCandidatesFor(stack.pop(), candidate, variable, variableDependent),
+			impureCandidates = new CombinedSet<>(localImpureCandidatesFor(stack.pop(), candidate, variable, variableDependent),
 					impureCandidates);
-		impureCandidates = new CombinedSet<ImpureCandidate>(virtualImpureCandidatesFor(virtualStatements, candidate, variable, variableDependent),
+		impureCandidates = new CombinedSet<>(virtualImpureCandidatesFor(virtualStatements, candidate, variable, variableDependent),
 				impureCandidates);
 		return impureCandidates;
 	}
@@ -402,7 +402,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 		{
 			Set<ImpureCandidate> impures_ = impureCandidatesFor(context, virtualStatements, candidate, variable, v);
 			if (impures == null)
-				impures = new HashSet<ImpureCandidate>(impures_);
+				impures = new HashSet<>(impures_);
 			else
 				impures.retainAll(impures_);
 		}

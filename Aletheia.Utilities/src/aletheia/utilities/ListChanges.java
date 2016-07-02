@@ -59,8 +59,8 @@ public class ListChanges<E>
 	{
 		int oldI = 0;
 		int newI = 0;
-		removedElements = new ArrayList<Element>(oldList.size());
-		insertedElements = new ArrayList<Element>(newList.size());
+		removedElements = new ArrayList<>(oldList.size());
+		insertedElements = new ArrayList<>(newList.size());
 		while (oldI < oldList.size() && newI < newList.size())
 		{
 			Object oldSt = oldList.get(oldI);
@@ -80,9 +80,9 @@ public class ListChanges<E>
 			int newJ = newI;
 			Object oldSt_ = oldList.get(oldJ);
 			Object newSt_ = newList.get(newJ);
-			Map<Object, Integer> oldMap = new HashMap<Object, Integer>();
+			Map<Object, Integer> oldMap = new HashMap<>();
 			oldMap.put(oldSt, oldI);
-			Map<Object, Integer> newMap = new HashMap<Object, Integer>();
+			Map<Object, Integer> newMap = new HashMap<>();
 			newMap.put(newSt, newI);
 			while (!oldMap.containsKey(newSt_) && !newMap.containsKey(oldSt_))
 			{
@@ -122,8 +122,8 @@ public class ListChanges<E>
 
 	public ListChanges()
 	{
-		this.removedElements = new ArrayList<Element>(0);
-		this.insertedElements = new ArrayList<Element>(0);
+		this.removedElements = new ArrayList<>(0);
+		this.insertedElements = new ArrayList<>(0);
 	}
 
 	public List<Element> removedElements()

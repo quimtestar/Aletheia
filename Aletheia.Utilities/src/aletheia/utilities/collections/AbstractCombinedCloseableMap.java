@@ -97,7 +97,7 @@ public abstract class AbstractCombinedCloseableMap<K, V> extends AbstractCombine
 	@Override
 	public CombinedCloseableSet<K> keySet()
 	{
-		return new CombinedCloseableSet<K>(getFront().keySet(), getBack().keySet());
+		return new CombinedCloseableSet<>(getFront().keySet(), getBack().keySet());
 	}
 
 	protected class Values extends AbstractCombinedMap<K, V>.Values implements CloseableSet<V>

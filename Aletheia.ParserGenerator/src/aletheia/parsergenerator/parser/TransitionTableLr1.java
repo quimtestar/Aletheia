@@ -40,8 +40,8 @@ public class TransitionTableLr1 extends TransitionTable implements Serializable
 	{
 		return new ItemStateTranslator()
 		{
-			private final Map<State, ParserItem> stateToItem = new HashMap<State, ParserItem>();
-			private final Map<ParserItem, State> itemToState = new HashMap<ParserItem, State>();
+			private final Map<State, ParserItem> stateToItem = new HashMap<>();
+			private final Map<ParserItem, State> itemToState = new HashMap<>();
 
 			@Override
 			public ParserItem stateToItem(State state)

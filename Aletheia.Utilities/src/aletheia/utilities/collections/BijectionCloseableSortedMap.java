@@ -115,7 +115,7 @@ public class BijectionCloseableSortedMap<K, I, O> extends BijectionSortedMap<K, 
 
 		};
 
-		return new BijectionCloseableSet<Entry<K, I>, Entry<K, O>>(bijection_, getInner().entrySet());
+		return new BijectionCloseableSet<>(bijection_, getInner().entrySet());
 	}
 
 	@Override

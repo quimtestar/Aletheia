@@ -106,7 +106,7 @@ public class SendPersonCredentials extends PeerToPeerCommand
 			Person recipient = specToPerson(from.getPersistenceManager(), transaction, split.get(0));
 			if (recipient == null)
 				throw new CommandParseException("Recipient not found.");
-			Collection<Person> persons = new ArrayList<Person>();
+			Collection<Person> persons = new ArrayList<>();
 			for (int i = 1; i < split.size(); i++)
 			{
 				Person person = specToPerson(from.getPersistenceManager(), transaction, split.get(i));

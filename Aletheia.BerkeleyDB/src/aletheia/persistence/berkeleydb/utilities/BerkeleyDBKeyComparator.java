@@ -105,11 +105,11 @@ public class BerkeleyDBKeyComparator<K> implements Comparator<K>
 			};
 		}
 		else if (keyClass.isPrimitive() || Comparable.class.isAssignableFrom(keyClass))
-			innerComparator = new NaturalComparator<K>();
+			innerComparator = new NaturalComparator<>();
 		else if (keyClass.isAnnotationPresent(Persistent.class))
 		{
-			final Vector<Field> fields = new Vector<Field>();
-			final Map<Class<?>, BerkeleyDBKeyComparator<Object>> comparatorMap = new HashMap<Class<?>, BerkeleyDBKeyComparator<Object>>();
+			final Vector<Field> fields = new Vector<>();
+			final Map<Class<?>, BerkeleyDBKeyComparator<Object>> comparatorMap = new HashMap<>();
 			for (Field field : keyClass.getDeclaredFields())
 			{
 				KeyField keyField = field.getAnnotation(KeyField.class);
@@ -121,7 +121,7 @@ public class BerkeleyDBKeyComparator<K> implements Comparator<K>
 						fields.setSize(i + 1);
 					fields.set(i, field);
 					if (!comparatorMap.containsKey(field.getType()))
-						comparatorMap.put(field.getType(), new BerkeleyDBKeyComparator<Object>(field.getType()));
+						comparatorMap.put(field.getType(), new BerkeleyDBKeyComparator<>(field.getType()));
 				}
 			}
 			innerComparator = new Comparator<K>()

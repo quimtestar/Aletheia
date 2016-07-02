@@ -45,7 +45,7 @@ public class DelegateTreeDialogServer extends DelegateTreeDialog
 		DelegateTreeRequestMessage delegateTreeRequestMessage = recvMessage(DelegateTreeRequestMessage.class);
 		if (!delegateTreeRequestMessage.isEmpty())
 		{
-			Collection<DelegateTreeRootNode> delegateTreeSend = new ArrayList<DelegateTreeRootNode>();
+			Collection<DelegateTreeRootNode> delegateTreeSend = new ArrayList<>();
 			for (UUID uuid : delegateTreeRequestMessage.getUuids())
 			{
 				DelegateTreeRootNode delegateTreeRootNode = getPersistenceManager().getDelegateTreeRootNode(getTransaction(), uuid);

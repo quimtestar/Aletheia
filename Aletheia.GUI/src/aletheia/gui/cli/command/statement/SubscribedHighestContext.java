@@ -48,7 +48,7 @@ public class SubscribedHighestContext extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		Stack<Context> stack = new Stack<Context>();
+		Stack<Context> stack = new Stack<>();
 		stack.push(context);
 		while (!stack.isEmpty())
 		{

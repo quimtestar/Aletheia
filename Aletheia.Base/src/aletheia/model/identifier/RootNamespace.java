@@ -89,7 +89,7 @@ public class RootNamespace extends Namespace
 	@Override
 	public List<NodeNamespace> prefixList()
 	{
-		return new ArrayList<NodeNamespace>();
+		return new ArrayList<>();
 	}
 
 	@Override

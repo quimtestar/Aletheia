@@ -85,7 +85,7 @@ public class StatementSorter extends Sorter
 	@Override
 	public CloseableSet<Statement> statements(Transaction transaction)
 	{
-		return new TrivialCloseableSet<Statement>(Collections.singleton(statement));
+		return new TrivialCloseableSet<>(Collections.singleton(statement));
 	}
 
 	@Override

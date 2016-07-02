@@ -93,19 +93,19 @@ public class TrivialCloseableMap<K, V> extends AbstractCloseableMap<K, V>
 	@Override
 	public CloseableSet<K> keySet()
 	{
-		return new TrivialCloseableSet<K>(inner.keySet());
+		return new TrivialCloseableSet<>(inner.keySet());
 	}
 
 	@Override
 	public CloseableCollection<V> values()
 	{
-		return new TrivialCloseableCollection<V>(inner.values());
+		return new TrivialCloseableCollection<>(inner.values());
 	}
 
 	@Override
 	public CloseableSet<Entry<K, V>> entrySet()
 	{
-		return new TrivialCloseableSet<Entry<K, V>>(inner.entrySet());
+		return new TrivialCloseableSet<>(inner.entrySet());
 	}
 
 }

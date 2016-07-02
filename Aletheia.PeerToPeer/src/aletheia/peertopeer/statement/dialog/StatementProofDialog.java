@@ -85,7 +85,7 @@ public abstract class StatementProofDialog extends StatementDialog
 
 			private SetSubscriptionDependencies(UUID statementUuid)
 			{
-				this(new HashSet<UUID>(Arrays.asList(statementUuid)));
+				this(new HashSet<>(Arrays.asList(statementUuid)));
 			}
 
 			protected Set<UUID> getSet()
@@ -116,7 +116,7 @@ public abstract class StatementProofDialog extends StatementDialog
 				else if (subscriptionDependencies instanceof SetSubscriptionDependencies)
 				{
 					SetSubscriptionDependencies setSubscriptionDependencies = (SetSubscriptionDependencies) subscriptionDependencies;
-					Set<UUID> combinedSet = new HashSet<UUID>(set);
+					Set<UUID> combinedSet = new HashSet<>(set);
 					combinedSet.addAll(setSubscriptionDependencies.getSet());
 					if (combinedSet.size() < 20)
 						return new SetSubscriptionDependencies(combinedSet);

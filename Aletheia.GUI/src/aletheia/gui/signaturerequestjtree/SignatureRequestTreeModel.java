@@ -532,7 +532,7 @@ public class SignatureRequestTreeModel extends PersistentTreeModel
 		getPersistenceManager().getListenerManager().getSignatureRequestAddStateListeners().add(nodeStateListener);
 		getPersistenceManager().getListenerManager().getRootContextTopStateListeners().add(nodeStateListener);
 		this.nodeCacheMap = new WeakCacheWithCleanerMap<>();
-		this.statementReverseCachedNodesMap = new HashMap<UUID, Set<StatementSignatureRequestTreeNode>>();
+		this.statementReverseCachedNodesMap = new HashMap<>();
 		this.nodeCacheMap.addListener(new NodeCacheMapListener());
 	}
 

@@ -199,7 +199,7 @@ public abstract class AbstractCombinedMap<K, V> extends AbstractReadOnlyMap<K, V
 	@Override
 	public Set<K> keySet()
 	{
-		return new CombinedSet<K>(front.keySet(), getBack().keySet());
+		return new CombinedSet<>(front.keySet(), getBack().keySet());
 	}
 
 	@Override

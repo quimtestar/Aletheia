@@ -60,7 +60,7 @@ public abstract class ListenableAborter implements Aborter
 
 	public ListenableAborter()
 	{
-		this.listeners = new HashSet<Listener>();
+		this.listeners = new HashSet<>();
 	}
 
 	/**

@@ -47,7 +47,7 @@ public abstract class PersonsDialog extends EphemeralDialog
 
 	protected Collection<PersonInfoMessage.Entry> dialogatePersonInfoSend(Collection<Person> persons) throws IOException, InterruptedException
 	{
-		Collection<PersonInfoMessage.Entry> entries = new BijectionCollection<Person, PersonInfoMessage.Entry>(new Bijection<Person, PersonInfoMessage.Entry>()
+		Collection<PersonInfoMessage.Entry> entries = new BijectionCollection<>(new Bijection<Person, PersonInfoMessage.Entry>()
 		{
 
 			@Override
@@ -61,7 +61,7 @@ public abstract class PersonsDialog extends EphemeralDialog
 			{
 				throw new UnsupportedOperationException();
 			}
-		}, new FilteredCollection<Person>(new Filter<Person>()
+		}, new FilteredCollection<>(new Filter<Person>()
 		{
 
 			@Override
@@ -82,7 +82,7 @@ public abstract class PersonsDialog extends EphemeralDialog
 
 	protected Collection<UUID> dialogatePersonRequestSend(PersonInfoMessage personsInfoMessage) throws IOException, InterruptedException
 	{
-		Collection<UUID> requestUuids = new BijectionCollection<Map.Entry<UUID, PersonInfo>, UUID>(new Bijection<Map.Entry<UUID, PersonInfo>, UUID>()
+		Collection<UUID> requestUuids = new BijectionCollection<>(new Bijection<Map.Entry<UUID, PersonInfo>, UUID>()
 		{
 
 			@Override
@@ -124,8 +124,8 @@ public abstract class PersonsDialog extends EphemeralDialog
 
 	protected Collection<Person> dialogatePersonResponseSend(PersonRequestMessage personRequestMessage) throws IOException, InterruptedException
 	{
-		Collection<Person> persons = new FilteredCollection<Person>(new NotNullFilter<Person>(),
-				new BijectionCollection<UUID, Person>(new Bijection<UUID, Person>()
+		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<Person>(),
+				new BijectionCollection<>(new Bijection<UUID, Person>()
 				{
 
 					@Override

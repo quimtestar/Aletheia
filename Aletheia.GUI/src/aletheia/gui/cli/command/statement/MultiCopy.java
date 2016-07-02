@@ -40,7 +40,7 @@ public class MultiCopy extends TransactionalCommand
 	public MultiCopy(CommandSource from, Transaction transaction, List<Statement> statements)
 	{
 		super(from, transaction);
-		this.statements = new ArrayList<Statement>(statements);
+		this.statements = new ArrayList<>(statements);
 	}
 
 	@Override
@@ -71,7 +71,7 @@ public class MultiCopy extends TransactionalCommand
 		@Override
 		public MultiCopy parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
-			List<Statement> statements = new ArrayList<Statement>();
+			List<Statement> statements = new ArrayList<>();
 			for (int i = 0; i < split.size(); i++)
 			{
 				Collection<Statement> st = findMultiStatementPath(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(i));

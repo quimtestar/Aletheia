@@ -71,7 +71,7 @@ public abstract class SubRootPhaseMessage extends NonPersistentMessage
 		@Override
 		public M recv(DataInput in) throws IOException, ProtocolException
 		{
-			List<Object> args = new ArrayList<Object>();
+			List<Object> args = new ArrayList<>();
 			recvArgs(args, in);
 			return makeMessage(args);
 		}

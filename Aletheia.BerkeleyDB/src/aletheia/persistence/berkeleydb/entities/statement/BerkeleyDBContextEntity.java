@@ -50,7 +50,7 @@ public class BerkeleyDBContextEntity extends BerkeleyDBStatementEntity implement
 
 	private void initializeUuidKeyAncestorsConsequentHash(BerkeleyDBContextEntity parent)
 	{
-		uuidKeyAncestorsConsequentHash = new ArrayList<UUIDKeyTermHash>();
+		uuidKeyAncestorsConsequentHash = new ArrayList<>();
 		if (parent != null)
 		{
 			for (UUIDKeyTermHash uuidKeyTermHashParent : parent.uuidKeyAncestorsConsequentHash)

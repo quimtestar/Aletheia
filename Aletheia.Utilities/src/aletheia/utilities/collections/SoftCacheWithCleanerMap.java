@@ -33,7 +33,7 @@ public class SoftCacheWithCleanerMap<K, V> extends AbstractCacheWithCleanerMap<K
 	@Override
 	protected SoftReference<V> makeRef(V value, ReferenceQueue<V> queue)
 	{
-		return new SoftReference<V>(value, queue);
+		return new SoftReference<>(value, queue);
 	}
 
 }

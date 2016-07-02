@@ -1266,7 +1266,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 			int lnk = (left.getNKeys() + right.getNKeys()) / 2;
 			if (lnk < left.getNKeys())
 			{
-				List<Node> children = new ArrayList<Node>();
+				List<Node> children = new ArrayList<>();
 				for (int i = lnk + 1; i <= left.getNKeys(); i++)
 				{
 					children.add(right.getChild(i - lnk - 1));
@@ -1294,8 +1294,8 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 			int lnk = (left.getNKeys() + right.getNKeys()) / 2;
 			if (lnk < left.getNKeys())
 			{
-				List<Object> keys = new ArrayList<Object>();
-				List<Object> values = new ArrayList<Object>();
+				List<Object> keys = new ArrayList<>();
+				List<Object> values = new ArrayList<>();
 				keys.add(parent.getKey(mid));
 				values.add(parent.getValue(mid));
 				parent.set(mid, left.getKey(lnk), left.getValue(lnk));
@@ -1601,7 +1601,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 					this.after = after;
 				}
 			}
-			Stack<StackEntry> stack = new Stack<StackEntry>();
+			Stack<StackEntry> stack = new Stack<>();
 			stack.push(new StackEntry(rootNode, 0, null, null));
 			while (!stack.isEmpty())
 			{
@@ -1634,7 +1634,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 					this.after = after;
 				}
 			}
-			Stack<StackEntry> stack = new Stack<StackEntry>();
+			Stack<StackEntry> stack = new Stack<>();
 			stack.push(new StackEntry(null, rootNode, null));
 			while (!stack.isEmpty())
 			{
@@ -1675,7 +1675,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 		super();
 		if (order <= 0)
 			throw new IllegalArgumentException();
-		this.bTree = new BTree(order, comparator != null ? new CastComparator<Object, K>(comparator) : null);
+		this.bTree = new BTree(order, comparator != null ? new CastComparator<>(comparator) : null);
 		this.comparator = comparator;
 		if (init != null)
 			putAll(init);
@@ -1869,7 +1869,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 		@Override
 		public CountedIterator<E> iterator()
 		{
-			return new BijectionCountedIterator<BTree.Branch, E>(branchBijection(), branchIterator());
+			return new BijectionCountedIterator<>(branchBijection(), branchIterator());
 		}
 
 		@Override
@@ -2077,7 +2077,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 				}
 			};
 
-			private Bijection<K, K> keyBijection = new IdentityBijection<K>();
+			private Bijection<K, K> keyBijection = new IdentityBijection<>();
 
 			@Override
 			protected Bijection<BTree.Branch, K> branchBijection()
@@ -2323,7 +2323,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 					}
 				};
 
-				private Bijection<K, K> keyBijection = new IdentityBijection<K>();
+				private Bijection<K, K> keyBijection = new IdentityBijection<>();
 
 				@Override
 				protected Bijection<BTree.Branch, K> branchBijection()

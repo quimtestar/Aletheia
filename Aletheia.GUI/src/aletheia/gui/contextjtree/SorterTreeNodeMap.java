@@ -49,7 +49,7 @@ public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterContextJ
 	{
 		super();
 		this.model = model;
-		this.byStatementMap = new HashMap<Statement, StatementContextJTreeNode>();
+		this.byStatementMap = new HashMap<>();
 	}
 
 	private synchronized void byStatementMapPut(Statement statement, StatementContextJTreeNode node)
@@ -204,7 +204,7 @@ public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterContextJ
 		Transaction transaction = getModel().beginTransaction();
 		try
 		{
-			Stack<Statement> stack = new Stack<Statement>();
+			Stack<Statement> stack = new Stack<>();
 			node = null;
 			while (node == null)
 			{

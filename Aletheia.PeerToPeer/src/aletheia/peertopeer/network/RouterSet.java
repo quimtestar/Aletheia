@@ -62,7 +62,7 @@ public interface RouterSet extends Exportable
 			checkVersionAvailability(Protocol.class, requiredVersion);
 			this.integerProtocol = new IntegerProtocol(0);
 			this.booleanProtocol = new BooleanProtocol(0);
-			this.uuidSetProtocol = new SetProtocol<UUID>(0, new UUIDProtocol(0));
+			this.uuidSetProtocol = new SetProtocol<>(0, new UUIDProtocol(0));
 		}
 
 		@Override

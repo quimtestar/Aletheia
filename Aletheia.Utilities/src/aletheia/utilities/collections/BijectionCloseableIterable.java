@@ -41,6 +41,6 @@ public class BijectionCloseableIterable<I, O> extends BijectionIterable<I, O> im
 	@Override
 	public CloseableIterator<O> iterator()
 	{
-		return new BijectionCloseableIterator<I, O>(getBijection(), getInner().iterator());
+		return new BijectionCloseableIterator<>(getBijection(), getInner().iterator());
 	}
 }

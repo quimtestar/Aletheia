@@ -49,9 +49,9 @@ public enum DeferredMessageContentCode implements ShortExportableEnum<DeferredMe
 
 	static
 	{
-		codeMap = new HashMap<Short, DeferredMessageContentCode>();
-		classMap = new HashMap<Class<? extends DeferredMessageContent>, DeferredMessageContentCode>();
-		generalizedClassMap = new HashMap<Class<? extends DeferredMessageContent>, Set<DeferredMessageContentCode>>();
+		codeMap = new HashMap<>();
+		classMap = new HashMap<>();
+		generalizedClassMap = new HashMap<>();
 
 		for (DeferredMessageContentCode deferredMessageContentCode : values())
 		{

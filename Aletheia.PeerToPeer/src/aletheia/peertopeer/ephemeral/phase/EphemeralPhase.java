@@ -95,7 +95,7 @@ public class EphemeralPhase extends SubRootPhase
 			public ObtainRootContextsCommand(Collection<UUID> uuids)
 			{
 				super(LoopEphemeralDialogType.ObtainRootContexts);
-				this.uuids = new HashSet<UUID>(uuids);
+				this.uuids = new HashSet<>(uuids);
 			}
 
 			public Collection<UUID> getUuids()
@@ -149,7 +149,7 @@ public class EphemeralPhase extends SubRootPhase
 			public TransmitRootContextsCommand(Collection<UUID> uuids)
 			{
 				super(LoopEphemeralDialogType.TransmitRootContexts);
-				this.uuids = new HashSet<UUID>(uuids);
+				this.uuids = new HashSet<>(uuids);
 			}
 
 			public Collection<UUID> getUuids()

@@ -43,7 +43,7 @@ public class UnionCloseableCollection<E> extends UnionCollection<E> implements C
 	@Override
 	public CloseableIterator<E> iterator()
 	{
-		return new UnionCloseableIterable<E>(getInner()).iterator();
+		return new UnionCloseableIterable<>(getInner()).iterator();
 	}
 
 }

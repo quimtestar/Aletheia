@@ -46,7 +46,7 @@ public abstract class AbstractCombinedCloseableIterable<E> extends AbstractCombi
 	@Override
 	public CloseableIterator<E> iterator()
 	{
-		return new CombinedCloseableIterator<E>(getFront().iterator(), getBack().iterator());
+		return new CombinedCloseableIterator<>(getFront().iterator(), getBack().iterator());
 	}
 
 }

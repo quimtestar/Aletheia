@@ -68,7 +68,7 @@ public class Auth extends TransactionalCommand
 		if (!(statement instanceof RootContext))
 		{
 			Context ctx = statement.getContext(getTransaction());
-			Stack<Context> stack = new Stack<Context>();
+			Stack<Context> stack = new Stack<>();
 			while (true)
 			{
 				StatementAuthority auth = ctx.getAuthority(getTransaction());

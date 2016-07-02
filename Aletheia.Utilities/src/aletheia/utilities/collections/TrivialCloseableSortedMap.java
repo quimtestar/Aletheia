@@ -95,37 +95,37 @@ public class TrivialCloseableSortedMap<K, V> extends AbstractCloseableSortedMap<
 	@Override
 	public CloseableSet<K> keySet()
 	{
-		return new TrivialCloseableSet<K>(inner.keySet());
+		return new TrivialCloseableSet<>(inner.keySet());
 	}
 
 	@Override
 	public CloseableCollection<V> values()
 	{
-		return new TrivialCloseableCollection<V>(inner.values());
+		return new TrivialCloseableCollection<>(inner.values());
 	}
 
 	@Override
 	public CloseableSet<Entry<K, V>> entrySet()
 	{
-		return new TrivialCloseableSet<Entry<K, V>>(inner.entrySet());
+		return new TrivialCloseableSet<>(inner.entrySet());
 	}
 
 	@Override
 	public CloseableSortedMap<K, V> subMap(K fromKey, K toKey)
 	{
-		return new TrivialCloseableSortedMap<K, V>(inner.subMap(fromKey, toKey));
+		return new TrivialCloseableSortedMap<>(inner.subMap(fromKey, toKey));
 	}
 
 	@Override
 	public CloseableSortedMap<K, V> headMap(K toKey)
 	{
-		return new TrivialCloseableSortedMap<K, V>(inner.headMap(toKey));
+		return new TrivialCloseableSortedMap<>(inner.headMap(toKey));
 	}
 
 	@Override
 	public CloseableSortedMap<K, V> tailMap(K fromKey)
 	{
-		return new TrivialCloseableSortedMap<K, V>(inner.tailMap(fromKey));
+		return new TrivialCloseableSortedMap<>(inner.tailMap(fromKey));
 	}
 
 	@Override

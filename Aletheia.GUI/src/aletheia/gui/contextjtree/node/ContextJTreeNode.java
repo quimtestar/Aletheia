@@ -126,7 +126,7 @@ public abstract class ContextJTreeNode implements TreeNode
 				getModel().nodeStructureChangedDegenerateCheck(getParent());
 			}
 			else
-				rendererRef = new SoftReference<ContextJTreeNodeRenderer>(renderer);
+				rendererRef = new SoftReference<>(renderer);
 		}
 		return renderer;
 	}
@@ -143,14 +143,14 @@ public abstract class ContextJTreeNode implements TreeNode
 
 	public TreePath path()
 	{
-		Stack<ContextJTreeNode> stack = new Stack<ContextJTreeNode>();
+		Stack<ContextJTreeNode> stack = new Stack<>();
 		ContextJTreeNode node = this;
 		while (node != null)
 		{
 			stack.push(node);
 			node = node.getParent();
 		}
-		return new TreePath(new ReverseList<ContextJTreeNode>(stack).toArray());
+		return new TreePath(new ReverseList<>(stack).toArray());
 	}
 
 	@Override

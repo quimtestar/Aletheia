@@ -222,7 +222,7 @@ public abstract class SignatureRequestTreeNode implements TreeNode
 		if ((renderer == null) || (renderer.getPersistentJTree() != signatureRequestJTree))
 		{
 			renderer = buildRenderer(signatureRequestJTree);
-			rendererRef = new SoftReference<SignatureRequestTreeNodeRenderer>(renderer);
+			rendererRef = new SoftReference<>(renderer);
 		}
 		return renderer;
 	}
@@ -235,7 +235,7 @@ public abstract class SignatureRequestTreeNode implements TreeNode
 	protected TreePath path()
 	{
 		SignatureRequestTreeNode node = this;
-		List<SignatureRequestTreeNode> nodes = new ArrayList<SignatureRequestTreeNode>();
+		List<SignatureRequestTreeNode> nodes = new ArrayList<>();
 		while (true)
 		{
 			nodes.add(node);
@@ -263,8 +263,8 @@ public abstract class SignatureRequestTreeNode implements TreeNode
 
 	protected Collection<ContextSignatureRequestTreeNode> childContextNodeCollection(final Transaction transaction, Collection<UUID> subContextUuidsCollection)
 	{
-		List<ActualContextSignatureRequestTreeNode> actualContextNodes = new ArrayList<ActualContextSignatureRequestTreeNode>();
-		List<VirtualContextSignatureRequestTreeNode> virtualContextNodes = new ArrayList<VirtualContextSignatureRequestTreeNode>();
+		List<ActualContextSignatureRequestTreeNode> actualContextNodes = new ArrayList<>();
+		List<VirtualContextSignatureRequestTreeNode> virtualContextNodes = new ArrayList<>();
 		for (UUID uuid : subContextUuidsCollection)
 		{
 			Context context = getPersistenceManager().getContext(transaction, uuid);
@@ -275,7 +275,7 @@ public abstract class SignatureRequestTreeNode implements TreeNode
 		}
 
 		Collections.sort(actualContextNodes,
-				new BijectionComparator<Statement, ActualContextSignatureRequestTreeNode>(new Bijection<Statement, ActualContextSignatureRequestTreeNode>()
+				new BijectionComparator<>(new Bijection<Statement, ActualContextSignatureRequestTreeNode>()
 				{
 
 					@Override
@@ -290,7 +290,7 @@ public abstract class SignatureRequestTreeNode implements TreeNode
 						return node.getContext();
 					}
 				}, new StatementComparator(transaction)));
-		return new CombinedCollection<ContextSignatureRequestTreeNode>(new AdaptedCollection<ContextSignatureRequestTreeNode>(actualContextNodes),
+		return new CombinedCollection<>(new AdaptedCollection<ContextSignatureRequestTreeNode>(actualContextNodes),
 				new AdaptedCollection<ContextSignatureRequestTreeNode>(virtualContextNodes));
 
 	}

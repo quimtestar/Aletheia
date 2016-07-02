@@ -69,7 +69,7 @@ public class Proof
 		PureSolvedCandidate(Candidate candidate)
 		{
 			super(candidate);
-			this.descendants = new HashMap<VariableTerm, PureQueueSubEntry>();
+			this.descendants = new HashMap<>();
 		}
 
 		void putDescendant(VariableTerm var, PureQueueSubEntry se)
@@ -118,13 +118,13 @@ public class Proof
 	Proof(QueueSubEntry subEntry)
 	{
 		this.subEntry = subEntry;
-		this.solvedCandidates = new HashMap<QueueSubEntry, SolvedCandidate>();
+		this.solvedCandidates = new HashMap<>();
 	}
 
 	Proof(Proof proof)
 	{
 		this.subEntry = proof.subEntry;
-		this.solvedCandidates = new HashMap<QueueSubEntry, SolvedCandidate>(proof.solvedCandidates);
+		this.solvedCandidates = new HashMap<>(proof.solvedCandidates);
 	}
 
 	boolean containsQueueSubEntry(QueueSubEntry se)
@@ -191,9 +191,9 @@ public class Proof
 			}
 		}
 
-		Map<VirtualStatement, Assumption> assumptionMap = new HashMap<VirtualStatement, Assumption>();
+		Map<VirtualStatement, Assumption> assumptionMap = new HashMap<>();
 
-		Stack<StackEntry> stack = new Stack<StackEntry>();
+		Stack<StackEntry> stack = new Stack<>();
 		stack.push(new StackEntry(subEntry.getContext(), subEntry));
 
 		while (!stack.isEmpty())
@@ -283,8 +283,8 @@ public class Proof
 
 	public boolean existsPath(QueueSubEntry qse0, QueueSubEntry qse1)
 	{
-		Set<QueueSubEntry> visited = new HashSet<QueueSubEntry>();
-		Queue<QueueSubEntry> queue = new LinkedList<QueueSubEntry>();
+		Set<QueueSubEntry> visited = new HashSet<>();
+		Queue<QueueSubEntry> queue = new LinkedList<>();
 		queue.add(qse0);
 		while (!queue.isEmpty())
 		{

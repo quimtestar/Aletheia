@@ -107,13 +107,13 @@ public class SubNomenclator extends Nomenclator implements Serializable, Exporta
 		Nomenclator parent = getParent();
 		if (parent == null)
 			return null;
-		return new CombinedCloseableSortedMap<Identifier, Statement>(getLocalIdentifierToStatement(), getParent().identifierToStatement());
+		return new CombinedCloseableSortedMap<>(getLocalIdentifierToStatement(), getParent().identifierToStatement());
 	}
 
 	@Override
 	public Map<Statement, Identifier> statementToIdentifier()
 	{
-		return new CombinedMap<Statement, Identifier>(getLocalStatementToIdentifier(), getParent().statementToIdentifier());
+		return new CombinedMap<>(getLocalStatementToIdentifier(), getParent().statementToIdentifier());
 	}
 
 	@Override

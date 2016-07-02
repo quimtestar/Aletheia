@@ -152,8 +152,8 @@ public class CliController extends Thread
 		super("CliController");
 		this.memoryMonitorThread = new MemoryMonitorThread();
 		this.memoryMonitorThread.start();
-		this.cliJPanels = new HashSet<CliJPanel>();
-		this.queue = new LinkedBlockingQueue<Command>();
+		this.cliJPanels = new HashSet<>();
+		this.queue = new LinkedBlockingQueue<>();
 		this.setUncaughtExceptionHandler(new MyUncaughtExceptionHandler());
 		this.shutdown = false;
 		this.activeCommand = null;

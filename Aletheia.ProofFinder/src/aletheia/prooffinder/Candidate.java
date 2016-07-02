@@ -53,8 +53,8 @@ public abstract class Candidate
 	{
 		this.term = term;
 		this.target = target;
-		this.varList = new ArrayList<VariableTerm>();
-		Set<VariableTerm> varSet = new HashSet<VariableTerm>();
+		this.varList = new ArrayList<>();
+		Set<VariableTerm> varSet = new HashSet<>();
 		Term term_ = term;
 		while (term_ instanceof FunctionTerm)
 		{
@@ -76,17 +76,17 @@ public abstract class Candidate
 			try
 			{
 				assignMap = termMatch.getAssignMapLeft();
-				unassignedVarSet = new HashSet<VariableTerm>(varList);
+				unassignedVarSet = new HashSet<>(varList);
 				unassignedVarSet.removeAll(assignMap.keySet());
-				antecedentMap = new HashMap<VariableTerm, Term>();
-				Set<VariableTerm> antecedentDependentMapKeys = new HashSet<VariableTerm>();
-				Map<VariableTerm, Set<VariableTerm>> antecedentDependentMap_ = new HashMap<VariableTerm, Set<VariableTerm>>();
+				antecedentMap = new HashMap<>();
+				Set<VariableTerm> antecedentDependentMapKeys = new HashSet<>();
+				Map<VariableTerm, Set<VariableTerm>> antecedentDependentMap_ = new HashMap<>();
 				for (int i = 0; i < varList.size(); i++)
 				{
 					VariableTerm v = varList.get(i);
 					Term t = v.getType();
 					Set<VariableTerm> fv = t.freeVariables();
-					List<Term.Replace> replaces = new ArrayList<Term.Replace>();
+					List<Term.Replace> replaces = new ArrayList<>();
 					for (VariableTerm v_ : varList.subList(0, i))
 					{
 						Term t_ = assignMap.get(v_);
@@ -101,7 +101,7 @@ public abstract class Candidate
 					antecedentMap.put(v, t.replace(replaces));
 					antecedentDependentMap_.put(v, new HashSet<VariableTerm>());
 				}
-				antecedentDependentMap = new HashMap<VariableTerm, Set<VariableTerm>>();
+				antecedentDependentMap = new HashMap<>();
 				for (VariableTerm v : antecedentDependentMapKeys)
 					antecedentDependentMap.put(v, Collections.unmodifiableSet(antecedentDependentMap_.get(v)));
 			}
@@ -123,12 +123,12 @@ public abstract class Candidate
 	{
 		this.term = other.term;
 		this.target = other.target;
-		this.varList = new ArrayList<VariableTerm>(other.varList);
+		this.varList = new ArrayList<>(other.varList);
 		this.consequent = other.consequent;
-		this.assignMap = new HashMap<VariableTerm, Term>(other.assignMap);
-		this.unassignedVarSet = new HashSet<VariableTerm>(other.unassignedVarSet);
-		this.antecedentMap = new HashMap<VariableTerm, Term>(other.antecedentMap);
-		this.antecedentDependentMap = new HashMap<VariableTerm, Set<VariableTerm>>(other.antecedentDependentMap);
+		this.assignMap = new HashMap<>(other.assignMap);
+		this.unassignedVarSet = new HashSet<>(other.unassignedVarSet);
+		this.antecedentMap = new HashMap<>(other.antecedentMap);
+		this.antecedentDependentMap = new HashMap<>(other.antecedentDependentMap);
 	}
 
 	public Term getTerm()

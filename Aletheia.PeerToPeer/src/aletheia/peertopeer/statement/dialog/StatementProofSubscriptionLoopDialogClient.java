@@ -66,7 +66,7 @@ public class StatementProofSubscriptionLoopDialogClient extends StatementProofSu
 		};
 		RemoteSubscription remoteSubscription = getRemoteSubscription();
 		PendingPersistentDataChanges pendingStatementLocalChanges = getPendingPersistentDataChanges();
-		Set<UUID> subscribedUuids = new HashSet<UUID>();
+		Set<UUID> subscribedUuids = new HashSet<>();
 		Set<RootContextLocal> pendingSubscribedProofRootContextLocals = pendingStatementLocalChanges.dumpPendingSubscribedProofRootContextLocals();
 		if (pendingSubscribedProofRootContextLocals != null)
 		{
@@ -74,7 +74,7 @@ public class StatementProofSubscriptionLoopDialogClient extends StatementProofSu
 			subscribedUuids
 					.addAll(new BijectionCollection<>(statementLocalUuidBijection, new AdaptedSet<StatementLocal>(pendingSubscribedProofRootContextLocals)));
 		}
-		Set<UUID> unsubscribedUuids = new HashSet<UUID>();
+		Set<UUID> unsubscribedUuids = new HashSet<>();
 		Set<RootContextLocal> pendingUnsubscribedProofRootContextLocals = pendingStatementLocalChanges.dumpPendingUnsubscribedProofRootContextLocals();
 		if (pendingUnsubscribedProofRootContextLocals != null)
 		{
@@ -84,7 +84,7 @@ public class StatementProofSubscriptionLoopDialogClient extends StatementProofSu
 		Set<UUID> contextUuids = remoteSubscription.rootContextUuids();
 		while (!contextUuids.isEmpty())
 		{
-			Set<UUID> contextUuids_ = new HashSet<UUID>();
+			Set<UUID> contextUuids_ = new HashSet<>();
 			for (UUID contextUuid : contextUuids)
 			{
 				SubContextSubscription subContextSubscription = remoteSubscription.subContextSubscriptions().get(contextUuid);
@@ -117,7 +117,7 @@ public class StatementProofSubscriptionLoopDialogClient extends StatementProofSu
 	@Override
 	protected void dialogate() throws IOException, ProtocolException, InterruptedException
 	{
-		Set<StatementLocal> subscribedProofStatementLocals = new HashSet<StatementLocal>();
+		Set<StatementLocal> subscribedProofStatementLocals = new HashSet<>();
 		try
 		{
 			AvailableProofsMessage availableProofsMessage = dialogateAvailableProofsClient(subscribedProofStatementLocals);

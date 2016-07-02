@@ -104,7 +104,7 @@ public abstract class VariableTerm extends AtomicTerm
 	 */
 	public Set<VariableTerm> freeVariablesTypeRecursive()
 	{
-		Set<VariableTerm> freeVars = new HashSet<VariableTerm>();
+		Set<VariableTerm> freeVars = new HashSet<>();
 		freeVariablesTypeRecursive(freeVars);
 		return freeVars;
 	}

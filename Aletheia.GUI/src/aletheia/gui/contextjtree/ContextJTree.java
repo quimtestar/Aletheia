@@ -851,7 +851,7 @@ public class ContextJTree extends PersistentJTree
 				Transaction transaction = getPersistenceManager().beginTransaction();
 				try
 				{
-					Stack<Context> stack = new Stack<Context>();
+					Stack<Context> stack = new Stack<>();
 					stack.push(context);
 					while (!stack.isEmpty())
 					{
@@ -893,7 +893,7 @@ public class ContextJTree extends PersistentJTree
 						Transaction transaction = getPersistenceManager().beginTransaction();
 						try
 						{
-							Stack<ContextLocal> stack = new Stack<ContextLocal>();
+							Stack<ContextLocal> stack = new Stack<>();
 							stack.push(ctxLocal);
 							while (!stack.isEmpty())
 							{
@@ -951,7 +951,7 @@ public class ContextJTree extends PersistentJTree
 				Transaction transaction = getPersistenceManager().beginTransaction();
 				try
 				{
-					Stack<GroupSorterContextJTreeNode<?>> stack = new Stack<GroupSorterContextJTreeNode<?>>();
+					Stack<GroupSorterContextJTreeNode<?>> stack = new Stack<>();
 					{
 						GroupSorterContextJTreeNode<?> initialNode = context == null ? getModel().getRootTreeNode()
 								: (ContextSorterContextJTreeNode) getModel().getNodeMap().getByStatement(context);
@@ -1004,8 +1004,8 @@ public class ContextJTree extends PersistentJTree
 			@Override
 			public void run()
 			{
-				Stack<GroupSorterContextJTreeNode<?>> collapseStack = new Stack<GroupSorterContextJTreeNode<?>>();
-				Stack<SorterContextJTreeNode> stack = new Stack<SorterContextJTreeNode>();
+				Stack<GroupSorterContextJTreeNode<?>> collapseStack = new Stack<>();
+				Stack<SorterContextJTreeNode> stack = new Stack<>();
 				stack.push((SorterContextJTreeNode) getModel().getNodeMap().cachedByStatement(context));
 				while (!stack.isEmpty())
 				{
@@ -1038,7 +1038,7 @@ public class ContextJTree extends PersistentJTree
 				Transaction transaction = getPersistenceManager().beginTransaction();
 				try
 				{
-					Stack<Context> stack = new Stack<Context>();
+					Stack<Context> stack = new Stack<>();
 					stack.push(context);
 					while (!stack.isEmpty())
 					{
@@ -1105,7 +1105,7 @@ public class ContextJTree extends PersistentJTree
 
 	public void resetCollapsedSubtrees()
 	{
-		Stack<GroupSorterContextJTreeNode<?>> stack = new Stack<GroupSorterContextJTreeNode<?>>();
+		Stack<GroupSorterContextJTreeNode<?>> stack = new Stack<>();
 		stack.push(getModel().getRootTreeNode());
 		while (!stack.isEmpty())
 		{

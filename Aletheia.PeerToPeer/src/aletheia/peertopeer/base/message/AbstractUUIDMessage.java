@@ -45,7 +45,7 @@ public abstract class AbstractUUIDMessage extends NonPersistentMessage
 	public AbstractUUIDMessage(Collection<UUID> uuids)
 	{
 		super();
-		this.uuids = new ArrayList<UUID>(uuids);
+		this.uuids = new ArrayList<>(uuids);
 	}
 
 	public List<UUID> getUuids()
@@ -83,7 +83,7 @@ public abstract class AbstractUUIDMessage extends NonPersistentMessage
 		protected Collection<UUID> recvUuids(DataInput in) throws IOException, ProtocolException
 		{
 			int n = integerProtocol.recv(in);
-			List<UUID> uuids = new ArrayList<UUID>();
+			List<UUID> uuids = new ArrayList<>();
 			for (int i = 0; i < n; i++)
 				uuids.add(uuidProtocol.recv(in));
 			return uuids;

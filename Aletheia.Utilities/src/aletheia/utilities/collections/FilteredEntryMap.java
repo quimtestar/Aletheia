@@ -61,7 +61,7 @@ public class FilteredEntryMap<K, V> extends AbstractMap<K, V>
 		V value = inner.get(key);
 		try
 		{
-			return filter.filter(new SimpleEntry<K, V>((K) key, value));
+			return filter.filter(new SimpleEntry<>((K) key, value));
 		}
 		catch (ClassCastException e)
 		{
@@ -78,7 +78,7 @@ public class FilteredEntryMap<K, V> extends AbstractMap<K, V>
 		V value = inner.get(key);
 		try
 		{
-			if (filter.filter(new SimpleEntry<K, V>((K) key, value)))
+			if (filter.filter(new SimpleEntry<>((K) key, value)))
 				return value;
 			else
 				return null;

@@ -477,7 +477,7 @@ public class Context extends Statement
 					final Stack<CloseableIterator<Context>> stack;
 
 					{
-						stack = new Stack<CloseableIterator<Context>>();
+						stack = new Stack<>();
 						stack.push(new TrivialCloseableIterable<>(Collections.singleton(Context.this)).iterator());
 					}
 
@@ -749,7 +749,7 @@ public class Context extends Statement
 	 */
 	public CloseableMap<IdentifiableVariableTerm, Statement> statements(Transaction transaction)
 	{
-		return new CombinedCloseableMap<IdentifiableVariableTerm, Statement>(getLocalStatements(transaction), getContext(transaction).statements(transaction));
+		return new CombinedCloseableMap<>(getLocalStatements(transaction), getContext(transaction).statements(transaction));
 	}
 
 	/**
@@ -764,7 +764,7 @@ public class Context extends Statement
 	 */
 	public CloseableMap<Term, CloseableSet<Statement>> statementsByTerm(Transaction transaction)
 	{
-		return new CombinedCloseableMultimap<Term, Statement>(getLocalStatementsByTerm(transaction), getContext(transaction).statementsByTerm(transaction));
+		return new CombinedCloseableMultimap<>(getLocalStatementsByTerm(transaction), getContext(transaction).statementsByTerm(transaction));
 	}
 
 	/**
@@ -1113,7 +1113,7 @@ public class Context extends Statement
 		{
 			Context ctx = (Context) statement;
 			ctx.deleteUnpackedSignatureRequestSetByPath(transaction);
-			Stack<Statement> stack = new Stack<Statement>();
+			Stack<Statement> stack = new Stack<>();
 			stack.addAll(ctx.localStatements(transaction).values());
 			while (!stack.isEmpty())
 			{
@@ -1171,7 +1171,7 @@ public class Context extends Statement
 		getPersistenceManager().deleteStatement(transaction, statement);
 		if (proved)
 		{
-			Set<UUID> reseted = new HashSet<UUID>();
+			Set<UUID> reseted = new HashSet<>();
 			for (Context ctx : descendantContextsByConsequent(transaction, statement.getTerm()))
 				ctx.resetProvedDependents(transaction, reseted);
 			checkProvedUuids(transaction, reseted);
@@ -1196,7 +1196,7 @@ public class Context extends Statement
 	public void deleteStatements(Transaction transaction, CloseableCollection<? extends Statement> statements) throws StatementNotInContextException,
 			StatementHasDependentsException, CantDeleteAssumptionException, DependentUnpackedSignatureRequests, SignatureIsValidException
 	{
-		for (Statement st : new ReverseList<Statement>(new BufferedList<Statement>(Statement.dependencySortedStatements(transaction, statements))))
+		for (Statement st : new ReverseList<>(new BufferedList<>(Statement.dependencySortedStatements(transaction, statements))))
 			deleteStatement(transaction, st);
 	}
 
@@ -1209,7 +1209,7 @@ public class Context extends Statement
 	 */
 	private void resetProvedDependents(Transaction transaction, Set<UUID> set)
 	{
-		Stack<Statement> stack = new Stack<Statement>();
+		Stack<Statement> stack = new Stack<>();
 		stack.push(this);
 		while (!stack.isEmpty())
 		{
@@ -1254,7 +1254,7 @@ public class Context extends Statement
 					final Stack<CloseableIterator<Statement>> stack;
 
 					{
-						stack = new Stack<CloseableIterator<Statement>>();
+						stack = new Stack<>();
 						stack.push(localStatements(transaction).values().iterator());
 					}
 
@@ -1335,7 +1335,7 @@ public class Context extends Statement
 		if (consequent instanceof SimpleTerm)
 			return descendantContextsByConsequent(transaction, (SimpleTerm) consequent);
 		else
-			return new EmptyCloseableSet<Context>();
+			return new EmptyCloseableSet<>();
 	}
 
 	/**
@@ -1366,13 +1366,13 @@ public class Context extends Statement
 	 */
 	public void deleteStatementCascade(Transaction transaction, Statement statement) throws StatementNotInContextException, SignatureIsValidException
 	{
-		deleteStatementsCascade(transaction, new TrivialCloseableCollection<Statement>(Collections.singleton(statement)));
+		deleteStatementsCascade(transaction, new TrivialCloseableCollection<>(Collections.singleton(statement)));
 	}
 
 	public void deleteStatementsCascade(Transaction transaction, CloseableIterable<? extends Statement> statements)
 			throws StatementNotInContextException, SignatureIsValidException
 	{
-		Stack<Statement> stack = new Stack<Statement>();
+		Stack<Statement> stack = new Stack<>();
 		CloseableIterator<? extends Statement> iterator = statements.iterator();
 		try
 		{
@@ -1389,7 +1389,7 @@ public class Context extends Statement
 		{
 			iterator.close();
 		}
-		Set<Statement> visited = new HashSet<Statement>();
+		Set<Statement> visited = new HashSet<>();
 		while (!stack.isEmpty())
 		{
 			logger.trace("--> Cascade delete: " + stack.size());
@@ -1551,12 +1551,12 @@ public class Context extends Statement
 	private Map<Statement, Statement> privateCopy(Transaction transaction, List<Statement> statements, Map<Statement, Statement> initMap,
 			Set<Statement> excludeFromIdentify) throws CopyStatementException
 	{
-		Map<Statement, Statement> map = new HashMap<Statement, Statement>(initMap);
-		List<Term.Replace> replaces = new LinkedList<Term.Replace>();
+		Map<Statement, Statement> map = new HashMap<>(initMap);
+		List<Term.Replace> replaces = new LinkedList<>();
 		for (Map.Entry<Statement, Statement> e : map.entrySet())
 			replaces.add(new Term.Replace(e.getKey().getVariable(), e.getValue().getVariable()));
-		Set<Statement> copied = new HashSet<Statement>(initMap.values());
-		Queue<Statement> queue = new ArrayDeque<Statement>();
+		Set<Statement> copied = new HashSet<>(initMap.values());
+		Queue<Statement> queue = new ArrayDeque<>();
 		queue.addAll(statements);
 		while (!queue.isEmpty())
 		{
@@ -1729,7 +1729,7 @@ public class Context extends Statement
 			throws StatementException
 	{
 		Map<Statement, Statement> map = privateCopy(transaction, statements, initMap, excludeFromIdentify);
-		List<Statement> list = new ArrayList<Statement>();
+		List<Statement> list = new ArrayList<>();
 		for (Statement st : statements)
 			list.add(map.get(st));
 		return list;
@@ -1930,7 +1930,7 @@ public class Context extends Statement
 	 */
 	public Set<Statement> dependenciesDescendents(Transaction transaction)
 	{
-		Set<Statement> dependencies = new HashSet<Statement>();
+		Set<Statement> dependencies = new HashSet<>();
 		for (Statement st : descendentStatements(transaction))
 		{
 			for (Statement dep : st.dependencies(transaction))
@@ -2027,7 +2027,7 @@ public class Context extends Statement
 	public CloseableSet<StatementAuthority> descendantContextAuthoritiesByConsequent(final Transaction transaction, Term consequent)
 	{
 		return new FilteredCloseableSet<>(new NotNullFilter<StatementAuthority>(),
-				new BijectionCloseableSet<Context, StatementAuthority>(new Bijection<Context, StatementAuthority>()
+				new BijectionCloseableSet<>(new Bijection<Context, StatementAuthority>()
 				{
 					@Override
 					public StatementAuthority forward(Context context)
@@ -2085,7 +2085,7 @@ public class Context extends Statement
 	@Override
 	public List<? extends Context> statementPath(Transaction transaction, Context from)
 	{
-		return new BijectionList<Statement, Context>(new CastBijection<Statement, Context>(), new AdaptedList<>(super.statementPath(transaction, from)));
+		return new BijectionList<>(new CastBijection<Statement, Context>(), new AdaptedList<>(super.statementPath(transaction, from)));
 	}
 
 	public UnpackedSignatureRequestSetByContextPath unpackedSignatureRequestSetByPath(Transaction transaction)
@@ -2191,7 +2191,7 @@ public class Context extends Statement
 			@Override
 			public Collection<Statement> forward(Context subctx)
 			{
-				Collection<Statement> filtered = new ArrayList<Statement>();
+				Collection<Statement> filtered = new ArrayList<>();
 				CloseableSet<Statement> solvers = subctx.solvers(transaction);
 				CloseableIterator<Statement> iterator = solvers.iterator();
 				try
@@ -2222,8 +2222,8 @@ public class Context extends Statement
 			}
 		};
 
-		return new CombinedCollection<Statement>(super.proofDependencies(transaction), new UnionCollection<Statement>(
-				new BijectionCollection<Context, Collection<Statement>>(bijection, new BufferedList<>(descendentContexts(transaction)))));
+		return new CombinedCollection<>(super.proofDependencies(transaction), new UnionCollection<>(
+				new BijectionCollection<>(bijection, new BufferedList<>(descendentContexts(transaction)))));
 
 	}
 
@@ -2260,7 +2260,7 @@ public class Context extends Statement
 
 	public Match match(Statement statement, Term target)
 	{
-		Set<ParameterVariableTerm> assignable = new HashSet<ParameterVariableTerm>();
+		Set<ParameterVariableTerm> assignable = new HashSet<>();
 		SimpleTerm t = statement.getTerm().consequent(assignable);
 		Term.Match termMatch = t.match(new AdaptedSet<VariableTerm>(assignable), target != null ? target : getConsequent());
 		if (termMatch == null)
@@ -2276,7 +2276,7 @@ public class Context extends Statement
 			@Override
 			public Match forward(Statement statement)
 			{
-				Set<ParameterVariableTerm> assignable = new HashSet<ParameterVariableTerm>();
+				Set<ParameterVariableTerm> assignable = new HashSet<>();
 				SimpleTerm t = statement.getTerm().consequent(assignable);
 				if (assignable.contains(t.head()))
 					return null;

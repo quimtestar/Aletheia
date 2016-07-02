@@ -498,7 +498,7 @@ public abstract class BerkeleyDBStatementEntity implements StatementEntity
 			this.uuidKeyTermHash = new UUIDKeyTermHash();
 		else
 			this.uuidKeyTermHash = null;
-		this.uuidKeyDependencies = new HashSet<UUIDKey>();
+		this.uuidKeyDependencies = new HashSet<>();
 		this.localSortKey = new LocalSortKey();
 	}
 
@@ -710,7 +710,7 @@ public abstract class BerkeleyDBStatementEntity implements StatementEntity
 	@Override
 	public Set<UUID> getUuidDependencies()
 	{
-		return new BijectionSet<UUIDKey, UUID>(new Bijection<UUIDKey, UUID>()
+		return new BijectionSet<>(new Bijection<UUIDKey, UUID>()
 		{
 
 			@Override

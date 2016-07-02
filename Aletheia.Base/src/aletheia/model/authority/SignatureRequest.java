@@ -367,9 +367,9 @@ public abstract class SignatureRequest implements Exportable
 		{
 			super(persistenceManager, transaction);
 			this.statementSet = statementSet;
-			this.sentPersons = new HashSet<Person>();
-			this.sentStatements = new HashSet<Statement>();
-			this.dependencyUuids = new HashSet<UUID>();
+			this.sentPersons = new HashSet<>();
+			this.sentStatements = new HashSet<>();
+			this.dependencyUuids = new HashSet<>();
 		}
 
 		public Set<UUID> getDependencyUuids()
@@ -424,9 +424,9 @@ public abstract class SignatureRequest implements Exportable
 
 		private void sendStatementDeps(DataOutput out, Statement statement) throws IOException
 		{
-			Stack<Statement> stack0 = new Stack<Statement>();
+			Stack<Statement> stack0 = new Stack<>();
 			stack0.add(statement);
-			Stack<Statement> stack1 = new Stack<Statement>();
+			Stack<Statement> stack1 = new Stack<>();
 			while (!stack0.isEmpty())
 			{
 				Statement st = stack0.pop();
@@ -460,11 +460,11 @@ public abstract class SignatureRequest implements Exportable
 				StackEntry(Context context, Set<Statement> backDependencies)
 				{
 					this.context = context;
-					this.frontDependencies = new HashSet<Statement>();
-					this.combinedDependencies = new CombinedSet<Statement>(frontDependencies, backDependencies);
+					this.frontDependencies = new HashSet<>();
+					this.combinedDependencies = new CombinedSet<>(frontDependencies, backDependencies);
 				}
 			}
-			Stack<StackEntry> stack = new Stack<StackEntry>();
+			Stack<StackEntry> stack = new Stack<>();
 			stack.push(new StackEntry(context, statementSet));
 			while (!stack.isEmpty())
 			{
@@ -472,7 +472,7 @@ public abstract class SignatureRequest implements Exportable
 				for (Statement statement : se.context.localDependencySortedStatements(getTransaction()))
 				{
 					boolean satisfied = true;
-					Collection<UUID> depUuids = new ArrayList<UUID>();
+					Collection<UUID> depUuids = new ArrayList<>();
 					for (Statement dep : statement.dependencies(getTransaction()))
 					{
 						if (!se.combinedDependencies.contains(dep))
@@ -553,7 +553,7 @@ public abstract class SignatureRequest implements Exportable
 		protected UnpackedBuilder(PersistenceManager persistenceManager, Transaction transaction)
 		{
 			super(persistenceManager, transaction);
-			this.statementSet = new HashSet<Statement>();
+			this.statementSet = new HashSet<>();
 		}
 
 		protected Set<Statement> getStatementSet()

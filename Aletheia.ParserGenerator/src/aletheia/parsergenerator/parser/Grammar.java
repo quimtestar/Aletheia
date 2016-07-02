@@ -67,29 +67,29 @@ public class Grammar implements Serializable
 	 */
 	public Grammar(Collection<Production> productions, Symbol startSymbol)
 	{
-		this.productions = new HashMap<NonTerminalSymbol, Set<Production>>();
+		this.productions = new HashMap<>();
 		for (Production prod : productions)
 		{
 			Set<Production> set = this.productions.get(prod.getLeft());
 			if (set == null)
 			{
-				set = new HashSet<Production>();
+				set = new HashSet<>();
 				this.productions.put(prod.getLeft(), set);
 			}
 			set.add(prod);
 		}
 		this.startSymbol = startSymbol;
-		this.symbols = new HashSet<Symbol>();
+		this.symbols = new HashSet<>();
 		for (Production prod : productions)
 		{
 			symbols.add(prod.getLeft());
 			symbols.addAll(prod.getRight());
 		}
-		this.nullableSymbols = new HashSet<NonTerminalSymbol>();
+		this.nullableSymbols = new HashSet<>();
 		computeNullableSymbols();
-		this.firstSymbols = new HashMap<NonTerminalSymbol, Set<TerminalSymbol>>();
+		this.firstSymbols = new HashMap<>();
 		computeFirstSymbols();
-		this.nextSymbols = new HashMap<NonTerminalSymbol, Set<TerminalSymbol>>();
+		this.nextSymbols = new HashMap<>();
 		computeNextSymbols();
 	}
 
@@ -111,7 +111,7 @@ public class Grammar implements Serializable
 	 */
 	public Collection<Production> productions()
 	{
-		return new UnionCollection<Production>(new AdaptedCollection<Collection<Production>>(productions.values()));
+		return new UnionCollection<>(new AdaptedCollection<Collection<Production>>(productions.values()));
 	}
 
 	/**
@@ -146,7 +146,7 @@ public class Grammar implements Serializable
 		nullableSymbols.clear();
 		while (true)
 		{
-			Set<NonTerminalSymbol> added = new HashSet<NonTerminalSymbol>();
+			Set<NonTerminalSymbol> added = new HashSet<>();
 			b: for (Map.Entry<NonTerminalSymbol, Set<Production>> e : productions.entrySet())
 			{
 				if (!nullableSymbols.contains(e.getKey()))
@@ -198,7 +198,7 @@ public class Grammar implements Serializable
 			boolean add = false;
 			for (Map.Entry<NonTerminalSymbol, Set<Production>> e : productions.entrySet())
 			{
-				Set<TerminalSymbol> added = new HashSet<TerminalSymbol>();
+				Set<TerminalSymbol> added = new HashSet<>();
 				a: for (Production prod : e.getValue())
 				{
 					for (Symbol s_ : prod.getRight())
@@ -413,14 +413,14 @@ public class Grammar implements Serializable
 			{
 				return output;
 			}
-		}, new DifferenceSet<Symbol>(getSymbols(), new AdaptedSet<Symbol>(nonTerminalSymbols())));
+		}, new DifferenceSet<>(getSymbols(), new AdaptedSet<Symbol>(nonTerminalSymbols())));
 	}
 
 	public void trace(PrintStream out)
 	{
 		out.println(getStartSymbol() + ";");
-		Set<NonTerminalSymbol> visited = new HashSet<NonTerminalSymbol>();
-		Stack<Symbol> stack = new Stack<Symbol>();
+		Set<NonTerminalSymbol> visited = new HashSet<>();
+		Stack<Symbol> stack = new Stack<>();
 		stack.push(getStartSymbol());
 		while (!stack.isEmpty())
 		{
@@ -437,7 +437,7 @@ public class Grammar implements Serializable
 						for (Production p : set)
 						{
 							out.println(p + ";");
-							stack.addAll(new ReverseList<Symbol>(p.getRight()));
+							stack.addAll(new ReverseList<>(p.getRight()));
 						}
 					}
 				}

@@ -44,7 +44,7 @@ public class BijectionIterator<I, O> implements Iterator<O>
 	 */
 	protected static <I, O> Bijection<O, I> invertBijection(final Bijection<I, O> b)
 	{
-		return new InverseBijection<O, I>(b);
+		return new InverseBijection<>(b);
 	}
 
 	private final Bijection<I, O> bijection;

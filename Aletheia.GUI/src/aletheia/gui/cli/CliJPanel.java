@@ -176,7 +176,7 @@ public class CliJPanel extends JPanel implements CommandSource
 
 		public CommandHistory()
 		{
-			commandList = new ArrayList<String>();
+			commandList = new ArrayList<>();
 			position = 0;
 		}
 
@@ -616,9 +616,9 @@ public class CliJPanel extends JPanel implements CommandSource
 			{
 				throw new Error(e);
 			}
-			channelMap = new HashMap<AttributeSet, Integer>();
-			channels = new ArrayList<PrintStream>();
-			attributeSets = new ArrayList<AttributeSet>();
+			channelMap = new HashMap<>();
+			channels = new ArrayList<>();
+			attributeSets = new ArrayList<>();
 		}
 
 		@Override
@@ -790,7 +790,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		public MyStatementStateListener()
 		{
 			super();
-			this.ancestorContexts = new HashSet<Context>();
+			this.ancestorContexts = new HashSet<>();
 			this.context = null;
 		}
 
@@ -1121,7 +1121,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		textPane.setTransferHandler(new MyTransferHandler(textPane.getTransferHandler()));
 		scrollTextPane = new JScrollPane(textPane);
 		catalogJTree = new CatalogJTree(this);
-		catalogJTreeLayerUI = new PersistentJTreeLayerUI<CatalogJTree>(aletheiaJPanel.getAletheiaJFrame(), catalogJTree);
+		catalogJTreeLayerUI = new PersistentJTreeLayerUI<>(aletheiaJPanel.getAletheiaJFrame(), catalogJTree);
 		catalogJTreeScrollPane = new JScrollPane(catalogJTreeLayerUI.getJLayer());
 		splitPane = new MyJSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollTextPane, catalogJTreeScrollPane);
 		splitPane.setResizeWeight(1);
@@ -1480,7 +1480,7 @@ public class CliJPanel extends JPanel implements CommandSource
 			StyleConstants.setForeground((MutableAttributeSet) this.errorAS, Color.RED);
 			StyleConstants.setBold((MutableAttributeSet) this.errorAS, true);
 			StyleConstants.setUnderline((MutableAttributeSet) this.errorAS, true);
-			this.highLights = new HashSet<HighLight>();
+			this.highLights = new HashSet<>();
 		}
 
 		public void textInserted(int offset, int length)

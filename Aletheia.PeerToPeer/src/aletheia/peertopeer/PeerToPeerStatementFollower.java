@@ -309,7 +309,7 @@ public class PeerToPeerStatementFollower extends PeerToPeerFollower
 				}
 			}
 			getPersistenceManager().getListenerManager().getRootContextLocalStateListeners().add(statementStateListener);
-			Stack<ContextLocal> stack = new Stack<ContextLocal>();
+			Stack<ContextLocal> stack = new Stack<>();
 			stack.addAll(getPersistenceManager().subscribeStatementsRootContextLocalSet(transaction));
 			while (!stack.isEmpty())
 			{
@@ -381,9 +381,9 @@ public class PeerToPeerStatementFollower extends PeerToPeerFollower
 
 	private void listenToContextLocal(Transaction transaction, ContextLocal contextLocal, Aborter aborter) throws AbortException
 	{
-		final Collection<ContextLocal> contextLocals = new ArrayList<ContextLocal>();
-		final Collection<Statement> statements = new ArrayList<Statement>();
-		final Collection<StatementAuthority> statementAuthorities = new ArrayList<StatementAuthority>();
+		final Collection<ContextLocal> contextLocals = new ArrayList<>();
+		final Collection<Statement> statements = new ArrayList<>();
+		final Collection<StatementAuthority> statementAuthorities = new ArrayList<>();
 		fillListenableStatementCollections(transaction, contextLocal, contextLocals, statements, statementAuthorities, aborter);
 		transaction.runWhenCommit(new Transaction.Hook()
 		{
@@ -410,9 +410,9 @@ public class PeerToPeerStatementFollower extends PeerToPeerFollower
 
 	private void unlistenToContextLocal(Transaction transaction, ContextLocal contextLocal)
 	{
-		final Collection<ContextLocal> contextLocals = new ArrayList<ContextLocal>();
-		final Collection<Statement> statements = new ArrayList<Statement>();
-		final Collection<StatementAuthority> statementAuthorities = new ArrayList<StatementAuthority>();
+		final Collection<ContextLocal> contextLocals = new ArrayList<>();
+		final Collection<Statement> statements = new ArrayList<>();
+		final Collection<StatementAuthority> statementAuthorities = new ArrayList<>();
 		fillListenableStatementCollections(transaction, contextLocal, contextLocals, statements, statementAuthorities);
 		transaction.runWhenCommit(new Transaction.Hook()
 		{
@@ -450,7 +450,7 @@ public class PeerToPeerStatementFollower extends PeerToPeerFollower
 				rootContext.removeAuthorityStateListener(statementStateListener);
 			}
 			getPersistenceManager().getListenerManager().getRootContextLocalStateListeners().remove(statementStateListener);
-			Stack<ContextLocal> stack = new Stack<ContextLocal>();
+			Stack<ContextLocal> stack = new Stack<>();
 			stack.addAll(getPersistenceManager().subscribeStatementsRootContextLocalSet(transaction));
 			while (!stack.isEmpty())
 			{

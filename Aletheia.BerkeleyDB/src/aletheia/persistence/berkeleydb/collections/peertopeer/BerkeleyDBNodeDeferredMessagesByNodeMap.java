@@ -252,7 +252,7 @@ public class BerkeleyDBNodeDeferredMessagesByNodeMap extends AbstractCloseableMa
 	@Override
 	public CloseableSet<Entry<UUID, NodeDeferredMessagesByRecipientCollection>> entrySet()
 	{
-		return new BijectionCloseableSet<UUID, Entry<UUID, NodeDeferredMessagesByRecipientCollection>>(
+		return new BijectionCloseableSet<>(
 				new Bijection<UUID, Entry<UUID, NodeDeferredMessagesByRecipientCollection>>()
 				{
 

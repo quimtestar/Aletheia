@@ -63,7 +63,7 @@ public class Help extends Command
 		if (commandGroup != null)
 		{
 			getOut().println("(Sub) commands:");
-			Stack<CommandGroup> stack = new Stack<CommandGroup>();
+			Stack<CommandGroup> stack = new Stack<>();
 			stack.push(commandGroup);
 			while (!stack.isEmpty())
 			{

@@ -39,7 +39,7 @@ public class AletheiaEventQueue extends EventQueue
 
 	public AletheiaEventQueue()
 	{
-		this.processorMap = new HashMap<Component, Map<Class<Throwable>, Set<ThrowableProcessor<Component, Throwable>>>>();
+		this.processorMap = new HashMap<>();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -49,13 +49,13 @@ public class AletheiaEventQueue extends EventQueue
 		Map<Class<Throwable>, Set<ThrowableProcessor<Component, Throwable>>> throwableMap = processorMap.get(component);
 		if (throwableMap == null)
 		{
-			throwableMap = new HashMap<Class<Throwable>, Set<ThrowableProcessor<Component, Throwable>>>();
+			throwableMap = new HashMap<>();
 			processorMap.put(component, throwableMap);
 		}
 		Set<ThrowableProcessor<Component, Throwable>> processors = throwableMap.get(throwableClass);
 		if (processors == null)
 		{
-			processors = new HashSet<ThrowableProcessor<Component, Throwable>>();
+			processors = new HashSet<>();
 			throwableMap.put((Class<Throwable>) throwableClass, processors);
 		}
 		return processors.add((ThrowableProcessor<Component, Throwable>) processor);

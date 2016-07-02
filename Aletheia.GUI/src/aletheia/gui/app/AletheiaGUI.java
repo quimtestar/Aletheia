@@ -199,7 +199,7 @@ public class AletheiaGUI
 		try
 		{
 			CommandLineArguments cla = new CommandLineArguments(args);
-			Map<String, Switch> globalSwitches = new HashMap<String, Switch>(cla.getGlobalSwitches());
+			Map<String, Switch> globalSwitches = new HashMap<>(cla.getGlobalSwitches());
 			if (globalSwitches.remove("v") != null)
 				version();
 			else if ((globalSwitches.remove("c") != null))

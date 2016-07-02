@@ -115,7 +115,7 @@ public class BijectionCloseableMap<K, I, O> extends BijectionMap<K, I, O> implem
 
 		};
 
-		return new BijectionCloseableSet<Entry<K, I>, Entry<K, O>>(bijection_, getInner().entrySet());
+		return new BijectionCloseableSet<>(bijection_, getInner().entrySet());
 	}
 
 }

@@ -41,7 +41,7 @@ public class SetProtocol<E> extends AbstractSetProtocol<E, Set<E>>
 	{
 		try
 		{
-			return new HashSet<E>(n);
+			return new HashSet<>(n);
 		}
 		catch (OutOfMemoryError e)
 		{

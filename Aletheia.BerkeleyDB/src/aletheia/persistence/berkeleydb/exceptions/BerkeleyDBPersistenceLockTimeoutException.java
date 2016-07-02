@@ -40,9 +40,9 @@ public class BerkeleyDBPersistenceLockTimeoutException extends PersistenceLockTi
 
 	private static Collection<Transaction> transactions(final BerkeleyDBPersistenceManager persistenceManager, long[] ids)
 	{
-		return new FilteredCollection<Transaction>(new NotNullFilter<Transaction>(),
+		return new FilteredCollection<>(new NotNullFilter<Transaction>(),
 
-				new AdaptedCollection<Transaction>(new BijectionCollection<Long, BerkeleyDBTransaction>(new Bijection<Long, BerkeleyDBTransaction>()
+				new AdaptedCollection<Transaction>(new BijectionCollection<>(new Bijection<Long, BerkeleyDBTransaction>()
 				{
 
 					@Override

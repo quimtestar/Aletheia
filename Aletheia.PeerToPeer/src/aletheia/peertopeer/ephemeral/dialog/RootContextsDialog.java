@@ -57,9 +57,9 @@ public abstract class RootContextsDialog extends EphemeralDialog
 
 	protected void dialogateRootContextStatementSignaturesResponse(Collection<UUID> signatureUuids) throws IOException, InterruptedException
 	{
-		Collection<RootContextStatementSignaturesResponseMessage.Entry> rootContextAuthorities = new FilteredCollection<RootContextStatementSignaturesResponseMessage.Entry>(
+		Collection<RootContextStatementSignaturesResponseMessage.Entry> rootContextAuthorities = new FilteredCollection<>(
 				new NotNullFilter<RootContextStatementSignaturesResponseMessage.Entry>(),
-				new BijectionCollection<UUID, RootContextStatementSignaturesResponseMessage.Entry>(
+				new BijectionCollection<>(
 						new Bijection<UUID, RootContextStatementSignaturesResponseMessage.Entry>()
 						{
 							final RootContextAuthorityBySignatureUuid rootContextAuthorityBySignatureUuid = getPersistenceManager()
@@ -95,8 +95,8 @@ public abstract class RootContextsDialog extends EphemeralDialog
 	protected void dialogatePersonStatementRequestMessage(RootContextStatementSignaturesResponseMessage rootContextStatementSignaturesResponseMessage,
 			Map<UUID, RootContext> rootContexts) throws IOException, InterruptedException
 	{
-		Set<UUID> personUuids = new HashSet<UUID>();
-		Set<UUID> statementUuids = new HashSet<UUID>();
+		Set<UUID> personUuids = new HashSet<>();
+		Set<UUID> statementUuids = new HashSet<>();
 		for (AbstractUUIDInfoMessage.Entry<StatementAuthoritySubMessage> e : rootContextStatementSignaturesResponseMessage.getEntries())
 		{
 			UUID signatureUuid = e.getKey();
@@ -139,8 +139,8 @@ public abstract class RootContextsDialog extends EphemeralDialog
 
 	protected void dialogatePersonResponse(PersonRequestMessage personRequestMessage) throws IOException, ProtocolException, InterruptedException
 	{
-		Collection<Person> persons = new FilteredCollection<Person>(new NotNullFilter<Person>(),
-				new BijectionCollection<UUID, Person>(new Bijection<UUID, Person>()
+		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<Person>(),
+				new BijectionCollection<>(new Bijection<UUID, Person>()
 				{
 
 					@Override

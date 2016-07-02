@@ -50,13 +50,13 @@ public class PendingPersistentDataChanges
 		super();
 		this.pendingSubscribedRootContextLocals = null;
 		this.pendingUnsubscribedRootContextLocals = null;
-		this.pendingSubscribedContextLocals = new HashMap<ContextLocal, Set<ContextLocal>>();
-		this.pendingUnsubscribedContextLocals = new HashMap<ContextLocal, Set<ContextLocal>>();
+		this.pendingSubscribedContextLocals = new HashMap<>();
+		this.pendingUnsubscribedContextLocals = new HashMap<>();
 		this.pendingStatementAuthoritySignedDependencies = null;
 		this.pendingSubscribedProofRootContextLocals = null;
 		this.pendingUnsubscribedProofRootContextLocals = null;
-		this.pendingSubscribedProofStatementLocals = new HashMap<ContextLocal, Set<StatementLocal>>();
-		this.pendingUnsubscribedProofStatementLocals = new HashMap<ContextLocal, Set<StatementLocal>>();
+		this.pendingSubscribedProofStatementLocals = new HashMap<>();
+		this.pendingUnsubscribedProofStatementLocals = new HashMap<>();
 		this.pendingStatementAuthoritySignedProofs = null;
 		this.pendingDelegateTree = null;
 	}
@@ -67,7 +67,7 @@ public class PendingPersistentDataChanges
 		Set<ContextLocal> set = map.get(contextLocal);
 		if (set == null)
 		{
-			set = new HashSet<ContextLocal>();
+			set = new HashSet<>();
 			map.put(contextLocal, set);
 		}
 		set.add(contextLocal_);
@@ -81,7 +81,7 @@ public class PendingPersistentDataChanges
 	{
 		Set<RootContextLocal> set = subscribed ? pendingSubscribedRootContextLocals : pendingUnsubscribedRootContextLocals;
 		if (set == null)
-			set = new HashSet<RootContextLocal>();
+			set = new HashSet<>();
 		set.add(rootContextLocal);
 		if (subscribed)
 		{
@@ -138,7 +138,7 @@ public class PendingPersistentDataChanges
 	public synchronized void statementAuthoritySignedDependenciesChanged(StatementAuthority statementAuthority)
 	{
 		if (pendingStatementAuthoritySignedDependencies == null)
-			pendingStatementAuthoritySignedDependencies = new HashSet<StatementAuthority>();
+			pendingStatementAuthoritySignedDependencies = new HashSet<>();
 		if (statementAuthority.isSignedDependencies())
 			pendingStatementAuthoritySignedDependencies.add(statementAuthority);
 		else
@@ -164,7 +164,7 @@ public class PendingPersistentDataChanges
 		Set<StatementLocal> set = map.get(contextLocal);
 		if (set == null)
 		{
-			set = new HashSet<StatementLocal>();
+			set = new HashSet<>();
 			map.put(contextLocal, set);
 		}
 		set.add(statementLocal);
@@ -178,7 +178,7 @@ public class PendingPersistentDataChanges
 	{
 		Set<RootContextLocal> set = subscribed ? pendingSubscribedProofRootContextLocals : pendingUnsubscribedProofRootContextLocals;
 		if (set == null)
-			set = new HashSet<RootContextLocal>();
+			set = new HashSet<>();
 		set.add(rootContextLocal);
 		if (subscribed)
 		{
@@ -232,7 +232,7 @@ public class PendingPersistentDataChanges
 	public synchronized void statementAuthoritySignedProofsChanged(StatementAuthority statementAuthority)
 	{
 		if (pendingStatementAuthoritySignedProofs == null)
-			pendingStatementAuthoritySignedProofs = new HashSet<StatementAuthority>();
+			pendingStatementAuthoritySignedProofs = new HashSet<>();
 		if (statementAuthority.isSignedProof())
 			pendingStatementAuthoritySignedProofs.add(statementAuthority);
 		else
@@ -255,7 +255,7 @@ public class PendingPersistentDataChanges
 	public synchronized void delegateTreeModified(StatementAuthority statementAuthority)
 	{
 		if (pendingDelegateTree == null)
-			pendingDelegateTree = new HashSet<StatementAuthority>();
+			pendingDelegateTree = new HashSet<>();
 		pendingDelegateTree.add(statementAuthority);
 	}
 

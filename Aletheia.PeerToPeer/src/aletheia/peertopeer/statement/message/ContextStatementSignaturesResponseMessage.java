@@ -75,7 +75,7 @@ public class ContextStatementSignaturesResponseMessage extends AbstractUUIDInfoM
 		@Override
 		protected Set<StatementAuthoritySubMessage> recvValue(UUID uuid, DataInput in) throws IOException, ProtocolException
 		{
-			Set<StatementAuthoritySubMessage> v = new HashSet<StatementAuthoritySubMessage>();
+			Set<StatementAuthoritySubMessage> v = new HashSet<>();
 			int n = integerProtocol.recv(in);
 			for (int i = 0; i < n; i++)
 				v.add(statementMessageDataProtocol.recv(in));

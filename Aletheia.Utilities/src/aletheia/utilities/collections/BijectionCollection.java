@@ -49,7 +49,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 	 */
 	protected static <I, O> Bijection<O, I> invertBijection(final Bijection<I, O> b)
 	{
-		return new InverseBijection<O, I>(b);
+		return new InverseBijection<>(b);
 	}
 
 	private final Bijection<I, O> bijection;
@@ -143,7 +143,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 	@Override
 	public Iterator<O> iterator()
 	{
-		return new BijectionIterator<I, O>(bijection, inner.iterator());
+		return new BijectionIterator<>(bijection, inner.iterator());
 	}
 
 	@Override
@@ -161,7 +161,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 	@Override
 	public boolean addAll(Collection<? extends O> c)
 	{
-		return inner.addAll(new BijectionCollection<O, I>(invertBijection(bijection), new AdaptedCollection<O>(c)));
+		return inner.addAll(new BijectionCollection<>(invertBijection(bijection), new AdaptedCollection<>(c)));
 	}
 
 	@Override
@@ -277,13 +277,13 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 	@Override
 	public boolean removeAll(Collection<?> c)
 	{
-		return inner.removeAll(new BijectionCollection<O, I>(invertBijection(bijection), BijectionCollection.<O> extractedCollection(c)));
+		return inner.removeAll(new BijectionCollection<>(invertBijection(bijection), BijectionCollection.<O> extractedCollection(c)));
 	}
 
 	@Override
 	public boolean retainAll(Collection<?> c)
 	{
-		return inner.retainAll(new BijectionCollection<O, I>(invertBijection(bijection), BijectionCollection.<O> extractedCollection(c)));
+		return inner.retainAll(new BijectionCollection<>(invertBijection(bijection), BijectionCollection.<O> extractedCollection(c)));
 	}
 
 	@Override

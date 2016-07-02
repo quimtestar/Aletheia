@@ -46,7 +46,7 @@ public class PersistenceListenerManager
 
 		private Listeners()
 		{
-			this.listeners = new LinkedHashSet<L>();
+			this.listeners = new LinkedHashSet<>();
 		}
 
 		public synchronized void add(L listener)
@@ -122,7 +122,7 @@ public class PersistenceListenerManager
 
 		public ListenersByUuid()
 		{
-			this.map = new HashMap<UUID, MyListeners>();
+			this.map = new HashMap<>();
 		}
 
 		public synchronized void add(UUID uuid, L listener)
@@ -171,19 +171,19 @@ public class PersistenceListenerManager
 
 	public PersistenceListenerManager()
 	{
-		this.rootContextTopStateListeners = new Listeners<RootContext.TopStateListener>();
-		this.rootContextLocalStateListeners = new Listeners<RootContextLocal.StateListener>();
-		this.personAddStateListeners = new Listeners<Person.AddStateListener>();
-		this.signatureRequestAddStateListeners = new Listeners<SignatureRequest.AddStateListener>();
-		this.persistenceSecretKeySingletonStateListeners = new Listeners<PersistenceSecretKeySingleton.StateListener>();
+		this.rootContextTopStateListeners = new Listeners<>();
+		this.rootContextLocalStateListeners = new Listeners<>();
+		this.personAddStateListeners = new Listeners<>();
+		this.signatureRequestAddStateListeners = new Listeners<>();
+		this.persistenceSecretKeySingletonStateListeners = new Listeners<>();
 
-		this.subNomenclatorListeners = new ListenersByUuid<Nomenclator.Listener>();
-		this.rootNomenclatorListeners = new ListenersByUuid<Nomenclator.Listener>();
-		this.statementStateListeners = new ListenersByUuid<Statement.StateListener>();
-		this.contextLocalStateListeners = new ListenersByUuid<ContextLocal.StateListener>();
-		this.statementAuthorityStateListeners = new ListenersByUuid<StatementAuthority.StateListener>();
-		this.personStateListeners = new ListenersByUuid<Person.StateListener>();
-		this.signatureRequestStateListeners = new ListenersByUuid<SignatureRequest.StateListener>();
+		this.subNomenclatorListeners = new ListenersByUuid<>();
+		this.rootNomenclatorListeners = new ListenersByUuid<>();
+		this.statementStateListeners = new ListenersByUuid<>();
+		this.contextLocalStateListeners = new ListenersByUuid<>();
+		this.statementAuthorityStateListeners = new ListenersByUuid<>();
+		this.personStateListeners = new ListenersByUuid<>();
+		this.signatureRequestStateListeners = new ListenersByUuid<>();
 
 	}
 

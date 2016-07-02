@@ -58,8 +58,8 @@ public class AutomatonSet implements Serializable
 	 */
 	public AutomatonSet()
 	{
-		tagMap = new HashMap<DeterministicAutomaton, TerminalSymbol>();
-		orderMap = new HashMap<DeterministicAutomaton, Integer>();
+		tagMap = new HashMap<>();
+		orderMap = new HashMap<>();
 		numAutomatons = 0;
 	}
 

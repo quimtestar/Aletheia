@@ -99,8 +99,8 @@ public class SorterDependencyFilter<S extends Sorter> implements Iterable<S>
 	@Override
 	public Iterator<S> iterator()
 	{
-		final List<S> buffered = new BufferedList<S>(inner);
-		final Map<Statement, S> sorterMap = new HashMap<Statement, S>();
+		final List<S> buffered = new BufferedList<>(inner);
+		final Map<Statement, S> sorterMap = new HashMap<>();
 		for (S sorter : buffered)
 		{
 			Statement st = sorter2Statement(sorter);
@@ -118,7 +118,7 @@ public class SorterDependencyFilter<S extends Sorter> implements Iterable<S>
 				{
 
 					final Iterator<S> iterator = buffered.iterator();
-					final Set<S> visited = new HashSet<S>();
+					final Set<S> visited = new HashSet<>();
 
 					@Override
 					public boolean hasNext()
@@ -129,9 +129,9 @@ public class SorterDependencyFilter<S extends Sorter> implements Iterable<S>
 					@Override
 					public Iterable<S> next()
 					{
-						Deque<S> stack = new ArrayDeque<S>();
+						Deque<S> stack = new ArrayDeque<>();
 						stack.offer(iterator.next());
-						Stack<S> stack2 = new Stack<S>();
+						Stack<S> stack2 = new Stack<>();
 						while (!stack.isEmpty())
 						{
 							S sorter = stack.poll();
@@ -139,7 +139,7 @@ public class SorterDependencyFilter<S extends Sorter> implements Iterable<S>
 							Statement st = sorter2Statement(sorter);
 							if (st != null)
 							{
-								ArrayList<S> depSList = new ArrayList<S>();
+								ArrayList<S> depSList = new ArrayList<>();
 								for (Statement dep : st.localDependencies(transaction))
 								{
 									S depS = sorterMap.get(dep);
@@ -150,7 +150,7 @@ public class SorterDependencyFilter<S extends Sorter> implements Iterable<S>
 								stack.addAll(new ReverseList<>(depSList));
 							}
 						}
-						List<S> list = new ArrayList<S>();
+						List<S> list = new ArrayList<>();
 						while (!stack2.isEmpty())
 						{
 							S sorter = stack2.pop();
@@ -172,7 +172,7 @@ public class SorterDependencyFilter<S extends Sorter> implements Iterable<S>
 				};
 			}
 		};
-		return new UnionIterable<S>(iterable2).iterator();
+		return new UnionIterable<>(iterable2).iterator();
 
 	}
 

@@ -44,7 +44,7 @@ public class ObtainRootContextsDialogClient extends ObtainRootContextsDialog
 	{
 		super(phase);
 		this.signatureUuids = signatureUuids;
-		this.rootContexts = new HashMap<UUID, RootContext>();
+		this.rootContexts = new HashMap<>();
 	}
 
 	public Map<UUID, RootContext> getRootContexts()

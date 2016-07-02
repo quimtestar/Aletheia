@@ -120,7 +120,7 @@ public class CommandLineArguments
 		{
 			super(position);
 			this.value = value;
-			this.switches = new HashMap<String, Switch>();
+			this.switches = new HashMap<>();
 		}
 
 		public String getValue()
@@ -139,8 +139,8 @@ public class CommandLineArguments
 
 	public CommandLineArguments(String[] args) throws CommandLineArgumentsException
 	{
-		this.globalSwitches = new HashMap<String, Switch>();
-		this.parameters = new ArrayList<Parameter>();
+		this.globalSwitches = new HashMap<>();
+		this.parameters = new ArrayList<>();
 		parseArgs(args);
 	}
 

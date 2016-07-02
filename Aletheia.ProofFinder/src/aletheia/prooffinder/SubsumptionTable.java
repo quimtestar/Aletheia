@@ -30,7 +30,7 @@ public class SubsumptionTable
 
 	public SubsumptionTable()
 	{
-		table = new HashMap<QueueSubEntry, Set<QueueEntry>>();
+		table = new HashMap<>();
 	}
 
 	public void add(QueueEntry qe)
@@ -40,7 +40,7 @@ public class SubsumptionTable
 			Set<QueueEntry> set = table.get(qse);
 			if (set == null)
 			{
-				set = new HashSet<QueueEntry>();
+				set = new HashSet<>();
 				table.put(qse, set);
 			}
 			set.add(qe);

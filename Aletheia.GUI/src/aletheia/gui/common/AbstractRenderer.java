@@ -85,7 +85,7 @@ public abstract class AbstractRenderer extends JPanel
 	public AbstractRenderer()
 	{
 		super();
-		this.editableComponents = new HashSet<EditableComponent>();
+		this.editableComponents = new HashSet<>();
 		this.activeFont = getDefaultFont();
 		FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
 		layout.setHgap(0);

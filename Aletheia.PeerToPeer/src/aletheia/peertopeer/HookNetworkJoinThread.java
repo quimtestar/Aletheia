@@ -183,7 +183,7 @@ public class HookNetworkJoinThread extends Thread
 				logger.warn("No hooks in the database. Must join manually.");
 			else
 			{
-				Set<InetSocketAddress> testedAddresses = new HashSet<InetSocketAddress>();
+				Set<InetSocketAddress> testedAddresses = new HashSet<>();
 				int collision = 0;
 				while (collision < 5)
 				{

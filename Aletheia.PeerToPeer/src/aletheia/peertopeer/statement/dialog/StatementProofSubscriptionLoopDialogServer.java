@@ -45,7 +45,7 @@ public class StatementProofSubscriptionLoopDialogServer extends StatementProofSu
 	{
 		RemoteSubscription remoteSubscription = getRemoteSubscription();
 		StatementsSubscribeMessage statementSubscribeMessage = recvMessage(StatementsSubscribeMessage.class);
-		List<UUID> statementUuids = new ArrayList<UUID>();
+		List<UUID> statementUuids = new ArrayList<>();
 		for (UUID uuid : statementSubscribeMessage.getSubscribedUuids())
 		{
 			Statement st = getPersistenceManager().getStatement(getTransaction(), uuid);

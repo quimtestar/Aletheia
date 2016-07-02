@@ -69,8 +69,8 @@ public class StatementSubscriptionLoopDialogClient extends StatementSubscription
 			}
 		};
 
-		Set<UUID> subscribeUuids = new HashSet<UUID>();
-		Set<UUID> unsubscribeUuids = new HashSet<UUID>();
+		Set<UUID> subscribeUuids = new HashSet<>();
+		Set<UUID> unsubscribeUuids = new HashSet<>();
 		PendingPersistentDataChanges pendingStatementLocalChanges = getPendingPersistentDataChanges();
 		RemoteSubscription remoteSubscription = getRemoteSubscription();
 		Set<ContextLocal> pendingUnsubscribedContextLocals;
@@ -98,9 +98,9 @@ public class StatementSubscriptionLoopDialogClient extends StatementSubscription
 		Set<UUID> contextUuids = remoteSubscription.rootContextUuids();
 		while (!contextUuids.isEmpty())
 		{
-			Set<UUID> contextUuids_ = new HashSet<UUID>();
-			Set<ContextLocal> pendingUnsubscribedContextLocals_ = new HashSet<ContextLocal>();
-			Set<ContextLocal> pendingSubscribedContextLocals_ = new HashSet<ContextLocal>();
+			Set<UUID> contextUuids_ = new HashSet<>();
+			Set<ContextLocal> pendingUnsubscribedContextLocals_ = new HashSet<>();
+			Set<ContextLocal> pendingSubscribedContextLocals_ = new HashSet<>();
 			subscribeUuids.addAll(new BijectionSet<>(contextLocalUuidBijection, pendingSubscribedContextLocals));
 			for (UUID contextUuid : contextUuids)
 			{
@@ -139,15 +139,15 @@ public class StatementSubscriptionLoopDialogClient extends StatementSubscription
 		sendMessage(new StatementsSubscribeMessage(subscribeUuids, unsubscribeUuids));
 		StatementsSubscribeConfirmationMessage statementsSubscribeConfirmationMessage = recvMessage(StatementsSubscribeConfirmationMessage.class);
 		subscribeUuids.retainAll(statementsSubscribeConfirmationMessage.getUuids());
-		return new BijectionSet<UUID, Context>(new ComposedBijection<>(new CastBijection<Statement, Context>(), getStatementUuidBijection().inverse()),
+		return new BijectionSet<>(new ComposedBijection<>(new CastBijection<Statement, Context>(), getStatementUuidBijection().inverse()),
 				subscribeUuids);
 	}
 
 	@Override
 	protected void dialogate() throws IOException, ProtocolException, InterruptedException
 	{
-		Set<ContextLocal> subscribedContextLocals = new HashSet<ContextLocal>();
-		Set<ContextLocal> unsubscribedContextLocals = new HashSet<ContextLocal>();
+		Set<ContextLocal> subscribedContextLocals = new HashSet<>();
+		Set<ContextLocal> unsubscribedContextLocals = new HashSet<>();
 		try
 		{
 			Set<Context> contexts = dialogateStatementsSubscribeClient(subscribedContextLocals, unsubscribedContextLocals);

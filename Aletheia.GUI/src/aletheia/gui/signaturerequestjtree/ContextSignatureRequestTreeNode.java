@@ -67,7 +67,7 @@ public abstract class ContextSignatureRequestTreeNode extends SignatureRequestTr
 
 	protected CloseableCollection<RequestSignatureRequestTreeNode> childSignatureRequestNodeCollection(Transaction transaction)
 	{
-		return new BijectionCloseableCollection<SignatureRequest, RequestSignatureRequestTreeNode>(
+		return new BijectionCloseableCollection<>(
 				new Bijection<SignatureRequest, RequestSignatureRequestTreeNode>()
 				{
 
@@ -89,7 +89,7 @@ public abstract class ContextSignatureRequestTreeNode extends SignatureRequestTr
 	@Override
 	protected Collection<SignatureRequestTreeNode> childNodeCollection(Transaction transaction)
 	{
-		return new CombinedCollection<SignatureRequestTreeNode>(new AdaptedCollection<SignatureRequestTreeNode>(childContextNodeCollection(transaction)),
+		return new CombinedCollection<>(new AdaptedCollection<SignatureRequestTreeNode>(childContextNodeCollection(transaction)),
 				new AdaptedCollection<SignatureRequestTreeNode>(childSignatureRequestNodeCollection(transaction)));
 	}
 

@@ -98,10 +98,10 @@ public class ContextWatcher implements StateListener
 
 	public ContextWatcher()
 	{
-		this.watching = new HashSet<Context>();
-		this.statementMap = new HashMap<Context, Set<Statement>>();
+		this.watching = new HashSet<>();
+		this.statementMap = new HashMap<>();
 		this.listeners = Collections.synchronizedSet(new HashSet<Listener>());
-		this.queue = new LinkedBlockingQueue<QueueElement>();
+		this.queue = new LinkedBlockingQueue<>();
 		this.queueProcessorThread = null;
 		this.halt = false;
 	}
@@ -111,7 +111,7 @@ public class ContextWatcher implements StateListener
 		if (watching.add(context))
 		{
 			context.addStateListener(this);
-			Set<Statement> set = new HashSet<Statement>();
+			Set<Statement> set = new HashSet<>();
 			for (Statement st : context.statements(transaction).values())
 			{
 				st.addStateListener(this);

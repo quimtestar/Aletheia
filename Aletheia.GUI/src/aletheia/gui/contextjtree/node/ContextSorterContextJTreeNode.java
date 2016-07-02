@@ -115,7 +115,7 @@ public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJT
 	@Override
 	public Iterator<? extends ContextJTreeNode> childrenIterator()
 	{
-		return new CombinedIterator<ContextJTreeNode>(super.childrenIterator(), Collections.<ContextJTreeNode> singleton(consequentNode).iterator());
+		return new CombinedIterator<>(super.childrenIterator(), Collections.<ContextJTreeNode> singleton(consequentNode).iterator());
 	}
 
 	@Override

@@ -49,8 +49,8 @@ public class DelegateTreeDialogClient extends DelegateTreeDialog
 			pendingDelegateTree = Collections.emptySet();
 		try
 		{
-			Collection<DelegateTreeRootNode> delegateTreeSend = new ArrayList<DelegateTreeRootNode>();
-			Collection<UUID> delegateTreeRequest = new ArrayList<UUID>();
+			Collection<DelegateTreeRootNode> delegateTreeSend = new ArrayList<>();
+			Collection<UUID> delegateTreeRequest = new ArrayList<>();
 			for (StatementAuthority statementAuthority : pendingDelegateTree)
 			{
 				DelegateTreeRootNode delegateTreeRootNode = statementAuthority.getDelegateTreeRootNode(getTransaction());

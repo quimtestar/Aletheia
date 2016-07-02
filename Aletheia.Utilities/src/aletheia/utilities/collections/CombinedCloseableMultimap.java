@@ -47,7 +47,7 @@ public class CombinedCloseableMultimap<K, V> extends CombinedCloseableMap<K, Clo
 			return vBack;
 		if (vBack == null)
 			return vFront;
-		return new CombinedCloseableSet<V>(vFront, vBack);
+		return new CombinedCloseableSet<>(vFront, vBack);
 	}
 
 	@Override

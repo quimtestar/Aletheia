@@ -63,7 +63,7 @@ public class Production implements Serializable
 	public Production(NonTerminalSymbol left, List<Symbol> right)
 	{
 		this.left = left;
-		this.right = new ArrayList<Symbol>(right);
+		this.right = new ArrayList<>(right);
 	}
 
 	/**

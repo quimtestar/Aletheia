@@ -32,7 +32,7 @@ public class SoftCacheMap<K, V> extends AbstractCacheMap<K, V, SoftReference<V>>
 	@Override
 	protected SoftReference<V> makeRef(V value)
 	{
-		return new SoftReference<V>(value);
+		return new SoftReference<>(value);
 	}
 
 }

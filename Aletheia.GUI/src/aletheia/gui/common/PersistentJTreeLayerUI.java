@@ -140,7 +140,7 @@ public class PersistentJTreeLayerUI<T extends JComponent> extends LayerUI<T>
 
 		private LockTransactionManager()
 		{
-			this.pending = new HashSet<Transaction>();
+			this.pending = new HashSet<>();
 			this.transactionHook = new TransactionHook();
 		}
 
@@ -174,7 +174,7 @@ public class PersistentJTreeLayerUI<T extends JComponent> extends LayerUI<T>
 		this.myThrowableProcessor = new MyThrowableProcessor();
 		this.lockGlassPane = new LockGlassPane();
 		this.lockTransactionManager = new LockTransactionManager();
-		JLayer<T> jLayer_ = new JLayer<T>(view, this);
+		JLayer<T> jLayer_ = new JLayer<>(view, this);
 		if (jLayer != jLayer_)
 			throw new RuntimeException();
 	}

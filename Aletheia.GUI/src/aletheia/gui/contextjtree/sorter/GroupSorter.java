@@ -136,7 +136,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 			public CloseableIterator<Sorter> iterator()
 			{
 				if (sortedStatements.smaller(minGroupingSize + 1))
-					return new BijectionCloseableIterator<S, Sorter>(statementSorterBijection, sortedStatements.iterator());
+					return new BijectionCloseableIterator<>(statementSorterBijection, sortedStatements.iterator());
 				else
 				{
 					SortedStatements<S> assumptions = sortedStatements.headSet(RootNamespace.instance.initiator());
@@ -144,13 +144,13 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 					final SortedStatements<S> identified = nonAssumptions.headSet(RootNamespace.instance.terminator());
 					SortedStatements<S> nonIdentified = nonAssumptions.tailSet(RootNamespace.instance.terminator());
 
-					CloseableIterator<Sorter> assumptionIterator = new BijectionCloseableIterator<S, Sorter>(statementSorterBijection, assumptions.iterator());
+					CloseableIterator<Sorter> assumptionIterator = new BijectionCloseableIterator<>(statementSorterBijection, assumptions.iterator());
 					CloseableIterator<Sorter> identifiedIterator = null;
 					if (!(assumptions.isEmpty() && nonIdentified.isEmpty()) && !identified.smaller(2))
 					{
 						Namespace prefix = identified.first().getIdentifier().commonPrefix(identified.last().getIdentifier());
 						if (prefix instanceof NodeNamespace)
-							identifiedIterator = new TrivialCloseableIterable<Sorter>(
+							identifiedIterator = new TrivialCloseableIterable<>(
 									Collections.<Sorter> singleton(subGroupSorter(((NodeNamespace) prefix).asIdentifier()))).iterator();
 					}
 					if (identifiedIterator == null)
@@ -263,10 +263,10 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 							}
 
 						};
-					CloseableIterator<Sorter> nonIdentifiedIterator = new BijectionCloseableIterator<S, Sorter>(statementSorterBijection,
+					CloseableIterator<Sorter> nonIdentifiedIterator = new BijectionCloseableIterator<>(statementSorterBijection,
 							nonIdentified.iterator());
-					return new CombinedCloseableIterator<Sorter>(assumptionIterator,
-							new CombinedCloseableIterator<Sorter>(identifiedIterator, nonIdentifiedIterator));
+					return new CombinedCloseableIterator<>(assumptionIterator,
+							new CombinedCloseableIterator<>(identifiedIterator, nonIdentifiedIterator));
 				}
 			};
 

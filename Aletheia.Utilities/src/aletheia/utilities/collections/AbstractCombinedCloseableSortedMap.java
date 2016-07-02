@@ -97,7 +97,7 @@ public abstract class AbstractCombinedCloseableSortedMap<K, V> extends AbstractC
 	@Override
 	public CloseableSet<K> keySet()
 	{
-		return new CombinedCloseableSetSortedIterator<K>(getFront().keySet(), getBack().keySet(), resolvedComparator());
+		return new CombinedCloseableSetSortedIterator<>(getFront().keySet(), getBack().keySet(), resolvedComparator());
 	}
 
 	protected class Values extends AbstractCombinedMap<K, V>.Values implements CloseableSet<V>

@@ -179,14 +179,14 @@ public abstract class PersistentDialog extends Dialog
 
 	protected List<Statement> responseStatementListDependencySorted(Transaction transaction, Collection<UUID> uuids)
 	{
-		Set<Statement> pending = new HashSet<Statement>();
+		Set<Statement> pending = new HashSet<>();
 		for (UUID uuid : uuids)
 			pending.add(getPersistenceManager().getStatement(transaction, uuid));
-		List<Statement> list = new ArrayList<Statement>();
+		List<Statement> list = new ArrayList<>();
 		while (!pending.isEmpty())
 		{
-			Stack<Statement> stackin = new Stack<Statement>();
-			Stack<Statement> stackout = new Stack<Statement>();
+			Stack<Statement> stackin = new Stack<>();
+			Stack<Statement> stackout = new Stack<>();
 			stackin.push(pending.iterator().next());
 			while (!stackin.isEmpty())
 			{

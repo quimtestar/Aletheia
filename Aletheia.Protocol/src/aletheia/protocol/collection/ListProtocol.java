@@ -41,7 +41,7 @@ public class ListProtocol<E> extends AbstractCollectionProtocol<E, List<E>>
 	{
 		try
 		{
-			return new ArrayList<E>(n);
+			return new ArrayList<>(n);
 		}
 		catch (OutOfMemoryError e)
 		{

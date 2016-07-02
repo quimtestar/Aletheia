@@ -335,7 +335,7 @@ public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID
 	@Override
 	public CloseableSet<UUID> keySet()
 	{
-		return new BijectionCloseableSet<Entry<UUID, NodeDeferredMessage>, UUID>(new Bijection<Entry<UUID, NodeDeferredMessage>, UUID>()
+		return new BijectionCloseableSet<>(new Bijection<Entry<UUID, NodeDeferredMessage>, UUID>()
 		{
 
 			@Override
@@ -358,7 +358,7 @@ public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID
 	@Override
 	public CloseableCollection<NodeDeferredMessage> values()
 	{
-		return new BijectionCloseableCollection<Entry<UUID, NodeDeferredMessage>, NodeDeferredMessage>(
+		return new BijectionCloseableCollection<>(
 				new Bijection<Entry<UUID, NodeDeferredMessage>, NodeDeferredMessage>()
 				{
 

@@ -420,7 +420,7 @@ public abstract class BerkeleyDBSignatureRequestEntity implements SignatureReque
 	public BerkeleyDBSignatureRequestEntity()
 	{
 		this.contextCreationDateSecondaryKeyData = new ContextCreationDateSecondaryKeyData();
-		this.contextSubContextSecondaryKeyDataList = new ArrayList<ContextSubContextSecondaryKeyData>();
+		this.contextSubContextSecondaryKeyDataList = new ArrayList<>();
 		this.contextUuidKeyPathView = new ContextUuidKeyPathView();
 	}
 
@@ -464,7 +464,7 @@ public abstract class BerkeleyDBSignatureRequestEntity implements SignatureReque
 	@Override
 	public List<UUID> getContextUuidPath()
 	{
-		return new BijectionList<UUIDKey, UUID>(new Bijection<UUIDKey, UUID>()
+		return new BijectionList<>(new Bijection<UUIDKey, UUID>()
 		{
 
 			@Override

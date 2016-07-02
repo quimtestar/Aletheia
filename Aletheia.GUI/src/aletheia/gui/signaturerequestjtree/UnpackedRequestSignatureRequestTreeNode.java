@@ -57,7 +57,7 @@ public class UnpackedRequestSignatureRequestTreeNode extends RequestSignatureReq
 
 	protected Collection<Statement> sortedStatements(Transaction transaction)
 	{
-		BufferedList<Statement> list = new BufferedList<Statement>(statements(transaction));
+		BufferedList<Statement> list = new BufferedList<>(statements(transaction));
 		Collections.sort(list, new StatementComparator(transaction));
 		return list;
 	}
@@ -77,7 +77,7 @@ public class UnpackedRequestSignatureRequestTreeNode extends RequestSignatureReq
 	@Override
 	protected Collection<StatementSignatureRequestTreeNode> childNodeCollection(Transaction transaction)
 	{
-		return new BijectionCollection<Statement, StatementSignatureRequestTreeNode>(new Bijection<Statement, StatementSignatureRequestTreeNode>()
+		return new BijectionCollection<>(new Bijection<Statement, StatementSignatureRequestTreeNode>()
 		{
 
 			@Override

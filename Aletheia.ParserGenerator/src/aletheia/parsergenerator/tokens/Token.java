@@ -122,7 +122,7 @@ public class Token<S extends Symbol>
 		}
 		;
 
-		Stack<StackEntry> stack = new Stack<StackEntry>();
+		Stack<StackEntry> stack = new Stack<>();
 		stack.push(new StackEntry(this, ""));
 		while (!stack.isEmpty())
 		{

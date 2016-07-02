@@ -54,7 +54,7 @@ public class AdaptedIterable<E> implements Iterable<E>
 	@Override
 	public Iterator<E> iterator()
 	{
-		return new AdaptedIterator<E>(getInner().iterator());
+		return new AdaptedIterator<>(getInner().iterator());
 	}
 
 }

@@ -54,19 +54,19 @@ public class DummyMapSortedSet<E> extends DummyMapSet<E> implements SortedSet<E>
 		@Override
 		public SortedMap<E, Dummy> subMap(E fromKey, E toKey)
 		{
-			return new SortedSetToDummyMap<E>(getSet().subSet(fromKey, toKey));
+			return new SortedSetToDummyMap<>(getSet().subSet(fromKey, toKey));
 		}
 
 		@Override
 		public SortedMap<E, Dummy> headMap(E toKey)
 		{
-			return new SortedSetToDummyMap<E>(getSet().headSet(toKey));
+			return new SortedSetToDummyMap<>(getSet().headSet(toKey));
 		}
 
 		@Override
 		public SortedMap<E, Dummy> tailMap(E fromKey)
 		{
-			return new SortedSetToDummyMap<E>(getSet().tailSet(fromKey));
+			return new SortedSetToDummyMap<>(getSet().tailSet(fromKey));
 		}
 
 		@Override
@@ -102,19 +102,19 @@ public class DummyMapSortedSet<E> extends DummyMapSet<E> implements SortedSet<E>
 	@Override
 	public SortedSet<E> subSet(E fromElement, E toElement)
 	{
-		return new DummyMapSortedSet<E>(getMap().subMap(fromElement, toElement));
+		return new DummyMapSortedSet<>(getMap().subMap(fromElement, toElement));
 	}
 
 	@Override
 	public SortedSet<E> headSet(E toElement)
 	{
-		return new DummyMapSortedSet<E>(getMap().headMap(toElement));
+		return new DummyMapSortedSet<>(getMap().headMap(toElement));
 	}
 
 	@Override
 	public SortedSet<E> tailSet(E fromElement)
 	{
-		return new DummyMapSortedSet<E>(getMap().tailMap(fromElement));
+		return new DummyMapSortedSet<>(getMap().tailMap(fromElement));
 	}
 
 	@Override

@@ -68,7 +68,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 
 	private static List<String> splitCommand(String command) throws CommandParseException
 	{
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		boolean quoting = false;
 		StringBuffer sb = null;
 		for (char c : command.toCharArray())
@@ -122,8 +122,8 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 		InputStream stream = classLoader.getResourceAsStream(commandsListResourceName);
 		if (stream == null)
 			return new EmptyCloseableCollection<>();
-		return new FilteredCloseableIterable<Class<? extends Command>>(new NotNullFilter<Class<? extends Command>>(),
-				new BijectionCloseableIterable<String, Class<? extends Command>>(new Bijection<String, Class<? extends Command>>()
+		return new FilteredCloseableIterable<>(new NotNullFilter<Class<? extends Command>>(),
+				new BijectionCloseableIterable<>(new Bijection<String, Class<? extends Command>>()
 				{
 
 					@SuppressWarnings("unchecked")
@@ -169,7 +169,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 				this.resourceName = resourceName;
 			}
 		}
-		List<CommandResource> commandResourceList = new ArrayList<CommandResource>();
+		List<CommandResource> commandResourceList = new ArrayList<>();
 		commandResourceList.add(new CommandResource(ClassLoader.getSystemClassLoader(), staticTaggedCommandsResourceName));
 
 		String commandsFileName = System.getProperty("aletheia.gui.cli.commands");
@@ -245,7 +245,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 	{
 		super();
 		this.rootCommandGroup = new RootCommandGroup();
-		this.staticTaggedFactories = new HashMap<String, AbstractVoidCommandFactory<? extends Command>>();
+		this.staticTaggedFactories = new HashMap<>();
 		try
 		{
 			for (Class<? extends Command> c : staticTaggedCommandList())
@@ -258,7 +258,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 		finally
 		{
 		}
-		this.dynamicTaggedFactoryEntries = new HashMap<String, DynamicTaggedFactoryEntry>();
+		this.dynamicTaggedFactoryEntries = new HashMap<>();
 		this.dynamicTaggedFactories = new BijectionMap<>(new Bijection<DynamicTaggedFactoryEntry, DynamicCommand.Factory<? extends DynamicCommand>>()
 		{
 
@@ -275,7 +275,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 			}
 		}, dynamicTaggedFactoryEntries);
 
-		this.taggedFactories = new CombinedMap<String, AbstractVoidCommandFactory<? extends Command>>(
+		this.taggedFactories = new CombinedMap<>(
 				new AdaptedMap<String, AbstractVoidCommandFactory<? extends Command>>(dynamicTaggedFactories), staticTaggedFactories);
 	}
 

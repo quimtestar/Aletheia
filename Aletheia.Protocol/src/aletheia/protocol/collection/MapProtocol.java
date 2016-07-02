@@ -41,7 +41,7 @@ public class MapProtocol<K, V> extends AbstractMapProtocol<K, V, Map<K, V>>
 	{
 		try
 		{
-			return new HashMap<K, V>(n);
+			return new HashMap<>(n);
 		}
 		catch (OutOfMemoryError e)
 		{

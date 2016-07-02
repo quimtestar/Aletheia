@@ -58,9 +58,9 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 			Transaction transaction = getModel().beginTransaction();
 			try
 			{
-				sorterList = new BufferedList<Sorter>(new SorterDependencyFilter<Sorter>(getSorter().iterable(transaction), transaction));
+				sorterList = new BufferedList<>(new SorterDependencyFilter<>(getSorter().iterable(transaction), transaction));
 				degenerate = getSorter().degenerate(transaction);
-				uuidIndexes = new HashMap<UUID, Integer>();
+				uuidIndexes = new HashMap<>();
 				for (ListIterator<Sorter> iterator = sorterList.listIterator(); iterator.hasNext();)
 				{
 					int i = iterator.nextIndex();
@@ -239,7 +239,7 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 	{
 		if (!isCached())
 			return Collections.emptyIterator();
-		return new BijectionIterator<Sorter, SorterContextJTreeNode>(new Bijection<Sorter, SorterContextJTreeNode>()
+		return new BijectionIterator<>(new Bijection<Sorter, SorterContextJTreeNode>()
 		{
 
 			@Override
@@ -264,7 +264,7 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 			@Override
 			public Iterator<ContextJTreeNode> iterator()
 			{
-				return new AdaptedIterator<ContextJTreeNode>(childrenIterator());
+				return new AdaptedIterator<>(childrenIterator());
 			}
 		};
 	}
@@ -272,7 +272,7 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 	@Override
 	public Enumeration<ContextJTreeNode> children()
 	{
-		return new IteratorEnumeration<ContextJTreeNode>(childrenIterator());
+		return new IteratorEnumeration<>(childrenIterator());
 	}
 
 	@Override
@@ -288,7 +288,7 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 			return null;
 		clearSorterListManager();
 		List<Sorter> newSorterList = obtainSorterList();
-		return new ListChanges<Sorter>(oldSorterList, newSorterList);
+		return new ListChanges<>(oldSorterList, newSorterList);
 	}
 
 	@Override

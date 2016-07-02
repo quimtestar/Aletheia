@@ -175,8 +175,8 @@ public abstract class AbstractAuthoritySignatureTableModel implements TableModel
 			final Transaction transaction = beginTransaction();
 			try
 			{
-				rowDataList = new BufferedList<RowData>(
-						new BijectionCollection<StatementAuthoritySignature, RowData>(new Bijection<StatementAuthoritySignature, RowData>()
+				rowDataList = new BufferedList<>(
+						new BijectionCollection<>(new Bijection<StatementAuthoritySignature, RowData>()
 						{
 
 							@Override
@@ -191,8 +191,8 @@ public abstract class AbstractAuthoritySignatureTableModel implements TableModel
 								return rowData.statementAuthoritySignature;
 							}
 
-						}, new BufferedList<StatementAuthoritySignature>(statementAuthority.signatureDateSortedSet(transaction))));
-				rowDataListRef = new SoftReference<List<RowData>>(rowDataList);
+						}, new BufferedList<>(statementAuthority.signatureDateSortedSet(transaction))));
+				rowDataListRef = new SoftReference<>(rowDataList);
 			}
 			finally
 			{
@@ -204,7 +204,7 @@ public abstract class AbstractAuthoritySignatureTableModel implements TableModel
 
 	public List<StatementAuthoritySignature> getSignatureList()
 	{
-		return new BijectionList<RowData, StatementAuthoritySignature>(new Bijection<RowData, StatementAuthoritySignature>()
+		return new BijectionList<>(new Bijection<RowData, StatementAuthoritySignature>()
 		{
 
 			@Override

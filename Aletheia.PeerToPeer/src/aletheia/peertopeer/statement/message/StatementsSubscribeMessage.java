@@ -45,8 +45,8 @@ public class StatementsSubscribeMessage extends NonPersistentMessage
 	public StatementsSubscribeMessage(Collection<UUID> subscribedUuids, Collection<UUID> unsubscribedUuids)
 	{
 		super();
-		this.subscribeUuids = new ArrayList<UUID>(subscribedUuids);
-		this.unsubscribeUuids = new ArrayList<UUID>(unsubscribedUuids);
+		this.subscribeUuids = new ArrayList<>(subscribedUuids);
+		this.unsubscribeUuids = new ArrayList<>(unsubscribedUuids);
 	}
 
 	public List<UUID> getSubscribedUuids()
@@ -70,7 +70,7 @@ public class StatementsSubscribeMessage extends NonPersistentMessage
 			super(0, messageCode);
 			checkVersionAvailability(SubProtocol.class, requiredVersion);
 			this.uuidProtocol = new UUIDProtocol(0);
-			this.uuidListProtocol = new ListProtocol<UUID>(0, uuidProtocol);
+			this.uuidListProtocol = new ListProtocol<>(0, uuidProtocol);
 		}
 
 		@Override

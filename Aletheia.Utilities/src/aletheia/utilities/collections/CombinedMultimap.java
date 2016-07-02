@@ -53,7 +53,7 @@ public class CombinedMultimap<K, V> extends CombinedMap<K, Set<V>>
 			return vBack;
 		if (vBack == null)
 			return vFront;
-		return new CombinedSet<V>(vFront, vBack);
+		return new CombinedSet<>(vFront, vBack);
 	}
 
 	@Override

@@ -78,7 +78,7 @@ public abstract class AbstractCombinedIterable<E> implements Serializable, Itera
 	@Override
 	public Iterator<E> iterator()
 	{
-		return new CombinedIterator<E>(front.iterator(), getBack().iterator());
+		return new CombinedIterator<>(front.iterator(), getBack().iterator());
 	}
 
 }

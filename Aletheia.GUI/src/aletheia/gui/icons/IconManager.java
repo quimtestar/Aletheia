@@ -38,7 +38,7 @@ public class IconManager
 	{
 		String[] files =
 		{ "aletheia_plain_16.png", "aletheia_plain_32.png", "aletheia_plain_64.png", "aletheia_plain_128.png" };
-		List<Image> icons = new ArrayList<Image>();
+		List<Image> icons = new ArrayList<>();
 		for (String f : files)
 		{
 			InputStream is = null;

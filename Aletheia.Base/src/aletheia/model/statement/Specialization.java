@@ -309,7 +309,7 @@ public class Specialization extends Statement
 			throw new GeneralStatementNotInContextException(general);
 		if (!(context.statements(transaction).keySet().containsAll(instance.freeVariables())))
 		{
-			Set<String> undefined = new HashSet<String>();
+			Set<String> undefined = new HashSet<>();
 			for (VariableTerm var : instance.freeVariables())
 			{
 				if (!context.statements(transaction).containsKey(var))

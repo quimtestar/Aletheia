@@ -56,7 +56,7 @@ public class ProofFinder
 			super();
 			this.context = context;
 			this.subsumptionTable = new SubsumptionTable();
-			this.queue = new PriorityQueue<QueueEntry>();
+			this.queue = new PriorityQueue<>();
 			try
 			{
 				QueueEntry e = new RootQueueEntry(candidateFinder, context);
@@ -120,7 +120,7 @@ public class ProofFinder
 		this.persistenceManager = persistenceManager;
 		this.contextWatcher = new ContextWatcher();
 		this.candidateFinder = new CandidateFinder(persistenceManager, contextWatcher);
-		this.contextQueueMap = new HashMap<Context, ContextQueue>();
+		this.contextQueueMap = new HashMap<>();
 		this.totalSize = 0;
 		this.listeners = Collections.synchronizedSet(new HashSet<Listener>());
 		this.proofFinderThread = null;

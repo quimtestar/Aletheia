@@ -42,8 +42,8 @@ public class StatementProofInitialDialog extends InitializeStatementProofDialog
 
 	private Collection<Statement> provedStatementsToSend()
 	{
-		Collection<Statement> provedStatementsToSend = new ArrayList<Statement>();
-		Stack<UUID> stack = new Stack<UUID>();
+		Collection<Statement> provedStatementsToSend = new ArrayList<>();
+		Stack<UUID> stack = new Stack<>();
 		stack.addAll(getRemoteSubscription().rootContextUuids());
 		while (!stack.isEmpty())
 		{

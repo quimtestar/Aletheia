@@ -41,7 +41,7 @@ public class NewSignedProofsLoopDialogClient extends NewSignedProofsLoopDialog
 
 	private void dialogateNewProofsClient(Set<StatementAuthority> pendingStatementAuthoritySignedProofs) throws IOException, InterruptedException
 	{
-		List<UUID> statementUuids = new ArrayList<UUID>();
+		List<UUID> statementUuids = new ArrayList<>();
 		for (StatementAuthority statementAuthority : pendingStatementAuthoritySignedProofs)
 		{
 			if (statementAuthority.isSignedProof())

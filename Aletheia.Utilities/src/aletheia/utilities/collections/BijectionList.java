@@ -50,7 +50,7 @@ public class BijectionList<I, O> extends BijectionCollection<I, O> implements Li
 	@Override
 	public boolean addAll(int index, Collection<? extends O> c)
 	{
-		return getInner().addAll(index, new BijectionCollection<O, I>(invertBijection(getBijection()), new AdaptedCollection<O>(c)));
+		return getInner().addAll(index, new BijectionCollection<>(invertBijection(getBijection()), new AdaptedCollection<>(c)));
 
 	}
 
@@ -107,19 +107,19 @@ public class BijectionList<I, O> extends BijectionCollection<I, O> implements Li
 	@Override
 	public ListIterator<O> listIterator()
 	{
-		return new BijectionListIterator<I, O>(getBijection(), getInner().listIterator());
+		return new BijectionListIterator<>(getBijection(), getInner().listIterator());
 	}
 
 	@Override
 	public ListIterator<O> listIterator(int index)
 	{
-		return new BijectionListIterator<I, O>(getBijection(), getInner().listIterator(index));
+		return new BijectionListIterator<>(getBijection(), getInner().listIterator(index));
 	}
 
 	@Override
 	public List<O> subList(int fromIndex, int toIndex)
 	{
-		return new BijectionList<I, O>(getBijection(), getInner().subList(fromIndex, toIndex));
+		return new BijectionList<>(getBijection(), getInner().subList(fromIndex, toIndex));
 	}
 
 }

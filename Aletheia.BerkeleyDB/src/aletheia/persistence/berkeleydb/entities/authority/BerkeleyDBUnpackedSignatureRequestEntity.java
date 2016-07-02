@@ -49,8 +49,8 @@ public class BerkeleyDBUnpackedSignatureRequestEntity extends BerkeleyDBSignatur
 	public BerkeleyDBUnpackedSignatureRequestEntity()
 	{
 		super();
-		this.contextUuidKeyPath = new ArrayList<UUIDKey>();
-		this.statementUuidKeys = new HashSet<UUIDKey>();
+		this.contextUuidKeyPath = new ArrayList<>();
+		this.statementUuidKeys = new HashSet<>();
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class BerkeleyDBUnpackedSignatureRequestEntity extends BerkeleyDBSignatur
 	@Override
 	public Set<UUID> getStatementUuids()
 	{
-		return new BijectionSet<UUIDKey, UUID>(new Bijection<UUIDKey, UUID>()
+		return new BijectionSet<>(new Bijection<UUIDKey, UUID>()
 		{
 
 			@Override

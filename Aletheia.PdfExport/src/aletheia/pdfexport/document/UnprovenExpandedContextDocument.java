@@ -63,10 +63,10 @@ public class UnprovenExpandedContextDocument extends ContextDocument
 			public StackEntry(Context context)
 			{
 				this.context = context;
-				this.queue = new LinkedList<Statement>(context.localDependencySortedStatements(getTransaction()));
+				this.queue = new LinkedList<>(context.localDependencySortedStatements(getTransaction()));
 			}
 		}
-		Stack<StackEntry> stack = new Stack<StackEntry>();
+		Stack<StackEntry> stack = new Stack<>();
 		add(StatementTable.statementTable(this, stack.size(), getTransaction(), getContext()));
 		stack.push(new StackEntry(getContext()));
 		while (!stack.isEmpty())

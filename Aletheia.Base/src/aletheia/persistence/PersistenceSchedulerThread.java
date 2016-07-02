@@ -129,7 +129,7 @@ public class PersistenceSchedulerThread extends Thread
 		super("PersistenceSchedulerThread");
 		this.setDaemon(true);
 		this.persistenceManager = persistenceManager;
-		this.queue = new PriorityQueue<Job>();
+		this.queue = new PriorityQueue<>();
 		this.queue.add(new SyncJob());
 		this.queue.add(new DeleteOldNonPrivateOrphansJob());
 		this.shutdown = false;

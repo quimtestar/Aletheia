@@ -39,7 +39,7 @@ public class AdaptedCloseableIterable<E> extends AdaptedIterable<E> implements C
 	@Override
 	public CloseableIterator<E> iterator()
 	{
-		return new AdaptedCloseableIterator<E>(getInner().iterator());
+		return new AdaptedCloseableIterator<>(getInner().iterator());
 	}
 
 }

@@ -332,7 +332,7 @@ public class NetworkPhase extends SubRootPhase
 	private synchronized void putResourceTreeNodeActionMap(Map<Resource, List<ResourceTreeNodeSet.Action>> actionMap)
 	{
 		if (resourceTreeNodeSetActionMap == null)
-			resourceTreeNodeSetActionMap = new HashMap<Resource, List<ResourceTreeNodeSet.Action>>();
+			resourceTreeNodeSetActionMap = new HashMap<>();
 		for (Map.Entry<Resource, List<ResourceTreeNodeSet.Action>> e : actionMap.entrySet())
 		{
 			Resource resource = e.getKey();

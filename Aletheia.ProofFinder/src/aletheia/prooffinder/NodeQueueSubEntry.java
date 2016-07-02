@@ -32,7 +32,7 @@ public class NodeQueueSubEntry extends PureQueueSubEntry
 	public NodeQueueSubEntry(QueueSubEntry parent, Candidate candidate, VariableTerm variable) throws UnprojectException
 	{
 		super(parent.getCandidateFinder(), parent.getContext(), candidate.getAntecedentMap().get(variable).unproject());
-		this.virtualStatements = new CombinedList<VirtualStatement>(localVirtualStatements(), parent.virtualStatements());
+		this.virtualStatements = new CombinedList<>(localVirtualStatements(), parent.virtualStatements());
 	}
 
 	@Override

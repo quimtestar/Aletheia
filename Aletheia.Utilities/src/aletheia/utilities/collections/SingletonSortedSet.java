@@ -52,7 +52,7 @@ public class SingletonSortedSet<E> implements SortedSet<E>
 		if (comparator != null)
 			actualComparator = new SuperComparator<>(comparator);
 		else
-			actualComparator = new NaturalComparator<E>();
+			actualComparator = new NaturalComparator<>();
 	}
 
 	public SingletonSortedSet(E element)
@@ -167,7 +167,7 @@ public class SingletonSortedSet<E> implements SortedSet<E>
 		if (actualComparator.compare(element, fromElement) >= 0 && actualComparator.compare(element, toElement) < 0)
 			return this;
 		else
-			return new EmptySortedSet<E>(comparator);
+			return new EmptySortedSet<>(comparator);
 	}
 
 	@Override
@@ -176,7 +176,7 @@ public class SingletonSortedSet<E> implements SortedSet<E>
 		if (actualComparator.compare(element, toElement) < 0)
 			return this;
 		else
-			return new EmptySortedSet<E>(comparator);
+			return new EmptySortedSet<>(comparator);
 	}
 
 	@Override
@@ -185,7 +185,7 @@ public class SingletonSortedSet<E> implements SortedSet<E>
 		if (actualComparator.compare(element, fromElement) >= 0)
 			return this;
 		else
-			return new EmptySortedSet<E>(comparator);
+			return new EmptySortedSet<>(comparator);
 	}
 
 	@Override

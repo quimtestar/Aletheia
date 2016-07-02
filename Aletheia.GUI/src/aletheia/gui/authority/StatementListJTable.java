@@ -226,7 +226,7 @@ public class StatementListJTable extends JTable
 
 		public MyTableCellRenderer()
 		{
-			this.rendererMap = new HashMap<Statement, MyCellRendererComponent>();
+			this.rendererMap = new HashMap<>();
 		}
 
 		protected MyCellRendererComponent getCellRendererComponent(Statement statement, boolean isSelected, boolean hasFocus)
@@ -354,7 +354,7 @@ public class StatementListJTable extends JTable
 
 		public HeaderTableCellRenderer()
 		{
-			this.rendererMap = new HashMap<String, MyCellRendererComponent>();
+			this.rendererMap = new HashMap<>();
 		}
 
 		protected MyCellRendererComponent getCellRendererComponent(String text, boolean isSelected, boolean hasFocus)

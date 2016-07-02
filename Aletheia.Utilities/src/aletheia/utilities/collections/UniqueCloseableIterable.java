@@ -63,7 +63,7 @@ public class UniqueCloseableIterable<E> extends UniqueIterable<E> implements Clo
 	@Override
 	public CloseableIterator<E> iterator()
 	{
-		return new UniqueCloseableIterator<E>(getInner().iterator());
+		return new UniqueCloseableIterator<>(getInner().iterator());
 	}
 
 }

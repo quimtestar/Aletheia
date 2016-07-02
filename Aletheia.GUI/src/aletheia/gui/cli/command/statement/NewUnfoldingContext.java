@@ -71,7 +71,7 @@ public class NewUnfoldingContext extends NewContext
 			{
 				if (from.getActiveContext() == null)
 					throw new NotActiveContextException();
-				Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<ParameterVariableTerm, Identifier>();
+				Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<>();
 				Term term = parseTerm(from.getActiveContext(), transaction, split.get(0), parameterIdentifiers);
 				Declaration declaration = (Declaration) from.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(1)));
 				if (declaration == null)

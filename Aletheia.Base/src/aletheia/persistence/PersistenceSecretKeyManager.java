@@ -132,7 +132,7 @@ public class PersistenceSecretKeyManager
 		{
 			throw new RuntimeException(e);
 		}
-		this.listeners = new LinkedList<Listener>();
+		this.listeners = new LinkedList<>();
 		this.persistenceSecretKeySingletonStateListener = new PersistenceSecretKeySingletonStateListener();
 		persistenceManager.getListenerManager().getPersistenceSecretKeySingletonStateListeners().add(persistenceSecretKeySingletonStateListener);
 		this.secretKey = null;

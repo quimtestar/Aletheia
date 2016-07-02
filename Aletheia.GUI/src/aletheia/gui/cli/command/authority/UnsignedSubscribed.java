@@ -46,7 +46,7 @@ public class UnsignedSubscribed extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		Stack<ContextLocal> stack = new Stack<ContextLocal>();
+		Stack<ContextLocal> stack = new Stack<>();
 		{
 			ContextLocal cl = context.getLocal(getTransaction());
 			if ((cl != null) && cl.isSubscribeStatements())

@@ -141,7 +141,7 @@ public abstract class DelegateTreeNode implements Exportable
 			throw new SignatureVersionException();
 		try
 		{
-			List<UUID> uuidList = new ArrayList<UUID>();
+			List<UUID> uuidList = new ArrayList<>();
 			for (Person person : localDelegateAuthorizerMap(transaction).keySet())
 				uuidList.add(person.getUuid());
 			Collections.sort(uuidList);
@@ -250,9 +250,9 @@ public abstract class DelegateTreeNode implements Exportable
 
 	protected void deleteDelegateSubTree(Transaction transaction)
 	{
-		Stack<DelegateTreeNode> stack = new Stack<DelegateTreeNode>();
+		Stack<DelegateTreeNode> stack = new Stack<>();
 		stack.push(this);
-		Stack<DelegateTreeNode> stack2 = new Stack<DelegateTreeNode>();
+		Stack<DelegateTreeNode> stack2 = new Stack<>();
 		while (!stack.isEmpty())
 		{
 			DelegateTreeNode node = stack.pop();

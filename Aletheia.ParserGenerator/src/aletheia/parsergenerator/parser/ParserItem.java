@@ -54,7 +54,7 @@ public class ParserItem implements Serializable
 	private ParserItem(Grammar grammar)
 	{
 		this.grammar = grammar;
-		this.followerMap = new HashMap<ProductionState, Set<TerminalSymbol>>();
+		this.followerMap = new HashMap<>();
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class ParserItem implements Serializable
 		}
 		;
 
-		Stack<StackEntry> stack = new Stack<StackEntry>();
+		Stack<StackEntry> stack = new Stack<>();
 		stack.push(new StackEntry(start, followers));
 		while (!stack.isEmpty())
 		{
@@ -99,7 +99,7 @@ public class ParserItem implements Serializable
 					Set<TerminalSymbol> fws = followerMap.get(ps);
 					if (fws == null)
 					{
-						fws = new HashSet<TerminalSymbol>();
+						fws = new HashSet<>();
 						followerMap.put(ps, fws);
 					}
 					boolean change = fws.addAll(se.followers);
@@ -123,7 +123,7 @@ public class ParserItem implements Serializable
 	 */
 	private Set<TerminalSymbol> nextFollowers(ProductionState ps, Set<TerminalSymbol> prodFollowers)
 	{
-		Set<TerminalSymbol> set = new HashSet<TerminalSymbol>();
+		Set<TerminalSymbol> set = new HashSet<>();
 		for (int pos = ps.getPosition() + 1; pos < ps.getProduction().getRight().size(); pos++)
 		{
 			Symbol s = ps.getProduction().getRight().get(pos);
@@ -272,7 +272,7 @@ public class ParserItem implements Serializable
 				Set<TerminalSymbol> fws = next.followerMap.get(psa);
 				if (fws == null)
 				{
-					fws = new HashSet<TerminalSymbol>();
+					fws = new HashSet<>();
 					next.followerMap.put(psa, fws);
 				}
 				fws.addAll(ts);
@@ -290,7 +290,7 @@ public class ParserItem implements Serializable
 	 */
 	public Map<Symbol, ParserItem> next()
 	{
-		Map<Symbol, ParserItem> map = new HashMap<Symbol, ParserItem>();
+		Map<Symbol, ParserItem> map = new HashMap<>();
 		for (Symbol s : grammar.getSymbols())
 		{
 			ParserItem next = next(s);
@@ -310,7 +310,7 @@ public class ParserItem implements Serializable
 	 */
 	public Map<Production, Set<TerminalSymbol>> endingProductions()
 	{
-		Map<Production, Set<TerminalSymbol>> map = new HashMap<Production, Set<TerminalSymbol>>();
+		Map<Production, Set<TerminalSymbol>> map = new HashMap<>();
 		for (Map.Entry<ProductionState, Set<TerminalSymbol>> fme : followerMap.entrySet())
 		{
 			if (fme.getKey().atEnd())

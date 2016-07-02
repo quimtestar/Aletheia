@@ -45,13 +45,13 @@ public abstract class AbstractCacheWithCleanerMap<K, V, R extends Reference<V>> 
 	private final ReferenceQueue<V> queue;
 	private final Map<R, K> reverseMap;
 
-	private final Set<Listener<K>> listeners = new HashSet<Listener<K>>();
+	private final Set<Listener<K>> listeners = new HashSet<>();
 
 	public AbstractCacheWithCleanerMap()
 	{
 		super();
-		queue = new ReferenceQueue<V>();
-		reverseMap = new HashMap<R, K>();
+		queue = new ReferenceQueue<>();
+		reverseMap = new HashMap<>();
 	}
 
 	private synchronized void cleanReferences()

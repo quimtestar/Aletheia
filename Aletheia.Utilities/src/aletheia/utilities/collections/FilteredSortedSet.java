@@ -54,13 +54,13 @@ public class FilteredSortedSet<E> extends FilteredSet<E> implements SortedSet<E>
 	@Override
 	public FilteredSortedSet<E> subSet(E fromElement, E toElement)
 	{
-		return new FilteredSortedSet<E>(getFilter(), getInner().subSet(fromElement, toElement));
+		return new FilteredSortedSet<>(getFilter(), getInner().subSet(fromElement, toElement));
 	}
 
 	@Override
 	public FilteredSortedSet<E> headSet(E toElement)
 	{
-		return new FilteredSortedSet<E>(getFilter(), getInner().headSet(toElement));
+		return new FilteredSortedSet<>(getFilter(), getInner().headSet(toElement));
 	}
 
 	@Override

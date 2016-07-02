@@ -40,7 +40,7 @@ public abstract class PureQueueSubEntry extends QueueSubEntry
 	{
 		super(candidateFinder, context);
 		this.term = term;
-		this.localVirtualStatements = new ArrayList<VirtualStatement>();
+		this.localVirtualStatements = new ArrayList<>();
 		int order = 0;
 		while (term instanceof FunctionTerm)
 		{

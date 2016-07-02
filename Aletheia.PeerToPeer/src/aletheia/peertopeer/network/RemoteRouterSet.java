@@ -64,7 +64,7 @@ public class RemoteRouterSet implements RouterSet
 
 	public RemoteRouterSet()
 	{
-		this.routers = new ArrayList<RemoteRouter>();
+		this.routers = new ArrayList<>();
 	}
 
 	public void addRouter(RemoteRouter remoteRouter)

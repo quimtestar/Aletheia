@@ -55,7 +55,7 @@ public class NonTerminalToken extends Token<NonTerminalSymbol>
 	{
 		super(production.getLeft(), startLocation, stopLocation);
 		this.production = production;
-		this.children = new ArrayList<Token<? extends Symbol>>(children);
+		this.children = new ArrayList<>(children);
 	}
 
 	public Production getProduction()

@@ -81,7 +81,7 @@ public abstract class EntityStoreUpgrade
 	{
 		try
 		{
-			upgradeMap = new HashMap<Integer, EntityStoreUpgrade>();
+			upgradeMap = new HashMap<>();
 			for (Class<? extends EntityStoreUpgrade> upgradeClass : upgradeClasses)
 			{
 				EntityStoreUpgrade upgrade = upgradeClass.newInstance();
@@ -372,7 +372,7 @@ public abstract class EntityStoreUpgrade
 
 		protected List<String> entityClassNames(RawStore store)
 		{
-			List<String> names = new ArrayList<String>();
+			List<String> names = new ArrayList<>();
 			EntityModel model = store.getModel();
 			for (String className : model.getKnownClasses())
 			{

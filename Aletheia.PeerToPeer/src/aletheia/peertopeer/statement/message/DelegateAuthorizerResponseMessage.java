@@ -98,8 +98,8 @@ public class DelegateAuthorizerResponseMessage extends AbstractUUIDPersistentInf
 				DelegateAuthorizerRequestMessage.DelegateTreeNodeInfo delegateAuthorizerRequestMessageNode)
 		{
 			super();
-			this.delegateAuthorizers = new HashMap<UUID, DelegateAuthorizer>();
-			this.subNodes = new HashMap<String, DelegateTreeSubNodeInfo>();
+			this.delegateAuthorizers = new HashMap<>();
+			this.subNodes = new HashMap<>();
 
 			for (UUID delegateUuid : delegateAuthorizerRequestMessageNode.getDelegateUuids())
 			{
@@ -154,7 +154,7 @@ public class DelegateAuthorizerResponseMessage extends AbstractUUIDPersistentInf
 				checkVersionAvailability(MyProtocol.class, requiredVersion);
 				this.delegateTreeNode = delegateTreeNode;
 				this.delegateAuthorizerProtocol = new DelegateAuthorizerProtocol(0, persistenceManager, transaction, delegateTreeNode);
-				this.delegateAuthorizerMapProtocol = new MapProtocol<UUID, DelegateAuthorizer>(0, uuidProtocol, delegateAuthorizerProtocol);
+				this.delegateAuthorizerMapProtocol = new MapProtocol<>(0, uuidProtocol, delegateAuthorizerProtocol);
 			}
 
 			protected DelegateTreeNode getDelegateTreeNode()
@@ -194,7 +194,7 @@ public class DelegateAuthorizerResponseMessage extends AbstractUUIDPersistentInf
 			{
 				Map<UUID, DelegateAuthorizer> delegateAuthorizers = delegateAuthorizerMapProtocol.recv(in);
 				int n = integerProtocol.recv(in);
-				Map<String, DelegateTreeSubNodeInfo> subNodes = new HashMap<String, DelegateTreeSubNodeInfo>(n);
+				Map<String, DelegateTreeSubNodeInfo> subNodes = new HashMap<>(n);
 				for (int i = 0; i < n; i++)
 				{
 					String name = stringProtocol.recv(in);
@@ -330,7 +330,7 @@ public class DelegateAuthorizerResponseMessage extends AbstractUUIDPersistentInf
 	private static Collection<Entry> makeEntries(PersistenceManager persistenceManager, Transaction transaction,
 			DelegateAuthorizerRequestMessage delegateAuthorizerRequestMessage)
 	{
-		Collection<Entry> entries = new ArrayList<Entry>();
+		Collection<Entry> entries = new ArrayList<>();
 		for (AbstractUUIDInfoMessage.Entry<DelegateAuthorizerRequestMessage.DelegateTreeRootNodeInfo> e : delegateAuthorizerRequestMessage.getEntries())
 		{
 			DelegateTreeRootNode delegateTreeRootNode = persistenceManager.getDelegateTreeRootNode(transaction, e.getKey());

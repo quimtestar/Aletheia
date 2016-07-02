@@ -102,7 +102,7 @@ public class UniqueIterable<E> implements Iterable<E>
 	@Override
 	public Iterator<E> iterator()
 	{
-		return new UniqueIterator<E>(inner.iterator());
+		return new UniqueIterator<>(inner.iterator());
 	}
 
 }

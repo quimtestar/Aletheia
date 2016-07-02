@@ -303,7 +303,7 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 		Collection<Statement> statements = findMultiStatementSpec(persistenceManager, transaction, activeContext, split.get(0));
 		if (statements == null || statements.isEmpty())
 			throw new CommandParseException("Invalid statement");
-		Collection<StatementAuthoritySignature> signatures = new ArrayList<StatementAuthoritySignature>();
+		Collection<StatementAuthoritySignature> signatures = new ArrayList<>();
 		for (Statement statement : statements)
 		{
 			StatementAuthority statementAuthority = statement.getAuthority(transaction);

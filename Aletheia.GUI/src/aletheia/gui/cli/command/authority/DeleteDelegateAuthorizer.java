@@ -113,8 +113,8 @@ public class DeleteDelegateAuthorizer extends TransactionalCommand
 				final DelegateTreeNode node = statementAuthority.getDelegateTreeNode(transaction, prefix);
 				if (node == null)
 					throw new CommandParseException("Not a delegate on that prefix");
-				CloseableIterator<DelegateAuthorizer> iterator = new FilteredCloseableCollection<DelegateAuthorizer>(new NotNullFilter<DelegateAuthorizer>(),
-						new BijectionCloseableCollection<Person, DelegateAuthorizer>(new Bijection<Person, DelegateAuthorizer>()
+				CloseableIterator<DelegateAuthorizer> iterator = new FilteredCloseableCollection<>(new NotNullFilter<DelegateAuthorizer>(),
+						new BijectionCloseableCollection<>(new Bijection<Person, DelegateAuthorizer>()
 						{
 
 							@Override

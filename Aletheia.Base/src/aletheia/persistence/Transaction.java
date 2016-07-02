@@ -196,7 +196,7 @@ public abstract class Transaction
 		else
 		{
 			if (commitHooks == null)
-				commitHooks = new LinkedList<Hook>();
+				commitHooks = new LinkedList<>();
 			commitHooks.add(hook);
 		}
 	}
@@ -208,7 +208,7 @@ public abstract class Transaction
 		else
 		{
 			if (closeHooks == null)
-				closeHooks = new LinkedList<Hook>();
+				closeHooks = new LinkedList<>();
 			closeHooks.add(hook);
 		}
 	}

@@ -50,7 +50,7 @@ public class MaleSalutationMessage extends SalutationMessage
 	@ProtocolInfo(availableVersions = 0)
 	public static class SubProtocol extends AbstractSubProtocol<MaleSalutationMessage>
 	{
-		private final NullableProtocol<UUID> nullableUuidProtocol = new NullableProtocol<UUID>(0, new UUIDProtocol(0));
+		private final NullableProtocol<UUID> nullableUuidProtocol = new NullableProtocol<>(0, new UUIDProtocol(0));
 
 		public SubProtocol(int requiredVersion, MessageCode messageCode)
 		{

@@ -121,7 +121,7 @@ public class Belt
 
 	public synchronized Collection<NetworkPhase> neighbourCollection()
 	{
-		return new FilteredCollection<NetworkPhase>(new NotNullFilter<NetworkPhase>(), Arrays.asList(left, right));
+		return new FilteredCollection<>(new NotNullFilter<NetworkPhase>(), Arrays.asList(left, right));
 	}
 
 	public synchronized boolean isComplete()

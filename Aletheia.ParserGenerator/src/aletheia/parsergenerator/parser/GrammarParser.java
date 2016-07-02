@@ -71,14 +71,14 @@ public class GrammarParser extends Parser
 	protected Grammar parse(GrammarLexer lexer) throws ParserLexerException
 	{
 		NonTerminalToken token = parseToken(lexer);
-		Set<String> leftTags = new HashSet<String>();
+		Set<String> leftTags = new HashSet<>();
 		leftTags(token, leftTags);
-		Map<String, TaggedNonTerminalSymbol> mapLeft = new HashMap<String, TaggedNonTerminalSymbol>();
+		Map<String, TaggedNonTerminalSymbol> mapLeft = new HashMap<>();
 		for (String tag : leftTags)
 			mapLeft.put(tag, new TaggedNonTerminalSymbol(tag));
-		Set<String> allTags = new HashSet<String>();
+		Set<String> allTags = new HashSet<>();
 		rightTags(token, allTags);
-		Map<String, Symbol> mapSymbols = new HashMap<String, Symbol>();
+		Map<String, Symbol> mapSymbols = new HashMap<>();
 		for (String tag : allTags)
 		{
 			if (!leftTags.contains(tag))
@@ -87,7 +87,7 @@ public class GrammarParser extends Parser
 		mapSymbols.putAll(mapLeft);
 		String startTag = startTag(token);
 		TaggedNonTerminalSymbol startSymbol = mapLeft.get(startTag);
-		Set<Production> productions = new HashSet<Production>();
+		Set<Production> productions = new HashSet<>();
 		productions(token, mapSymbols, productions);
 		return new Grammar(productions, startSymbol);
 	}
@@ -123,7 +123,7 @@ public class GrammarParser extends Parser
 	private Production production(NonTerminalToken token, Map<String, Symbol> mapSymbols)
 	{
 		NonTerminalSymbol left = (NonTerminalSymbol) mapSymbols.get(((GrammarLexer.IdentifierToken) token.getChildren().get(0)).getText());
-		List<Symbol> right = new ArrayList<Symbol>();
+		List<Symbol> right = new ArrayList<>();
 		rightProduction((NonTerminalToken) token.getChildren().get(2), mapSymbols, right);
 		return new Production(left, right);
 	}

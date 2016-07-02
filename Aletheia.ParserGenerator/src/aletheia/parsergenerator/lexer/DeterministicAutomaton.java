@@ -73,15 +73,15 @@ public class DeterministicAutomaton implements Serializable
 	public DeterministicAutomaton(Automaton automaton)
 	{
 		super();
-		Map<Set<AutomatonState>, Map<Character, Set<AutomatonState>>> dtrans = new HashMap<Set<AutomatonState>, Map<Character, Set<AutomatonState>>>();
-		Stack<Set<AutomatonState>> stack = new Stack<Set<AutomatonState>>();
+		Map<Set<AutomatonState>, Map<Character, Set<AutomatonState>>> dtrans = new HashMap<>();
+		Stack<Set<AutomatonState>> stack = new Stack<>();
 		stack.push(automaton.startStates());
 		while (!stack.isEmpty())
 		{
 			Set<AutomatonState> stateSet = stack.pop();
 			if (!dtrans.containsKey(stateSet))
 			{
-				Map<Character, Set<AutomatonState>> map = new TreeMap<Character, Set<AutomatonState>>();
+				Map<Character, Set<AutomatonState>> map = new TreeMap<>();
 				dtrans.put(stateSet, map);
 				for (AutomatonState s : stateSet)
 				{
@@ -94,7 +94,7 @@ public class DeterministicAutomaton implements Serializable
 							Set<AutomatonState> set = map.get(c);
 							if (set == null)
 							{
-								set = new HashSet<AutomatonState>();
+								set = new HashSet<>();
 								map.put(c, set);
 							}
 							set.addAll(e.getValue());
@@ -104,7 +104,7 @@ public class DeterministicAutomaton implements Serializable
 				stack.addAll(map.values());
 			}
 		}
-		Set<Set<AutomatonState>> daccept = new HashSet<Set<AutomatonState>>();
+		Set<Set<AutomatonState>> daccept = new HashSet<>();
 		for (Set<AutomatonState> set : dtrans.keySet())
 		{
 			for (AutomatonState s : set)
@@ -117,8 +117,8 @@ public class DeterministicAutomaton implements Serializable
 			}
 		}
 
-		Map<Set<AutomatonState>, AutomatonState> isomorphism = new HashMap<Set<AutomatonState>, AutomatonState>();
-		Set<AutomatonState> acceptStates = new HashSet<AutomatonState>();
+		Map<Set<AutomatonState>, AutomatonState> isomorphism = new HashMap<>();
+		Set<AutomatonState> acceptStates = new HashSet<>();
 		for (Set<AutomatonState> set : dtrans.keySet())
 		{
 			AutomatonState s = new AutomatonState();
@@ -127,10 +127,10 @@ public class DeterministicAutomaton implements Serializable
 				acceptStates.add(s);
 		}
 		AutomatonState startState = isomorphism.get(automaton.startStates());
-		Map<AutomatonState, Map<Character, AutomatonState>> transitions = new HashMap<AutomatonState, Map<Character, AutomatonState>>();
+		Map<AutomatonState, Map<Character, AutomatonState>> transitions = new HashMap<>();
 		for (Map.Entry<Set<AutomatonState>, Map<Character, Set<AutomatonState>>> e : dtrans.entrySet())
 		{
-			Map<Character, AutomatonState> map = new TreeMap<Character, AutomatonState>();
+			Map<Character, AutomatonState> map = new TreeMap<>();
 			for (Map.Entry<Character, Set<AutomatonState>> e2 : e.getValue().entrySet())
 				map.put(e2.getKey(), isomorphism.get(e2.getValue()));
 			transitions.put(isomorphism.get(e.getKey()), map);
@@ -227,14 +227,14 @@ public class DeterministicAutomaton implements Serializable
 	 */
 	public DeterministicAutomaton minimize()
 	{
-		Map<AutomatonState, Set<AutomatonState>> partitions = new HashMap<AutomatonState, Set<AutomatonState>>();
-		Map<AutomatonState, Set<AutomatonState>> partitionmap = new HashMap<AutomatonState, Set<AutomatonState>>();
+		Map<AutomatonState, Set<AutomatonState>> partitions = new HashMap<>();
+		Map<AutomatonState, Set<AutomatonState>> partitionmap = new HashMap<>();
 		AutomatonState well = new AutomatonState();
-		Set<Character> alphabet = new HashSet<Character>();
+		Set<Character> alphabet = new HashSet<>();
 		{
-			Set<AutomatonState> acceptStates = new HashSet<AutomatonState>();
+			Set<AutomatonState> acceptStates = new HashSet<>();
 			partitions.put(new AutomatonState(), acceptStates);
-			Set<AutomatonState> nonacceptStates = new HashSet<AutomatonState>();
+			Set<AutomatonState> nonacceptStates = new HashSet<>();
 			partitions.put(new AutomatonState(), nonacceptStates);
 			for (Map.Entry<AutomatonState, Map<Character, AutomatonState>> e : transitions.entrySet())
 			{
@@ -262,13 +262,13 @@ public class DeterministicAutomaton implements Serializable
 
 		while (true)
 		{
-			Map<Set<AutomatonState>, Map<Map<Character, Set<AutomatonState>>, Set<AutomatonState>>> subpartitions = new HashMap<Set<AutomatonState>, Map<Map<Character, Set<AutomatonState>>, Set<AutomatonState>>>();
+			Map<Set<AutomatonState>, Map<Map<Character, Set<AutomatonState>>, Set<AutomatonState>>> subpartitions = new HashMap<>();
 			for (Set<AutomatonState> part : partitions.values())
 			{
-				Map<Map<Character, Set<AutomatonState>>, Set<AutomatonState>> successormapinv = new HashMap<Map<Character, Set<AutomatonState>>, Set<AutomatonState>>();
+				Map<Map<Character, Set<AutomatonState>>, Set<AutomatonState>> successormapinv = new HashMap<>();
 				for (AutomatonState s : part)
 				{
-					Map<Character, Set<AutomatonState>> destmap = new TreeMap<Character, Set<AutomatonState>>();
+					Map<Character, Set<AutomatonState>> destmap = new TreeMap<>();
 					for (Character c : alphabet)
 						destmap.put(c, partitionmap.get(well));
 					if (s != well)
@@ -283,7 +283,7 @@ public class DeterministicAutomaton implements Serializable
 					Set<AutomatonState> subpar = successormapinv.get(destmap);
 					if (subpar == null)
 					{
-						subpar = new HashSet<AutomatonState>();
+						subpar = new HashSet<>();
 						successormapinv.put(destmap, subpar);
 					}
 					subpar.add(s);
@@ -311,15 +311,15 @@ public class DeterministicAutomaton implements Serializable
 				break;
 		}
 
-		Map<Set<AutomatonState>, AutomatonState> iso = new HashMap<Set<AutomatonState>, AutomatonState>();
+		Map<Set<AutomatonState>, AutomatonState> iso = new HashMap<>();
 		for (Map.Entry<AutomatonState, Set<AutomatonState>> e : partitions.entrySet())
 			if (iso.put(e.getValue(), e.getKey()) != null)
 				throw new Error();
 		AutomatonState startState_ = iso.get(partitionmap.get(this.startState));
-		Set<AutomatonState> acceptStates_ = new HashSet<AutomatonState>();
+		Set<AutomatonState> acceptStates_ = new HashSet<>();
 		for (AutomatonState s : this.acceptStates)
 			acceptStates_.add(iso.get(partitionmap.get(s)));
-		Map<AutomatonState, Map<Character, AutomatonState>> transitions_ = new HashMap<AutomatonState, Map<Character, AutomatonState>>();
+		Map<AutomatonState, Map<Character, AutomatonState>> transitions_ = new HashMap<>();
 		for (Map.Entry<AutomatonState, Map<Character, AutomatonState>> e : this.transitions.entrySet())
 		{
 			if (!partitionmap.get(e.getKey()).contains(well))
@@ -327,7 +327,7 @@ public class DeterministicAutomaton implements Serializable
 				Map<Character, AutomatonState> map = transitions_.get(iso.get(partitionmap.get(e.getKey())));
 				if (map == null)
 				{
-					map = new TreeMap<Character, AutomatonState>();
+					map = new TreeMap<>();
 					transitions_.put(iso.get(partitionmap.get(e.getKey())), map);
 				}
 				for (Map.Entry<Character, AutomatonState> e2 : e.getValue().entrySet())
@@ -560,8 +560,8 @@ public class DeterministicAutomaton implements Serializable
 				}
 			};
 
-			private final Map<StatePair, AutomatonState> pairToState = new HashMap<StatePair, AutomatonState>();
-			private final Map<AutomatonState, StatePair> stateToPair = new HashMap<AutomatonState, StatePair>();
+			private final Map<StatePair, AutomatonState> pairToState = new HashMap<>();
+			private final Map<AutomatonState, StatePair> stateToPair = new HashMap<>();
 
 			public AutomatonState getState(AutomatonState stateA, AutomatonState stateB)
 			{
@@ -596,11 +596,11 @@ public class DeterministicAutomaton implements Serializable
 		StateConverter stateConverter = new StateConverter();
 		AutomatonState wellStateB = new AutomatonState();
 		AutomatonState startState = stateConverter.getState(a.startState(), b.startState());
-		Map<AutomatonState, Map<Character, AutomatonState>> transitions = new HashMap<AutomatonState, Map<Character, AutomatonState>>();
-		Stack<AutomatonState> stack = new Stack<AutomatonState>();
+		Map<AutomatonState, Map<Character, AutomatonState>> transitions = new HashMap<>();
+		Stack<AutomatonState> stack = new Stack<>();
 		stack.push(startState);
-		Set<AutomatonState> acceptStates = new HashSet<AutomatonState>();
-		Set<AutomatonState> visited = new HashSet<AutomatonState>();
+		Set<AutomatonState> acceptStates = new HashSet<>();
+		Set<AutomatonState> visited = new HashSet<>();
 		while (!stack.isEmpty())
 		{
 			AutomatonState state = stack.pop();
@@ -615,7 +615,7 @@ public class DeterministicAutomaton implements Serializable
 						acceptStates.add(state);
 
 				}
-				Map<Character, AutomatonState> next = new HashMap<Character, AutomatonState>();
+				Map<Character, AutomatonState> next = new HashMap<>();
 				transitions.put(state, next);
 				Map<Character, AutomatonState> nextA = a.next(stateA);
 				Map<Character, AutomatonState> nextB = b.next(stateB);
@@ -707,8 +707,8 @@ public class DeterministicAutomaton implements Serializable
 	{
 		class Isomorphism
 		{
-			private Map<AutomatonState, AutomatonState> forward = new HashMap<AutomatonState, AutomatonState>();
-			private Map<AutomatonState, AutomatonState> backward = new HashMap<AutomatonState, AutomatonState>();
+			private Map<AutomatonState, AutomatonState> forward = new HashMap<>();
+			private Map<AutomatonState, AutomatonState> backward = new HashMap<>();
 
 			public boolean add(AutomatonState s1, AutomatonState s2)
 			{
@@ -739,9 +739,9 @@ public class DeterministicAutomaton implements Serializable
 		Isomorphism isomorphism = new Isomorphism();
 
 		isomorphism.add(a1.startState, a2.startState);
-		Stack<AutomatonState> stack = new Stack<AutomatonState>();
+		Stack<AutomatonState> stack = new Stack<>();
 		stack.push(a1.startState);
-		Set<AutomatonState> visited = new HashSet<AutomatonState>();
+		Set<AutomatonState> visited = new HashSet<>();
 		while (!stack.isEmpty())
 		{
 			AutomatonState s1 = stack.pop();
@@ -787,8 +787,8 @@ public class DeterministicAutomaton implements Serializable
 	{
 		class StateNumbering
 		{
-			private final ArrayList<AutomatonState> aStates = new ArrayList<AutomatonState>();
-			private final Map<AutomatonState, Integer> mStates = new HashMap<AutomatonState, Integer>();
+			private final ArrayList<AutomatonState> aStates = new ArrayList<>();
+			private final Map<AutomatonState, Integer> mStates = new HashMap<>();
 
 			public int get(AutomatonState state)
 			{
@@ -817,9 +817,9 @@ public class DeterministicAutomaton implements Serializable
 		out.print(numbering.get(startState) + ", ");
 		out.println();
 
-		Set<AutomatonState> visited = new HashSet<AutomatonState>();
-		Set<AutomatonState> pending = new HashSet<AutomatonState>(transitions.keySet());
-		Stack<AutomatonState> stack = new Stack<AutomatonState>();
+		Set<AutomatonState> visited = new HashSet<>();
+		Set<AutomatonState> pending = new HashSet<>(transitions.keySet());
+		Stack<AutomatonState> stack = new Stack<>();
 		stack.push(startState);
 		while (!pending.isEmpty())
 		{

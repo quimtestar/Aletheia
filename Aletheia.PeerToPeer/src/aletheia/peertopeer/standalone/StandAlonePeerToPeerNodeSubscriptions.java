@@ -63,7 +63,7 @@ public class StandAlonePeerToPeerNodeSubscriptions
 		{
 			super();
 			this.depth = depth;
-			this.children = new HashMap<Identifier, SubConfigurationTreeNode>();
+			this.children = new HashMap<>();
 		}
 	}
 
@@ -120,7 +120,7 @@ public class StandAlonePeerToPeerNodeSubscriptions
 		public ConfigurationTree()
 		{
 			super();
-			this.rootConfigurationTreeNodes = new HashMap<UUID, RootConfigurationTreeNode>();
+			this.rootConfigurationTreeNodes = new HashMap<>();
 		}
 
 		public ValidConfigurationTreeNode contextToNode(Transaction transaction, Context context)
@@ -146,7 +146,7 @@ public class StandAlonePeerToPeerNodeSubscriptions
 		if (i < 0)
 			return Collections.emptyList();
 		int j = s.indexOf(')', i);
-		return new ArrayAsList<String>(s.substring(i + 1, j).split(","));
+		return new ArrayAsList<>(s.substring(i + 1, j).split(","));
 	}
 
 	public static class ConfigurationException extends Exception
@@ -182,7 +182,7 @@ public class StandAlonePeerToPeerNodeSubscriptions
 			CloseableIterator<String> iterator = new StreamAsStringIterable(new FileInputStream(configurationFileName)).iterator();
 			try
 			{
-				Stack<ConfigurationTreeNode> stack = new Stack<ConfigurationTreeNode>();
+				Stack<ConfigurationTreeNode> stack = new Stack<>();
 				while (iterator.hasNext())
 				{
 					String s = iterator.next();
@@ -331,7 +331,7 @@ public class StandAlonePeerToPeerNodeSubscriptions
 							this.context = context;
 						}
 					}
-					Stack<StackEntry> stack = new Stack<StackEntry>();
+					Stack<StackEntry> stack = new Stack<>();
 					stack.push(new StackEntry(validConfigurationTreeNode, context));
 					while (!stack.isEmpty())
 					{

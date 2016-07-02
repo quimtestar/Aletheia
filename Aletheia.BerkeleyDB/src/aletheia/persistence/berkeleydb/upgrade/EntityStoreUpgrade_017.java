@@ -87,7 +87,7 @@ public class EntityStoreUpgrade_017 extends EntityStoreUpgrade_018
 						PrimaryIndex<Object, Object> newPrimaryIndex = aletheiaStore.getPrimaryIndex(primaryKeyClass, entityClass);
 						PrimaryIndex<Object, RawObject> oldPrimaryIndex = oldStore.getPrimaryIndex(className);
 						EntityCursor<RawObject> cursor = oldPrimaryIndex.entities(tx, CursorConfig.DEFAULT);
-						Set<UUID> authorizerUuids = new HashSet<UUID>();
+						Set<UUID> authorizerUuids = new HashSet<>();
 						int n = 0;
 						try
 						{

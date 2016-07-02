@@ -59,7 +59,7 @@ public class RouteableMessage extends NonPersistentMessage
 			super(0, messageCode);
 			checkVersionAvailability(SubProtocol.class, requiredVersion);
 			this.routeableSubMessageProtocol = new RouteableSubMessageProtocol(0);
-			this.routeableSubMessageListProtocol = new CollectionProtocol<RouteableSubMessage>(0, routeableSubMessageProtocol);
+			this.routeableSubMessageListProtocol = new CollectionProtocol<>(0, routeableSubMessageProtocol);
 		}
 
 		@Override

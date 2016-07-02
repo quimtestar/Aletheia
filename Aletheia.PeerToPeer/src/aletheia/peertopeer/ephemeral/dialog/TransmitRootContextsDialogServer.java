@@ -40,7 +40,7 @@ public class TransmitRootContextsDialogServer extends TransmitRootContextsDialog
 	public TransmitRootContextsDialogServer(Phase phase)
 	{
 		super(phase);
-		this.rootContexts = new HashMap<UUID, RootContext>();
+		this.rootContexts = new HashMap<>();
 	}
 
 	public Map<UUID, RootContext> getRootContexts()

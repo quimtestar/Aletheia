@@ -46,7 +46,7 @@ public class StatementSubscriptionLoopDialogServer extends StatementSubscription
 	private Set<Context> dialogateStatementsSubscribeServer() throws IOException, ProtocolException, InterruptedException
 	{
 		StatementsSubscribeMessage statementsSubscribeMessage = recvMessage(StatementsSubscribeMessage.class);
-		Set<Context> subscribe = new HashSet<Context>();
+		Set<Context> subscribe = new HashSet<>();
 		for (UUID uuid : statementsSubscribeMessage.getSubscribedUuids())
 		{
 			Context context = getPersistenceManager().getContext(getTransaction(), uuid);
@@ -63,7 +63,7 @@ public class StatementSubscriptionLoopDialogServer extends StatementSubscription
 			if (context != null)
 				getRemoteSubscription().removeContext(getTransaction(), context);
 		}
-		Collection<UUID> subscribeUuids = new BijectionCollection<Statement, UUID>(getStatementUuidBijection(), new AdaptedCollection<Statement>(subscribe));
+		Collection<UUID> subscribeUuids = new BijectionCollection<>(getStatementUuidBijection(), new AdaptedCollection<Statement>(subscribe));
 		sendMessage(new StatementsSubscribeConfirmationMessage(subscribeUuids));
 		return subscribe;
 	}

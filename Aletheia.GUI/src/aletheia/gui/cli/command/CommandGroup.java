@@ -34,8 +34,8 @@ public abstract class CommandGroup
 
 	protected CommandGroup()
 	{
-		this.subGroups = new TreeMap<String, SubCommandGroup>();
-		this.factories = new TreeMap<String, AbstractCommandFactory<? extends Command, ?>>();
+		this.subGroups = new TreeMap<>();
+		this.factories = new TreeMap<>();
 	}
 
 	public static class CommandGroupException extends Command.CommandException
@@ -153,7 +153,7 @@ public abstract class CommandGroup
 	public String path()
 	{
 		CommandGroup group = this;
-		List<String> nameList = new ArrayList<String>();
+		List<String> nameList = new ArrayList<>();
 		while (group instanceof SubCommandGroup)
 		{
 			SubCommandGroup subGroup = (SubCommandGroup) group;

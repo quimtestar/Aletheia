@@ -131,7 +131,7 @@ public class TransmitDeferredMessagesMessage extends NonPersistentMessage
 
 	public static TransmitDeferredMessagesMessage fromDeferredMessages(Collection<DeferredMessage> deferredMessages)
 	{
-		return new TransmitDeferredMessagesMessage(new BijectionCollection<DeferredMessage, Entry>(new Bijection<DeferredMessage, Entry>()
+		return new TransmitDeferredMessagesMessage(new BijectionCollection<>(new Bijection<DeferredMessage, Entry>()
 		{
 
 			@Override
@@ -163,7 +163,7 @@ public class TransmitDeferredMessagesMessage extends NonPersistentMessage
 		{
 			super(0, messageCode);
 			checkVersionAvailability(SubProtocol.class, requiredVersion);
-			this.entryCollectionProtocol = new CollectionProtocol<Entry>(0, new Entry.Protocol(0));
+			this.entryCollectionProtocol = new CollectionProtocol<>(0, new Entry.Protocol(0));
 		}
 
 		@Override

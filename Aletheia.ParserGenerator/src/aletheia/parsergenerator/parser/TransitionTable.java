@@ -255,17 +255,17 @@ public abstract class TransitionTable implements Serializable
 		this.grammar = grammar;
 		ItemStateTranslator trans = itemStateTranslator();
 		this.startState = trans.itemToState(ParserItem.initial(grammar));
-		this.stateSet = new HashSet<State>();
-		this.transitions = new HashMap<State, Map<Symbol, State>>();
+		this.stateSet = new HashSet<>();
+		this.transitions = new HashMap<>();
 		this.acceptState = trans.itemToState(trans.stateToItem(startState).next(grammar.getStartSymbol()));
-		Stack<State> stack = new Stack<State>();
+		Stack<State> stack = new Stack<>();
 		stack.push(startState);
 		while (!stack.isEmpty())
 		{
 			State state = stack.pop();
 			stateSet.add(state);
-			Map<Symbol, State> next = new HashMap<Symbol, State>();
-			Collection<State> nextStates = new ArrayList<State>();
+			Map<Symbol, State> next = new HashMap<>();
+			Collection<State> nextStates = new ArrayList<>();
 			for (Map.Entry<Symbol, ParserItem> e : trans.stateToItem(state).next().entrySet())
 			{
 				ParserItem item = e.getValue();
@@ -280,11 +280,11 @@ public abstract class TransitionTable implements Serializable
 			transitions.put(state, Collections.unmodifiableMap(next));
 			stack.addAll(nextStates);
 		}
-		this.reductions = new HashMap<State, Map<TerminalSymbol, Production>>();
-		Collection<Conflict> conflicts = new ArrayList<Conflict>();
+		this.reductions = new HashMap<>();
+		Collection<Conflict> conflicts = new ArrayList<>();
 		for (State state : stateSet)
 		{
-			Map<TerminalSymbol, Production> map = new HashMap<TerminalSymbol, Production>();
+			Map<TerminalSymbol, Production> map = new HashMap<>();
 			reductions.put(state, Collections.unmodifiableMap(map));
 			for (Map.Entry<Production, Set<TerminalSymbol>> e : trans.stateToItem(state).endingProductions().entrySet())
 			{
@@ -371,7 +371,7 @@ public abstract class TransitionTable implements Serializable
 	 */
 	public Set<TerminalSymbol> nextTerminals(State state)
 	{
-		Set<TerminalSymbol> set = new HashSet<TerminalSymbol>(reductions.get(state).keySet());
+		Set<TerminalSymbol> set = new HashSet<>(reductions.get(state).keySet());
 		for (Symbol s : transitions.get(state).keySet())
 			if (s instanceof TerminalSymbol)
 				set.add((TerminalSymbol) s);

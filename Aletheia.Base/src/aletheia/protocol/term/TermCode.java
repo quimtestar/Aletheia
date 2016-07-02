@@ -56,8 +56,8 @@ public enum TermCode implements ByteExportableEnum<TermCode>
 
 	static
 	{
-		codeMap = new HashMap<Byte, TermCode>();
-		classMap = new HashMap<Class<? extends Term>, TermCode>();
+		codeMap = new HashMap<>();
+		classMap = new HashMap<>();
 
 		for (TermCode termCode : values())
 		{
@@ -78,7 +78,7 @@ public enum TermCode implements ByteExportableEnum<TermCode>
 	private TermCode(byte code, Class<?>... classes)
 	{
 		this.code = code;
-		this.classes = new HashSet<Class<? extends Term>>();
+		this.classes = new HashSet<>();
 		for (Class<?> clazz : classes)
 			this.classes.add((Class<? extends Term>) clazz);
 	}

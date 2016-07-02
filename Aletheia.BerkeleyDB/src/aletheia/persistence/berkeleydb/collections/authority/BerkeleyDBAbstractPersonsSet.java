@@ -52,7 +52,7 @@ public abstract class BerkeleyDBAbstractPersonsSet<K> extends AbstractCloseableS
 		this.persistenceManager = persistenceManager;
 		this.index = index;
 		this.transaction = transaction;
-		this.keyComparator = keyClass != null ? new BerkeleyDBKeyComparator<K>(keyClass) : null;
+		this.keyComparator = keyClass != null ? new BerkeleyDBKeyComparator<>(keyClass) : null;
 		this.fromKey = fromKey;
 		this.fromInclusive = fromInclusive;
 		this.toKey = toKey;

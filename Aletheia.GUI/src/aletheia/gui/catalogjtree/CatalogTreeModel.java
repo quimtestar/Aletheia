@@ -308,7 +308,7 @@ public class CatalogTreeModel extends PersistentTreeModel
 		public MyStatementStateListener()
 		{
 			super();
-			listeningTo = new HashSet<Statement>();
+			listeningTo = new HashSet<>();
 		}
 
 		public synchronized void listenTo(Statement statement)
@@ -674,7 +674,7 @@ public class CatalogTreeModel extends PersistentTreeModel
 		virtualRootTreeNode = new VirtualRootTreeNode();
 		statementStateListener = new MyStatementStateListener();
 		persistenceManager.getListenerManager().getRootContextTopStateListeners().add(statementStateListener);
-		statementStateChangeQueue = new LinkedBlockingQueue<StatementChange>();
+		statementStateChangeQueue = new LinkedBlockingQueue<>();
 		statementStateProcessorThread = new StatementStateProcessorThread();
 		statementStateProcessorThread.start();
 

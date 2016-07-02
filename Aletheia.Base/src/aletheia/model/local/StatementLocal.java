@@ -149,7 +149,7 @@ public class StatementLocal implements Exportable
 
 	public void delete(Transaction transaction)
 	{
-		Stack<StatementLocal> stack = new Stack<StatementLocal>();
+		Stack<StatementLocal> stack = new Stack<>();
 		stack.push(this);
 		while (!stack.isEmpty())
 		{

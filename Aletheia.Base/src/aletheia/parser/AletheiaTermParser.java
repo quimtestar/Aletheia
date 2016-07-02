@@ -129,14 +129,14 @@ public class AletheiaTermParser extends Parser
 		finally
 		{
 		}
-		taggedTerminalSymbols = new HashMap<String, TaggedTerminalSymbol>();
+		taggedTerminalSymbols = new HashMap<>();
 		for (TerminalSymbol s : getGrammar().terminalSymbols())
 			if (s instanceof TaggedTerminalSymbol)
 			{
 				TaggedTerminalSymbol ts = (TaggedTerminalSymbol) s;
 				taggedTerminalSymbols.put(ts.getTag(), ts);
 			}
-		taggedNonTerminalSymbols = new HashMap<String, TaggedNonTerminalSymbol>();
+		taggedNonTerminalSymbols = new HashMap<>();
 		for (NonTerminalSymbol s : getGrammar().nonTerminalSymbols())
 			if (s instanceof TaggedNonTerminalSymbol)
 			{
@@ -276,7 +276,7 @@ public class AletheiaTermParser extends Parser
 		try
 		{
 			NonTerminalToken token = parseToken(new AutomatonSetLexer(automatonSet, new StringReader(input)));
-			Map<ParameterRef, ParameterVariableTerm> tempParameterTable = new HashMap<ParameterRef, ParameterVariableTerm>();
+			Map<ParameterRef, ParameterVariableTerm> tempParameterTable = new HashMap<>();
 			return processTerm(context, transaction, tempParameterTable, token, input, parameterIdentifiers);
 		}
 		catch (ParserLexerException e)

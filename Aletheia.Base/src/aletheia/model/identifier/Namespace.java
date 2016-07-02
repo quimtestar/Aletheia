@@ -103,7 +103,7 @@ public abstract class Namespace implements Comparable<Namespace>, Serializable, 
 	 */
 	public final List<String> nameList()
 	{
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 		for (NodeNamespace ns : prefixList())
 			list.add(ns.getName());
 		return list;

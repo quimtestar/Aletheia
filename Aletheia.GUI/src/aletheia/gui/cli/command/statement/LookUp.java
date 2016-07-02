@@ -63,7 +63,7 @@ public class LookUp extends TransactionalCommand
 			}
 
 		};
-		Queue<Context.Match> matches = new DiamondPriorityDiscardingQueue<Context.Match>(DiamondPriorityDiscardingQueue.heightForCapacity(size + 1),
+		Queue<Context.Match> matches = new DiamondPriorityDiscardingQueue<>(DiamondPriorityDiscardingQueue.heightForCapacity(size + 1),
 				comparator);
 		matches.addAll(context.lookupMatches(getTransaction(), term));
 		int n = 0;

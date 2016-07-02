@@ -155,7 +155,7 @@ public abstract class Term implements Serializable, Exportable
 
 	public final Term replace(Collection<Replace> replaces) throws ReplaceTypeException
 	{
-		return replace(new LinkedList<Replace>(replaces), new HashSet<VariableTerm>());
+		return replace(new LinkedList<>(replaces), new HashSet<VariableTerm>());
 	}
 
 	/**
@@ -235,7 +235,7 @@ public abstract class Term implements Serializable, Exportable
 	 */
 	public Set<VariableTerm> freeVariables()
 	{
-		Set<VariableTerm> freeVars = new HashSet<VariableTerm>();
+		Set<VariableTerm> freeVars = new HashSet<>();
 		freeVariables(freeVars, new HashSet<VariableTerm>());
 		return freeVars;
 	}
@@ -513,7 +513,7 @@ public abstract class Term implements Serializable, Exportable
 	 */
 	public List<ParameterVariableTerm> parameters()
 	{
-		List<ParameterVariableTerm> parameters = new ArrayList<ParameterVariableTerm>();
+		List<ParameterVariableTerm> parameters = new ArrayList<>();
 		consequent(parameters);
 		return parameters;
 	}
@@ -525,7 +525,7 @@ public abstract class Term implements Serializable, Exportable
 	public Term dropIndependentParameters()
 	{
 		Term term = this;
-		List<ParameterVariableTerm> parameters = new LinkedList<ParameterVariableTerm>();
+		List<ParameterVariableTerm> parameters = new LinkedList<>();
 		while (term instanceof FunctionTerm)
 		{
 			FunctionTerm function = (FunctionTerm) term;
@@ -587,8 +587,8 @@ public abstract class Term implements Serializable, Exportable
 
 		protected ParameterNumerator()
 		{
-			this.parameterStack = new Stack<ParameterVariableTerm>();
-			this.parameterToNumberStackMap = new HashMap<ParameterVariableTerm, Stack<Integer>>();
+			this.parameterStack = new Stack<>();
+			this.parameterToNumberStackMap = new HashMap<>();
 		}
 
 		public int numberParameter(ParameterVariableTerm parameter)
@@ -598,7 +598,7 @@ public abstract class Term implements Serializable, Exportable
 			Stack<Integer> numberStack = parameterToNumberStackMap.get(parameter);
 			if (numberStack == null)
 			{
-				numberStack = new Stack<Integer>();
+				numberStack = new Stack<>();
 				parameterToNumberStackMap.put(parameter, numberStack);
 			}
 			numberStack.push(number);
@@ -679,8 +679,8 @@ public abstract class Term implements Serializable, Exportable
 	public Match match(Set<VariableTerm> assignableVarsLeft, Term termRight, Set<VariableTerm> assignableVarsRight)
 	{
 		Term termLeft = this;
-		Map<VariableTerm, Term> assignMapLeft = new HashMap<VariableTerm, Term>();
-		Map<VariableTerm, Term> assignMapRight = new HashMap<VariableTerm, Term>();
+		Map<VariableTerm, Term> assignMapLeft = new HashMap<>();
+		Map<VariableTerm, Term> assignMapRight = new HashMap<>();
 
 		class ParameterCorrespondence
 		{
@@ -719,10 +719,10 @@ public abstract class Term implements Serializable, Exportable
 		}
 		;
 
-		List<Replace> replaceLeft = new ArrayList<Replace>();
-		List<Replace> replaceRight = new ArrayList<Replace>();
+		List<Replace> replaceLeft = new ArrayList<>();
+		List<Replace> replaceRight = new ArrayList<>();
 
-		Stack<StackEntry> stack = new Stack<StackEntry>();
+		Stack<StackEntry> stack = new Stack<>();
 		stack.push(new StackEntry(termLeft, termRight));
 		while (!stack.isEmpty())
 		{

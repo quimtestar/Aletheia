@@ -59,19 +59,19 @@ public class BijectionSortedMap<K, I, O> extends BijectionMap<K, I, O> implement
 	@Override
 	public SortedMap<K, O> subMap(K fromKey, K toKey)
 	{
-		return new BijectionSortedMap<K, I, O>(getBijection(), getInner().subMap(fromKey, toKey));
+		return new BijectionSortedMap<>(getBijection(), getInner().subMap(fromKey, toKey));
 	}
 
 	@Override
 	public SortedMap<K, O> headMap(K toKey)
 	{
-		return new BijectionSortedMap<K, I, O>(getBijection(), getInner().headMap(toKey));
+		return new BijectionSortedMap<>(getBijection(), getInner().headMap(toKey));
 	}
 
 	@Override
 	public SortedMap<K, O> tailMap(K fromKey)
 	{
-		return new BijectionSortedMap<K, I, O>(getBijection(), getInner().tailMap(fromKey));
+		return new BijectionSortedMap<>(getBijection(), getInner().tailMap(fromKey));
 	}
 
 	@Override

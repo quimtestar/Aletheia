@@ -202,9 +202,9 @@ public enum MessageCode implements ShortExportableEnum<MessageCode>
 
 	static
 	{
-		codeMap = new HashMap<Short, MessageCode>();
-		classMap = new HashMap<Class<? extends Message>, MessageCode>();
-		generalizedClassMap = new HashMap<Class<? extends Message>, Set<MessageCode>>();
+		codeMap = new HashMap<>();
+		classMap = new HashMap<>();
+		generalizedClassMap = new HashMap<>();
 
 		for (MessageCode messageCode : values())
 		{

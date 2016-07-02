@@ -46,8 +46,8 @@ public class RemoteSubscription implements Subscription
 	public RemoteSubscription(PersistenceManager persistenceManager)
 	{
 		this.persistenceManager = persistenceManager;
-		this.rootContextUuids = new HashSet<UUID>();
-		this.subContextSubscriptions = new HashMap<UUID, RemoteSubContextSubscription>();
+		this.rootContextUuids = new HashSet<>();
+		this.subContextSubscriptions = new HashMap<>();
 	}
 
 	protected PersistenceManager getPersistenceManager()
@@ -62,8 +62,8 @@ public class RemoteSubscription implements Subscription
 
 		private RemoteSubContextSubscription()
 		{
-			this.contextUuids = new HashSet<UUID>();
-			this.proofUuids = new HashSet<UUID>();
+			this.contextUuids = new HashSet<>();
+			this.proofUuids = new HashSet<>();
 		}
 
 		@Override
@@ -103,7 +103,7 @@ public class RemoteSubscription implements Subscription
 	@Override
 	public CloseableMap<UUID, RemoteSubContextSubscription> subContextSubscriptions()
 	{
-		return new TrivialCloseableMap<UUID, RemoteSubContextSubscription>(Collections.unmodifiableMap(subContextSubscriptions));
+		return new TrivialCloseableMap<>(Collections.unmodifiableMap(subContextSubscriptions));
 	}
 
 	@Override
@@ -125,7 +125,7 @@ public class RemoteSubscription implements Subscription
 	private RemoteSubContextSubscription addSubContextSubscription(Transaction transaction, UUID parentUuid)
 	{
 		Context ctx = persistenceManager.getContext(transaction, parentUuid);
-		Stack<Context> stack = new Stack<Context>();
+		Stack<Context> stack = new Stack<>();
 		while (!subContextSubscriptions.containsKey(ctx.getUuid()))
 		{
 			if (ctx instanceof RootContext)
@@ -172,7 +172,7 @@ public class RemoteSubscription implements Subscription
 			if (sub != null)
 				sub.removeContextUuid(context.getUuid());
 		}
-		Stack<UUID> stack = new Stack<UUID>();
+		Stack<UUID> stack = new Stack<>();
 		stack.push(context.getUuid());
 		while (!stack.isEmpty())
 		{

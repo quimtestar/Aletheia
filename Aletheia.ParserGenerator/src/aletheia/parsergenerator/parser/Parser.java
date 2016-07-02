@@ -205,9 +205,9 @@ public abstract class Parser implements Serializable
 	 */
 	protected NonTerminalToken parseToken(Lexer lexer) throws ParserLexerException
 	{
-		Stack<State> stateStack = new Stack<State>();
-		Stack<Token<?>> inputStack = new Stack<Token<?>>();
-		Stack<Token<?>> outputStack = new Stack<Token<?>>();
+		Stack<State> stateStack = new Stack<>();
+		Stack<Token<?>> inputStack = new Stack<>();
+		Stack<Token<?>> outputStack = new Stack<>();
 		stateStack.push(transitionTable.getStartState());
 		while (!stateStack.isEmpty())
 		{
@@ -232,7 +232,7 @@ public abstract class Parser implements Serializable
 				Production prod = transitionTable.getReductions().get(state).get(inputStack.peek().getSymbol());
 				if (prod == null)
 					throw new UnexpectedTokenException(inputStack.peek(), state);
-				LinkedList<Token<?>> children = new LinkedList<Token<?>>();
+				LinkedList<Token<?>> children = new LinkedList<>();
 				for (ListIterator<Symbol> i = prod.getRight().listIterator(prod.getRight().size()); i.hasPrevious();)
 				{
 					Symbol s = i.previous();

@@ -163,7 +163,7 @@ public class ResourceTreeNodeSet
 		private ResourceTreeNode(Resource resource)
 		{
 			this.resource = resource;
-			this.upEntries = new HashMap<NetworkPhase, UpEntry>();
+			this.upEntries = new HashMap<>();
 			this.localResourceMetadata = null;
 			this.distance = -1;
 			this.closestUp = null;
@@ -819,10 +819,10 @@ public class ResourceTreeNodeSet
 	public ResourceTreeNodeSet(LocalRouterSet localRouterSet)
 	{
 		this.localRouterSet = localRouterSet;
-		this.resourceTreeNodeMap = new HashMap<Resource, ResourceTreeNode>();
-		this.localResourceSet = new HashSet<Resource>();
-		this.pendingActionsMap = new HashMap<NetworkPhase, Map<Resource, List<Action>>>();
-		this.listeners = new HashSet<Listener>();
+		this.resourceTreeNodeMap = new HashMap<>();
+		this.localResourceSet = new HashSet<>();
+		this.pendingActionsMap = new HashMap<>();
+		this.listeners = new HashSet<>();
 		localRouterSet.addListener(new LocalRouterSetListener());
 	}
 
@@ -984,13 +984,13 @@ public class ResourceTreeNodeSet
 			Map<Resource, List<Action>> resourceMap = pendingActionsMap.get(networkPhase);
 			if (resourceMap == null)
 			{
-				resourceMap = new HashMap<Resource, List<Action>>();
+				resourceMap = new HashMap<>();
 				pendingActionsMap.put(networkPhase, resourceMap);
 			}
 			List<Action> list = resourceMap.get(resource);
 			if (list == null)
 			{
-				list = new ArrayList<Action>();
+				list = new ArrayList<>();
 				resourceMap.put(resource, list);
 			}
 			list.add(action);

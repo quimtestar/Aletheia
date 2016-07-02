@@ -75,7 +75,7 @@ public class LastId extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		Stack<Context> stack = new Stack<Context>();
+		Stack<Context> stack = new Stack<>();
 		Identifier lastId = null;
 
 		Context activeContext = getActiveContext();
@@ -83,7 +83,7 @@ public class LastId extends TransactionalCommand
 			throw new NotActiveContextException();
 		stack.push(activeContext);
 
-		Set<Context> visited = new HashSet<Context>();
+		Set<Context> visited = new HashSet<>();
 
 		while (!stack.isEmpty())
 		{

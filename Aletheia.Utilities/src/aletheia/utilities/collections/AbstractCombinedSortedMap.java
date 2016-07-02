@@ -99,7 +99,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 	@Override
 	public Set<K> keySet()
 	{
-		return new CombinedSetSortedIterator<K>(getFront().keySet(), getBack().keySet(), comparator());
+		return new CombinedSetSortedIterator<>(getFront().keySet(), getBack().keySet(), comparator());
 	}
 
 	@Override

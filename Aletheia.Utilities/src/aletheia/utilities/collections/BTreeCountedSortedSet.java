@@ -61,12 +61,12 @@ public class BTreeCountedSortedSet<E> extends DummyMapCountedSortedSet<E>
 
 	public BTreeCountedSortedSet(int order, SortedSet<E> initSet)
 	{
-		super(new BTreeCountedSortedMap<E, Dummy>(order, new SetToDummyMap<>(initSet)));
+		super(new BTreeCountedSortedMap<>(order, new SetToDummyMap<>(initSet)));
 	}
 
 	public BTreeCountedSortedSet(SortedSet<E> initSet)
 	{
-		super(new BTreeCountedSortedMap<E, Dummy>(new SetToDummyMap<>(initSet)));
+		super(new BTreeCountedSortedMap<>(new SetToDummyMap<>(initSet)));
 	}
 
 	public BTreeCountedSortedSet(int order, Comparator<? super E> comparator)

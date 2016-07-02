@@ -158,7 +158,7 @@ public class NewAuto extends NewStatement
 			if (statement == null)
 				throw new CommandParseException("Statement not found: " + split.get(0));
 			Term term = null;
-			List<Term> hints = new LinkedList<Term>();
+			List<Term> hints = new LinkedList<>();
 			if (split.size() > 1)
 				try
 				{

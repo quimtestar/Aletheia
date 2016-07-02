@@ -49,7 +49,7 @@ public class DeferredMessageContentProtocol extends ExportableProtocol<DeferredM
 		super(0);
 		checkVersionAvailability(DeferredMessageContentProtocol.class, requiredVersion);
 		this.deferredMessageContentCodeProtocol = new DeferredMessageContentCodeProtocol(0);
-		this.subProtocols = new EnumMap<DeferredMessageContentCode, DeferredMessageContent.SubProtocol<? extends DeferredMessageContent>>(
+		this.subProtocols = new EnumMap<>(
 				DeferredMessageContentCode.class);
 	}
 
@@ -129,7 +129,7 @@ public class DeferredMessageContentProtocol extends ExportableProtocol<DeferredM
 	{
 		try
 		{
-			return (M) recv(in, new UnionCollection<>(new BijectionCollection<Class<? extends M>, Set<DeferredMessageContentCode>>(
+			return (M) recv(in, new UnionCollection<>(new BijectionCollection<>(
 					new Bijection<Class<? extends M>, Set<DeferredMessageContentCode>>()
 					{
 

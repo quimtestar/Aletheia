@@ -58,7 +58,7 @@ public class NewStatementsLoopDialogServer extends NewStatementsLoopDialog
 	private Collection<StatementAuthoritySubMessage> filterRequestableStatementAuthoritySubMessages(
 			Collection<StatementAuthoritySubMessage> statementAuthoritySubMessages)
 	{
-		return new BufferedList<>(new FilteredCollection<StatementAuthoritySubMessage>(new Filter<StatementAuthoritySubMessage>()
+		return new BufferedList<>(new FilteredCollection<>(new Filter<StatementAuthoritySubMessage>()
 		{
 
 			@Override
@@ -95,7 +95,7 @@ public class NewStatementsLoopDialogServer extends NewStatementsLoopDialog
 
 	private void dialogateStatementRequestSend(Collection<StatementAuthoritySubMessage> statementAuthoritySubMessages) throws IOException, InterruptedException
 	{
-		Collection<UUID> statementRequestUuids = new BijectionCollection<StatementAuthoritySubMessage, UUID>(new Bijection<StatementAuthoritySubMessage, UUID>()
+		Collection<UUID> statementRequestUuids = new BijectionCollection<>(new Bijection<StatementAuthoritySubMessage, UUID>()
 		{
 
 			@Override
@@ -115,14 +115,14 @@ public class NewStatementsLoopDialogServer extends NewStatementsLoopDialog
 
 	private void dialogatePersonRequestSend(Collection<StatementAuthoritySubMessage> statementAuthoritySubMessages) throws IOException, InterruptedException
 	{
-		Collection<UUID> personRequestUuids = new UnionCollection<UUID>(
-				new BijectionCollection<StatementAuthoritySubMessage, Collection<UUID>>(new Bijection<StatementAuthoritySubMessage, Collection<UUID>>()
+		Collection<UUID> personRequestUuids = new UnionCollection<>(
+				new BijectionCollection<>(new Bijection<StatementAuthoritySubMessage, Collection<UUID>>()
 				{
 
 					@Override
 					public Collection<UUID> forward(StatementAuthoritySubMessage statementAuthoritySubMessage)
 					{
-						return new FilteredCollection<UUID>(new Filter<UUID>()
+						return new FilteredCollection<>(new Filter<UUID>()
 						{
 
 							@Override
@@ -162,7 +162,7 @@ public class NewStatementsLoopDialogServer extends NewStatementsLoopDialog
 		};
 
 		Collection<StatementAuthoritySubMessage> filterRequestableStatementAuthoritySubMessages = filterRequestableStatementAuthoritySubMessages(
-				new BijectionCollection<AbstractUUIDInfoMessage.Entry<StatementAuthoritySubMessage>, StatementAuthoritySubMessage>(bijection,
+				new BijectionCollection<>(bijection,
 						subscriptionContextsMessage.getEntries()));
 
 		dialogatePersonRequestSend(filterRequestableStatementAuthoritySubMessages);

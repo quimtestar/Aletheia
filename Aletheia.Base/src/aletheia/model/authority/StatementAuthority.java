@@ -635,7 +635,7 @@ public class StatementAuthority implements Exportable
 
 	public CloseableMap<Person, DelegateAuthorizer> delegateAuthorizerMap(Transaction transaction, Namespace namespace)
 	{
-		return new CombinedCloseableMap<Person, DelegateAuthorizer>(localDelegateAuthorizerMap(transaction, namespace),
+		return new CombinedCloseableMap<>(localDelegateAuthorizerMap(transaction, namespace),
 				getContextAuthority(transaction).delegateAuthorizerMap(transaction, namespace));
 	}
 
@@ -711,7 +711,7 @@ public class StatementAuthority implements Exportable
 					throw new UnsupportedOperationException();
 				}
 			};
-			deps = new CombinedCloseableCollection<Signatory>(new BijectionCloseableCollection<DelegateAuthorizer, Signatory>(bijection,
+			deps = new CombinedCloseableCollection<>(new BijectionCloseableCollection<>(bijection,
 					new TrivialCloseableCollection<>(new BufferedList<>(delegateTreeRootNode.delegateAuthorizersRecursive(transaction)))), deps);
 		}
 		return deps;
@@ -763,9 +763,9 @@ public class StatementAuthority implements Exportable
 	{
 		PersistenceManager persistenceManager = transaction.getPersistenceManager();
 		int changes = 0;
-		Set<UUID> enqueued = new HashSet<UUID>();
+		Set<UUID> enqueued = new HashSet<>();
 		enqueued.addAll(statementAuthorityUuids);
-		Queue<UUID> queue = new ArrayDeque<UUID>(enqueued);
+		Queue<UUID> queue = new ArrayDeque<>(enqueued);
 		while (!queue.isEmpty())
 		{
 			logger.trace("--> checkSignedDependencies:" + queue.size() + " " + changes);
@@ -908,9 +908,9 @@ public class StatementAuthority implements Exportable
 	{
 		PersistenceManager persistenceManager = transaction.getPersistenceManager();
 		int changes = 0;
-		Set<UUID> enqueued = new HashSet<UUID>();
+		Set<UUID> enqueued = new HashSet<>();
 		enqueued.addAll(statementAuthorityUuids);
-		Queue<UUID> queue = new ArrayDeque<UUID>(enqueued);
+		Queue<UUID> queue = new ArrayDeque<>(enqueued);
 		while (!queue.isEmpty())
 		{
 			logger.trace("--> checkSignedProof:" + queue.size() + " " + changes);
@@ -983,8 +983,8 @@ public class StatementAuthority implements Exportable
 
 	private Set<UUID> resetSignedProof(Transaction transaction)
 	{
-		Set<UUID> set = new HashSet<UUID>();
-		Stack<StatementAuthority> stack = new Stack<StatementAuthority>();
+		Set<UUID> set = new HashSet<>();
+		Stack<StatementAuthority> stack = new Stack<>();
 		stack.push(this);
 		while (!stack.isEmpty())
 		{
@@ -1069,9 +1069,9 @@ public class StatementAuthority implements Exportable
 		if (!dependentUnpackedSignatureRequests(transaction).isEmpty())
 			throw new DependentUnpackedSignatureRequests();
 		Set<UUID> reseted = resetSignedProof(transaction);
-		Stack<StatementAuthority> stack = new Stack<StatementAuthority>();
+		Stack<StatementAuthority> stack = new Stack<>();
 		stack.push(this);
-		Stack<StatementAuthority> stack2 = new Stack<StatementAuthority>();
+		Stack<StatementAuthority> stack2 = new Stack<>();
 		while (!stack.isEmpty())
 		{
 			logger.trace("---> deleting statement authority: " + stack.size());

@@ -54,7 +54,7 @@ public abstract class DelegateTreeDialog extends StatementDialog
 	protected DelegateTreeInfoMessage dialogateDelegateTreeInfoSend(Collection<DelegateTreeRootNode> delegateTreeRootNodes)
 			throws IOException, InterruptedException
 	{
-		Collection<DelegateTreeInfoMessage.Entry> entries = new ArrayList<DelegateTreeInfoMessage.Entry>();
+		Collection<DelegateTreeInfoMessage.Entry> entries = new ArrayList<>();
 		for (DelegateTreeRootNode delegateTreeRootNode : delegateTreeRootNodes)
 		{
 			DelegateTreeInfoMessage.DelegateTreeRootNodeInfo delegateTreeRootNodeInfo = new DelegateTreeInfoMessage.DelegateTreeRootNodeInfo(getTransaction(),
@@ -106,12 +106,12 @@ public abstract class DelegateTreeDialog extends StatementDialog
 	protected void dialogateDelegateTreeSuccessorDependencyResponseSend(
 			DelegateTreeSuccessorDependencyRequestMessage delegateTreeSuccessorDependencyRequestMessage) throws InterruptedException, IOException
 	{
-		List<AbstractUUIDPersistentInfoMessage.Entry<Person>> successorEntryList = new ArrayList<AbstractUUIDPersistentInfoMessage.Entry<Person>>();
+		List<AbstractUUIDPersistentInfoMessage.Entry<Person>> successorEntryList = new ArrayList<>();
 		for (UUID uuid : delegateTreeSuccessorDependencyRequestMessage.getUuids())
 		{
 			Person successor = getPersistenceManager().getPerson(getTransaction(), uuid);
 			if (successor != null)
-				successorEntryList.add(new AbstractUUIDPersistentInfoMessage.Entry<Person>(uuid, successor));
+				successorEntryList.add(new AbstractUUIDPersistentInfoMessage.Entry<>(uuid, successor));
 		}
 		sendMessage(new DelegateTreeSuccessorDependencyResponseMessage(successorEntryList));
 	}
@@ -119,12 +119,12 @@ public abstract class DelegateTreeDialog extends StatementDialog
 	protected void dialogateDelegateTreeDelegateDependencyResponseSend(
 			DelegateTreeDelegateDependencyRequestMessage delegateTreeDelegateDependencyRequestMessage) throws InterruptedException, IOException
 	{
-		List<AbstractUUIDPersistentInfoMessage.Entry<Person>> delegateEntryList = new ArrayList<AbstractUUIDPersistentInfoMessage.Entry<Person>>();
+		List<AbstractUUIDPersistentInfoMessage.Entry<Person>> delegateEntryList = new ArrayList<>();
 		for (UUID uuid : delegateTreeDelegateDependencyRequestMessage.getUuids())
 		{
 			Person delegate = getPersistenceManager().getPerson(getTransaction(), uuid);
 			if (delegate != null)
-				delegateEntryList.add(new AbstractUUIDPersistentInfoMessage.Entry<Person>(uuid, delegate));
+				delegateEntryList.add(new AbstractUUIDPersistentInfoMessage.Entry<>(uuid, delegate));
 		}
 		sendMessage(new DelegateTreeDelegateDependencyResponseMessage(delegateEntryList));
 	}

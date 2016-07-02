@@ -47,7 +47,7 @@ public class OpenedContexts extends TransactionalCommand
 		Context ctx = getActiveContext();
 		if (ctx == null)
 			throw new NotActiveContextException();
-		Stack<Context> stack = new Stack<Context>();
+		Stack<Context> stack = new Stack<>();
 		stack.push(ctx);
 		while (!stack.isEmpty())
 		{
@@ -68,7 +68,7 @@ public class OpenedContexts extends TransactionalCommand
 					sbpath.append("/");
 			}
 			getOut().println(" -> " + sbpath);
-			List<Context> add = new ArrayList<Context>();
+			List<Context> add = new ArrayList<>();
 			for (Context ctx__ : ctx_.subContexts(getTransaction()))
 			{
 				if (!ctx__.isProved())

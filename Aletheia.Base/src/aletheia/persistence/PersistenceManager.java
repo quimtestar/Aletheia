@@ -1364,7 +1364,7 @@ public abstract class PersistenceManager
 		{
 			CloseableSet<SignatureRequest> unpackedRequests = new AdaptedCloseableSet<SignatureRequest>(
 					unpackedSignatureRequestSetByContextPath(transaction, context));
-			return new CombinedCloseableSet<SignatureRequest>(packedRequests, unpackedRequests);
+			return new CombinedCloseableSet<>(packedRequests, unpackedRequests);
 		}
 	}
 

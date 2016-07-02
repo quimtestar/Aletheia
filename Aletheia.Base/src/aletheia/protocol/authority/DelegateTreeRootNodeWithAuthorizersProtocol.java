@@ -57,14 +57,14 @@ public class DelegateTreeRootNodeWithAuthorizersProtocol extends DelegateTreeRoo
 	public void send(DataOutput out, DelegateTreeRootNode delegateTreeRootNode) throws IOException
 	{
 		super.send(out, delegateTreeRootNode);
-		Collection<DelegateTreeNode> delegateTreeNodes = new BufferedList<DelegateTreeNode>(delegateTreeRootNode.delegateTreeNodesRecursive(getTransaction()));
+		Collection<DelegateTreeNode> delegateTreeNodes = new BufferedList<>(delegateTreeRootNode.delegateTreeNodesRecursive(getTransaction()));
 		integerProtocol.send(out, delegateTreeNodes.size());
 		for (DelegateTreeNode delegateTreeNode : delegateTreeNodes)
 		{
 			namespaceProtocol.send(out, delegateTreeNode.getPrefix());
 			DelegateAuthorizerProtocol delegateAuthorizerProtocol = new DelegateAuthorizerProtocol(0, getPersistenceManager(), getTransaction(),
 					delegateTreeNode);
-			CollectionProtocol<DelegateAuthorizer> delegateAuthorizerCollectionProtocol = new CollectionProtocol<DelegateAuthorizer>(0,
+			CollectionProtocol<DelegateAuthorizer> delegateAuthorizerCollectionProtocol = new CollectionProtocol<>(0,
 					delegateAuthorizerProtocol);
 			delegateAuthorizerCollectionProtocol.send(out, delegateTreeNode.localDelegateAuthorizerMap(getTransaction()).values());
 		}
@@ -83,7 +83,7 @@ public class DelegateTreeRootNodeWithAuthorizersProtocol extends DelegateTreeRoo
 				throw new ProtocolException();
 			DelegateAuthorizerProtocol delegateAuthorizerProtocol = new DelegateAuthorizerProtocol(0, getPersistenceManager(), getTransaction(),
 					delegateTreeNode);
-			CollectionProtocol<DelegateAuthorizer> delegateAuthorizerCollectionProtocol = new CollectionProtocol<DelegateAuthorizer>(0,
+			CollectionProtocol<DelegateAuthorizer> delegateAuthorizerCollectionProtocol = new CollectionProtocol<>(0,
 					delegateAuthorizerProtocol);
 			delegateAuthorizerCollectionProtocol.recv(in);
 		}
@@ -99,7 +99,7 @@ public class DelegateTreeRootNodeWithAuthorizersProtocol extends DelegateTreeRoo
 		{
 			namespaceProtocol.skip(in);
 			DelegateAuthorizerProtocol delegateAuthorizerProtocol = new DelegateAuthorizerProtocol(0, getPersistenceManager(), getTransaction(), null);
-			CollectionProtocol<DelegateAuthorizer> delegateAuthorizerCollectionProtocol = new CollectionProtocol<DelegateAuthorizer>(0,
+			CollectionProtocol<DelegateAuthorizer> delegateAuthorizerCollectionProtocol = new CollectionProtocol<>(0,
 					delegateAuthorizerProtocol);
 			delegateAuthorizerCollectionProtocol.skip(in);
 		}

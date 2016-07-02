@@ -66,7 +66,7 @@ public class DelegateAuthorizerProtocol extends PersistentExportableProtocol<Del
 		this.delegateTreeNode = delegateTreeNode;
 		this.uuidProtocol = new UUIDProtocol(0);
 		this.signatoryProtocol = new SignatoryProtocol(0, persistenceManager, transaction);
-		this.nullableSignatoryProtocol = new NullableProtocol<Signatory>(0, this.signatoryProtocol);
+		this.nullableSignatoryProtocol = new NullableProtocol<>(0, this.signatoryProtocol);
 		this.uuidCollectionProtocol = new CollectionProtocol<>(0, this.uuidProtocol);
 		this.dateProtocol = new DateProtocol(0);
 		this.nullableDateProtocol = new NullableProtocol<>(0, dateProtocol);

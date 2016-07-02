@@ -46,7 +46,7 @@ public class PersonResponseMessage extends AbstractUUIDPersistentInfoMessage<Per
 		@Override
 		public Entry<Person> forward(Person person)
 		{
-			return new Entry<Person>(person.getUuid(), person);
+			return new Entry<>(person.getUuid(), person);
 		}
 
 		@Override
@@ -58,7 +58,7 @@ public class PersonResponseMessage extends AbstractUUIDPersistentInfoMessage<Per
 
 	public static PersonResponseMessage create(Collection<Person> persons)
 	{
-		return new PersonResponseMessage(new BijectionCollection<Person, Entry<Person>>(entryBijection, persons));
+		return new PersonResponseMessage(new BijectionCollection<>(entryBijection, persons));
 	}
 
 	private PersonResponseMessage(Collection<Entry<Person>> entries)

@@ -60,7 +60,7 @@ public class Graph
 
 	public Iterable<List<Node>> cycleDetect()
 	{
-		final Map<Node, Set<Node>> successors = new HashMap<Node, Set<Node>>();
+		final Map<Node, Set<Node>> successors = new HashMap<>();
 		for (Node n : nodes)
 			successors.put(n, new HashSet<Node>());
 		for (Edge e : edges)
@@ -68,7 +68,7 @@ public class Graph
 			Set<Node> suc = successors.get(e.getFrom());
 			if (suc == null)
 			{
-				suc = new HashSet<Node>();
+				suc = new HashSet<>();
 				successors.put(e.getFrom(), suc);
 			}
 			suc.add(e.getTo());
@@ -81,7 +81,7 @@ public class Graph
 			public Iterator<List<Node>> iterator()
 			{
 
-				final Set<Node> pendingNodes = new HashSet<Node>(nodes);
+				final Set<Node> pendingNodes = new HashSet<>(nodes);
 				class DequeEntry
 				{
 					final Node node;
@@ -104,7 +104,7 @@ public class Graph
 					}
 
 				}
-				final Deque<DequeEntry> deque = new ArrayDeque<DequeEntry>();
+				final Deque<DequeEntry> deque = new ArrayDeque<>();
 				return new Iterator<List<Node>>()
 				{
 					List<Node> next = findNext();
@@ -129,7 +129,7 @@ public class Graph
 								else if (pendingNodes.remove(se.node))
 								{
 									Set<Node> suc = successors.get(se.node);
-									List<Node> path = new ArrayList<Node>(se.path);
+									List<Node> path = new ArrayList<>(se.path);
 									path.add(se.node);
 									for (Node s : suc)
 										deque.offer(new DequeEntry(s, path));

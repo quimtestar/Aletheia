@@ -150,7 +150,7 @@ public class AdaptedMap<K, V> implements Map<K, V>
 	@Override
 	public Set<K> keySet()
 	{
-		return new AdaptedSet<K>(inner.keySet());
+		return new AdaptedSet<>(inner.keySet());
 	}
 
 	@Override
@@ -180,7 +180,7 @@ public class AdaptedMap<K, V> implements Map<K, V>
 	@Override
 	public Collection<V> values()
 	{
-		return new AdaptedCollection<V>(inner.values());
+		return new AdaptedCollection<>(inner.values());
 	}
 
 }

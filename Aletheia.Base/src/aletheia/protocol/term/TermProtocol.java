@@ -77,8 +77,8 @@ import aletheia.protocol.primitive.UUIDProtocol;
  * parameter (every {@link VariableTerm} not a {@link IdentifiableVariableTerm}
  * must be a parameter of a {@link FunctionTerm}).</li> </blockquote>
  * <li>If it's a {@link IdentifiableVariableTerm}:</li> <blockquote>
- * <li>The {@link UUID} of the variable, using the {@link UUIDProtocol}.
- * </li> </blockquote>
+ * <li>The {@link UUID} of the variable, using the {@link UUIDProtocol}.</li>
+ * </blockquote>
  * <li>If it's a {@link ProjectionTerm}:</li> <blockquote>
  * <li>The projected {@link FunctionTerm}, following recursively this very
  * arrangement description.</li> </blockquote>

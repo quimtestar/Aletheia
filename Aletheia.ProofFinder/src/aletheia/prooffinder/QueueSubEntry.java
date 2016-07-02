@@ -102,7 +102,7 @@ public abstract class QueueSubEntry implements Comparable<QueueSubEntry>
 		if ((refCandidates == null) || (refCandidates.get() == null))
 		{
 			candidates = findCandidates();
-			refCandidates = new SoftReference<Collection<Candidate>>(candidates);
+			refCandidates = new SoftReference<>(candidates);
 		}
 		else
 			candidates = refCandidates.get();
@@ -131,7 +131,7 @@ public abstract class QueueSubEntry implements Comparable<QueueSubEntry>
 
 	public Collection<Proof.SolvedCandidate> solvedCandidates()
 	{
-		Collection<Proof.SolvedCandidate> solvedCandidates = new ArrayList<Proof.SolvedCandidate>();
+		Collection<Proof.SolvedCandidate> solvedCandidates = new ArrayList<>();
 		for (Candidate candidate : candidates())
 		{
 			if (candidate.getAntecedentDependentMap().isEmpty())
@@ -230,7 +230,7 @@ public abstract class QueueSubEntry implements Comparable<QueueSubEntry>
 				this.v1 = v1;
 			}
 		}
-		List<SubEntry> subs = new ArrayList<SubEntry>();
+		List<SubEntry> subs = new ArrayList<>();
 		for (int i = 0; i < virtualStatements().size(); i++)
 		{
 			VariableTerm v0 = virtualStatements().get(i).getVariable();
@@ -285,7 +285,7 @@ public abstract class QueueSubEntry implements Comparable<QueueSubEntry>
 				this.v1 = v1;
 			}
 		}
-		List<SubEntry> subs = new ArrayList<SubEntry>();
+		List<SubEntry> subs = new ArrayList<>();
 		for (VirtualStatement va : virtualStatements())
 		{
 			VariableTerm v0 = va.getVariable();

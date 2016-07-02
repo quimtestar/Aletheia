@@ -78,8 +78,8 @@ import aletheia.utilities.collections.BufferedList;
  * <li>The value {@link Term} using the {@link TermProtocol}.</li> </blockquote>
  * <li>If it's a {@link Specialization}:</li> <blockquote>
  * <li>The general statement's {@link UUID} using the {@link UUIDProtocol}.</li>
- * <li>The instance {@link Term} using the {@link TermProtocol}.
- * </li> </blockquote>
+ * <li>The instance {@link Term} using the {@link TermProtocol}.</li>
+ * </blockquote>
  * </ul>
  */
 //TODO Only admit version 1?
@@ -285,7 +285,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		}
 		Term term = termProtocol.recv(in);
 		int numAssumptions = integerProtocol.recv(in);
-		List<UUID> uuidAssumptions = new ArrayList<UUID>();
+		List<UUID> uuidAssumptions = new ArrayList<>();
 		for (int i = 0; i < numAssumptions; i++)
 			uuidAssumptions.add(uuidProtocol.recv(in));
 		if (old == null)
@@ -340,7 +340,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		if (requiredVersion > 0)
 		{
 			int numAssumptions = in.readInt();
-			uuidAssumptions = new ArrayList<UUID>();
+			uuidAssumptions = new ArrayList<>();
 			for (int i = 0; i < numAssumptions; i++)
 				uuidAssumptions.add(uuidProtocol.recv(in));
 		}
@@ -439,7 +439,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		}
 		Term term = termProtocol.recv(in);
 		int numAssumptions = in.readInt();
-		List<UUID> uuidAssumptions = new ArrayList<UUID>();
+		List<UUID> uuidAssumptions = new ArrayList<>();
 		for (int i = 0; i < numAssumptions; i++)
 			uuidAssumptions.add(uuidProtocol.recv(in));
 		UUID uuidDeclaration = uuidProtocol.recv(in);
@@ -494,7 +494,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 	{
 		Term term = termProtocol.recv(in);
 		int numAssumptions = in.readInt();
-		List<UUID> uuidAssumptions = new ArrayList<UUID>();
+		List<UUID> uuidAssumptions = new ArrayList<>();
 		for (int i = 0; i < numAssumptions; i++)
 			uuidAssumptions.add(uuidProtocol.recv(in));
 		if (old == null)

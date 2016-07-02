@@ -187,7 +187,7 @@ public abstract class AbstractPersonTableModel implements TableModel
 					PersonData.PersonModifiedRowInfo rowInfo = personData.personModified(person);
 					if (rowInfo.rowModifiedPre >= 0)
 					{
-						List<PersonTableModelEvent> events = new ArrayList<PersonTableModelEvent>();
+						List<PersonTableModelEvent> events = new ArrayList<>();
 						if (rowInfo.rowModifiedPre == rowInfo.rowModifiedPost)
 							events.add(new ModifiedPersonTableModelEvent(person, rowInfo.rowModifiedPre));
 						else
@@ -266,7 +266,7 @@ public abstract class AbstractPersonTableModel implements TableModel
 		public PersonData()
 		{
 			this.countedSortedSet = new BTreeCountedSortedSet<>(personComparator);
-			this.uuidMap = new HashMap<UUID, Person>();
+			this.uuidMap = new HashMap<>();
 			this.highestQueriedRow = 0;
 			this.full = false;
 			populate(0);
@@ -306,7 +306,7 @@ public abstract class AbstractPersonTableModel implements TableModel
 					lastPerson = countedSortedSet.last();
 					personsByNick = personsByNick.tailMap(lastPerson.getNick());
 				}
-				CloseableIterator<Person> iterator = new UnionCloseableCollection<Person>(personsByNick.values()).iterator();
+				CloseableIterator<Person> iterator = new UnionCloseableCollection<>(personsByNick.values()).iterator();
 				try
 				{
 					boolean changed = false;
@@ -485,7 +485,7 @@ public abstract class AbstractPersonTableModel implements TableModel
 		if (personData == null)
 		{
 			personData = new PersonData();
-			personDataRef = new SoftReference<PersonData>(personData);
+			personDataRef = new SoftReference<>(personData);
 		}
 		return personData;
 	}

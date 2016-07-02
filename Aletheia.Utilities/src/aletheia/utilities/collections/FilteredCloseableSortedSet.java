@@ -49,19 +49,19 @@ public class FilteredCloseableSortedSet<E> extends FilteredCloseableSet<E> imple
 	@Override
 	public FilteredCloseableSortedSet<E> subSet(E fromElement, E toElement)
 	{
-		return new FilteredCloseableSortedSet<E>(getFilter(), getInner().subSet(fromElement, toElement));
+		return new FilteredCloseableSortedSet<>(getFilter(), getInner().subSet(fromElement, toElement));
 	}
 
 	@Override
 	public FilteredCloseableSortedSet<E> headSet(E toElement)
 	{
-		return new FilteredCloseableSortedSet<E>(getFilter(), getInner().headSet(toElement));
+		return new FilteredCloseableSortedSet<>(getFilter(), getInner().headSet(toElement));
 	}
 
 	@Override
 	public FilteredCloseableSortedSet<E> tailSet(E fromElement)
 	{
-		return new FilteredCloseableSortedSet<E>(getFilter(), getInner().tailSet(fromElement));
+		return new FilteredCloseableSortedSet<>(getFilter(), getInner().tailSet(fromElement));
 	}
 
 	@Override

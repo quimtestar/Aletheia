@@ -500,7 +500,7 @@ public abstract class AbstractPersonJTable extends JTable
 	{
 		int[] rows = getSelectedRows();
 		clearSelection();
-		Collection<Person> persons = new BijectionCollection<Integer, Person>(new Bijection<Integer, Person>()
+		Collection<Person> persons = new BijectionCollection<>(new Bijection<Integer, Person>()
 		{
 
 			@Override

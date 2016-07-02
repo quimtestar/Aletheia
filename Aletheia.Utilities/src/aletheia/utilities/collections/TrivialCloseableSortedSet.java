@@ -148,19 +148,19 @@ public class TrivialCloseableSortedSet<E> extends AbstractCloseableSortedSet<E>
 	@Override
 	public CloseableSortedSet<E> subSet(E fromElement, E toElement)
 	{
-		return new TrivialCloseableSortedSet<E>(inner.subSet(fromElement, toElement));
+		return new TrivialCloseableSortedSet<>(inner.subSet(fromElement, toElement));
 	}
 
 	@Override
 	public CloseableSortedSet<E> headSet(E toElement)
 	{
-		return new TrivialCloseableSortedSet<E>(inner.headSet(toElement));
+		return new TrivialCloseableSortedSet<>(inner.headSet(toElement));
 	}
 
 	@Override
 	public CloseableSortedSet<E> tailSet(E fromElement)
 	{
-		return new TrivialCloseableSortedSet<E>(inner.tailSet(fromElement));
+		return new TrivialCloseableSortedSet<>(inner.tailSet(fromElement));
 	}
 
 	@Override

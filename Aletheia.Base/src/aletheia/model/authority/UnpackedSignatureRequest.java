@@ -157,8 +157,8 @@ public class UnpackedSignatureRequest extends SignatureRequest
 
 	public Set<StatementAuthority> statementAuthorities(final Transaction transaction)
 	{
-		return new FilteredSet<StatementAuthority>(new NotNullFilter<StatementAuthority>(),
-				new BijectionSet<UUID, StatementAuthority>(new Bijection<UUID, StatementAuthority>()
+		return new FilteredSet<>(new NotNullFilter<StatementAuthority>(),
+				new BijectionSet<>(new Bijection<UUID, StatementAuthority>()
 				{
 
 					@Override
@@ -177,7 +177,7 @@ public class UnpackedSignatureRequest extends SignatureRequest
 
 	public Set<Statement> statements(final Transaction transaction)
 	{
-		return new BijectionSet<UUID, Statement>(new Bijection<UUID, Statement>()
+		return new BijectionSet<>(new Bijection<UUID, Statement>()
 		{
 
 			@Override
@@ -227,11 +227,11 @@ public class UnpackedSignatureRequest extends SignatureRequest
 			throw new AuthorityMissingUnpackedSignatureRequestException();
 		if (!getContext(transaction).statements(transaction).containsKey(statement_.getVariable()))
 			throw new NotInContextUnpackedSignatureRequestException();
-		Set<UUID> added = new HashSet<UUID>();
+		Set<UUID> added = new HashSet<>();
 		added.add(statementUuid);
-		Stack<UUID> stack = new Stack<UUID>();
+		Stack<UUID> stack = new Stack<>();
 		stack.push(statementUuid);
-		Set<UUID> visited = new HashSet<UUID>();
+		Set<UUID> visited = new HashSet<>();
 		while (!stack.isEmpty())
 		{
 			UUID uuid = stack.pop();
@@ -270,9 +270,9 @@ public class UnpackedSignatureRequest extends SignatureRequest
 	{
 		if (!getStatementUuids().contains(statementUuid))
 			return;
-		Stack<UUID> stack = new Stack<UUID>();
+		Stack<UUID> stack = new Stack<>();
 		stack.push(statementUuid);
-		Set<UUID> removed = new HashSet<UUID>();
+		Set<UUID> removed = new HashSet<>();
 		while (!stack.isEmpty())
 		{
 			UUID uuid = stack.pop();
@@ -310,7 +310,7 @@ public class UnpackedSignatureRequest extends SignatureRequest
 
 	private static List<UUID> contextUuidPath(Transaction transaction, Context context)
 	{
-		return new BijectionList<Statement, UUID>(new Bijection<Statement, UUID>()
+		return new BijectionList<>(new Bijection<Statement, UUID>()
 		{
 
 			@Override
@@ -357,7 +357,7 @@ public class UnpackedSignatureRequest extends SignatureRequest
 
 	public List<CloseableSet<Person>> delegatesList(Transaction transaction)
 	{
-		List<CloseableSet<Person>> delegatesList = new ArrayList<CloseableSet<Person>>();
+		List<CloseableSet<Person>> delegatesList = new ArrayList<>();
 		Context ctx = commonContext(transaction);
 		Namespace prefix = commonPrefix(transaction);
 		while (true)
@@ -386,14 +386,14 @@ public class UnpackedSignatureRequest extends SignatureRequest
 			{
 				return new Iterator<Statement>()
 				{
-					final Collection<Statement> statements = new HashSet<Statement>(statements(transaction));
-					final Stack<Statement> stack = new Stack<Statement>();
+					final Collection<Statement> statements = new HashSet<>(statements(transaction));
+					final Stack<Statement> stack = new Stack<>();
 
 					{
 						stack.addAll(statements);
 					}
 
-					final Set<Statement> visited = new HashSet<Statement>();
+					final Set<Statement> visited = new HashSet<>();
 					Statement next = advance();
 
 					private Statement advance()
@@ -467,7 +467,7 @@ public class UnpackedSignatureRequest extends SignatureRequest
 	{
 		try
 		{
-			List<Statement> added = new ArrayList<Statement>();
+			List<Statement> added = new ArrayList<>();
 			for (Statement statement : missingForSignedProofRequest(transaction))
 			{
 				added.add(statement);

@@ -169,7 +169,7 @@ public abstract class PeerToPeerNode
 
 		private ConnectionManager()
 		{
-			this.connectionSet = new HashSet<PeerToPeerConnection>();
+			this.connectionSet = new HashSet<>();
 		}
 
 		public synchronized void addConnection(PeerToPeerConnection connection) throws DisconnectingException
@@ -211,7 +211,7 @@ public abstract class PeerToPeerNode
 
 		private SubRootPhaseManager()
 		{
-			this.subRootPhasesMap = new EnumMap<SubRootPhaseType, Set<SubRootPhase>>(SubRootPhaseType.class);
+			this.subRootPhasesMap = new EnumMap<>(SubRootPhaseType.class);
 			for (SubRootPhaseType type : SubRootPhaseType.values())
 				subRootPhasesMap.put(type, new HashSet<SubRootPhase>());
 		}
@@ -228,12 +228,12 @@ public abstract class PeerToPeerNode
 
 		private synchronized <P extends SubRootPhase> Collection<P> getSubRootPhases(SubRootPhaseType type)
 		{
-			return new BijectionCollection<SubRootPhase, P>(new CastBijection<SubRootPhase, P>(), subRootPhasesMap.get(type));
+			return new BijectionCollection<>(new CastBijection<SubRootPhase, P>(), subRootPhasesMap.get(type));
 		}
 
 		public synchronized <P extends SubRootPhase> Collection<P> subRootPhases(SubRootPhaseType type)
 		{
-			return new BufferedList<P>(new BijectionCollection<SubRootPhase, P>(new CastBijection<SubRootPhase, P>(), subRootPhasesMap.get(type)));
+			return new BufferedList<>(new BijectionCollection<>(new CastBijection<SubRootPhase, P>(), subRootPhasesMap.get(type)));
 		}
 
 		public synchronized <P extends SubRootPhase> Collection<P> subRootPhases(Class<P> subRootPhaseClass)
@@ -388,10 +388,10 @@ public abstract class PeerToPeerNode
 
 	private class StatementMalePeerToPeerConnectionManager
 	{
-		private final Map<UUID, StatementMalePeerToPeerConnection> nodeUuidToStatementConnectionMap = new HashMap<UUID, StatementMalePeerToPeerConnection>();
-		private final Map<StatementMalePeerToPeerConnection, UUID> statementConnectionToNodeUuidMap = new HashMap<StatementMalePeerToPeerConnection, UUID>();
-		private final Map<Resource, UUID> resourceToNodeUuidMap = new HashMap<Resource, UUID>();
-		private final Map<UUID, Set<Resource>> nodeUuidToResourceSetMap = new HashMap<UUID, Set<Resource>>();
+		private final Map<UUID, StatementMalePeerToPeerConnection> nodeUuidToStatementConnectionMap = new HashMap<>();
+		private final Map<StatementMalePeerToPeerConnection, UUID> statementConnectionToNodeUuidMap = new HashMap<>();
+		private final Map<Resource, UUID> resourceToNodeUuidMap = new HashMap<>();
+		private final Map<UUID, Set<Resource>> nodeUuidToResourceSetMap = new HashMap<>();
 
 		public synchronized StatementMalePeerToPeerConnection obtainConnection(Resource resource, NodeAddress nodeAddress)
 				throws ConnectException, IOException, InterruptedException
@@ -462,7 +462,7 @@ public abstract class PeerToPeerNode
 			Set<Resource> resources = nodeUuidToResourceSetMap.get(nodeUuid);
 			if (resources == null)
 			{
-				resources = new HashSet<Resource>();
+				resources = new HashSet<>();
 				nodeUuidToResourceSetMap.put(nodeUuid, resources);
 			}
 			resources.add(resource);
@@ -474,7 +474,7 @@ public abstract class PeerToPeerNode
 
 	private class RootContextSignatureManager
 	{
-		private final Map<UUID, UUID> rootContextSignatureUuidMap = new HashMap<UUID, UUID>();
+		private final Map<UUID, UUID> rootContextSignatureUuidMap = new HashMap<>();
 
 		public synchronized void rootContextSignatureUpdated(final UUID rootContextUuid)
 		{
@@ -1252,7 +1252,7 @@ public abstract class PeerToPeerNode
 			@Override
 			protected Collection<FemaleConjugalPhase> femaleConjugalPhases()
 			{
-				return new CombinedCollection<FemaleConjugalPhase>(Collections.singleton(targetFemaleConjugalPhase), super.femaleConjugalPhases());
+				return new CombinedCollection<>(Collections.singleton(targetFemaleConjugalPhase), super.femaleConjugalPhases());
 			}
 
 			@Override
@@ -1335,9 +1335,9 @@ public abstract class PeerToPeerNode
 		private SpliceManager() throws IOException
 		{
 			socketChannelSplicer = new SocketChannelSplicer("SpliceManager.socketChannelSplicer", 1024);
-			pending = new HashMap<Integer, PendingEntry>();
+			pending = new HashMap<>();
 			pendingEntryExpirationQueue = new PriorityQueue<>();
-			pendingEntriesByConjugalPhase = new HashMap<FemaleConjugalPhase, Set<PendingEntry>>();
+			pendingEntriesByConjugalPhase = new HashMap<>();
 			expireThread = new ExpireThread();
 			expireThread.start();
 			nextConnectionId = 0;
@@ -1367,7 +1367,7 @@ public abstract class PeerToPeerNode
 			Set<PendingEntry> set = pendingEntriesByConjugalPhase.get(femaleConjugalPhase);
 			if (set == null)
 			{
-				set = new HashSet<PendingEntry>();
+				set = new HashSet<>();
 				pendingEntriesByConjugalPhase.put(femaleConjugalPhase, set);
 			}
 			set.add(pendingEntry);
@@ -1618,8 +1618,8 @@ public abstract class PeerToPeerNode
 
 		private FemaleConjugalPhasesByMaleNodeUuidManager()
 		{
-			this.femaleConjugalPhasesByMaleNodeUuid = new HashMap<UUID, FemaleConjugalPhase>();
-			this.maleNodeUuidsByFemaleConjugalPhase = new HashMap<FemaleConjugalPhase, Set<UUID>>();
+			this.femaleConjugalPhasesByMaleNodeUuid = new HashMap<>();
+			this.maleNodeUuidsByFemaleConjugalPhase = new HashMap<>();
 		}
 
 		private synchronized Collection<UUID> maleNodeUuids()
@@ -1638,7 +1638,7 @@ public abstract class PeerToPeerNode
 			Set<UUID> uuids = maleNodeUuidsByFemaleConjugalPhase.get(femaleConjugalPhase);
 			if (uuids == null && addUuids != null && !addUuids.isEmpty())
 			{
-				uuids = new HashSet<UUID>();
+				uuids = new HashSet<>();
 				maleNodeUuidsByFemaleConjugalPhase.put(femaleConjugalPhase, uuids);
 			}
 			if (uuids != null && addUuids != null)
@@ -1714,12 +1714,12 @@ public abstract class PeerToPeerNode
 		this.nodeUuid = UuidGenerator.instance.generate();
 		logger.debug("Node identifier: " + nodeUuid);
 		this.routeableSubMessageProcessor = new RouteableSubMessageProcessor(this);
-		this.pendingResponses = new HashMap<Integer, ResponseRouteableSubMessage>();
+		this.pendingResponses = new HashMap<>();
 		this.beltMaintainer = new BeltMaintainer();
 		this.beltMaintainer.start();
 		this.resourceTreeNodeSetListener = new ResourceTreeNodeSetListener();
 		this.routeableSubMessageProcessor.getResourceTreeNodeSet().addListener(resourceTreeNodeSetListener);
-		this.joinedToNetworkFlag = new SynchronizedFlag<JoinStatus>(JoinStatus.Joined);
+		this.joinedToNetworkFlag = new SynchronizedFlag<>(JoinStatus.Joined);
 		this.femaleConjugalPhasesByMaleNodeUuidManager = new FemaleConjugalPhasesByMaleNodeUuidManager();
 		this.externalBindSocketPortManager = new ExternalBindSocketPortManager();
 

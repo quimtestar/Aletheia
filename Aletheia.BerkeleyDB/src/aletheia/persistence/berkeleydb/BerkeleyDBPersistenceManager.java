@@ -343,7 +343,7 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 
 	private final static class Registry
 	{
-		private final Set<String> pathSet = new HashSet<String>();
+		private final Set<String> pathSet = new HashSet<>();
 
 		private synchronized void register(File dbFile) throws RegisterException
 		{

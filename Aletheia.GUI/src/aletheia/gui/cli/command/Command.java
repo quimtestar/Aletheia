@@ -299,7 +299,7 @@ public abstract class Command
 
 	protected static String termToString(Context ctx, Transaction transaction, Term term, List<Assumption> assumptions)
 	{
-		Map<ParameterVariableTerm, Identifier> localVariableToIdentifier = new HashMap<ParameterVariableTerm, Identifier>();
+		Map<ParameterVariableTerm, Identifier> localVariableToIdentifier = new HashMap<>();
 		{
 			Term body = term;
 			Iterator<Assumption> assumptionIterator = assumptions.iterator();
@@ -317,7 +317,7 @@ public abstract class Command
 		if (ctx == null)
 			return term.toString(localVariableToIdentifier);
 		else
-			return term.toString(new CombinedMap<VariableTerm, Identifier>(new AdaptedMap<VariableTerm, Identifier>(localVariableToIdentifier),
+			return term.toString(new CombinedMap<>(new AdaptedMap<VariableTerm, Identifier>(localVariableToIdentifier),
 					new AdaptedMap<VariableTerm, Identifier>(ctx.variableToIdentifier(transaction))));
 	}
 

@@ -57,13 +57,13 @@ public class PrivatePersonTableModel extends AbstractPersonTableModel
 	@Override
 	protected CloseableSortedMap<String, CloseableSet<Person>> personsByNick(Transaction transaction)
 	{
-		return new BijectionCloseableSortedMap<String, PrivatePerson, CloseableSet<Person>>(new Bijection<PrivatePerson, CloseableSet<Person>>()
+		return new BijectionCloseableSortedMap<>(new Bijection<PrivatePerson, CloseableSet<Person>>()
 		{
 
 			@Override
 			public CloseableSet<Person> forward(PrivatePerson person)
 			{
-				return new TrivialCloseableSet<Person>(Collections.<Person> singleton(person));
+				return new TrivialCloseableSet<>(Collections.<Person> singleton(person));
 			}
 
 			@Override

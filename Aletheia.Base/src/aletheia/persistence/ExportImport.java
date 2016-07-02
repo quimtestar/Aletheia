@@ -155,7 +155,7 @@ class ExportImport
 			super.send(out, statementAuthority);
 			DelegateTreeRootNodeWithAuthorizersProtocol dtrnProtocol = new DelegateTreeRootNodeWithAuthorizersProtocol(0, getPersistenceManager(),
 					getTransaction(), statementAuthority);
-			NullableProtocol<DelegateTreeRootNode> ndtrnProtocol = new NullableProtocol<DelegateTreeRootNode>(0, dtrnProtocol);
+			NullableProtocol<DelegateTreeRootNode> ndtrnProtocol = new NullableProtocol<>(0, dtrnProtocol);
 			ndtrnProtocol.send(out, statementAuthority.getDelegateTreeRootNode(getTransaction()));
 		}
 
@@ -165,7 +165,7 @@ class ExportImport
 			StatementAuthority statementAuthority = super.recv(in);
 			DelegateTreeRootNodeWithAuthorizersProtocol dtrnProtocol = new DelegateTreeRootNodeWithAuthorizersProtocol(0, getPersistenceManager(),
 					getTransaction(), statementAuthority);
-			NullableProtocol<DelegateTreeRootNode> ndtrnProtocol = new NullableProtocol<DelegateTreeRootNode>(0, dtrnProtocol);
+			NullableProtocol<DelegateTreeRootNode> ndtrnProtocol = new NullableProtocol<>(0, dtrnProtocol);
 			ndtrnProtocol.recv(in);
 			return statementAuthority;
 		}
@@ -176,7 +176,7 @@ class ExportImport
 			super.skip(in);
 			DelegateTreeRootNodeWithAuthorizersProtocol dtrnProtocol = new DelegateTreeRootNodeWithAuthorizersProtocol(0, getPersistenceManager(),
 					getTransaction(), null);
-			NullableProtocol<DelegateTreeRootNode> ndtrnProtocol = new NullableProtocol<DelegateTreeRootNode>(0, dtrnProtocol);
+			NullableProtocol<DelegateTreeRootNode> ndtrnProtocol = new NullableProtocol<>(0, dtrnProtocol);
 			ndtrnProtocol.skip(in);
 		}
 	}
@@ -229,9 +229,9 @@ class ExportImport
 
 		}
 
-		Deque<DequeEntry> deque = new LinkedList<DequeEntry>();
+		Deque<DequeEntry> deque = new LinkedList<>();
 		{
-			Set<Statement> queued = new HashSet<Statement>();
+			Set<Statement> queued = new HashSet<>();
 			for (Statement statement : statements)
 			{
 				boolean push = false;
@@ -252,8 +252,8 @@ class ExportImport
 		StatementAuthorityDelegateTreeProtocol statementAuthorityProtocol = new StatementAuthorityDelegateTreeProtocol(0, persistenceManager, transaction);
 		PersonProtocol personProtocol = new PersonProtocol(0, persistenceManager, transaction);
 
-		Set<Statement> pushedDependencies = new HashSet<Statement>();
-		Set<Person> exportedPersons = new HashSet<Person>();
+		Set<Statement> pushedDependencies = new HashSet<>();
+		Set<Person> exportedPersons = new HashSet<>();
 		while (!deque.isEmpty())
 		{
 			DequeEntry e = deque.element();

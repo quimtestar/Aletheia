@@ -347,7 +347,7 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 		Map<? extends VariableTerm, Identifier> variableToIdentifier = statement.parentVariableToIdentifier(transaction);
 		if (statement instanceof Context)
 		{
-			Map<ParameterVariableTerm, Identifier> localVariableToIdentifier = new HashMap<ParameterVariableTerm, Identifier>();
+			Map<ParameterVariableTerm, Identifier> localVariableToIdentifier = new HashMap<>();
 			{
 				Term body = term;
 				Iterator<Assumption> assumptionIterator = ((Context) statement).assumptions(transaction).iterator();
@@ -362,8 +362,8 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 					body = function.getBody();
 				}
 			}
-			variableToIdentifier = new CombinedMap<VariableTerm, Identifier>(new AdaptedMap<VariableTerm, Identifier>(localVariableToIdentifier),
-					new AdaptedMap<VariableTerm, Identifier>(variableToIdentifier));
+			variableToIdentifier = new CombinedMap<>(new AdaptedMap<VariableTerm, Identifier>(localVariableToIdentifier),
+					new AdaptedMap<>(variableToIdentifier));
 		}
 		return variableToIdentifier;
 	}

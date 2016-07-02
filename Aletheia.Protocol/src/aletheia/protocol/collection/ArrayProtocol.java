@@ -41,7 +41,7 @@ public class ArrayProtocol<T> extends Protocol<T[]>
 		super(0);
 		checkVersionAvailability(ArrayProtocol.class, requiredVersion);
 		this.elementClass = elementClass;
-		this.listProtocol = new ListProtocol<T>(0, elementProtocol);
+		this.listProtocol = new ListProtocol<>(0, elementProtocol);
 	}
 
 	@Override

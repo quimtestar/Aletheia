@@ -113,7 +113,7 @@ public abstract class NewStatement extends TransactionalCommand
 		{
 			try
 			{
-				this.taggedFactories = new HashMap<String, AbstractNewStatementFactory<? extends NewStatement>>();
+				this.taggedFactories = new HashMap<>();
 				this.rootCommandGroup = new RootCommandGroup();
 				for (Class<? extends Command> c : taggedCommandList)
 				{

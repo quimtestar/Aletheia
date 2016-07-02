@@ -49,7 +49,7 @@ public abstract class AbstractCollectionProtocol<E, C extends Collection<E>> ext
 	@Override
 	public void send(DataOutput out, C c) throws IOException
 	{
-		List<E> list = new BufferedList<E>(c);
+		List<E> list = new BufferedList<>(c);
 		integerProtocol.send(out, list.size());
 		for (E e : list)
 			elementProtocol.send(out, e);

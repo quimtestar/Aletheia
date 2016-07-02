@@ -49,7 +49,7 @@ public class AutomatonSetState
 	public AutomatonSetState(AutomatonSet automatonSet)
 	{
 		this.automatonSet = automatonSet;
-		this.state = new TreeMap<DeterministicAutomaton, AutomatonState>(automatonSet.automatonComparator());
+		this.state = new TreeMap<>(automatonSet.automatonComparator());
 		this.textBuffer = new StringBuffer();
 		for (DeterministicAutomaton a : automatonSet.automatonSet())
 			state.put(a, a.startState());

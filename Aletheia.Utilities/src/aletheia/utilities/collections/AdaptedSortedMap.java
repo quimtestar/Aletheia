@@ -63,7 +63,7 @@ public class AdaptedSortedMap<K, V> extends AdaptedMap<K, V> implements SortedMa
 	@Override
 	public SortedMap<K, V> headMap(K toKey)
 	{
-		return new AdaptedSortedMap<K, V>(getInner().headMap(toKey));
+		return new AdaptedSortedMap<>(getInner().headMap(toKey));
 	}
 
 	@Override
@@ -75,13 +75,13 @@ public class AdaptedSortedMap<K, V> extends AdaptedMap<K, V> implements SortedMa
 	@Override
 	public SortedMap<K, V> subMap(K fromKey, K toKey)
 	{
-		return new AdaptedSortedMap<K, V>(getInner().subMap(fromKey, toKey));
+		return new AdaptedSortedMap<>(getInner().subMap(fromKey, toKey));
 	}
 
 	@Override
 	public SortedMap<K, V> tailMap(K fromKey)
 	{
-		return new AdaptedSortedMap<K, V>(getInner().tailMap(fromKey));
+		return new AdaptedSortedMap<>(getInner().tailMap(fromKey));
 	}
 
 }

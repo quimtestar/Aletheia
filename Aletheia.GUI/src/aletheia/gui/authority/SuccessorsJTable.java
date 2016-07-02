@@ -168,7 +168,7 @@ public class SuccessorsJTable extends JTable
 
 		public MyTableCellRenderer()
 		{
-			this.rendererMap = new HashMap<T, MyCellRendererComponent>();
+			this.rendererMap = new HashMap<>();
 		}
 
 		protected abstract MyCellRendererComponent makeMyCellRendererComponent(T object);
@@ -315,7 +315,7 @@ public class SuccessorsJTable extends JTable
 
 		public HeaderTableCellRenderer()
 		{
-			this.rendererMap = new HashMap<String, MyCellRendererComponent>();
+			this.rendererMap = new HashMap<>();
 		}
 
 		protected MyCellRendererComponent getCellRendererComponent(String text, boolean isSelected, boolean hasFocus)
@@ -359,7 +359,7 @@ public class SuccessorsJTable extends JTable
 		setDefaultRenderer(Date.class, myTableDateCellRenderer);
 		this.myTablePersonCellRenderer = new MyTablePersonCellRenderer();
 		setDefaultRenderer(Person.class, myTablePersonCellRenderer);
-		MyTableCellEditor<Person> editor = new MyTableCellEditor<Person>(myTablePersonCellRenderer);
+		MyTableCellEditor<Person> editor = new MyTableCellEditor<>(myTablePersonCellRenderer);
 		setDefaultEditor(Person.class, editor);
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		setAutoResizeMode(AUTO_RESIZE_LAST_COLUMN);

@@ -87,8 +87,8 @@ public class IterationStatementProofDialog extends StatementProofDialog
 
 	private Map<Context, SubscriptionDependencies> pendingProofStatementsToContext() throws InterruptedException
 	{
-		Map<Context, SubscriptionDependencies> contexts = new HashMap<Context, SubscriptionDependencies>();
-		Set<StatementStackEntry> visited = new HashSet<StatementStackEntry>();
+		Map<Context, SubscriptionDependencies> contexts = new HashMap<>();
+		Set<StatementStackEntry> visited = new HashSet<>();
 		while (!getStatementStack().isEmpty() && contexts.size() < contextAmount)
 		{
 			StatementStackEntry sse = getStatementStack().pop();
@@ -135,15 +135,15 @@ public class IterationStatementProofDialog extends StatementProofDialog
 	private void dialogatePersonStatementRequisiteSend(ContextProofRequestMessage contextDescendentsDependenciesRequestMessage)
 			throws IOException, InterruptedException
 	{
-		Collection<PersonRequisiteMessage.Entry> personRequisiteMessageEntries = new ArrayList<PersonRequisiteMessage.Entry>();
-		Collection<StatementRequisiteMessage.Entry> statementRequisiteMessageEntries = new ArrayList<StatementRequisiteMessage.Entry>();
+		Collection<PersonRequisiteMessage.Entry> personRequisiteMessageEntries = new ArrayList<>();
+		Collection<StatementRequisiteMessage.Entry> statementRequisiteMessageEntries = new ArrayList<>();
 		for (UUID uuid : contextDescendentsDependenciesRequestMessage.getUuids())
 		{
 			Context context = getPersistenceManager().getContext(getTransaction(), uuid);
 			if (context != null)
 			{
-				Set<UUID> personUuidDependencies = new HashSet<UUID>();
-				Set<UUID> statementUuidDependencies = new HashSet<UUID>();
+				Set<UUID> personUuidDependencies = new HashSet<>();
+				Set<UUID> statementUuidDependencies = new HashSet<>();
 				for (Statement st : context.localStatements(getTransaction()).values())
 				{
 					StatementAuthority stAuth = st.getAuthority(getTransaction());
@@ -195,7 +195,7 @@ public class IterationStatementProofDialog extends StatementProofDialog
 			{
 				return getPersistenceManager().getPerson(getTransaction(), personUuid) == null;
 			}
-		}, new UnionCollection<UUID>(new FilteredKeyMap<UUID, Collection<UUID>>(new Filter<UUID>()
+		}, new UnionCollection<>(new FilteredKeyMap<>(new Filter<UUID>()
 		{
 
 			@Override
@@ -225,7 +225,7 @@ public class IterationStatementProofDialog extends StatementProofDialog
 					return true;
 				return false;
 			}
-		}, new UnionCollection<UUID>(new FilteredKeyMap<UUID, Collection<UUID>>(new Filter<UUID>()
+		}, new UnionCollection<>(new FilteredKeyMap<>(new Filter<UUID>()
 		{
 
 			@Override
@@ -252,8 +252,8 @@ public class IterationStatementProofDialog extends StatementProofDialog
 
 	private void dialogatePersonResponseSend(PersonRequestMessage personRequestMessage) throws IOException, InterruptedException
 	{
-		Collection<Person> persons = new FilteredCollection<Person>(new NotNullFilter<Person>(),
-				new BijectionCollection<UUID, Person>(new Bijection<UUID, Person>()
+		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<Person>(),
+				new BijectionCollection<>(new Bijection<UUID, Person>()
 				{
 
 					@Override
@@ -290,7 +290,7 @@ public class IterationStatementProofDialog extends StatementProofDialog
 
 	private void dialogateDelegateTreeInfoSend(ContextProofRequestMessage contextDescendentsDependenciesRequestMessage) throws IOException, InterruptedException
 	{
-		Collection<DelegateTreeInfoMessage.Entry> entries = new ArrayList<DelegateTreeInfoMessage.Entry>();
+		Collection<DelegateTreeInfoMessage.Entry> entries = new ArrayList<>();
 		for (UUID uuid : contextDescendentsDependenciesRequestMessage.getUuids())
 		{
 			Context ctx = getPersistenceManager().getContext(getTransaction(), uuid);
@@ -353,12 +353,12 @@ public class IterationStatementProofDialog extends StatementProofDialog
 	private void dialogateDelegateTreeSuccessorDependencyResponseSend(
 			DelegateTreeSuccessorDependencyRequestMessage delegateTreeSuccessorDependencyRequestMessage) throws InterruptedException, IOException
 	{
-		List<AbstractUUIDPersistentInfoMessage.Entry<Person>> successorEntryList = new ArrayList<AbstractUUIDPersistentInfoMessage.Entry<Person>>();
+		List<AbstractUUIDPersistentInfoMessage.Entry<Person>> successorEntryList = new ArrayList<>();
 		for (UUID uuid : delegateTreeSuccessorDependencyRequestMessage.getUuids())
 		{
 			Person successor = getPersistenceManager().getPerson(getTransaction(), uuid);
 			if (successor != null)
-				successorEntryList.add(new AbstractUUIDPersistentInfoMessage.Entry<Person>(uuid, successor));
+				successorEntryList.add(new AbstractUUIDPersistentInfoMessage.Entry<>(uuid, successor));
 		}
 		sendMessage(new DelegateTreeSuccessorDependencyResponseMessage(successorEntryList));
 	}
@@ -366,12 +366,12 @@ public class IterationStatementProofDialog extends StatementProofDialog
 	private void dialogateDelegateTreeDelegateDependencyResponseSend(DelegateTreeDelegateDependencyRequestMessage delegateTreeDelegateDependencyRequestMessage)
 			throws InterruptedException, IOException
 	{
-		List<AbstractUUIDPersistentInfoMessage.Entry<Person>> delegateEntryList = new ArrayList<AbstractUUIDPersistentInfoMessage.Entry<Person>>();
+		List<AbstractUUIDPersistentInfoMessage.Entry<Person>> delegateEntryList = new ArrayList<>();
 		for (UUID uuid : delegateTreeDelegateDependencyRequestMessage.getUuids())
 		{
 			Person delegate = getPersistenceManager().getPerson(getTransaction(), uuid);
 			if (delegate != null)
-				delegateEntryList.add(new AbstractUUIDPersistentInfoMessage.Entry<Person>(uuid, delegate));
+				delegateEntryList.add(new AbstractUUIDPersistentInfoMessage.Entry<>(uuid, delegate));
 		}
 		sendMessage(new DelegateTreeDelegateDependencyResponseMessage(delegateEntryList));
 	}

@@ -41,7 +41,7 @@ public class PersonsDeferredMessageContent extends CipheredDeferredMessageConten
 	{
 		if (version != 0)
 			throw new RuntimeException();
-		return new CollectionProtocol<Person>(0, new PersonProtocol(0, persistenceManager, transaction));
+		return new CollectionProtocol<>(0, new PersonProtocol(0, persistenceManager, transaction));
 	}
 
 	private final static int version = 0;

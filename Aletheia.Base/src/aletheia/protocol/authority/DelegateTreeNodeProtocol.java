@@ -146,7 +146,7 @@ public abstract class DelegateTreeNodeProtocol<D extends DelegateTreeNode> exten
 		super(0, persistenceManager, transaction);
 		checkVersionAvailability(DelegateTreeNodeProtocol.class, requiredVersion);
 		this.uuidProtocol = new UUIDProtocol(0);
-		this.uuidCollectionProtocol = new CollectionProtocol<UUID>(0, this.uuidProtocol);
+		this.uuidCollectionProtocol = new CollectionProtocol<>(0, this.uuidProtocol);
 		this.stringProtocol = new StringProtocol(0);
 
 	}
@@ -154,7 +154,7 @@ public abstract class DelegateTreeNodeProtocol<D extends DelegateTreeNode> exten
 	@Override
 	public void send(DataOutput out, D delegateTreeNode) throws IOException
 	{
-		Collection<UUID> delegateUuids = new BijectionCollection<Person, UUID>(new Bijection<Person, UUID>()
+		Collection<UUID> delegateUuids = new BijectionCollection<>(new Bijection<Person, UUID>()
 		{
 
 			@Override
@@ -189,14 +189,14 @@ public abstract class DelegateTreeNodeProtocol<D extends DelegateTreeNode> exten
 				throw new ProtocolException();
 			delegateTreeNode.getOrCreateDelegateAuthorizerNoSign(getTransaction(), delegate);
 		}
-		Set<UUID> delegateUuidSet = new HashSet<UUID>(delegateUuids);
+		Set<UUID> delegateUuidSet = new HashSet<>(delegateUuids);
 		for (DelegateAuthorizer da : delegateTreeNode.localDelegateAuthorizerMap(getTransaction()).values())
 			if (!delegateUuidSet.contains(da.getDelegateUuid()))
 				delegateTreeNode.deleteDelegateAuthorizerNoSign(getTransaction(), da);
 		DelegateTreeSubNodeEntryCollectionProtocol delegateTreeSubNodeEntryCollectionProtocol = new DelegateTreeSubNodeEntryCollectionProtocol(0,
 				delegateTreeNode);
 		Collection<Entry<Namespace, DelegateTreeSubNode>> subNodeEntryCollection = delegateTreeSubNodeEntryCollectionProtocol.recv(in);
-		Set<String> names = new HashSet<String>();
+		Set<String> names = new HashSet<>();
 		for (Entry<Namespace, DelegateTreeSubNode> e : subNodeEntryCollection)
 		{
 			if (!(e.getKey() instanceof NodeNamespace))

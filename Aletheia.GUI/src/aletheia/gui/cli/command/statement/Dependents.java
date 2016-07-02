@@ -53,7 +53,7 @@ public class Dependents extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional()
 	{
-		List<List<? extends Statement>> list = new ArrayList<List<? extends Statement>>();
+		List<List<? extends Statement>> list = new ArrayList<>();
 		for (Statement st : statement.dependents(getTransaction()))
 		{
 			List<? extends Statement> path = st.statementPath(getTransaction(), getActiveContext());

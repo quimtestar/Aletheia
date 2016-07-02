@@ -95,7 +95,7 @@ public class SplicedConnectionId implements Exportable
 	public static class Protocol extends ExportableProtocol<SplicedConnectionId>
 	{
 		private final IntegerProtocol integerProtocol = new IntegerProtocol(0);
-		private final NullableProtocol<InetAddress> nullableInetAddressProtocol = new NullableProtocol<InetAddress>(0, new InetAddressProtocol(0));
+		private final NullableProtocol<InetAddress> nullableInetAddressProtocol = new NullableProtocol<>(0, new InetAddressProtocol(0));
 
 		public Protocol(int requiredVersion)
 		{

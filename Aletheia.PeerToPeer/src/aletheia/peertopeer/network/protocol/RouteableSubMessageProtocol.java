@@ -39,7 +39,7 @@ import aletheia.protocol.ProtocolInfo;
 public class RouteableSubMessageProtocol extends ExportableProtocol<RouteableSubMessage>
 {
 	private final RouteableSubMessageCodeProtocol routeableSubMessageCodeProtocol = new RouteableSubMessageCodeProtocol(0);
-	private final Map<RouteableSubMessageCode, RouteableSubMessageSubProtocol<? extends RouteableSubMessage>> subProtocols = new EnumMap<RouteableSubMessageCode, RouteableSubMessageSubProtocol<? extends RouteableSubMessage>>(
+	private final Map<RouteableSubMessageCode, RouteableSubMessageSubProtocol<? extends RouteableSubMessage>> subProtocols = new EnumMap<>(
 			RouteableSubMessageCode.class);
 
 	public RouteableSubMessageProtocol(int requiredVersion)

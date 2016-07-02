@@ -337,7 +337,7 @@ public class BerkeleyDBDelegateAuthorizerEntity implements DelegateAuthorizerEnt
 		this.primaryKeyData = new PrimaryKeyData();
 		this.delegateTreeNodePrimaryKeyData = new BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData();
 		this.statementAuthorizerKeyData = null;
-		this.revokedSignatureUuids = new TreeSet<UUID>();
+		this.revokedSignatureUuids = new TreeSet<>();
 	}
 
 	@Override

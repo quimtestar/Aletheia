@@ -70,7 +70,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 	public DelegateTreeRootNode(PersistenceManager persistenceManager, DelegateTreeRootNodeEntity entity)
 	{
 		super(persistenceManager, entity);
-		this.oldSuccessorUuids = new HashSet<UUID>(successorUuids());
+		this.oldSuccessorUuids = new HashSet<>(successorUuids());
 	}
 
 	@Override
@@ -286,7 +286,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 
 	private List<SuccessorEntry> getSuccessorEntries()
 	{
-		return new BijectionList<DelegateTreeRootNodeEntity.SuccessorEntryEntity, SuccessorEntry>(
+		return new BijectionList<>(
 				new Bijection<DelegateTreeRootNodeEntity.SuccessorEntryEntity, SuccessorEntry>()
 				{
 
@@ -558,9 +558,9 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 
 	private void updateMessageDigestDataTree(Transaction transaction) throws SignatureVersionException
 	{
-		Stack<DelegateTreeNode> stack = new Stack<DelegateTreeNode>();
+		Stack<DelegateTreeNode> stack = new Stack<>();
 		stack.addAll(localDelegateTreeSubNodeMap(transaction).values());
-		Stack<DelegateTreeNode> stack2 = new Stack<DelegateTreeNode>();
+		Stack<DelegateTreeNode> stack2 = new Stack<>();
 		while (!stack.isEmpty())
 		{
 			DelegateTreeNode node = stack.pop();
@@ -667,7 +667,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 			@Override
 			public CloseableIterator<DelegateTreeSubNode> iterator()
 			{
-				final Stack<CloseableIterator<DelegateTreeSubNode>> stack = new Stack<CloseableIterator<DelegateTreeSubNode>>();
+				final Stack<CloseableIterator<DelegateTreeSubNode>> stack = new Stack<>();
 				stack.push(localDelegateTreeSubNodeMap(transaction).values().iterator());
 				return new CloseableIterator<DelegateTreeSubNode>()
 				{
@@ -726,13 +726,13 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 
 	public CloseableIterable<DelegateTreeNode> delegateTreeNodesRecursive(final Transaction transaction)
 	{
-		return new CombinedCloseableIterable<DelegateTreeNode>(new TrivialCloseableIterable<>(Collections.<DelegateTreeNode> singleton(this)),
+		return new CombinedCloseableIterable<>(new TrivialCloseableIterable<>(Collections.<DelegateTreeNode> singleton(this)),
 				new AdaptedCloseableIterable<DelegateTreeNode>(delegateTreeSubNodesRecursive(transaction)));
 	}
 
 	public CloseableIterable<DelegateAuthorizer> delegateAuthorizersRecursive(final Transaction transaction)
 	{
-		return new UnionCloseableIterable<DelegateAuthorizer>(new BijectionCloseableIterable<DelegateTreeNode, CloseableCollection<DelegateAuthorizer>>(
+		return new UnionCloseableIterable<>(new BijectionCloseableIterable<>(
 				new Bijection<DelegateTreeNode, CloseableCollection<DelegateAuthorizer>>()
 				{
 
@@ -901,15 +901,15 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 	{
 		Collection<UUID> successorUuids = successorUuids();
 		if (oldSuccessorUuids != null)
-			successorUuids = new CombinedCollection<UUID>(new DifferenceCollection<UUID>(successorUuids, oldSuccessorUuids),
-					new DifferenceCollection<UUID>(oldSuccessorUuids, successorUuids));
+			successorUuids = new CombinedCollection<>(new DifferenceCollection<>(successorUuids, oldSuccessorUuids),
+					new DifferenceCollection<>(oldSuccessorUuids, successorUuids));
 		for (UUID successorUuid : successorUuids)
 		{
 			Person successor = getPersistenceManager().getPerson(transaction, successorUuid);
 			if (successor != null)
 				successor.checkOrphanity(transaction);
 		}
-		oldSuccessorUuids = new HashSet<UUID>(successorUuids());
+		oldSuccessorUuids = new HashSet<>(successorUuids());
 	}
 
 	private synchronized void checkSuccessorOrphanityDelete(Transaction transaction)
@@ -942,7 +942,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 
 	public CloseableIterable<Person> delegatesRecursive(final Transaction transaction)
 	{
-		return new BijectionCloseableIterable<DelegateAuthorizer, Person>(new Bijection<DelegateAuthorizer, Person>()
+		return new BijectionCloseableIterable<>(new Bijection<DelegateAuthorizer, Person>()
 		{
 
 			@Override
@@ -961,7 +961,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 
 	public List<Person> successors(final Transaction transaction)
 	{
-		return new BijectionList<SuccessorEntry, Person>(new Bijection<SuccessorEntry, Person>()
+		return new BijectionList<>(new Bijection<SuccessorEntry, Person>()
 		{
 
 			@Override

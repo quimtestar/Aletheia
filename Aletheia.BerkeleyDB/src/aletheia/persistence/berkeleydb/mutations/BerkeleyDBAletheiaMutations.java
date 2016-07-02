@@ -49,7 +49,7 @@ public class BerkeleyDBAletheiaMutations extends Mutations
 	public BerkeleyDBAletheiaMutations()
 	{
 		super();
-		mutationSets = new ArrayList<MutationSet>();
+		mutationSets = new ArrayList<>();
 		for (Class<? extends MutationSet> mutationClass : mutationSetClasses)
 		{
 			try

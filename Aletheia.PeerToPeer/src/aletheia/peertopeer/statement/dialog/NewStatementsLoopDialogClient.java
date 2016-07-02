@@ -54,7 +54,7 @@ public class NewStatementsLoopDialogClient extends NewStatementsLoopDialog
 
 	private void dialogateSubscriptionContextsMessageSend(Set<StatementAuthority> statementAuthorities) throws IOException, InterruptedException
 	{
-		List<SubscriptionContextsMessage.Entry> entries = new ArrayList<SubscriptionContextsMessage.Entry>();
+		List<SubscriptionContextsMessage.Entry> entries = new ArrayList<>();
 		for (StatementAuthority statementAuthority : statementAuthorities)
 			try
 			{
@@ -78,8 +78,8 @@ public class NewStatementsLoopDialogClient extends NewStatementsLoopDialog
 
 	private void dialogatePersonResponseSend(PersonRequestMessage personRequestMessage) throws IOException, ProtocolException, InterruptedException
 	{
-		Collection<Person> persons = new FilteredCollection<Person>(new NotNullFilter<Person>(),
-				new BijectionCollection<UUID, Person>(new Bijection<UUID, Person>()
+		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<Person>(),
+				new BijectionCollection<>(new Bijection<UUID, Person>()
 				{
 
 					@Override

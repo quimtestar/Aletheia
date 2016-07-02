@@ -108,7 +108,7 @@ public class MemoryUsageMonitor
 		if (emitter == null)
 			throw new MemoryUsageMonitorException("Notification emission not supported");
 		this.threshold = threshold;
-		this.listeners = new LinkedHashSet<Listener>();
+		this.listeners = new LinkedHashSet<>();
 		this.myListener = new MyNotificationListener();
 		emitter.addNotificationListener(myListener, null, null);
 

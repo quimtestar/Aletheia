@@ -49,8 +49,8 @@ public enum NamespaceCode implements ByteExportableEnum<NamespaceCode>
 
 	static
 	{
-		codeMap = new HashMap<Byte, NamespaceCode>();
-		classMap = new HashMap<Class<? extends Namespace>, NamespaceCode>();
+		codeMap = new HashMap<>();
+		classMap = new HashMap<>();
 
 		for (NamespaceCode namespaceCode : values())
 		{
@@ -71,7 +71,7 @@ public enum NamespaceCode implements ByteExportableEnum<NamespaceCode>
 	private NamespaceCode(byte code, Class<?>... classes)
 	{
 		this.code = code;
-		this.classes = new HashSet<Class<? extends Namespace>>();
+		this.classes = new HashSet<>();
 		for (Class<?> clazz : classes)
 			this.classes.add((Class<? extends Namespace>) clazz);
 	}

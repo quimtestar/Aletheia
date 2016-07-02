@@ -102,8 +102,8 @@ public class DelegateTreeInfoMessage extends AbstractUUIDInfoMessage<DelegateTre
 		private DelegateTreeNodeInfo(Transaction transaction, DelegateTreeNode delegateTreeNode)
 		{
 			super();
-			this.delegateAuthorizers = new HashMap<UUID, DelegateAuthorizerInfo>();
-			this.subNodes = new HashMap<String, DelegateTreeSubNodeInfo>();
+			this.delegateAuthorizers = new HashMap<>();
+			this.subNodes = new HashMap<>();
 			for (DelegateAuthorizer da : delegateTreeNode.localDelegateAuthorizerMap(transaction).values())
 			{
 				if (da.isSigned())
@@ -381,7 +381,7 @@ public class DelegateTreeInfoMessage extends AbstractUUIDInfoMessage<DelegateTre
 		public DelegateTreeRootNodeInfo(Transaction transaction, DelegateTreeRootNode delegateTreeRootNode)
 		{
 			super(transaction, delegateTreeRootNode);
-			this.successorEntryInfoList = new BijectionList<DelegateTreeRootNode.SuccessorEntry, SuccessorEntryInfo>(
+			this.successorEntryInfoList = new BijectionList<>(
 					new Bijection<DelegateTreeRootNode.SuccessorEntry, SuccessorEntryInfo>()
 					{
 
@@ -544,7 +544,7 @@ public class DelegateTreeInfoMessage extends AbstractUUIDInfoMessage<DelegateTre
 
 		private Collection<UpdateCommand> updateCommands(PersistenceManager persistenceManager, Transaction transaction, StatementAuthority statementAuthority)
 		{
-			Collection<UpdateCommand> updateCommands = new ArrayList<UpdateCommand>();
+			Collection<UpdateCommand> updateCommands = new ArrayList<>();
 			DelegateTreeRootNode delegateTreeRootNode = statementAuthority.getDelegateTreeRootNode(transaction);
 			ListIterator<SuccessorEntry> listIterator = null;
 			if (delegateTreeRootNode != null)
@@ -761,7 +761,7 @@ public class DelegateTreeInfoMessage extends AbstractUUIDInfoMessage<DelegateTre
 
 			}
 
-			private final ByteExportableEnumProtocol<Type> typeProtocol = new ByteExportableEnumProtocol<Type>(0, Type.class, 0);
+			private final ByteExportableEnumProtocol<Type> typeProtocol = new ByteExportableEnumProtocol<>(0, Type.class, 0);
 			private final UnsignedDelegateAuthorizerInfo.SubProtocol unsignedDelegateAuthorizerInfoSubProtocol = new UnsignedDelegateAuthorizerInfo.SubProtocol(
 					0);
 			private final SignedDelegateAuthorizerInfo.SubProtocol signedDelegateAuthorizerInfoSubProtocol = new SignedDelegateAuthorizerInfo.SubProtocol(0);
@@ -1001,7 +1001,7 @@ public class DelegateTreeInfoMessage extends AbstractUUIDInfoMessage<DelegateTre
 
 	public Collection<UUID> successorUuidDependencies(PersistenceManager persistenceManager, Transaction transaction)
 	{
-		Set<UUID> successorUuidDependencies = new HashSet<UUID>();
+		Set<UUID> successorUuidDependencies = new HashSet<>();
 		for (AbstractUUIDInfoMessage.Entry<DelegateTreeRootNodeInfo> e : getEntries())
 		{
 			StatementAuthority statementAuthority = persistenceManager.getStatementAuthority(transaction, e.getKey());
@@ -1013,7 +1013,7 @@ public class DelegateTreeInfoMessage extends AbstractUUIDInfoMessage<DelegateTre
 
 	public Collection<UUID> delegateUuidDependencies(PersistenceManager persistenceManager, Transaction transaction)
 	{
-		Set<UUID> delegateUuidDependencies = new HashSet<UUID>();
+		Set<UUID> delegateUuidDependencies = new HashSet<>();
 		for (AbstractUUIDInfoMessage.Entry<DelegateTreeRootNodeInfo> e : getEntries())
 		{
 			StatementAuthority statementAuthority = persistenceManager.getStatementAuthority(transaction, e.getKey());

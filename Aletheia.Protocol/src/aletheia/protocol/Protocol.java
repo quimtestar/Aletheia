@@ -108,7 +108,7 @@ public abstract class Protocol<T>
 		ProtocolInfo protocolInfo = protocolClass.getAnnotation(ProtocolInfo.class);
 		if (protocolInfo == null)
 			throw new MissingProtocolInfoException(protocolClass);
-		return new ArrayAsList<Integer>(protocolInfo.availableVersions());
+		return new ArrayAsList<>(protocolInfo.availableVersions());
 	}
 
 	/**

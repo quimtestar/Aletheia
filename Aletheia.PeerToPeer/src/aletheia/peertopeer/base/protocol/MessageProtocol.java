@@ -62,7 +62,7 @@ public abstract class MessageProtocol extends ExportableProtocol<Message>
 		super(0);
 		checkVersionAvailability(MessageProtocol.class, requiredVersion);
 		this.messageCodeProtocol = new MessageCodeProtocol(requiredMessageCodeProtocolVersion(requiredVersion));
-		this.subProtocols = new EnumMap<MessageCode, MessageSubProtocol<? extends Message>>(MessageCode.class);
+		this.subProtocols = new EnumMap<>(MessageCode.class);
 	}
 
 	protected abstract MessageSubProtocol<? extends Message> obtainSubProtocol(MessageCode code, int requiredVersion);
@@ -124,7 +124,7 @@ public abstract class MessageProtocol extends ExportableProtocol<Message>
 		try
 		{
 			return (M) recv(in,
-					new UnionCollection<>(new BijectionCollection<Class<? extends M>, Set<MessageCode>>(new Bijection<Class<? extends M>, Set<MessageCode>>()
+					new UnionCollection<>(new BijectionCollection<>(new Bijection<Class<? extends M>, Set<MessageCode>>()
 					{
 
 						@Override

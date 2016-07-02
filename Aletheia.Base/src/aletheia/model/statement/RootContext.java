@@ -203,7 +203,7 @@ public class RootContext extends Context
 		try
 		{
 			deleteUnpackedSignatureRequestSetByPath(transaction);
-			Stack<Statement> stack = new Stack<Statement>();
+			Stack<Statement> stack = new Stack<>();
 			stack.addAll(localStatements(transaction).values());
 			while (!stack.isEmpty())
 			{

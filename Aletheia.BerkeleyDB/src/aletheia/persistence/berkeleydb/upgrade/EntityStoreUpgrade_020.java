@@ -75,8 +75,8 @@ public class EntityStoreUpgrade_020 extends EntityStoreUpgrade
 		private final UUIDProtocol uuidProtocol = new UUIDProtocol(0);
 		private final IntegerProtocol integerProtocol = new IntegerProtocol(0);
 
-		private final Set<UUID> declarationUuids = new HashSet<UUID>();
-		private final Map<UUID, Collection<BerkeleyDBDeclarationEntity>> pendingInitializations = new HashMap<UUID, Collection<BerkeleyDBDeclarationEntity>>();
+		private final Set<UUID> declarationUuids = new HashSet<>();
+		private final Map<UUID, Collection<BerkeleyDBDeclarationEntity>> pendingInitializations = new HashMap<>();
 
 		protected UpgradeInstance(BerkeleyDBAletheiaEnvironment environment, String storeName)
 		{
@@ -140,7 +140,7 @@ public class EntityStoreUpgrade_020 extends EntityStoreUpgrade
 								Collection<BerkeleyDBDeclarationEntity> pending = pendingInitializations.get(de.getContextUuid());
 								if (pending == null)
 								{
-									pending = new ArrayList<BerkeleyDBDeclarationEntity>();
+									pending = new ArrayList<>();
 									pendingInitializations.put(de.getContextUuid(), pending);
 								}
 								pending.add(de);

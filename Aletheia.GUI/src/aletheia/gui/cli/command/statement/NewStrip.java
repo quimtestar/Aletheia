@@ -57,7 +57,7 @@ public class NewStrip extends NewAuto
 				Statement statement = ctx.identifierToStatement(transaction).get(Identifier.parse(split.get(0)));
 				if (statement == null)
 					throw new CommandParseException("Statement not found: " + split.get(0));
-				List<Term> hints = new LinkedList<Term>();
+				List<Term> hints = new LinkedList<>();
 				for (String s : split.subList(1, split.size()))
 					hints.add(ctx.parseTerm(transaction, s));
 				return new NewStrip(from, transaction, identifier, ctx, statement, hints);
