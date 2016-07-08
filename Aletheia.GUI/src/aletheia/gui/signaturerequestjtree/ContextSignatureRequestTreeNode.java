@@ -67,23 +67,22 @@ public abstract class ContextSignatureRequestTreeNode extends SignatureRequestTr
 
 	protected CloseableCollection<RequestSignatureRequestTreeNode> childSignatureRequestNodeCollection(Transaction transaction)
 	{
-		return new BijectionCloseableCollection<>(
-				new Bijection<SignatureRequest, RequestSignatureRequestTreeNode>()
-				{
+		return new BijectionCloseableCollection<>(new Bijection<SignatureRequest, RequestSignatureRequestTreeNode>()
+		{
 
-					@Override
-					public RequestSignatureRequestTreeNode forward(SignatureRequest signatureRequest)
-					{
-						return makeRequestNode(signatureRequest);
-					}
+			@Override
+			public RequestSignatureRequestTreeNode forward(SignatureRequest signatureRequest)
+			{
+				return makeRequestNode(signatureRequest);
+			}
 
-					@Override
-					public SignatureRequest backward(RequestSignatureRequestTreeNode output)
-					{
-						throw new UnsupportedOperationException();
-					}
+			@Override
+			public SignatureRequest backward(RequestSignatureRequestTreeNode output)
+			{
+				throw new UnsupportedOperationException();
+			}
 
-				}, childSignatureRequests(transaction));
+		}, childSignatureRequests(transaction));
 	}
 
 	@Override

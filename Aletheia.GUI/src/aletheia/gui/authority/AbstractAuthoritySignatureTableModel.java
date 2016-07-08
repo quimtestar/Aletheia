@@ -175,23 +175,22 @@ public abstract class AbstractAuthoritySignatureTableModel implements TableModel
 			final Transaction transaction = beginTransaction();
 			try
 			{
-				rowDataList = new BufferedList<>(
-						new BijectionCollection<>(new Bijection<StatementAuthoritySignature, RowData>()
-						{
+				rowDataList = new BufferedList<>(new BijectionCollection<>(new Bijection<StatementAuthoritySignature, RowData>()
+				{
 
-							@Override
-							public RowData forward(StatementAuthoritySignature statementAuthoritySignature)
-							{
-								return makeRowData(statementAuthoritySignature, transaction);
-							}
+					@Override
+					public RowData forward(StatementAuthoritySignature statementAuthoritySignature)
+					{
+						return makeRowData(statementAuthoritySignature, transaction);
+					}
 
-							@Override
-							public StatementAuthoritySignature backward(RowData rowData)
-							{
-								return rowData.statementAuthoritySignature;
-							}
+					@Override
+					public StatementAuthoritySignature backward(RowData rowData)
+					{
+						return rowData.statementAuthoritySignature;
+					}
 
-						}, new BufferedList<>(statementAuthority.signatureDateSortedSet(transaction))));
+				}, new BufferedList<>(statementAuthority.signatureDateSortedSet(transaction))));
 				rowDataListRef = new SoftReference<>(rowDataList);
 			}
 			finally

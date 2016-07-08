@@ -252,48 +252,47 @@ public class BerkeleyDBNodeDeferredMessagesByNodeMap extends AbstractCloseableMa
 	@Override
 	public CloseableSet<Entry<UUID, NodeDeferredMessagesByRecipientCollection>> entrySet()
 	{
-		return new BijectionCloseableSet<>(
-				new Bijection<UUID, Entry<UUID, NodeDeferredMessagesByRecipientCollection>>()
+		return new BijectionCloseableSet<>(new Bijection<UUID, Entry<UUID, NodeDeferredMessagesByRecipientCollection>>()
+		{
+
+			@Override
+			public Entry<UUID, NodeDeferredMessagesByRecipientCollection> forward(final UUID recipientUuid)
+			{
+				return new Entry<UUID, NodeDeferredMessagesByRecipientCollection>()
 				{
 
 					@Override
-					public Entry<UUID, NodeDeferredMessagesByRecipientCollection> forward(final UUID recipientUuid)
+					public UUID getKey()
 					{
-						return new Entry<UUID, NodeDeferredMessagesByRecipientCollection>()
-						{
-
-							@Override
-							public UUID getKey()
-							{
-								return recipientUuid;
-							}
-
-							@Override
-							public NodeDeferredMessagesByRecipientCollection getValue()
-							{
-								return persistenceManager.nodeDeferredMessagesByRecipientCollection(transaction, nodeUuid, recipientUuid);
-							}
-
-							@Override
-							public NodeDeferredMessagesByRecipientCollection setValue(NodeDeferredMessagesByRecipientCollection value)
-							{
-								throw new UnsupportedOperationException();
-							}
-
-							@Override
-							public String toString()
-							{
-								return getKey() + " => " + getValue();
-							}
-						};
+						return recipientUuid;
 					}
 
 					@Override
-					public UUID backward(Entry<UUID, NodeDeferredMessagesByRecipientCollection> entry)
+					public NodeDeferredMessagesByRecipientCollection getValue()
 					{
-						return entry.getKey();
+						return persistenceManager.nodeDeferredMessagesByRecipientCollection(transaction, nodeUuid, recipientUuid);
 					}
-				}, keySet());
+
+					@Override
+					public NodeDeferredMessagesByRecipientCollection setValue(NodeDeferredMessagesByRecipientCollection value)
+					{
+						throw new UnsupportedOperationException();
+					}
+
+					@Override
+					public String toString()
+					{
+						return getKey() + " => " + getValue();
+					}
+				};
+			}
+
+			@Override
+			public UUID backward(Entry<UUID, NodeDeferredMessagesByRecipientCollection> entry)
+			{
+				return entry.getKey();
+			}
+		}, keySet());
 	}
 
 }

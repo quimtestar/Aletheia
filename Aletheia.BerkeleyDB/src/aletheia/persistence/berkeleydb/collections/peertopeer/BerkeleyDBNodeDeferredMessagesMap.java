@@ -358,22 +358,21 @@ public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID
 	@Override
 	public CloseableCollection<NodeDeferredMessage> values()
 	{
-		return new BijectionCloseableCollection<>(
-				new Bijection<Entry<UUID, NodeDeferredMessage>, NodeDeferredMessage>()
-				{
+		return new BijectionCloseableCollection<>(new Bijection<Entry<UUID, NodeDeferredMessage>, NodeDeferredMessage>()
+		{
 
-					@Override
-					public NodeDeferredMessage forward(Entry<UUID, NodeDeferredMessage> entry)
-					{
-						return entry.getValue();
-					}
+			@Override
+			public NodeDeferredMessage forward(Entry<UUID, NodeDeferredMessage> entry)
+			{
+				return entry.getValue();
+			}
 
-					@Override
-					public Entry<UUID, NodeDeferredMessage> backward(NodeDeferredMessage nodeDeferredMessage)
-					{
-						return new MyEntry(nodeDeferredMessage);
-					}
-				}, entrySet());
+			@Override
+			public Entry<UUID, NodeDeferredMessage> backward(NodeDeferredMessage nodeDeferredMessage)
+			{
+				return new MyEntry(nodeDeferredMessage);
+			}
+		}, entrySet());
 	}
 
 }

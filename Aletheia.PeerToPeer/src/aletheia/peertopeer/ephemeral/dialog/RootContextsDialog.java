@@ -59,36 +59,35 @@ public abstract class RootContextsDialog extends EphemeralDialog
 	{
 		Collection<RootContextStatementSignaturesResponseMessage.Entry> rootContextAuthorities = new FilteredCollection<>(
 				new NotNullFilter<RootContextStatementSignaturesResponseMessage.Entry>(),
-				new BijectionCollection<>(
-						new Bijection<UUID, RootContextStatementSignaturesResponseMessage.Entry>()
-						{
-							final RootContextAuthorityBySignatureUuid rootContextAuthorityBySignatureUuid = getPersistenceManager()
-									.rootContextAuthorityBySignatureUuid(getTransaction());
+				new BijectionCollection<>(new Bijection<UUID, RootContextStatementSignaturesResponseMessage.Entry>()
+				{
+					final RootContextAuthorityBySignatureUuid rootContextAuthorityBySignatureUuid = getPersistenceManager()
+							.rootContextAuthorityBySignatureUuid(getTransaction());
 
-							@Override
-							public RootContextStatementSignaturesResponseMessage.Entry forward(UUID uuid)
+					@Override
+					public RootContextStatementSignaturesResponseMessage.Entry forward(UUID uuid)
+					{
+						RootContextAuthority rootContextAuthority = rootContextAuthorityBySignatureUuid.get(uuid);
+						if (rootContextAuthority != null)
+							try
 							{
-								RootContextAuthority rootContextAuthority = rootContextAuthorityBySignatureUuid.get(uuid);
-								if (rootContextAuthority != null)
-									try
-									{
-										return new RootContextStatementSignaturesResponseMessage.Entry(uuid,
-												new StatementAuthoritySubMessage(getTransaction(), rootContextAuthority));
-									}
-									catch (NoValidSignature e)
-									{
-										return new RootContextStatementSignaturesResponseMessage.Entry(uuid);
-									}
-								else
-									return new RootContextStatementSignaturesResponseMessage.Entry(uuid);
+								return new RootContextStatementSignaturesResponseMessage.Entry(uuid,
+										new StatementAuthoritySubMessage(getTransaction(), rootContextAuthority));
 							}
+							catch (NoValidSignature e)
+							{
+								return new RootContextStatementSignaturesResponseMessage.Entry(uuid);
+							}
+						else
+							return new RootContextStatementSignaturesResponseMessage.Entry(uuid);
+					}
 
-							@Override
-							public UUID backward(RootContextStatementSignaturesResponseMessage.Entry output)
-							{
-								throw new UnsupportedOperationException();
-							}
-						}, signatureUuids));
+					@Override
+					public UUID backward(RootContextStatementSignaturesResponseMessage.Entry output)
+					{
+						throw new UnsupportedOperationException();
+					}
+				}, signatureUuids));
 		sendMessage(new RootContextStatementSignaturesResponseMessage(rootContextAuthorities));
 	}
 
@@ -139,22 +138,21 @@ public abstract class RootContextsDialog extends EphemeralDialog
 
 	protected void dialogatePersonResponse(PersonRequestMessage personRequestMessage) throws IOException, ProtocolException, InterruptedException
 	{
-		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<Person>(),
-				new BijectionCollection<>(new Bijection<UUID, Person>()
-				{
+		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<Person>(), new BijectionCollection<>(new Bijection<UUID, Person>()
+		{
 
-					@Override
-					public Person forward(UUID uuid)
-					{
-						return getPersistenceManager().getPerson(getTransaction(), uuid);
-					}
+			@Override
+			public Person forward(UUID uuid)
+			{
+				return getPersistenceManager().getPerson(getTransaction(), uuid);
+			}
 
-					@Override
-					public UUID backward(Person output)
-					{
-						throw new UnsupportedOperationException();
-					}
-				}, personRequestMessage.getUuids()));
+			@Override
+			public UUID backward(Person output)
+			{
+				throw new UnsupportedOperationException();
+			}
+		}, personRequestMessage.getUuids()));
 
 		sendMessage(PersonResponseMessage.create(persons));
 	}

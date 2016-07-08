@@ -78,22 +78,21 @@ public class NewStatementsLoopDialogClient extends NewStatementsLoopDialog
 
 	private void dialogatePersonResponseSend(PersonRequestMessage personRequestMessage) throws IOException, ProtocolException, InterruptedException
 	{
-		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<Person>(),
-				new BijectionCollection<>(new Bijection<UUID, Person>()
-				{
+		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<Person>(), new BijectionCollection<>(new Bijection<UUID, Person>()
+		{
 
-					@Override
-					public Person forward(UUID uuid)
-					{
-						return getPersistenceManager().getPerson(getTransaction(), uuid);
-					}
+			@Override
+			public Person forward(UUID uuid)
+			{
+				return getPersistenceManager().getPerson(getTransaction(), uuid);
+			}
 
-					@Override
-					public UUID backward(Person output)
-					{
-						throw new UnsupportedOperationException();
-					}
-				}, personRequestMessage.getUuids()));
+			@Override
+			public UUID backward(Person output)
+			{
+				throw new UnsupportedOperationException();
+			}
+		}, personRequestMessage.getUuids()));
 
 		sendMessage(PersonResponseMessage.create(persons));
 	}

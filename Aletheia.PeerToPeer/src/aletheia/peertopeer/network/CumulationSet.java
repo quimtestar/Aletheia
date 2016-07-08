@@ -771,8 +771,7 @@ public class CumulationSet
 	private final static ExactCountCumulation exactCountCumulation = new ExactCountCumulation();
 	private final static ApproximateCountCumulation approximateCountCumulation = new ApproximateCountCumulation(0.5f);
 
-	private final static Set<Cumulation<?>> cumulations = Collections
-			.unmodifiableSet(new HashSet<>(Arrays.<Cumulation<?>> asList(approximateCountCumulation)));
+	private final static Set<Cumulation<?>> cumulations = Collections.unmodifiableSet(new HashSet<>(Arrays.<Cumulation<?>> asList(approximateCountCumulation)));
 
 	public static Set<Cumulation<?>> getCumulations()
 	{

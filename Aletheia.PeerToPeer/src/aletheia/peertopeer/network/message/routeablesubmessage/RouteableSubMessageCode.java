@@ -127,22 +127,21 @@ public enum RouteableSubMessageCode implements ShortExportableEnum<RouteableSubM
 
 	public static Map<Class<? extends RouteableSubMessage>, Set<RouteableSubMessageCode>> generalizedClassMap()
 	{
-		return Collections.unmodifiableMap(new BijectionMap<>(
-				new Bijection<Set<RouteableSubMessageCode>, Set<RouteableSubMessageCode>>()
-				{
+		return Collections.unmodifiableMap(new BijectionMap<>(new Bijection<Set<RouteableSubMessageCode>, Set<RouteableSubMessageCode>>()
+		{
 
-					@Override
-					public Set<RouteableSubMessageCode> forward(Set<RouteableSubMessageCode> input)
-					{
-						return Collections.unmodifiableSet(input);
-					}
+			@Override
+			public Set<RouteableSubMessageCode> forward(Set<RouteableSubMessageCode> input)
+			{
+				return Collections.unmodifiableSet(input);
+			}
 
-					@Override
-					public Set<RouteableSubMessageCode> backward(Set<RouteableSubMessageCode> output)
-					{
-						throw new UnsupportedOperationException();
-					}
-				}, generalizedClassMap));
+			@Override
+			public Set<RouteableSubMessageCode> backward(Set<RouteableSubMessageCode> output)
+			{
+				throw new UnsupportedOperationException();
+			}
+		}, generalizedClassMap));
 	}
 
 	public static RouteableSubMessageCode codeFor(Class<? extends RouteableSubMessage> clazz)

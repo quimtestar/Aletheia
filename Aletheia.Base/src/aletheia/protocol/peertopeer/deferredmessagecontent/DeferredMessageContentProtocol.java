@@ -49,8 +49,7 @@ public class DeferredMessageContentProtocol extends ExportableProtocol<DeferredM
 		super(0);
 		checkVersionAvailability(DeferredMessageContentProtocol.class, requiredVersion);
 		this.deferredMessageContentCodeProtocol = new DeferredMessageContentCodeProtocol(0);
-		this.subProtocols = new EnumMap<>(
-				DeferredMessageContentCode.class);
+		this.subProtocols = new EnumMap<>(DeferredMessageContentCode.class);
 	}
 
 	protected DeferredMessageContent.SubProtocol<? extends DeferredMessageContent> obtainSubProtocol(DeferredMessageContentCode code, int requiredVersion)
@@ -129,22 +128,21 @@ public class DeferredMessageContentProtocol extends ExportableProtocol<DeferredM
 	{
 		try
 		{
-			return (M) recv(in, new UnionCollection<>(new BijectionCollection<>(
-					new Bijection<Class<? extends M>, Set<DeferredMessageContentCode>>()
-					{
+			return (M) recv(in, new UnionCollection<>(new BijectionCollection<>(new Bijection<Class<? extends M>, Set<DeferredMessageContentCode>>()
+			{
 
-						@Override
-						public Set<DeferredMessageContentCode> forward(Class<? extends M> input)
-						{
-							return DeferredMessageContentCode.generalizedCodesFor(input);
-						}
+				@Override
+				public Set<DeferredMessageContentCode> forward(Class<? extends M> input)
+				{
+					return DeferredMessageContentCode.generalizedCodesFor(input);
+				}
 
-						@Override
-						public Class<M> backward(Set<DeferredMessageContentCode> output)
-						{
-							throw new UnsupportedOperationException();
-						}
-					}, messageClasses)));
+				@Override
+				public Class<M> backward(Set<DeferredMessageContentCode> output)
+				{
+					throw new UnsupportedOperationException();
+				}
+			}, messageClasses)));
 		}
 		catch (ClassCastException e)
 		{

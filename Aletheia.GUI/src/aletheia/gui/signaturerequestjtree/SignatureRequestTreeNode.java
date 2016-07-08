@@ -274,22 +274,21 @@ public abstract class SignatureRequestTreeNode implements TreeNode
 				actualContextNodes.add(makeActualContextNode(context));
 		}
 
-		Collections.sort(actualContextNodes,
-				new BijectionComparator<>(new Bijection<Statement, ActualContextSignatureRequestTreeNode>()
-				{
+		Collections.sort(actualContextNodes, new BijectionComparator<>(new Bijection<Statement, ActualContextSignatureRequestTreeNode>()
+		{
 
-					@Override
-					public ActualContextSignatureRequestTreeNode forward(Statement statement)
-					{
-						throw new UnsupportedOperationException();
-					}
+			@Override
+			public ActualContextSignatureRequestTreeNode forward(Statement statement)
+			{
+				throw new UnsupportedOperationException();
+			}
 
-					@Override
-					public Statement backward(ActualContextSignatureRequestTreeNode node)
-					{
-						return node.getContext();
-					}
-				}, new StatementComparator(transaction)));
+			@Override
+			public Statement backward(ActualContextSignatureRequestTreeNode node)
+			{
+				return node.getContext();
+			}
+		}, new StatementComparator(transaction)));
 		return new CombinedCollection<>(new AdaptedCollection<ContextSignatureRequestTreeNode>(actualContextNodes),
 				new AdaptedCollection<ContextSignatureRequestTreeNode>(virtualContextNodes));
 

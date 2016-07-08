@@ -115,30 +115,29 @@ public class NewStatementsLoopDialogServer extends NewStatementsLoopDialog
 
 	private void dialogatePersonRequestSend(Collection<StatementAuthoritySubMessage> statementAuthoritySubMessages) throws IOException, InterruptedException
 	{
-		Collection<UUID> personRequestUuids = new UnionCollection<>(
-				new BijectionCollection<>(new Bijection<StatementAuthoritySubMessage, Collection<UUID>>()
+		Collection<UUID> personRequestUuids = new UnionCollection<>(new BijectionCollection<>(new Bijection<StatementAuthoritySubMessage, Collection<UUID>>()
+		{
+
+			@Override
+			public Collection<UUID> forward(StatementAuthoritySubMessage statementAuthoritySubMessage)
+			{
+				return new FilteredCollection<>(new Filter<UUID>()
 				{
 
 					@Override
-					public Collection<UUID> forward(StatementAuthoritySubMessage statementAuthoritySubMessage)
+					public boolean filter(UUID personUuid)
 					{
-						return new FilteredCollection<>(new Filter<UUID>()
-						{
-
-							@Override
-							public boolean filter(UUID personUuid)
-							{
-								return getPersistenceManager().getPerson(getTransaction(), personUuid) == null;
-							}
-						}, statementAuthoritySubMessage.getPersonDependencies());
+						return getPersistenceManager().getPerson(getTransaction(), personUuid) == null;
 					}
+				}, statementAuthoritySubMessage.getPersonDependencies());
+			}
 
-					@Override
-					public StatementAuthoritySubMessage backward(Collection<UUID> output)
-					{
-						throw new UnsupportedOperationException();
-					}
-				}, statementAuthoritySubMessages));
+			@Override
+			public StatementAuthoritySubMessage backward(Collection<UUID> output)
+			{
+				throw new UnsupportedOperationException();
+			}
+		}, statementAuthoritySubMessages));
 
 		sendMessage(new PersonRequestMessage(personRequestUuids));
 	}
@@ -162,8 +161,7 @@ public class NewStatementsLoopDialogServer extends NewStatementsLoopDialog
 		};
 
 		Collection<StatementAuthoritySubMessage> filterRequestableStatementAuthoritySubMessages = filterRequestableStatementAuthoritySubMessages(
-				new BijectionCollection<>(bijection,
-						subscriptionContextsMessage.getEntries()));
+				new BijectionCollection<>(bijection, subscriptionContextsMessage.getEntries()));
 
 		dialogatePersonRequestSend(filterRequestableStatementAuthoritySubMessages);
 		dialogateStatementRequestSend(filterRequestableStatementAuthoritySubMessages);

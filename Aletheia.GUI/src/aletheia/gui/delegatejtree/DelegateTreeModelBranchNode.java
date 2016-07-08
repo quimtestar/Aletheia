@@ -161,8 +161,7 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 
 	private List<DelegateTreeModelNode> getChildList()
 	{
-		return new CombinedList<>(new AdaptedList<DelegateTreeModelNode>(getBranchSubNodeList()),
-				new AdaptedList<DelegateTreeModelNode>(getLeafNodeList()));
+		return new CombinedList<>(new AdaptedList<DelegateTreeModelNode>(getBranchSubNodeList()), new AdaptedList<DelegateTreeModelNode>(getLeafNodeList()));
 	}
 
 	@Override

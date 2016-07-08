@@ -2026,21 +2026,20 @@ public class Context extends Statement
 
 	public CloseableSet<StatementAuthority> descendantContextAuthoritiesByConsequent(final Transaction transaction, Term consequent)
 	{
-		return new FilteredCloseableSet<>(new NotNullFilter<StatementAuthority>(),
-				new BijectionCloseableSet<>(new Bijection<Context, StatementAuthority>()
-				{
-					@Override
-					public StatementAuthority forward(Context context)
-					{
-						return context.getAuthority(transaction);
-					}
+		return new FilteredCloseableSet<>(new NotNullFilter<StatementAuthority>(), new BijectionCloseableSet<>(new Bijection<Context, StatementAuthority>()
+		{
+			@Override
+			public StatementAuthority forward(Context context)
+			{
+				return context.getAuthority(transaction);
+			}
 
-					@Override
-					public Context backward(StatementAuthority output)
-					{
-						throw new UnsupportedOperationException();
-					}
-				}, descendantContextsByConsequent(transaction, consequent)));
+			@Override
+			public Context backward(StatementAuthority output)
+			{
+				throw new UnsupportedOperationException();
+			}
+		}, descendantContextsByConsequent(transaction, consequent)));
 	}
 
 	@Override
@@ -2222,8 +2221,8 @@ public class Context extends Statement
 			}
 		};
 
-		return new CombinedCollection<>(super.proofDependencies(transaction), new UnionCollection<>(
-				new BijectionCollection<>(bijection, new BufferedList<>(descendentContexts(transaction)))));
+		return new CombinedCollection<>(super.proofDependencies(transaction),
+				new UnionCollection<>(new BijectionCollection<>(bijection, new BufferedList<>(descendentContexts(transaction)))));
 
 	}
 

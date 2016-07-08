@@ -275,8 +275,8 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 			}
 		}, dynamicTaggedFactoryEntries);
 
-		this.taggedFactories = new CombinedMap<>(
-				new AdaptedMap<String, AbstractVoidCommandFactory<? extends Command>>(dynamicTaggedFactories), staticTaggedFactories);
+		this.taggedFactories = new CombinedMap<>(new AdaptedMap<String, AbstractVoidCommandFactory<? extends Command>>(dynamicTaggedFactories),
+				staticTaggedFactories);
 	}
 
 	@Override

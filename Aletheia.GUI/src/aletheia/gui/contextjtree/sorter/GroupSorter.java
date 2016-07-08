@@ -263,10 +263,8 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 							}
 
 						};
-					CloseableIterator<Sorter> nonIdentifiedIterator = new BijectionCloseableIterator<>(statementSorterBijection,
-							nonIdentified.iterator());
-					return new CombinedCloseableIterator<>(assumptionIterator,
-							new CombinedCloseableIterator<>(identifiedIterator, nonIdentifiedIterator));
+					CloseableIterator<Sorter> nonIdentifiedIterator = new BijectionCloseableIterator<>(statementSorterBijection, nonIdentified.iterator());
+					return new CombinedCloseableIterator<>(assumptionIterator, new CombinedCloseableIterator<>(identifiedIterator, nonIdentifiedIterator));
 				}
 			};
 

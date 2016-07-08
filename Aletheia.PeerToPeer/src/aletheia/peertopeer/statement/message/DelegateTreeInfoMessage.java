@@ -381,22 +381,21 @@ public class DelegateTreeInfoMessage extends AbstractUUIDInfoMessage<DelegateTre
 		public DelegateTreeRootNodeInfo(Transaction transaction, DelegateTreeRootNode delegateTreeRootNode)
 		{
 			super(transaction, delegateTreeRootNode);
-			this.successorEntryInfoList = new BijectionList<>(
-					new Bijection<DelegateTreeRootNode.SuccessorEntry, SuccessorEntryInfo>()
-					{
+			this.successorEntryInfoList = new BijectionList<>(new Bijection<DelegateTreeRootNode.SuccessorEntry, SuccessorEntryInfo>()
+			{
 
-						@Override
-						public SuccessorEntryInfo forward(DelegateTreeRootNode.SuccessorEntry successorEntry)
-						{
-							return new SuccessorEntryInfo(successorEntry);
-						}
+				@Override
+				public SuccessorEntryInfo forward(DelegateTreeRootNode.SuccessorEntry successorEntry)
+				{
+					return new SuccessorEntryInfo(successorEntry);
+				}
 
-						@Override
-						public SuccessorEntry backward(SuccessorEntryInfo output)
-						{
-							throw new UnsupportedOperationException();
-						}
-					}, delegateTreeRootNode.successorEntries());
+				@Override
+				public SuccessorEntry backward(SuccessorEntryInfo output)
+				{
+					throw new UnsupportedOperationException();
+				}
+			}, delegateTreeRootNode.successorEntries());
 			this.successorIndex = delegateTreeRootNode.getSuccessorIndex();
 			this.signatureDate = delegateTreeRootNode.getSignatureDate();
 			this.signatureVersion = delegateTreeRootNode.getSignatureVersion();

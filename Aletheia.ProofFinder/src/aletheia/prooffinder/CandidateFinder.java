@@ -388,10 +388,8 @@ public class CandidateFinder implements StatementCacheTree.Listener
 		}
 		Set<ImpureCandidate> impureCandidates = localImpureCandidatesFor(context, candidate, variable, variableDependent);
 		while (!stack.isEmpty())
-			impureCandidates = new CombinedSet<>(localImpureCandidatesFor(stack.pop(), candidate, variable, variableDependent),
-					impureCandidates);
-		impureCandidates = new CombinedSet<>(virtualImpureCandidatesFor(virtualStatements, candidate, variable, variableDependent),
-				impureCandidates);
+			impureCandidates = new CombinedSet<>(localImpureCandidatesFor(stack.pop(), candidate, variable, variableDependent), impureCandidates);
+		impureCandidates = new CombinedSet<>(virtualImpureCandidatesFor(virtualStatements, candidate, variable, variableDependent), impureCandidates);
 		return impureCandidates;
 	}
 

@@ -123,22 +123,21 @@ public abstract class MessageProtocol extends ExportableProtocol<Message>
 	{
 		try
 		{
-			return (M) recv(in,
-					new UnionCollection<>(new BijectionCollection<>(new Bijection<Class<? extends M>, Set<MessageCode>>()
-					{
+			return (M) recv(in, new UnionCollection<>(new BijectionCollection<>(new Bijection<Class<? extends M>, Set<MessageCode>>()
+			{
 
-						@Override
-						public Set<MessageCode> forward(Class<? extends M> input)
-						{
-							return MessageCode.generalizedCodesFor(input);
-						}
+				@Override
+				public Set<MessageCode> forward(Class<? extends M> input)
+				{
+					return MessageCode.generalizedCodesFor(input);
+				}
 
-						@Override
-						public Class<M> backward(Set<MessageCode> output)
-						{
-							throw new UnsupportedOperationException();
-						}
-					}, messageClasses)));
+				@Override
+				public Class<M> backward(Set<MessageCode> output)
+				{
+					throw new UnsupportedOperationException();
+				}
+			}, messageClasses)));
 		}
 		catch (ClassCastException e)
 		{

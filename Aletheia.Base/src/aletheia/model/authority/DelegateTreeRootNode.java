@@ -286,22 +286,21 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 
 	private List<SuccessorEntry> getSuccessorEntries()
 	{
-		return new BijectionList<>(
-				new Bijection<DelegateTreeRootNodeEntity.SuccessorEntryEntity, SuccessorEntry>()
-				{
+		return new BijectionList<>(new Bijection<DelegateTreeRootNodeEntity.SuccessorEntryEntity, SuccessorEntry>()
+		{
 
-					@Override
-					public SuccessorEntry forward(DelegateTreeRootNodeEntity.SuccessorEntryEntity entity)
-					{
-						return new SuccessorEntry(entity);
-					}
+			@Override
+			public SuccessorEntry forward(DelegateTreeRootNodeEntity.SuccessorEntryEntity entity)
+			{
+				return new SuccessorEntry(entity);
+			}
 
-					@Override
-					public DelegateTreeRootNodeEntity.SuccessorEntryEntity backward(SuccessorEntry successorEntry)
-					{
-						return successorEntry.getEntity();
-					}
-				}, getEntity().getSuccessorEntryEntities());
+			@Override
+			public DelegateTreeRootNodeEntity.SuccessorEntryEntity backward(SuccessorEntry successorEntry)
+			{
+				return successorEntry.getEntity();
+			}
+		}, getEntity().getSuccessorEntryEntities());
 	}
 
 	private Set<UUID> successorUuids()
@@ -732,22 +731,21 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 
 	public CloseableIterable<DelegateAuthorizer> delegateAuthorizersRecursive(final Transaction transaction)
 	{
-		return new UnionCloseableIterable<>(new BijectionCloseableIterable<>(
-				new Bijection<DelegateTreeNode, CloseableCollection<DelegateAuthorizer>>()
-				{
+		return new UnionCloseableIterable<>(new BijectionCloseableIterable<>(new Bijection<DelegateTreeNode, CloseableCollection<DelegateAuthorizer>>()
+		{
 
-					@Override
-					public CloseableCollection<DelegateAuthorizer> forward(DelegateTreeNode delegateTreeNode)
-					{
-						return delegateTreeNode.localDelegateAuthorizerMap(transaction).values();
-					}
+			@Override
+			public CloseableCollection<DelegateAuthorizer> forward(DelegateTreeNode delegateTreeNode)
+			{
+				return delegateTreeNode.localDelegateAuthorizerMap(transaction).values();
+			}
 
-					@Override
-					public DelegateTreeSubNode backward(CloseableCollection<DelegateAuthorizer> output)
-					{
-						throw new UnsupportedOperationException();
-					}
-				}, delegateTreeNodesRecursive(transaction)));
+			@Override
+			public DelegateTreeSubNode backward(CloseableCollection<DelegateAuthorizer> output)
+			{
+				throw new UnsupportedOperationException();
+			}
+		}, delegateTreeNodesRecursive(transaction)));
 	}
 
 	private void checkAuthoritySignatures(Transaction transaction)

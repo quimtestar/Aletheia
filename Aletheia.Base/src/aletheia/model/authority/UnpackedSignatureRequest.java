@@ -157,22 +157,21 @@ public class UnpackedSignatureRequest extends SignatureRequest
 
 	public Set<StatementAuthority> statementAuthorities(final Transaction transaction)
 	{
-		return new FilteredSet<>(new NotNullFilter<StatementAuthority>(),
-				new BijectionSet<>(new Bijection<UUID, StatementAuthority>()
-				{
+		return new FilteredSet<>(new NotNullFilter<StatementAuthority>(), new BijectionSet<>(new Bijection<UUID, StatementAuthority>()
+		{
 
-					@Override
-					public StatementAuthority forward(UUID uuid)
-					{
-						return getPersistenceManager().getStatementAuthority(transaction, uuid);
-					}
+			@Override
+			public StatementAuthority forward(UUID uuid)
+			{
+				return getPersistenceManager().getStatementAuthority(transaction, uuid);
+			}
 
-					@Override
-					public UUID backward(StatementAuthority statementAuthority)
-					{
-						return statementAuthority.getStatementUuid();
-					}
-				}, statementUuids(transaction)));
+			@Override
+			public UUID backward(StatementAuthority statementAuthority)
+			{
+				return statementAuthority.getStatementUuid();
+			}
+		}, statementUuids(transaction)));
 	}
 
 	public Set<Statement> statements(final Transaction transaction)

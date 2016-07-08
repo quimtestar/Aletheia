@@ -104,22 +104,21 @@ public class SuccessorsTableModel implements TableModel
 		final Transaction transaction = persistenceManager.beginTransaction();
 		try
 		{
-			this.successorEntryDataList = new BufferedList<>(
-					new BijectionCollection<>(new Bijection<SuccessorEntry, SuccessorEntryData>()
-					{
+			this.successorEntryDataList = new BufferedList<>(new BijectionCollection<>(new Bijection<SuccessorEntry, SuccessorEntryData>()
+			{
 
-						@Override
-						public SuccessorEntryData forward(SuccessorEntry successorEntry)
-						{
-							return new SuccessorEntryData(transaction, successorEntry);
-						}
+				@Override
+				public SuccessorEntryData forward(SuccessorEntry successorEntry)
+				{
+					return new SuccessorEntryData(transaction, successorEntry);
+				}
 
-						@Override
-						public SuccessorEntry backward(SuccessorEntryData output)
-						{
-							throw new UnsupportedOperationException();
-						}
-					}, delegateTreeRootNode.successorEntries()));
+				@Override
+				public SuccessorEntry backward(SuccessorEntryData output)
+				{
+					throw new UnsupportedOperationException();
+				}
+			}, delegateTreeRootNode.successorEntries()));
 			for (SuccessorEntryData se : successorEntryDataList)
 				se.successor.addStateListener(stateListener);
 			transaction.commit();

@@ -241,30 +241,29 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 	private PersonRequestMessage dialogatePersonRequest(Collection<StatementAuthoritySubMessage> statementAuthoritySubMessages)
 			throws IOException, ProtocolException, InterruptedException
 	{
-		Collection<UUID> personRequestUuids = new UnionCollection<>(
-				new BijectionCollection<>(new Bijection<StatementAuthoritySubMessage, Collection<UUID>>()
+		Collection<UUID> personRequestUuids = new UnionCollection<>(new BijectionCollection<>(new Bijection<StatementAuthoritySubMessage, Collection<UUID>>()
+		{
+
+			@Override
+			public Collection<UUID> forward(StatementAuthoritySubMessage statementAuthoritySubMessage)
+			{
+				return new FilteredCollection<>(new Filter<UUID>()
 				{
 
 					@Override
-					public Collection<UUID> forward(StatementAuthoritySubMessage statementAuthoritySubMessage)
+					public boolean filter(UUID personUuid)
 					{
-						return new FilteredCollection<>(new Filter<UUID>()
-						{
-
-							@Override
-							public boolean filter(UUID personUuid)
-							{
-								return getPersistenceManager().getPerson(getTransaction(), personUuid) == null;
-							}
-						}, statementAuthoritySubMessage.getPersonDependencies());
+						return getPersistenceManager().getPerson(getTransaction(), personUuid) == null;
 					}
+				}, statementAuthoritySubMessage.getPersonDependencies());
+			}
 
-					@Override
-					public StatementAuthoritySubMessage backward(Collection<UUID> output)
-					{
-						throw new UnsupportedOperationException();
-					}
-				}, statementAuthoritySubMessages));
+			@Override
+			public StatementAuthoritySubMessage backward(Collection<UUID> output)
+			{
+				throw new UnsupportedOperationException();
+			}
+		}, statementAuthoritySubMessages));
 
 		PersonRequestMessage sent = new PersonRequestMessage(personRequestUuids);
 		sendMessage(sent);
@@ -274,22 +273,21 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 
 	private PersonResponseMessage dialogatePersonResponse(PersonRequestMessage personRequestMessage) throws IOException, ProtocolException, InterruptedException
 	{
-		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<Person>(),
-				new BijectionCollection<>(new Bijection<UUID, Person>()
-				{
+		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<Person>(), new BijectionCollection<>(new Bijection<UUID, Person>()
+		{
 
-					@Override
-					public Person forward(UUID uuid)
-					{
-						return getPersistenceManager().getPerson(getTransaction(), uuid);
-					}
+			@Override
+			public Person forward(UUID uuid)
+			{
+				return getPersistenceManager().getPerson(getTransaction(), uuid);
+			}
 
-					@Override
-					public UUID backward(Person output)
-					{
-						throw new UnsupportedOperationException();
-					}
-				}, personRequestMessage.getUuids()));
+			@Override
+			public UUID backward(Person output)
+			{
+				throw new UnsupportedOperationException();
+			}
+		}, personRequestMessage.getUuids()));
 
 		sendMessage(PersonResponseMessage.create(persons));
 		return recvMessage(PersonResponseMessage.class);
@@ -470,9 +468,8 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 		}
 		while (!uuids.isEmpty())
 		{
-			contexts = new FilteredCollection<>(new NotNullFilter<Context>(),
-					new BijectionCollection<>(new ComposedBijection<>(new CastBijection<Statement, Context>(),
-							new InverseBijection<>(statementUuidBijection)), uuids));
+			contexts = new FilteredCollection<>(new NotNullFilter<Context>(), new BijectionCollection<>(
+					new ComposedBijection<>(new CastBijection<Statement, Context>(), new InverseBijection<>(statementUuidBijection)), uuids));
 
 			DelegateTreeInfoMessage delegateTreeInfoMessage = dialogateDelegateTreeInfo(contexts);
 			DelegateTreeSuccessorDependencyRequestMessage delegateTreeSuccessorDependencyRequestMessage = dialogateDelegateTreeSuccessorDependencyRequest(

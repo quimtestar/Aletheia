@@ -64,8 +64,7 @@ public class DelegateTreeRootNodeWithAuthorizersProtocol extends DelegateTreeRoo
 			namespaceProtocol.send(out, delegateTreeNode.getPrefix());
 			DelegateAuthorizerProtocol delegateAuthorizerProtocol = new DelegateAuthorizerProtocol(0, getPersistenceManager(), getTransaction(),
 					delegateTreeNode);
-			CollectionProtocol<DelegateAuthorizer> delegateAuthorizerCollectionProtocol = new CollectionProtocol<>(0,
-					delegateAuthorizerProtocol);
+			CollectionProtocol<DelegateAuthorizer> delegateAuthorizerCollectionProtocol = new CollectionProtocol<>(0, delegateAuthorizerProtocol);
 			delegateAuthorizerCollectionProtocol.send(out, delegateTreeNode.localDelegateAuthorizerMap(getTransaction()).values());
 		}
 	}
@@ -83,8 +82,7 @@ public class DelegateTreeRootNodeWithAuthorizersProtocol extends DelegateTreeRoo
 				throw new ProtocolException();
 			DelegateAuthorizerProtocol delegateAuthorizerProtocol = new DelegateAuthorizerProtocol(0, getPersistenceManager(), getTransaction(),
 					delegateTreeNode);
-			CollectionProtocol<DelegateAuthorizer> delegateAuthorizerCollectionProtocol = new CollectionProtocol<>(0,
-					delegateAuthorizerProtocol);
+			CollectionProtocol<DelegateAuthorizer> delegateAuthorizerCollectionProtocol = new CollectionProtocol<>(0, delegateAuthorizerProtocol);
 			delegateAuthorizerCollectionProtocol.recv(in);
 		}
 		return delegateTreeRootNode;
@@ -99,8 +97,7 @@ public class DelegateTreeRootNodeWithAuthorizersProtocol extends DelegateTreeRoo
 		{
 			namespaceProtocol.skip(in);
 			DelegateAuthorizerProtocol delegateAuthorizerProtocol = new DelegateAuthorizerProtocol(0, getPersistenceManager(), getTransaction(), null);
-			CollectionProtocol<DelegateAuthorizer> delegateAuthorizerCollectionProtocol = new CollectionProtocol<>(0,
-					delegateAuthorizerProtocol);
+			CollectionProtocol<DelegateAuthorizer> delegateAuthorizerCollectionProtocol = new CollectionProtocol<>(0, delegateAuthorizerProtocol);
 			delegateAuthorizerCollectionProtocol.skip(in);
 		}
 	}

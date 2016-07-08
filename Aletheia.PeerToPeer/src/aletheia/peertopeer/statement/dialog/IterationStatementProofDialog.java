@@ -252,22 +252,21 @@ public class IterationStatementProofDialog extends StatementProofDialog
 
 	private void dialogatePersonResponseSend(PersonRequestMessage personRequestMessage) throws IOException, InterruptedException
 	{
-		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<Person>(),
-				new BijectionCollection<>(new Bijection<UUID, Person>()
-				{
+		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<Person>(), new BijectionCollection<>(new Bijection<UUID, Person>()
+		{
 
-					@Override
-					public Person forward(UUID uuid)
-					{
-						return getPersistenceManager().getPerson(getTransaction(), uuid);
-					}
+			@Override
+			public Person forward(UUID uuid)
+			{
+				return getPersistenceManager().getPerson(getTransaction(), uuid);
+			}
 
-					@Override
-					public UUID backward(Person output)
-					{
-						throw new UnsupportedOperationException();
-					}
-				}, personRequestMessage.getUuids()));
+			@Override
+			public UUID backward(Person output)
+			{
+				throw new UnsupportedOperationException();
+			}
+		}, personRequestMessage.getUuids()));
 		sendMessage(PersonResponseMessage.create(persons));
 	}
 

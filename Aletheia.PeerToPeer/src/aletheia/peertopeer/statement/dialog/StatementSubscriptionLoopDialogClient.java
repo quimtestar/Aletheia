@@ -139,8 +139,7 @@ public class StatementSubscriptionLoopDialogClient extends StatementSubscription
 		sendMessage(new StatementsSubscribeMessage(subscribeUuids, unsubscribeUuids));
 		StatementsSubscribeConfirmationMessage statementsSubscribeConfirmationMessage = recvMessage(StatementsSubscribeConfirmationMessage.class);
 		subscribeUuids.retainAll(statementsSubscribeConfirmationMessage.getUuids());
-		return new BijectionSet<>(new ComposedBijection<>(new CastBijection<Statement, Context>(), getStatementUuidBijection().inverse()),
-				subscribeUuids);
+		return new BijectionSet<>(new ComposedBijection<>(new CastBijection<Statement, Context>(), getStatementUuidBijection().inverse()), subscribeUuids);
 	}
 
 	@Override

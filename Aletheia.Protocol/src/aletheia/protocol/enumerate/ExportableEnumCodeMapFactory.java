@@ -152,8 +152,7 @@ public class ExportableEnumCodeMapFactory
 			codeMap = Collections.<Object, ExportableEnum<?, ?>> unmodifiableMap(codeMap_);
 			versionCodeMap.put(enumVersion, codeMap);
 		}
-		return new BijectionMap<>(new CastBijection<ExportableEnum<?, ?>, E>(),
-				new BijectionKeyMap<>(new CastBijection<Object, C>(), codeMap));
+		return new BijectionMap<>(new CastBijection<ExportableEnum<?, ?>, E>(), new BijectionKeyMap<>(new CastBijection<Object, C>(), codeMap));
 	}
 
 }
