@@ -41,11 +41,13 @@ import aletheia.utilities.collections.CloseableIterator;
 public class LastId extends TransactionalCommand
 {
 	private final NamespacePattern namespacePattern;
+	private final Statement topStatement;
 
-	public LastId(CommandSource from, Transaction transaction, String expression)
+	public LastId(CommandSource from, Transaction transaction, String expression, Statement topStatement)
 	{
 		super(from, transaction);
 		this.namespacePattern = NamespacePattern.instantiate(expression);
+		this.topStatement = topStatement;
 	}
 
 	private Identifier localLastId(Context ctx)
@@ -97,7 +99,7 @@ public class LastId extends TransactionalCommand
 				for (Context ctx_ : ctx.subContexts(getTransaction()))
 					if (!ctx_.isProved())
 						stack.push(ctx_);
-				if (!(ctx instanceof RootContext))
+				if (!(ctx instanceof RootContext) && !ctx.equals(topStatement))
 					stack.push(ctx.getContext(getTransaction()));
 			}
 		}
@@ -121,13 +123,22 @@ public class LastId extends TransactionalCommand
 		public LastId parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			return new LastId(from, transaction, split.get(0));
+			Statement statement = null;
+			if (split.size() > 1)
+			{
+				statement = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(1));
+				if (statement == null)
+					throw new CommandParseException("Invalid top statement");
+				if (!statement.statementPath(transaction).contains(statement))
+					throw new CommandParseException("Top statement not in path");
+			}
+			return new LastId(from, transaction, split.get(0), statement);
 		}
 
 		@Override
 		protected String paramSpec()
 		{
-			return "<expression>";
+			return "<expression> [<top statement>]";
 		}
 
 		@Override

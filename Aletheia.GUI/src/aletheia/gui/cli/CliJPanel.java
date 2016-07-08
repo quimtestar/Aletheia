@@ -960,7 +960,33 @@ public class CliJPanel extends JPanel implements CommandSource
 					Transaction transaction = getPersistenceManager().beginTransaction(100);
 					try
 					{
-						return importText(comp, statement.statementPathString(transaction, getActiveContext()));
+						Context activeContext = getActiveContext();
+						String path = statement.statementPathString(transaction, activeContext);
+						if (!path.isEmpty() || statement.equals(activeContext))
+							return importText(comp, path);
+						else
+						{
+							if (statement.getIdentifier() != null)
+							{
+								if ((activeContext != null) && (statement instanceof Context))
+								{
+									List<? extends Statement> absPath = activeContext.statementPath(transaction, (Context) statement);
+									boolean found = false;
+									for (Statement st : absPath)
+										if (statement.getIdentifier().equals(st.getIdentifier()))
+										{
+											found = true;
+											break;
+										}
+									if (found)
+										return importText(comp, statement.getUuid().toString());
+								}
+								return importText(comp, statement.getIdentifier().qualifiedName());
+							}
+							else
+								return importText(comp, statement.getUuid().toString());
+						}
+
 					}
 					finally
 					{
