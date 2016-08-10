@@ -47,4 +47,6 @@ public interface DescendantContextsByConsequent extends PersistenceManagerDataSt
 	 * @return The consequent.
 	 */
 	public SimpleTerm getConsequent();
+
+	boolean smaller(int size);
 }

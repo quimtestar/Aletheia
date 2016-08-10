@@ -190,4 +190,26 @@ public class BerkeleyDBDescendantContextsByConsequent extends AbstractCloseableS
 		}
 	}
 
+	@Override
+	public boolean smaller(int size)
+	{
+		CloseableIterator<Context> iterator = iterator();
+		try
+		{
+			int n = 0;
+			while (iterator.hasNext())
+			{
+				iterator.next();
+				n++;
+				if (n >= size)
+					return false;
+			}
+		}
+		finally
+		{
+			iterator.close();
+		}
+		return true;
+	}
+
 }
