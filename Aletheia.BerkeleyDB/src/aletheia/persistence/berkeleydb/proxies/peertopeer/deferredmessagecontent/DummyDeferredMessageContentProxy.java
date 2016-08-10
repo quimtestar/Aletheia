@@ -19,27 +19,25 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.peertopeer.deferredmessagecontent;
 
-import aletheia.model.peertopeer.deferredmessagecontent.DummyDeferredMessageContent;
-
 import com.sleepycat.persist.model.Persistent;
 
 @Deprecated
-@Persistent(proxyFor = DummyDeferredMessageContent.class)
-public class DummyDeferredMessageContentProxy extends DeferredMessageContentProxy<DummyDeferredMessageContent>
+@Persistent(proxyFor = aletheia.model.peertopeer.deferredmessagecontent.DummyDeferredMessageContent.class)
+public class DummyDeferredMessageContentProxy extends DeferredMessageContentProxy<aletheia.model.peertopeer.deferredmessagecontent.DummyDeferredMessageContent>
 {
 	private byte[] payload;
 
 	@Override
-	public void initializeProxy(DummyDeferredMessageContent deferredMessageContent)
+	public void initializeProxy(aletheia.model.peertopeer.deferredmessagecontent.DummyDeferredMessageContent deferredMessageContent)
 	{
 		super.initializeProxy(deferredMessageContent);
 		this.payload = deferredMessageContent.getPayload();
 	}
 
 	@Override
-	public DummyDeferredMessageContent convertProxy() throws ProxyConversionException
+	public aletheia.model.peertopeer.deferredmessagecontent.DummyDeferredMessageContent convertProxy() throws ProxyConversionException
 	{
-		return new DummyDeferredMessageContent(payload);
+		return new aletheia.model.peertopeer.deferredmessagecontent.DummyDeferredMessageContent(payload);
 	}
 
 }
