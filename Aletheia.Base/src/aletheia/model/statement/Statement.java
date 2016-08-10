@@ -1594,4 +1594,48 @@ public abstract class Statement implements Exportable
 		return equals(st);
 	}
 
+	protected boolean checkSafelyProved(Transaction transaction)
+	{
+		Set<UUID> visited = new HashSet<>();
+		Stack<Statement> stack = new Stack<>();
+		stack.push(this);
+		while (!stack.isEmpty())
+		{
+			Statement st = stack.pop();
+			if (!visited.contains(st.getUuid()))
+			{
+				visited.add(st.getUuid());
+				if (!st.isProved())
+					return false;
+				if (st instanceof Context)
+				{
+					Context ctx = (Context) st;
+					boolean solver = false;
+					CloseableIterator<Statement> iterator = ctx.solvers(transaction).iterator();
+					try
+					{
+						while (iterator.hasNext())
+						{
+							Statement sol = iterator.next();
+							if (!ctx.equals(sol) && ctx.isDescendent(transaction, sol))
+							{
+								stack.push(sol);
+								solver = true;
+								break;
+							}
+						}
+					}
+					finally
+					{
+						iterator.close();
+					}
+					if (!solver)
+						return false;
+				}
+				stack.addAll(st.dependencies(transaction));
+			}
+		}
+		return true;
+	}
+
 }

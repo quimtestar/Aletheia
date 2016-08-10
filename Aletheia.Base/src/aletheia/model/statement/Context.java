@@ -1172,7 +1172,7 @@ public class Context extends Statement
 		if (proved)
 		{
 			Set<UUID> reseted = new HashSet<>();
-			for (Context ctx : descendantContextsByConsequent(transaction, statement.getTerm()))
+			for (Context ctx : safeDescendantsToResetByTerm(transaction, this, statement.getTerm()))
 				ctx.resetProvedDependents(transaction, reseted);
 			checkProvedUuids(transaction, reseted);
 		}
@@ -1207,15 +1207,15 @@ public class Context extends Statement
 	 *            The transaction to be used in the operation.
 	 * @return The set of affected statements.
 	 */
-	private void resetProvedDependents(Transaction transaction, Set<UUID> set)
+	private void resetProvedDependents(Transaction transaction, Set<UUID> reseted)
 	{
 		Stack<Statement> stack = new Stack<>();
 		stack.push(this);
 		while (!stack.isEmpty())
 		{
-			logger.trace("---> resetProvedDependents:" + stack.size() + " " + set.size());
+			logger.trace("---> resetProvedDependents:" + stack.size() + " " + reseted.size());
 			Statement st = stack.pop();
-			if (st.isProved() && !set.contains(st.getUuid()))
+			if (st.isProved() && !reseted.contains(st.getUuid()))
 			{
 				st.setProved(transaction, false);
 				Iterable<StateListener> listeners = st.stateListeners();
@@ -1224,14 +1224,44 @@ public class Context extends Statement
 					for (StateListener listener : listeners)
 						listener.provedStateChanged(transaction, st, false);
 				}
-				set.add(st.getUuid());
+				reseted.add(st.getUuid());
 				stack.addAll(st.dependents(transaction));
-				if (!(st instanceof RootContext))
-					stack.addAll(st.getContext(transaction).descendantContextsByConsequent(transaction, st.getTerm()));
-				else
-					stack.addAll(((Context) st).descendantContextsByConsequent(transaction, st.getTerm()));
+				Context stCtx = st instanceof RootContext ? (RootContext) st : st.getContext(transaction);
+				stack.addAll(safeDescendantsToResetByTerm(transaction, stCtx, st.getTerm()));
 			}
 		}
+	}
+
+	private DescendantContextsByConsequent safeDescendantsToResetByTerm(Transaction transaction, Context stCtx, Term term)
+	{
+		DescendantContextsByConsequent descendants = stCtx.descendantContextsByConsequent(transaction, term);
+		if (!descendants.smaller(100))
+		{
+			boolean safe = false;
+			CloseableIterator<Statement> iterator = stCtx.statementsByTerm(transaction).get(term).iterator();
+			try
+			{
+				while (iterator.hasNext())
+				{
+					Statement alt = iterator.next();
+					if (alt.checkSafelyProved(transaction))
+					{
+						safe = true;
+						break;
+					}
+				}
+			}
+			finally
+			{
+				iterator.close();
+			}
+			if (safe)
+				return emptyDescendantContextByConsequent(transaction);
+			else
+				return descendants;
+		}
+		else
+			return descendants;
 	}
 
 	/**
@@ -1330,12 +1360,50 @@ public class Context extends Statement
 	 *            The term that will be matched.
 	 * @return The set.
 	 */
-	public CloseableSet<Context> descendantContextsByConsequent(Transaction transaction, Term consequent)
+	public DescendantContextsByConsequent descendantContextsByConsequent(final Transaction transaction, Term consequent)
 	{
 		if (consequent instanceof SimpleTerm)
 			return descendantContextsByConsequent(transaction, (SimpleTerm) consequent);
 		else
-			return new EmptyCloseableSet<>();
+			return emptyDescendantContextByConsequent(transaction);
+	}
+
+	private DescendantContextsByConsequent emptyDescendantContextByConsequent(final Transaction transaction)
+	{
+		class EmptyDescendantContextByConsequent extends EmptyCloseableSet<Context> implements DescendantContextsByConsequent
+		{
+
+			@Override
+			public PersistenceManager getPersistenceManager()
+			{
+				return getPersistenceManager();
+			}
+
+			@Override
+			public Transaction getTransaction()
+			{
+				return transaction;
+			}
+
+			@Override
+			public Context getContext()
+			{
+				return Context.this;
+			}
+
+			@Override
+			public SimpleTerm getConsequent()
+			{
+				return null;
+			}
+
+			@Override
+			public boolean smaller(int size)
+			{
+				return size > 0;
+			}
+		}
+		return new EmptyDescendantContextByConsequent();
 	}
 
 	/**
