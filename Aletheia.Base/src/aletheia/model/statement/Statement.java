@@ -1594,6 +1594,20 @@ public abstract class Statement implements Exportable
 		return equals(st);
 	}
 
+	/**
+	 * A statement is "safely" proved when:
+	 * 
+	 * *) Its proved status is true.
+	 * 
+	 * *) All its dependents are safely proved.
+	 * 
+	 * *) If a context, at least one of its solvers is a safely proved
+	 * descendant.
+	 * 
+	 * (Warning: This function might return some false negatives according to
+	 * the previous definition but no false positives)
+	 * 
+	 */
 	protected boolean checkSafelyProved(Transaction transaction)
 	{
 		Set<UUID> visited = new HashSet<>();

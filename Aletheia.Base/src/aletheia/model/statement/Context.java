@@ -1232,6 +1232,13 @@ public class Context extends Statement
 		}
 	}
 
+	/**
+	 * Returns the set of descendant contexts of a context that match the given
+	 * consequent to propagate the resetting of the proved status. If the size
+	 * of that set is found too big (>=100) we first look for a safe alternative
+	 * in the same context that might satisfy all that subcontexts and if so, no
+	 * resetting will be necessary so the empty set is returned.
+	 */
 	private DescendantContextsByConsequent safeDescendantsToResetByTerm(Transaction transaction, Context stCtx, Term term)
 	{
 		DescendantContextsByConsequent descendants = stCtx.descendantContextsByConsequent(transaction, term);
