@@ -17,42 +17,16 @@
 # along with the Aletheia Proof Assistant. If not, see
 # <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
-#(ab5c2e63-5f81-58d3-94c4-ffa7bb8872ef,Prop.ctx)
-#	Prop.ctx.classical
-#		Set.ctx
-#			Set.ctx.extensionality
-#				Set.ctx.specification
-#					Set.ctx.pairing
-#						Set.ctx.one
-#							Set.ctx.union
-#								Set.ctx.infinity
-#									Set.ctx.regularity
-#										Set.ctx.replacement
-#											Set.ctx.power
-#												Set.ctx.choice
-
-#(3338b42c-6689-53e2-9273-4f81d8264ee0,Prop.ctx.legacy)
-#	Prop.ctx.classical
-#		Set.ctx
-#			Set.ctx.extensionality
-#				Set.ctx.specification
-#					Set.ctx.pairing
-#						Set.ctx.one
-#							Set.ctx.union
-#								Set.ctx.infinity
-#									Set.ctx.regularity
-#										Set.ctx.replacement
-#											Set.ctx.power
-#												Set.ctx.choice
-
-(5f1ca070-e522-5322-8312-796dffd41dae,Prop.ctx.sandbox)
-        Prop.ctx.classical
-                Set.ctx
-                        Set.ctx.extensionality
-                                Set.ctx.specification
-                                        Set.ctx.pairing
-                                                Set.ctx.one
-                                                        Set.ctx.union
-                                                                Set.ctx.infinity
-                                                                        Set.ctx.regularity
-                                                                                Set.ctx.replacement
+(57dff486-97eb-5733-aad5-a462018f4dde,ctx.quimtestar)
+	ctx.Prop.Not.double.inv
+		ctx.one
+			ctx.Set
+				ctx.Set.extensionality
+					ctx.Set.specification
+						ctx.Set.pairing
+							ctx.Set.union
+								ctx.Set.infinity
+									ctx.Set.regularity
+										ctx.Set.replacement
+											ctx.Set.power
+												ctx.Set.choice
