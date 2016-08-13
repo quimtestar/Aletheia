@@ -79,7 +79,7 @@ public class StatementSubscriptionLoopDialogClient extends StatementSubscription
 			if (set != null)
 			{
 				subscribedContextLocals.addAll(set);
-				pendingUnsubscribedContextLocals = new AdaptedSet<ContextLocal>(set);
+				pendingUnsubscribedContextLocals = new AdaptedSet<>(set);
 			}
 			else
 				pendingUnsubscribedContextLocals = Collections.emptySet();
@@ -90,7 +90,7 @@ public class StatementSubscriptionLoopDialogClient extends StatementSubscription
 			if (set != null)
 			{
 				subscribedContextLocals.addAll(set);
-				pendingSubscribedContextLocals = new AdaptedSet<ContextLocal>(set);
+				pendingSubscribedContextLocals = new AdaptedSet<>(set);
 			}
 			else
 				pendingSubscribedContextLocals = Collections.emptySet();

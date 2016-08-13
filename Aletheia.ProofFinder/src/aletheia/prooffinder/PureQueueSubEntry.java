@@ -77,7 +77,7 @@ public abstract class PureQueueSubEntry extends QueueSubEntry
 	@Override
 	protected Collection<Candidate> findCandidates()
 	{
-		return new AdaptedCollection<Candidate>(getCandidateFinder().pureCandidatesFor(getContext(), virtualStatements(), target));
+		return new AdaptedCollection<>(getCandidateFinder().pureCandidatesFor(getContext(), virtualStatements(), target));
 	}
 
 	@Override

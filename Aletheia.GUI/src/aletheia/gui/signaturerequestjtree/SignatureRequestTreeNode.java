@@ -106,7 +106,7 @@ public abstract class SignatureRequestTreeNode implements TreeNode
 			{
 				transaction.abort();
 			}
-			childNodeListRef = new SoftReference<List<? extends SignatureRequestTreeNode>>(childNodeList);
+			childNodeListRef = new SoftReference<>(childNodeList);
 		}
 		return childNodeList;
 	}

@@ -83,7 +83,7 @@ public class ImpureQueueSubEntry extends QueueSubEntry
 	@Override
 	protected Collection<Candidate> findCandidates()
 	{
-		return new AdaptedCollection<Candidate>(
+		return new AdaptedCollection<>(
 				parent.getCandidateFinder().impureCandidatesFor(parent.getContext(), parent.virtualStatements(), candidate, variable));
 	}
 

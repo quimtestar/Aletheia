@@ -39,7 +39,7 @@ public class BerkeleyDBAletheiaMutations extends Mutations
 	private static final Logger logger = LoggerManager.instance.logger();
 
 	//@formatter:off
-	private final static List<Class<? extends MutationSet>> mutationSetClasses=new ArrayList<Class<? extends MutationSet>>(Arrays.asList(
+	private final static List<Class<? extends MutationSet>> mutationSetClasses=new ArrayList<>(Arrays.asList(
 			MutationSet121117.class
 			));
 	//@formatter:on

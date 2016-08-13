@@ -85,7 +85,7 @@ public class Proof
 		@Override
 		Collection<QueueSubEntry> descendants()
 		{
-			return new AdaptedCollection<QueueSubEntry>(descendants.values());
+			return new AdaptedCollection<>(descendants.values());
 		}
 
 	}

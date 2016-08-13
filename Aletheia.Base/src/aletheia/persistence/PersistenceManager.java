@@ -1355,15 +1355,13 @@ public abstract class PersistenceManager
 
 	public CloseableSet<SignatureRequest> signatureRequestSetByContextPath(Transaction transaction, UUID contextUuid)
 	{
-		CloseableSet<SignatureRequest> packedRequests = new AdaptedCloseableSet<SignatureRequest>(
-				packedSignatureRequestSetByContextPath(transaction, contextUuid));
+		CloseableSet<SignatureRequest> packedRequests = new AdaptedCloseableSet<>(packedSignatureRequestSetByContextPath(transaction, contextUuid));
 		Context context = getContext(transaction, contextUuid);
 		if (context == null)
 			return packedRequests;
 		else
 		{
-			CloseableSet<SignatureRequest> unpackedRequests = new AdaptedCloseableSet<SignatureRequest>(
-					unpackedSignatureRequestSetByContextPath(transaction, context));
+			CloseableSet<SignatureRequest> unpackedRequests = new AdaptedCloseableSet<>(unpackedSignatureRequestSetByContextPath(transaction, context));
 			return new CombinedCloseableSet<>(packedRequests, unpackedRequests);
 		}
 	}
