@@ -22,8 +22,10 @@ package aletheia.persistence.collections.statement;
 import aletheia.model.statement.Context;
 import aletheia.model.term.SimpleTerm;
 import aletheia.persistence.PersistenceManager;
+import aletheia.persistence.Transaction;
 import aletheia.persistence.collections.PersistenceManagerDataStructure;
 import aletheia.utilities.collections.CloseableSet;
+import aletheia.utilities.collections.EmptyCloseableSet;
 
 /**
  * The set of {@link Context}s that descend from a given one and whose
@@ -49,4 +51,48 @@ public interface DescendantContextsByConsequent extends PersistenceManagerDataSt
 	public SimpleTerm getConsequent();
 
 	boolean smaller(int size);
+
+	static class Empty extends EmptyCloseableSet<Context> implements DescendantContextsByConsequent
+	{
+		private final Transaction transaction;
+		private final Context context;
+
+		public Empty(Transaction transaction, Context context)
+		{
+			super();
+			this.transaction = transaction;
+			this.context = context;
+		}
+
+		@Override
+		public PersistenceManager getPersistenceManager()
+		{
+			return getPersistenceManager();
+		}
+
+		@Override
+		public Transaction getTransaction()
+		{
+			return transaction;
+		}
+
+		@Override
+		public Context getContext()
+		{
+			return context;
+		}
+
+		@Override
+		public SimpleTerm getConsequent()
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean smaller(int size)
+		{
+			return size > 0;
+		}
+	}
+
 }

@@ -1172,7 +1172,7 @@ public class Context extends Statement
 		if (proved)
 		{
 			Set<UUID> reseted = new HashSet<>();
-			for (Context ctx : safeDescendantsToResetByTerm(transaction, this, statement.getTerm()))
+			for (Context ctx : safelyProvedDescendantContextsToResetByTerm(transaction, this, statement.getTerm()))
 				ctx.resetProvedDependents(transaction, reseted);
 			checkProvedUuids(transaction, reseted);
 		}
@@ -1227,7 +1227,7 @@ public class Context extends Statement
 				reseted.add(st.getUuid());
 				stack.addAll(st.dependents(transaction));
 				Context stCtx = st instanceof RootContext ? (RootContext) st : st.getContext(transaction);
-				stack.addAll(safeDescendantsToResetByTerm(transaction, stCtx, st.getTerm()));
+				stack.addAll(safelyProvedDescendantContextsToResetByTerm(transaction, stCtx, st.getTerm()));
 			}
 		}
 	}
@@ -1239,13 +1239,13 @@ public class Context extends Statement
 	 * in the same context that might satisfy all that subcontexts and if so, no
 	 * resetting will be necessary so the empty set is returned.
 	 */
-	private DescendantContextsByConsequent safeDescendantsToResetByTerm(Transaction transaction, Context stCtx, Term term)
+	private static DescendantContextsByConsequent safelyProvedDescendantContextsToResetByTerm(Transaction transaction, Context context, Term term)
 	{
-		DescendantContextsByConsequent descendants = stCtx.descendantContextsByConsequent(transaction, term);
+		DescendantContextsByConsequent descendants = context.descendantContextsByConsequent(transaction, term);
 		if (!descendants.smaller(100))
 		{
 			boolean safe = false;
-			CloseableIterator<Statement> iterator = stCtx.statementsByTerm(transaction).get(term).iterator();
+			CloseableIterator<Statement> iterator = context.statementsByTerm(transaction).get(term).iterator();
 			try
 			{
 				while (iterator.hasNext())
@@ -1263,7 +1263,7 @@ public class Context extends Statement
 				iterator.close();
 			}
 			if (safe)
-				return emptyDescendantContextByConsequent(transaction);
+				return new DescendantContextsByConsequent.Empty(transaction, context);
 			else
 				return descendants;
 		}
@@ -1372,45 +1372,7 @@ public class Context extends Statement
 		if (consequent instanceof SimpleTerm)
 			return descendantContextsByConsequent(transaction, (SimpleTerm) consequent);
 		else
-			return emptyDescendantContextByConsequent(transaction);
-	}
-
-	private DescendantContextsByConsequent emptyDescendantContextByConsequent(final Transaction transaction)
-	{
-		class EmptyDescendantContextByConsequent extends EmptyCloseableSet<Context> implements DescendantContextsByConsequent
-		{
-
-			@Override
-			public PersistenceManager getPersistenceManager()
-			{
-				return getPersistenceManager();
-			}
-
-			@Override
-			public Transaction getTransaction()
-			{
-				return transaction;
-			}
-
-			@Override
-			public Context getContext()
-			{
-				return Context.this;
-			}
-
-			@Override
-			public SimpleTerm getConsequent()
-			{
-				return null;
-			}
-
-			@Override
-			public boolean smaller(int size)
-			{
-				return size > 0;
-			}
-		}
-		return new EmptyDescendantContextByConsequent();
+			return new DescendantContextsByConsequent.Empty(transaction, this);
 	}
 
 	/**
