@@ -45,6 +45,7 @@ import aletheia.model.security.SignatureData;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
+import aletheia.model.term.Term;
 import aletheia.persistence.PersistenceListener;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -53,6 +54,7 @@ import aletheia.persistence.collections.authority.LocalStatementAuthoritySet;
 import aletheia.persistence.collections.authority.StatementAuthoritySignatureDateSortedSet;
 import aletheia.persistence.collections.authority.StatementAuthoritySignatureMap;
 import aletheia.persistence.collections.authority.UnpackedSignatureRequestSetByStatementAuthority;
+import aletheia.persistence.collections.statement.DescendantContextsByConsequent;
 import aletheia.persistence.entities.authority.StatementAuthorityEntity;
 import aletheia.protocol.Exportable;
 import aletheia.protocol.primitive.DateProtocol;
@@ -60,6 +62,7 @@ import aletheia.protocol.primitive.UUIDProtocol;
 import aletheia.protocol.statement.StatementProtocol;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCloseableCollection;
+import aletheia.utilities.collections.BijectionCloseableSet;
 import aletheia.utilities.collections.BijectionCollection;
 import aletheia.utilities.collections.BufferedList;
 import aletheia.utilities.collections.CloseableCollection;
@@ -74,7 +77,9 @@ import aletheia.utilities.collections.CombinedCloseableMap;
 import aletheia.utilities.collections.EmptyCloseableMap;
 import aletheia.utilities.collections.Filter;
 import aletheia.utilities.collections.FilteredCloseableMap;
+import aletheia.utilities.collections.FilteredCloseableSet;
 import aletheia.utilities.collections.FilteredCloseableSortedSet;
+import aletheia.utilities.collections.NotNullFilter;
 import aletheia.utilities.collections.TrivialCloseableCollection;
 import aletheia.utilities.collections.TrivialCloseableIterable;
 
@@ -1003,13 +1008,129 @@ public class StatementAuthority implements Exportable
 				set.add(stAuth.getStatementUuid());
 				Statement st = stAuth.getStatement(transaction);
 				stack.addAll(st.dependentAuthorities(transaction));
-				if (!(st instanceof RootContext))
-					stack.addAll(st.getContext(transaction).descendantContextAuthoritiesByConsequent(transaction, st.getTerm()));
-				else
-					stack.addAll(((Context) st).descendantContextAuthoritiesByConsequent(transaction, st.getTerm()));
+				Context stCtx = st instanceof RootContext ? (RootContext) st : st.getContext(transaction);
+				stack.addAll(safelySignedProofDescendantContextAuthoritiesToResetByTerm(transaction, stCtx, st.getTerm()));
 			}
 		}
 		return set;
+	}
+
+	private static CloseableSet<StatementAuthority> safelySignedProofDescendantContextAuthoritiesToResetByTerm(Transaction transaction, Context context,
+			Term term)
+	{
+		return new FilteredCloseableSet<>(new NotNullFilter<StatementAuthority>(), new BijectionCloseableSet<>(new Bijection<Context, StatementAuthority>()
+		{
+			@Override
+			public StatementAuthority forward(Context context)
+			{
+				return context.getAuthority(transaction);
+			}
+
+			@Override
+			public Context backward(StatementAuthority output)
+			{
+				throw new UnsupportedOperationException();
+			}
+		}, safelySignedProofDescendantContextsToResetByTerm(transaction, context, term)));
+
+	}
+
+	/**
+	 * Returns the set of descendant contexts of a context that match the given
+	 * consequent to propagate the resetting of the signed proof status. If the
+	 * size of that set is found too big (>=100) we first look for a safe
+	 * alternative in the same context that might satisfy all that subcontexts
+	 * and if so, no resetting will be necessary so the empty set is returned.
+	 */
+	private static DescendantContextsByConsequent safelySignedProofDescendantContextsToResetByTerm(Transaction transaction, Context context, Term term)
+	{
+		DescendantContextsByConsequent descendants = context.descendantContextsByConsequent(transaction, term);
+		if (!descendants.smaller(100))
+		{
+			boolean safe = false;
+			CloseableIterator<Statement> iterator = context.statementsByTerm(transaction).get(term).iterator();
+			try
+			{
+				while (iterator.hasNext())
+				{
+					Statement alt = iterator.next();
+					if (checkSafelySignedProof(alt, transaction))
+					{
+						safe = true;
+						break;
+					}
+				}
+			}
+			finally
+			{
+				iterator.close();
+			}
+			if (safe)
+				return new DescendantContextsByConsequent.Empty(transaction, context);
+			else
+				return descendants;
+		}
+		else
+			return descendants;
+	}
+
+	/**
+	 * A statement "safely" has a signed proof when:
+	 * 
+	 * *) Its signed proof status is true.
+	 * 
+	 * *) All its dependents safely have a signed proof.
+	 * 
+	 * *) If a context, at least one of its solvers is a descendant and safely
+	 * have a signed proof.
+	 * 
+	 * (Warning: This function might return some false negatives according to
+	 * the previous definition but no false positives)
+	 * 
+	 */
+	private static boolean checkSafelySignedProof(Statement statement, Transaction transaction)
+	{
+		Set<UUID> visited = new HashSet<>();
+		Stack<Statement> stack = new Stack<>();
+		stack.push(statement);
+		while (!stack.isEmpty())
+		{
+			Statement st = stack.pop();
+			if (!visited.contains(st.getUuid()))
+			{
+				visited.add(st.getUuid());
+				StatementAuthority stAuth = st.getAuthority(transaction);
+				if (stAuth == null || !stAuth.isSignedProof())
+					return false;
+				if (st instanceof Context)
+				{
+					Context ctx = (Context) st;
+					boolean solver = false;
+					CloseableIterator<Statement> iterator = ctx.solvers(transaction).iterator();
+					try
+					{
+						while (iterator.hasNext())
+						{
+							Statement sol = iterator.next();
+							if (!ctx.equals(sol) && ctx.isDescendent(transaction, sol))
+							{
+								stack.push(sol);
+								solver = true;
+								break;
+							}
+						}
+					}
+					finally
+					{
+						iterator.close();
+					}
+					if (!solver)
+						return false;
+				}
+				stack.addAll(st.dependencies(transaction));
+			}
+		}
+		return true;
 	}
 
 	@Override
