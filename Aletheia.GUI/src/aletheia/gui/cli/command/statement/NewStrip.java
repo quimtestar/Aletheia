@@ -64,7 +64,7 @@ public class NewStrip extends NewAuto
 			}
 			catch (NotActiveContextException | InvalidNameException | TermParserException e)
 			{
-				throw new CommandParseException(e);
+				throw CommandParseEmbeddedException.embed(e);
 			}
 			finally
 			{
