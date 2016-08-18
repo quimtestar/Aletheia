@@ -24,6 +24,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.FontMetrics;
+import java.awt.KeyboardFocusManager;
 import java.awt.LayoutManager;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.MouseEvent;
@@ -437,6 +438,8 @@ public class StatementListJTable extends JTable
 		}
 		setRowHeight(computeHeight());
 		setPreferredScrollableViewportSize(new Dimension(computeWidth(width), 5 * computeHeight()));
+		setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
+		setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
 	}
 
 	@Override

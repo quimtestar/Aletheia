@@ -24,6 +24,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.FontMetrics;
+import java.awt.KeyboardFocusManager;
 import java.awt.LayoutManager;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.KeyEvent;
@@ -555,6 +556,8 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 		getTableHeader().setReorderingAllowed(false);
 		getTableHeader().setDefaultRenderer(new HeaderTableCellRenderer());
 		updateFontSize();
+		setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
+		setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
 	}
 
 	protected AuthorityJPanel getAuthorityJPanel()

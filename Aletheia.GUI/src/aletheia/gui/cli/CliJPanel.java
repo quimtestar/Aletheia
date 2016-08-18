@@ -22,6 +22,7 @@ package aletheia.gui.cli;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.KeyboardFocusManager;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
@@ -1156,6 +1157,8 @@ public class CliJPanel extends JPanel implements CommandSource
 		add(splitPane, BorderLayout.CENTER);
 		textPane.addKeyListener(new MyKeyListener());
 		textPane.addCaretListener(new MyCaretListener());
+		textPane.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
+		textPane.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
 		readerThread = new ReaderThread();
 		readerThread.start();
 		out = readerThread.getOut(defaultAttributeSet);
