@@ -148,7 +148,7 @@ Requirements:
 \begin_layout Itemize
 \begin_inset CommandInset href
 LatexCommand href
-name "Java JDK version 7 or greater"
+name "Java JDK version 8 or greater"
 target "http://www.oracle.com/technetwork/java/javase/downloads/index.html"
 
 \end_inset
