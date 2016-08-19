@@ -28,6 +28,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import aletheia.gui.app.MainAletheiaJFrame;
+import aletheia.gui.common.FocusBorderManager;
 import aletheia.gui.common.PersistentJTreeLayerUI;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeJPanel;
@@ -195,8 +196,10 @@ public class AuthorityJPanel extends JPanel
 	private PersistentJTreeLayerUI<AuthorityHeaderJPanel> authorityHeaderJPanelLayerUI;
 	private AbstractAuthoritySignatureJTable authoritySignatureJTable;
 	private PersistentJTreeLayerUI<AbstractAuthoritySignatureJTable> authoritySignatureJTableLayerUI;
+	private FocusBorderManager authoritySignatureTableFocusBorderManager;
 	private DelegateTreeJTree delegateTreeJTree;
 	private PersistentJTreeLayerUI<DelegateTreeJTree> delegateTreeJTreeLayerUI;
+	private FocusBorderManager delegateTreeFocusBorderManager;
 	private String showing;
 
 	public AuthorityJPanel(ContextJTreeJPanel contextJTreeJPanel)
@@ -224,10 +227,11 @@ public class AuthorityJPanel extends JPanel
 		this.jSplitPane0.setOneTouchExpandable(true);
 		this.contentPanel.add(this.jSplitPane0, BorderLayout.CENTER);
 		this.statement = null;
-		this.authoritySignatureJTable = null;
 		this.authorityHeaderJPanel = null;
 		this.authoritySignatureJTable = null;
+		this.authoritySignatureTableFocusBorderManager = null;
 		this.delegateTreeJTree = null;
+		this.delegateTreeFocusBorderManager = null;
 	}
 
 	public ContextJTreeJPanel getContextJTreeJPanel()
@@ -325,6 +329,11 @@ public class AuthorityJPanel extends JPanel
 			authoritySignatureTableJScrollPane.setViewportView(null);
 			authoritySignatureJTable = null;
 		}
+		if (authoritySignatureTableFocusBorderManager != null)
+		{
+			authoritySignatureTableFocusBorderManager.close();
+			authoritySignatureTableFocusBorderManager = null;
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -376,11 +385,15 @@ public class AuthorityJPanel extends JPanel
 				authoritySignatureJTable = new AuthoritySignatureJTable(this, statement, statementAuthority);
 			authoritySignatureJTableLayerUI = new PersistentJTreeLayerUI<>(getAletheiaJFrame(), authoritySignatureJTable);
 			authoritySignatureTableJScrollPane.setViewportView(authoritySignatureJTableLayerUI.getJLayer());
+			authoritySignatureTableFocusBorderManager = new FocusBorderManager(authoritySignatureTableJScrollPane, authoritySignatureJTable);
 			if (delegateTreeJTree != null)
 				delegateTreeJTree.close();
+			if (delegateTreeFocusBorderManager != null)
+				delegateTreeFocusBorderManager.close();
 			delegateTreeJTree = new DelegateTreeJTree(this, statementAuthority);
 			delegateTreeJTreeLayerUI = new PersistentJTreeLayerUI<>(getAletheiaJFrame(), delegateTreeJTree);
 			delegateTreeJScrollPane.setViewportView(delegateTreeJTreeLayerUI.getJLayer());
+			delegateTreeFocusBorderManager = new FocusBorderManager(delegateTreeJScrollPane, delegateTreeJTree);
 			showContent();
 		}
 		else
@@ -395,8 +408,11 @@ public class AuthorityJPanel extends JPanel
 
 	public void close()
 	{
+
 		if (delegateTreeJTree != null)
 			delegateTreeJTree.close();
+		if (delegateTreeFocusBorderManager != null)
+			delegateTreeFocusBorderManager.close();
 	}
 
 }

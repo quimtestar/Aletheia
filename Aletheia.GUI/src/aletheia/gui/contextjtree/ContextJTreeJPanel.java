@@ -20,15 +20,14 @@
 package aletheia.gui.contextjtree;
 
 import java.awt.BorderLayout;
-
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
-
 import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.gui.app.AletheiaJPanel;
 import aletheia.gui.authority.AuthorityJPanel;
+import aletheia.gui.common.FocusBorderManager;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.PersistenceManager;
 import aletheia.utilities.gui.MyJSplitPane;
@@ -40,6 +39,7 @@ public class ContextJTreeJPanel extends JPanel
 	private final AletheiaJPanel aletheiaJPanel;
 	private final ContextJTree contextJTree;
 	private final JScrollPane contextJTreeScrollPane;
+	private final FocusBorderManager contextJTreeFocusBorderManager;
 	private final AuthorityJPanel authorityJPanel;
 	private final MyJSplitPane splitPane1;
 
@@ -49,6 +49,7 @@ public class ContextJTreeJPanel extends JPanel
 		this.aletheiaJPanel = aletheiaJPanel;
 		this.contextJTree = new ContextJTree(aletheiaJPanel);
 		this.contextJTreeScrollPane = new JScrollPane(this.contextJTree);
+		this.contextJTreeFocusBorderManager = new FocusBorderManager(contextJTreeScrollPane, contextJTree);
 		this.authorityJPanel = new AuthorityJPanel(this);
 		this.splitPane1 = new MyJSplitPane(JSplitPane.VERTICAL_SPLIT, contextJTreeScrollPane, authorityJPanel);
 		this.splitPane1.setResizeWeight(1);
@@ -81,6 +82,7 @@ public class ContextJTreeJPanel extends JPanel
 	public void close() throws InterruptedException
 	{
 		contextJTree.close();
+		contextJTreeFocusBorderManager.close();
 		authorityJPanel.close();
 	}
 

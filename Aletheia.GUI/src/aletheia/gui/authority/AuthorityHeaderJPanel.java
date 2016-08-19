@@ -35,6 +35,7 @@ import javax.swing.Scrollable;
 import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.gui.common.BoldTextLabelRenderer;
 import aletheia.gui.common.DateLabelRenderer;
+import aletheia.gui.common.FocusBorderManager;
 import aletheia.gui.common.PersonLabelRenderer;
 import aletheia.gui.common.SignatureStatusLabelRenderer;
 import aletheia.gui.font.FontManager;
@@ -73,8 +74,11 @@ public class AuthorityHeaderJPanel extends JPanel implements Scrollable
 	}
 
 	private final MyStatementListJTable dependenciesListJTable;
+	private final FocusBorderManager dependenciesListFocusBorderManager;
 	private final MyStatementListJTable solverListJTable;
+	private final FocusBorderManager solverListFocusBorderManager;
 	private final SuccessorsJTable successorListJTable;
+	private final FocusBorderManager successorListFocusBorderManager;
 
 	public AuthorityHeaderJPanel(AuthorityJPanel authorityJPanel, StatementAuthority statementAuthority)
 	{
@@ -150,6 +154,7 @@ public class AuthorityHeaderJPanel extends JPanel implements Scrollable
 					gbc.fill = GridBagConstraints.BOTH;
 					JScrollPane depPane = new JScrollPane(this.dependenciesListJTable);
 					add(depPane, gbc);
+					this.dependenciesListFocusBorderManager = new FocusBorderManager(depPane, dependenciesListJTable);
 				}
 				if (statement instanceof Context)
 				{
@@ -165,10 +170,14 @@ public class AuthorityHeaderJPanel extends JPanel implements Scrollable
 						gbc.fill = GridBagConstraints.BOTH;
 						JScrollPane solPane = new JScrollPane(this.solverListJTable);
 						add(solPane, gbc);
+						this.solverListFocusBorderManager = new FocusBorderManager(solPane, solverListJTable);
 					}
 				}
 				else
+				{
 					this.solverListJTable = null;
+					this.solverListFocusBorderManager = null;
+				}
 				DelegateTreeRootNode delegateTreeRootNode = statementAuthority.getDelegateTreeRootNode(transaction);
 				if (delegateTreeRootNode != null && !delegateTreeRootNode.successorEntries().isEmpty())
 				{
@@ -196,16 +205,23 @@ public class AuthorityHeaderJPanel extends JPanel implements Scrollable
 						gbc.fill = GridBagConstraints.BOTH;
 						JScrollPane sucPane = new JScrollPane(this.successorListJTable);
 						add(sucPane, gbc);
+						this.successorListFocusBorderManager = new FocusBorderManager(sucPane, successorListJTable);
 					}
 				}
 				else
+				{
 					this.successorListJTable = null;
+					this.successorListFocusBorderManager = null;
+				}
 			}
 			else
 			{
 				this.dependenciesListJTable = null;
+				this.dependenciesListFocusBorderManager = null;
 				this.solverListJTable = null;
+				this.solverListFocusBorderManager = null;
 				this.successorListJTable = null;
+				this.successorListFocusBorderManager = null;
 			}
 
 		}
@@ -270,10 +286,16 @@ public class AuthorityHeaderJPanel extends JPanel implements Scrollable
 	{
 		if (dependenciesListJTable != null)
 			dependenciesListJTable.close();
+		if (dependenciesListFocusBorderManager != null)
+			dependenciesListFocusBorderManager.close();
 		if (solverListJTable != null)
 			solverListJTable.close();
+		if (solverListFocusBorderManager != null)
+			solverListFocusBorderManager.close();
 		if (successorListJTable != null)
 			successorListJTable.close();
+		if (successorListFocusBorderManager != null)
+			successorListFocusBorderManager.close();
 	}
 
 }

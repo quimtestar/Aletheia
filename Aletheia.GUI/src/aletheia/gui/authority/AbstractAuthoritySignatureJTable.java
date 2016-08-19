@@ -558,6 +558,8 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 		updateFontSize();
 		setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
 		setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
+		setFocusTraversalKeys(KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS, null);
+		setFocusTraversalKeys(KeyboardFocusManager.DOWN_CYCLE_TRAVERSAL_KEYS, null);
 	}
 
 	protected AuthorityJPanel getAuthorityJPanel()

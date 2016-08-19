@@ -440,6 +440,8 @@ public class StatementListJTable extends JTable
 		setPreferredScrollableViewportSize(new Dimension(computeWidth(width), 5 * computeHeight()));
 		setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS, null);
 		setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS, null);
+		setFocusTraversalKeys(KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS, null);
+		setFocusTraversalKeys(KeyboardFocusManager.DOWN_CYCLE_TRAVERSAL_KEYS, null);
 	}
 
 	@Override

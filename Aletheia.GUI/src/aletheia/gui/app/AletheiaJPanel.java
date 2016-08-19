@@ -31,6 +31,7 @@ import javax.swing.JSplitPane;
 import aletheia.gui.cli.CliController;
 import aletheia.gui.cli.CliJPanel;
 import aletheia.gui.cli.ProofFinderExecutor;
+import aletheia.gui.common.FocusBorderManager;
 import aletheia.gui.common.PersistentJTreeLayerUI;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeJPanel;
@@ -53,6 +54,8 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 	private final PersistentJTreeLayerUI<ContextJTreeJPanel> contextJTreeLayerUI;
 	private final SignatureRequestJTree signatureRequestJTree;
 	private final PersistentJTreeLayerUI<SignatureRequestJTree> signatureRequestJTreeLayerUI;
+	private final JScrollPane signatureRequestJScrollPane;
+	private final FocusBorderManager signatureRequestFocusBorderManager;
 	private final MyJSplitPane splitPane0;
 	private final CliController cliController;
 	private final CliJPanel cliJPanel;
@@ -73,8 +76,9 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 		this.contextJTreeLayerUI = new PersistentJTreeLayerUI<>(aletheiaJFrame, contextJTreeJPanel);
 		this.signatureRequestJTree = new SignatureRequestJTree(this);
 		this.signatureRequestJTreeLayerUI = new PersistentJTreeLayerUI<>(aletheiaJFrame, signatureRequestJTree);
-		this.splitPane0 = new MyJSplitPane(JSplitPane.HORIZONTAL_SPLIT, contextJTreeLayerUI.getJLayer(),
-				new JScrollPane(signatureRequestJTreeLayerUI.getJLayer()));
+		this.signatureRequestJScrollPane = new JScrollPane(signatureRequestJTreeLayerUI.getJLayer());
+		this.signatureRequestFocusBorderManager = new FocusBorderManager(signatureRequestJScrollPane, signatureRequestJTree);
+		this.splitPane0 = new MyJSplitPane(JSplitPane.HORIZONTAL_SPLIT, contextJTreeLayerUI.getJLayer(), signatureRequestJScrollPane);
 		this.splitPane0.setResizeWeight(1);
 		this.splitPane0.setDividerLocationOrExpandWhenValid(1);
 		this.splitPane0.setOneTouchExpandable(true);
@@ -163,6 +167,7 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 			cliController.shutdown(cliJPanel);
 			contextJTreeJPanel.close();
 			signatureRequestJTree.close();
+			signatureRequestFocusBorderManager.close();
 			proofFinder.shutdown();
 		}
 	}

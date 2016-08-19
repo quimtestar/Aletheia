@@ -98,6 +98,7 @@ import aletheia.gui.cli.command.aux.EmptyCommand;
 import aletheia.gui.cli.command.gui.Prompt;
 import aletheia.gui.cli.command.gui.SimpleMessage;
 import aletheia.gui.cli.command.gui.TraceException;
+import aletheia.gui.common.FocusBorderManager;
 import aletheia.gui.common.NamespaceDataFlavor;
 import aletheia.gui.common.PassphraseDialog;
 import aletheia.gui.common.PersistentJTreeLayerUI;
@@ -1109,6 +1110,7 @@ public class CliJPanel extends JPanel implements CommandSource
 	private final DefaultStyledDocument document;
 	private final JTextPane textPane;
 	private final JScrollPane scrollTextPane;
+	private final FocusBorderManager textPaneFocusBorderManager;
 	private final ReaderThread readerThread;
 	private final PrintStream out;
 	private final PrintStream outB;
@@ -1121,6 +1123,7 @@ public class CliJPanel extends JPanel implements CommandSource
 	private final CatalogJTree catalogJTree;
 	private final PersistentJTreeLayerUI<CatalogJTree> catalogJTreeLayerUI;
 	private final JScrollPane catalogJTreeScrollPane;
+	private final FocusBorderManager catalogJTreeFocusBorderManager;
 	private final CommandHistory commandHistory;
 	private final BracketHighLightManager bracketHighLightManager;
 
@@ -1147,9 +1150,11 @@ public class CliJPanel extends JPanel implements CommandSource
 		textPane.setDocument(document);
 		textPane.setTransferHandler(new MyTransferHandler(textPane.getTransferHandler()));
 		scrollTextPane = new JScrollPane(textPane);
+		textPaneFocusBorderManager = new FocusBorderManager(scrollTextPane, textPane);
 		catalogJTree = new CatalogJTree(this);
 		catalogJTreeLayerUI = new PersistentJTreeLayerUI<>(aletheiaJPanel.getAletheiaJFrame(), catalogJTree);
 		catalogJTreeScrollPane = new JScrollPane(catalogJTreeLayerUI.getJLayer());
+		catalogJTreeFocusBorderManager = new FocusBorderManager(catalogJTreeScrollPane, catalogJTree);
 		splitPane = new MyJSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollTextPane, catalogJTreeScrollPane);
 		splitPane.setResizeWeight(1);
 		splitPane.setDividerLocationOrExpandWhenValid(1.0d);
@@ -1293,9 +1298,11 @@ public class CliJPanel extends JPanel implements CommandSource
 	{
 		opened = false;
 		aletheiaJPanel.getPersistenceManager().getListenerManager().getRootContextTopStateListeners().remove(statementStateListener);
+		textPaneFocusBorderManager.close();
 		readerThread.close();
 		controller.removeCliJPanel(this);
 		catalogJTree.close();
+		catalogJTreeFocusBorderManager.close();
 	}
 
 	private synchronized void printString(String s, AttributeSet attributeSet)
