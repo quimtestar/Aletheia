@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.delegatejtree;
 
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -49,6 +50,17 @@ public abstract class DelegateTreeModelNodeRenderer extends PersistentJTreeNodeR
 				{
 					logger.error(e1.getMessage(), e1);
 				}
+				break;
+			case KeyEvent.VK_UP:
+			case KeyEvent.VK_DOWN:
+			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_PAGE_UP:
+			case KeyEvent.VK_PAGE_DOWN:
+			case KeyEvent.VK_HOME:
+			case KeyEvent.VK_END:
+				getPersistentJTree().cancelEditing();
+				Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(e);
 				break;
 			}
 		}

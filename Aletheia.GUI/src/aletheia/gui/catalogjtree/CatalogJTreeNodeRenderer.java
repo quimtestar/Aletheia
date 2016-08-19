@@ -19,6 +19,9 @@
  ******************************************************************************/
 package aletheia.gui.catalogjtree;
 
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -33,7 +36,7 @@ public abstract class CatalogJTreeNodeRenderer extends PersistentJTreeNodeRender
 
 	private final CatalogTreeNode node;
 
-	private class Listener implements MouseListener
+	private class Listener implements MouseListener, KeyListener
 	{
 
 		boolean draggable = false;
@@ -67,6 +70,36 @@ public abstract class CatalogJTreeNodeRenderer extends PersistentJTreeNodeRender
 			if (draggable && ((e.getModifiers() & MouseEvent.MOUSE_PRESSED) != 0))
 				getCatalogJTree().getTransferHandler().exportAsDrag(getCatalogJTree(), e, TransferHandler.COPY);
 		}
+
+		@Override
+		public void keyPressed(KeyEvent ev)
+		{
+			switch (ev.getKeyCode())
+			{
+			case KeyEvent.VK_UP:
+			case KeyEvent.VK_DOWN:
+			case KeyEvent.VK_LEFT:
+			case KeyEvent.VK_RIGHT:
+			case KeyEvent.VK_PAGE_UP:
+			case KeyEvent.VK_PAGE_DOWN:
+			case KeyEvent.VK_HOME:
+			case KeyEvent.VK_END:
+				getCatalogJTree().cancelEditing();
+				Toolkit.getDefaultToolkit().getSystemEventQueue().postEvent(ev);
+				break;
+			}
+		}
+
+		@Override
+		public void keyReleased(KeyEvent ev)
+		{
+		}
+
+		@Override
+		public void keyTyped(KeyEvent ev)
+		{
+		}
+
 	}
 
 	private final Listener listener;
@@ -77,6 +110,7 @@ public abstract class CatalogJTreeNodeRenderer extends PersistentJTreeNodeRender
 		this.node = node;
 		this.listener = new Listener();
 		addMouseListener(listener);
+		addKeyListener(listener);
 	}
 
 	@Override
