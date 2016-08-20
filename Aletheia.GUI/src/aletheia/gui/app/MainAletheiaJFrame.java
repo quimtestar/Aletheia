@@ -200,6 +200,13 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 		{
 			aletheiaJPanel.setActiveContext(context);
 		}
+
+		@Override
+		protected AletheiaJPanel getAletheiaJPanel()
+		{
+			return aletheiaJPanel;
+		}
+
 	}
 
 	private final Collection<ExtraJFrame> extraFrames;
@@ -677,6 +684,15 @@ public class MainAletheiaJFrame extends AletheiaJFrame
 	public void setActiveContext(Context context)
 	{
 		aletheiaContentPane.setActiveContext(context);
+	}
+
+	@Override
+	protected AletheiaJPanel getAletheiaJPanel()
+	{
+		if (aletheiaContentPane instanceof AletheiaJPanel)
+			return (AletheiaJPanel) aletheiaContentPane;
+		else
+			return null;
 	}
 
 }
