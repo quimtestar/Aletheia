@@ -1157,7 +1157,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		catalogJTreeFocusBorderManager = new FocusBorderManager(catalogJTreeScrollPane, catalogJTree);
 		splitPane = new MyJSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollTextPane, catalogJTreeScrollPane);
 		splitPane.setResizeWeight(1);
-		splitPane.setDividerLocationOrExpandWhenValid(1.0d);
+		splitPane.setDividerLocationOrCollapseWhenValid(1.0d);
 		splitPane.setOneTouchExpandable(true);
 		add(splitPane, BorderLayout.CENTER);
 		textPane.addKeyListener(new MyKeyListener());

@@ -80,13 +80,13 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 		this.signatureRequestFocusBorderManager = new FocusBorderManager(signatureRequestJScrollPane, signatureRequestJTree);
 		this.splitPane0 = new MyJSplitPane(JSplitPane.HORIZONTAL_SPLIT, contextJTreeLayerUI.getJLayer(), signatureRequestJScrollPane);
 		this.splitPane0.setResizeWeight(1);
-		this.splitPane0.setDividerLocationOrExpandWhenValid(1);
+		this.splitPane0.setDividerLocationOrCollapseWhenValid(1);
 		this.splitPane0.setOneTouchExpandable(true);
 		this.cliController = new CliController();
 		this.cliJPanel = new CliJPanel(this, cliController);
 		this.splitPane = new MyJSplitPane(JSplitPane.VERTICAL_SPLIT, splitPane0, cliJPanel);
 		this.splitPane.setResizeWeight(1);
-		this.splitPane.setDividerLocationOrExpandWhenValid(0.8);
+		this.splitPane.setDividerLocationOrCollapseWhenValid(0.8);
 		this.splitPane.setOneTouchExpandable(true);
 		this.add(splitPane, BorderLayout.CENTER);
 		this.cliController.start();

@@ -53,7 +53,7 @@ public class ContextJTreeJPanel extends JPanel
 		this.authorityJPanel = new AuthorityJPanel(this);
 		this.splitPane1 = new MyJSplitPane(JSplitPane.VERTICAL_SPLIT, contextJTreeScrollPane, authorityJPanel);
 		this.splitPane1.setResizeWeight(1);
-		this.splitPane1.setDividerLocationOrExpandWhenValid(1d);
+		this.splitPane1.setDividerLocationOrCollapseWhenValid(1d);
 		this.splitPane1.setOneTouchExpandable(true);
 		setLayout(new BorderLayout());
 		add(splitPane1, BorderLayout.CENTER);

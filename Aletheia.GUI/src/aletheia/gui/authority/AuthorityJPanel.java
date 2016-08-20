@@ -219,11 +219,11 @@ public class AuthorityJPanel extends JPanel
 		this.authoritySignatureTableJScrollPane = new JScrollPane();
 		this.delegateTreeJScrollPane = new JScrollPane();
 		this.jSplitPane1 = new MyJSplitPane(JSplitPane.HORIZONTAL_SPLIT, authoritySignatureTableJScrollPane, delegateTreeJScrollPane);
-		this.jSplitPane1.setDividerLocationOrExpandWhenValid(1d);
+		this.jSplitPane1.setDividerLocationOrCollapseWhenValid(1d);
 		this.jSplitPane1.setOneTouchExpandable(true);
 		this.jSplitPane0 = new MyJSplitPane(JSplitPane.VERTICAL_SPLIT, headerJScrollPane, this.jSplitPane1);
 		this.jSplitPane0.setResizeWeight(1);
-		this.jSplitPane0.setDividerLocationOrExpandWhenValid(1d);
+		this.jSplitPane0.setDividerLocationOrCollapseWhenValid(1d);
 		this.jSplitPane0.setOneTouchExpandable(true);
 		this.contentPanel.add(this.jSplitPane0, BorderLayout.CENTER);
 		this.statement = null;

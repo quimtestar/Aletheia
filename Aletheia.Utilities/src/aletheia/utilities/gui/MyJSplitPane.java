@@ -35,7 +35,7 @@ import javax.swing.plaf.basic.BasicSplitPaneUI;
  * position even if the container is not valid. The desired position is saved to
  * use when we get validated.
  *
- * @see #setDividerLocationOrExpandWhenValid(double)
+ * @see #setDividerLocationOrCollapseWhenValid(double)
  *
  * @author Quim Testar
  */
@@ -81,7 +81,7 @@ public class MyJSplitPane extends JSplitPane
 				@Override
 				public void run()
 				{
-					setDividerLocationOrExpand(proportionalLocationWhenValid);
+					setDividerLocationOrCollapse(proportionalLocationWhenValid);
 					setLastDividerLocation(getDividerLocation());
 					timer.cancel();
 				}
@@ -100,40 +100,78 @@ public class MyJSplitPane extends JSplitPane
 
 	}
 
-	private void expand(int nComp)
+	private JButton getButton(int nComp)
 	{
 		BasicSplitPaneDivider divider = getBasicSplitPaneDivider();
 		if (divider != null && (nComp < divider.getComponentCount()))
 		{
 			Component c = divider.getComponent(nComp);
 			if (c instanceof JButton)
-				((JButton) c).doClick();
+				return (JButton) c;
 		}
+		return null;
 	}
 
-	private void expandLeft()
+	private JButton getButtonLeft()
 	{
-		expand(0);
+		return getButton(0);
 	}
 
-	private void expandRight()
+	private JButton getButtonRight()
 	{
-		expand(1);
+		return getButton(1);
+	}
+
+	private void collapse(JButton b)
+	{
+		if (b != null)
+			b.doClick();
+	}
+
+	private void collapseLeft()
+	{
+		collapse(getButtonLeft());
+	}
+
+	private void collapseRight()
+	{
+		collapse(getButtonRight());
 	}
 
 	/**
 	 * If proportionalLocation is in the open interval (0,1),
-	 * {@link #setDividerLocation(double)}, if not {@link #expandLeft()} or
-	 * {@link #expandRight()}.
+	 * {@link #setDividerLocation(double)}, if not {@link #collapseLeft()} or
+	 * {@link #collapseRight()}.
 	 */
-	public void setDividerLocationOrExpand(double proportionalLocation)
+	public void setDividerLocationOrCollapse(double proportionalLocation)
 	{
 		if (proportionalLocation <= 0)
-			expandLeft();
+			collapseLeft();
 		else if (proportionalLocation >= 1)
-			expandRight();
+			collapseRight();
 		else
 			setDividerLocation(proportionalLocation);
+	}
+
+	public double getProportionalDividerLocation()
+	{
+		if (getOrientation() == VERTICAL_SPLIT)
+			return ((double) getDividerLocation()) / (getHeight() - getDividerSize());
+		else
+			return ((double) getDividerLocation()) / (getWidth() - getDividerSize());
+	}
+
+	public boolean isCollapsedLeft()
+	{
+		return getDividerLocation() <= 5;
+	}
+
+	public boolean isCollapsedRight()
+	{
+		if (getOrientation() == VERTICAL_SPLIT)
+			return getDividerLocation() >= getHeight() - getDividerSize() - 5;
+		else
+			return getDividerLocation() >= getWidth() - getDividerSize() - 5;
 	}
 
 	@Override
@@ -162,14 +200,14 @@ public class MyJSplitPane extends JSplitPane
 
 	/**
 	 * If the parent container is valid we call to the
-	 * {@link #setDividerLocationOrExpand(double)} inmediately. If not, we save
-	 * the value which will be in a subsequent call to {@link #validate()},
+	 * {@link #setDividerLocationOrCollapse(double)} inmediately. If not, we
+	 * save the value which will be in a subsequent call to {@link #validate()},
 	 * {@link #validateTree()} or {@link #paint(Graphics)}.
 	 */
-	public synchronized void setDividerLocationOrExpandWhenValid(double proportionalLocation)
+	public synchronized void setDividerLocationOrCollapseWhenValid(double proportionalLocation)
 	{
 		if (isValid() && getParent() != null && getParent().isValid())
-			setDividerLocationOrExpand(proportionalLocation);
+			setDividerLocationOrCollapse(proportionalLocation);
 		else
 		{
 			setProportionalLocationWhenValid = true;
