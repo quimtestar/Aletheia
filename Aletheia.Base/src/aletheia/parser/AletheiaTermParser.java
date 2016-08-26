@@ -38,6 +38,7 @@ import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.CompositionTerm;
 import aletheia.model.term.FunctionTerm;
+import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectionTerm;
@@ -344,6 +345,10 @@ public class AletheiaTermParser extends Parser
 				{
 					return processTerm(context, transaction, tempParameterTable, (NonTerminalToken) token.getChildren().get(0), input, parameterIdentifiers);
 				}
+				else if (token.getProduction().getRight().get(0).equals(taggedNonTerminalSymbols.get("U")))
+				{
+					return processTerm(context, transaction, tempParameterTable, (NonTerminalToken) token.getChildren().get(0), input, parameterIdentifiers);
+				}
 				else if (token.getProduction().getRight().get(0).equals(taggedNonTerminalSymbols.get("R")))
 				{
 					if (transaction == null)
@@ -447,7 +452,7 @@ public class AletheiaTermParser extends Parser
 							}
 							catch (ReplaceTypeException e)
 							{
-								throw new TermParserException(e, token.getStartLocation(), token.getStartLocation(), input);
+								throw new TermParserException(e, token.getStartLocation(), token.getStopLocation(), input);
 							}
 						}
 						else
@@ -466,9 +471,9 @@ public class AletheiaTermParser extends Parser
 						{
 							return new FunctionTerm(param, term.replace(variable, param));
 						}
-						catch (ReplaceTypeException e)
+						catch (ReplaceTypeException | NullParameterTypeException e)
 						{
-							throw new TermParserException(e, token.getStartLocation(), token.getStartLocation(), input);
+							throw new TermParserException(e, token.getStartLocation(), token.getStopLocation(), input);
 						}
 					}
 					else
@@ -525,7 +530,42 @@ public class AletheiaTermParser extends Parser
 			try
 			{
 				Term body = processTerm(context, transaction, tempParameterTable, (NonTerminalToken) token.getChildren().get(5), input, parameterIdentifiers);
-				return new FunctionTerm(parameter, body);
+				try
+				{
+					return new FunctionTerm(parameter, body);
+				}
+				catch (NullParameterTypeException e)
+				{
+					throw new TermParserException(e, token.getStartLocation(), token.getStopLocation(), input);
+				}
+			}
+			finally
+			{
+				if (oldpar != null)
+					tempParameterTable.put(parameterRef, oldpar);
+				else
+					tempParameterTable.remove(parameterRef);
+			}
+		}
+		else if (token.getProduction().getLeft().equals(taggedNonTerminalSymbols.get("U")))
+		{
+			ParameterRef parameterRef = processParameterRef((NonTerminalToken) token.getChildren().get(1), input);
+			Term value = processTerm(context, transaction, tempParameterTable, (NonTerminalToken) token.getChildren().get(3), input);
+			ParameterVariableTerm parameter = new ParameterVariableTerm(value.getType());
+			if (parameterIdentifiers != null && parameterRef instanceof IdentifierParameterRef)
+				parameterIdentifiers.put(parameter, ((IdentifierParameterRef) parameterRef).identifier);
+			ParameterVariableTerm oldpar = tempParameterTable.put(parameterRef, parameter);
+			try
+			{
+				Term body = processTerm(context, transaction, tempParameterTable, (NonTerminalToken) token.getChildren().get(5), input, parameterIdentifiers);
+				try
+				{
+					return new FunctionTerm(parameter, body).compose(value);
+				}
+				catch (ComposeTypeException | NullParameterTypeException e)
+				{
+					throw new TermParserException(e, token.getStartLocation(), token.getStopLocation(), input);
+				}
 			}
 			finally
 			{

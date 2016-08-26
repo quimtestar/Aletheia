@@ -56,8 +56,36 @@ public class FunctionTerm extends Term
 	 */
 	private final Term body;
 
-	private static FunctionTerm computeType(ParameterVariableTerm parameter, Term body)
+	public static class NullParameterTypeException extends TypeException
 	{
+		private static final long serialVersionUID = -3907724715830285395L;
+
+		public NullParameterTypeException()
+		{
+			super("Null parameter type function");
+		}
+
+		public NullParameterTypeException(String message, Throwable cause)
+		{
+			super(message, cause);
+		}
+
+		public NullParameterTypeException(String message)
+		{
+			super(message);
+		}
+
+		public NullParameterTypeException(Throwable cause)
+		{
+			super(cause);
+		}
+
+	}
+
+	private static FunctionTerm computeType(ParameterVariableTerm parameter, Term body) throws NullParameterTypeException
+	{
+		if (parameter.getType() == null)
+			throw new NullParameterTypeException();
 		if (body.getType() == null)
 			return null;
 		return new FunctionTerm(parameter, body.getType());
@@ -70,10 +98,11 @@ public class FunctionTerm extends Term
 	 *            The parameter of the function.
 	 * @param body
 	 *            The body of the function.
+	 * @throws NullParameterTypeException
 	 * @throws IllegalArgumentException
 	 *             Function parameter cannot be a UUIDVariableTerm.
 	 */
-	public FunctionTerm(ParameterVariableTerm parameter, Term body)
+	public FunctionTerm(ParameterVariableTerm parameter, Term body) throws NullParameterTypeException
 	{
 		super(computeType(parameter, body));
 		this.parameter = parameter;
@@ -127,6 +156,8 @@ public class FunctionTerm extends Term
 
 	/**
 	 * Computes a series of replacements on this function.
+	 * 
+	 * @throws NullParameterTypeException
 	 */
 	@Override
 	protected FunctionTerm replace(Deque<Replace> replaces, Set<VariableTerm> exclude) throws ReplaceTypeException
@@ -152,7 +183,14 @@ public class FunctionTerm extends Term
 		if (rparam.equals(parameter) && body_.equals(body))
 			return this;
 		else
-			return new FunctionTerm((ParameterVariableTerm) rparam, body_);
+			try
+			{
+				return new FunctionTerm((ParameterVariableTerm) rparam, body_);
+			}
+			catch (NullParameterTypeException e)
+			{
+				throw new ReplaceTypeException(e);
+			}
 	}
 
 	/**
@@ -371,14 +409,21 @@ public class FunctionTerm extends Term
 			{
 				return new FunctionTerm(pparam, pbody.replace(parameter, pparam));
 			}
-			catch (ReplaceTypeException e)
+			catch (ReplaceTypeException | NullParameterTypeException e)
 			{
 				throw new UnprojectException(e);
 			}
 		}
 		else
 		{
-			return new FunctionTerm(parameter, pbody);
+			try
+			{
+				return new FunctionTerm(parameter, pbody);
+			}
+			catch (NullParameterTypeException e)
+			{
+				throw new UnprojectException(e);
+			}
 		}
 
 	}

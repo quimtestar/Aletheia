@@ -29,6 +29,7 @@ import aletheia.model.statement.Statement;
 import aletheia.model.term.CompositionTerm;
 import aletheia.model.term.CompositionTerm.CompositionTypeException;
 import aletheia.model.term.FunctionTerm;
+import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectionTerm;
@@ -223,7 +224,14 @@ public class TermProtocol extends PersistentExportableProtocol<Term>
 		varStack.push(var);
 		Term body = recv(in, varStack);
 		varStack.pop();
-		return new FunctionTerm(var, body);
+		try
+		{
+			return new FunctionTerm(var, body);
+		}
+		catch (NullParameterTypeException e)
+		{
+			throw new ProtocolException(e);
+		}
 	}
 
 	private void sendCompositionTerm(DataOutput out, Term.ParameterNumerator parameterNumerator, CompositionTerm compositionTerm) throws IOException

@@ -33,6 +33,7 @@ import java.util.Set;
 import java.util.Stack;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.protocol.Exportable;
 import aletheia.utilities.collections.BijectionSet;
 import aletheia.utilities.collections.CastBijection;
@@ -534,7 +535,14 @@ public abstract class Term implements Serializable, Exportable
 		}
 		parameters.retainAll(term.freeVariables());
 		for (ParameterVariableTerm param : new ReverseList<>(parameters))
-			term = new FunctionTerm(param, term);
+			try
+			{
+				term = new FunctionTerm(param, term);
+			}
+			catch (NullParameterTypeException e)
+			{
+				throw new RuntimeException(e);
+			}
 		return term;
 	}
 

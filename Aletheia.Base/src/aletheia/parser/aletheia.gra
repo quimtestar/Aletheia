@@ -30,6 +30,7 @@ A -> ttype;						# The primitive type "T".
 A -> I;							# An identifier.
 A -> atparam;					# An 'at' parameter of the form "@n" where n is a natural number. 
 A -> F;							# A function term : "<parameter:type -> body>".
+A -> U;							# A substituted term: "<variable:=value -> term>" ~> "<variable:value# -> term> value".
 A -> R;							# A reference to a statement: "&something".
 A -> hexref;					# An hexadecimal reference to a variable of the form "#xxxxxxxx" where xxxxxxxx are hexadecimal digits. 
 A -> A asterisk;				# Another atom (which should resolve to a function) projected: "<p:t->b>*".
@@ -43,7 +44,10 @@ A -> equals bang I;				# The '=!' operator is equivalent to a reflexive applicat
 A -> openpar T closepar;		# A term (list of atoms) between parentheses.
 A -> A comma number M;			# The ',n' operator resolves to the nth atomic component (starting by zero) of the given term: "(a b c),1" ~> "b".
 								# The ',n-' operator resolves to the first n+1 atomic components of the given term: "(a b c),1-" ~> "a b".
+								
 F -> openfun P colon T arrow T closefun;		# A function term : "<parameter:type -> body>".
+
+U -> openfun P assignment T arrow T closefun;	# An substituted term: "<variable:=value -> term>" ~> "<variable:value# -> term> value".
 
 # The function parameter:
 P -> I;											# An identifier.

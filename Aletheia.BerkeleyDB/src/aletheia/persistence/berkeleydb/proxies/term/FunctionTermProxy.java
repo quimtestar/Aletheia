@@ -20,6 +20,7 @@
 package aletheia.persistence.berkeleydb.proxies.term;
 
 import aletheia.model.term.FunctionTerm;
+import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 
@@ -52,7 +53,14 @@ public class FunctionTermProxy extends TermProxy<FunctionTerm>
 	@Override
 	public FunctionTerm convertProxy()
 	{
-		return new FunctionTerm(parameter, body);
+		try
+		{
+			return new FunctionTerm(parameter, body);
+		}
+		catch (NullParameterTypeException e)
+		{
+			throw new ProxyConversionException(e);
+		}
 	}
 
 }
