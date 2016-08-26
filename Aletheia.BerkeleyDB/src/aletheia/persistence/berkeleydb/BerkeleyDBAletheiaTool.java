@@ -426,7 +426,7 @@ public class BerkeleyDBAletheiaTool
 			System.out.println(BerkeleyDBAletheiaTool.class.getName() + " [-v] --dbFile=<environment path> <command>...");
 			System.out.println();
 			System.out.println("Switches:");
-			System.out.println("\t-v: Show version number");
+			System.out.println("\t-version: Show version number");
 			System.out.println("\t--dbFile: Berkeley DB path location");
 			System.out.println("");
 			System.out.println("Command list:");
@@ -444,7 +444,7 @@ public class BerkeleyDBAletheiaTool
 	{
 		this.commandList = new ArrayList<>();
 		Map<String, Switch> globalSwitches = new HashMap<>(commandLineArguments.getGlobalSwitches());
-		if (globalSwitches.remove("v") != null)
+		if (globalSwitches.remove("version") != null)
 		{
 			dbFile = null;
 			commandList.add(new VersionCommand());

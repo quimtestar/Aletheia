@@ -401,7 +401,7 @@ public abstract class AletheiaCliConsole implements CommandSource
 		});
 		CommandLineArguments commandLineArguments = new CommandLineArguments(args);
 		Map<String, Switch> globalSwitches = new HashMap<>(commandLineArguments.getGlobalSwitches());
-		if (globalSwitches.remove("v") != null)
+		if (globalSwitches.remove("version") != null)
 			System.out.println(VersionManager.getVersion());
 		else
 		{
