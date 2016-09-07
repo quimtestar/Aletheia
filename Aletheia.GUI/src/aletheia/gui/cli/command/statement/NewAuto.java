@@ -168,7 +168,7 @@ public class NewAuto extends NewStatement
 				}
 				catch (TermParserException e)
 				{
-					throw new CommandParseException(e);
+					throw new CommandParseTermParserException(e);
 				}
 			else
 				term = ctx.getConsequent();
