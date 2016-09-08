@@ -2166,6 +2166,12 @@ public class Context extends Statement
 
 	public Statement getStatementByHexRef(Transaction transaction, String hexRef)
 	{
+		return getStatementByHexRef(transaction, hexRef, 0);
+	}
+
+	public Statement getStatementByHexRef(Transaction transaction, String hexRef, int timeout)
+	{
+		long t0 = timeout > 0 ? System.currentTimeMillis() : Long.MAX_VALUE;
 		Context ctx = this;
 		while (true)
 		{
@@ -2174,6 +2180,8 @@ public class Context extends Statement
 			{
 				while (iterator.hasNext())
 				{
+					if (timeout > 0 && System.currentTimeMillis() - t0 > timeout)
+						return null;
 					Statement st = iterator.next();
 					if (hexRef.equals(st.hexRef()))
 						return st;
