@@ -359,7 +359,7 @@ public class AletheiaTermParser extends Parser
 				else if (token.getProduction().getRight().get(0).equals(taggedTerminalSymbols.get("hexref")))
 				{
 					String hexRef = ((TaggedTerminalToken) token.getChildren().get(0)).getText();
-					Statement statement = context.getStatementByHexRef(transaction, hexRef);
+					Statement statement = context.getStatementByHexRef(transaction, hexRef, 5000);
 					if (statement == null)
 						throw new TermParserException("Reference not found on context", token.getChildren().get(0).getStartLocation(),
 								token.getChildren().get(0).getStopLocation(), input);
