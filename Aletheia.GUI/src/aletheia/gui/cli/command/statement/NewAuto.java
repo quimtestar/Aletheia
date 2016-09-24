@@ -35,6 +35,7 @@ import aletheia.model.term.Term;
 import aletheia.parser.TermParserException;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.BufferedList;
+import aletheia.utilities.collections.ReverseList;
 
 @TaggedCommand(tag = "auto", groupPath = "/statement", factory = NewAuto.Factory.class)
 public class NewAuto extends NewStatement
@@ -104,7 +105,7 @@ public class NewAuto extends NewStatement
 			{
 				Statement solver = null;
 				Term type_ = type.unproject();
-				for (Statement stsol : new BufferedList<>(context.statementsByTerm(getTransaction()).get(type_)))
+				for (Statement stsol : new ReverseList<>(new BufferedList<>(context.statementsByTerm(getTransaction()).get(type_))))
 				{
 					if (stsol.isProved())
 					{
