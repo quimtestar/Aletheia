@@ -256,7 +256,7 @@ public abstract class Command
 		return tc.tag();
 	}
 
-	public static class CommandException extends Exception
+	protected static abstract class CommandException extends Exception
 	{
 		private static final long serialVersionUID = 1547556668766059807L;
 
