@@ -59,7 +59,7 @@ public class UnsignedSubscribed extends TransactionalCommand
 			{
 				StatementAuthority stAuth = st.getAuthority(getTransaction());
 				if (stAuth == null || !stAuth.isValidSignature())
-					getOut().println(" -> " + st.statementPathString(getTransaction(), getActiveContext()));
+					getOut().println(" -> " + st.statementPathString(getTransaction(), getActiveContext()) + " " + (st.isProved() ? "\u2713" : ""));
 				if (st instanceof Context)
 				{
 					ContextLocal cl_ = ((Context) st).getLocal(getTransaction());
