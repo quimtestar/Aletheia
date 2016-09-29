@@ -28,6 +28,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -939,6 +940,55 @@ public abstract class Statement implements Exportable
 				pathString.append(st.getVariable().toString());
 		}
 		return pathString.toString();
+	}
+
+	/**
+	 * Compares this statement's path to another one for sorting.
+	 */
+	public int pathCompare(Transaction transaction, Statement st)
+	{
+		Iterator<? extends Statement> i1 = statementPath(transaction).iterator();
+		Iterator<? extends Statement> i2 = st.statementPath(transaction).iterator();
+		while (i1.hasNext() && i2.hasNext())
+		{
+			Statement cp1 = i1.next();
+			Statement cp2 = i2.next();
+			Identifier id1 = cp1.getIdentifier();
+			Identifier id2 = cp2.getIdentifier();
+			int c;
+			c = Boolean.compare(id1 == null, id2 == null);
+			if (c != 0)
+				return c;
+			if (id1 != null)
+			{
+				c = id1.compareTo(id2);
+				if (c != 0)
+					return c;
+			}
+		}
+		return Boolean.compare(i1.hasNext(), i2.hasNext());
+	}
+
+	public static Comparator<Statement> pathComparator(Transaction transaction)
+	{
+		class PathComparator implements Comparator<Statement>
+		{
+			private final Transaction transaction;
+
+			private PathComparator(Transaction transaction)
+			{
+				this.transaction = transaction;
+			}
+
+			@Override
+			public int compare(Statement st1, Statement st2)
+			{
+				return st1.pathCompare(transaction, st2);
+			}
+
+		}
+		;
+		return new PathComparator(transaction);
 	}
 
 	/**
