@@ -22,9 +22,12 @@ package aletheia.gui.app;
 import java.io.BufferedReader;
 import java.io.Console;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -52,6 +55,7 @@ import aletheia.utilities.CommandLineArguments;
 import aletheia.utilities.CommandLineArguments.CommandLineArgumentsException;
 import aletheia.utilities.CommandLineArguments.Option;
 import aletheia.utilities.CommandLineArguments.Switch;
+import aletheia.utilities.io.TeePrintStream;
 import aletheia.utilities.io.WriterOutputStream;
 import aletheia.version.VersionManager;
 
@@ -60,11 +64,18 @@ public abstract class AletheiaCliConsole implements CommandSource
 	private final PersistenceManager persistenceManager;
 
 	private Context activeContext;
+	private PrintWriter consolePrintWriter;
 
 	private AletheiaCliConsole(PersistenceManager persistenceManager)
 	{
 		this.persistenceManager = persistenceManager;
 		this.activeContext = null;
+		this.consolePrintWriter = null;
+	}
+
+	protected PrintWriter getConsolePrintWriter()
+	{
+		return consolePrintWriter;
 	}
 
 	public class UnsupportedOperationException extends java.lang.UnsupportedOperationException
@@ -223,6 +234,17 @@ public abstract class AletheiaCliConsole implements CommandSource
 	}
 
 	@Override
+	public void consoleFile(File file) throws FileNotFoundException
+	{
+		if (consolePrintWriter != null)
+			consolePrintWriter.close();
+		if (file == null)
+			consolePrintWriter = null;
+		else
+			consolePrintWriter = new PrintWriter(new FileOutputStream(file, true), true);
+	}
+
+	@Override
 	public void command(Command command)
 	{
 		try
@@ -242,6 +264,8 @@ public abstract class AletheiaCliConsole implements CommandSource
 
 	protected Command command(String s)
 	{
+		if (consolePrintWriter != null)
+			consolePrintWriter.println(s);
 		Transaction transaction = getPersistenceManager().beginTransaction();
 		try
 		{
@@ -264,7 +288,7 @@ public abstract class AletheiaCliConsole implements CommandSource
 	{
 		while (true)
 		{
-			System.out.print("% ");
+			getOut().print("% ");
 			String s = readLine();
 			if (s == null)
 				break;
@@ -317,6 +341,22 @@ public abstract class AletheiaCliConsole implements CommandSource
 			return readLine().toCharArray();
 		}
 
+		@Override
+		public void consoleFile(File file) throws FileNotFoundException
+		{
+			super.consoleFile(file);
+			if (file == null)
+			{
+				System.setOut(System.out);
+				System.setErr(System.err);
+			}
+			else
+			{
+				System.setOut(new TeePrintStream(System.out, new PrintStream(new WriterOutputStream(getConsolePrintWriter()), true)));
+				System.setErr(new TeePrintStream(System.err, new PrintStream(new WriterOutputStream(getConsolePrintWriter()), true)));
+			}
+		}
+
 	}
 
 	private static class SystemConsole extends AletheiaCliConsole
@@ -324,23 +364,27 @@ public abstract class AletheiaCliConsole implements CommandSource
 		private final Console console;
 		private final PrintStream out;
 
+		private PrintStream out_;
+
 		private SystemConsole(PersistenceManager persistenceManager, Console console)
 		{
 			super(persistenceManager);
 			this.console = console;
 			this.out = new PrintStream(new WriterOutputStream(console.writer()), true);
+
+			this.out_ = out;
 		}
 
 		@Override
 		public PrintStream getOut()
 		{
-			return out;
+			return out_;
 		}
 
 		@Override
 		public PrintStream getErr()
 		{
-			return out;
+			return out_;
 		}
 
 		@Override
@@ -364,6 +408,16 @@ public abstract class AletheiaCliConsole implements CommandSource
 			}
 
 			return passwd;
+		}
+
+		@Override
+		public void consoleFile(File file) throws FileNotFoundException
+		{
+			super.consoleFile(file);
+			if (file == null)
+				this.out_ = out;
+			else
+				this.out_ = new TeePrintStream(out, new PrintStream(new WriterOutputStream(getConsolePrintWriter()), true));
 		}
 
 	}
@@ -396,7 +450,11 @@ public abstract class AletheiaCliConsole implements CommandSource
 			@Override
 			public void uncaughtException(Thread t, Throwable e)
 			{
-				System.err.println(e.getMessage());
+				if (e.getMessage() != null)
+					System.err.println(e.getMessage());
+				else
+					e.printStackTrace(System.err);
+
 			}
 		});
 		CommandLineArguments commandLineArguments = new CommandLineArguments(args);

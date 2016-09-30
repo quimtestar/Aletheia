@@ -54,6 +54,7 @@ aletheia.gui.cli.command.gui.Frame
 aletheia.gui.cli.command.gui.Title
 aletheia.gui.cli.command.gui.Version
 aletheia.gui.cli.command.gui.Exit
+aletheia.gui.cli.command.gui.ConsoleFile
 
 aletheia.gui.cli.command.local.SubscribeCommand
 

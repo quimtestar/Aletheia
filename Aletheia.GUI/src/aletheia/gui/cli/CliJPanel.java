@@ -36,12 +36,16 @@ import java.awt.event.KeyListener;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.EOFException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -1132,6 +1136,7 @@ public class CliJPanel extends JPanel implements CommandSource
 	private Context activeContext;
 	private Command promptWhenDone;
 	private StringBuffer commandBuffer;
+	private PrintWriter consolePrintWriter;
 
 	public CliJPanel(AletheiaJPanel aletheiaJPanel, CliController controller) throws InterruptedException
 	{
@@ -1187,6 +1192,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		controller.command(new Prompt(this));
 		promptWhenDone = null;
 		commandBuffer = new StringBuffer();
+		consolePrintWriter = null;
 	}
 
 	public AletheiaJPanel getAletheiaJPanel()
@@ -1303,10 +1309,20 @@ public class CliJPanel extends JPanel implements CommandSource
 		controller.removeCliJPanel(this);
 		catalogJTree.close();
 		catalogJTreeFocusBorderManager.close();
+		synchronized (this)
+		{
+			if (consolePrintWriter != null)
+				consolePrintWriter.close();
+		}
 	}
 
 	private synchronized void printString(String s, AttributeSet attributeSet)
 	{
+		if (consolePrintWriter != null)
+		{
+			consolePrintWriter.print(s);
+			consolePrintWriter.flush();
+		}
 		commandBuffer.append(getCommandMultilineFiltered(true));
 		try
 		{
@@ -1364,6 +1380,11 @@ public class CliJPanel extends JPanel implements CommandSource
 
 	protected Command command(String s) throws InterruptedException
 	{
+		synchronized (this)
+		{
+			if (consolePrintWriter != null)
+				consolePrintWriter.println(s);
+		}
 		Transaction transaction = getPersistenceManager().beginTransaction();
 		try
 		{
@@ -2308,6 +2329,17 @@ public class CliJPanel extends JPanel implements CommandSource
 		int option = JOptionPane.showConfirmDialog(aletheiaJPanel.getOwnerFrame(),
 				MiscUtilities.wrapText((text != null ? text + "\n" : "") + "Are you sure you want to continue?", 80));
 		return option == JOptionPane.OK_OPTION;
+	}
+
+	@Override
+	public synchronized void consoleFile(File file) throws FileNotFoundException
+	{
+		if (consolePrintWriter != null)
+			consolePrintWriter.close();
+		if (file == null)
+			consolePrintWriter = null;
+		else
+			consolePrintWriter = new PrintWriter(new FileOutputStream(file, true), true);
 	}
 
 }

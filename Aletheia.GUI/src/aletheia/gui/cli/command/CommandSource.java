@@ -19,6 +19,8 @@
  ******************************************************************************/
 package aletheia.gui.cli.command;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.Collection;
 
@@ -94,5 +96,7 @@ public interface CommandSource
 	char[] passphrase(boolean confirm);
 
 	boolean confirmDialog(String text);
+
+	void consoleFile(File file) throws FileNotFoundException;
 
 }

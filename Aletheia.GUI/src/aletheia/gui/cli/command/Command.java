@@ -19,6 +19,8 @@
  ******************************************************************************/
 package aletheia.gui.cli.command;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.Collection;
 import java.util.Collections;
@@ -228,6 +230,11 @@ public abstract class Command
 	protected boolean confirmDialog()
 	{
 		return from.confirmDialog(null);
+	}
+
+	protected void consoleFile(File file) throws FileNotFoundException
+	{
+		from.consoleFile(file);
 	}
 
 	protected void command(Command command) throws InterruptedException
