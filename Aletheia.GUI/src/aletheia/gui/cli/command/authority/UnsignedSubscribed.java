@@ -55,7 +55,7 @@ public class UnsignedSubscribed extends TransactionalCommand
 		while (!stack.isEmpty())
 		{
 			ContextLocal cl = stack.pop();
-			for (Statement st : cl.getStatement(getTransaction()).localStatements(getTransaction()).values())
+			for (Statement st : cl.getStatement(getTransaction()).localSortedStatements(getTransaction()))
 			{
 				StatementAuthority stAuth = st.getAuthority(getTransaction());
 				if (stAuth == null || !stAuth.isValidSignature())
