@@ -72,7 +72,7 @@ public class Useless extends TransactionalCommand
 			Statement st = stack.pop();
 			if (unused.contains(st))
 				continue loop;
-			if (st instanceof Assumption)
+			if (st instanceof Assumption && !context.equals(st.getContext(getTransaction())))
 				continue loop;
 			if (st.isProved())
 			{
@@ -124,8 +124,15 @@ public class Useless extends TransactionalCommand
 		{
 			ArrayList<Statement> list = new ArrayList<>(unused);
 			Collections.sort(list, pathComparator);
+			Statement last = null;
 			for (Statement st : list)
-				getOut().println(" -> " + st.statementPathString(getTransaction(), getActiveContext()) + " " + (st.isProved() ? "\u2713" : ""));
+			{
+				if (last == null || !last.isDescendent(getTransaction(), st))
+				{
+					getOut().println(" -> " + st.statementPathString(getTransaction(), getActiveContext()) + " " + (st.isProved() ? "\u2713" : ""));
+					last = st;
+				}
+			}
 			getOut().println();
 		}
 	}
