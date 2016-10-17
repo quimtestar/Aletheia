@@ -105,7 +105,7 @@ public abstract class Candidate
 				for (VariableTerm v : antecedentDependentMapKeys)
 					antecedentDependentMap.put(v, Collections.unmodifiableSet(antecedentDependentMap_.get(v)));
 			}
-			catch (ReplaceTypeException e) // XXX
+			catch (ReplaceTypeException e)
 			{
 				assignMap = null;
 				unassignedVarSet = null;
