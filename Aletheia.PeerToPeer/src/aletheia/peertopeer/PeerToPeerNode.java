@@ -1878,7 +1878,7 @@ public abstract class PeerToPeerNode
 				if (!selector.selectedKeys().contains(selectionKey))
 					throw new ConnectTimeoutException();
 				socketChannel.finishConnect();
-				return new ConnectSocketChannel(socketChannel, socketAddress.getAddress()); //TODO
+				return new ConnectSocketChannel(socketChannel, socketAddress.getAddress());
 			}
 			finally
 			{
