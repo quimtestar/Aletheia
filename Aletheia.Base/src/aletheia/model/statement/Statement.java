@@ -1702,4 +1702,10 @@ public abstract class Statement implements Exportable
 		return true;
 	}
 
+	public void undelete(Transaction transaction)
+	{
+		//TODO
+		throw new UnsupportedOperationException();
+	}
+
 }
