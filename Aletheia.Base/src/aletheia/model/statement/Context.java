@@ -57,8 +57,6 @@ import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.local.ContextLocal;
 import aletheia.model.local.StatementLocal;
 import aletheia.model.nomenclator.Nomenclator;
-import aletheia.model.nomenclator.Nomenclator.AlreadyIdentifiedStatementException;
-import aletheia.model.nomenclator.Nomenclator.AlreadyUsedIdentifierException;
 import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
 import aletheia.model.nomenclator.SubNomenclator;
 import aletheia.model.term.FunctionTerm;
@@ -904,41 +902,6 @@ public class Context extends Statement
 	{
 		LocalSortedStatements localSortedStatements = localSortedStatements(transaction);
 		return Statement.dependencySortedStatements(transaction, localSortedStatements);
-	}
-
-	/**
-	 * Assigns a local statement to a identifier.
-	 *
-	 * @param transaction
-	 *            The transaction to be used in the operation.
-	 * @param identifier
-	 *            The identifier.
-	 * @param statement
-	 *            The statement.
-	 * @throws NomenclatorException
-	 * @throws StatementNotInContextException
-	 * @throws AlreadyUsedIdentifierException
-	 * @throws AlreadyIdentifiedStatementException
-	 */
-	@Deprecated
-	public void identifyStatement(Transaction transaction, Identifier identifier, Statement statement) throws NomenclatorException
-	{
-		getNomenclator(transaction).identifyStatement(identifier, statement);
-	}
-
-	/**
-	 * Unassigns the identifier assigned to a local statement.
-	 *
-	 * @param transaction
-	 *            The transaction to be used in the operation.
-	 * @param identifier
-	 *            The identifier to unassign.
-	 * @throws NomenclatorException
-	 */
-	@Deprecated
-	public void unidentifyStatement(Transaction transaction, Identifier identifier) throws NomenclatorException
-	{
-		getNomenclator(transaction).unidentifyStatement(identifier);
 	}
 
 	/**
