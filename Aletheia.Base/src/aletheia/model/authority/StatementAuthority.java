@@ -327,7 +327,7 @@ public class StatementAuthority implements Exportable
 			int statementProtocolVersion = signatureVersion >= 1 ? 1 : 0;
 			UUIDProtocol uuidProtocol = new UUIDProtocol(0);
 			DateProtocol dateProtocol = new DateProtocol(0);
-			StatementProtocol statementProtocol = new StatementProtocol(statementProtocolVersion, persistenceManager, transaction);
+			StatementProtocol statementProtocol = new StatementProtocol(statementProtocolVersion, persistenceManager, transaction); //TODO Version 2?
 			Statement statement = getStatement(transaction);
 			statementProtocol.send(out, statement);
 			uuidProtocol.send(out, getAuthorUuid());

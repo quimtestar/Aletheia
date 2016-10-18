@@ -95,31 +95,6 @@ public class Specialization extends Statement
 	}
 
 	/**
-	 * Calls to
-	 * {@link #Specialization(PersistenceManager, Transaction, UUID, Context, Statement, Term)}
-	 * with null as UUID.
-	 *
-	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state
-	 *            of this statement.
-	 * @param transaction
-	 *            The transaction associated to the persistence manager that
-	 *            will be used in the creation of this statement.
-	 * @param context
-	 *            The context.
-	 * @param general
-	 *            The general statement used that is specialized.
-	 * @param instance
-	 *            The instance term used in the specialization.
-	 * @throws StatementException
-	 */
-	protected Specialization(PersistenceManager persistenceManager, Transaction transaction, Context context, Statement general, Term instance)
-			throws StatementException
-	{
-		this(persistenceManager, transaction, null, context, general, instance);
-	}
-
-	/**
 	 * Creates a statement that envelopes an already existing
 	 * {@link SpecializationEntity}
 	 *

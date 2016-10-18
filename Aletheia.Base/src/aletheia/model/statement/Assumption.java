@@ -76,32 +76,6 @@ public class Assumption extends Statement
 	}
 
 	/**
-	 * Creates a new assumption assigning a new UUID.
-	 *
-	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state
-	 *            of this statement.
-	 * @param transaction
-	 *            The transaction associated to the persistence manager that
-	 *            will be used in the creation of this statement.
-	 * @param context
-	 *            The context
-	 * @param term
-	 *            The term representing the mathematical sentence which this
-	 *            statement represents, or the type of the variable associated
-	 *            to this statement. Since the term associated to the statement
-	 *            can't have projections pending, the actual term used is the
-	 *            unprojection of this one.
-	 * @param order
-	 *            The order this assumption has in its context.
-	 * @throws StatementException
-	 */
-	protected Assumption(PersistenceManager persistenceManager, Transaction transaction, Context context, Term term, int order) throws StatementException
-	{
-		this(persistenceManager, transaction, null, context, term, order);
-	}
-
-	/**
 	 * Creates an assumption that envelopes an already existing
 	 * {@link AssumptionEntity}
 	 *

@@ -296,7 +296,9 @@ public abstract class Statement implements Exportable
 		{
 			throw new ProjectStatementException(e1);
 		}
-		IdentifiableVariableTerm variable = (uuid == null) ? new IdentifiableVariableTerm(term_) : new IdentifiableVariableTerm(term_, uuid);
+		if (uuid == null)
+			uuid = UUID.randomUUID();
+		IdentifiableVariableTerm variable = new IdentifiableVariableTerm(term_, uuid);
 		this.entity.setUuid(variable.getUuid());
 		this.entity.setVariable(variable);
 		this.entity.setProved(false);
@@ -318,38 +320,6 @@ public abstract class Statement implements Exportable
 			this.entity.initializeContextData(null);
 		else
 			this.entity.initializeContextData(context.getEntity());
-	}
-
-	/**
-	 * Calls to
-	 * {@link #Statement(PersistenceManager, Transaction, Class, UUID, Context, Term)}
-	 * with a null UUID.
-	 *
-	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state
-	 *            of this statement.
-	 * @param transaction
-	 *            The transaction to be used in the operation.
-	 * @param entityClass
-	 *            The type object of the persistent entity (the generic
-	 *            interface, not the actual implementation of persistence) that
-	 *            will be created for storing the persistent state of this
-	 *            statement. Will depend on the actual subclass of
-	 *            {@link Statement} that is actually being created.
-	 * @param context
-	 *            The context
-	 * @param term
-	 *            The term representing the mathematical sentence which this
-	 *            statement represents, or the type of the variable associated
-	 *            to this statement. Since the term associated to the statement
-	 *            can't have projections pending, the actual term used is the
-	 *            unprojection of this one.
-	 * @throws StatementException
-	 */
-	protected Statement(PersistenceManager persistenceManager, Transaction transaction, Class<? extends StatementEntity> entityClass, Context context,
-			Term term) throws StatementException
-	{
-		this(persistenceManager, transaction, entityClass, null, context, term);
 	}
 
 	/**

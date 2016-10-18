@@ -19,6 +19,9 @@
  ******************************************************************************/
 package aletheia.model.statement;
 
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -80,6 +83,10 @@ import aletheia.persistence.collections.statement.LocalStatementsByTerm;
 import aletheia.persistence.collections.statement.LocalStatementsMap;
 import aletheia.persistence.collections.statement.SubContextsSet;
 import aletheia.persistence.entities.statement.ContextEntity;
+import aletheia.protocol.Protocol;
+import aletheia.protocol.ProtocolException;
+import aletheia.protocol.primitive.IntegerProtocol;
+import aletheia.protocol.primitive.UUIDProtocol;
 import aletheia.utilities.collections.AdaptedList;
 import aletheia.utilities.collections.AdaptedSet;
 import aletheia.utilities.collections.Bijection;
@@ -209,9 +216,6 @@ public class Context extends Statement
 	 *            The UUID associated to this statement (i.e. the variable that
 	 *            identifies this statement). Used as unique identifier of a
 	 *            statement. If null, a new one will be generated.
-	 * @param uuidAssumptions
-	 *            The lists of UUIDs that will be assigned to the assumptions to
-	 *            be created in this context.
 	 * @param context
 	 *            The context that enclosures this context statement.
 	 * @param term
@@ -222,42 +226,10 @@ public class Context extends Statement
 	 *            unprojection of this one.
 	 * @throws StatementException
 	 */
-	protected Context(PersistenceManager persistenceManager, Transaction transaction, Class<? extends ContextEntity> entityClass, UUID uuid,
-			List<UUID> uuidAssumptions, Context context, Term term) throws StatementException
+	protected Context(PersistenceManager persistenceManager, Transaction transaction, Class<? extends ContextEntity> entityClass, UUID uuid, Context context,
+			Term term) throws StatementException
 	{
-		this(persistenceManager, transaction, entityClass, uuid, uuidAssumptions, context, term, term);
-	}
-
-	/**
-	 * Calls to
-	 * {@link Context#Context(PersistenceManager, Transaction, Class, UUID, List, Context, Term, Term)}
-	 * with uuid and uuidAssumptions set to null and innerTerm = term.
-	 *
-	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state
-	 *            of this statement.
-	 * @param transaction
-	 *            The transaction to be used in the creation of this statement.
-	 * @param entityClass
-	 *            The type object of the persistent entity (the generic
-	 *            interface, not the actual implementation of persistence) that
-	 *            will be created for storing the persistent state of this
-	 *            statement. Will depend on the actual subclass of
-	 *            {@link Context} that is actually being created.
-	 * @param context
-	 *            The context that enclosures this context statement.
-	 * @param term
-	 *            The term representing the mathematical sentence which this
-	 *            statement represents, or the type of the variable associated
-	 *            to this statement. Since the term associated to the statement
-	 *            can't have projections pending, the actual term used is the
-	 *            unprojection of this one.
-	 * @throws StatementException
-	 */
-	protected Context(PersistenceManager persistenceManager, Transaction transaction, Class<? extends ContextEntity> entityClass, Context context, Term term)
-			throws StatementException
-	{
-		this(persistenceManager, transaction, entityClass, null, null, context, term, term);
+		this(persistenceManager, transaction, entityClass, uuid, context, term, term);
 	}
 
 	/**
@@ -279,9 +251,6 @@ public class Context extends Statement
 	 *            The UUID associated to this statement (i.e. the variable that
 	 *            identifies this statement). Used as unique identifier of a
 	 *            statement. If null, a new one will be generated.
-	 * @param uuidAssumptions
-	 *            The lists of UUIDs that will be assigned to the assumptions to
-	 *            be created in this context.
 	 * @param context
 	 *            The context that enclosures this context statement.
 	 * @param term
@@ -297,8 +266,8 @@ public class Context extends Statement
 	 *            {@link UnfoldingContext}.
 	 * @throws StatementException
 	 */
-	protected Context(PersistenceManager persistenceManager, Transaction transaction, Class<? extends ContextEntity> entityClass, UUID uuid,
-			List<UUID> uuidAssumptions, Context context, Term term, Term innerTerm) throws StatementException
+	protected Context(PersistenceManager persistenceManager, Transaction transaction, Class<? extends ContextEntity> entityClass, UUID uuid, Context context,
+			Term term, Term innerTerm) throws StatementException
 	{
 		super(persistenceManager, transaction, entityClass, uuid, context, term);
 		persistenceUpdate(transaction);
@@ -315,8 +284,7 @@ public class Context extends Statement
 		while (innerTerm_ instanceof FunctionTerm)
 		{
 			FunctionTerm functionTerm = (FunctionTerm) innerTerm_;
-			Assumption assumption = (uuidAssumptions == null) ? new Assumption(persistenceManager, transaction, this, functionTerm.getParameter().getType(), i)
-					: new Assumption(persistenceManager, transaction, uuidAssumptions.get(i), this, functionTerm.getParameter().getType(), i);
+			Assumption assumption = new Assumption(persistenceManager, transaction, generateAssumptionUuid(i), this, functionTerm.getParameter().getType(), i);
 			addStatement(transaction, assumption, false);
 			try
 			{
@@ -333,41 +301,41 @@ public class Context extends Statement
 		getEntity().setConsequent((SimpleTerm) innerTerm_);
 	}
 
-	/**
-	 * Calls to
-	 * {@link Context#Context(PersistenceManager, Transaction, Class, UUID, List, Context, Term, Term)}
-	 * with uuid and uuidAssumptions set to null.
-	 *
-	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state
-	 *            of this statement.
-	 * @param transaction
-	 *            The transaction to be used in the creation of this statement.
-	 * @param entityClass
-	 *            The type object of the persistent entity (the generic
-	 *            interface, not the actual implementation of persistence) that
-	 *            will be created for storing the persistent state of this
-	 *            statement. Will depend on the actual subclass of
-	 *            {@link Context} that is actually being created.
-	 * @param context
-	 *            The context that enclosures this context statement.
-	 * @param term
-	 *            The term representing the mathematical sentence which this
-	 *            statement represents, or the type of the variable associated
-	 *            to this statement. Since the term associated to the statement
-	 *            can't have projections pending, the actual term used is the
-	 *            unprojection of this one.
-	 * @param innerTerm
-	 *            The term that is used to compute the antecedents and
-	 *            consequent of this context. It will be identical to the former
-	 *            parameter 'term', except for the instances of the subclass
-	 *            {@link UnfoldingContext}.
-	 * @throws StatementException
-	 */
-	protected Context(PersistenceManager persistenceManager, Transaction transaction, Class<? extends ContextEntity> entityClass, Context context, Term term,
-			Term innerTerm) throws StatementException
+	private UUID generateAssumptionUuid(int order)
 	{
-		this(persistenceManager, transaction, entityClass, null, null, context, term, innerTerm);
+
+		class AssumptionDataProtocol extends Protocol<Integer>
+		{
+			final UUIDProtocol uuidProtocol = new UUIDProtocol(0);
+			final IntegerProtocol integerProtocol = new IntegerProtocol(0);
+
+			public AssumptionDataProtocol()
+			{
+				super(0);
+			}
+
+			@Override
+			public void send(DataOutput out, Integer order) throws IOException
+			{
+				uuidProtocol.send(out, getUuid());
+				integerProtocol.send(out, order);
+
+			}
+
+			@Override
+			public Integer recv(DataInput in) throws IOException, ProtocolException
+			{
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public void skip(DataInput in) throws IOException, ProtocolException
+			{
+				throw new UnsupportedOperationException();
+			}
+
+		}
+		return UUID.nameUUIDFromBytes(new AssumptionDataProtocol().toByteArray(order));
 	}
 
 	/**
@@ -656,18 +624,14 @@ public class Context extends Statement
 	 * @param uuid
 	 *            The UUID that will be assigned to this statement. If null, a
 	 *            new UUID will be generated.
-	 * @param uuidAssumptions
-	 *            The list of UUIDs that will be assigned to the assumptions
-	 *            created into this statement. If null, a new set of UUIDs will
-	 *            be generated.
 	 * @param term
 	 *            The term of this context.
 	 * @return The new context.
 	 * @throws StatementException
 	 */
-	public Context openSubContext(Transaction transaction, UUID uuid, List<UUID> uuidAssumptions, Term term) throws StatementException
+	public Context openSubContext(Transaction transaction, UUID uuid, Term term) throws StatementException
 	{
-		Context ctx = new Context(getPersistenceManager(), transaction, ContextEntity.class, uuid, uuidAssumptions, this, term);
+		Context ctx = new Context(getPersistenceManager(), transaction, ContextEntity.class, uuid, this, term);
 		addStatement(transaction, ctx);
 		return ctx;
 
@@ -686,7 +650,7 @@ public class Context extends Statement
 	 */
 	public Context openSubContext(Transaction transaction, Term term) throws StatementException
 	{
-		return openSubContext(transaction, null, null, term);
+		return openSubContext(transaction, null, term);
 	}
 
 	/**
@@ -697,10 +661,6 @@ public class Context extends Statement
 	 * @param uuid
 	 *            The UUID that will be assigned to this statement. If null, a
 	 *            new UUID will be generated.
-	 * @param uuidAssumptions
-	 *            The list of UUIDs that will be assigned to the assumptions
-	 *            created into this statement. If null, a new set of UUIDs will
-	 *            be generated.
 	 * @param term
 	 *            The (outer) term of this context.
 	 * @param declaration
@@ -709,10 +669,9 @@ public class Context extends Statement
 	 * @return The new unfolding context
 	 * @throws StatementException
 	 */
-	public UnfoldingContext openUnfoldingSubContext(Transaction transaction, UUID uuid, List<UUID> uuidAssumptions, Term term, Declaration declaration)
-			throws StatementException
+	public UnfoldingContext openUnfoldingSubContext(Transaction transaction, UUID uuid, Term term, Declaration declaration) throws StatementException
 	{
-		UnfoldingContext ctx = new UnfoldingContext(transaction, getPersistenceManager(), uuid, uuidAssumptions, this, term, declaration);
+		UnfoldingContext ctx = new UnfoldingContext(transaction, getPersistenceManager(), uuid, this, term, declaration);
 		addStatement(transaction, ctx);
 		return ctx;
 	}
@@ -733,7 +692,7 @@ public class Context extends Statement
 	 */
 	public UnfoldingContext openUnfoldingSubContext(Transaction transaction, Term term, Declaration declaration) throws StatementException
 	{
-		return openUnfoldingSubContext(transaction, null, null, term, declaration);
+		return openUnfoldingSubContext(transaction, null, term, declaration);
 	}
 
 	/**
@@ -824,9 +783,9 @@ public class Context extends Statement
 	 * @return The new declaration.
 	 * @throws StatementException
 	 */
-	public Declaration declare(Transaction transaction, UUID uuid, List<UUID> uuidAssumptions, Term value) throws StatementException
+	public Declaration declare(Transaction transaction, UUID uuid, Term value) throws StatementException
 	{
-		Declaration dec = new Declaration(getPersistenceManager(), transaction, uuid, uuidAssumptions, this, value);
+		Declaration dec = new Declaration(getPersistenceManager(), transaction, uuid, this, value);
 		addStatement(transaction, dec);
 		return dec;
 	}
@@ -844,7 +803,7 @@ public class Context extends Statement
 	 */
 	public Declaration declare(Transaction transaction, Term value) throws StatementException
 	{
-		return declare(transaction, null, null, value);
+		return declare(transaction, null, value);
 	}
 
 	/**

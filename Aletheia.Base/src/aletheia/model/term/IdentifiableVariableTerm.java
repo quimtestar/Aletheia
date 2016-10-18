@@ -42,12 +42,6 @@ public class IdentifiableVariableTerm extends VariableTerm
 	private final static int hashPrime = 2961463;
 	private final UUID uuid;
 
-	public IdentifiableVariableTerm(Term type)
-	{
-		super(type);
-		this.uuid = UUID.randomUUID();
-	}
-
 	public IdentifiableVariableTerm(Term type, UUID uuid)
 	{
 		super(type);

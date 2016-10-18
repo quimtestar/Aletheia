@@ -23,7 +23,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 import java.util.UUID;
@@ -95,10 +94,9 @@ public class RootContext extends Context
 	 *
 	 * @throws StatementException
 	 */
-	private RootContext(PersistenceManager persistenceManager, Transaction transaction, UUID uuid, List<UUID> uuidAssumptions, Term term)
-			throws StatementException
+	private RootContext(PersistenceManager persistenceManager, Transaction transaction, UUID uuid, Term term) throws StatementException
 	{
-		super(persistenceManager, transaction, RootContextEntity.class, uuid, uuidAssumptions, null, term);
+		super(persistenceManager, transaction, RootContextEntity.class, uuid, null, term);
 	}
 
 	/**
@@ -152,10 +150,9 @@ public class RootContext extends Context
 	 * @return The root context statement.
 	 * @throws StatementException
 	 */
-	public static RootContext create(PersistenceManager persistenceManager, Transaction transaction, UUID uuid, List<UUID> uuidAssumptions, Term term)
-			throws StatementException
+	public static RootContext create(PersistenceManager persistenceManager, Transaction transaction, UUID uuid, Term term) throws StatementException
 	{
-		RootContext rootContext = new RootContext(persistenceManager, transaction, uuid, uuidAssumptions, term);
+		RootContext rootContext = new RootContext(persistenceManager, transaction, uuid, term);
 		rootContext.persistenceUpdate(transaction);
 		checkProved(transaction, Arrays.<Statement> asList(rootContext));
 		rootContext = rootContext.refresh(transaction);
@@ -170,7 +167,7 @@ public class RootContext extends Context
 
 	public static RootContext create(PersistenceManager persistenceManager, Transaction transaction, Term term) throws StatementException
 	{
-		return create(persistenceManager, transaction, null, null, term);
+		return create(persistenceManager, transaction, null, term);
 	}
 
 	public static RootContext create(PersistenceManager persistenceManager, Transaction transaction, String termString)

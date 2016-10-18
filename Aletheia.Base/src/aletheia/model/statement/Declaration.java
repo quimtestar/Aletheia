@@ -19,7 +19,6 @@
  ******************************************************************************/
 package aletheia.model.statement;
 
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -71,10 +70,9 @@ public class Declaration extends Context
 	 *
 	 * @throws StatementException
 	 */
-	protected Declaration(PersistenceManager persistenceManager, Transaction transaction, UUID uuid, List<UUID> uuidAssumptions, Context context, Term value)
-			throws StatementException
+	protected Declaration(PersistenceManager persistenceManager, Transaction transaction, UUID uuid, Context context, Term value) throws StatementException
 	{
-		super(persistenceManager, transaction, DeclarationEntity.class, uuid, uuidAssumptions, context, computeTerm(transaction, context, value));
+		super(persistenceManager, transaction, DeclarationEntity.class, uuid, context, computeTerm(transaction, context, value));
 		Set<VariableTerm> undefined = context.undefinedVariables(transaction, value);
 		if (!undefined.isEmpty())
 			throw new UndefinedVariableStatementException(context, transaction, undefined);
@@ -138,28 +136,6 @@ public class Declaration extends Context
 			throw new DeclarationException("'" + svalue + "' has no type");
 		}
 		return value.getType();
-	}
-
-	/**
-	 * Calls to
-	 * {@link #Declaration(PersistenceManager, Transaction, UUID, Context, Term)}
-	 * with the uuid set to null, so a new UUID will be generated for the
-	 * statement.
-	 *
-	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state
-	 *            of this statement.
-	 * @param transaction
-	 *            The transaction to be used in the creation of this statement.
-	 * @param context
-	 *            The context that enclosures this declaration statement.
-	 * @param value
-	 *            The value of this declaration.
-	 * @throws StatementException
-	 */
-	protected Declaration(PersistenceManager persistenceManager, Transaction transaction, Context context, Term value) throws StatementException
-	{
-		this(persistenceManager, transaction, null, null, context, value);
 	}
 
 	/**

@@ -19,7 +19,6 @@
  ******************************************************************************/
 package aletheia.model.statement;
 
-import java.util.List;
 import java.util.UUID;
 
 import aletheia.model.term.Term;
@@ -57,9 +56,6 @@ public class UnfoldingContext extends Context
 	 *            The UUID associated to this statement (i.e. the variable that
 	 *            identifies this statement). Used as unique identifier of a
 	 *            statement. If null, a new one will be generated.
-	 * @param uuidAssumptions
-	 *            The lists of UUIDs that will be assigned to the assumptions to
-	 *            be created in this context.
 	 * @param context
 	 *            The context that enclosures this context statement.
 	 * @param term
@@ -71,41 +67,12 @@ public class UnfoldingContext extends Context
 	 * @param declaration
 	 *            The declaration to be unfolded.
 	 */
-	protected UnfoldingContext(Transaction transaction, PersistenceManager persistenceManager, UUID uuid, List<UUID> uuidAssumptions, Context context,
-			Term term, Declaration declaration) throws StatementException
-	{
-		super(persistenceManager, transaction, UnfoldingContextEntity.class, uuid, uuidAssumptions, context, term,
-				computeTerm(transaction, context, term, declaration));
-		getEntity().setDeclarationUuid(declaration.getUuid());
-		getEntity().getUuidDependencies().add(declaration.getUuid());
-	}
-
-	/**
-	 * Calls to
-	 * {@link #UnfoldingContext(Transaction, PersistenceManager, UUID, List, Context, Term, Declaration)}
-	 * with uuid and uuidAssumptions set to null.
-	 *
-	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state
-	 *            of this statement.
-	 * @param transaction
-	 *            The transaction to be used in the creation of this statement.
-	 * @param context
-	 *            The context that enclosures this context statement.
-	 * @param term
-	 *            The term representing the mathematical sentence which this
-	 *            statement represents, or the type of the variable associated
-	 *            to this statement. Since the term associated to the statement
-	 *            can't have projections pending, the actual term used is the
-	 *            unprojection of this one.
-	 * @param declaration
-	 *            The declaration to be unfolded.
-	 * @throws StatementException
-	 */
-	protected UnfoldingContext(Transaction transaction, PersistenceManager persistenceManager, Context context, Term term, Declaration declaration)
+	protected UnfoldingContext(Transaction transaction, PersistenceManager persistenceManager, UUID uuid, Context context, Term term, Declaration declaration)
 			throws StatementException
 	{
-		this(transaction, persistenceManager, null, null, context, term, declaration);
+		super(persistenceManager, transaction, UnfoldingContextEntity.class, uuid, context, term, computeTerm(transaction, context, term, declaration));
+		getEntity().setDeclarationUuid(declaration.getUuid());
+		getEntity().getUuidDependencies().add(declaration.getUuid());
 	}
 
 	/**

@@ -248,7 +248,7 @@ class ExportImport
 			}
 		}
 
-		StatementProtocol statementProtocol = new StatementProtocol(1, persistenceManager, transaction);
+		StatementProtocol statementProtocol = new StatementProtocol(1, persistenceManager, transaction); //TODO Version 2?
 		StatementAuthorityDelegateTreeProtocol statementAuthorityProtocol = new StatementAuthorityDelegateTreeProtocol(0, persistenceManager, transaction);
 		PersonProtocol personProtocol = new PersonProtocol(0, persistenceManager, transaction);
 
@@ -326,7 +326,7 @@ class ExportImport
 		AborterListener aborterListener = new AborterListener();
 		aborter.addListener(aborterListener);
 		aborterListener.setTransaction(transaction);
-		StatementProtocol statementProtocol = new StatementProtocol(statementProtocolVersion, persistenceManager, transaction);
+		StatementProtocol statementProtocol = new StatementProtocol(statementProtocolVersion, persistenceManager, transaction); //TODO Version 2?
 		StatementAuthorityDelegateTreeProtocol statementAuthorityProtocol = new StatementAuthorityDelegateTreeProtocol(
 				statementAuthorityDelegateTreeProtocolVersion, persistenceManager, transaction);
 		PersonProtocol personProtocol = new PersonProtocol(personProtocolVersion, persistenceManager, transaction);

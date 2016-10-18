@@ -302,7 +302,7 @@ public abstract class SignatureRequest implements Exportable
 			this.transaction = transaction;
 			this.versionProtocol = new VersionProtocol();
 			this.registerTypeProtocol = new RegisterType.Protocol(0);
-			this.statementProtocol = new StatementProtocol(1, persistenceManager, transaction);
+			this.statementProtocol = new StatementProtocol(1, persistenceManager, transaction); //TODO Version 2?
 			this.statementAuthorityProtocol = new StatementAuthorityProtocol(0, persistenceManager, transaction);
 			this.personProtocol = new PersonProtocol(0, persistenceManager, transaction);
 			this.byteArrayProtocol = new ByteArrayProtocol(0);
