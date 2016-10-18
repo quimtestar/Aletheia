@@ -46,7 +46,7 @@ public abstract class PeerToPeerConnection extends Thread
 {
 	private final static Logger logger = LoggerManager.instance.logger();
 
-	private final static int socketChannelExtraTime = 100;
+	private final static float socketChannelExtraTime = PeerToPeerNodeProperties.instance.isDebug() ? 0f : 0.1f; // in secs;
 
 	private final PeerToPeerNode peerToPeerNode;
 	private final SocketChannel socketChannel;
@@ -99,9 +99,9 @@ public abstract class PeerToPeerConnection extends Thread
 		this.socketChannel = socketChannel;
 		this.socketChannel.configureBlocking(false);
 		this.remoteAddress = remoteAddress;
-		this.inputStream = new TimeLimitNonBlockingSocketChannelInputStream(socketChannel, socketChannelExtraTime);
+		this.inputStream = new TimeLimitNonBlockingSocketChannelInputStream(socketChannel, (long) (1000 * socketChannelExtraTime));
 		this.dataIn = new DataInputStream(inputStream);
-		this.outputStream = new TimeLimitNonBlockingSocketChannelOutputStream(socketChannel, socketChannelExtraTime);
+		this.outputStream = new TimeLimitNonBlockingSocketChannelOutputStream(socketChannel, (long) (1000 * socketChannelExtraTime));
 		this.dataOut = new DataOutputStream(outputStream);
 
 		this.caughtException = null;
