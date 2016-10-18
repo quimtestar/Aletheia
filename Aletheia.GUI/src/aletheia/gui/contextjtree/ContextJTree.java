@@ -56,6 +56,7 @@ import aletheia.gui.cli.command.statement.DeleteStatement;
 import aletheia.gui.cli.command.statement.DeleteStatementCascade;
 import aletheia.gui.cli.command.statement.DeleteStatements;
 import aletheia.gui.cli.command.statement.DeleteStatementsCascade;
+import aletheia.gui.cli.command.statement.Undelete;
 import aletheia.gui.common.AletheiaTransferable;
 import aletheia.gui.common.PersistentJTree;
 import aletheia.gui.common.SorterTransferable;
@@ -233,18 +234,11 @@ public class ContextJTree extends PersistentJTree
 			}
 			case KeyEvent.VK_DELETE:
 			{
-				Statement statement = getSelectedStatement();
-				if (statement == null)
-					statement = getSelectedConsequent();
-				if (statement != null)
+				if (ev.isControlDown())
 				{
 					try
 					{
-						if (ev.isShiftDown())
-							deleteStatementCascade(statement);
-						else
-							deleteStatement(statement);
-
+						undelete();
 					}
 					catch (InterruptedException e1)
 					{
@@ -253,21 +247,42 @@ public class ContextJTree extends PersistentJTree
 				}
 				else
 				{
-					Sorter sorter = getSelectedSorter();
-					if (sorter instanceof GroupSorter)
+					Statement statement = getSelectedStatement();
+					if (statement == null)
+						statement = getSelectedConsequent();
+					if (statement != null)
 					{
-						@SuppressWarnings("unchecked")
-						GroupSorter<? extends Statement> groupSorter = (GroupSorter<? extends Statement>) sorter;
 						try
 						{
 							if (ev.isShiftDown())
-								deleteSorterCascade(groupSorter);
+								deleteStatementCascade(statement);
 							else
-								deleteSorter(groupSorter);
+								deleteStatement(statement);
+
 						}
 						catch (InterruptedException e1)
 						{
 							logger.error(e1.getMessage(), e1);
+						}
+					}
+					else
+					{
+						Sorter sorter = getSelectedSorter();
+						if (sorter instanceof GroupSorter)
+						{
+							@SuppressWarnings("unchecked")
+							GroupSorter<? extends Statement> groupSorter = (GroupSorter<? extends Statement>) sorter;
+							try
+							{
+								if (ev.isShiftDown())
+									deleteSorterCascade(groupSorter);
+								else
+									deleteSorter(groupSorter);
+							}
+							catch (InterruptedException e1)
+							{
+								logger.error(e1.getMessage(), e1);
+							}
 						}
 					}
 				}
@@ -823,6 +838,11 @@ public class ContextJTree extends PersistentJTree
 		}
 		else
 			throw new Error();
+	}
+
+	public void undelete() throws InterruptedException
+	{
+		getAletheiaJPanel().getCliJPanel().command(new Undelete(getAletheiaJPanel().getCliJPanel(), getModel().beginTransaction()), false);
 	}
 
 	public Listener getListener()

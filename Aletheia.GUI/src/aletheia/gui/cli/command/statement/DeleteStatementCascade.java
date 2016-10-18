@@ -34,6 +34,7 @@ public class DeleteStatementCascade extends DeleteStatement
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
+		getPersistenceManager().getUndeleteManager().openBatch();
 		getStatement().deleteCascade(getTransaction());
 		return null;
 	}

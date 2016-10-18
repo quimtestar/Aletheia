@@ -58,7 +58,9 @@ public class ConsequentContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
 			{
 				try
 				{
-					if (ev.isShiftDown())
+					if (ev.isControlDown())
+						undelete();
+					else if (ev.isShiftDown())
 						deleteCascade();
 					else
 						delete();
@@ -162,4 +164,8 @@ public class ConsequentContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
 		getContextJTree().deleteStatementCascade(context);
 	}
 
+	private void undelete() throws InterruptedException
+	{
+		getContextJTree().undelete();
+	}
 }

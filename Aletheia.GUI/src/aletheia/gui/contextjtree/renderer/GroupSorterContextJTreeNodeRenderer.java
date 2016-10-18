@@ -230,7 +230,9 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 			case KeyEvent.VK_DELETE:
 				try
 				{
-					if (e.isShiftDown())
+					if (e.isControlDown())
+						undelete();
+					else if (e.isShiftDown())
 						deleteCascade();
 					else
 						delete();
@@ -347,6 +349,11 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 	private void deleteCascade() throws InterruptedException
 	{
 		getContextJTree().deleteSorterCascade(sorter);
+	}
+
+	private void undelete() throws InterruptedException
+	{
+		getContextJTree().undelete();
 	}
 
 	private void makeGroupJLabelClickable(JLabel jLabel)

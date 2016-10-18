@@ -67,7 +67,9 @@ public abstract class StatementContextJTreeNodeRenderer<S extends Statement> ext
 			case KeyEvent.VK_DELETE:
 				try
 				{
-					if (ev.isShiftDown())
+					if (ev.isControlDown())
+						undelete();
+					else if (ev.isShiftDown())
 						deleteCascade();
 					else
 						delete();
@@ -314,6 +316,11 @@ public abstract class StatementContextJTreeNodeRenderer<S extends Statement> ext
 	private void deleteCascade() throws InterruptedException
 	{
 		getContextJTree().deleteStatementCascade(statement);
+	}
+
+	private void undelete() throws InterruptedException
+	{
+		getContextJTree().undelete();
 	}
 
 }
