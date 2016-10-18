@@ -359,4 +359,17 @@ public class RootContext extends Context
 		return (RootContextAuthority) super.getOrCreateAuthority(transaction, author);
 	}
 
+	@Override
+	protected Context undeleteStatement(Transaction transaction, Context context) throws UndeleteStatementException
+	{
+		try
+		{
+			return create(getPersistenceManager(), transaction, getUuid(), getTerm());
+		}
+		catch (StatementException e)
+		{
+			throw new UndeleteStatementException(e);
+		}
+	}
+
 }

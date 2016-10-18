@@ -216,4 +216,17 @@ public class Declaration extends Context
 		return (Declaration) super.refresh(transaction);
 	}
 
+	@Override
+	protected Context undeleteStatement(Transaction transaction, Context context) throws UndeleteStatementException
+	{
+		try
+		{
+			return context.declare(transaction, getUuid(), getValue());
+		}
+		catch (StatementException e)
+		{
+			throw new UndeleteStatementException(e);
+		}
+	}
+
 }

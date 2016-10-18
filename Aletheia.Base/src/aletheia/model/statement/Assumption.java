@@ -116,4 +116,10 @@ public class Assumption extends Statement
 		return (Assumption) super.refresh(transaction);
 	}
 
+	@Override
+	protected Assumption undeleteStatement(Transaction transaction, Context context) throws UndeleteStatementException
+	{
+		return context.assumptions(transaction).get(getOrder());
+	}
+
 }

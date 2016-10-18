@@ -52,6 +52,7 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.local.StatementLocal;
 import aletheia.model.nomenclator.Nomenclator;
+import aletheia.model.nomenclator.Nomenclator.AlreadyUsedIdentifierException;
 import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
 import aletheia.model.nomenclator.Nomenclator.SignatureIsValidNomenclatorException;
 import aletheia.model.nomenclator.Nomenclator.UnknownIdentifierException;
@@ -133,27 +134,22 @@ public abstract class Statement implements Exportable
 	{
 		private static final long serialVersionUID = 1661670150538609097L;
 
-		public StatementException()
+		protected StatementException()
 		{
 			super();
 		}
 
-		public StatementException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace)
-		{
-			super(message, cause, enableSuppression, writableStackTrace);
-		}
-
-		public StatementException(String message, Throwable cause)
+		protected StatementException(String message, Throwable cause)
 		{
 			super(message, cause);
 		}
 
-		public StatementException(String message)
+		protected StatementException(String message)
 		{
 			super(message);
 		}
 
-		public StatementException(Throwable cause)
+		protected StatementException(Throwable cause)
 		{
 			super(cause);
 		}
@@ -1672,10 +1668,72 @@ public abstract class Statement implements Exportable
 		return true;
 	}
 
-	public void undelete(Transaction transaction)
+	public static class UndeleteStatementException extends StatementException
 	{
-		//TODO
-		throw new UnsupportedOperationException();
+		private static final long serialVersionUID = -3761559131914524392L;
+
+		protected UndeleteStatementException()
+		{
+			super();
+		}
+
+		protected UndeleteStatementException(String message, Throwable cause)
+		{
+			super(message, cause);
+		}
+
+		protected UndeleteStatementException(String message)
+		{
+			super(message);
+		}
+
+		protected UndeleteStatementException(Throwable cause)
+		{
+			super(cause);
+		}
+
+	}
+
+	public class NoContextUndeleteStatementException extends UndeleteStatementException
+	{
+		private static final long serialVersionUID = 4275337487447663083L;
+
+		private NoContextUndeleteStatementException()
+		{
+			super("Can't undelete statement. Context lost");
+		}
+	}
+
+	protected abstract Statement undeleteStatement(Transaction transaction, Context context) throws UndeleteStatementException;
+
+	public Statement undelete(Transaction transaction) throws UndeleteStatementException
+	{
+		Context context = null;
+		if (!(this instanceof RootContext))
+		{
+			context = getContext(transaction);
+			if (context == null)
+				throw new NoContextUndeleteStatementException();
+		}
+		Statement undeleted = undeleteStatement(transaction, context);
+		if (!equals(undeleted))
+			throw new UndeleteStatementException("Not equal undeleted statement.");
+		if (getIdentifier() != null)
+		{
+			try
+			{
+				undeleted.identify(transaction, getIdentifier());
+			}
+			catch (AlreadyUsedIdentifierException e)
+			{
+				logger.debug(e.getMessage());
+			}
+			catch (NomenclatorException e)
+			{
+				throw new UndeleteStatementException(e);
+			}
+		}
+		return undeleted;
 	}
 
 }

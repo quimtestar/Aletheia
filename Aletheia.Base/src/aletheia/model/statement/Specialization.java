@@ -381,4 +381,17 @@ public class Specialization extends Statement
 		return (Specialization) super.refresh(transaction);
 	}
 
+	@Override
+	protected Specialization undeleteStatement(Transaction transaction, Context context) throws UndeleteStatementException
+	{
+		try
+		{
+			return context.specialize(transaction, getUuid(), getGeneral(transaction), getInstance());
+		}
+		catch (StatementException e)
+		{
+			throw new UndeleteStatementException(e);
+		}
+	}
+
 }

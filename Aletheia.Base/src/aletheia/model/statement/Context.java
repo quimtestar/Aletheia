@@ -2265,4 +2265,17 @@ public class Context extends Statement
 		return lookupMatches(transaction, null);
 	}
 
+	@Override
+	protected Context undeleteStatement(Transaction transaction, Context context) throws UndeleteStatementException
+	{
+		try
+		{
+			return context.openSubContext(transaction, getUuid(), getTerm());
+		}
+		catch (StatementException e)
+		{
+			throw new UndeleteStatementException(e);
+		}
+	}
+
 }

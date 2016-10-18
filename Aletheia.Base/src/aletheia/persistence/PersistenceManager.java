@@ -235,6 +235,8 @@ public abstract class PersistenceManager
 
 	private final PersistenceSecretKeyManager persistenceSecretKeyManager;
 
+	private final PersistenceUndeleteManager persistenceUndeleteManager;
+
 	private final boolean debug;
 
 	private boolean open;
@@ -247,6 +249,7 @@ public abstract class PersistenceManager
 		this.persistenceSchedulerThread = new PersistenceSchedulerThread(this);
 		this.persistenceListenerManager = new PersistenceListenerManager();
 		this.persistenceSecretKeyManager = new PersistenceSecretKeyManager(this);
+		this.persistenceUndeleteManager = new PersistenceUndeleteManager();
 		this.debug = configuration.isDebug();
 		this.open = true;
 	}
@@ -264,6 +267,11 @@ public abstract class PersistenceManager
 	public PersistenceSecretKeyManager getSecretKeyManager()
 	{
 		return persistenceSecretKeyManager;
+	}
+
+	public PersistenceUndeleteManager getUndeleteManager()
+	{
+		return persistenceUndeleteManager;
 	}
 
 	public boolean isDebug()
@@ -404,6 +412,7 @@ public abstract class PersistenceManager
 	public void deleteStatement(Transaction transaction, Statement statement)
 	{
 		deleteStatement(transaction, statement.getUuid());
+		getUndeleteManager().push(statement);
 	}
 
 	/**

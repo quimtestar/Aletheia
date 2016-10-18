@@ -240,4 +240,17 @@ public class UnfoldingContext extends Context
 		return (UnfoldingContext) super.refresh(transaction);
 	}
 
+	@Override
+	protected UnfoldingContext undeleteStatement(Transaction transaction, Context context) throws UndeleteStatementException
+	{
+		try
+		{
+			return context.openUnfoldingSubContext(transaction, getUuid(), getTerm(), getDeclaration(transaction));
+		}
+		catch (StatementException e)
+		{
+			throw new UndeleteStatementException(e);
+		}
+	}
+
 }
