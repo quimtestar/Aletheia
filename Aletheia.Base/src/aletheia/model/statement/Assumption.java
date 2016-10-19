@@ -19,6 +19,9 @@
  ******************************************************************************/
 package aletheia.model.statement;
 
+import java.io.DataInput;
+import java.io.DataOutput;
+import java.io.IOException;
 import java.util.UUID;
 
 import aletheia.model.term.Term;
@@ -26,6 +29,10 @@ import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.entities.statement.AssumptionEntity;
 import aletheia.persistence.entities.statement.StatementEntity;
+import aletheia.protocol.Protocol;
+import aletheia.protocol.ProtocolException;
+import aletheia.protocol.primitive.ByteProtocol;
+import aletheia.protocol.primitive.UUIDProtocol;
 
 /**
  * <p>
@@ -43,6 +50,58 @@ import aletheia.persistence.entities.statement.StatementEntity;
  */
 public class Assumption extends Statement
 {
+
+	private static UUID generateUuid(UUID contextUuid, int order)
+	{
+		class UUIDGenerationData
+		{
+			final UUID contextUuid;
+			final int order;
+
+			public UUIDGenerationData(UUID contextUuid, int order)
+			{
+				super();
+				this.contextUuid = contextUuid;
+				this.order = order;
+			}
+
+		}
+
+		class UUIDGenerationProtocol extends Protocol<UUIDGenerationData>
+		{
+			final UUIDProtocol uuidProtocol = new UUIDProtocol(0);
+			final ByteProtocol byteProtocol = new ByteProtocol(0);
+
+			public UUIDGenerationProtocol()
+			{
+				super(0);
+			}
+
+			@Override
+			public void send(DataOutput out, UUIDGenerationData data) throws IOException
+			{
+				uuidProtocol.send(out, data.contextUuid);
+				for (int x = data.order; x != 0; x >>>= 8)
+					byteProtocol.send(out, (byte) (x & 0xff));
+			}
+
+			@Override
+			public UUIDGenerationData recv(DataInput in) throws IOException, ProtocolException
+			{
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public void skip(DataInput in) throws IOException, ProtocolException
+			{
+				throw new UnsupportedOperationException();
+			}
+
+		}
+
+		return UUID.nameUUIDFromBytes(new UUIDGenerationProtocol().toByteArray(new UUIDGenerationData(contextUuid, order)));
+	}
+
 	/**
 	 * Creates a new assumption with the specified UUID.
 	 *
@@ -52,10 +111,6 @@ public class Assumption extends Statement
 	 * @param transaction
 	 *            The transaction associated to the persistence manager that
 	 *            will be used in the creation of this statement.
-	 * @param uuid
-	 *            The UUID associated to this statement (i.e. the variable that
-	 *            identifies this statement). Used as unique identifier of a
-	 *            statement. If null, a new one will be generated.
 	 * @param context
 	 *            The context
 	 * @param term
@@ -68,10 +123,9 @@ public class Assumption extends Statement
 	 *            The order this assumption has in its context.
 	 * @throws StatementException
 	 */
-	protected Assumption(PersistenceManager persistenceManager, Transaction transaction, UUID uuid, Context context, Term term, int order)
-			throws StatementException
+	protected Assumption(PersistenceManager persistenceManager, Transaction transaction, Context context, Term term, int order) throws StatementException
 	{
-		super(persistenceManager, transaction, AssumptionEntity.class, uuid, context, term);
+		super(persistenceManager, transaction, AssumptionEntity.class, generateUuid(context.getUuid(), order), context, term);
 		getEntity().setOrder(order);
 	}
 

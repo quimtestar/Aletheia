@@ -19,9 +19,6 @@
  ******************************************************************************/
 package aletheia.model.statement;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -83,10 +80,6 @@ import aletheia.persistence.collections.statement.LocalStatementsByTerm;
 import aletheia.persistence.collections.statement.LocalStatementsMap;
 import aletheia.persistence.collections.statement.SubContextsSet;
 import aletheia.persistence.entities.statement.ContextEntity;
-import aletheia.protocol.Protocol;
-import aletheia.protocol.ProtocolException;
-import aletheia.protocol.primitive.IntegerProtocol;
-import aletheia.protocol.primitive.UUIDProtocol;
 import aletheia.utilities.collections.AdaptedList;
 import aletheia.utilities.collections.AdaptedSet;
 import aletheia.utilities.collections.Bijection;
@@ -284,7 +277,7 @@ public class Context extends Statement
 		while (innerTerm_ instanceof FunctionTerm)
 		{
 			FunctionTerm functionTerm = (FunctionTerm) innerTerm_;
-			Assumption assumption = new Assumption(persistenceManager, transaction, generateAssumptionUuid(i), this, functionTerm.getParameter().getType(), i);
+			Assumption assumption = new Assumption(persistenceManager, transaction, this, functionTerm.getParameter().getType(), i);
 			addStatement(transaction, assumption, false);
 			try
 			{
@@ -299,43 +292,6 @@ public class Context extends Statement
 		if (!(innerTerm_ instanceof SimpleTerm))
 			throw new InvalidTermContextException();
 		getEntity().setConsequent((SimpleTerm) innerTerm_);
-	}
-
-	private UUID generateAssumptionUuid(int order)
-	{
-
-		class AssumptionDataProtocol extends Protocol<Integer>
-		{
-			final UUIDProtocol uuidProtocol = new UUIDProtocol(0);
-			final IntegerProtocol integerProtocol = new IntegerProtocol(0);
-
-			public AssumptionDataProtocol()
-			{
-				super(0);
-			}
-
-			@Override
-			public void send(DataOutput out, Integer order) throws IOException
-			{
-				uuidProtocol.send(out, getUuid());
-				integerProtocol.send(out, order);
-
-			}
-
-			@Override
-			public Integer recv(DataInput in) throws IOException, ProtocolException
-			{
-				throw new UnsupportedOperationException();
-			}
-
-			@Override
-			public void skip(DataInput in) throws IOException, ProtocolException
-			{
-				throw new UnsupportedOperationException();
-			}
-
-		}
-		return UUID.nameUUIDFromBytes(new AssumptionDataProtocol().toByteArray(order));
 	}
 
 	/**
