@@ -72,6 +72,7 @@ public abstract class EntityStoreUpgrade
 		EntityStoreUpgrade_017.class,
 		EntityStoreUpgrade_018.class,
 		EntityStoreUpgrade_020.class,
+//		EntityStoreUpgrade_021.class,
 			};
 	// @formatter:on
 
@@ -225,6 +226,11 @@ public abstract class EntityStoreUpgrade
 
 		protected void upgrade() throws UpgradeException
 		{
+			fullUpgrade();
+		}
+
+		protected void fullUpgrade() throws UpgradeException
+		{
 			logger.debug("Upgrading");
 			String tmpStoreName = environment.unusedStoreName();
 			Runtime.getRuntime().addShutdownHook(shutdownHook);
@@ -277,6 +283,24 @@ public abstract class EntityStoreUpgrade
 				}
 			}
 			logger.debug("Upgraded");
+		}
+
+		protected void justPostProcessingUpgrade() throws UpgradeException
+		{
+			int oldStoreVersion = getEnvironment().getStoreVersion(getStoreName());
+			getEnvironment().putStoreVersion(getStoreName(), -1);
+			BerkeleyDBAletheiaEntityStore store = BerkeleyDBAletheiaEntityStore.open(getEnvironment(), getStoreName(), false, true);
+			int newStoreVersion = getEnvironment().getStoreVersion(getStoreName());
+			getEnvironment().putStoreVersion(getStoreName(), oldStoreVersion);
+			try
+			{
+				postProcessing(getEnvironment(), store);
+				getEnvironment().putStoreVersion(getStoreName(), newStoreVersion);
+			}
+			finally
+			{
+				store.close();
+			}
 		}
 
 		protected void postConversion(BerkeleyDBAletheiaEntityStore newStore)
