@@ -57,7 +57,7 @@ import aletheia.protocol.primitive.UUIDProtocol;
 import aletheia.security.messagedigester.BufferedMessageDigester;
 import aletheia.security.utilities.SecurityUtilities;
 
-public class EntityStoreUpgrade_020 extends EntityStoreUpgrade
+public class EntityStoreUpgrade_020 extends EntityStoreUpgrade_021
 {
 
 	public EntityStoreUpgrade_020()
@@ -70,7 +70,7 @@ public class EntityStoreUpgrade_020 extends EntityStoreUpgrade
 		return Arrays.asList(20);
 	}
 
-	protected class UpgradeInstance extends EntityStoreUpgrade.UpgradeInstance
+	protected class UpgradeInstance extends EntityStoreUpgrade_021.UpgradeInstance
 	{
 		private final UUIDProtocol uuidProtocol = new UUIDProtocol(0);
 		private final IntegerProtocol integerProtocol = new IntegerProtocol(0);

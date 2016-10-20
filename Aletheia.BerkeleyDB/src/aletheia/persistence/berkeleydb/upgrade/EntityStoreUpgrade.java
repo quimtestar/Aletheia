@@ -72,7 +72,7 @@ public abstract class EntityStoreUpgrade
 		EntityStoreUpgrade_017.class,
 		EntityStoreUpgrade_018.class,
 		EntityStoreUpgrade_020.class,
-//		EntityStoreUpgrade_021.class,
+		EntityStoreUpgrade_021.class,
 			};
 	// @formatter:on
 
