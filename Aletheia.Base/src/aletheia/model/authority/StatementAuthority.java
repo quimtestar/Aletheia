@@ -320,14 +320,11 @@ public class StatementAuthority implements Exportable
 
 	void signatureDataOutStatementAuthoritySignature(DataOutput out, Transaction transaction, int signatureVersion)
 	{
-		if (signatureVersion < 0 || signatureVersion > 1)
-			throw new RuntimeException(); // Version error
 		try
 		{
-			int statementProtocolVersion = signatureVersion >= 1 ? 1 : 0;
 			UUIDProtocol uuidProtocol = new UUIDProtocol(0);
 			DateProtocol dateProtocol = new DateProtocol(0);
-			StatementProtocol statementProtocol = new StatementProtocol(statementProtocolVersion, persistenceManager, transaction); //TODO Version 2?
+			StatementProtocol statementProtocol = new StatementProtocol(2, persistenceManager, transaction);
 			Statement statement = getStatement(transaction);
 			statementProtocol.send(out, statement);
 			uuidProtocol.send(out, getAuthorUuid());

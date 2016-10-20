@@ -60,7 +60,7 @@ import aletheia.utilities.aborter.ListenableAborter;
 class ExportImport
 {
 	private static final Logger logger = LoggerManager.instance.logger();
-	private static final int exportVersion = 1;
+	private static final int exportVersion = 2;
 	private static final long transactionTimeout = 10000;
 
 	private final PersistenceManager persistenceManager;
@@ -248,7 +248,7 @@ class ExportImport
 			}
 		}
 
-		StatementProtocol statementProtocol = new StatementProtocol(1, persistenceManager, transaction); //TODO Version 2?
+		StatementProtocol statementProtocol = new StatementProtocol(2, persistenceManager, transaction);
 		StatementAuthorityDelegateTreeProtocol statementAuthorityProtocol = new StatementAuthorityDelegateTreeProtocol(0, persistenceManager, transaction);
 		PersonProtocol personProtocol = new PersonProtocol(0, persistenceManager, transaction);
 
@@ -326,7 +326,7 @@ class ExportImport
 		AborterListener aborterListener = new AborterListener();
 		aborter.addListener(aborterListener);
 		aborterListener.setTransaction(transaction);
-		StatementProtocol statementProtocol = new StatementProtocol(statementProtocolVersion, persistenceManager, transaction); //TODO Version 2?
+		StatementProtocol statementProtocol = new StatementProtocol(statementProtocolVersion, persistenceManager, transaction);
 		StatementAuthorityDelegateTreeProtocol statementAuthorityProtocol = new StatementAuthorityDelegateTreeProtocol(
 				statementAuthorityDelegateTreeProtocolVersion, persistenceManager, transaction);
 		PersonProtocol personProtocol = new PersonProtocol(personProtocolVersion, persistenceManager, transaction);
@@ -381,22 +381,12 @@ class ExportImport
 		logger.info("--> restore:" + recvd);
 	}
 
-	private void import_legacy_v0(DataInput in, ListenableAborter aborter) throws IOException, ProtocolException, AbortException
-	{
-		import_(in, aborter, 0, 0, 0);
-	}
-
 	public void import_(DataInput in, ListenableAborter aborter) throws IOException, ProtocolException, AbortException
 	{
 		int version = versionProtocol.recv(in);
 		if (version != exportVersion)
-		{
-			if (version == 0)
-				import_legacy_v0(in, aborter);
-			else
-				throw new VersionException(version);
-		}
-		import_(in, aborter, 1, 0, 0);
+			throw new VersionException(version);
+		import_(in, aborter, 2, 0, 0);
 	}
 
 }
