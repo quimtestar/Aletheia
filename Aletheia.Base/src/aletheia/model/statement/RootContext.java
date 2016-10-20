@@ -195,7 +195,7 @@ public class RootContext extends Context
 	}
 
 	@Override
-	public void delete(Transaction transaction) throws SignatureIsValidException
+	public void delete(Transaction transaction)
 	{
 		try
 		{
@@ -252,7 +252,7 @@ public class RootContext extends Context
 				else
 					stack.pop();
 			}
-			deleteAuthority(transaction, true);
+			deleteAuthorityForce(transaction);
 			deleteLocal(transaction);
 			Identifier id = identifier(transaction);
 			getPersistenceManager().deleteStatement(transaction, this);

@@ -1260,6 +1260,18 @@ public abstract class Statement implements Exportable
 		deleteAuthority(transaction, false);
 	}
 
+	public void deleteAuthorityForce(Transaction transaction) throws DependentUnpackedSignatureRequests
+	{
+		try
+		{
+			deleteAuthority(transaction, true);
+		}
+		catch (SignatureIsValidException e)
+		{
+			throw new Error(e);
+		}
+	}
+
 	public void deleteAuthority(Transaction transaction, boolean force) throws DependentUnpackedSignatureRequests, SignatureIsValidException
 	{
 		StatementAuthority old = getAuthority(transaction);
