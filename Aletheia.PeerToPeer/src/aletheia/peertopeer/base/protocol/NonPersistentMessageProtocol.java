@@ -27,7 +27,7 @@ import aletheia.peertopeer.base.message.MessageCode;
 import aletheia.protocol.ProtocolInfo;
 
 @ProtocolInfo(availableVersions =
-{ 0, 2 })
+{ 0, 3 })
 public class NonPersistentMessageProtocol extends MessageProtocol
 {
 
@@ -37,8 +37,8 @@ public class NonPersistentMessageProtocol extends MessageProtocol
 		{
 		case 0:
 			return 0;
-		case 2:
-			return 2;
+		case 3:
+			return 3;
 		default:
 			return -1;
 		}

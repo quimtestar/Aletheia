@@ -30,28 +30,15 @@ import aletheia.persistence.Transaction;
 import aletheia.protocol.ProtocolInfo;
 
 @ProtocolInfo(availableVersions =
-{ 0, 2 })
+{ 3 })
 public class PersistentMessageProtocol extends MessageProtocol
 {
-	private static int requiredSuperVersion(int requiredVersion)
-	{
-		switch (requiredVersion)
-		{
-		case 0:
-			return 0;
-		case 2:
-			return 2;
-		default:
-			return -1;
-		}
-	}
-
 	private final PersistenceManager persistenceManager;
 	private final Transaction transaction;
 
 	public PersistentMessageProtocol(int requiredVersion, PersistenceManager persistenceManager, Transaction transaction)
 	{
-		super(requiredSuperVersion(requiredVersion));
+		super(3);
 		checkVersionAvailability(PersistentMessageProtocol.class, requiredVersion);
 		this.persistenceManager = persistenceManager;
 		this.transaction = transaction;
