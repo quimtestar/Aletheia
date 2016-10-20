@@ -19,8 +19,12 @@
  ******************************************************************************/
 package aletheia.persistence;
 
+import java.lang.ref.Reference;
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Stack;
 
@@ -31,29 +35,49 @@ import aletheia.utilities.collections.SoftReferenceStack;
 
 public class PersistenceUndeleteManager
 {
-	private final static int maxBatchSize = 128;
-
+	private final Map<Transaction, Reference<Stack<Statement>>> batchMap;
 	private final ReferenceStack<Stack<Statement>> undeleteStack;
 
 	public PersistenceUndeleteManager()
 	{
+		this.batchMap = new HashMap<>();
 		this.undeleteStack = new SoftReferenceStack<>();
 	}
 
-	public void openBatch()
+	public synchronized void push(Transaction transaction, Statement statement)
 	{
-		undeleteStack.push(new Stack<Statement>());
-	}
-
-	public void push(Statement statement)
-	{
-		Stack<Statement> batch = undeleteStack.peek();
-		if (batch == null || batch.size() >= maxBatchSize)
+		Reference<Stack<Statement>> ref = batchMap.get(transaction);
+		Stack<Statement> batch;
+		if (ref == null)
 		{
 			batch = new Stack<>();
-			undeleteStack.push(batch);
+			ref = new SoftReference<>(batch);
+			batchMap.put(transaction, ref);
+			transaction.runWhenClose(new Transaction.Hook()
+			{
+				@Override
+				public void run(Transaction closedTransaction)
+				{
+					synchronized (PersistenceUndeleteManager.this)
+					{
+						Reference<Stack<Statement>> ref = batchMap.remove(closedTransaction);
+						if (ref != null && closedTransaction.isCommited())
+						{
+							Stack<Statement> batch = ref.get();
+							if (batch != null)
+								undeleteStack.push(batch);
+							else
+								undeleteStack.clear();
+						}
+					}
+
+				}
+			});
 		}
-		batch.push(statement);
+		else
+			batch = ref.get();
+		if (batch != null)
+			batch.push(statement);
 	}
 
 	public class NoElementsUndeleteStatementException extends UndeleteStatementException
@@ -71,7 +95,11 @@ public class PersistenceUndeleteManager
 	{
 		try
 		{
-			Stack<Statement> batch = undeleteStack.pop();
+			Stack<Statement> batch;
+			synchronized (this)
+			{
+				batch = undeleteStack.pop();
+			}
 			List<Statement> list = new ArrayList<>();
 			while (!batch.isEmpty())
 				list.add(batch.pop().undelete(transaction));

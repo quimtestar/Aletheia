@@ -81,5 +81,10 @@ public abstract class ReferenceStack<E>
 	{
 		return top == null || top.get() == null;
 	}
+	
+	public void clear()
+	{
+		top = null;
+	}
 
 }

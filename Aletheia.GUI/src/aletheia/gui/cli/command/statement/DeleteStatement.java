@@ -47,7 +47,6 @@ public class DeleteStatement extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		getPersistenceManager().getUndeleteManager().openBatch();
 		statement.delete(getTransaction());
 		return null;
 	}

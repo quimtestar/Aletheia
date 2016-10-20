@@ -412,7 +412,7 @@ public abstract class PersistenceManager
 	public void deleteStatement(Transaction transaction, Statement statement)
 	{
 		deleteStatement(transaction, statement.getUuid());
-		getUndeleteManager().push(statement);
+		getUndeleteManager().push(transaction, statement);
 	}
 
 	/**
