@@ -8,13 +8,22 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.Stack;
 import java.util.UUID;
 
+import org.apache.logging.log4j.Logger;
+
+import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.StatementAuthority;
+import aletheia.model.authority.UnpackedSignatureRequest;
 import aletheia.model.authority.StatementAuthority.AuthorityWithNoParentException;
+import aletheia.model.authority.StatementAuthority.DependentUnpackedSignatureRequests;
+import aletheia.model.identifier.Identifier;
+import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.local.ContextLocal;
 import aletheia.model.local.StatementLocal;
+import aletheia.model.nomenclator.Nomenclator;
 import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
 import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
@@ -44,10 +53,12 @@ import aletheia.protocol.Protocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.primitive.StringProtocol;
 import aletheia.protocol.primitive.UUIDProtocol;
+import aletheia.utilities.collections.BufferedList;
 import aletheia.utilities.collections.CombinedMap;
 
 public class EntityStoreUpgrade_021 extends EntityStoreUpgrade
 {
+	private static final Logger logger = LoggerManager.instance.logger();
 
 	@Override
 	public Collection<Integer> versions()
@@ -71,7 +82,14 @@ public class EntityStoreUpgrade_021 extends EntityStoreUpgrade
 
 		private Term translateTerm(Map<UUID, UUID> uuidMap, Term term)
 		{
-			return translateTerm(new HashMap<ParameterVariableTerm, ParameterVariableTerm>(), uuidMap, term);
+			try
+			{
+				return translateTerm(new HashMap<ParameterVariableTerm, ParameterVariableTerm>(), uuidMap, term);
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
 		}
 
 		private Term translateTerm(Map<ParameterVariableTerm, ParameterVariableTerm> paramMap, Map<UUID, UUID> uuidMap, Term term)
@@ -82,9 +100,12 @@ public class EntityStoreUpgrade_021 extends EntityStoreUpgrade
 				{
 					FunctionTerm fTerm = (FunctionTerm) term;
 					ParameterVariableTerm par = new ParameterVariableTerm(translateTerm(paramMap, uuidMap, fTerm.getParameter().getType()));
-					paramMap.put(fTerm.getParameter(), par);
+					ParameterVariableTerm oldPar = paramMap.put(fTerm.getParameter(), par);
 					Term body = translateTerm(paramMap, uuidMap, fTerm.getBody());
-					paramMap.remove(fTerm.getParameter());
+					if (oldPar == null)
+						paramMap.remove(fTerm.getParameter());
+					else
+						paramMap.put(fTerm.getParameter(), oldPar);
 					return new FunctionTerm(par, body);
 				}
 				else if (term instanceof SimpleTerm)
@@ -183,11 +204,21 @@ public class EntityStoreUpgrade_021 extends EntityStoreUpgrade
 				StatementAuthority stAuthO = stO.getAuthority(transaction);
 				if (stAuthO != null)
 					stD.createAuthorityOverwrite(transaction, stAuthO.getAuthor(transaction), stAuthO.getCreationDate());
+				else
+				{
+					StatementAuthority stAuthD = stD.getAuthority(transaction);
+					if (stAuthD != null)
+					{
+						for (UnpackedSignatureRequest usr : stAuthD.dependentUnpackedSignatureRequests(transaction))
+							usr.delete(transaction);
+					}
+					stD.deleteAuthorityForce(transaction);
+				}
 
 			}
-			catch (AuthorityWithNoParentException e)
+			catch (AuthorityWithNoParentException | DependentUnpackedSignatureRequests e)
 			{
-				throw new RuntimeException();
+				throw new RuntimeException(e);
 			}
 
 			try
@@ -204,6 +235,8 @@ public class EntityStoreUpgrade_021 extends EntityStoreUpgrade
 						ctxLocD.setSubscribeStatements(transaction, ctxLocO.isSubscribeStatements());
 					}
 				}
+				else
+					stD.deleteLocal(transaction);
 
 			}
 			finally
@@ -213,17 +246,106 @@ public class EntityStoreUpgrade_021 extends EntityStoreUpgrade
 
 		}
 
+		private void deleteRootContext(BerkeleyDBPersistenceManager persistenceManager, RootContext rootCtx)
+		{
+			Transaction transaction = persistenceManager.beginTransaction();
+			try
+			{
+				int i = 0;
+				for (UnpackedSignatureRequest unpackedSignatureRequest : rootCtx.unpackedSignatureRequestSetByPath(transaction))
+					unpackedSignatureRequest.delete(transaction);
+				Stack<Statement> stack = new Stack<>();
+				stack.addAll(rootCtx.localStatements(transaction).values());
+				while (!stack.isEmpty())
+				{
+					logger.trace("---> deleting context: " + rootCtx.getIdentifier() + ": " + stack.size() + ": " + i);
+					Statement st = stack.peek();
+					if (persistenceManager.statements(transaction).containsKey(st.getVariable()))
+					{
+						boolean pushed = false;
+						if (st instanceof Context)
+						{
+							Collection<Statement> locals = ((Context) st).localStatements(transaction).values();
+							if (!locals.isEmpty())
+							{
+								stack.addAll(locals);
+								pushed = true;
+							}
+						}
+						Set<Statement> dependents = st.dependents(transaction);
+						if (!dependents.isEmpty())
+						{
+							stack.addAll(dependents);
+							pushed = true;
+						}
+						if (!pushed)
+						{
+							stack.pop();
+							st.deleteLocal(transaction);
+							StatementAuthority stAuth = st.getAuthority(transaction);
+							if (stAuth != null)
+								stAuth.deleteNoCheckSignedProof(transaction);
+							persistenceManager.deleteStatement(transaction, st);
+							i++;
+							if (i % 1000 == 0)
+							{
+								transaction.commit();
+								transaction = persistenceManager.beginTransaction();
+							}
+						}
+					}
+					else
+						stack.pop();
+				}
+				rootCtx.deleteAuthorityForce(transaction);
+				rootCtx.deleteLocal(transaction);
+				persistenceManager.deleteStatement(transaction, rootCtx);
+				transaction.commit();
+			}
+			catch (DependentUnpackedSignatureRequests e)
+			{
+				throw new Error(e);
+			}
+			finally
+			{
+				transaction.abort();
+			}
+		}
+
 		@Override
 		protected void postProcessing(BerkeleyDBPersistenceManager persistenceManager)
 		{
 			Transaction transaction = persistenceManager.beginTransaction();
 			try
 			{
-				for (RootContext rootCtx : persistenceManager.rootContexts(transaction).values())
+
+				Map<UUID, UUID> rootCtxUuidMap;
 				{
-					RootContext newRootCtx = RootContext.create(persistenceManager, transaction, translateUuid(rootCtx.getUuid()), rootCtx.getTerm());
-					newRootCtx.identify(transaction, rootCtx.getIdentifier());
+					rootCtxUuidMap = new HashMap<>();
+					Map<UUID, UUID> revmap = new HashMap<>();
+					for (RootContext rootCtx : persistenceManager.rootContexts(transaction).values())
+					{
+						UUID newUuid = translateUuid(rootCtx.getUuid());
+						revmap.remove(rootCtxUuidMap.remove(newUuid));
+						if (!revmap.containsKey(rootCtx.getUuid()))
+						{
+							rootCtxUuidMap.put(rootCtx.getUuid(), newUuid);
+							revmap.put(newUuid, rootCtx.getUuid());
+						}
+					}
+				}
+
+				for (Map.Entry<UUID, UUID> e0 : rootCtxUuidMap.entrySet())
+				{
+					RootContext rootCtx = persistenceManager.getRootContext(transaction, e0.getKey());
+					RootContext newRootCtx = persistenceManager.getRootContext(transaction, e0.getValue());
+					if (newRootCtx == null)
+					{
+						newRootCtx = RootContext.create(persistenceManager, transaction, translateUuid(rootCtx.getUuid()), rootCtx.getTerm());
+						newRootCtx.identify(transaction, new Identifier(rootCtx.getIdentifier(), "generating_EntityStoreUpgrade_021"));
+					}
 					copyStatementExtras(transaction, rootCtx, newRootCtx);
+
 					class StackEntry
 					{
 						final Context ctxO;
@@ -239,66 +361,90 @@ public class EntityStoreUpgrade_021 extends EntityStoreUpgrade
 						}
 					}
 					;
+
 					Stack<StackEntry> stack = new Stack<>();
 					stack.push(new StackEntry(rootCtx, newRootCtx, Collections.singletonMap(rootCtx.getUuid(), newRootCtx.getUuid())));
+					int i = 0;
 					while (!stack.isEmpty())
 					{
 						StackEntry se = stack.pop();
 						Map<UUID, UUID> frontUuidMap = new HashMap<>();
 						Map<UUID, UUID> uuidMap = new CombinedMap<>(frontUuidMap, se.uuidMap);
-						for (Statement stO : se.ctxO.localDependencySortedStatements(transaction))
+						for (Statement stO : new BufferedList<>(se.ctxO.localDependencySortedStatements(transaction)))
 						{
+							logger.trace("---> transforming " + rootCtx.getIdentifier() + ": " + i);
 							UUID uuidD = translateUuid(stO.getUuid());
-							Statement stD;
-							if (stO instanceof Assumption)
+							Statement stD = persistenceManager.getStatement(transaction, uuidD);
+							if (stD == null)
 							{
-								Assumption asO = (Assumption) stO;
-								stD = se.ctxD.assumptions(transaction).get(asO.getOrder());
-							}
-							else if (stO instanceof Specialization)
-							{
-								Specialization spcO = (Specialization) stO;
-								Statement genD = persistenceManager.getStatement(transaction, uuidMap.get(spcO.getGeneralUuid()));
-								Term instanceD = translateTerm(uuidMap, spcO.getInstance());
-								stD = se.ctxD.specialize(transaction, uuidD, genD, instanceD);
-							}
-							else if (stO instanceof Context)
-							{
-								Context ctxO = (Context) stO;
-								Term termD = translateTerm(uuidMap, ctxO.getTerm());
-								if (stO instanceof UnfoldingContext)
+								if (stO instanceof Assumption)
 								{
-									UnfoldingContext unfO = (UnfoldingContext) stO;
-									Declaration decD = persistenceManager.getDeclaration(transaction, uuidMap.get(unfO.getDeclarationUuid()));
-									stD = se.ctxD.openUnfoldingSubContext(transaction, uuidD, termD, decD);
+									Assumption asO = (Assumption) stO;
+									stD = se.ctxD.assumptions(transaction).get(asO.getOrder());
 								}
-								else if (stO instanceof Declaration)
+								else if (stO instanceof Specialization)
 								{
-									Declaration decO = (Declaration) stO;
-									Term valD = translateTerm(uuidMap, decO.getValue());
-									stD = se.ctxD.declare(transaction, uuidD, valD);
+									Specialization spcO = (Specialization) stO;
+									Statement genD = persistenceManager.getStatement(transaction, uuidMap.get(spcO.getGeneralUuid()));
+									Term instanceD = translateTerm(uuidMap, spcO.getInstance());
+									stD = se.ctxD.specialize(transaction, uuidD, genD, instanceD);
+
 								}
-								else if (stO instanceof RootContext)
-									throw new RuntimeException();
+								else if (stO instanceof Context)
+								{
+									Context ctxO = (Context) stO;
+									Term termD = translateTerm(uuidMap, ctxO.getTerm());
+									if (stO instanceof UnfoldingContext)
+									{
+										UnfoldingContext unfO = (UnfoldingContext) stO;
+										Declaration decD = persistenceManager.getDeclaration(transaction, uuidMap.get(unfO.getDeclarationUuid()));
+										stD = se.ctxD.openUnfoldingSubContext(transaction, uuidD, termD, decD);
+									}
+									else if (stO instanceof Declaration)
+									{
+										Declaration decO = (Declaration) stO;
+										Term valD = translateTerm(uuidMap, decO.getValue());
+										stD = se.ctxD.declare(transaction, uuidD, valD);
+									}
+									else if (stO instanceof RootContext)
+										throw new RuntimeException();
+									else
+									{
+										stD = se.ctxD.openSubContext(transaction, uuidD, termD);
+									}
+								}
 								else
-								{
-									stD = se.ctxD.openSubContext(transaction, uuidD, termD);
-								}
-								stack.push(new StackEntry(ctxO, (Context) stD, uuidMap));
+									throw new Error();
 							}
-							else
-								throw new Error();
+							if (stO instanceof Context)
+								stack.push(new StackEntry((Context) stO, (Context) stD, uuidMap));
 							frontUuidMap.put(stO.getUuid(), stD.getUuid());
-							if (stO.getIdentifier() != null)
+							if (stO.getIdentifier() != null && !stO.getIdentifier().equals(stD.getIdentifier()))
+							{
+								stD.unidentify(transaction);
+								Nomenclator nomenclator = stD.getParentNomenclator(transaction);
+								if (nomenclator.isLocalIdentifier(stO.getIdentifier()))
+									nomenclator.unidentifyStatement(stO.getIdentifier(), true);
 								stD.identify(transaction, stO.getIdentifier());
+							}
 							copyStatementExtras(transaction, stO, stD);
+							i++;
+							if (i % 1000 == 0)
+							{
+								transaction.commit();
+								transaction = persistenceManager.beginTransaction();
+							}
 						}
 					}
-					rootCtx.delete(transaction);
+					transaction.commit();
+					transaction = persistenceManager.beginTransaction();
+					deleteRootContext(persistenceManager, rootCtx);
+					newRootCtx.unidentify(transaction, true);
+					newRootCtx.identify(transaction, rootCtx.getIdentifier());
 				}
 				transaction.commit();
 			}
-			catch (StatementException | NomenclatorException e)
+			catch (StatementException | NomenclatorException | InvalidNameException e)
 			{
 				throw new RuntimeException(e);
 			}
