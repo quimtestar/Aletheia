@@ -53,6 +53,7 @@ import aletheia.protocol.Protocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.primitive.StringProtocol;
 import aletheia.protocol.primitive.UUIDProtocol;
+import aletheia.security.utilities.SecurityUtilities;
 import aletheia.utilities.collections.BufferedList;
 import aletheia.utilities.collections.CombinedMap;
 
@@ -193,8 +194,7 @@ public class EntityStoreUpgrade_021 extends EntityStoreUpgrade
 
 			}
 
-			return UUID.nameUUIDFromBytes(new UUIDGenerationProtocol().toByteArray(uuid));
-
+			return SecurityUtilities.instance.objectToUUID(uuid, new UUIDGenerationProtocol());
 		}
 
 		private void copyStatementExtras(Transaction transaction, Statement stO, Statement stD)

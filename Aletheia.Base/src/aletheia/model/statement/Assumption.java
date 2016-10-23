@@ -33,6 +33,7 @@ import aletheia.protocol.Protocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.primitive.ByteProtocol;
 import aletheia.protocol.primitive.UUIDProtocol;
+import aletheia.security.utilities.SecurityUtilities;
 
 /**
  * <p>
@@ -99,7 +100,7 @@ public class Assumption extends Statement
 
 		}
 
-		return UUID.nameUUIDFromBytes(new UUIDGenerationProtocol().toByteArray(new UUIDGenerationData(contextUuid, order)));
+		return SecurityUtilities.instance.objectToUUID(new UUIDGenerationData(contextUuid, order), new UUIDGenerationProtocol());
 	}
 
 	/**
