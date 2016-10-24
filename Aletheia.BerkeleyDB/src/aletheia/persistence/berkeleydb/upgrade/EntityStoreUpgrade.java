@@ -61,17 +61,6 @@ public abstract class EntityStoreUpgrade
 	// @formatter:off
 	private static final Class<? extends EntityStoreUpgrade>[] upgradeClasses = (Class<? extends EntityStoreUpgrade>[]) new Class<?>[]
 			{
-		EntityStoreUpgrade_000.class,
-		EntityStoreUpgrade_001.class,
-		EntityStoreUpgrade_002.class,
-		EntityStoreUpgrade_003.class,
-		EntityStoreUpgrade_004.class,
-		EntityStoreUpgrade_005.class,
-		EntityStoreUpgrade_014.class,
-		EntityStoreUpgrade_016.class,
-		EntityStoreUpgrade_017.class,
-		EntityStoreUpgrade_018.class,
-		EntityStoreUpgrade_020.class,
 		EntityStoreUpgrade_021.class,
 			};
 	// @formatter:on
