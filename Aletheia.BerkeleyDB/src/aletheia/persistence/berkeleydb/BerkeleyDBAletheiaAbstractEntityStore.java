@@ -92,11 +92,6 @@ public abstract class BerkeleyDBAletheiaAbstractEntityStore extends EntityStore
 		return Integer.MIN_VALUE;
 	}
 
-	public int maximalStoreVersion()
-	{
-		return Integer.MAX_VALUE;
-	}
-
 	public class UnsupportedBerkeleyDBStoreVersion extends RuntimeException
 	{
 		private static final long serialVersionUID = 8090100720123016127L;
@@ -112,7 +107,7 @@ public abstract class BerkeleyDBAletheiaAbstractEntityStore extends EntityStore
 		BerkeleyDBAletheiaEnvironment environment = getEnvironment();
 		String storeName = getStoreName();
 		int currentStoreVersion = environment.getStoreVersion(storeName);
-		if (currentStoreVersion >= 0 && (currentStoreVersion < minimalStoreVersion() || currentStoreVersion > maximalStoreVersion()))
+		if (currentStoreVersion >= 0 && (currentStoreVersion < minimalStoreVersion() || currentStoreVersion > storeVersion()))
 			throw new UnsupportedBerkeleyDBStoreVersion(currentStoreVersion);
 		if (currentStoreVersion != storeVersion())
 			environment.putStoreVersion(storeName, storeVersion());
