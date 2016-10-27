@@ -29,6 +29,7 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.FunctionTerm;
+import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.Term;
@@ -105,12 +106,31 @@ public class NewAuto extends NewStatement
 			{
 				Statement solver = null;
 				Term type_ = type.unproject();
-				for (Statement stsol : new ReverseList<>(new BufferedList<>(context.statementsByTerm(getTransaction()).get(type_))))
 				{
-					if (stsol.isProved())
+					Iterator<Term> hi = hints.iterator();
+					while (hi.hasNext())
 					{
-						solver = stsol;
-						break;
+						Term hint = hi.next();
+						if ((hint instanceof IdentifiableVariableTerm) && hint.getType().equals(type_))
+						{
+							solver = context.statements(getTransaction()).get(hint);
+							if (solver != null)
+							{
+								hi.remove();
+								break;
+							}
+						}
+					}
+				}
+				if (solver == null)
+				{
+					for (Statement stsol : new ReverseList<>(new BufferedList<>(context.statementsByTerm(getTransaction()).get(type_))))
+					{
+						if (stsol.isProved())
+						{
+							solver = stsol;
+							break;
+						}
 					}
 				}
 				if (solver == null)
