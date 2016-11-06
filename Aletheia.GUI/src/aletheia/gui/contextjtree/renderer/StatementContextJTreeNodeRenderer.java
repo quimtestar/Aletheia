@@ -284,6 +284,7 @@ public abstract class StatementContextJTreeNodeRenderer<S extends Statement> ext
 			addSpaceLabel();
 			this.editableTextLabelComponent = addEditableTextLabelComponent();
 			addColonLabel();
+			addSpaceLabel();
 			addTerm(transaction, statement);
 
 			this.listener = new Listener();
