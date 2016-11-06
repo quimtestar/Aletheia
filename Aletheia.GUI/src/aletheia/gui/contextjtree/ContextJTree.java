@@ -385,8 +385,6 @@ public class ContextJTree extends PersistentJTree
 						sl.consequentSelected(ctx);
 				}
 			}
-			else
-				throw new Error();
 		}
 
 	}
