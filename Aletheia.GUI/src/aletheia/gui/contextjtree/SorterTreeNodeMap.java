@@ -23,6 +23,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 
+import org.apache.logging.log4j.Logger;
+
 import aletheia.gui.contextjtree.node.ContextSorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.RootContextGroupSorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.SorterContextJTreeNode;
@@ -35,6 +37,7 @@ import aletheia.gui.contextjtree.sorter.RootContextGroupSorter;
 import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.gui.contextjtree.sorter.StatementGroupSorter;
 import aletheia.gui.contextjtree.sorter.StatementSorter;
+import aletheia.log4j.LoggerManager;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
@@ -42,6 +45,8 @@ import aletheia.persistence.Transaction;
 
 public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterContextJTreeNode>
 {
+	private final static Logger logger = LoggerManager.instance.logger();
+
 	private final ContextJTreeModel model;
 	private final Map<Statement, StatementContextJTreeNode> byStatementMap;
 
@@ -184,6 +189,7 @@ public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterContextJ
 		}
 		else
 			throw new Error();
+		logger.trace("Removed sorter: " + sorter);
 	}
 
 	public synchronized boolean isCachedByStatement(Statement statement)
