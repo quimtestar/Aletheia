@@ -33,6 +33,7 @@ import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
+import aletheia.model.statement.Declaration;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.CloseableIterator;
@@ -72,7 +73,7 @@ public class Useless extends TransactionalCommand
 			Statement st = stack.pop();
 			if (unused.contains(st))
 				continue loop;
-			if (st instanceof Assumption && !context.equals(st.getContext(getTransaction())))
+			if (st instanceof Assumption && (context instanceof Declaration || !context.equals(st.getContext(getTransaction()))))
 				continue loop;
 			if (st.isProved())
 			{
