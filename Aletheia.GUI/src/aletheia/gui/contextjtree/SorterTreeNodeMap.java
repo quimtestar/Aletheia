@@ -45,6 +45,7 @@ import aletheia.persistence.Transaction;
 
 public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterContextJTreeNode>
 {
+	@SuppressWarnings("unused")
 	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final ContextJTreeModel model;
@@ -189,7 +190,7 @@ public class SorterTreeNodeMap extends GenericTreeNodeMap<Sorter, SorterContextJ
 		}
 		else
 			throw new Error();
-		logger.trace("Removed sorter: " + sorter);
+		//logger.trace("Removed sorter: " + sorter);
 	}
 
 	public synchronized boolean isCachedByStatement(Statement statement)
