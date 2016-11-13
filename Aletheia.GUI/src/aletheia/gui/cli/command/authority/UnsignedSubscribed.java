@@ -36,11 +36,13 @@ import aletheia.persistence.Transaction;
 public class UnsignedSubscribed extends TransactionalCommand
 {
 	private final Context context;
+	private final boolean proof;
 
-	public UnsignedSubscribed(CommandSource from, Transaction transaction, Context context)
+	public UnsignedSubscribed(CommandSource from, Transaction transaction, Context context, boolean proof)
 	{
 		super(from, transaction);
 		this.context = context;
+		this.proof = proof;
 	}
 
 	@Override
@@ -58,7 +60,7 @@ public class UnsignedSubscribed extends TransactionalCommand
 			for (Statement st : cl.getStatement(getTransaction()).localSortedStatements(getTransaction()))
 			{
 				StatementAuthority stAuth = st.getAuthority(getTransaction());
-				if (stAuth == null || !stAuth.isValidSignature())
+				if (stAuth == null || (!proof && !stAuth.isValidSignature()) || (proof && !stAuth.isSignedProof()))
 					getOut().println(" -> " + st.statementPathString(getTransaction(), getActiveContext()) + " " + (st.isProved() ? "\u2713" : ""));
 				if (st instanceof Context)
 				{
@@ -86,6 +88,7 @@ public class UnsignedSubscribed extends TransactionalCommand
 			try
 			{
 				checkMinParameters(split);
+				boolean proof = split.remove("-proof");
 				Context context;
 				if (split.size() > 0)
 				{
@@ -102,7 +105,7 @@ public class UnsignedSubscribed extends TransactionalCommand
 					if (context == null)
 						throw new NotActiveContextException();
 				}
-				return new UnsignedSubscribed(from, transaction, context);
+				return new UnsignedSubscribed(from, transaction, context, proof);
 			}
 			catch (NotActiveContextException e)
 			{
@@ -113,7 +116,7 @@ public class UnsignedSubscribed extends TransactionalCommand
 		@Override
 		protected String paramSpec()
 		{
-			return "[<context>]";
+			return "[<context>] [-proof]";
 		}
 
 		@Override
