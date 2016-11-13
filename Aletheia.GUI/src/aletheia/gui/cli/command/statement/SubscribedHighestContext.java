@@ -93,14 +93,14 @@ public class SubscribedHighestContext extends TransactionalCommand
 			Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 			if (!(statement instanceof Context))
 				throw new CommandParseException("Not a context.");
-			boolean unsigned = split.size() > 1 && split.get(1).equals("unsigned");
+			boolean unsigned = split.size() > 1 && split.get(1).equals("-unsigned");
 			return new SubscribedHighestContext(from, transaction, (Context) statement, unsigned);
 		}
 
 		@Override
 		protected String paramSpec()
 		{
-			return "<context> [unsigned]";
+			return "<context> [-unsigned]";
 		}
 
 		@Override
