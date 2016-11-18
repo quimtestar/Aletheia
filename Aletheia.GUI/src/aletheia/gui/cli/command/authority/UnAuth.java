@@ -61,17 +61,17 @@ public class UnAuth extends TransactionalCommand
 		public UnAuth parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
+			boolean force = split.remove("-force");
 			Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 			if (statement == null)
 				throw new CommandParseException("Invalid statement");
-			boolean force = split.size() > 1 && split.get(1).equals("force");
 			return new UnAuth(from, transaction, statement, force);
 		}
 
 		@Override
 		protected String paramSpec()
 		{
-			return "<statement> [force]";
+			return "[-force] <statement>";
 		}
 
 		@Override
