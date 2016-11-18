@@ -38,7 +38,7 @@ import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.BufferedList;
 import aletheia.utilities.collections.ReverseList;
 
-@TaggedCommand(tag = "auto", groupPath = "/statement", factory = NewAuto.Factory.class)
+@TaggedCommand(tag = "auto", factory = NewAuto.Factory.class)
 public class NewAuto extends NewStatement
 {
 	private final Context context;
