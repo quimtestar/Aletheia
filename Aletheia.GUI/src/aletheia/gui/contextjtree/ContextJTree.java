@@ -707,6 +707,11 @@ public class ContextJTree extends PersistentJTree
 		selectTreePath(getModel().pathForContextConsequent(context), edit);
 	}
 
+	public void selectSorter(Sorter sorter, boolean edit)
+	{
+		selectTreePath(getModel().pathForSorter(sorter), edit);
+	}
+
 	private void selectTreePath(TreePath path, boolean edit)
 	{
 		cancelEditing();
@@ -719,6 +724,13 @@ public class ContextJTree extends PersistentJTree
 	public void expandStatement(Statement statement)
 	{
 		TreePath path = getModel().pathForStatement(statement);
+		if (path != null)
+			expandPath(path);
+	}
+
+	public void expandSorter(Sorter sorter)
+	{
+		TreePath path = getModel().pathForSorter(sorter);
 		if (path != null)
 			expandPath(path);
 	}
@@ -774,7 +786,7 @@ public class ContextJTree extends PersistentJTree
 	{
 		ContextJTreeNode node = getSelectedNode();
 		if (node instanceof SorterContextJTreeNode)
-			return ((SorterContextJTreeNode) node).getSorter();
+			return ((SorterContextJTreeNode) node).getNodeMapSorter();
 		else
 			return null;
 	}
@@ -848,9 +860,14 @@ public class ContextJTree extends PersistentJTree
 		return listener;
 	}
 
-	public void scrollToVisible(Statement statement)
+	public void scrollStatementToVisible(Statement statement)
 	{
 		scrollPathToVisible(getModel().pathForStatement(statement));
+	}
+
+	public void scrollSorterToVisible(Sorter sorter)
+	{
+		scrollPathToVisible(getModel().pathForSorter(sorter));
 	}
 
 	public void scrollToVisibleConsequent(Context context)

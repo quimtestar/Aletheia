@@ -73,6 +73,8 @@ public interface CommandSource
 
 	void nodeStructureReset(Context context);
 
+	void resetGui();
+
 	void clear();
 
 	void collapseAll(Context context);

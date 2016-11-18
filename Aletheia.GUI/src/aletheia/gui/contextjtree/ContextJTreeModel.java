@@ -203,6 +203,14 @@ public class ContextJTreeModel extends PersistentTreeModel
 		return node.getConsequentNode().path();
 	}
 
+	public synchronized TreePath pathForSorter(Sorter sorter)
+	{
+		SorterContextJTreeNode node = nodeMap.get(sorter);
+		if (node == null)
+			return null;
+		return node.path();
+	}
+
 	private synchronized StatementContextJTreeNode deleteStatement(Statement statement)
 	{
 		return nodeMap.cachedByStatement(statement);
@@ -1199,7 +1207,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 							if (!statement.isProved())
 								contextJTree.expandStatement(statement);
 							contextJTree.selectStatement(statement, false);
-							contextJTree.scrollToVisible(statement);
+							contextJTree.scrollStatementToVisible(statement);
 						}
 					}
 					catch (PersistenceLockTimeoutException e)

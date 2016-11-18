@@ -167,6 +167,11 @@ public abstract class Command
 		from.nodeStructureReset(context);
 	}
 
+	protected void resetGui()
+	{
+		from.resetGui();
+	}
+
 	protected void clear()
 	{
 		from.clear();

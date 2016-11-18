@@ -186,6 +186,12 @@ public abstract class AletheiaCliConsole implements CommandSource
 	}
 
 	@Override
+	public void resetGui()
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
 	public void clear()
 	{
 		throw new UnsupportedOperationException();

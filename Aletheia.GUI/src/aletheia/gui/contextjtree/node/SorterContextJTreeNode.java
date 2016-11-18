@@ -52,7 +52,6 @@ public abstract class SorterContextJTreeNode extends ContextJTreeNode
 	@Override
 	public GroupSorterContextJTreeNode<? extends Statement> getParent()
 	{
-
 		Sorter parentSorter = parentSorter();
 		if (parentSorter instanceof RootGroupSorter)
 			return getModel().getRootTreeNode();

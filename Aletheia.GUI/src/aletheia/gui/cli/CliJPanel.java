@@ -2268,6 +2268,19 @@ public class CliJPanel extends JPanel implements CommandSource
 	}
 
 	@Override
+	public void resetGui()
+	{
+		try
+		{
+			aletheiaJPanel.getContextJTreeJPanel().resetContextJTree();
+		}
+		catch (InterruptedException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
 	public void collapseAll(Context context)
 	{
 		aletheiaJPanel.getContextJTree().collapseAll(context);

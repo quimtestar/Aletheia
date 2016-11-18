@@ -28,6 +28,7 @@ import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.gui.app.AletheiaJPanel;
 import aletheia.gui.authority.AuthorityJPanel;
 import aletheia.gui.common.FocusBorderManager;
+import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.PersistenceManager;
 import aletheia.utilities.gui.MyJSplitPane;
@@ -37,9 +38,9 @@ public class ContextJTreeJPanel extends JPanel
 	private static final long serialVersionUID = -720616063280427500L;
 
 	private final AletheiaJPanel aletheiaJPanel;
-	private final ContextJTree contextJTree;
-	private final JScrollPane contextJTreeScrollPane;
-	private final FocusBorderManager contextJTreeFocusBorderManager;
+	private ContextJTree contextJTree;
+	private JScrollPane contextJTreeScrollPane;
+	private FocusBorderManager contextJTreeFocusBorderManager;
 	private final AuthorityJPanel authorityJPanel;
 	private final MyJSplitPane splitPane1;
 
@@ -74,19 +75,19 @@ public class ContextJTreeJPanel extends JPanel
 		return aletheiaJPanel.getPersistenceManager();
 	}
 
-	public ContextJTree getContextJTree()
+	public synchronized ContextJTree getContextJTree()
 	{
 		return contextJTree;
 	}
 
-	public void close() throws InterruptedException
+	public synchronized void close() throws InterruptedException
 	{
 		contextJTree.close();
 		contextJTreeFocusBorderManager.close();
 		authorityJPanel.close();
 	}
 
-	public void updateFontSize()
+	public synchronized void updateFontSize()
 	{
 		contextJTree.updateFontSize();
 		authorityJPanel.updateFontSize();
@@ -100,12 +101,48 @@ public class ContextJTreeJPanel extends JPanel
 			@Override
 			public void run()
 			{
-				contextJTree.selectStatement(statement, false);
-				contextJTree.expandStatement(statement);
-				contextJTree.scrollToVisible(statement);
+				synchronized (ContextJTreeJPanel.this)
+				{
+					contextJTree.selectStatement(statement, false);
+					contextJTree.expandStatement(statement);
+					contextJTree.scrollStatementToVisible(statement);
+				}
 			}
 
 		});
+	}
+
+	public void selectSorter(final Sorter sorter)
+	{
+		SwingUtilities.invokeLater(new Runnable()
+		{
+
+			@Override
+			public void run()
+			{
+				synchronized (ContextJTreeJPanel.this)
+				{
+					contextJTree.selectSorter(sorter, false);
+					contextJTree.scrollSorterToVisible(sorter);
+				}
+			}
+
+		});
+	}
+
+	public synchronized void resetContextJTree() throws InterruptedException
+	{
+		Sorter selected = contextJTree.getSelectedSorter();
+		contextJTree.close();
+		contextJTreeFocusBorderManager.close();
+		contextJTree = new ContextJTree(aletheiaJPanel);
+		if (selected != null)
+			selectSorter(selected);
+		contextJTreeScrollPane = new JScrollPane(contextJTree);
+		contextJTreeFocusBorderManager = new FocusBorderManager(contextJTreeScrollPane, contextJTree);
+		double dl = splitPane1.getProportionalDividerLocation();
+		splitPane1.setTopComponent(contextJTreeScrollPane);
+		splitPane1.setDividerLocationOrCollapse(dl);
 	}
 
 }
