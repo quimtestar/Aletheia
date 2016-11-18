@@ -696,7 +696,7 @@ public class CatalogTreeModel extends PersistentTreeModel
 		return rootNode.getCatalog();
 	}
 
-	public void setRootCatalog(RootCatalog rootCatalog)
+	public synchronized void setRootCatalog(RootCatalog rootCatalog)
 	{
 		if (rootNode.getCatalog() != rootCatalog)
 		{
@@ -784,6 +784,20 @@ public class CatalogTreeModel extends PersistentTreeModel
 	public void cleanRenderers()
 	{
 		rootNode.cleanRenderers();
+	}
+
+	public synchronized TreePath pathForPrefix(Namespace prefix)
+	{
+		CatalogTreeNode node = rootNode;
+		for (NodeNamespace p : prefix.prefixList())
+		{
+			if (node == null)
+				return null;
+			node = node.getChild(p);
+		}
+		if (node == null)
+			return null;
+		return node.path();
 	}
 
 }

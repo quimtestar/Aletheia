@@ -33,6 +33,7 @@ import javax.swing.tree.TreePath;
 
 import aletheia.model.catalog.Catalog;
 import aletheia.model.catalog.SubCatalog;
+import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.persistence.Transaction;
 
@@ -236,7 +237,7 @@ public abstract class CatalogTreeNode implements TreeNode
 	@Override
 	public String toString()
 	{
-		return getCatalog().prefix().toString();
+		return prefix().toString();
 	}
 
 	protected void cleanRenderers()
@@ -247,6 +248,11 @@ public abstract class CatalogTreeNode implements TreeNode
 			for (SubCatalogTreeNode node : refChildren.get().list)
 				node.cleanRenderers();
 		}
+	}
+
+	public Namespace prefix()
+	{
+		return getCatalog().prefix();
 	}
 
 }

@@ -1124,10 +1124,10 @@ public class CliJPanel extends JPanel implements CommandSource
 	private final ActiveContextJLabel activeContextJLabel;
 	private final MyStatementStateListener statementStateListener;
 	private final MyJSplitPane splitPane;
-	private final CatalogJTree catalogJTree;
-	private final PersistentJTreeLayerUI<CatalogJTree> catalogJTreeLayerUI;
-	private final JScrollPane catalogJTreeScrollPane;
-	private final FocusBorderManager catalogJTreeFocusBorderManager;
+	private CatalogJTree catalogJTree;
+	private PersistentJTreeLayerUI<CatalogJTree> catalogJTreeLayerUI;
+	private JScrollPane catalogJTreeScrollPane;
+	private FocusBorderManager catalogJTreeFocusBorderManager;
 	private final CommandHistory commandHistory;
 	private final BracketHighLightManager bracketHighLightManager;
 
@@ -1253,7 +1253,7 @@ public class CliJPanel extends JPanel implements CommandSource
 	}
 
 	@Override
-	public void setActiveContext(Context activeContext)
+	public synchronized void setActiveContext(Context activeContext)
 	{
 		if (((activeContext == null) != (this.activeContext == null)) || (activeContext != null && !activeContext.equals(this.activeContext)))
 		{
@@ -1307,10 +1307,10 @@ public class CliJPanel extends JPanel implements CommandSource
 		textPaneFocusBorderManager.close();
 		readerThread.close();
 		controller.removeCliJPanel(this);
-		catalogJTree.close();
-		catalogJTreeFocusBorderManager.close();
 		synchronized (this)
 		{
+			catalogJTree.close();
+			catalogJTreeFocusBorderManager.close();
 			if (consolePrintWriter != null)
 				consolePrintWriter.close();
 		}
@@ -1421,7 +1421,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		controller.command(command);
 	}
 
-	public void updateFontSize()
+	public synchronized void updateFontSize()
 	{
 		Font font = FontManager.instance.defaultFont();
 		setFont(font);
@@ -2168,7 +2168,7 @@ public class CliJPanel extends JPanel implements CommandSource
 	}
 
 	@Override
-	public void lock(Collection<? extends Transaction> owners)
+	public synchronized void lock(Collection<? extends Transaction> owners)
 	{
 		catalogJTreeLayerUI.lock(owners);
 	}
@@ -2273,6 +2273,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		try
 		{
 			aletheiaJPanel.getContextJTreeJPanel().resetContextJTree();
+			resetCatalogJTree();
 		}
 		catch (InterruptedException e)
 		{
@@ -2353,6 +2354,46 @@ public class CliJPanel extends JPanel implements CommandSource
 			consolePrintWriter = null;
 		else
 			consolePrintWriter = new PrintWriter(new FileOutputStream(file, true), true);
+	}
+
+	public synchronized void resetCatalogJTree() throws InterruptedException
+	{
+		Namespace selected = catalogJTree.getSelectedPrefix();
+		catalogJTree.close();
+		catalogJTreeFocusBorderManager.close();
+		catalogJTree = new CatalogJTree(this);
+		if (activeContext != null)
+			this.catalogJTree.setRootCatalog(activeContext.catalog());
+		else
+			this.catalogJTree.setRootCatalog(null);
+		if (selected != null)
+			selectPrefix(selected);
+		catalogJTreeLayerUI = new PersistentJTreeLayerUI<>(aletheiaJPanel.getAletheiaJFrame(), catalogJTree);
+		catalogJTreeScrollPane = new JScrollPane(catalogJTreeLayerUI.getJLayer());
+		catalogJTreeFocusBorderManager = new FocusBorderManager(catalogJTreeScrollPane, catalogJTree);
+		catalogJTreeScrollPane = new JScrollPane(catalogJTree);
+		catalogJTreeFocusBorderManager = new FocusBorderManager(catalogJTreeScrollPane, catalogJTree);
+		double dl = splitPane.getProportionalDividerLocation();
+		splitPane.setRightComponent(catalogJTreeScrollPane);
+		splitPane.setDividerLocationOrCollapse(dl);
+	}
+
+	public void selectPrefix(final Namespace prefix)
+	{
+		SwingUtilities.invokeLater(new Runnable()
+		{
+
+			@Override
+			public void run()
+			{
+				synchronized (CliJPanel.this)
+				{
+					catalogJTree.selectPrefix(prefix, false);
+					catalogJTree.scrollPrefixToVisible(prefix);
+				}
+			}
+
+		});
 	}
 
 }

@@ -337,7 +337,31 @@ public class CatalogJTree extends PersistentJTree
 		if (path == null)
 			return null;
 		CatalogTreeNode node = (CatalogTreeNode) path.getLastPathComponent();
-		return node.getCatalog().prefix();
+		return node.prefix();
+	}
+
+	public void selectStatement(Statement statement, boolean edit)
+	{
+		selectPrefix(statement.getIdentifier(), edit);
+	}
+
+	public void selectPrefix(Namespace prefix, boolean edit)
+	{
+		selectTreePath(getModel().pathForPrefix(prefix), edit);
+	}
+
+	private void selectTreePath(TreePath path, boolean edit)
+	{
+		cancelEditing();
+		if (edit)
+			startEditingAtPath(path);
+		else
+			getSelectionModel().setSelectionPath(path);
+	}
+
+	public void scrollPrefixToVisible(Namespace prefix)
+	{
+		scrollPathToVisible(getModel().pathForPrefix(prefix));
 	}
 
 	public void close() throws InterruptedException
