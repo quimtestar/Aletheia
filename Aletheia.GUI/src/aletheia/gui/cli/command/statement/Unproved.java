@@ -19,7 +19,6 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.statement;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -30,7 +29,7 @@ import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
-import aletheia.utilities.collections.ReverseList;
+import aletheia.utilities.collections.ReverseSortedSet;
 
 @TaggedCommand(tag = "unproved", groupPath = "/authority", factory = Unproved.Factory.class)
 public class Unproved extends TransactionalCommand
@@ -46,21 +45,16 @@ public class Unproved extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		Stack<Context> stack = new Stack<>();
+		Stack<Statement> stack = new Stack<>();
 		stack.push(context);
 		while (!stack.isEmpty())
 		{
-			Context ctx = stack.pop();
-			ArrayList<Context> list = new ArrayList<>();
-			for (Statement st : ctx.localSortedStatements(getTransaction()))
+			Statement st = stack.pop();
+			if (!st.isProved())
 			{
-				if (!st.isProved())
-				{
-					getOut().println(" -> " + st.statementPathString(getTransaction(), getActiveContext()) + " " + (st.isProved() ? "\u2713" : ""));
-					if (st instanceof Context)
-						list.add((Context) st);
-					stack.addAll(new ReverseList<>(list));
-				}
+				getOut().println(" -> " + st.statementPathString(getTransaction(), getActiveContext()) + " " + (st.isProved() ? "\u2713" : ""));
+				if (st instanceof Context)
+					stack.addAll(new ReverseSortedSet<>(((Context) st).localSortedStatements(getTransaction())));
 			}
 		}
 		return null;
