@@ -261,4 +261,9 @@ public abstract class Namespace implements Comparable<Namespace>, Serializable, 
 		}
 		return prefix;
 	}
+
+	/**
+	 * Number of components of this namespace.
+	 */
+	public abstract int length();
 }

@@ -110,4 +110,10 @@ public class RootNamespace extends Namespace
 			return null;
 	}
 
+	@Override
+	public int length()
+	{
+		return 0;
+	}
+
 }

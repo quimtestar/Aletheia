@@ -334,4 +334,10 @@ public class NodeNamespace extends Namespace
 			throw new Error();
 	}
 
+	@Override
+	public int length()
+	{
+		return parent.length() + 1;
+	}
+
 }
