@@ -143,6 +143,8 @@ public class ContextJTreeJPanel extends JPanel
 		double dl = splitPane1.getProportionalDividerLocation();
 		splitPane1.setTopComponent(contextJTreeScrollPane);
 		splitPane1.setDividerLocationOrCollapse(dl);
+
+		authorityJPanel.updatedContextJTree(contextJTree);
 	}
 
 }

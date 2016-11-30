@@ -213,7 +213,6 @@ public class AuthorityJPanel extends JPanel
 		add(this.contentPanel, contentComponentName);
 		this.contextJTreeJPanel = contextJTreeJPanel;
 		this.listener = new Listener();
-		contextJTreeJPanel.getContextJTree().addSelectionListener(listener);
 		this.headerJScrollPane = new JScrollPane();
 		this.headerJScrollPane.getViewport().setBackground(Color.white);
 		this.authoritySignatureTableJScrollPane = new JScrollPane();
@@ -232,6 +231,8 @@ public class AuthorityJPanel extends JPanel
 		this.authoritySignatureTableFocusBorderManager = null;
 		this.delegateTreeJTree = null;
 		this.delegateTreeFocusBorderManager = null;
+
+		updatedContextJTree(contextJTreeJPanel.getContextJTree());
 	}
 
 	public ContextJTreeJPanel getContextJTreeJPanel()
@@ -413,6 +414,11 @@ public class AuthorityJPanel extends JPanel
 			delegateTreeJTree.close();
 		if (delegateTreeFocusBorderManager != null)
 			delegateTreeFocusBorderManager.close();
+	}
+
+	public void updatedContextJTree(ContextJTree contextJTree)
+	{
+		contextJTree.addSelectionListener(listener);
 	}
 
 }
