@@ -17,7 +17,7 @@
 # along with the Aletheia Proof Assistant. If not, see
 # <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
-(57dff486-97eb-5733-aad5-a462018f4dde,ctx.quimtestar)
+(b8c4cbbb-5a06-504d-a4de-305242016fa9,ctx.quimtestar)
 	ctx.Prop.Not.double.inv
 		ctx.one
 			ctx.Set
