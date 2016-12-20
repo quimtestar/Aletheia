@@ -1625,8 +1625,6 @@ public abstract class Statement implements Exportable
 	/**
 	 * A statement is "safely" proved when:
 	 * 
-	 * *) Its proved status is true.
-	 * 
 	 * *) All its dependents are safely proved.
 	 * 
 	 * *) If a context, at least one of its solvers is a safely proved
@@ -1647,8 +1645,6 @@ public abstract class Statement implements Exportable
 			if (!visited.contains(st.getUuid()))
 			{
 				visited.add(st.getUuid());
-				if (!st.isProved())
-					return false;
 				if (st instanceof Context)
 				{
 					Context ctx = (Context) st;
