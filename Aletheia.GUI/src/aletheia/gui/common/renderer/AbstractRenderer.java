@@ -49,7 +49,6 @@ public abstract class AbstractRenderer extends JPanel
 	private static final Color darkOrange = Color.orange.darker().darker();
 	private static final Color darkGray = new Color(0x606060);
 	private static final Color darkCyan = new Color(0x008080);
-	@SuppressWarnings("unused")
 	private static final Color darkPurple = new Color(0xC000C0);
 	@SuppressWarnings("unused")
 	private static final Color darkBlue = Color.blue.darker().darker();
@@ -69,7 +68,7 @@ public abstract class AbstractRenderer extends JPanel
 	private static final Color groupSorterColor = Color.blue;
 	private static final Border emptyBorder = BorderFactory.createEmptyBorder(1, 1, 1, 1);
 	private static final Color focusBorderColor = Color.blue;
-	private static final Color activeContextBorderColor = darkGreen;
+	private static final Color activeContextBorderColor = darkPurple;
 	private static final Color defaultNormalBackgroundColor = Color.white;
 	private static final Color defaultSelectedBackgroundColor = Color.lightGray;
 
