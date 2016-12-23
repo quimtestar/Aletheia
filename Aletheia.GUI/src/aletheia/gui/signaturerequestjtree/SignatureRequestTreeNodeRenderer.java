@@ -117,7 +117,7 @@ public abstract class SignatureRequestTreeNodeRenderer extends PersistentJTreeNo
 
 	public SignatureRequestTreeNodeRenderer(SignatureRequestJTree signatureRequestJTree, SignatureRequestTreeNode node)
 	{
-		super(signatureRequestJTree, true);
+		super(true, signatureRequestJTree, true);
 		this.node = node;
 		Listener listener = makeListener();
 		addKeyListener(listener);

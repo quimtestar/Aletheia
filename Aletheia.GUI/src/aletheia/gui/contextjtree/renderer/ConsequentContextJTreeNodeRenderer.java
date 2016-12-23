@@ -120,7 +120,7 @@ public class ConsequentContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
 
 	public ConsequentContextJTreeNodeRenderer(ContextJTree contextJTree, Context context)
 	{
-		super(contextJTree);
+		super(true, contextJTree);
 		Transaction transaction = contextJTree.getModel().beginTransaction();
 		try
 		{

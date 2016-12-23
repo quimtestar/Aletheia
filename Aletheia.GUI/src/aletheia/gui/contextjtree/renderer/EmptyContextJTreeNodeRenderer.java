@@ -27,7 +27,7 @@ public class EmptyContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
 
 	public EmptyContextJTreeNodeRenderer(ContextJTree contextJTree)
 	{
-		super(contextJTree);
+		super(true, contextJTree);
 	}
 
 }

@@ -34,6 +34,7 @@ import javax.swing.tree.TreePath;
 import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.cli.CliJPanel;
+import aletheia.gui.common.AbstractRenderer;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.node.GroupSorterContextJTreeNode;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
@@ -99,13 +100,13 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 
 	}
 
-	private abstract class StateRenderer extends ContextJTreeNodeRenderer
+	private abstract class StateRenderer extends AbstractRenderer
 	{
 		private static final long serialVersionUID = 3924010304397882098L;
 
 		private StateRenderer(ContextJTree contextJTree)
 		{
-			super(contextJTree);
+			super();
 		}
 
 	}
@@ -146,7 +147,7 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 
 			protected MyStatementContextJTreeNodeRenderer(ContextJTree contextJTree, Statement statement)
 			{
-				super(contextJTree, statement);
+				super(false, contextJTree, statement);
 			}
 
 			@Override
@@ -293,7 +294,7 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 
 	public GroupSorterContextJTreeNodeRenderer(ContextJTree contextJTree, GroupSorterContextJTreeNode<? extends Statement> node)
 	{
-		super(contextJTree);
+		super(true, contextJTree);
 		this.sorter = node.getSorter();
 		this.path = node.path();
 		this.layout = new CardLayout();

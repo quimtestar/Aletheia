@@ -27,10 +27,15 @@ public abstract class PersistentJTreeNodeRenderer extends AbstractPersistentRend
 
 	private final PersistentJTree persistentJTree;
 
+	public PersistentJTreeNodeRenderer(boolean border, PersistentJTree persistentJTree, boolean highlightVariableReferences)
+	{
+		super(border, persistentJTree.getPersistenceManager(), highlightVariableReferences);
+		this.persistentJTree = persistentJTree;
+	}
+
 	public PersistentJTreeNodeRenderer(PersistentJTree persistentJTree, boolean highlightVariableReferences)
 	{
-		super(persistentJTree.getPersistenceManager(), highlightVariableReferences);
-		this.persistentJTree = persistentJTree;
+		this(false, persistentJTree, highlightVariableReferences);
 	}
 
 	public PersistentJTree getPersistentJTree()

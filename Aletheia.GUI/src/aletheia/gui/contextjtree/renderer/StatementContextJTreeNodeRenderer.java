@@ -269,9 +269,9 @@ public abstract class StatementContextJTreeNodeRenderer<S extends Statement> ext
 
 	private final Listener listener;
 
-	protected StatementContextJTreeNodeRenderer(ContextJTree contextJTree, S statement)
+	protected StatementContextJTreeNodeRenderer(boolean border, ContextJTree contextJTree, S statement)
 	{
-		super(contextJTree);
+		super(border, contextJTree);
 		Transaction transaction = contextJTree.getModel().beginTransaction();
 		try
 		{

@@ -21,10 +21,6 @@ package aletheia.gui.common;
 
 public class EmptyRenderer extends AbstractRenderer
 {
-
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 3297762365508704689L;
 
 }

@@ -112,7 +112,7 @@ public abstract class ProperStatementContextJTreeNodeRenderer<S extends Statemen
 
 	protected ProperStatementContextJTreeNodeRenderer(ContextJTree contextJTree, S statement)
 	{
-		super(contextJTree, statement);
+		super(true, contextJTree, statement);
 	}
 
 	@Override

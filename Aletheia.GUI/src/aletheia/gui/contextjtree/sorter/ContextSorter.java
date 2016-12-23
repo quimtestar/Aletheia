@@ -37,6 +37,11 @@ public class ContextSorter extends StatementSorter
 		return (Context) super.getStatement();
 	}
 
+	public Context getContext()
+	{
+		return getStatement();
+	}
+
 	@Override
 	public Context getStatement(Transaction transaction)
 	{

@@ -27,7 +27,7 @@ public class DateLabelRenderer extends AbstractRenderer
 
 	public DateLabelRenderer(Date date)
 	{
-		super();
+		super(false);
 		addDateLabel(date);
 	}
 }

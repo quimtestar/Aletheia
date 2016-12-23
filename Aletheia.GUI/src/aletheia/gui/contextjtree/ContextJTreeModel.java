@@ -78,6 +78,8 @@ public class ContextJTreeModel extends PersistentTreeModel
 	private final StatementStateProcessorThread statementStateProcessorThread;
 	private final RootContextJTreeNode rootTreeNode;
 
+	private Context activeContext;
+
 	public ContextJTreeModel(PersistenceManager persistenceManager)
 	{
 		super(persistenceManager);
@@ -91,6 +93,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 		this.statementStateProcessorThread = new StatementStateProcessorThread();
 		this.statementStateProcessorThread.start();
 		this.rootTreeNode = new RootContextJTreeNode(this);
+		this.activeContext = null;
 	}
 
 	private void listenRootContextNomenclators()
@@ -130,6 +133,20 @@ public class ContextJTreeModel extends PersistentTreeModel
 	public SorterTreeNodeMap getNodeMap()
 	{
 		return nodeMap;
+	}
+
+	public Context getActiveContext()
+	{
+		return activeContext;
+	}
+
+	public void setActiveContext(Context activeContext)
+	{
+		if (((activeContext == null) != (this.activeContext == null)) || (activeContext != null && !activeContext.equals(this.activeContext)))
+		{
+			pushSetActiveContext(null, activeContext, this.activeContext);
+			this.activeContext = activeContext;
+		}
 	}
 
 	@Override
@@ -433,6 +450,34 @@ public class ContextJTreeModel extends PersistentTreeModel
 		}
 	}
 
+	private class SetActiveContextStateChange extends StatementStateChange
+	{
+
+		private final Context oldActiveContext;
+
+		public SetActiveContextStateChange(Transaction transaction, Context activeContext, Context oldActiveContext)
+		{
+			super(transaction, activeContext);
+			this.oldActiveContext = oldActiveContext;
+		}
+
+		@Override
+		public Context getStatement()
+		{
+			return (Context) super.getStatement();
+		}
+
+		public Context getActiveContext()
+		{
+			return getStatement();
+		}
+
+		public Context getOldActiveContext()
+		{
+			return oldActiveContext;
+		}
+	}
+
 	private class StatementListener implements Statement.StateListener, Nomenclator.Listener, RootContext.TopStateListener, ContextLocal.StateListener,
 			RootContextLocal.StateListener, StatementAuthority.StateListener
 	{
@@ -697,6 +742,18 @@ public class ContextJTreeModel extends PersistentTreeModel
 		}
 	}
 
+	public void pushSetActiveContext(Transaction transaction, Context activeContext, Context oldActiveContext)
+	{
+		try
+		{
+			statementStateChangeQueue.put(new SetActiveContextStateChange(transaction, activeContext, oldActiveContext));
+		}
+		catch (InterruptedException e)
+		{
+			logger.error(e.getMessage(), e);
+		}
+	}
+
 	public void shutdown() throws InterruptedException
 	{
 		getPersistenceManager().getListenerManager().getRootContextTopStateListeners().remove(statementListener);
@@ -762,6 +819,8 @@ public class ContextJTreeModel extends PersistentTreeModel
 									subscribedStateChange((SubscribedStateChange) c, transaction);
 								else if (c instanceof AuthorityStateChange)
 									authorityStateChange((AuthorityStateChange) c, transaction);
+								else if (c instanceof SetActiveContextStateChange)
+									setActiveContextStateChange((SetActiveContextStateChange) c, transaction);
 								else
 									throw new Error();
 							}
@@ -1278,6 +1337,47 @@ public class ContextJTreeModel extends PersistentTreeModel
 			{
 				StatementContextJTreeNode node = nodeMap.getByStatement(statement);
 				nodeChanged((ContextJTreeNode) node);
+			}
+		}
+
+		private void setActiveContextStateChange(SetActiveContextStateChange c, Transaction transaction)
+		{
+			setActiveContextStateChange(c.getActiveContext(), c.getOldActiveContext(), transaction);
+		}
+
+		private void setActiveContextStateChange(Context activeContext, Context oldActiveContext, Transaction transaction)
+		{
+			if (oldActiveContext != null)
+			{
+				try
+				{
+					ContextSorterContextJTreeNode oldActiveContextNode = (ContextSorterContextJTreeNode) nodeMap.cachedByStatement(oldActiveContext);
+					if (oldActiveContextNode != null)
+					{
+						oldActiveContextNode.setActiveContext(false);
+						nodeChangedNoDep(oldActiveContextNode);
+					}
+				}
+				catch (ClassCastException e)
+				{
+
+				}
+			}
+			if (activeContext != null)
+			{
+				try
+				{
+					ContextSorterContextJTreeNode activeContextNode = (ContextSorterContextJTreeNode) nodeMap.cachedByStatement(activeContext);
+					if (activeContextNode != null)
+					{
+						activeContextNode.setActiveContext(true);
+						nodeChangedNoDep(activeContextNode);
+					}
+				}
+				catch (ClassCastException e)
+				{
+
+				}
 			}
 		}
 

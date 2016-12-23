@@ -24,8 +24,8 @@ import java.util.Iterator;
 
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeModel;
+import aletheia.gui.contextjtree.renderer.ContextContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.ProperStatementContextJTreeNodeRenderer;
-import aletheia.gui.contextjtree.renderer.StatementContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.sorter.ContextGroupSorter;
 import aletheia.gui.contextjtree.sorter.ContextSorter;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
@@ -40,10 +40,13 @@ public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJT
 {
 	private final ConsequentContextJTreeNode consequentNode;
 
+	private boolean activeContext;
+
 	public ContextSorterContextJTreeNode(ContextJTreeModel model, ContextSorter contextSorter)
 	{
 		super(model, contextSorter.makeContextGroupSorter());
 		this.consequentNode = new ConsequentContextJTreeNode(model, this);
+		this.activeContext = contextSorter.getContext().equals(getModel().getActiveContext());
 	}
 
 	@Override
@@ -86,6 +89,16 @@ public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJT
 		return consequentNode;
 	}
 
+	public boolean isActiveContext()
+	{
+		return activeContext;
+	}
+
+	public void setActiveContext(boolean activeContext)
+	{
+		this.activeContext = activeContext;
+	}
+
 	@Override
 	public ContextJTreeNode getChildAt(int childIndex)
 	{
@@ -119,12 +132,12 @@ public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJT
 	}
 
 	@Override
-	protected StatementContextJTreeNodeRenderer<?> buildRenderer(ContextJTree contextJTree)
+	protected ContextContextJTreeNodeRenderer<?> buildRenderer(ContextJTree contextJTree)
 	{
 		Transaction transaction = getModel().beginTransaction();
 		try
 		{
-			return ProperStatementContextJTreeNodeRenderer.renderer(contextJTree, getStatement().refresh(transaction));
+			return (ContextContextJTreeNodeRenderer<?>) ProperStatementContextJTreeNodeRenderer.renderer(contextJTree, getStatement().refresh(transaction));
 		}
 		finally
 		{
@@ -133,9 +146,17 @@ public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJT
 	}
 
 	@Override
-	protected synchronized StatementContextJTreeNodeRenderer<?> getRenderer()
+	protected synchronized ContextContextJTreeNodeRenderer<?> getRenderer()
 	{
-		return (StatementContextJTreeNodeRenderer<?>) super.getRenderer();
+		return (ContextContextJTreeNodeRenderer<?>) super.getRenderer();
+	}
+
+	@Override
+	public synchronized ContextContextJTreeNodeRenderer<?> renderer(ContextJTree contextJTree)
+	{
+		ContextContextJTreeNodeRenderer<?> renderer = (ContextContextJTreeNodeRenderer<?>) super.renderer(contextJTree);
+		renderer.setActiveContext(activeContext);
+		return renderer;
 	}
 
 }

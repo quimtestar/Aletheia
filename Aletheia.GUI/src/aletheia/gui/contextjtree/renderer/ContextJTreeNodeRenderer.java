@@ -67,9 +67,9 @@ public abstract class ContextJTreeNodeRenderer extends PersistentJTreeNodeRender
 
 	}
 
-	public ContextJTreeNodeRenderer(ContextJTree contextJTree)
+	public ContextJTreeNodeRenderer(boolean border, ContextJTree contextJTree)
 	{
-		super(contextJTree, true);
+		super(border, contextJTree, true);
 		addKeyListener(new TreeNodeRendererKeyListener());
 	}
 

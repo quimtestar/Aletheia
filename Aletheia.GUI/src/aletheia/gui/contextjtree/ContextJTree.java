@@ -1196,4 +1196,9 @@ public class ContextJTree extends PersistentJTree
 		getModel().nodeStructureReset(context);
 	}
 
+	public void setActiveContext(Context activeContext)
+	{
+		getModel().setActiveContext(activeContext);
+	}
+
 }

@@ -67,11 +67,16 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 
 	private final boolean clickableVariableReferences;
 
-	public AbstractPersistentRenderer(PersistenceManager persistenceManager, boolean clickableVariableReferences)
+	public AbstractPersistentRenderer(boolean border, PersistenceManager persistenceManager, boolean clickableVariableReferences)
 	{
-		super();
+		super(border);
 		this.persistenceManager = persistenceManager;
 		this.clickableVariableReferences = clickableVariableReferences;
+	}
+
+	public AbstractPersistentRenderer(PersistenceManager persistenceManager, boolean clickableVariableReferences)
+	{
+		this(false, persistenceManager, clickableVariableReferences);
 	}
 
 	protected PersistenceManager getPersistenceManager()

@@ -1273,6 +1273,7 @@ public class CliJPanel extends JPanel implements CommandSource
 				else
 					this.catalogJTree.setRootCatalog(null);
 				statementStateListener.updateActiveContext(transaction, activeContext);
+				getAletheiaJPanel().getContextJTree().setActiveContext(activeContext);
 				SwingUtilities.invokeLater(new Runnable()
 				{
 					@Override

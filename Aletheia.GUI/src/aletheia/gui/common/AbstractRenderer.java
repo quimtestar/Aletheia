@@ -33,6 +33,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 import aletheia.gui.font.FontManager;
 import aletheia.model.authority.Person;
@@ -45,26 +46,30 @@ public abstract class AbstractRenderer extends JPanel
 	@SuppressWarnings("unused")
 	private static final Color darkRed = Color.red.darker().darker();
 	private static final Color darkGreen = Color.green.darker().darker();
+	private static final Color darkOrange = Color.orange.darker().darker();
+	private static final Color darkGray = new Color(0x606060);
+	private static final Color darkCyan = new Color(0x008080);
+	@SuppressWarnings("unused")
+	private static final Color darkPurple = new Color(0xC000C0);
 	@SuppressWarnings("unused")
 	private static final Color darkBlue = Color.blue.darker().darker();
 	private static final Color defaultColor = Color.black;
 	private static final Color provenLabelColor = darkGreen;
-	private static final Color unprovenLabelColor = Color.orange.darker().darker();
+	private static final Color unprovenLabelColor = darkOrange;
 	private static final Color tickColor = Color.green;
 	private static final Color questionMarkColor = Color.red;
 	private static final Color xMarkColor = Color.red;
 	private static final Color turnstileColor = Color.orange;
-	private static final Color darkGray = new Color(0x606060);
 	private static final Color notValidSignatureSymbolColor = darkGray;
 	private static final Color validSignatureSymbolColor = darkGray;
 	private static final Color signedDependenciesSymbolColor = darkGray;
 	private static final Color signedProofSymbolColor = darkGray;
-	private static final Color darkCyan = new Color(0x008080);
 	private static final Color subscribeSymbolColor = darkCyan;
 	private static final Color privatePersonColor = darkGreen;
 	private static final Color groupSorterColor = Color.blue;
-	private static final Border normalBorder = BorderFactory.createEmptyBorder(1, 1, 1, 1);
-	private static final Border focusBorder = BorderFactory.createLineBorder(Color.blue, 1);
+	private static final Border emptyBorder = BorderFactory.createEmptyBorder(1, 1, 1, 1);
+	private static final Color focusBorderColor = Color.blue;
+	private static final Color activeContextBorderColor = darkGreen;
 	private static final Color defaultNormalBackgroundColor = Color.white;
 	private static final Color defaultSelectedBackgroundColor = Color.lightGray;
 
@@ -77,21 +82,34 @@ public abstract class AbstractRenderer extends JPanel
 
 	private final Set<EditableComponent> editableComponents;
 
+	private final boolean withBorder;
+
+	private boolean hasFocus;
+	private boolean activeContext;
+
 	private Font activeFont;
 
 	private Color normalBackgroundColor = defaultNormalBackgroundColor;
 	private Color selectedBackgroundColor = defaultSelectedBackgroundColor;
 
-	public AbstractRenderer()
+	public AbstractRenderer(boolean withBorder)
 	{
 		super();
 		this.editableComponents = new HashSet<>();
+		this.withBorder = withBorder;
 		this.activeFont = getDefaultFont();
 		FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
 		layout.setHgap(0);
 		layout.setVgap(0);
 		setLayout(layout);
 		setBackground(defaultNormalBackgroundColor);
+		if (withBorder)
+			setBorder(emptyBorder);
+	}
+
+	public AbstractRenderer()
+	{
+		this(false);
 	}
 
 	public Color getNormalBackgroundColor()
@@ -435,12 +453,52 @@ public abstract class AbstractRenderer extends JPanel
 			setBackground(normalBackgroundColor);
 	}
 
+	private void setBorderColor(Color color)
+	{
+		if (withBorder)
+		{
+			if (color == null)
+				setBorder(emptyBorder);
+			else
+				setBorder(BorderFactory.createLineBorder(color, 1));
+		}
+	}
+
+	@SuppressWarnings("unused")
+	private Color getBorderColor()
+	{
+		if (withBorder)
+		{
+			Border border = getBorder();
+			if (border instanceof LineBorder)
+				return ((LineBorder) border).getLineColor();
+			else
+				return null;
+		}
+		else
+			return null;
+	}
+
 	public void setHasFocus(boolean hasFocus)
 	{
-		if (hasFocus)
-			setBorder(focusBorder);
+		this.hasFocus = hasFocus;
+		updateBorderColor();
+	}
+
+	public void setActiveContext(boolean activeContext)
+	{
+		this.activeContext = activeContext;
+		updateBorderColor();
+	}
+
+	private void updateBorderColor()
+	{
+		if (activeContext)
+			setBorderColor(activeContextBorderColor);
+		else if (hasFocus)
+			setBorderColor(focusBorderColor);
 		else
-			setBorder(normalBorder);
+			setBorderColor(null);
 	}
 
 	public void cancelEditing()
