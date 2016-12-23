@@ -51,11 +51,11 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import aletheia.gui.common.AbstractPersistentRenderer;
-import aletheia.gui.common.AbstractRenderer;
-import aletheia.gui.common.BoldTextLabelRenderer;
-import aletheia.gui.common.StatementTransferable;
-import aletheia.gui.common.TextLabelRenderer;
+import aletheia.gui.common.datatransfer.StatementTransferable;
+import aletheia.gui.common.renderer.AbstractPersistentRenderer;
+import aletheia.gui.common.renderer.AbstractRenderer;
+import aletheia.gui.common.renderer.BoldTextLabelRenderer;
+import aletheia.gui.common.renderer.TextLabelRenderer;
 import aletheia.gui.font.FontManager;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.statement.Statement;

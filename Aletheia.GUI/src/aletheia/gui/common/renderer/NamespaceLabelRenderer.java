@@ -17,10 +17,18 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.common.renderer;
 
-public class EmptyRenderer extends AbstractRenderer
+import aletheia.model.identifier.Namespace;
+
+public class NamespaceLabelRenderer extends AbstractRenderer
 {
-	private static final long serialVersionUID = 3297762365508704689L;
+	private static final long serialVersionUID = -5498916214246200365L;
+
+	public NamespaceLabelRenderer(Namespace namespace)
+	{
+		super();
+		addTextLabel(namespace.qualifiedName());
+	}
 
 }

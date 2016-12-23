@@ -17,18 +17,35 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.common.renderer;
 
-public class BooleanLabelRenderer extends AbstractRenderer
+import aletheia.model.statement.Statement;
+import aletheia.persistence.PersistenceManager;
+import aletheia.persistence.Transaction;
+
+public class StatementLabelRenderer extends AbstractPersistentRenderer
 {
-	private static final long serialVersionUID = -513715235162812932L;
+	private static final long serialVersionUID = 1212800280850847894L;
+	private final static int transactionTimeout = 100;
 
-	public BooleanLabelRenderer(Boolean bool)
+	public StatementLabelRenderer(PersistenceManager persistenceManager, Statement statement, boolean highlightVariableReferences)
 	{
-		super();
-		if (bool != null)
+		super(persistenceManager, highlightVariableReferences);
+		Transaction transaction = beginTransaction();
+		try
 		{
-			addBooleanLabel(bool);
+			addVariableReferenceComponent(statement.parentVariableToIdentifier(transaction), null, statement.getVariable());
+		}
+		finally
+		{
+			transaction.abort();
 		}
 	}
+
+	@Override
+	protected Transaction beginTransaction()
+	{
+		return getPersistenceManager().beginTransaction(transactionTimeout);
+	}
+
 }

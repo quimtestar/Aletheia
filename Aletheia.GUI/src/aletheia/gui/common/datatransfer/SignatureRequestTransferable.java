@@ -17,43 +17,34 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.common.datatransfer;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.util.Arrays;
 
-import aletheia.model.statement.Statement;
-import aletheia.persistence.Transaction;
+import aletheia.model.authority.SignatureRequest;
 
-public class StatementTransferable extends AletheiaTransferable
+public class SignatureRequestTransferable extends AletheiaTransferable
 {
-	private final Statement statement;
+	private final SignatureRequest signatureRequest;
 
-	public StatementTransferable(Statement statement)
+	public SignatureRequestTransferable(SignatureRequest signatureRequest)
 	{
-		super(Arrays.<DataFlavor> asList(StatementDataFlavor.instance, DataFlavor.stringFlavor));
-		this.statement = statement;
+		super(Arrays.<DataFlavor> asList(SignatureRequestDataFlavor.instance, UUIDDataFlavor.instance, DataFlavor.stringFlavor));
+		this.signatureRequest = signatureRequest;
 	}
 
 	@Override
 	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
 	{
-		if (flavor.equals(StatementDataFlavor.instance))
-			return statement;
+		if (flavor.equals(SignatureRequestDataFlavor.instance))
+			return signatureRequest;
+		else if (flavor.equals(UUIDDataFlavor.instance))
+			return signatureRequest.getUuid();
 		else if (flavor.equals(DataFlavor.stringFlavor))
-		{
-			Transaction transaction = statement.getPersistenceManager().beginDirtyTransaction();
-			try
-			{
-				return statement.statementPathString(transaction);
-			}
-			finally
-			{
-				transaction.abort();
-			}
-		}
+			return signatureRequest.getUuid().toString();
 		else
 			throw new UnsupportedFlavorException(flavor);
 	}

@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.delegatejtree;
 
-import aletheia.gui.common.PersonLabelRenderer;
+import aletheia.gui.common.renderer.PersonLabelRenderer;
 import aletheia.model.authority.DelegateAuthorizer;
 import aletheia.model.authority.Person;
 import aletheia.persistence.Transaction;

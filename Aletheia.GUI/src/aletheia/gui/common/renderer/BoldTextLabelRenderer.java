@@ -17,17 +17,29 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.common.renderer;
 
-import aletheia.model.identifier.Namespace;
+import java.awt.Color;
+import java.awt.Font;
 
-public class NamespaceDataFlavor extends AletheiaDataFlavor
+public class BoldTextLabelRenderer extends TextLabelRenderer
 {
-	public static final NamespaceDataFlavor instance = new NamespaceDataFlavor();
+	private static final long serialVersionUID = 7583320639386442047L;
 
-	private NamespaceDataFlavor()
+	public BoldTextLabelRenderer(String text, Color textColor)
 	{
-		super(Namespace.class);
+		super(text, textColor);
+	}
+
+	public BoldTextLabelRenderer(String text)
+	{
+		super(text);
+	}
+
+	@Override
+	protected Font getTextLabelFont()
+	{
+		return getBoldFont();
 	}
 
 }

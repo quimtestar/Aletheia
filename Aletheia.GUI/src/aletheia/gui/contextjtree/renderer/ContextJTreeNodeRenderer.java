@@ -24,7 +24,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 
-import aletheia.gui.common.PersistentJTreeNodeRenderer;
+import aletheia.gui.common.renderer.PersistentJTreeNodeRenderer;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.VariableTerm;

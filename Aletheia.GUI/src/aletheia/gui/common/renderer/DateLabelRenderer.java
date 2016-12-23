@@ -17,20 +17,17 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.common.renderer;
 
-import aletheia.model.authority.StatementAuthority;
+import java.util.Date;
 
-public class SignatureStatusLabelRenderer extends AbstractRenderer
+public class DateLabelRenderer extends AbstractRenderer
 {
-	private static final long serialVersionUID = 8953938640629129992L;
+	private static final long serialVersionUID = -3000005766995475145L;
 
-	public SignatureStatusLabelRenderer(StatementAuthority.SignatureStatus status)
+	public DateLabelRenderer(Date date)
 	{
-		super();
-		addSignatureStatusSymbolLabel(status);
-		addSpaceLabel();
-		addTextLabel(status.getText());
+		super(false);
+		addDateLabel(date);
 	}
-
 }

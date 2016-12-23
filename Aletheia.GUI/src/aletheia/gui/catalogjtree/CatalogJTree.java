@@ -38,10 +38,10 @@ import javax.swing.tree.TreeSelectionModel;
 
 import aletheia.gui.app.AletheiaJPanel;
 import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.common.AletheiaTransferable;
-import aletheia.gui.common.NamespaceTransferable;
 import aletheia.gui.common.PersistentJTree;
-import aletheia.gui.common.StatementTransferable;
+import aletheia.gui.common.datatransfer.AletheiaTransferable;
+import aletheia.gui.common.datatransfer.NamespaceTransferable;
+import aletheia.gui.common.datatransfer.StatementTransferable;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.model.catalog.RootCatalog;
 import aletheia.model.identifier.Namespace;

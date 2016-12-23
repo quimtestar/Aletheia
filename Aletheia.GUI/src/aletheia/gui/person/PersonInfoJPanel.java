@@ -26,9 +26,9 @@ import java.awt.Insets;
 
 import javax.swing.JPanel;
 
-import aletheia.gui.common.BoldTextLabelRenderer;
-import aletheia.gui.common.TextLabelRenderer;
-import aletheia.gui.common.UUIDLabelRenderer;
+import aletheia.gui.common.renderer.BoldTextLabelRenderer;
+import aletheia.gui.common.renderer.TextLabelRenderer;
+import aletheia.gui.common.renderer.UUIDLabelRenderer;
 import aletheia.model.authority.Person;
 
 public class PersonInfoJPanel extends JPanel

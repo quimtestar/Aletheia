@@ -17,17 +17,30 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.common.renderer;
 
-import aletheia.model.authority.Signatory;
+import java.awt.Color;
+import java.awt.Font;
 
-public class SignatoryLabelRenderer extends AbstractRenderer
+public class TextLabelRenderer extends AbstractRenderer
 {
-	private static final long serialVersionUID = -3100165173850768479L;
+	private static final long serialVersionUID = -7907428778408871348L;
 
-	public SignatoryLabelRenderer(Signatory signatory)
+	public TextLabelRenderer(String text, Color textColor)
 	{
 		super();
-		addUUIDLabel(signatory.getUuid());
+		setActiveFont(getTextLabelFont());
+		addTextLabel(text, textColor);
 	}
+
+	public TextLabelRenderer(String text)
+	{
+		this(text, AbstractRenderer.getDefaultColor());
+	}
+
+	protected Font getTextLabelFont()
+	{
+		return getDefaultFont();
+	}
+
 }

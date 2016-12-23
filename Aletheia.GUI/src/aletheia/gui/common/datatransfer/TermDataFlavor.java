@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2015 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -17,17 +17,17 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.common.datatransfer;
 
-import java.util.Date;
+import aletheia.model.term.Term;
 
-public class DateLabelRenderer extends AbstractRenderer
+public class TermDataFlavor extends AletheiaDataFlavor
 {
-	private static final long serialVersionUID = -3000005766995475145L;
+	public static final TermDataFlavor instance = new TermDataFlavor();
 
-	public DateLabelRenderer(Date date)
+	private TermDataFlavor()
 	{
-		super(false);
-		addDateLabel(date);
+		super(Term.class);
 	}
+
 }

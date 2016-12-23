@@ -17,36 +17,18 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.common.renderer;
 
-import aletheia.persistence.Transaction;
-
-public abstract class PersistentJTreeNodeRenderer extends AbstractPersistentRenderer
+public class BooleanLabelRenderer extends AbstractRenderer
 {
-	private static final long serialVersionUID = -4744347980265636950L;
+	private static final long serialVersionUID = -513715235162812932L;
 
-	private final PersistentJTree persistentJTree;
-
-	public PersistentJTreeNodeRenderer(boolean border, PersistentJTree persistentJTree, boolean highlightVariableReferences)
+	public BooleanLabelRenderer(Boolean bool)
 	{
-		super(border, persistentJTree.getPersistenceManager(), highlightVariableReferences);
-		this.persistentJTree = persistentJTree;
+		super();
+		if (bool != null)
+		{
+			addBooleanLabel(bool);
+		}
 	}
-
-	public PersistentJTreeNodeRenderer(PersistentJTree persistentJTree, boolean highlightVariableReferences)
-	{
-		this(false, persistentJTree, highlightVariableReferences);
-	}
-
-	public PersistentJTree getPersistentJTree()
-	{
-		return persistentJTree;
-	}
-
-	@Override
-	protected Transaction beginTransaction()
-	{
-		return persistentJTree.getModel().beginTransaction();
-	}
-
 }

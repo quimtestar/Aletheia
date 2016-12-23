@@ -17,34 +17,31 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.common.datatransfer;
 
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.UUID;
 
-import aletheia.model.authority.SignatureRequest;
-
-public class SignatureRequestTransferable extends AletheiaTransferable
+public class UUIDTransferable extends AletheiaTransferable
 {
-	private final SignatureRequest signatureRequest;
+	private final UUID uuid;
 
-	public SignatureRequestTransferable(SignatureRequest signatureRequest)
+	public UUIDTransferable(UUID uuid)
 	{
-		super(Arrays.<DataFlavor> asList(SignatureRequestDataFlavor.instance, UUIDDataFlavor.instance, DataFlavor.stringFlavor));
-		this.signatureRequest = signatureRequest;
+		super(Arrays.<DataFlavor> asList(UUIDDataFlavor.instance, DataFlavor.stringFlavor));
+		this.uuid = uuid;
 	}
 
 	@Override
 	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
 	{
-		if (flavor.equals(SignatureRequestDataFlavor.instance))
-			return signatureRequest;
-		else if (flavor.equals(UUIDDataFlavor.instance))
-			return signatureRequest.getUuid();
+		if (flavor.equals(UUIDDataFlavor.instance))
+			return uuid;
 		else if (flavor.equals(DataFlavor.stringFlavor))
-			return signatureRequest.getUuid().toString();
+			return uuid.toString();
 		else
 			throw new UnsupportedFlavorException(flavor);
 	}

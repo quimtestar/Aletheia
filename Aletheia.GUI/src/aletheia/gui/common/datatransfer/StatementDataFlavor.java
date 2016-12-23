@@ -17,30 +17,17 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.common.datatransfer;
 
-import java.awt.Color;
-import java.awt.Font;
+import aletheia.model.statement.Statement;
 
-public class TextLabelRenderer extends AbstractRenderer
+public class StatementDataFlavor extends AletheiaDataFlavor
 {
-	private static final long serialVersionUID = -7907428778408871348L;
+	public static final StatementDataFlavor instance = new StatementDataFlavor();
 
-	public TextLabelRenderer(String text, Color textColor)
+	private StatementDataFlavor()
 	{
-		super();
-		setActiveFont(getTextLabelFont());
-		addTextLabel(text, textColor);
-	}
-
-	public TextLabelRenderer(String text)
-	{
-		this(text, AbstractRenderer.getDefaultColor());
-	}
-
-	protected Font getTextLabelFont()
-	{
-		return getDefaultFont();
+		super(Statement.class);
 	}
 
 }

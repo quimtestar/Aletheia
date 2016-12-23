@@ -25,7 +25,7 @@ import java.awt.event.KeyListener;
 
 import org.apache.logging.log4j.Logger;
 
-import aletheia.gui.common.PersistentJTreeNodeRenderer;
+import aletheia.gui.common.renderer.PersistentJTreeNodeRenderer;
 import aletheia.log4j.LoggerManager;
 
 public abstract class DelegateTreeModelNodeRenderer extends PersistentJTreeNodeRenderer

@@ -33,11 +33,11 @@ import javax.swing.JScrollPane;
 import javax.swing.Scrollable;
 
 import aletheia.gui.app.MainAletheiaJFrame;
-import aletheia.gui.common.BoldTextLabelRenderer;
-import aletheia.gui.common.DateLabelRenderer;
 import aletheia.gui.common.FocusBorderManager;
-import aletheia.gui.common.PersonLabelRenderer;
-import aletheia.gui.common.SignatureStatusLabelRenderer;
+import aletheia.gui.common.renderer.BoldTextLabelRenderer;
+import aletheia.gui.common.renderer.DateLabelRenderer;
+import aletheia.gui.common.renderer.PersonLabelRenderer;
+import aletheia.gui.common.renderer.SignatureStatusLabelRenderer;
 import aletheia.gui.font.FontManager;
 import aletheia.model.authority.DelegateTreeRootNode;
 import aletheia.model.authority.StatementAuthority;

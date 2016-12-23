@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2015 Quim Testar.
+ * Copyright (c) 2014 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -17,33 +17,10 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.common.renderer;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
-import java.util.Arrays;
-import aletheia.model.term.Term;
-
-public class TermTransferable extends AletheiaTransferable
+public class EmptyRenderer extends AbstractRenderer
 {
-	private final Term term;
-
-	public TermTransferable(Term term)
-	{
-		super(Arrays.<DataFlavor> asList(TermDataFlavor.instance, DataFlavor.stringFlavor));
-		this.term = term;
-	}
-
-	@Override
-	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
-	{
-		if (flavor.equals(TermDataFlavor.instance))
-			return term;
-		else if (flavor.equals(DataFlavor.stringFlavor))
-			return term.toString();
-		else
-			throw new UnsupportedFlavorException(flavor);
-	}
+	private static final long serialVersionUID = 3297762365508704689L;
 
 }

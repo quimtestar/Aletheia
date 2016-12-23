@@ -17,34 +17,17 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.common.datatransfer;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
-import java.util.Arrays;
+import java.util.UUID;
 
-import aletheia.model.identifier.Namespace;
-
-public class NamespaceTransferable extends AletheiaTransferable
+public class UUIDDataFlavor extends AletheiaDataFlavor
 {
-	private final Namespace namespace;
+	public static final UUIDDataFlavor instance = new UUIDDataFlavor();
 
-	public NamespaceTransferable(Namespace namespace)
+	private UUIDDataFlavor()
 	{
-		super(Arrays.<DataFlavor> asList(NamespaceDataFlavor.instance, DataFlavor.stringFlavor));
-		this.namespace = namespace;
-	}
-
-	@Override
-	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
-	{
-		if (flavor.equals(NamespaceDataFlavor.instance))
-			return namespace;
-		else if (flavor.equals(DataFlavor.stringFlavor))
-			return namespace.qualifiedName();
-		else
-			throw new UnsupportedFlavorException(flavor);
+		super(UUID.class);
 	}
 
 }

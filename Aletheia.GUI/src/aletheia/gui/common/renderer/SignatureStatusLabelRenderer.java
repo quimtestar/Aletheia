@@ -17,29 +17,20 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.common.renderer;
 
-import java.awt.Color;
-import java.awt.Font;
+import aletheia.model.authority.StatementAuthority;
 
-public class BoldTextLabelRenderer extends TextLabelRenderer
+public class SignatureStatusLabelRenderer extends AbstractRenderer
 {
-	private static final long serialVersionUID = 7583320639386442047L;
+	private static final long serialVersionUID = 8953938640629129992L;
 
-	public BoldTextLabelRenderer(String text, Color textColor)
+	public SignatureStatusLabelRenderer(StatementAuthority.SignatureStatus status)
 	{
-		super(text, textColor);
-	}
-
-	public BoldTextLabelRenderer(String text)
-	{
-		super(text);
-	}
-
-	@Override
-	protected Font getTextLabelFont()
-	{
-		return getBoldFont();
+		super();
+		addSignatureStatusSymbolLabel(status);
+		addSpaceLabel();
+		addTextLabel(status.getText());
 	}
 
 }

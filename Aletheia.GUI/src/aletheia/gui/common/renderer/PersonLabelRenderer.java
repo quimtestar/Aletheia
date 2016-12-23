@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.common.renderer;
 
 import java.awt.Color;
 import java.awt.Point;
@@ -29,6 +29,7 @@ import javax.swing.JLabel;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
+import aletheia.gui.common.PopupManager;
 import aletheia.gui.person.PersonInfoJPanel;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.PrivatePerson;

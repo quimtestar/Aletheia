@@ -17,17 +17,26 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.common.renderer;
 
-import aletheia.model.authority.StatementAuthoritySignature;
+import java.awt.Color;
+import java.util.UUID;
 
-public class StatementAuthoritySignatureDataFlavor extends AletheiaDataFlavor
+public class UUIDLabelRenderer extends AbstractRenderer
 {
-	public static final StatementAuthoritySignatureDataFlavor instance = new StatementAuthoritySignatureDataFlavor();
 
-	private StatementAuthoritySignatureDataFlavor()
+	private static final long serialVersionUID = 3107760025659849180L;
+
+	public UUIDLabelRenderer(UUID uuid, Color color)
 	{
-		super(StatementAuthoritySignature.class);
+		super();
+		addUUIDLabel(uuid, color);
+	}
+
+	public UUIDLabelRenderer(UUID uuid)
+	{
+		super();
+		addUUIDLabel(uuid, AbstractRenderer.getDefaultColor());
 	}
 
 }

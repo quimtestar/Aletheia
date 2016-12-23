@@ -17,17 +17,37 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.common.renderer;
 
-import aletheia.model.statement.Statement;
+import aletheia.gui.common.PersistentJTree;
+import aletheia.persistence.Transaction;
 
-public class StatementDataFlavor extends AletheiaDataFlavor
+public abstract class PersistentJTreeNodeRenderer extends AbstractPersistentRenderer
 {
-	public static final StatementDataFlavor instance = new StatementDataFlavor();
+	private static final long serialVersionUID = -4744347980265636950L;
 
-	private StatementDataFlavor()
+	private final PersistentJTree persistentJTree;
+
+	public PersistentJTreeNodeRenderer(boolean border, PersistentJTree persistentJTree, boolean highlightVariableReferences)
 	{
-		super(Statement.class);
+		super(border, persistentJTree.getPersistenceManager(), highlightVariableReferences);
+		this.persistentJTree = persistentJTree;
+	}
+
+	public PersistentJTreeNodeRenderer(PersistentJTree persistentJTree, boolean highlightVariableReferences)
+	{
+		this(false, persistentJTree, highlightVariableReferences);
+	}
+
+	public PersistentJTree getPersistentJTree()
+	{
+		return persistentJTree;
+	}
+
+	@Override
+	protected Transaction beginTransaction()
+	{
+		return persistentJTree.getModel().beginTransaction();
 	}
 
 }

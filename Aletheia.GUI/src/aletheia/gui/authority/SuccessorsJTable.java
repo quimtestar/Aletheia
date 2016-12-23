@@ -48,11 +48,11 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
 import aletheia.gui.authority.SuccessorsTableModel.SuccessorEntryData;
-import aletheia.gui.common.AbstractRenderer;
-import aletheia.gui.common.BoldTextLabelRenderer;
-import aletheia.gui.common.DateLabelRenderer;
-import aletheia.gui.common.PersonLabelRenderer;
-import aletheia.gui.common.TextLabelRenderer;
+import aletheia.gui.common.renderer.AbstractRenderer;
+import aletheia.gui.common.renderer.BoldTextLabelRenderer;
+import aletheia.gui.common.renderer.DateLabelRenderer;
+import aletheia.gui.common.renderer.PersonLabelRenderer;
+import aletheia.gui.common.renderer.TextLabelRenderer;
 import aletheia.gui.font.FontManager;
 import aletheia.model.authority.DelegateTreeRootNode;
 import aletheia.model.authority.Person;

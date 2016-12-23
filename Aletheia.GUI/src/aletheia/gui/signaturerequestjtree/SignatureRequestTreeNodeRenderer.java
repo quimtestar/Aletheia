@@ -27,7 +27,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.TransferHandler;
 
-import aletheia.gui.common.PersistentJTreeNodeRenderer;
+import aletheia.gui.common.renderer.PersistentJTreeNodeRenderer;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.VariableTerm;

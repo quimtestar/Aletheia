@@ -34,7 +34,7 @@ import javax.swing.tree.TreePath;
 import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.cli.CliJPanel;
-import aletheia.gui.common.AbstractRenderer;
+import aletheia.gui.common.renderer.AbstractRenderer;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.node.GroupSorterContextJTreeNode;
 import aletheia.gui.contextjtree.sorter.GroupSorter;

@@ -17,35 +17,45 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.common.datatransfer;
+
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.UnsupportedFlavorException;
+import java.io.IOException;
+import java.util.Arrays;
 
 import aletheia.model.statement.Statement;
-import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 
-public class StatementLabelRenderer extends AbstractPersistentRenderer
+public class StatementTransferable extends AletheiaTransferable
 {
-	private static final long serialVersionUID = 1212800280850847894L;
-	private final static int transactionTimeout = 100;
+	private final Statement statement;
 
-	public StatementLabelRenderer(PersistenceManager persistenceManager, Statement statement, boolean highlightVariableReferences)
+	public StatementTransferable(Statement statement)
 	{
-		super(persistenceManager, highlightVariableReferences);
-		Transaction transaction = beginTransaction();
-		try
-		{
-			addVariableReferenceComponent(statement.parentVariableToIdentifier(transaction), null, statement.getVariable());
-		}
-		finally
-		{
-			transaction.abort();
-		}
+		super(Arrays.<DataFlavor> asList(StatementDataFlavor.instance, DataFlavor.stringFlavor));
+		this.statement = statement;
 	}
 
 	@Override
-	protected Transaction beginTransaction()
+	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
 	{
-		return getPersistenceManager().beginTransaction(transactionTimeout);
+		if (flavor.equals(StatementDataFlavor.instance))
+			return statement;
+		else if (flavor.equals(DataFlavor.stringFlavor))
+		{
+			Transaction transaction = statement.getPersistenceManager().beginDirtyTransaction();
+			try
+			{
+				return statement.statementPathString(transaction);
+			}
+			finally
+			{
+				transaction.abort();
+			}
+		}
+		else
+			throw new UnsupportedFlavorException(flavor);
 	}
 
 }

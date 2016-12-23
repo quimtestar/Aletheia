@@ -17,33 +17,17 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.common.datatransfer;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.UUID;
+import aletheia.model.authority.StatementAuthoritySignature;
 
-public class UUIDTransferable extends AletheiaTransferable
+public class StatementAuthoritySignatureDataFlavor extends AletheiaDataFlavor
 {
-	private final UUID uuid;
+	public static final StatementAuthoritySignatureDataFlavor instance = new StatementAuthoritySignatureDataFlavor();
 
-	public UUIDTransferable(UUID uuid)
+	private StatementAuthoritySignatureDataFlavor()
 	{
-		super(Arrays.<DataFlavor> asList(UUIDDataFlavor.instance, DataFlavor.stringFlavor));
-		this.uuid = uuid;
-	}
-
-	@Override
-	public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException
-	{
-		if (flavor.equals(UUIDDataFlavor.instance))
-			return uuid;
-		else if (flavor.equals(DataFlavor.stringFlavor))
-			return uuid.toString();
-		else
-			throw new UnsupportedFlavorException(flavor);
+		super(StatementAuthoritySignature.class);
 	}
 
 }

@@ -17,15 +17,17 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.common;
+package aletheia.gui.common.renderer;
 
-import java.awt.datatransfer.DataFlavor;
+import aletheia.model.authority.Signatory;
 
-public abstract class AletheiaDataFlavor extends DataFlavor
+public class SignatoryLabelRenderer extends AbstractRenderer
 {
-	protected AletheiaDataFlavor(Class<?> representationClass)
-	{
-		super(representationClass, "aletheia-namespace");
-	}
+	private static final long serialVersionUID = -3100165173850768479L;
 
+	public SignatoryLabelRenderer(Signatory signatory)
+	{
+		super();
+		addUUIDLabel(signatory.getUuid());
+	}
 }
