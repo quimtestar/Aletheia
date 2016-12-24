@@ -53,4 +53,9 @@ public abstract class ContextContextJTreeNodeRenderer<C extends Context> extends
 			return new ProperContextContextJTreeNodeRenderer(contextJTree, statement);
 	}
 
+	public void setActiveContext(boolean activeContext)
+	{
+		getEditableTextLabelComponent().setColor(activeContext ? getActiveContextColor() : getDefaultColor());
+	}
+
 }

@@ -24,6 +24,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JLabel;
 import javax.swing.TransferHandler;
 
 import org.apache.logging.log4j.Logger;
@@ -118,6 +119,8 @@ public class ConsequentContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
 
 	}
 
+	private final JLabel turnstile;
+
 	public ConsequentContextJTreeNodeRenderer(ContextJTree contextJTree, Context context)
 	{
 		super(true, contextJTree);
@@ -125,7 +128,7 @@ public class ConsequentContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
 		try
 		{
 			this.context = context;
-			addTurnstileLabel();
+			this.turnstile = addTurnstileLabel();
 			addSpaceLabel();
 			addTerm(context.variableToIdentifier(transaction), context.getConsequent());
 			setActiveFont(getItalicFont());
@@ -168,4 +171,10 @@ public class ConsequentContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
 	{
 		getContextJTree().undelete();
 	}
+
+	public void setActiveContext(boolean activeContext)
+	{
+		turnstile.setForeground(activeContext ? getActiveContextColor() : getTurnstileColor());
+	}
+
 }

@@ -22,6 +22,7 @@ package aletheia.gui.contextjtree.node;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeModel;
 import aletheia.gui.contextjtree.renderer.ConsequentContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
 import aletheia.model.statement.Context;
 
 public class ConsequentContextJTreeNode extends ContextJTreeNode
@@ -48,13 +49,38 @@ public class ConsequentContextJTreeNode extends ContextJTreeNode
 	@Override
 	protected ConsequentContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree)
 	{
-		return new ConsequentContextJTreeNodeRenderer(contextJTree, parent.getContext());
+		ConsequentContextJTreeNodeRenderer renderer = new ConsequentContextJTreeNodeRenderer(contextJTree, parent.getContext());
+		renderer.setActiveContext(isActiveContext());
+		return renderer;
 	}
 
 	@Override
 	public String toString()
 	{
 		return super.toString() + "[Consequent: " + getContext().label() + "]";
+	}
+
+	public boolean isActiveContext()
+	{
+		return parent.isActiveContext();
+	}
+
+	@Override
+	public synchronized ContextJTreeNodeRenderer renderer(ContextJTree contextJTree)
+	{
+		ContextJTreeNodeRenderer renderer = super.renderer(contextJTree);
+		if (renderer instanceof ConsequentContextJTreeNodeRenderer)
+			((ConsequentContextJTreeNodeRenderer) renderer).setActiveContext(isActiveContext());
+		return renderer;
+	}
+
+	@Override
+	protected synchronized ContextJTreeNodeRenderer getRenderer()
+	{
+		ContextJTreeNodeRenderer renderer = super.getRenderer();
+		if (renderer instanceof ConsequentContextJTreeNodeRenderer)
+			((ConsequentContextJTreeNodeRenderer) renderer).setActiveContext(isActiveContext());
+		return renderer;
 	}
 
 }

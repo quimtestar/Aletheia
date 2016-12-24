@@ -296,6 +296,12 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 			textField.setText(fieldText);
 		}
 
+		public void setColor(Color color)
+		{
+			label.setForeground(color);
+			textField.setForeground(color);
+		}
+
 		@Override
 		public CardLayout getLayout()
 		{

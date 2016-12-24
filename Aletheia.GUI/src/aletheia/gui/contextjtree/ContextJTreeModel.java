@@ -1356,6 +1356,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 					{
 						oldActiveContextNode.setActiveContext(false);
 						nodeChangedNoDep(oldActiveContextNode);
+						nodeChangedNoDep(oldActiveContextNode.getConsequentNode());
 					}
 				}
 				catch (ClassCastException e)
@@ -1372,6 +1373,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 					{
 						activeContextNode.setActiveContext(true);
 						nodeChangedNoDep(activeContextNode);
+						nodeChangedNoDep(activeContextNode.getConsequentNode());
 					}
 				}
 				catch (ClassCastException e)

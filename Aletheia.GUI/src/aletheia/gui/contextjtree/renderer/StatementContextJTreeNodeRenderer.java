@@ -304,6 +304,11 @@ public abstract class StatementContextJTreeNodeRenderer<S extends Statement> ext
 
 	protected abstract EditableTextLabelComponent addEditableTextLabelComponent();
 
+	protected EditableTextLabelComponent getEditableTextLabelComponent()
+	{
+		return editableTextLabelComponent;
+	}
+
 	public void editName()
 	{
 		editableTextLabelComponent.edit();

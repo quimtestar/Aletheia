@@ -718,6 +718,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		public ActiveContextJLabel()
 		{
 			super();
+			setForeground(new Color(0x400040));
 			setContext(null);
 			setOpaque(true);
 			addComponentListener(new MyComponentListener());

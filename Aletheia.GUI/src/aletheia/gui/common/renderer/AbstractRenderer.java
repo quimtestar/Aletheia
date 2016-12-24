@@ -43,13 +43,14 @@ import aletheia.utilities.MiscUtilities;
 public abstract class AbstractRenderer extends JPanel
 {
 	private static final long serialVersionUID = -9049293577574541041L;
+
 	@SuppressWarnings("unused")
 	private static final Color darkRed = Color.red.darker().darker();
 	private static final Color darkGreen = Color.green.darker().darker();
 	private static final Color darkOrange = Color.orange.darker().darker();
 	private static final Color darkGray = new Color(0x606060);
 	private static final Color darkCyan = new Color(0x008080);
-	private static final Color darkPurple = new Color(0xC000C0);
+	private static final Color darkPurple = new Color(0x800080);
 	@SuppressWarnings("unused")
 	private static final Color darkBlue = Color.blue.darker().darker();
 	private static final Color defaultColor = Color.black;
@@ -59,6 +60,7 @@ public abstract class AbstractRenderer extends JPanel
 	private static final Color questionMarkColor = Color.red;
 	private static final Color xMarkColor = Color.red;
 	private static final Color turnstileColor = Color.orange;
+	private static final Color activeContextColor = darkPurple;
 	private static final Color notValidSignatureSymbolColor = darkGray;
 	private static final Color validSignatureSymbolColor = darkGray;
 	private static final Color signedDependenciesSymbolColor = darkGray;
@@ -68,9 +70,43 @@ public abstract class AbstractRenderer extends JPanel
 	private static final Color groupSorterColor = Color.blue;
 	private static final Border emptyBorder = BorderFactory.createEmptyBorder(1, 1, 1, 1);
 	private static final Color focusBorderColor = Color.blue;
-	private static final Color activeContextBorderColor = darkPurple;
 	private static final Color defaultNormalBackgroundColor = Color.white;
 	private static final Color defaultSelectedBackgroundColor = Color.lightGray;
+
+	protected static Color getDefaultColor()
+	{
+		return defaultColor;
+	}
+
+	protected static Color getProvenLabelColor()
+	{
+		return provenLabelColor;
+	}
+
+	protected static Color getUnprovenLabelColor()
+	{
+		return unprovenLabelColor;
+	}
+
+	protected static Color getPrivatePersonColor()
+	{
+		return privatePersonColor;
+	}
+
+	protected static Color getGroupSorterColor()
+	{
+		return groupSorterColor;
+	}
+
+	protected static Color getTurnstileColor()
+	{
+		return turnstileColor;
+	}
+
+	protected static Color getActiveContextColor()
+	{
+		return activeContextColor;
+	}
 
 	protected interface EditableComponent
 	{
@@ -84,7 +120,6 @@ public abstract class AbstractRenderer extends JPanel
 	private final boolean withBorder;
 
 	private boolean hasFocus;
-	private boolean activeContext;
 
 	private Font activeFont;
 
@@ -452,7 +487,7 @@ public abstract class AbstractRenderer extends JPanel
 			setBackground(normalBackgroundColor);
 	}
 
-	private void setBorderColor(Color color)
+	protected void setBorderColor(Color color)
 	{
 		if (withBorder)
 		{
@@ -484,17 +519,9 @@ public abstract class AbstractRenderer extends JPanel
 		updateBorderColor();
 	}
 
-	public void setActiveContext(boolean activeContext)
+	protected void updateBorderColor()
 	{
-		this.activeContext = activeContext;
-		updateBorderColor();
-	}
-
-	private void updateBorderColor()
-	{
-		if (activeContext)
-			setBorderColor(activeContextBorderColor);
-		else if (hasFocus)
+		if (hasFocus)
 			setBorderColor(focusBorderColor);
 		else
 			setBorderColor(null);
@@ -510,31 +537,6 @@ public abstract class AbstractRenderer extends JPanel
 	{
 		for (EditableComponent c : editableComponents)
 			c.stopEditing();
-	}
-
-	protected static Color getDefaultColor()
-	{
-		return defaultColor;
-	}
-
-	protected static Color getProvenLabelColor()
-	{
-		return provenLabelColor;
-	}
-
-	protected static Color getUnprovenLabelColor()
-	{
-		return unprovenLabelColor;
-	}
-
-	protected static Color getPrivatePersonColor()
-	{
-		return privatePersonColor;
-	}
-
-	protected static Color getGroupSorterColor()
-	{
-		return groupSorterColor;
 	}
 
 	protected JLabel addUUIDLabel(UUID uuid)

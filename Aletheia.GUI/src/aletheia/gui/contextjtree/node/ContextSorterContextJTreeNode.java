@@ -150,7 +150,8 @@ public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJT
 	protected synchronized ContextJTreeNodeRenderer getRenderer()
 	{
 		ContextJTreeNodeRenderer renderer = super.getRenderer();
-		renderer.setActiveContext(activeContext);
+		if (renderer instanceof ContextContextJTreeNodeRenderer)
+			((ContextContextJTreeNodeRenderer<?>) renderer).setActiveContext(activeContext);
 		return renderer;
 	}
 
@@ -158,7 +159,8 @@ public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJT
 	public synchronized ContextJTreeNodeRenderer renderer(ContextJTree contextJTree)
 	{
 		ContextJTreeNodeRenderer renderer = super.renderer(contextJTree);
-		renderer.setActiveContext(activeContext);
+		if (renderer instanceof ContextContextJTreeNodeRenderer)
+			((ContextContextJTreeNodeRenderer<?>) renderer).setActiveContext(activeContext);
 		return renderer;
 	}
 
