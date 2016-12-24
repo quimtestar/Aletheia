@@ -47,12 +47,6 @@ public class EmptyContextJTreeNode extends ContextJTreeNode
 	}
 
 	@Override
-	protected synchronized EmptyContextJTreeNodeRenderer getRenderer()
-	{
-		return (EmptyContextJTreeNodeRenderer) super.getRenderer();
-	}
-
-	@Override
 	public String toString()
 	{
 		return super.toString() + "[Empty]";

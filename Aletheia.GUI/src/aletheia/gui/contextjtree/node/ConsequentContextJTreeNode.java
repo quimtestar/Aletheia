@@ -52,12 +52,6 @@ public class ConsequentContextJTreeNode extends ContextJTreeNode
 	}
 
 	@Override
-	protected synchronized ConsequentContextJTreeNodeRenderer getRenderer()
-	{
-		return (ConsequentContextJTreeNodeRenderer) super.getRenderer();
-	}
-
-	@Override
 	public String toString()
 	{
 		return super.toString() + "[Consequent: " + getContext().label() + "]";

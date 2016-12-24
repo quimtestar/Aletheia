@@ -74,10 +74,4 @@ public class StatementSorterContextJTreeNode extends SorterContextJTreeNode impl
 		}
 	}
 
-	@Override
-	protected synchronized StatementContextJTreeNodeRenderer<?> getRenderer()
-	{
-		return (StatementContextJTreeNodeRenderer<?>) super.getRenderer();
-	}
-
 }

@@ -25,6 +25,7 @@ import java.util.Iterator;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeModel;
 import aletheia.gui.contextjtree.renderer.ContextContextJTreeNodeRenderer;
+import aletheia.gui.contextjtree.renderer.ContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.renderer.ProperStatementContextJTreeNodeRenderer;
 import aletheia.gui.contextjtree.sorter.ContextGroupSorter;
 import aletheia.gui.contextjtree.sorter.ContextSorter;
@@ -146,15 +147,17 @@ public class ContextSorterContextJTreeNode extends StatementGroupSorterContextJT
 	}
 
 	@Override
-	protected synchronized ContextContextJTreeNodeRenderer<?> getRenderer()
+	protected synchronized ContextJTreeNodeRenderer getRenderer()
 	{
-		return (ContextContextJTreeNodeRenderer<?>) super.getRenderer();
+		ContextJTreeNodeRenderer renderer = super.getRenderer();
+		renderer.setActiveContext(activeContext);
+		return renderer;
 	}
 
 	@Override
-	public synchronized ContextContextJTreeNodeRenderer<?> renderer(ContextJTree contextJTree)
+	public synchronized ContextJTreeNodeRenderer renderer(ContextJTree contextJTree)
 	{
-		ContextContextJTreeNodeRenderer<?> renderer = (ContextContextJTreeNodeRenderer<?>) super.renderer(contextJTree);
+		ContextJTreeNodeRenderer renderer = super.renderer(contextJTree);
 		renderer.setActiveContext(activeContext);
 		return renderer;
 	}
