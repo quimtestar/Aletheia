@@ -44,12 +44,14 @@ public class Useless extends TransactionalCommand
 {
 	private final Context context;
 	private final Comparator<Statement> pathComparator;
+	private final boolean unsigned;
 
-	public Useless(CommandSource from, Transaction transaction, Context context)
+	public Useless(CommandSource from, Transaction transaction, Context context, boolean unsigned)
 	{
 		super(from, transaction);
 		this.context = context;
 		this.pathComparator = Statement.pathComparator(getTransaction());
+		this.unsigned = unsigned;
 	}
 
 	private class UnusedCommandException extends CommandException
@@ -147,7 +149,10 @@ public class Useless extends TransactionalCommand
 		{
 			Context ctx = stack.pop();
 			if (ctx.isProved())
-				processProved(ctx);
+			{
+				if (!unsigned || !ctx.isValidSignature(getTransaction()))
+					processProved(ctx);
+			}
 			else
 			{
 				ArrayList<Context> subs = new ArrayList<>(ctx.subContexts(getTransaction()));
@@ -174,6 +179,7 @@ public class Useless extends TransactionalCommand
 			try
 			{
 				checkMinParameters(split);
+				boolean unsigned = split.remove("-unsigned");
 				Context context;
 				if (split.size() > 0)
 				{
@@ -190,7 +196,7 @@ public class Useless extends TransactionalCommand
 					if (context == null)
 						throw new NotActiveContextException();
 				}
-				return new Useless(from, transaction, context);
+				return new Useless(from, transaction, context, unsigned);
 			}
 			catch (NotActiveContextException e)
 			{
@@ -201,7 +207,7 @@ public class Useless extends TransactionalCommand
 		@Override
 		protected String paramSpec()
 		{
-			return "[<context>]";
+			return "[<context>] [-unsigned]";
 		}
 
 		@Override
