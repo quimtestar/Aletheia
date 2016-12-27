@@ -83,24 +83,39 @@ public class SubscribedHighestContext extends TransactionalCommand
 		@Override
 		protected int minParameters()
 		{
-			return 1;
+			return 0;
 		}
 
 		@Override
 		public SubscribedHighestContext parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
-			if (!(statement instanceof Context))
-				throw new CommandParseException("Not a context.");
-			boolean unsigned = split.size() > 1 && split.get(1).equals("-unsigned");
-			return new SubscribedHighestContext(from, transaction, (Context) statement, unsigned);
+			boolean unsigned = split.remove("-unsigned");
+			Context context;
+			if (split.size() > 0)
+			{
+				try
+				{
+					context = (Context) findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
+				}
+				catch (ClassCastException e)
+				{
+					throw new CommandParseException("Not a context.");
+				}
+			}
+			else
+			{
+				context = from.getActiveContext();
+				if (context == null)
+					throw new CommandParseException("No active context.");
+			}
+			return new SubscribedHighestContext(from, transaction, context, unsigned);
 		}
 
 		@Override
 		protected String paramSpec()
 		{
-			return "<context> [-unsigned]";
+			return "[<context>] [-unsigned]";
 		}
 
 		@Override
