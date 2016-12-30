@@ -383,7 +383,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 		}
 		catch (PrivateSignatoryException e)
 		{
-			throw new NoPrivateDataForAuthorException(e);
+			throw new NoPrivateDataForAuthorException(e.getMessage(), e);
 		}
 		addSuccessorEntry(transaction, successorEntry);
 		return successorEntry;
@@ -481,6 +481,11 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 			super(cause);
 		}
 
+		private NoPrivateDataForSignatoryException(String message, Throwable cause)
+		{
+			super(message, cause);
+		}
+
 	}
 
 	public class NoPrivateDataForAuthorException extends NoPrivateDataForSignatoryException
@@ -489,12 +494,17 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 
 		private NoPrivateDataForAuthorException()
 		{
-			super("Don't have the private data for this author");
+			super("Don't have the private data for this author.");
 		}
 
 		private NoPrivateDataForAuthorException(Throwable cause)
 		{
 			super(cause);
+		}
+
+		private NoPrivateDataForAuthorException(String message, Throwable cause)
+		{
+			super(message, cause);
 		}
 
 	}
@@ -505,7 +515,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 
 		private NoPrivateDataForSuccessorException()
 		{
-			super("Don't have the private data for this successor");
+			super("Don't have the private data for this successor.");
 		}
 
 	}
@@ -619,7 +629,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 		}
 		catch (PrivateSignatoryException e)
 		{
-			throw new NoPrivateDataForAuthorException(e);
+			throw new NoPrivateDataForAuthorException(e.getMessage(), e);
 		}
 		catch (InvalidKeyException e)
 		{

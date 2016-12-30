@@ -105,7 +105,7 @@ public class Sign extends TransactionalCommand
 			else
 			{
 				if (!(authorizer_ instanceof PrivateSignatory))
-					throw new SignCommandException("Haven't got private data for this authorizer");
+					throw new SignCommandException("Haven't got private data for this authorizer. Maybe try entering the passphrase?");
 				authorizer = (PrivateSignatory) authorizer_;
 			}
 		}

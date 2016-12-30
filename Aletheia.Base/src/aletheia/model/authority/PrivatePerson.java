@@ -116,7 +116,7 @@ public class PrivatePerson extends Person
 
 		private PrivateSignatoryException()
 		{
-			super("Private signatory's data not decrypted");
+			super("Private signatory's data not decrypted. Maybe try entering a passphrase?");
 		}
 
 	}

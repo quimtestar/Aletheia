@@ -65,7 +65,7 @@ public class SignRec extends Sign
 		else
 		{
 			if (!(authorizer_ instanceof PrivateSignatory))
-				throw new SignCommandException("Haven't got private data for this authorizer");
+				throw new SignCommandException("Haven't got private data for this authorizer. Maybe try entering the passphrase?");
 			authorizer = (PrivateSignatory) authorizer_;
 		}
 		for (Statement st : getContext().descendentStatements(getTransaction()))
