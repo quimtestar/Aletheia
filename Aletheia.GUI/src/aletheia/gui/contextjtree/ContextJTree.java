@@ -877,6 +877,7 @@ public class ContextJTree extends PersistentJTree
 
 	public void expandUnprovedContexts(final Context context)
 	{
+		collapseAll(context);
 		SwingUtilities.invokeLater(new Runnable()
 		{
 
