@@ -313,7 +313,7 @@ public class AuthorityJPanel extends JPanel
 		setStatementAuthority(null, null);
 	}
 
-	private void removeAuthorityHeaderJPanel()
+	private synchronized void removeAuthorityHeaderJPanel()
 	{
 		if (authorityHeaderJPanel != null)
 		{
@@ -323,7 +323,7 @@ public class AuthorityJPanel extends JPanel
 		}
 	}
 
-	private void removeAuthoritySignatureJTable()
+	private synchronized void removeAuthoritySignatureJTable()
 	{
 		if (authoritySignatureJTable != null)
 		{
@@ -338,12 +338,12 @@ public class AuthorityJPanel extends JPanel
 	}
 
 	@SuppressWarnings("unused")
-	private String getShowing()
+	private synchronized String getShowing()
 	{
 		return showing;
 	}
 
-	private void show(String componentName)
+	private synchronized void show(String componentName)
 	{
 		showing = componentName;
 		getLayout().show(this, componentName);
@@ -359,7 +359,7 @@ public class AuthorityJPanel extends JPanel
 		show(contentComponentName);
 	}
 
-	private void setStatementAuthority(Statement statement, StatementAuthority statementAuthority)
+	private synchronized void setStatementAuthority(Statement statement, StatementAuthority statementAuthority)
 	{
 		if (this.statement != null)
 			this.statement.removeStateListener(listener);
@@ -402,12 +402,12 @@ public class AuthorityJPanel extends JPanel
 		updateUI();
 	}
 
-	public void updateFontSize()
+	public synchronized void updateFontSize()
 	{
 		setStatementAuthority(statement, statementAuthority);
 	}
 
-	public void close()
+	public synchronized void close()
 	{
 
 		if (delegateTreeJTree != null)
