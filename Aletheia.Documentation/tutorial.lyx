@@ -871,7 +871,7 @@ status open
 \begin_layout Standard
 After that we need to specify an initial node (we might use 
 \emph on
-aletheia.project.li:9000
+aletheiapa.mooo.com:9000
 \emph default
 ) via the command line interface:
 \end_layout
@@ -903,7 +903,7 @@ Join the female P2P node the network by the given hook.
 
 \begin_layout Plain Layout
 
-% fnj aletheia.project.li 9000
+% fnj aletheiapa.mooo.com 9000
 \end_layout
 
 \begin_layout Plain Layout
@@ -918,7 +918,7 @@ Joined to network
 
 \begin_layout Plain Layout
 
-aletheia.project.li/1.2.3.4:9000	MALE	Network
+aletheiapa.mooo.com/1.2.3.4:9000	MALE	Network
 \end_layout
 
 \end_inset
@@ -934,7 +934,7 @@ Setting up as a male node
 We set up directly the IP address and port of the node we are connecting
  to (we might use 
 \emph on
-aletheia.project.li:8900
+aletheiapa.mooo.com:8900
 \emph default
 ) in the 
 \emph on
@@ -1001,12 +1001,12 @@ status open
 
 \begin_layout Plain Layout
 
-aletheia.project.li/1.2.3.4:8900	MALE	Conjugal
+aletheiapa.mooo.com/1.2.3.4:8900	MALE	Conjugal
 \end_layout
 
 \begin_layout Plain Layout
 
-aletheia.project.li/1.2.3.4:8900	MALE	Network
+aletheiapa.mooo.com/1.2.3.4:8900	MALE	Network
 \end_layout
 
 \end_inset
