@@ -875,40 +875,88 @@ public class ContextJTree extends PersistentJTree
 		scrollPathToVisible(getModel().pathForContextConsequent(context));
 	}
 
+	private void expandUnprovedContexts_(Context context)
+	{
+		collapseAll_(context);
+		Transaction transaction = getPersistenceManager().beginTransaction();
+		try
+		{
+			Stack<Context> stack = new Stack<>();
+			stack.push(context);
+			while (!stack.isEmpty())
+			{
+				Context ctx = stack.pop();
+				TreePath path = getModel().pathForStatement(ctx);
+				if (!ctx.isProved())
+				{
+					expandPath(path);
+					stack.addAll(ctx.subContexts(transaction));
+				}
+				else if (isVisible(path))
+					collapsePath(path);
+			}
+		}
+		finally
+		{
+			transaction.abort();
+		}
+	}
+
 	public void expandUnprovedContexts(final Context context)
 	{
-		collapseAll(context);
 		SwingUtilities.invokeLater(new Runnable()
 		{
 
 			@Override
 			public void run()
 			{
-				Transaction transaction = getPersistenceManager().beginTransaction();
-				try
-				{
-					Stack<Context> stack = new Stack<>();
-					stack.push(context);
-					while (!stack.isEmpty())
-					{
-						Context ctx = stack.pop();
-						TreePath path = getModel().pathForStatement(ctx);
-						if (!ctx.isProved())
-						{
-							expandPath(path);
-							stack.addAll(ctx.subContexts(transaction));
-						}
-						else if (isVisible(path))
-							collapsePath(path);
-					}
-				}
-				finally
-				{
-					transaction.abort();
-				}
+				expandUnprovedContexts_(context);
 			}
 
 		});
+
+	}
+
+	private void expandSubscribedContexts_(ContextLocal ctxLocal)
+	{
+		Transaction transaction = getPersistenceManager().beginTransaction();
+		try
+		{
+			Stack<ContextLocal> stack = new Stack<>();
+			stack.push(ctxLocal);
+			while (!stack.isEmpty())
+			{
+				ContextLocal ctxLocal_ = stack.pop();
+				ContextSorterContextJTreeNode node = (ContextSorterContextJTreeNode) getModel().getNodeMap()
+						.getByStatement(ctxLocal_.getStatement(transaction));
+				boolean pushed = false;
+				for (ContextLocal ctxLocal__ : ctxLocal_.subscribeStatementsContextLocalSet(transaction))
+				{
+					StatementContextJTreeNode node_ = getModel().getNodeMap().getByStatement(ctxLocal__.getStatement(transaction));
+					GroupSorterContextJTreeNode<?> parent = node_.getParent();
+					while (true)
+					{
+						for (ContextJTreeNode n : parent.childrenIterable())
+							collapsePath(n.path());
+						if (parent.equals(node))
+							break;
+						parent = parent.getParent();
+					}
+					expandPath(node_.path());
+					stack.push(ctxLocal__);
+					pushed = true;
+				}
+				if (!pushed)
+				{
+					for (ContextJTreeNode n : node.childrenIterable())
+						collapsePath(n.path());
+				}
+			}
+		}
+		finally
+		{
+			transaction.abort();
+		}
 
 	}
 
@@ -926,44 +974,7 @@ public class ContextJTree extends PersistentJTree
 					@Override
 					public void run()
 					{
-						Transaction transaction = getPersistenceManager().beginTransaction();
-						try
-						{
-							Stack<ContextLocal> stack = new Stack<>();
-							stack.push(ctxLocal);
-							while (!stack.isEmpty())
-							{
-								ContextLocal ctxLocal = stack.pop();
-								ContextSorterContextJTreeNode node = (ContextSorterContextJTreeNode) getModel().getNodeMap()
-										.getByStatement(ctxLocal.getStatement(transaction));
-								boolean pushed = false;
-								for (ContextLocal ctxLocal_ : ctxLocal.subscribeStatementsContextLocalSet(transaction))
-								{
-									StatementContextJTreeNode node_ = getModel().getNodeMap().getByStatement(ctxLocal_.getStatement(transaction));
-									GroupSorterContextJTreeNode<?> parent = node_.getParent();
-									while (true)
-									{
-										for (ContextJTreeNode n : parent.childrenIterable())
-											collapsePath(n.path());
-										if (parent.equals(node))
-											break;
-										parent = parent.getParent();
-									}
-									expandPath(node_.path());
-									stack.push(ctxLocal_);
-									pushed = true;
-								}
-								if (!pushed)
-								{
-									for (ContextJTreeNode n : node.childrenIterable())
-										collapsePath(n.path());
-								}
-							}
-						}
-						finally
-						{
-							transaction.abort();
-						}
+						expandSubscribedContexts_(ctxLocal);
 					}
 
 				});
@@ -977,6 +988,52 @@ public class ContextJTree extends PersistentJTree
 
 	}
 
+	private void expandGroup_(Context context, Namespace prefix)
+	{
+		Transaction transaction = getPersistenceManager().beginTransaction();
+		try
+		{
+			Stack<GroupSorterContextJTreeNode<?>> stack = new Stack<>();
+			{
+				GroupSorterContextJTreeNode<?> initialNode = context == null ? getModel().getRootTreeNode()
+						: (ContextSorterContextJTreeNode) getModel().getNodeMap().getByStatement(context);
+				if (prefix instanceof NodeNamespace)
+				{
+					Sorter sorter = initialNode.getSorter().findByPrefix(transaction, (NodeNamespace) prefix);
+					if (sorter != null)
+					{
+						SorterContextJTreeNode n = getModel().getNodeMap().get(sorter);
+						if (n instanceof GroupSorterContextJTreeNode && !(n instanceof RootContextJTreeNode) && !(n instanceof ContextSorterContextJTreeNode))
+							initialNode = (GroupSorterContextJTreeNode<?>) n;
+						else
+						{
+							setSelectionPath(n.path());
+							initialNode = null;
+						}
+					}
+					else
+						initialNode = null;
+				}
+				if (initialNode != null)
+					stack.push(initialNode);
+			}
+			while (!stack.isEmpty())
+			{
+				GroupSorterContextJTreeNode<?> node = stack.pop();
+				expandPath(node.path());
+				for (ContextJTreeNode n : node.childrenIterable())
+				{
+					if (n instanceof GroupSorterContextJTreeNode && !(n instanceof RootContextJTreeNode) && !(n instanceof ContextSorterContextJTreeNode))
+						stack.push((GroupSorterContextJTreeNode<?>) n);
+				}
+			}
+		}
+		finally
+		{
+			transaction.abort();
+		}
+	}
+
 	public void expandGroup(final Context context, final Namespace prefix)
 	{
 		SwingUtilities.invokeLater(new Runnable()
@@ -984,53 +1041,32 @@ public class ContextJTree extends PersistentJTree
 			@Override
 			public void run()
 			{
-				Transaction transaction = getPersistenceManager().beginTransaction();
-				try
-				{
-					Stack<GroupSorterContextJTreeNode<?>> stack = new Stack<>();
-					{
-						GroupSorterContextJTreeNode<?> initialNode = context == null ? getModel().getRootTreeNode()
-								: (ContextSorterContextJTreeNode) getModel().getNodeMap().getByStatement(context);
-						if (prefix instanceof NodeNamespace)
-						{
-							Sorter sorter = initialNode.getSorter().findByPrefix(transaction, (NodeNamespace) prefix);
-							if (sorter != null)
-							{
-								SorterContextJTreeNode n = getModel().getNodeMap().get(sorter);
-								if (n instanceof GroupSorterContextJTreeNode && !(n instanceof RootContextJTreeNode)
-										&& !(n instanceof ContextSorterContextJTreeNode))
-									initialNode = (GroupSorterContextJTreeNode<?>) n;
-								else
-								{
-									setSelectionPath(n.path());
-									initialNode = null;
-								}
-							}
-							else
-								initialNode = null;
-						}
-						if (initialNode != null)
-							stack.push(initialNode);
-					}
-					while (!stack.isEmpty())
-					{
-						GroupSorterContextJTreeNode<?> node = stack.pop();
-						expandPath(node.path());
-						for (ContextJTreeNode n : node.childrenIterable())
-						{
-							if (n instanceof GroupSorterContextJTreeNode && !(n instanceof RootContextJTreeNode)
-									&& !(n instanceof ContextSorterContextJTreeNode))
-								stack.push((GroupSorterContextJTreeNode<?>) n);
-						}
-					}
-				}
-				finally
-				{
-					transaction.abort();
-				}
+				expandGroup_(context, prefix);
 			}
 		});
 
+	}
+
+	private void collapseAll_(Context context)
+	{
+		Stack<GroupSorterContextJTreeNode<?>> collapseStack = new Stack<>();
+		Stack<SorterContextJTreeNode> stack = new Stack<>();
+		stack.push((SorterContextJTreeNode) getModel().getNodeMap().cachedByStatement(context));
+		while (!stack.isEmpty())
+		{
+			SorterContextJTreeNode node = stack.pop();
+			if (node instanceof GroupSorterContextJTreeNode<?>)
+			{
+				GroupSorterContextJTreeNode<?> gNode = (GroupSorterContextJTreeNode<?>) node;
+				collapseStack.push(gNode);
+				List<Sorter> sorters = gNode.getSorterList();
+				if (sorters != null)
+					for (Sorter sorter : sorters)
+						stack.push(getModel().getNodeMap().cached(sorter));
+			}
+		}
+		while (!collapseStack.isEmpty())
+			collapsePath(collapseStack.pop().path());
 	}
 
 	public void collapseAll(final Context context)
@@ -1040,27 +1076,31 @@ public class ContextJTree extends PersistentJTree
 			@Override
 			public void run()
 			{
-				Stack<GroupSorterContextJTreeNode<?>> collapseStack = new Stack<>();
-				Stack<SorterContextJTreeNode> stack = new Stack<>();
-				stack.push((SorterContextJTreeNode) getModel().getNodeMap().cachedByStatement(context));
-				while (!stack.isEmpty())
-				{
-					SorterContextJTreeNode node = stack.pop();
-					if (node instanceof GroupSorterContextJTreeNode<?>)
-					{
-						GroupSorterContextJTreeNode<?> gNode = (GroupSorterContextJTreeNode<?>) node;
-						collapseStack.push(gNode);
-						List<Sorter> sorters = gNode.getSorterList();
-						if (sorters != null)
-							for (Sorter sorter : sorters)
-								stack.push(getModel().getNodeMap().cached(sorter));
-					}
-				}
-				while (!collapseStack.isEmpty())
-					collapsePath(collapseStack.pop().path());
+				collapseAll_(context);
 			}
 		});
 
+	}
+
+	private void expandAllContexts_(Context context)
+	{
+		Transaction transaction = getPersistenceManager().beginTransaction();
+		try
+		{
+			Stack<Context> stack = new Stack<>();
+			stack.push(context);
+			while (!stack.isEmpty())
+			{
+				Context ctx = stack.pop();
+				TreePath path = getModel().pathForStatement(ctx);
+				expandPath(path);
+				stack.addAll(ctx.subContexts(transaction));
+			}
+		}
+		finally
+		{
+			transaction.abort();
+		}
 	}
 
 	public void expandAllContexts(final Context context)
@@ -1071,23 +1111,7 @@ public class ContextJTree extends PersistentJTree
 			@Override
 			public void run()
 			{
-				Transaction transaction = getPersistenceManager().beginTransaction();
-				try
-				{
-					Stack<Context> stack = new Stack<>();
-					stack.push(context);
-					while (!stack.isEmpty())
-					{
-						Context ctx = stack.pop();
-						TreePath path = getModel().pathForStatement(ctx);
-						expandPath(path);
-						stack.addAll(ctx.subContexts(transaction));
-					}
-				}
-				finally
-				{
-					transaction.abort();
-				}
+				expandAllContexts_(context);
 			}
 
 		});
