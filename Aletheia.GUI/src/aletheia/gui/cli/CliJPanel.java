@@ -124,6 +124,7 @@ import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.prooffinder.ProofFinder;
 import aletheia.utilities.MiscUtilities;
+import aletheia.utilities.collections.CloseableCollection;
 import aletheia.utilities.gui.MyJSplitPane;
 
 public class CliJPanel extends JPanel implements CommandSource
@@ -1194,6 +1195,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		promptWhenDone = null;
 		commandBuffer = new StringBuffer();
 		consolePrintWriter = null;
+		setActiveContext(initialActiveContext(getPersistenceManager()));
 	}
 
 	public AletheiaJPanel getAletheiaJPanel()
@@ -2396,6 +2398,28 @@ public class CliJPanel extends JPanel implements CommandSource
 			}
 
 		});
+	}
+
+	private Context initialActiveContext(PersistenceManager persistenceManager, Transaction transaction)
+	{
+		CloseableCollection<RootContext> rootContexts = persistenceManager.rootContexts(transaction).values();
+		if (rootContexts.size() != 1)
+			return null;
+		else
+			return MiscUtilities.firstFromCloseableIterable(persistenceManager.rootContexts(transaction).values());
+	}
+
+	private Context initialActiveContext(PersistenceManager persistenceManager)
+	{
+		Transaction transaction = persistenceManager.beginTransaction();
+		try
+		{
+			return initialActiveContext(persistenceManager, transaction);
+		}
+		finally
+		{
+			transaction.abort();
+		}
 	}
 
 }
