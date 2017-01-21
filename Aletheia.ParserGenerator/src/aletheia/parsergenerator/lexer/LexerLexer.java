@@ -226,6 +226,7 @@ public class LexerLexer extends AbstractLexer
 	public static final TerminalSymbol sEOL = new TaggedTerminalSymbol("EOL");
 	public static final TerminalSymbol sDot = new TaggedTerminalSymbol("DOT");
 	public static final TerminalSymbol sCaret = new TaggedTerminalSymbol("CARET");
+	public static final TerminalSymbol sHash = new TaggedTerminalSymbol("HASH");
 
 	public static final TerminalSymbol sQuote = new TaggedTerminalSymbol("QUOTE");
 	public static final TerminalSymbol sColon = new TaggedTerminalSymbol("COLON");
@@ -441,18 +442,56 @@ public class LexerLexer extends AbstractLexer
 				case '^':
 					eat();
 					return new TerminalToken(sCaret, location, getLocation());
+				case '#':
+					eat();
+					return new TerminalToken(sHash, location, getLocation());
 				default:
 				{
 					if (getNext() >= '0' && getNext() <= '9')
 					{
 						int num = 0;
-						while (!isAtEnd() && (getNext() >= '0' && getNext() <= '9'))
+						int base = 10;
+						if (getNext() == '0')
 						{
-							num *= 10;
-							num += getNext() - '0';
-							if (num < 0)
-								throw new LexerException(location, getLocation(), "Number overflow");
 							eat();
+							if (getNext() == 'x' || getNext() == 'X')
+							{
+								eat();
+								base = 16;
+							}
+						}
+						switch (base)
+						{
+						case 10:
+							while (!isAtEnd() && (getNext() >= '0' && getNext() <= '9'))
+							{
+								num *= 10;
+								num += getNext() - '0';
+								if (num < 0)
+									throw new LexerException(location, getLocation(), "Number overflow");
+								eat();
+							}
+							break;
+						case 16:
+							while (!isAtEnd() && ((getNext() >= '0' && getNext() <= '9') || (getNext() >= 'a' && getNext() <= 'f')
+									|| (getNext() >= 'A' && getNext() <= 'F')))
+							{
+								num *= 16;
+								if (getNext() >= '0' && getNext() <= '9')
+									num += getNext() - '0';
+								else if (getNext() >= 'a' && getNext() <= 'f')
+									num += getNext() - 'a' + 10;
+								else if (getNext() >= 'A' && getNext() <= 'F')
+									num += getNext() - 'A' + 10;
+								else
+									throw new RuntimeException();
+								if (num < 0)
+									throw new LexerException(location, getLocation(), "Number overflow");
+								eat();
+							}
+							break;
+						default:
+							throw new Error();
 						}
 						return new NumberToken(location, getLocation(), num);
 					}

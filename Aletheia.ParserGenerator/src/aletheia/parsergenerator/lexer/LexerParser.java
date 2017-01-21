@@ -234,43 +234,54 @@ public class LexerParser extends Parser
 			}
 			else if ((token.getProduction().getRight().size() == 2))
 			{
-				if (token.getProduction().getRight().get(1).equals(new TaggedTerminalSymbol("KLEENE")))
+				if (token.getProduction().getRight().get(0).equals(new TaggedNonTerminalSymbol("F")))
 				{
-					Automaton a = processTokenRegExp((NonTerminalToken) token.getChildren().get(0));
-					return a.kleene();
-				}
-				else if (token.getProduction().getRight().get(1).equals(new TaggedTerminalSymbol("PLUS")))
-				{
-					Automaton a = processTokenRegExp((NonTerminalToken) token.getChildren().get(0));
-					return a.concatenate(a.kleene());
-				}
-				else if (token.getProduction().getRight().get(1).equals(new TaggedTerminalSymbol("QUESTION")))
-				{
-					Automaton a = processTokenRegExp((NonTerminalToken) token.getChildren().get(0));
-					return a.union(Automaton.emptyString());
-				}
-				else if (token.getProduction().getRight().get(1).equals(new TaggedNonTerminalSymbol("R")))
-				{
-					Automaton a = processTokenRegExp((NonTerminalToken) token.getChildren().get(0));
-					Interval i = processTokenInterval((NonTerminalToken) token.getChildren().get(1));
-					Automaton b = Automaton.emptyString();
-					for (int j = 0; j < i.from; j++)
-						b = b.concatenate(a);
-					if (i.to >= Integer.MAX_VALUE)
-						return b.concatenate(a.kleene());
-					else
+					if (token.getProduction().getRight().get(1).equals(new TaggedTerminalSymbol("KLEENE")))
 					{
-						Automaton c = Automaton.empty();
-						for (int j = i.from; j <= i.to; j++)
-						{
-							c = c.union(b);
-							b = b.concatenate(a);
-						}
-						return c;
+						Automaton a = processTokenRegExp((NonTerminalToken) token.getChildren().get(0));
+						return a.kleene();
 					}
+					else if (token.getProduction().getRight().get(1).equals(new TaggedTerminalSymbol("PLUS")))
+					{
+						Automaton a = processTokenRegExp((NonTerminalToken) token.getChildren().get(0));
+						return a.concatenate(a.kleene());
+					}
+					else if (token.getProduction().getRight().get(1).equals(new TaggedTerminalSymbol("QUESTION")))
+					{
+						Automaton a = processTokenRegExp((NonTerminalToken) token.getChildren().get(0));
+						return a.union(Automaton.emptyString());
+					}
+					else if (token.getProduction().getRight().get(1).equals(new TaggedNonTerminalSymbol("R")))
+					{
+						Automaton a = processTokenRegExp((NonTerminalToken) token.getChildren().get(0));
+						Interval i = processTokenInterval((NonTerminalToken) token.getChildren().get(1));
+						Automaton b = Automaton.emptyString();
+						for (int j = 0; j < i.from; j++)
+							b = b.concatenate(a);
+						if (i.to >= Integer.MAX_VALUE)
+							return b.concatenate(a.kleene());
+						else
+						{
+							Automaton c = Automaton.empty();
+							for (int j = i.from; j <= i.to; j++)
+							{
+								c = c.union(b);
+								b = b.concatenate(a);
+							}
+							return c;
+						}
+					}
+					else
+						throw new Error();
+				}
+				else if (token.getProduction().getRight().get(0).equals(new TaggedTerminalSymbol("HASH")))
+				{
+					int n = ((NumberToken) token.getChildren().get(1)).getN();
+					return Automaton.singleton((char) n);
 				}
 				else
 					throw new Error();
+
 			}
 			else if ((token.getProduction().getRight().size() == 3))
 			{

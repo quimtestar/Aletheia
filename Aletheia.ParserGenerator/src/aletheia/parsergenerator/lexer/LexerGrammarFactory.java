@@ -57,6 +57,7 @@ public class LexerGrammarFactory
 				"F -> F R;" +
 				"F -> OP E CP;" +
 				"F -> OB D CB;" +
+				"F -> HASH NUMBER;" +
 				"R -> OC I CC;" +
 				"I -> NUMBER;" +
 				"I -> COMMA NUMBER;" +
