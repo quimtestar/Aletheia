@@ -877,12 +877,11 @@ public class ContextJTree extends PersistentJTree
 
 	private void expandUnprovedContexts_(Context context)
 	{
-		collapseAll_(context);
 		Transaction transaction = getPersistenceManager().beginTransaction();
 		try
 		{
 			Stack<Context> stack = new Stack<>();
-			stack.push(context);
+			stack.push(context.refresh(transaction));
 			while (!stack.isEmpty())
 			{
 				Context ctx = stack.pop();
@@ -890,10 +889,25 @@ public class ContextJTree extends PersistentJTree
 				if (!ctx.isProved())
 				{
 					expandPath(path);
-					stack.addAll(ctx.subContexts(transaction));
+					ContextSorterContextJTreeNode node = ((ContextSorterContextJTreeNode) path.getLastPathComponent());
+					for (Context ctx_ : ctx.subContexts(transaction))
+					{
+						stack.push(ctx_);
+						TreePath path_ = getModel().pathForStatement(ctx_);
+						if (isVisible(path_))
+							collapsePath(path_);
+					}
+					for (ContextJTreeNode n : node.childrenIterable())
+					{
+						if (n instanceof GroupSorterContextJTreeNode<?>)
+						{
+							TreePath path_ = n.path();
+							if (isVisible(path_))
+								collapsePath(path_);
+
+						}
+					}
 				}
-				else if (isVisible(path))
-					collapsePath(path);
 			}
 		}
 		finally
