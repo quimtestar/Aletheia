@@ -81,7 +81,6 @@ import aletheia.persistence.collections.statement.LocalStatementsMap;
 import aletheia.persistence.collections.statement.SubContextsSet;
 import aletheia.persistence.entities.statement.ContextEntity;
 import aletheia.utilities.collections.AdaptedList;
-import aletheia.utilities.collections.AdaptedSet;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCloseableCollection;
 import aletheia.utilities.collections.BijectionCloseableSet;
@@ -2152,10 +2151,10 @@ public class Context extends Statement
 	public class Match
 	{
 		private final Statement statement;
-		private final Set<ParameterVariableTerm> assignable;
+		private final Set<? super ParameterVariableTerm> assignable;
 		private final Term.Match termMatch;
 
-		private Match(Statement statement, Set<ParameterVariableTerm> assignable, Term.Match termMatch)
+		private Match(Statement statement, Set<? super ParameterVariableTerm> assignable, Term.Match termMatch)
 		{
 			super();
 			this.statement = statement;
@@ -2168,7 +2167,7 @@ public class Context extends Statement
 			return statement;
 		}
 
-		public Set<ParameterVariableTerm> getAssignable()
+		public Set<? super ParameterVariableTerm> getAssignable()
 		{
 			return assignable;
 		}
@@ -2182,12 +2181,16 @@ public class Context extends Statement
 
 	public Match match(Statement statement, Term target)
 	{
-		Set<ParameterVariableTerm> assignable = new HashSet<>();
-		SimpleTerm t = statement.getTerm().consequent(assignable);
-		Term.Match termMatch = t.match(new AdaptedSet<VariableTerm>(assignable), target != null ? target : getConsequent());
+		Set<VariableTerm> assignableLeft = new HashSet<>();
+		SimpleTerm t = statement.getTerm().consequent(assignableLeft);
+
+		Set<VariableTerm> assignableRight = new HashSet<>();
+		SimpleTerm c = target != null ? target.consequent(assignableRight) : getConsequent();
+
+		Term.Match termMatch = t.match(assignableLeft, c, assignableRight);
 		if (termMatch == null)
 			return null;
-		return new Match(statement, assignable, termMatch);
+		return new Match(statement, assignableLeft, termMatch);
 	}
 
 	public CloseableCollection<Match> lookupMatches(Transaction transaction, final Term target)

@@ -81,7 +81,7 @@ public abstract class SimpleTerm extends Term
 	 * The consequent of a simple term is itself.
 	 */
 	@Override
-	public SimpleTerm consequent(Collection<ParameterVariableTerm> parameters)
+	public SimpleTerm consequent(Collection<? super ParameterVariableTerm> parameters)
 	{
 		return this;
 	}

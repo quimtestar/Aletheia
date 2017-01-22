@@ -495,7 +495,7 @@ public abstract class Term implements Serializable, Exportable
 	 */
 	public abstract Term compose(Term term) throws ComposeTypeException;
 
-	public abstract SimpleTerm consequent(Collection<ParameterVariableTerm> parameters);
+	public abstract SimpleTerm consequent(Collection<? super ParameterVariableTerm> parameters);
 
 	/**
 	 * The consequent of a term is defined to be itself if it's a simple term or
