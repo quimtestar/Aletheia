@@ -22,9 +22,13 @@ package aletheia.gui.cli.command.statement;
 import java.io.PrintStream;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
@@ -35,6 +39,7 @@ import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.Term;
+import aletheia.model.term.VariableTerm;
 import aletheia.parser.TermParserException;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.BufferedList;
@@ -80,17 +85,60 @@ public class NewAuto extends NewStatement
 			Term t = m != null && oParamIt.hasNext() ? m.getTermMatch().getAssignMapLeft().get(oParamIt.next()) : null;
 			if (t == null && body.freeVariables().contains(parameter))
 			{
-				Iterator<Term> hi = hints.iterator();
-				while (hi.hasNext())
 				{
-					Term hint = hi.next();
-					if (hint.getType().equals(type))
+					Iterator<Term> hi = hints.iterator();
+					while (hi.hasNext())
 					{
-						t = hint;
-						hi.remove();
-						break;
+						Term hint = hi.next();
+						if (hint.getType().equals(type))
+						{
+							t = hint;
+							hi.remove();
+							break;
+						}
 					}
 				}
+				if (t == null)
+				{
+					Set<VariableTerm> assignable = new HashSet<>();
+					assignable.add(parameter);
+					l: for (ParameterVariableTerm p : body.parameters())
+					{
+						for (Term hi : hints)
+						{
+							if (hi instanceof VariableTerm)
+							{
+								Statement sthi = context.statements(getTransaction()).get(hi);
+								if (sthi != null)
+								{
+									Term.Match m2 = p.getType().match(assignable, sthi.getTerm());
+									if (m2 != null)
+									{
+										t = m2.getAssignMapLeft().get(parameter);
+										if (t != null)
+										{
+											if (m != null)
+											{
+												for (Entry<VariableTerm, Term> e : m2.getAssignMapLeft().entrySet())
+												{
+													Term t2 = m.getTermMatch().getAssignMapLeft().get(e.getKey());
+													if (t2 != null && !t2.equals(e.getValue()))
+													{
+														t = null;
+														break l;
+													}
+												}
+											}
+											break l;
+										}
+									}
+								}
+							}
+						}
+						assignable.add(p);
+					}
+				}
+
 				if (t == null)
 					break;
 			}
