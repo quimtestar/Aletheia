@@ -2046,9 +2046,13 @@ public class Context extends Statement
 		return getStatementByHexRef(transaction, hexRef, 0);
 	}
 
+	/**
+	 * @param timeout
+	 *            in milliseconds.
+	 */
 	public Statement getStatementByHexRef(Transaction transaction, String hexRef, int timeout)
 	{
-		long t0 = timeout > 0 ? System.currentTimeMillis() : Long.MAX_VALUE;
+		long t0 = timeout > 0 ? System.nanoTime() : Long.MAX_VALUE;
 		Context ctx = this;
 		while (true)
 		{
@@ -2057,7 +2061,7 @@ public class Context extends Statement
 			{
 				while (iterator.hasNext())
 				{
-					if (timeout > 0 && System.currentTimeMillis() - t0 > timeout)
+					if (timeout > 0 && System.nanoTime() - t0 > (long) timeout * 1000 * 1000)
 						return null;
 					Statement st = iterator.next();
 					if (hexRef.equals(st.hexRef()))

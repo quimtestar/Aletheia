@@ -49,7 +49,7 @@ public class TimeLimitNonBlockingSocketChannelInputStream extends NonBlockingSoc
 	public void setRemainingTime(long remainingTime)
 	{
 		if (remainingTime > 0)
-			this.timeLimit = System.currentTimeMillis() + remainingTime;
+			this.timeLimit = System.nanoTime() / 1000 / 1000 + remainingTime;
 		else
 			this.timeLimit = 0;
 	}
@@ -57,7 +57,7 @@ public class TimeLimitNonBlockingSocketChannelInputStream extends NonBlockingSoc
 	public long getRemainingTime()
 	{
 		if (timeLimit > 0)
-			return timeLimit - System.currentTimeMillis();
+			return timeLimit - System.nanoTime() / 1000 / 1000;
 		else
 			return 0;
 	}
@@ -65,7 +65,7 @@ public class TimeLimitNonBlockingSocketChannelInputStream extends NonBlockingSoc
 	public boolean expiredRemainingTime()
 	{
 		if (timeLimit > 0)
-			return timeLimit < System.currentTimeMillis();
+			return timeLimit < System.nanoTime() / 1000 / 1000;
 		else
 			return false;
 	}

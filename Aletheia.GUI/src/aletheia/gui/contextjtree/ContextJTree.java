@@ -1208,13 +1208,13 @@ public class ContextJTree extends PersistentJTree
 			mum.addListener(new MemoryUsageMonitor.Listener()
 			{
 
-				long lastReached = 0;
+				long lastReached = System.nanoTime();
 
 				@Override
 				public void thresholdReached(float usage)
 				{
-					long t = System.currentTimeMillis();
-					if (t - lastReached > 5 * 60 * 1000)
+					long t = System.nanoTime();
+					if (t - lastReached > 5l * 60 * 1000 * 1000 * 1000)
 					{
 						logger.warn("Resetting collapsed subtrees (memory usage threshold reached: " + usage + ")");
 						lastReached = t;

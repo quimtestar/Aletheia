@@ -172,12 +172,12 @@ public abstract class Transaction
 			waitForClose();
 		else
 		{
-			long t0 = System.currentTimeMillis();
+			long t0 = System.nanoTime();
 			long t1 = t0;
-			while (open && (t1 - t0 < timeOut))
+			while (open && (t1 - t0 < timeOut * 1000 * 1000))
 			{
 				wait(timeOut - (t1 - t0));
-				t1 = System.currentTimeMillis();
+				t1 = System.nanoTime();
 			}
 		}
 	}

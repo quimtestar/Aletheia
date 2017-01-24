@@ -42,10 +42,10 @@ public class PeerToPeerConnectionLock
 
 	public synchronized void lock(PeerToPeerConnection connection, long timeout) throws InterruptedException, LockTimeoutException
 	{
-		long t0 = System.currentTimeMillis();
+		long t0 = System.nanoTime() / 1000 / 1000;
 		while (lockedConnection != null && lockedConnection != connection)
 		{
-			long t = t0 + timeout - System.currentTimeMillis();
+			long t = t0 + timeout - System.nanoTime() / 1000 / 1000;
 			if (t <= 0)
 				throw new LockTimeoutException();
 			wait(t);
@@ -73,10 +73,10 @@ public class PeerToPeerConnectionLock
 
 	public synchronized void waitForUnlock(PeerToPeerConnection connection, long timeout) throws InterruptedException, LockTimeoutException
 	{
-		long t0 = System.currentTimeMillis();
+		long t0 = System.nanoTime() / 1000 / 1000;
 		while (lockedConnection != null && lockedConnection != connection)
 		{
-			long t = t0 + timeout - System.currentTimeMillis();
+			long t = t0 + timeout - System.nanoTime() / 1000 / 1000;
 			if (t <= 0)
 				throw new LockTimeoutException();
 			wait(t);

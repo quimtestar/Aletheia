@@ -275,12 +275,12 @@ public class LocalRouterSet implements RouterSet
 			throw new IllegalArgumentException();
 		if (i >= neighbours.size())
 			return;
-		long t0 = timeout > 0 ? System.currentTimeMillis() : 0;
+		long t0 = timeout > 0 ? System.nanoTime() / 1000 / 1000 : 0;
 		long t1 = t0;
 		while (i < neighbours.size() && neighbours.get(i).booked && (timeout == 0 || (t1 - t0 < timeout)))
 		{
 			wait(timeout > 0 ? timeout - (t1 - t0) : 0);
-			t1 = timeout > 0 ? System.currentTimeMillis() : 0;
+			t1 = timeout > 0 ? System.nanoTime() / 1000 / 1000 : 0;
 		}
 		if (i < neighbours.size() && neighbours.get(i).booked)
 			throw new LocalRouterSetBookTimeoutException();

@@ -141,12 +141,12 @@ public class Belt
 			waitForCompletionStatus(complete);
 		else
 		{
-			long t0 = System.currentTimeMillis();
+			long t0 = System.nanoTime() / 1000 / 1000;
 			long t1 = t0;
 			while (isComplete() != complete && (t1 - t0 < timeout))
 			{
 				wait(timeout - (t1 - t0));
-				t1 = System.currentTimeMillis();
+				t1 = System.nanoTime() / 1000 / 1000;
 			}
 		}
 	}

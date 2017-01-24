@@ -821,12 +821,12 @@ public abstract class PeerToPeerNode
 						while (!shutdown && (belt.isComplete() || isNetworkIsolated()))
 							belt.wait();
 						{
-							long t0 = System.currentTimeMillis();
+							long t0 = System.nanoTime() / 1000 / 1000;
 							long t1 = t0;
 							while (!shutdown && !belt.isComplete() && (t1 - t0 < beltCompletionTimeout))
 							{
 								belt.wait(beltCompletionTimeout - (t1 - t0));
-								t1 = System.currentTimeMillis();
+								t1 = System.nanoTime() / 1000 / 1000;
 							}
 						}
 						while (!shutdown && !belt.isComplete() && !isNetworkIsolated())
@@ -834,12 +834,12 @@ public abstract class PeerToPeerNode
 							logger.debug("sendBeltConnect");
 							sendBeltConnect();
 							{
-								long t0 = System.currentTimeMillis();
+								long t0 = System.nanoTime() / 1000 / 1000;
 								long t1 = t0;
 								while (!shutdown && !belt.isComplete() && (t1 - t0 < beltCompletionTimeout))
 								{
 									belt.wait(beltCompletionTimeout - (t1 - t0));
-									t1 = System.currentTimeMillis();
+									t1 = System.nanoTime() / 1000 / 1000;
 								}
 							}
 						}
@@ -1030,7 +1030,7 @@ public abstract class PeerToPeerNode
 			private PendingEntry(int connectionId, FemaleConjugalPhase femaleConjugalPhase, byte[] pendingData)
 			{
 				this.connectionId = connectionId;
-				this.expires = spliceManagerPendingExpireTime > 0 ? System.currentTimeMillis() + (long) (spliceManagerPendingExpireTime * 1000)
+				this.expires = spliceManagerPendingExpireTime > 0 ? System.nanoTime() / 1000 / 1000 + (long) (spliceManagerPendingExpireTime * 1000)
 						: Long.MAX_VALUE;
 				this.femaleConjugalPhase = femaleConjugalPhase;
 				this.pendingData = pendingData;
@@ -1066,7 +1066,7 @@ public abstract class PeerToPeerNode
 
 			private long expireWaitTime()
 			{
-				return expires - System.currentTimeMillis();
+				return expires - System.nanoTime() / 1000 / 1000;
 			}
 
 			private boolean expired()
@@ -1156,12 +1156,12 @@ public abstract class PeerToPeerNode
 
 			private synchronized SocketChannel waitForSocketChannel(long timeout) throws InterruptedException
 			{
-				long limit = timeout > 0 ? System.currentTimeMillis() + timeout : -1;
+				long limit = timeout > 0 ? System.nanoTime() / 1000 / 1000 + timeout : -1;
 				while (!closed && socketChannel == null)
 				{
 					if (timeout > 0)
 					{
-						long t1 = System.currentTimeMillis();
+						long t1 = System.nanoTime() / 1000 / 1000;
 						if (t1 >= limit)
 							return null;
 						wait(limit - t1);
@@ -2733,13 +2733,13 @@ public abstract class PeerToPeerNode
 	{
 		if (!pendingResponses.containsKey(sequence))
 			throw new IllegalStateException();
-		long limit = timeout > 0 ? System.currentTimeMillis() + timeout : 0;
+		long limit = timeout > 0 ? System.nanoTime() / 1000 / 1000 + timeout : 0;
 		while (true)
 		{
 			ResponseRouteableSubMessage response = pendingResponses.get(sequence);
 			if (response != null)
 				return response;
-			long timeout_ = limit > 0 ? limit - System.currentTimeMillis() : 0;
+			long timeout_ = limit > 0 ? limit - System.nanoTime() / 1000 / 1000 : 0;
 			if (limit > 0 && timeout_ <= 0)
 				return null;
 			wait(timeout_);

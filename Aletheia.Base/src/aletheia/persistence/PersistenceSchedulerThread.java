@@ -19,7 +19,6 @@
  ******************************************************************************/
 package aletheia.persistence;
 
-import java.util.Date;
 import java.util.PriorityQueue;
 
 import org.apache.logging.log4j.Logger;
@@ -36,38 +35,48 @@ public class PersistenceSchedulerThread extends Thread
 	protected abstract class Job implements Comparable<Job>
 	{
 		private final int interval;
-		private Date nextRun;
+		private boolean immediate;
+		private long nextRun;
 
-		public Job(int interval, boolean immediateFirstRun)
+		/**
+		 * @param interval
+		 *            in milliseconds.
+		 */
+		public Job(int interval, boolean immediate)
 		{
 			this.interval = interval;
-			if (!immediateFirstRun)
+			this.immediate = immediate;
+			if (!immediate)
 				updateNextRun();
 		}
 
 		public void updateNextRun()
 		{
-			this.nextRun = new Date(System.currentTimeMillis() + ((long) interval) * 1000);
+			immediate = false;
+			nextRun = System.nanoTime() + (long) interval * 1000 * 1000;
 		}
 
+		/**
+		 * In milliseconds
+		 */
 		public long remaining()
 		{
-			if (nextRun == null)
+			if (immediate)
 				return Long.MIN_VALUE;
 			else
-				return nextRun.getTime() - System.currentTimeMillis();
+				return (nextRun - System.nanoTime()) / 1000 / 1000;
 		}
 
 		@Override
 		public int compareTo(Job o)
 		{
 			int c;
-			c = Boolean.compare(nextRun != null, o.nextRun != null);
+			c = Boolean.compare(!immediate, !o.immediate);
 			if (c != 0)
 				return c;
-			if (nextRun == null)
+			if (immediate)
 				return 0;
-			c = nextRun.compareTo(o.nextRun);
+			c = Long.compare(nextRun, o.nextRun);
 			if (c != 0)
 				return c;
 			return 0;
@@ -78,7 +87,7 @@ public class PersistenceSchedulerThread extends Thread
 
 	protected class SyncJob extends Job
 	{
-		private final static int interval = 5 * 60;
+		private final static int interval = 5 * 60 * 1000;
 
 		public SyncJob()
 		{
@@ -96,7 +105,7 @@ public class PersistenceSchedulerThread extends Thread
 
 	protected class DeleteOldNonPrivateOrphansJob extends Job
 	{
-		private final static int interval = 24 * 60 * 60;
+		private final static int interval = 24 * 60 * 60 * 1000;
 
 		public DeleteOldNonPrivateOrphansJob()
 		{

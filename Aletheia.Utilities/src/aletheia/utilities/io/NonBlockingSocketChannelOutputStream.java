@@ -89,7 +89,7 @@ public class NonBlockingSocketChannelOutputStream extends OutputStream implement
 				throw new ClosedStreamException();
 			long time0 = 0;
 			if (timeout > 0)
-				time0 = System.currentTimeMillis();
+				time0 = System.nanoTime() / 1000 / 1000;
 			long time1 = time0 + timeout;
 			int i = 0;
 			while (i < len)
@@ -107,12 +107,12 @@ public class NonBlockingSocketChannelOutputStream extends OutputStream implement
 					if (selector.selectedKeys().contains(selectionKey))
 						break;
 					if (timeout > 0)
-						time0 = System.currentTimeMillis();
+						time0 = System.nanoTime() / 1000 / 1000;
 				}
 				ByteBuffer byteBuffer = ByteBuffer.wrap(b, off + i, len - i);
 				i += socketChannel.write(byteBuffer);
 				if (timeout > 0)
-					time0 = System.currentTimeMillis();
+					time0 = System.nanoTime() / 1000 / 1000;
 			}
 		}
 	}

@@ -95,7 +95,7 @@ public class NonBlockingSocketChannelInputStream extends InputStream implements 
 				throw new EOFException();
 			long time0 = 0;
 			if (timeout > 0)
-				time0 = System.currentTimeMillis();
+				time0 = System.nanoTime() / 1000 / 1000;
 			long time1 = time0 + timeout;
 			while (true)
 			{
@@ -108,7 +108,7 @@ public class NonBlockingSocketChannelInputStream extends InputStream implements 
 				if (Thread.interrupted())
 					throw new InterruptedException();
 				if (timeout > 0)
-					time0 = System.currentTimeMillis();
+					time0 = System.nanoTime() / 1000 / 1000;
 				ByteBuffer byteBuffer = ByteBuffer.wrap(b, off, len);
 				int n = socketChannel.read(byteBuffer);
 				if (n != 0)
