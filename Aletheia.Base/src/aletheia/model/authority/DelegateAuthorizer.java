@@ -409,7 +409,7 @@ public class DelegateAuthorizer implements Exportable
 		{
 			Signatory signatory = getDelegate(transaction).getSignatory(transaction);
 			if (!(signatory instanceof PrivateSignatory))
-				throw new BadSignatoryException("Don't have the private data for this author");
+				throw new BadSignatoryException("Don't have the private data for this author. Maybe try entering a passphrase?");
 			PrivateSignatory privateSignatory = (PrivateSignatory) signatory;
 			Signer signer = privateSignatory.signer();
 			setSignatureDate();

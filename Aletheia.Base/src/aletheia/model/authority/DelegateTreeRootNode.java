@@ -494,7 +494,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 
 		private NoPrivateDataForAuthorException()
 		{
-			super("Don't have the private data for this author.");
+			super("Don't have the private data for this author. Maybe try entering a passphrase?");
 		}
 
 		private NoPrivateDataForAuthorException(Throwable cause)
