@@ -147,8 +147,8 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 		}
 	}
 
-	protected static Collection<Statement> findMultiStatementSpec(PersistenceManager persistenceManager, Transaction transaction, Context ctx, String spec)
-			throws CommandParseException
+	protected static Collection<Statement> findMultiStatementSpec(PersistenceManager persistenceManager, Transaction transaction, Context ctx, String spec,
+			boolean localIfMulti) throws CommandParseException
 	{
 		try
 		{
@@ -156,12 +156,18 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 		}
 		catch (IllegalArgumentException e)
 		{
-			return findMultiStatementPath(persistenceManager, transaction, ctx, spec);
+			return findMultiStatementPath(persistenceManager, transaction, ctx, spec, localIfMulti);
 		}
 	}
 
 	protected static Collection<Statement> findMultiStatementPath(PersistenceManager persistenceManager, Transaction transaction, Context ctx, String path)
 			throws CommandParseException
+	{
+		return findMultiStatementPath(persistenceManager, transaction, ctx, path, false);
+	}
+
+	protected static Collection<Statement> findMultiStatementPath(PersistenceManager persistenceManager, Transaction transaction, Context ctx, String path,
+			boolean localIfMulti) throws CommandParseException
 	{
 		try
 		{
@@ -176,7 +182,10 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 				Namespace prefix = Namespace.parse(sprefix);
 				Identifier initiator = prefix instanceof NodeNamespace ? ((NodeNamespace) prefix).asIdentifier() : prefix.initiator();
 				Identifier terminator = prefix.terminator();
-				return ((Context) st).identifierToStatement(transaction).subMap(initiator, terminator).values();
+				if (localIfMulti)
+					return ((Context) st).localIdentifierToStatement(transaction).subMap(initiator, terminator).values();
+				else
+					return ((Context) st).identifierToStatement(transaction).subMap(initiator, terminator).values();
 			}
 			else
 			{
@@ -300,7 +309,13 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 	protected Collection<StatementAuthoritySignature> specToStatementAuthoritySignatures(PersistenceManager persistenceManager, Transaction transaction,
 			Context activeContext, List<String> split) throws CommandParseException
 	{
-		Collection<Statement> statements = findMultiStatementSpec(persistenceManager, transaction, activeContext, split.get(0));
+		return specToStatementAuthoritySignatures(persistenceManager, transaction, activeContext, split, false);
+	}
+
+	protected Collection<StatementAuthoritySignature> specToStatementAuthoritySignatures(PersistenceManager persistenceManager, Transaction transaction,
+			Context activeContext, List<String> split, boolean localIfMulti) throws CommandParseException
+	{
+		Collection<Statement> statements = findMultiStatementSpec(persistenceManager, transaction, activeContext, split.get(0), localIfMulti);
 		if (statements == null || statements.isEmpty())
 			throw new CommandParseException("Invalid statement");
 		Collection<StatementAuthoritySignature> signatures = new ArrayList<>();

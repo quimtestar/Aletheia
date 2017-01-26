@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.local;
 
+import java.util.Collection;
 import java.util.List;
 
 import aletheia.gui.cli.command.CommandSource;
@@ -28,21 +29,22 @@ import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.MiscUtilities;
 
 @TaggedCommand(tag = "subscribe", groupPath = "/local", factory = SubscribeCommand.Factory.class)
 public abstract class SubscribeCommand extends TransactionalCommand
 {
-	private final Statement statement;
+	private final Collection<? extends Statement> statements;
 
-	public SubscribeCommand(CommandSource from, Transaction transaction, Statement statement)
+	public SubscribeCommand(CommandSource from, Transaction transaction, Collection<? extends Statement> statements)
 	{
 		super(from, transaction);
-		this.statement = statement;
+		this.statements = statements;
 	}
 
-	protected Statement getStatement()
+	protected Collection<? extends Statement> getStatements()
 	{
-		return statement;
+		return statements;
 	}
 
 	public static class Factory extends AbstractVoidCommandFactory<SubscribeCommand>
@@ -58,19 +60,24 @@ public abstract class SubscribeCommand extends TransactionalCommand
 		public SubscribeCommand parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
-			if (statement == null)
+			Collection<Statement> statements = findMultiStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0), true);
+			if (statements == null || statements.isEmpty())
 				throw new CommandParseException("Invalid statement");
 			switch (split.get(1))
 			{
 			case "statements":
+			{
+				if (statements.size() != 1)
+					throw new CommandParseException("Might subscribe only to the statements of one context at a time.");
+				Statement statement = MiscUtilities.firstFromIterable(statements);
 				if (!(statement instanceof Context))
 					throw new CommandParseException("Not a context");
 				return new SubscribeStatementsCommand(from, transaction, (Context) statement);
+			}
 			case "proof":
-				return new SubscribeProofCommand(from, transaction, statement);
+				return new SubscribeProofCommand(from, transaction, statements);
 			case "none":
-				return new SubscribeNoneCommand(from, transaction, statement);
+				return new SubscribeNoneCommand(from, transaction, statements);
 			default:
 				throw new CommandParseException("Bad subcommand");
 			}

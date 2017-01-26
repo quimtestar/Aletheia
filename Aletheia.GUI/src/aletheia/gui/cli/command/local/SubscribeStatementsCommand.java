@@ -19,6 +19,9 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.local;
 
+import java.util.Collection;
+import java.util.Collections;
+
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.model.local.ContextLocal;
 import aletheia.model.statement.Context;
@@ -27,23 +30,32 @@ import aletheia.persistence.Transaction;
 public class SubscribeStatementsCommand extends SubscribeCommand
 {
 
-	public SubscribeStatementsCommand(CommandSource from, Transaction transaction, Context context)
+	public SubscribeStatementsCommand(CommandSource from, Transaction transaction, Collection<? extends Context> contexts)
 	{
-		super(from, transaction, context);
+		super(from, transaction, contexts);
 	}
 
-	@Override
-	protected Context getStatement()
+	public SubscribeStatementsCommand(CommandSource from, Transaction transaction, Context context)
 	{
-		return (Context) super.getStatement();
+		super(from, transaction, Collections.singleton(context));
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	protected Collection<? extends Context> getStatements()
+	{
+		return (Collection<? extends Context>) super.getStatements();
 	}
 
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		ContextLocal contextLocal = getStatement().getOrCreateLocal(getTransaction());
-		contextLocal.setSubscribeStatements(getTransaction(), true);
-		contextLocal.setSubscribeProof(getTransaction(), false);
+		for (Context ctx : getStatements())
+		{
+			ContextLocal contextLocal = ctx.getOrCreateLocal(getTransaction());
+			contextLocal.setSubscribeStatements(getTransaction(), true);
+			contextLocal.setSubscribeProof(getTransaction(), false);
+		}
 		return null;
 	}
 
