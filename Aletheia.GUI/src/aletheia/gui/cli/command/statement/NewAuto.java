@@ -32,6 +32,7 @@ import java.util.Set;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
+import aletheia.model.nomenclator.Nomenclator.AlreadyUsedIdentifierException;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.FunctionTerm;
@@ -143,7 +144,20 @@ public class NewAuto extends NewStatement
 					break;
 			}
 			if (i >= 0)
-				statement.identify(getTransaction(), new Identifier(getIdentifier(), String.format("sub_%02d", i)));
+			{
+				while (true)
+				{
+					try
+					{
+						statement.identify(getTransaction(), new Identifier(getIdentifier(), String.format("sub_%02d", i)));
+						break;
+					}
+					catch (AlreadyUsedIdentifierException e)
+					{
+						i++;
+					}
+				}
+			}
 			i++;
 			Statement st_;
 			if (t != null)
@@ -219,7 +233,17 @@ public class NewAuto extends NewStatement
 				else
 				{
 					Context subctx = context.openSubContext(getTransaction(), type);
-					subctx.identify(getTransaction(), new Identifier(getIdentifier(), String.format("sub_%02d", i++)));
+					while (true)
+					{
+						try
+						{
+							subctx.identify(getTransaction(), new Identifier(getIdentifier(), String.format("sub_%02d", i++)));
+							break;
+						}
+						catch (AlreadyUsedIdentifierException e)
+						{
+						}
+					}
 					st_ = context.specialize(getTransaction(), statement, subctx.getVariable());
 				}
 			}
