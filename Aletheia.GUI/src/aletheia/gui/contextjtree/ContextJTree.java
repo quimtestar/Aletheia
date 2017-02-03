@@ -877,13 +877,34 @@ public class ContextJTree extends PersistentJTree
 
 	private void expandUnprovedContexts_(Context context)
 	{
+		long t0 = System.nanoTime();
 		Transaction transaction = getPersistenceManager().beginTransaction();
 		try
 		{
+			ContextJTreeNode selected = getSelectedNode();
 			Stack<Context> stack = new Stack<>();
-			stack.push(context.refresh(transaction));
+			{
+				Context ctx = context.refresh(transaction);
+				stack.push(ctx);
+				TreePath path = getModel().pathForStatement(ctx);
+				if (isVisible(path))
+					collapsePath(path);
+			}
 			while (!stack.isEmpty())
 			{
+				if ((System.nanoTime() - t0) * 1e-9 >= 30f)
+				{
+					logger.trace("Expanding unproved contexts incomplete by timeout.");
+					try
+					{
+						getAletheiaJPanel().getCliJPanel().message("Expanding unproved contexts incomplete by timeout.");
+					}
+					catch (InterruptedException e)
+					{
+						logger.warn("Interrupted while messaging cli panel", e);
+					}
+					break;
+				}
 				Context ctx = stack.pop();
 				TreePath path = getModel().pathForStatement(ctx);
 				if (!ctx.isProved())
@@ -904,10 +925,15 @@ public class ContextJTree extends PersistentJTree
 							TreePath path_ = n.path();
 							if (isVisible(path_))
 								collapsePath(path_);
-
 						}
 					}
 				}
+			}
+			if (selected != null)
+			{
+				TreePath path = selected.path();
+				if (isVisible(path))
+					selectTreePath(path, false);
 			}
 		}
 		finally
@@ -1098,6 +1124,7 @@ public class ContextJTree extends PersistentJTree
 
 	private void expandAllContexts_(Context context)
 	{
+		long t0 = System.nanoTime();
 		Transaction transaction = getPersistenceManager().beginTransaction();
 		try
 		{
@@ -1105,6 +1132,19 @@ public class ContextJTree extends PersistentJTree
 			stack.push(context);
 			while (!stack.isEmpty())
 			{
+				if ((System.nanoTime() - t0) * 1e-9 >= 10f)
+				{
+					logger.trace("Expanding contexts incomplete by timeout.");
+					try
+					{
+						getAletheiaJPanel().getCliJPanel().message("Expanding contexts incomplete by timeout.");
+					}
+					catch (InterruptedException e)
+					{
+						logger.warn("Interrupted while messaging cli panel", e);
+					}
+					break;
+				}
 				Context ctx = stack.pop();
 				TreePath path = getModel().pathForStatement(ctx);
 				expandPath(path);
