@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <eclipse-userlibraries version="2">
     <library name="Berkeley DB Library" systemlibrary="false">
-        <archive javadoc="file:/mnt/vlb0/quim/Software/BerkeleyDB/je-7.0.6/docs/java/" path="/Aletheia.BerkeleyDB/je-7.0.6.jar" source="/mnt/vlb0/quim/Software/BerkeleyDB/je-7.0.6/src"/>
+        <archive javadoc="file:/mnt/vlb0/quim/Software/BerkeleyDB/je-7.3.7/docs/java/" path="/Aletheia.BerkeleyDB/je-7.3.7.jar" source="/mnt/vlb0/quim/Software/BerkeleyDB/je-7.3.7/src"/>
     </library>
     <library name="ItextPdf Library" systemlibrary="false">
         <archive javadoc="jar:file:/mnt/vlb0/quim/Software/iText/5.5.8/itextpdf-5.5.8-javadoc.jar!/" path="/Aletheia.PdfExport/itextpdf-5.5.8.jar" source="/mnt/vlb0/quim/Software/iText/5.5.8/itextpdf-5.5.8-sources.jar"/>
