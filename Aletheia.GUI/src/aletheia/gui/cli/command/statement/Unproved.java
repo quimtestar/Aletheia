@@ -31,7 +31,7 @@ import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.ReverseSortedSet;
 
-@TaggedCommand(tag = "unproved", groupPath = "/authority", factory = Unproved.Factory.class)
+@TaggedCommand(tag = "unproved", groupPath = "/statement", factory = Unproved.Factory.class)
 public class Unproved extends TransactionalCommand
 {
 	private final Context context;
