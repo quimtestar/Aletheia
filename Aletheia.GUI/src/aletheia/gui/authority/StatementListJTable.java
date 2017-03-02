@@ -253,9 +253,14 @@ public class StatementListJTable extends JTable
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
 		{
-			if (!(value instanceof Statement))
+			Statement statement;
+			if (value == null)
+				statement = getModel().getValueAt(row, column);
+			else if (value instanceof Statement)
+				statement = (Statement) value;
+			else
 				throw new IllegalArgumentException();
-			return getCellRendererComponent((Statement) value, isSelected, hasFocus);
+			return getCellRendererComponent(statement, isSelected, hasFocus);
 		}
 
 		public void clearRenderer(Statement statement)
@@ -341,9 +346,14 @@ public class StatementListJTable extends JTable
 		@Override
 		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)
 		{
-			if (!(value instanceof Statement))
+			Statement statement;
+			if (value == null)
+				statement = getModel().getValueAt(row, column);
+			else if (value instanceof Statement)
+				statement = (Statement) value;
+			else
 				throw new IllegalArgumentException();
-			myCellRendererComponent = myTableCellRenderer.getCellRendererComponent((Statement) value, true, true);
+			myCellRendererComponent = myTableCellRenderer.getCellRendererComponent(statement, true, true);
 			return myCellRendererComponent;
 		}
 
