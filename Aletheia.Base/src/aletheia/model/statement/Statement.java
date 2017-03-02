@@ -78,6 +78,7 @@ import aletheia.utilities.collections.BijectionSet;
 import aletheia.utilities.collections.CloseableCollection;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableSet;
+import aletheia.utilities.collections.CombinedCollection;
 import aletheia.utilities.collections.Filter;
 import aletheia.utilities.collections.FilteredCloseableSet;
 import aletheia.utilities.collections.FilteredCollection;
@@ -1512,6 +1513,12 @@ public abstract class Statement implements Exportable
 							List<Statement> list = dependencyMap.get(st);
 							if (list == null)
 							{
+								Collection<Statement> deps = st.dependencies(transaction);
+								if (!(st instanceof RootContext))
+								{
+									Collection<Statement> path = new AdaptedCollection<>(st.getContext(transaction).statementPath(transaction));
+									deps = new CombinedCollection<>(deps, path);
+								}
 								list = new ArrayList<>(new FilteredCollection<>(new Filter<Statement>()
 								{
 									@Override
@@ -1519,7 +1526,8 @@ public abstract class Statement implements Exportable
 									{
 										return !visited.contains(e) && collection.contains(e);
 									}
-								}, st.dependencies(transaction)));
+								}, deps));
+
 								if (comparator != null)
 									Collections.sort(list, comparator);
 								dependencyMap.put(st, list);
