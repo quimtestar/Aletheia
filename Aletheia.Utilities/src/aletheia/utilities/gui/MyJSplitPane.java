@@ -43,6 +43,8 @@ public class MyJSplitPane extends JSplitPane
 {
 	private static final long serialVersionUID = -5114895971103984430L;
 
+	private static final long delay = 250;
+
 	public MyJSplitPane()
 	{
 	}
@@ -85,7 +87,7 @@ public class MyJSplitPane extends JSplitPane
 					setLastDividerLocation(getDividerLocation());
 					timer.cancel();
 				}
-			}, 150);
+			}, delay);
 			setProportionalLocationWhenValid = false;
 		}
 	}
