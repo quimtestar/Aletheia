@@ -120,6 +120,27 @@ public class ProjectionTerm extends AtomicTerm
 		}
 	}
 
+	@Override
+	public Term replaceSubterm(Term subterm, Term replace) throws ReplaceTypeException
+	{
+		Term replaced = super.replaceSubterm(subterm, replace);
+		if (replaced != this)
+			return replaced;
+
+		try
+		{
+			Term function_ = function.replaceSubterm(subterm, replace);
+			if (function_ instanceof FunctionTerm)
+				return new ProjectionTerm((FunctionTerm) function_);
+			else
+				return this;
+		}
+		catch (ProjectionTypeException e)
+		{
+			throw new ReplaceTypeException(e);
+		}
+	}
+
 	/**
 	 * The free variables of a projection are the free variables of the function
 	 * projected.

@@ -160,6 +160,29 @@ public abstract class Term implements Serializable, Exportable
 	}
 
 	/**
+	 * Replace all occurrences of the <i>oldTerm</i> sub-term in this term with
+	 * the <i>newTerm</i>.
+	 *
+	 * @param subterm
+	 *            The sub-term to be replaced.
+	 * @param replace
+	 *            The value to be replaced with.
+	 * @return The replaced term.
+	 * @throws ReplaceTypeException
+	 *             The <i>oldTerm</i> and the <i>newTerm</i> types don't match.
+	 */
+	// Might be unified with 'replace' methods above. Not sure about side effects.
+	public Term replaceSubterm(Term subterm, Term replace) throws ReplaceTypeException
+	{
+		if (!subterm.getType().equals(replace.getType()))
+			throw new ReplaceTypeException();
+		if (equals(subterm))
+			return replace;
+		else
+			return this;
+	}
+
+	/**
 	 * Auxiliary class for performing replacements.
 	 */
 	public static class Replace

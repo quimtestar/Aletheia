@@ -21,9 +21,13 @@
 # Start variable: The term.
 T; 							
 
-# A term is a nonempty list of atoms.
-T -> T A;										 
-T -> A;
+# A term is a nonempty list of bar-expressions.
+T -> T B;										 
+T -> B;
+
+# A bar-expression might be an atom or a bar-expression _bar_ ('/') an atom.
+B -> B bar A; 					# The '/' operator extracts the given sub-term of this term and turns it into a function with its type as parameter type: "f(t)/t" ~> "<x:i# -> f(x)>".
+B -> A;							# Just an atom.
 
 # An atom might be:
 A -> ttype;						# The primitive type "T".
@@ -39,11 +43,11 @@ A -> A percent;					# The '%' operator resolves to the parameter's type of the g
 A -> A sharp;					# the '#' operator resolves to the type of the given atom.
 A -> A apostrophe;				# The ''' operator resolves to the body of the given function "<p:t->b>'" ~> "b".
 A -> A bang I;					# The '!' operator unfolds the given identified variable as its value as a declaration statement in the active context.  
-A -> A bar I;					# The '/' operator turns extracts the given identified variable of this atom and turns it into a function with it as a parameter: "f(i)/i" ~> "<x:i# -> f(x)>". 
 A -> equals bang I;				# The '=!' operator is equivalent to a reflexive application of the binary '!': "=!i" ~> "i!i". 
 A -> openpar T closepar;		# A term (list of atoms) between parentheses.
 A -> A comma number M;			# The ',n' operator resolves to the nth atomic component (starting by zero) of the given term: "(a b c),1" ~> "b".
 								# The ',n-' operator resolves to the first n+1 atomic components of the given term: "(a b c),1-" ~> "a b".
+								
 								
 F -> openfun P colon T arrow T closefun;		# A function term : "<parameter:type -> body>".
 

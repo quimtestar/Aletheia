@@ -146,6 +146,27 @@ public class CompositionTerm extends SimpleTerm
 		}
 	}
 
+	@Override
+	public Term replaceSubterm(Term subterm, Term replace) throws ReplaceTypeException
+	{
+		Term replaced = super.replaceSubterm(subterm, replace);
+		if (replaced != this)
+			return replaced;
+
+		Term headRep = head.replaceSubterm(subterm, replace);
+		Term tailRep = tail.replaceSubterm(subterm, replace);
+		if (headRep.equals(head) && tailRep.equals(tail))
+			return this;
+		try
+		{
+			return headRep.compose(tailRep);
+		}
+		catch (ComposeTypeException e)
+		{
+			throw new ReplaceTypeException(e);
+		}
+	}
+
 	/**
 	 * The textual representation of a composition is just the concatenation of
 	 * the terms which compose it.

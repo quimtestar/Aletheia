@@ -193,6 +193,38 @@ public class FunctionTerm extends Term
 			}
 	}
 
+	@Override
+	public Term replaceSubterm(Term subterm, Term replace) throws ReplaceTypeException
+	{
+		Term replaced = super.replaceSubterm(subterm, replace);
+		if (replaced != this)
+			return replaced;
+
+		Term partype = parameter.getType();
+		Term rpartype = partype.replaceSubterm(subterm, replace);
+		Term rparam;
+		if (!partype.equals(rpartype))
+			rparam = new ParameterVariableTerm(rpartype);
+		else
+			rparam = parameter;
+		Term body_ = body.replaceSubterm(subterm, replace);
+
+		if (!rparam.equals(parameter))
+			body_ = body_.replace(parameter, rparam);
+		if (rparam.equals(parameter) && body_.equals(body))
+			return this;
+		else
+			try
+			{
+				return new FunctionTerm((ParameterVariableTerm) rparam, body_);
+			}
+			catch (NullParameterTypeException e)
+			{
+				throw new ReplaceTypeException(e);
+			}
+
+	}
+
 	/**
 	 * A function is textually represented by the schema <b>
 	 * "<<i>parameter</i>:<i>type</i> -> <i>body</i>>"</b>.

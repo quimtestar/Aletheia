@@ -311,6 +311,30 @@ public class AletheiaTermParser extends Parser
 			else
 				throw new Error();
 		}
+		else if (token.getProduction().getLeft().equals(taggedNonTerminalSymbols.get("B")))
+		{
+			if (token.getProduction().getRight().size() == 3)
+			{
+				Term term = processTerm(context, transaction, tempParameterTable, (NonTerminalToken) token.getChildren().get(0), input);
+				Term oldTerm = processTerm(context, transaction, tempParameterTable, (NonTerminalToken) token.getChildren().get(2), input);
+				ParameterVariableTerm param = new ParameterVariableTerm(oldTerm.getType());
+				try
+				{
+					return new FunctionTerm(param, term.replaceSubterm(oldTerm, param));
+				}
+				catch (ReplaceTypeException | NullParameterTypeException e)
+				{
+					throw new TermParserException(e, token.getStartLocation(), token.getStopLocation(), input);
+				}
+
+			}
+			else if (token.getProduction().getRight().size() == 1)
+			{
+				return processTerm(context, transaction, tempParameterTable, (NonTerminalToken) token.getChildren().get(0), input, parameterIdentifiers);
+			}
+			else
+				throw new Error();
+		}
 		else if (token.getProduction().getLeft().equals(taggedNonTerminalSymbols.get("A")))
 		{
 			if (token.getProduction().getRight().size() == 1)
@@ -458,23 +482,6 @@ public class AletheiaTermParser extends Parser
 						else
 							throw new TermParserException("Referenced statement: '" + identifier + "' after the bang must be a declaration",
 									token.getChildren().get(2).getStartLocation(), token.getChildren().get(2).getStopLocation(), input);
-					}
-					else if (token.getProduction().getRight().get(1).equals(taggedTerminalSymbols.get("bar")))
-					{
-						Identifier identifier = processIdentifier((NonTerminalToken) token.getChildren().get(2), input);
-						IdentifiableVariableTerm variable = context.identifierToVariable(transaction).get(identifier);
-						if (variable == null)
-							throw new TermParserException("Referenced variable: '" + identifier + "' not declared",
-									token.getChildren().get(2).getStartLocation(), token.getChildren().get(2).getStopLocation(), input);
-						ParameterVariableTerm param = new ParameterVariableTerm(variable.getType());
-						try
-						{
-							return new FunctionTerm(param, term.replace(variable, param));
-						}
-						catch (ReplaceTypeException | NullParameterTypeException e)
-						{
-							throw new TermParserException(e, token.getStartLocation(), token.getStopLocation(), input);
-						}
 					}
 					else
 						throw new Error();
