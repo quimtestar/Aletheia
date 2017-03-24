@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -327,6 +328,28 @@ public class AletheiaTermParser extends Parser
 					throw new TermParserException(e, token.getStartLocation(), token.getStopLocation(), input);
 				}
 
+			}
+			else if (token.getProduction().getRight().size() == 1)
+			{
+				return processTerm(context, transaction, tempParameterTable, (NonTerminalToken) token.getChildren().get(0), input, parameterIdentifiers);
+			}
+			else
+				throw new Error();
+		}
+		else if (token.getProduction().getLeft().equals(taggedNonTerminalSymbols.get("C")))
+		{
+			if (token.getProduction().getRight().size() == 3)
+			{
+				Term term = processTerm(context, transaction, tempParameterTable, (NonTerminalToken) token.getChildren().get(0), input);
+				Term termMatch = processTerm(context, transaction, tempParameterTable, (NonTerminalToken) token.getChildren().get(2), input);
+				if (!(termMatch instanceof FunctionTerm))
+					throw new TermParserException("Not a function term.", token.getChildren().get(2).getStartLocation(),
+							token.getChildren().get(2).getStopLocation(), input);
+				FunctionTerm functionMatch = (FunctionTerm) termMatch;
+				Term.Match match = functionMatch.getBody().match(Collections.singleton(functionMatch.getParameter()), term);
+				if (match == null)
+					throw new TermParserException("No match.", token.getStartLocation(), token.getStopLocation(), input);
+				return match.getAssignMapLeft().get(functionMatch.getParameter());
 			}
 			else if (token.getProduction().getRight().size() == 1)
 			{

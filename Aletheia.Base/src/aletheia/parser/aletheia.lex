@@ -37,8 +37,8 @@
 '!'																: bang;				# Unfold operator.
 '='																: equals;			# Auto-unfold operator.
 '\-'															: hyphen;			# For the component number operator.
-'/'																: bar;				# Path separator.
-'\?'															: question;			# Unused.
+'/'																: bar;				# Path separator/sub-term extraction".
+'\?'															: question;			# Term matching operator.
 '\''															: apostrophe;		# Function body operator.
 ':='															: assignment;		# Separates the variable from it's assigned value in an assignment term;
 '[\0-\9]+'														: number;			# For the component number operator.
