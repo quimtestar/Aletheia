@@ -12,11 +12,11 @@ import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.persistence.Transaction;
 
 @ProcessorProduction(left = "B", right =
-{ "C" })
-public class B_C_TermTokenSubProcessor extends TermTokenSubProcessor
+{ "Q" })
+public class B_Q_TermTokenSubProcessor extends TermTokenSubProcessor
 {
 
-	protected B_C_TermTokenSubProcessor(TokenProcessor processor)
+	protected B_Q_TermTokenSubProcessor(TokenProcessor processor)
 	{
 		super(processor);
 	}

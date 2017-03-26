@@ -25,12 +25,13 @@ T;
 T -> T B;										 
 T -> B;
 
-# A bar-expression might be an atom or a bar-expression _bar_ ('/') an atom.
-B -> B bar C; 					# The '/' operator extracts the given sub-term of this term and turns it into a function with its type as parameter type: "f(t)/t" ~> "<x:i# -> f(x)>".
-B -> C;							# Just an match term.
+# The '/' operator is left-associative.
+B -> B bar Q; 					# The '/' operator extracts the given sub-term of this term and turns it into a function with its type as parameter type: "f(t)/t" ~> "<x:i# -> f(x)>".
+B -> Q;							# Just an match term.
 
-C -> C question A;				# Term matching: "a(b)?<x:t -> a(x)>" ~> b.
-C -> A;							# Just an atom.
+# The '?' operator is non-associative.
+Q -> A question A;				# Term matching: "<x:t -> a(x)>?a(b)" ~> b.
+Q -> A;							# Just an atom.
 
 # An atom might be:
 A -> ttype;						# The primitive type "T".
@@ -50,12 +51,11 @@ A -> equals bang I;				# The '=!' operator is equivalent to a reflexive applicat
 A -> openpar T closepar;		# A term (list of atoms) between parentheses.
 A -> A comma number M;			# The ',n' operator resolves to the nth atomic component (starting by zero) of the given term: "(a b c),1" ~> "b".
 								# The ',n-' operator resolves to the first n+1 atomic components of the given term: "(a b c),1-" ~> "a b".
-								
+
 # An hyphen or nothing for the ',n[-]' operator.
 M -> hyphen;
 M -> ;
 
-								
 F -> openfun P colon T arrow T closefun;		# A function term : "<parameter:type -> body>".
 
 U -> openfun P assignment T arrow T closefun;	# An substituted term: "<variable:=value -> term>" ~> "<variable:value# -> term> value".

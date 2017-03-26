@@ -14,12 +14,12 @@ import aletheia.parser.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.persistence.Transaction;
 
-@ProcessorProduction(left = "C", right =
-{ "C", "question", "A" })
-public class C_C_question_A_TermTokenSubProcessor extends TermTokenSubProcessor
+@ProcessorProduction(left = "Q", right =
+{ "A", "question", "A" })
+public class Q_A_question_A_TermTokenSubProcessor extends TermTokenSubProcessor
 {
 
-	protected C_C_question_A_TermTokenSubProcessor(TokenProcessor processor)
+	protected Q_A_question_A_TermTokenSubProcessor(TokenProcessor processor)
 	{
 		super(processor);
 	}
@@ -28,8 +28,8 @@ public class C_C_question_A_TermTokenSubProcessor extends TermTokenSubProcessor
 	protected Term subProcess(NonTerminalToken token, String input, Context context, Transaction transaction,
 			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TermParserException
 	{
-		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), input, context, transaction, tempParameterTable);
-		Term termMatch = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(2), input, context, transaction, tempParameterTable);
+		Term termMatch = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), input, context, transaction, tempParameterTable);
+		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(2), input, context, transaction, tempParameterTable);
 		List<VariableTerm> assignable = new ArrayList<>();
 		Term.Match match = termMatch.consequent(assignable).match(new HashSet<>(assignable), term);
 		if (match == null)
