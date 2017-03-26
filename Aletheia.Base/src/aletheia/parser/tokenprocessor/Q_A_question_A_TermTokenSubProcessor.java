@@ -36,7 +36,10 @@ public class Q_A_question_A_TermTokenSubProcessor extends TermTokenSubProcessor
 			throw new TermParserException("No match.", token.getStartLocation(), token.getStopLocation(), input);
 		if (assignable.isEmpty())
 			throw new TermParserException("Nothing assignable.", token.getStartLocation(), token.getStopLocation(), input);
-		return match.getAssignMapLeft().get(assignable.get(0));
+		Term assigned = match.getAssignMapLeft().get(assignable.get(0));
+		if (assigned == null)
+			throw new TermParserException("Nothing assignable.", token.getStartLocation(), token.getStopLocation(), input);
+		return assigned;
 	}
 
 }
