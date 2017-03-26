@@ -24,7 +24,7 @@ package aletheia.parsergenerator.symbols;
  * non-terminal symbols with the same tag will be considered to be one and the
  * same for all purposes.
  */
-public class TaggedNonTerminalSymbol extends NonTerminalSymbol
+public class TaggedNonTerminalSymbol extends NonTerminalSymbol implements TaggedSymbol
 {
 	private static final long serialVersionUID = -3145936006599658141L;
 

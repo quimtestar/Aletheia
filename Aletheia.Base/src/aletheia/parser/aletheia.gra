@@ -51,6 +51,11 @@ A -> openpar T closepar;		# A term (list of atoms) between parentheses.
 A -> A comma number M;			# The ',n' operator resolves to the nth atomic component (starting by zero) of the given term: "(a b c),1" ~> "b".
 								# The ',n-' operator resolves to the first n+1 atomic components of the given term: "(a b c),1-" ~> "a b".
 								
+# An hyphen or nothing for the ',n[-]' operator.
+M -> hyphen;
+M -> ;
+
+								
 F -> openfun P colon T arrow T closefun;		# A function term : "<parameter:type -> body>".
 
 U -> openfun P assignment T arrow T closefun;	# An substituted term: "<variable:=value -> term>" ~> "<variable:value# -> term> value".
@@ -81,6 +86,3 @@ S_p -> S_t;
 S -> I;										# Path component might be an identifier.
 S -> hexref;								# Path component might be an hexadecimal reference.
 
-# An hyphen or nothing for the ',n[-]' operator.
-M -> hyphen;
-M -> ;

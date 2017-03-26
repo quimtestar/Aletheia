@@ -24,7 +24,7 @@ package aletheia.parsergenerator.symbols;
  * symbols with the same tag will be considered to be one and the same for all
  * purposes.
  */
-public class TaggedTerminalSymbol extends TerminalSymbol
+public class TaggedTerminalSymbol extends TerminalSymbol implements TaggedSymbol
 {
 	private static final long serialVersionUID = -3466840870477837590L;
 

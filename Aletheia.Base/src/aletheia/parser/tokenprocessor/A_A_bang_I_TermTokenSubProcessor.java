@@ -1,0 +1,50 @@
+package aletheia.parser.tokenprocessor;
+
+import java.util.Map;
+
+import aletheia.model.identifier.Identifier;
+import aletheia.model.statement.Context;
+import aletheia.model.statement.Declaration;
+import aletheia.model.statement.Statement;
+import aletheia.model.term.ParameterVariableTerm;
+import aletheia.model.term.Term;
+import aletheia.model.term.Term.ReplaceTypeException;
+import aletheia.parser.TermParserException;
+import aletheia.parser.tokenprocessor.parameterRef.ParameterRef;
+import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.persistence.Transaction;
+
+@ProcessorProduction(left = "A", right =
+{ "A", "bang", "I" })
+public class A_A_bang_I_TermTokenSubProcessor extends TermTokenSubProcessor
+{
+	protected A_A_bang_I_TermTokenSubProcessor(TokenProcessor processor)
+	{
+		super(processor);
+	}
+
+	@Override
+	protected Term subProcess(NonTerminalToken token, String input, Context context, Transaction transaction,
+			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TermParserException
+	{
+		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), input, context, transaction, tempParameterTable);
+		Identifier identifier = getProcessor().processIdentifier((NonTerminalToken) token.getChildren().get(2), input);
+		Statement statement = context.identifierToStatement(transaction).get(identifier);
+		if (statement instanceof Declaration)
+		{
+			Declaration declaration = (Declaration) statement;
+			try
+			{
+				return term.replace(declaration.getVariable(), declaration.getValue());
+			}
+			catch (ReplaceTypeException e)
+			{
+				throw new TermParserException(e, token.getStartLocation(), token.getStopLocation(), input);
+			}
+		}
+		else
+			throw new TermParserException("Referenced statement: '" + identifier + "' after the bang must be a declaration",
+					token.getChildren().get(2).getStartLocation(), token.getChildren().get(2).getStopLocation(), input);
+	}
+
+}
