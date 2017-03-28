@@ -8,7 +8,6 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.model.term.VariableTerm;
 import aletheia.parser.TermParserException;
 import aletheia.parser.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
@@ -30,7 +29,7 @@ public class Q_A_question_A_TermTokenSubProcessor extends TermTokenSubProcessor
 	{
 		Term termMatch = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), input, context, transaction, tempParameterTable);
 		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(2), input, context, transaction, tempParameterTable);
-		List<VariableTerm> assignable = new ArrayList<>();
+		List<ParameterVariableTerm> assignable = new ArrayList<>();
 		Term.Match match = termMatch.consequent(assignable).match(new HashSet<>(assignable), term);
 		if (match == null)
 			throw new TermParserException("No match.", token.getStartLocation(), token.getStopLocation(), input);

@@ -54,7 +54,7 @@ public class Match extends TransactionalCommand
 		if (m == null)
 			throw new Exception("No match");
 		int i = 0;
-		for (ParameterVariableTerm p : m.getStatement().getTerm().parameters())
+		for (ParameterVariableTerm p : m.getAssignable())
 		{
 			Term t = m.getTermMatch().getAssignMapLeft().get(p);
 			getOut().println("@" + i + " <- " + (t != null ? t.toString(context.variableToIdentifier(getTransaction())) : "?"));

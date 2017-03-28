@@ -518,7 +518,7 @@ public abstract class Term implements Serializable, Exportable
 	 */
 	public abstract Term compose(Term term) throws ComposeTypeException;
 
-	public abstract SimpleTerm consequent(Collection<? super ParameterVariableTerm> parameters);
+	public abstract SimpleTerm consequent(Collection<ParameterVariableTerm> parameters);
 
 	/**
 	 * The consequent of a term is defined to be itself if it's a simple term or
@@ -535,11 +535,14 @@ public abstract class Term implements Serializable, Exportable
 	/**
 	 * The list of parameter variables of this function.
 	 */
+	protected abstract void parameters(Collection<ParameterVariableTerm> parameters);
+
 	public List<ParameterVariableTerm> parameters()
 	{
 		List<ParameterVariableTerm> parameters = new ArrayList<>();
-		consequent(parameters);
+		parameters(parameters);
 		return parameters;
+
 	}
 
 	/**
@@ -702,12 +705,12 @@ public abstract class Term implements Serializable, Exportable
 		}
 	}
 
-	public Match match(Set<VariableTerm> assignableVars, Term term)
+	public Match match(Collection<? extends VariableTerm> assignableVars, Term term)
 	{
 		return match(assignableVars, term, Collections.<VariableTerm> emptySet());
 	}
 
-	public Match match(Set<VariableTerm> assignableVarsLeft, Term termRight, Set<VariableTerm> assignableVarsRight)
+	public Match match(Collection<? extends VariableTerm> assignableVarsLeft, Term termRight, Collection<? extends VariableTerm> assignableVarsRight)
 	{
 		Term termLeft = this;
 		Map<VariableTerm, Term> assignMapLeft = new HashMap<>();

@@ -2155,10 +2155,10 @@ public class Context extends Statement
 	public class Match
 	{
 		private final Statement statement;
-		private final Set<? super ParameterVariableTerm> assignable;
+		private final List<ParameterVariableTerm> assignable;
 		private final Term.Match termMatch;
 
-		private Match(Statement statement, Set<? super ParameterVariableTerm> assignable, Term.Match termMatch)
+		private Match(Statement statement, List<ParameterVariableTerm> assignable, Term.Match termMatch)
 		{
 			super();
 			this.statement = statement;
@@ -2171,7 +2171,7 @@ public class Context extends Statement
 			return statement;
 		}
 
-		public Set<? super ParameterVariableTerm> getAssignable()
+		public List<ParameterVariableTerm> getAssignable()
 		{
 			return assignable;
 		}
@@ -2185,10 +2185,10 @@ public class Context extends Statement
 
 	public Match match(Statement statement, Term target)
 	{
-		Set<VariableTerm> assignableLeft = new HashSet<>();
+		List<ParameterVariableTerm> assignableLeft = new ArrayList<>();
 		SimpleTerm t = statement.getTerm().consequent(assignableLeft);
 
-		Set<VariableTerm> assignableRight = new HashSet<>();
+		List<ParameterVariableTerm> assignableRight = new ArrayList<>();
 		SimpleTerm c = target != null ? target.consequent(assignableRight) : getConsequent();
 
 		Term.Match termMatch = t.match(assignableLeft, c, assignableRight);

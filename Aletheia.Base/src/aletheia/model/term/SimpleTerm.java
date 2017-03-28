@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.model.term;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -81,9 +82,33 @@ public abstract class SimpleTerm extends Term
 	 * The consequent of a simple term is itself.
 	 */
 	@Override
-	public SimpleTerm consequent(Collection<? super ParameterVariableTerm> parameters)
+	public SimpleTerm consequent(Collection<ParameterVariableTerm> parameters)
 	{
-		return this;
+		Term type = getType();
+		if (type == null)
+			return this;
+		List<ParameterVariableTerm> extraParameters = new ArrayList<>();
+		type.consequent(extraParameters);
+		SimpleTerm consequent = this;
+		for (ParameterVariableTerm v : extraParameters)
+		{
+			ParameterVariableTerm v_ = new ParameterVariableTerm(v.getType());
+			try
+			{
+				consequent = new CompositionTerm(consequent, v_);
+			}
+			catch (CompositionTypeException e)
+			{
+				throw new RuntimeException(e);
+			}
+			parameters.add(v_);
+		}
+		return consequent;
+	}
+
+	@Override
+	protected void parameters(Collection<ParameterVariableTerm> parameters)
+	{
 	}
 
 	/**

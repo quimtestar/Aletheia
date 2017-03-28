@@ -415,11 +415,18 @@ public class FunctionTerm extends Term
 	 * The consequent of this function. That is, the consequent of its body.
 	 */
 	@Override
-	public SimpleTerm consequent(Collection<? super ParameterVariableTerm> parameters)
+	public SimpleTerm consequent(Collection<ParameterVariableTerm> parameters)
 	{
 		if (parameters != null)
 			parameters.add(getParameter());
 		return getBody().consequent(parameters);
+	}
+
+	@Override
+	protected void parameters(Collection<ParameterVariableTerm> parameters)
+	{
+		parameters.add(getParameter());
+		getBody().parameters(parameters);
 	}
 
 	/**
