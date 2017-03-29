@@ -50,7 +50,7 @@ public abstract class AtomicTerm extends SimpleTerm
 	protected abstract Term replace(Deque<Replace> replaces, Set<VariableTerm> exclude) throws ReplaceTypeException;
 
 	@Override
-	public abstract Term unproject() throws UnprojectException;
+	public abstract Term unproject() throws UnprojectTypeException;
 
 	@Override
 	public SimpleTerm head()

@@ -21,7 +21,7 @@ package aletheia.prooffinder;
 
 import java.util.List;
 
-import aletheia.model.term.Term.UnprojectException;
+import aletheia.model.term.Term.UnprojectTypeException;
 import aletheia.model.term.VariableTerm;
 import aletheia.utilities.collections.CombinedList;
 
@@ -29,7 +29,7 @@ public class NodeQueueSubEntry extends PureQueueSubEntry
 {
 	private final List<VirtualStatement> virtualStatements;
 
-	public NodeQueueSubEntry(QueueSubEntry parent, Candidate candidate, VariableTerm variable) throws UnprojectException
+	public NodeQueueSubEntry(QueueSubEntry parent, Candidate candidate, VariableTerm variable) throws UnprojectTypeException
 	{
 		super(parent.getCandidateFinder(), parent.getContext(), candidate.getAntecedentMap().get(variable).unproject());
 		this.virtualStatements = new CombinedList<>(localVirtualStatements(), parent.virtualStatements());

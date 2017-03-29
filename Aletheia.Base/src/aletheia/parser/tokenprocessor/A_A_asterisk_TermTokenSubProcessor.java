@@ -4,9 +4,7 @@ import java.util.Map;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
-import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.ParameterVariableTerm;
-import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 import aletheia.parser.TermParserException;
@@ -28,19 +26,14 @@ public class A_A_asterisk_TermTokenSubProcessor extends TermTokenSubProcessor
 			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TermParserException
 	{
 		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), input, context, transaction, tempParameterTable);
-		if (term instanceof FunctionTerm)
+		try
 		{
-			try
-			{
-				return new ProjectionTerm((FunctionTerm) term);
-			}
-			catch (ProjectionTypeException e)
-			{
-				throw new TermParserException(e, token.getStartLocation(), token.getStopLocation(), input);
-			}
+			return term.project();
 		}
-		else
-			throw new TermParserException("Only can project a function term", token.getStartLocation(), token.getStopLocation(), input);
+		catch (ProjectionTypeException e)
+		{
+			throw new TermParserException(e, token.getStartLocation(), token.getStopLocation(), input);
+		}
 	}
 
 }

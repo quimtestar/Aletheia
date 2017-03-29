@@ -29,7 +29,7 @@ import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.SimpleTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.ReplaceTypeException;
-import aletheia.model.term.Term.UnprojectException;
+import aletheia.model.term.Term.UnprojectTypeException;
 import aletheia.model.term.VariableTerm;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -142,7 +142,7 @@ public abstract class QueueSubEntry implements Comparable<QueueSubEntry>
 					{
 						psc.putDescendant(var, new NodeQueueSubEntry(this, candidate, var));
 					}
-					catch (UnprojectException e)
+					catch (UnprojectTypeException e)
 					{
 						throw new RuntimeException();
 					}

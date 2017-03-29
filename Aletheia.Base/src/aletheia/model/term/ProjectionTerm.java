@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 
 /**
  * A projection of a function is a term which is roughly equivalent to the
@@ -162,9 +163,22 @@ public class ProjectionTerm extends AtomicTerm
 	 * "projection element" recursively disappears.
 	 */
 	@Override
-	public Term unproject() throws UnprojectException
+	public Term unproject() throws UnprojectTypeException
 	{
 		return function.unproject();
+	}
+
+	@Override
+	public ProjectionTerm project() throws ProjectionTypeException
+	{
+		try
+		{
+			return new ProjectionTerm(new FunctionTerm(function.getParameter(), function.getBody().project()));
+		}
+		catch (NullParameterTypeException e)
+		{
+			throw new ProjectionTypeException(e.getMessage(), e);
+		}
 	}
 
 	@Override

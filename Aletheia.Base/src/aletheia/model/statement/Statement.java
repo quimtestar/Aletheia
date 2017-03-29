@@ -61,7 +61,7 @@ import aletheia.model.statement.Context.StatementHasDependentsException;
 import aletheia.model.statement.Context.StatementNotInContextException;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.model.term.Term.UnprojectException;
+import aletheia.model.term.Term.UnprojectTypeException;
 import aletheia.model.term.VariableTerm;
 import aletheia.persistence.PersistenceListener;
 import aletheia.persistence.PersistenceManager;
@@ -289,7 +289,7 @@ public abstract class Statement implements Exportable
 		{
 			term_ = term.unproject();
 		}
-		catch (UnprojectException e1)
+		catch (UnprojectTypeException e1)
 		{
 			throw new ProjectStatementException(e1);
 		}

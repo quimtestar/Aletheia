@@ -34,6 +34,7 @@ import java.util.Stack;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.term.FunctionTerm.NullParameterTypeException;
+import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 import aletheia.protocol.Exportable;
 import aletheia.utilities.collections.BijectionSet;
 import aletheia.utilities.collections.CastBijection;
@@ -577,26 +578,26 @@ public abstract class Term implements Serializable, Exportable
 	 *
 	 * @see Term#unproject()
 	 */
-	public class UnprojectException extends TypeException
+	public class UnprojectTypeException extends TypeException
 	{
 		private static final long serialVersionUID = 6702315755038199240L;
 
-		public UnprojectException()
+		public UnprojectTypeException()
 		{
 			super();
 		}
 
-		public UnprojectException(String message, Throwable cause)
+		public UnprojectTypeException(String message, Throwable cause)
 		{
 			super(message, cause);
 		}
 
-		public UnprojectException(String message)
+		public UnprojectTypeException(String message)
 		{
 			super(message);
 		}
 
-		public UnprojectException(Throwable cause)
+		public UnprojectTypeException(Throwable cause)
 		{
 			super(cause);
 		}
@@ -610,9 +611,11 @@ public abstract class Term implements Serializable, Exportable
 	 * function can't).
 	 *
 	 * @return This term unprojected.
-	 * @throws UnprojectException
+	 * @throws UnprojectTypeException
 	 */
-	public abstract Term unproject() throws UnprojectException;
+	public abstract Term unproject() throws UnprojectTypeException;
+
+	public abstract ProjectionTerm project() throws ProjectionTypeException;
 
 	public class ParameterNumerator
 	{

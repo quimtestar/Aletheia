@@ -290,7 +290,7 @@ public class CompositionTerm extends SimpleTerm
 	 * parts.
 	 */
 	@Override
-	public Term unproject() throws UnprojectException
+	public Term unproject() throws UnprojectTypeException
 	{
 		Term headp = head.unproject();
 		try
@@ -299,7 +299,7 @@ public class CompositionTerm extends SimpleTerm
 		}
 		catch (ComposeTypeException e)
 		{
-			throw new UnprojectException(e);
+			throw new UnprojectTypeException(e);
 		}
 		finally
 		{

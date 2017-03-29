@@ -19,11 +19,12 @@
  ******************************************************************************/
 package aletheia.model.term;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import aletheia.model.term.CompositionTerm.CompositionTypeException;
+import aletheia.model.term.FunctionTerm.NullParameterTypeException;
+import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 
 /**
  * A simple term is a term which is not a function; an {@link AtomicTerm}
@@ -87,10 +88,9 @@ public abstract class SimpleTerm extends Term
 		Term type = getType();
 		if (type == null)
 			return this;
-		List<ParameterVariableTerm> extraParameters = new ArrayList<>();
-		type.consequent(extraParameters);
+		List<ParameterVariableTerm> typeParameters = type.parameters();
 		SimpleTerm consequent = this;
-		for (ParameterVariableTerm v : extraParameters)
+		for (ParameterVariableTerm v : typeParameters)
 		{
 			ParameterVariableTerm v_ = new ParameterVariableTerm(v.getType());
 			try
@@ -124,5 +124,63 @@ public abstract class SimpleTerm extends Term
 	public abstract List<Term> components();
 
 	public abstract List<Term> aggregateComponents();
+
+	public class FunctionalizeTypeException extends TypeException
+	{
+		private static final long serialVersionUID = -3917425606014092703L;
+
+		private FunctionalizeTypeException()
+		{
+			super();
+		}
+
+		private FunctionalizeTypeException(String message, Throwable cause)
+		{
+			super(message, cause);
+		}
+
+		private FunctionalizeTypeException(String message)
+		{
+			super(message);
+		}
+
+		private FunctionalizeTypeException(Throwable cause)
+		{
+			super(cause);
+		}
+
+	}
+
+	public FunctionTerm functionalize() throws FunctionalizeTypeException
+	{
+		Term type = getType();
+		if (type == null)
+			throw new FunctionalizeTypeException("Term has no type.");
+		if (!(type instanceof FunctionTerm))
+			throw new FunctionalizeTypeException("Term's type must be a function.");
+		FunctionTerm functionType = (FunctionTerm) type;
+		ParameterVariableTerm v = new ParameterVariableTerm(functionType.getParameter().getType());
+		try
+		{
+			return new FunctionTerm(v, new CompositionTerm(this, v));
+		}
+		catch (NullParameterTypeException | CompositionTypeException e)
+		{
+			throw new FunctionalizeTypeException(e);
+		}
+	}
+
+	@Override
+	public ProjectionTerm project() throws ProjectionTypeException
+	{
+		try
+		{
+			return functionalize().project();
+		}
+		catch (FunctionalizeTypeException e)
+		{
+			throw new ProjectionTypeException(e.getMessage(), e);
+		}
+	}
 
 }

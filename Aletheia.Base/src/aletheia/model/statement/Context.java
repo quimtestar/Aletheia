@@ -65,7 +65,7 @@ import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.SimpleTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.ReplaceTypeException;
-import aletheia.model.term.Term.UnprojectException;
+import aletheia.model.term.Term.UnprojectTypeException;
 import aletheia.model.term.VariableTerm;
 import aletheia.parser.AletheiaTermParser;
 import aletheia.parser.TermParserException;
@@ -269,7 +269,7 @@ public class Context extends Statement
 		{
 			innerTerm_ = innerTerm.unproject();
 		}
-		catch (UnprojectException e1)
+		catch (UnprojectTypeException e1)
 		{
 			throw new InvalidTermContextException(e1);
 		}

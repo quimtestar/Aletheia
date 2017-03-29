@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 
 /**
  * A term representing a generic function.
@@ -436,7 +437,7 @@ public class FunctionTerm extends Term
 	 * different term than the original parameter type itself.
 	 */
 	@Override
-	public Term unproject() throws UnprojectException
+	public Term unproject() throws UnprojectTypeException
 	{
 		Term partype = parameter.getType();
 		Term ppartype = partype.unproject();
@@ -450,7 +451,7 @@ public class FunctionTerm extends Term
 			}
 			catch (ReplaceTypeException | NullParameterTypeException e)
 			{
-				throw new UnprojectException(e);
+				throw new UnprojectTypeException(e);
 			}
 		}
 		else
@@ -461,10 +462,16 @@ public class FunctionTerm extends Term
 			}
 			catch (NullParameterTypeException e)
 			{
-				throw new UnprojectException(e);
+				throw new UnprojectTypeException(e);
 			}
 		}
 
+	}
+
+	@Override
+	public ProjectionTerm project() throws ProjectionTypeException
+	{
+		return new ProjectionTerm(this);
 	}
 
 }
