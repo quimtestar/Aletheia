@@ -35,6 +35,7 @@ public class TaggedTerminalSymbol extends TerminalSymbol implements TaggedSymbol
 		this.tag = tag;
 	}
 
+	@Override
 	public String getTag()
 	{
 		return tag;

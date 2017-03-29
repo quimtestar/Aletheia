@@ -35,6 +35,7 @@ public class TaggedNonTerminalSymbol extends NonTerminalSymbol implements Tagged
 		this.tag = tag;
 	}
 
+	@Override
 	public String getTag()
 	{
 		return tag;
