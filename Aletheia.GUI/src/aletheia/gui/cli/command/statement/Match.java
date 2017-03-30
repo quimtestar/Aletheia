@@ -50,7 +50,7 @@ public class Match extends TransactionalCommand
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
 		getOut().println(statement.getTerm().toString(context.variableToIdentifier(getTransaction())));
-		Context.Match m = context.match(statement, term);
+		Statement.Match m = statement.match(term != null ? term : context.getConsequent());
 		if (m == null)
 			throw new Exception("No match");
 		int i = 0;

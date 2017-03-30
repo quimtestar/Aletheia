@@ -60,6 +60,8 @@ import aletheia.model.statement.Context.CantDeleteAssumptionException;
 import aletheia.model.statement.Context.StatementHasDependentsException;
 import aletheia.model.statement.Context.StatementNotInContextException;
 import aletheia.model.term.IdentifiableVariableTerm;
+import aletheia.model.term.ParameterVariableTerm;
+import aletheia.model.term.SimpleTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.UnprojectTypeException;
 import aletheia.model.term.VariableTerm;
@@ -72,6 +74,7 @@ import aletheia.protocol.Exportable;
 import aletheia.utilities.collections.AbstractCloseableCollection;
 import aletheia.utilities.collections.AdaptedCollection;
 import aletheia.utilities.collections.Bijection;
+import aletheia.utilities.collections.BijectionCloseableCollection;
 import aletheia.utilities.collections.BijectionCloseableSet;
 import aletheia.utilities.collections.BijectionCollection;
 import aletheia.utilities.collections.BijectionSet;
@@ -80,6 +83,7 @@ import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableSet;
 import aletheia.utilities.collections.CombinedCollection;
 import aletheia.utilities.collections.Filter;
+import aletheia.utilities.collections.FilteredCloseableCollection;
 import aletheia.utilities.collections.FilteredCloseableSet;
 import aletheia.utilities.collections.FilteredCollection;
 import aletheia.utilities.collections.FilteredSet;
@@ -1750,6 +1754,75 @@ public abstract class Statement implements Exportable
 			}
 		}
 		return undeleted;
+	}
+
+	public class Match
+	{
+		private final List<ParameterVariableTerm> assignable;
+		private final Term.Match termMatch;
+
+		private Match(List<ParameterVariableTerm> assignable, Term.Match termMatch)
+		{
+			super();
+			this.assignable = assignable;
+			this.termMatch = termMatch;
+		}
+
+		public Statement getStatement()
+		{
+			return Statement.this;
+		}
+
+		public List<ParameterVariableTerm> getAssignable()
+		{
+			return assignable;
+		}
+
+		public Term.Match getTermMatch()
+		{
+			return termMatch;
+		}
+
+	}
+
+	public Match match(Term target)
+	{
+		List<ParameterVariableTerm> assignableLeft = new ArrayList<>();
+		SimpleTerm t = getTerm().consequent(assignableLeft);
+
+		List<ParameterVariableTerm> assignableRight = new ArrayList<>();
+		SimpleTerm c = target.consequent(assignableRight);
+
+		Term.Match termMatch = t.match(assignableLeft, c, assignableRight);
+		if (termMatch == null)
+			return null;
+		return new Match(assignableLeft, termMatch);
+	}
+
+	public static CloseableCollection<Match> filterMatches(CloseableCollection<Statement> statements, final Term target)
+	{
+		Bijection<Statement, Match> bijection = new Bijection<Statement, Match>()
+		{
+
+			@Override
+			public Match forward(Statement statement)
+			{
+				Set<ParameterVariableTerm> assignable = new HashSet<>();
+				SimpleTerm t = statement.getTerm().consequent(assignable);
+				if (assignable.contains(t.head()))
+					return null;
+				return statement.match(target);
+			}
+
+			@Override
+			public Statement backward(Match match)
+			{
+				return match.getStatement();
+			}
+
+		};
+
+		return new FilteredCloseableCollection<>(new NotNullFilter<Match>(), new BijectionCloseableCollection<>(bijection, statements));
 	}
 
 }

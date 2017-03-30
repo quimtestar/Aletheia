@@ -21,42 +21,85 @@ package aletheia.gui.cli.command.statement;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Queue;
 
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
+import aletheia.gui.common.NamespacePattern;
+import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
-import aletheia.model.statement.Context.Match;
+import aletheia.model.statement.Statement;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.collections.Bijection;
+import aletheia.utilities.collections.BijectionCloseableCollection;
+import aletheia.utilities.collections.CloseableCollection;
 import aletheia.utilities.collections.DiamondPriorityDiscardingQueue;
+import aletheia.utilities.collections.Filter;
+import aletheia.utilities.collections.FilteredCloseableCollection;
 
 @TaggedCommand(tag = "lu", groupPath = "/statement", factory = LookUp.Factory.class)
 public class LookUp extends TransactionalCommand
 {
 	private final Context context;
 	private final Term term;
+	private final NamespacePattern namespacePattern;
 	private final int size;
 
-	public LookUp(CommandSource from, Transaction transaction, Context context, Term term, int size)
+	public LookUp(CommandSource from, Transaction transaction, Context context, Term term, NamespacePattern namespacePattern, int size)
 	{
 		super(from, transaction);
 		this.context = context;
 		this.term = term;
+		this.namespacePattern = namespacePattern;
 		this.size = size;
+	}
+
+	private CloseableCollection<Statement.Match> lookupMatchesWithPattern()
+	{
+		return Statement.filterMatches(new BijectionCloseableCollection<>(new Bijection<Map.Entry<Identifier, Statement>, Statement>()
+		{
+
+			@Override
+			public Statement forward(Entry<Identifier, Statement> entry)
+			{
+				return entry.getValue();
+			}
+
+			@Override
+			public Entry<Identifier, Statement> backward(Statement statement)
+			{
+				throw new UnsupportedOperationException();
+			}
+		},
+
+				new FilteredCloseableCollection<>(new Filter<Map.Entry<Identifier, Statement>>()
+				{
+
+					@Override
+					public boolean filter(Map.Entry<Identifier, Statement> entry)
+					{
+						return namespacePattern.matches(entry.getKey());
+					}
+				}, context.identifierToStatement(getTransaction()).tailMap(namespacePattern.fromKey()).entrySet()))
+
+				, term != null ? term : context.getConsequent());
+
 	}
 
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		Comparator<Context.Match> comparator = new Comparator<Context.Match>()
+		Comparator<Statement.Match> comparator = new Comparator<Statement.Match>()
 		{
 
 			@Override
-			public int compare(Match m1, Match m2)
+			public int compare(Statement.Match m1, Statement.Match m2)
 			{
 				return Integer.compare(m1.getAssignable().size() - m1.getTermMatch().getAssignMapLeft().size(),
 						m2.getAssignable().size() - m2.getTermMatch().getAssignMapLeft().size());
@@ -64,7 +107,10 @@ public class LookUp extends TransactionalCommand
 
 		};
 		Queue<Context.Match> matches = new DiamondPriorityDiscardingQueue<>(DiamondPriorityDiscardingQueue.heightForCapacity(size + 1), comparator);
-		matches.addAll(context.lookupMatches(getTransaction(), term));
+		if (namespacePattern == null)
+			matches.addAll(context.lookupMatches(getTransaction(), term));
+		else
+			matches.addAll(lookupMatchesWithPattern());
 		int n = 0;
 		while (n < size && !matches.isEmpty())
 		{
@@ -106,33 +152,39 @@ public class LookUp extends TransactionalCommand
 				Context ctx = from.getActiveContext();
 				if (ctx == null)
 					throw new NotActiveContextException();
-				Term term = null;
 				int size = defaultSize;
+				int is = split.indexOf("-s");
+				if (is >= 0)
+				{
+					split.remove(is);
+					if (is >= split.size())
+						throw new CommandParseException("Must specify a size.");
+					size = Integer.parseInt(split.get(is));
+					split.remove(is);
+
+				}
+				Term term = null;
+				NamespacePattern namespacePattern = null;
 				if (split.size() > 0)
 				{
-					try
+					term = ctx.parseTerm(transaction, split.get(0));
+					if (split.size() > 1)
 					{
-						size = Integer.parseInt(split.get(0));
-					}
-					catch (NumberFormatException e)
-					{
-						term = ctx.parseTerm(transaction, split.get(0));
-						if (split.size() > 1)
-							size = Integer.parseInt(split.get(1));
+						namespacePattern = NamespacePattern.instantiate(split.get(1));
 					}
 				}
-				return new LookUp(from, transaction, ctx, term, size);
+				return new LookUp(from, transaction, ctx, term, namespacePattern, size);
 			}
 			catch (Exception e)
 			{
-				throw new CommandParseException(e);
+				throw CommandParseEmbeddedException.embed(e);
 			}
 		}
 
 		@Override
 		protected String paramSpec()
 		{
-			return "[<term>] [<size>]";
+			return "[<term> [<search pattern expression>]] [-s <size>]";
 		}
 
 		@Override

@@ -92,7 +92,7 @@ public class Search extends TransactionalCommand
 		@Override
 		protected String paramSpec()
 		{
-			return "<expression>";
+			return "<search pattern expression>";
 		}
 
 		@Override

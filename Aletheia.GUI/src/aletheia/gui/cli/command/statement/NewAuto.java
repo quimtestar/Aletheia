@@ -68,7 +68,7 @@ public class NewAuto extends NewStatement
 		Context.Match m = null;
 		if (target != null)
 		{
-			m = context.match(general, target);
+			m = general.match(target);
 			if (m == null)
 				throw new Exception("No match");
 		}
