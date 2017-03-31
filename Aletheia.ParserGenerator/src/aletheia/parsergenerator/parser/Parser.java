@@ -233,6 +233,8 @@ public abstract class Parser implements Serializable
 				if (prod == null)
 					throw new UnexpectedTokenException(inputStack.peek(), state);
 				LinkedList<Token<?>> children = new LinkedList<>();
+				Location startLocation = null;
+				Location stopLocation = null;
 				for (ListIterator<Symbol> i = prod.getRight().listIterator(prod.getRight().size()); i.hasPrevious();)
 				{
 					Symbol s = i.previous();
@@ -241,18 +243,10 @@ public abstract class Parser implements Serializable
 					if (!token.getSymbol().equals(s))
 						throw new Error();
 					children.addFirst(token);
-				}
-				Location startLocation;
-				Location stopLocation;
-				if (!children.isEmpty())
-				{
-					startLocation = children.getFirst().getStartLocation();
-					stopLocation = children.getLast().getStopLocation();
-				}
-				else
-				{
-					startLocation = lexer.getLocation();
-					stopLocation = lexer.getLocation();
+					if (token.getStartLocation() != null)
+						startLocation = token.getStartLocation();
+					if (stopLocation == null)
+						stopLocation = token.getStopLocation();
 				}
 				inputStack.push(new NonTerminalToken(prod, startLocation, stopLocation, children));
 			}

@@ -87,7 +87,7 @@ public class Token<S extends Symbol>
 	}
 
 	/**
-	 * The start location.
+	 * The start location. Null if the token is produced from the empty string.
 	 *
 	 * @return The start location.
 	 */
@@ -97,7 +97,7 @@ public class Token<S extends Symbol>
 	}
 
 	/**
-	 * The stop location.
+	 * The stop location. Null if the token is produced by the empty string.
 	 *
 	 * @return The stop location.
 	 */
