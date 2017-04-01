@@ -19,11 +19,16 @@
  ******************************************************************************/
 package aletheia.parsergenerator.tokens;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * A location in the input. Line and column.
  */
 public class Location
 {
+	private final static Pattern lineBreakPattern = Pattern.compile("\\r\\n|\\n|\\r");
+
 	public final int line;
 	public final int column;
 
@@ -43,6 +48,20 @@ public class Location
 	public String toString()
 	{
 		return position();
+	}
+
+	public int positionInText(String text)
+	{
+		if (line <= 1)
+			return column;
+		else
+		{
+			int l = line;
+			Matcher matcher = lineBreakPattern.matcher(text);
+			while (l > 1 && matcher.find())
+				l--;
+			return matcher.start() + column;
+		}
 	}
 
 }
