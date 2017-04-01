@@ -254,6 +254,12 @@ public class NewAuto extends NewStatement
 		}
 		if (statement == general)
 			throw new Exception("Nothing boundable :(");
+		if (!hints.isEmpty())
+		{
+			getErr().println("Warning: unused hints");
+			for (Term h : hints)
+				getErr().println(" -> " + termToString(context, getTransaction(), h));
+		}
 		return new RunNewStatementReturnData(statement);
 	}
 
