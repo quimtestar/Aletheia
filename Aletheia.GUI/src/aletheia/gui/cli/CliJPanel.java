@@ -56,8 +56,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.regex.Pattern;
-
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -132,7 +130,6 @@ public class CliJPanel extends JPanel implements CommandSource
 	private static final long serialVersionUID = -2211989098955644681L;
 	private static final Logger logger = LoggerManager.instance.logger();
 	private static final String multiLinePrompt = "\u00bb";
-	private static final Pattern multiLinePattern = Pattern.compile("(\n+(" + Pattern.quote(multiLinePrompt) + ")+?\\p{Blank}*)+");
 
 	private static final AttributeSet defaultAttributeSet = new SimpleAttributeSet();
 	private static final AttributeSet defaultBAttributeSet = new SimpleAttributeSet(defaultAttributeSet);
@@ -284,7 +281,7 @@ public class CliJPanel extends JPanel implements CommandSource
 				{
 					try
 					{
-						String s = getCommandMultilineFiltered().trim();
+						String s = getCommand().trim();
 						if (!s.isEmpty() && (commandHistory.atEnd() || !s.equals(commandHistory.current())))
 							commandHistory.add(s);
 						document.remove(minimalCaretPosition, document.getLength() - minimalCaretPosition);
@@ -305,7 +302,7 @@ public class CliJPanel extends JPanel implements CommandSource
 				{
 					try
 					{
-						String s = getCommandMultilineFiltered().trim();
+						String s = getCommand().trim();
 						if (!s.isEmpty() && (commandHistory.atEnd() || !s.equals(commandHistory.current())))
 							commandHistory.add(s);
 						document.remove(minimalCaretPosition, document.getLength() - minimalCaretPosition);
@@ -374,7 +371,7 @@ public class CliJPanel extends JPanel implements CommandSource
 				{
 					if (!e.isShiftDown())
 					{
-						String s = getCommandMultilineFiltered().trim();
+						String s = getCommand().trim();
 						updateMinimalCaretPosition();
 						command(s);
 					}
@@ -1087,7 +1084,7 @@ public class CliJPanel extends JPanel implements CommandSource
 				if (t.isDataFlavorSupported(DataFlavor.stringFlavor))
 				{
 					String s = (String) t.getTransferData(DataFlavor.stringFlavor);
-					StringSelection sel = new StringSelection(filterMultiline(s));
+					StringSelection sel = new StringSelection(s);
 					clip.setContents(sel, sel);
 				}
 			}
@@ -1327,7 +1324,7 @@ public class CliJPanel extends JPanel implements CommandSource
 			consolePrintWriter.print(s);
 			consolePrintWriter.flush();
 		}
-		commandBuffer.append(getCommandMultilineFiltered(true));
+		commandBuffer.append(getCommand(true));
 		try
 		{
 			moveCaretToEnd();
@@ -1366,7 +1363,7 @@ public class CliJPanel extends JPanel implements CommandSource
 
 	protected void escape() throws InterruptedException
 	{
-		String s = getCommandMultilineFiltered().trim();
+		String s = getCommand().trim();
 		moveCaretToEnd();
 		try
 		{
@@ -1471,21 +1468,6 @@ public class CliJPanel extends JPanel implements CommandSource
 	private String getCommand()
 	{
 		return getCommand(false);
-	}
-
-	private String filterMultiline(String s)
-	{
-		return multiLinePattern.matcher(s).replaceAll(" ");
-	}
-
-	private String getCommandMultilineFiltered(boolean remove)
-	{
-		return filterMultiline(getCommand(remove));
-	}
-
-	private String getCommandMultilineFiltered()
-	{
-		return getCommandMultilineFiltered(false);
 	}
 
 	private enum BHLMTokenType
