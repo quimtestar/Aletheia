@@ -54,17 +54,7 @@ public class Useless extends TransactionalCommand
 		this.unsigned = unsigned;
 	}
 
-	private class UnusedCommandException extends CommandException
-	{
-		private static final long serialVersionUID = -5794832807978879241L;
-
-		private UnusedCommandException(String message)
-		{
-			super(message);
-		}
-	}
-
-	private void processProved(Context context) throws UnusedCommandException
+	private void processProved(Context context)
 	{
 		Set<Statement> unused = new HashSet<>();
 		Stack<Statement> stack = new Stack<>();
