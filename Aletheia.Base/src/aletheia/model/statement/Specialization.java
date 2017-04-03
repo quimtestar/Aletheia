@@ -225,11 +225,9 @@ public class Specialization extends Statement
 			for (String var : undefined)
 			{
 				if (!first)
-				{
 					sb.append(", ");
-					first = false;
-				}
 				sb.append(var.toString());
+				first=false;
 			}
 			return sb.toString();
 		}
