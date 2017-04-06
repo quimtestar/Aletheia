@@ -75,6 +75,15 @@ public class NewAuto extends NewStatement
 		Statement statement = general;
 		int i = -1;
 
+		Statement unidentified = null;
+		if (getIdentifier().equals(statement.getIdentifier()) && context.equals(statement.getContext(getTransaction())))
+		{
+			i = 0;
+			statement.unidentify(getTransaction());
+			unidentified = statement;
+			getErr().println("Warning: Appending statements to identifier's parent.");
+		}
+
 		Term term = general.getTerm();
 		Iterator<ParameterVariableTerm> oParamIt = term.parameters().iterator();
 		while (term instanceof FunctionTerm)
@@ -256,10 +265,12 @@ public class NewAuto extends NewStatement
 			throw new Exception("Nothing boundable :(");
 		if (!hints.isEmpty())
 		{
-			getErr().println("Warning: unused hints");
+			getErr().println("Warning: unused hints.");
 			for (Term h : hints)
 				getErr().println(" -> " + termToString(context, getTransaction(), h));
 		}
+		if (unidentified != null)
+			getErr().println("Warning: Previously existing statement has been re-identified to '" + unidentified.refresh(getTransaction()).label() + "'.");
 		return new RunNewStatementReturnData(statement);
 	}
 
