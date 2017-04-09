@@ -323,7 +323,7 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 		{
 			StatementAuthority statementAuthority = statement.getAuthority(transaction);
 			if (statementAuthority == null)
-				throw new CommandParseException("Statement not authored");
+				continue;
 			StatementAuthoritySignatureMap signatureMap = statementAuthority.signatureMap(transaction);
 			if (split.size() <= 1)
 				signatures.addAll(signatureMap.values());
@@ -332,7 +332,7 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 				Signatory authorizer = persistenceManager.getSignatory(transaction, UUID.fromString(split.get(1)));
 				StatementAuthoritySignature signature = signatureMap.get(authorizer);
 				if (signature == null)
-					throw new CommandParseException("Signature not found");
+					continue;
 				signatures.add(signature);
 			}
 			else if (split.size() > 3)
