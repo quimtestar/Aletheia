@@ -57,10 +57,13 @@ import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.local.ContextLocal;
 import aletheia.model.local.StatementLocal;
 import aletheia.model.nomenclator.Nomenclator;
+import aletheia.model.nomenclator.Nomenclator.AlreadyUsedIdentifierException;
 import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
 import aletheia.model.nomenclator.SubNomenclator;
 import aletheia.model.term.FunctionTerm;
+import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.model.term.IdentifiableVariableTerm;
+import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.SimpleTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.ReplaceTypeException;
@@ -659,6 +662,11 @@ public class Context extends Statement
 	public CloseableMap<IdentifiableVariableTerm, Statement> statements(Transaction transaction)
 	{
 		return new CombinedCloseableMap<>(getLocalStatements(transaction), getContext(transaction).statements(transaction));
+	}
+
+	public boolean hasStatement(Transaction transaction, Statement statement)
+	{
+		return statement.equals(statements(transaction).get(statement.getVariable()));
 	}
 
 	/**
@@ -1825,6 +1833,11 @@ public class Context extends Statement
 		return new UnmodifiableCloseableMap<>(getLocalStatements(transaction));
 	}
 
+	public boolean hasLocalStatement(Transaction transaction, Statement statement)
+	{
+		return statement.equals(localStatements(transaction).get(statement.getVariable()));
+	}
+
 	@Override
 	public Set<Statement> dependenciesThisAndDescendents(Transaction transaction)
 	{
@@ -2170,6 +2183,115 @@ public class Context extends Statement
 		{
 			throw new UndeleteStatementException(e);
 		}
+	}
+
+	public static class FromStatementContextException extends ContextException
+	{
+		private static final long serialVersionUID = -3598413271339749808L;
+
+		private FromStatementContextException()
+		{
+			super();
+		}
+
+		private FromStatementContextException(String message)
+		{
+			super(message);
+		}
+
+		private FromStatementContextException(Throwable cause)
+		{
+			super(cause);
+		}
+
+		private FromStatementContextException(String message, Throwable cause)
+		{
+			super(message, cause);
+		}
+
+	}
+
+	public Context openSubContextFromStatement(Transaction transaction, Statement statement) throws StatementException
+	{
+		Stack<ParameterVariableTerm> paramStack = new Stack<>();
+		List<Term.Replace> replaces = new ArrayList<>();
+		List<Identifier> identifiers = new ArrayList<>();
+		for (Statement st : statement.statementPath(transaction, this))
+		{
+			if (!statement.equals(st))
+			{
+				if (!(st instanceof Context))
+					throw new RuntimeException();
+				Context ctx = (Context) st;
+				for (Assumption ass : ctx.getAssumptionList(transaction))
+				{
+					VariableTerm var = ass.getVariable();
+					Term type;
+					try
+					{
+						type = var.getType().replace(replaces);
+					}
+					catch (ReplaceTypeException e)
+					{
+						throw new FromStatementContextException("Can't copy statement here due to some dependency.", e);
+					}
+					ParameterVariableTerm parameter = new ParameterVariableTerm(type);
+					paramStack.push(parameter);
+					replaces.add(new Term.Replace(var, parameter));
+					identifiers.add(ass.getIdentifier());
+				}
+			}
+		}
+		Term term;
+		try
+		{
+			term = statement.getTerm().replace(replaces);
+		}
+		catch (ReplaceTypeException e)
+		{
+			throw new FromStatementContextException("Can't copy statement here due to some dependency.", e);
+		}
+		while (!paramStack.isEmpty())
+			try
+			{
+				term = new FunctionTerm(paramStack.pop(), term);
+			}
+			catch (NullParameterTypeException e)
+			{
+				throw new RuntimeException(e);
+			}
+		Context subCtx = openSubContext(transaction, term);
+		if (statement instanceof Context)
+		{
+			for (Assumption ass : ((Context) statement).getAssumptionList(transaction))
+			{
+				if (ass.getIdentifier() != null)
+					try
+					{
+						subCtx.getAssumptionList(transaction).get(identifiers.size() + ass.getOrder()).identify(transaction, ass.getIdentifier());
+					}
+					catch (NomenclatorException e)
+					{
+						throw new RuntimeException(e);
+					}
+			}
+		}
+		for (int i = identifiers.size() - 1; i >= 0; i--)
+		{
+			if (identifiers.get(i) != null)
+				try
+				{
+					subCtx.getAssumptionList(transaction).get(i).identify(transaction, identifiers.get(i));
+				}
+				catch (AlreadyUsedIdentifierException e)
+				{
+				}
+				catch (NomenclatorException e)
+				{
+					throw new RuntimeException(e);
+				}
+		}
+		return subCtx;
 	}
 
 }

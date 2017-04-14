@@ -227,7 +227,7 @@ public class Specialization extends Statement
 				if (!first)
 					sb.append(", ");
 				sb.append(var.toString());
-				first=false;
+				first = false;
 			}
 			return sb.toString();
 		}
