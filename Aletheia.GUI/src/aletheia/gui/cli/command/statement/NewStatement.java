@@ -102,7 +102,8 @@ public abstract class NewStatement extends TransactionalCommand
 				NewStrip.class,
 				NewCopy.class,
 				NewRootContext.class,
-				NewAuto.class
+				NewAuto.class,
+				ContextFromStatement.class
 				);
 		// @formatter:on
 
