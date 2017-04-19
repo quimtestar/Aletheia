@@ -564,7 +564,7 @@ public class PreferencesDialog extends JDialog
 				if (oldFontSize != fontSize)
 					preferences.appearance().setFontSize(fontSize);
 
-				boolean ret = aletheiaJFrame.updateContentPane(true);
+				boolean ret = aletheiaJFrame.updateContentPane(false);
 				if (ret)
 					ret = aletheiaJFrame.updateServerStatus(false);
 				if (ret)
