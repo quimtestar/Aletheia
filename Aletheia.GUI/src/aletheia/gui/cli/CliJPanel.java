@@ -2342,6 +2342,13 @@ public class CliJPanel extends JPanel implements CommandSource
 			consolePrintWriter = new PrintWriter(new FileOutputStream(file, true), true);
 	}
 
+	@Override
+	public void restart()
+	{
+		getAletheiaJPanel().getAletheiaJFrame().updateContentPane(true);
+		getAletheiaJPanel().getAletheiaJFrame().updateServerStatus(true);
+	}
+
 	public synchronized void resetCatalogJTree() throws InterruptedException
 	{
 		Namespace selected = catalogJTree.getSelectedPrefix();

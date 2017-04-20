@@ -101,4 +101,6 @@ public interface CommandSource
 
 	void consoleFile(File file) throws FileNotFoundException;
 
+	void restart();
+
 }

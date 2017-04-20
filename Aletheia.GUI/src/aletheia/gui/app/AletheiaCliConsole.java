@@ -268,6 +268,12 @@ public abstract class AletheiaCliConsole implements CommandSource
 	{
 	}
 
+	@Override
+	public void restart()
+	{
+		throw new UnsupportedOperationException();
+	}
+
 	protected Command command(String s)
 	{
 		if (consolePrintWriter != null)
