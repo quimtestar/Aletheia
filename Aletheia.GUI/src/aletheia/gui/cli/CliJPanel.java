@@ -73,6 +73,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
+import javax.swing.text.AbstractDocument;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultEditorKit;
@@ -86,6 +87,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledEditorKit;
 import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
+import javax.swing.undo.CannotUndoException;
 
 import org.apache.logging.log4j.Logger;
 
@@ -552,8 +554,18 @@ public class CliJPanel extends JPanel implements CommandSource
 		@Override
 		public void undoableEditHappened(UndoableEditEvent e)
 		{
-			if (textPane.getCaretPosition() < minimalCaretPosition)
-				e.getEdit().undo();
+			if (e.getEdit() instanceof AbstractDocument.DefaultDocumentEvent)
+			{
+				AbstractDocument.DefaultDocumentEvent edit = (AbstractDocument.DefaultDocumentEvent) e.getEdit();
+				if (edit.getOffset() < minimalCaretPosition)
+					try
+					{
+						e.getEdit().undo();
+					}
+					catch (CannotUndoException ex)
+					{
+					}
+			}
 		}
 
 	}
