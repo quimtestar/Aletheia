@@ -506,7 +506,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 			String tag = split.get(0);
 			AbstractVoidCommandFactory<? extends Command> factory = taggedFactories.get(tag);
 			if (factory == null)
-				throw new CommandParseException("Bad command");
+				throw new CommandParseException("Bad command: '" + tag + "'");
 			return factory.parse(from, transaction, split.subList(1, split.size()));
 		}
 	}
