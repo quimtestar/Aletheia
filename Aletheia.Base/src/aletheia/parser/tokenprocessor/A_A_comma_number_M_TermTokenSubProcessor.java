@@ -57,7 +57,7 @@ public class A_A_comma_number_M_TermTokenSubProcessor extends TermTokenSubProces
 				components = new BufferedList<>(((CompositionTerm) term).components());
 			int n = Integer.parseInt(((TaggedTerminalToken) token.getChildren().get(2)).getText());
 			if (n < 0 || n >= components.size())
-				throw new TermParserException("Composition coordinate " + n + " out of bounds for term: " + "'" + term + "'",
+				throw new TermParserException("Composition coordinate " + n + " out of bounds for term: " + "'" + term.toString(transaction, context) + "'",
 						token.getChildren().get(2).getStartLocation(), token.getChildren().get(2).getStopLocation(), input);
 			return components.get(n);
 		}

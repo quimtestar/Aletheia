@@ -33,8 +33,10 @@ import java.util.Set;
 import java.util.Stack;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.statement.Context;
 import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
+import aletheia.persistence.Transaction;
 import aletheia.protocol.Exportable;
 import aletheia.utilities.collections.BijectionSet;
 import aletheia.utilities.collections.CastBijection;
@@ -290,6 +292,11 @@ public abstract class Term implements Serializable, Exportable
 	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier)
 	{
 		return toString(variableToIdentifier, parameterNumerator());
+	}
+
+	public String toString(Transaction transaction, Context context)
+	{
+		return toString(context.variableToIdentifier(transaction));
 	}
 
 	public abstract String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator);

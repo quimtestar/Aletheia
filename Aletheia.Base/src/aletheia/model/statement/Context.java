@@ -926,6 +926,11 @@ public class Context extends Statement
 		return AletheiaTermParser.parseTerm(this, transaction, s);
 	}
 
+	public String unparseTerm(Transaction transaction, Term term)
+	{
+		return term.toString(transaction, this);
+	}
+
 	public class StatementNotInContextException extends ContextException
 	{
 		private static final long serialVersionUID = 8332873787690492305L;
