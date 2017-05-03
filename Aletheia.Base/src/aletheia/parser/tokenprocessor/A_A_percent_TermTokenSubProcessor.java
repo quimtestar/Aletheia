@@ -25,6 +25,7 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.ParameterVariableTerm;
+import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.Term;
 import aletheia.parser.TermParserException;
 import aletheia.parser.tokenprocessor.parameterRef.ParameterRef;
@@ -45,6 +46,8 @@ public class A_A_percent_TermTokenSubProcessor extends TermTokenSubProcessor
 			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TermParserException
 	{
 		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), input, context, transaction, tempParameterTable);
+		while (term instanceof ProjectionTerm)
+			term = ((ProjectionTerm) term).getFunction();
 		if (term instanceof FunctionTerm)
 			return ((FunctionTerm) term).getParameter().getType();
 		else

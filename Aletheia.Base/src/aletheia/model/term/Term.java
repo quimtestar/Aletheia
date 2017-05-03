@@ -280,6 +280,8 @@ public abstract class Term implements Serializable, Exportable
 		return new BijectionSet<>(new CastBijection<VariableTerm, IdentifiableVariableTerm>(), freeVariables());
 	}
 
+	public abstract String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator);
+
 	/**
 	 * Converts term to {@link String} using the specified correspondence
 	 * between variables and identifiers.
@@ -296,10 +298,13 @@ public abstract class Term implements Serializable, Exportable
 
 	public String toString(Transaction transaction, Context context)
 	{
-		return toString(context.variableToIdentifier(transaction));
+		return toString(transaction, context, parameterNumerator());
 	}
 
-	public abstract String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator);
+	public String toString(Transaction transaction, Context context, ParameterNumerator parameterNumerator)
+	{
+		return toString(context != null ? context.variableToIdentifier(transaction) : null, parameterNumerator);
+	}
 
 	/**
 	 * Equivalent to {@link #toString(Map)} with an empty map.

@@ -21,12 +21,14 @@ package aletheia.gui.cli.command.term;
 
 import java.util.List;
 import java.util.ListIterator;
-
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.term.CompositionTerm;
+import aletheia.model.term.FunctionTerm;
+import aletheia.model.term.ParameterVariableTerm;
+import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
 
@@ -46,18 +48,23 @@ public class TermTree extends TransactionalCommand
 		return term;
 	}
 
+	private boolean hasChildren(Term term)
+	{
+		return (term instanceof CompositionTerm) || (term instanceof FunctionTerm) || (term instanceof ProjectionTerm);
+	}
+
 	private void showTree(Term term)
 	{
-		if (term instanceof CompositionTerm)
+		if (hasChildren(term))
 			getOutB().print("\u250c ");
 		else
 			getOutB().print("\u2022 ");
-		showTree("", "", term);
+		showTree("", "", term, term.parameterNumerator());
 	}
 
-	private void showTree(String prefixA, String prefixB, Term term)
+	private void showTree(String prefixA, String prefixB, Term term, Term.ParameterNumerator numerator)
 	{
-		getOut().println(termToString(getActiveContext(), getTransaction(), term));
+		getOut().println(term.toString(getTransaction(), getActiveContext(), numerator));
 		if (term instanceof CompositionTerm)
 		{
 			ListIterator<Term> iterator = ((CompositionTerm) term).components().listIterator();
@@ -68,7 +75,7 @@ public class TermTree extends TransactionalCommand
 				String prefixA_, prefixB_;
 				if (iterator.hasNext())
 				{
-					if (component instanceof CompositionTerm)
+					if (hasChildren(component))
 						prefixA_ = prefixB + "\u251c\u2500\u252c";
 					else
 						prefixA_ = prefixB + "\u251c\u2500\u2500";
@@ -76,15 +83,51 @@ public class TermTree extends TransactionalCommand
 				}
 				else
 				{
-					if (component instanceof CompositionTerm)
+					if (hasChildren(component))
 						prefixA_ = prefixB + "\u2514\u2500\u252c";
 					else
 						prefixA_ = prefixB + "\u2514\u2500\u2500";
 					prefixB_ = prefixB + "  ";
 				}
 
-				getOutB().format("%s%2d: ", prefixA_, i);
-				showTree(prefixA_, prefixB_, component);
+				getOutB().format("%s%3s: ", prefixA_, "," + i);
+				showTree(prefixA_, prefixB_, component, numerator);
+			}
+		}
+		while (term instanceof ProjectionTerm)
+			term = ((ProjectionTerm) term).getFunction();
+		if (term instanceof FunctionTerm)
+		{
+			FunctionTerm functionTerm = (FunctionTerm) term;
+			ParameterVariableTerm param = functionTerm.getParameter();
+			Term body = functionTerm.getBody();
+			{
+				Term parType = param.getType();
+				String prefixA_;
+				if (hasChildren(parType))
+					prefixA_ = prefixB + "\u251c\u2500\u252c";
+				else
+					prefixA_ = prefixB + "\u251c\u2500\u2500";
+				String prefixB_ = prefixB + "\u2502 ";
+				getOutB().format("%s  %%: ", prefixA_);
+				showTree(prefixA_, prefixB_, parType, numerator);
+			}
+			{
+				int parNum = numerator.numberParameter(param);
+				String prefixA_;
+				if (hasChildren(body))
+					prefixA_ = prefixB + "\u2514\u2500\u252c";
+				else
+					prefixA_ = prefixB + "\u2514\u2500\u2500";
+				String prefixB_ = prefixB + "  ";
+				String tag;
+				if (body.freeVariables().contains(functionTerm.getParameter()))
+					tag = String.format("%3s", "@" + parNum);
+				else
+					tag = "  '";
+				getOutB().format("%s%s: ", prefixA_, tag);
+				showTree(prefixA_, prefixB_, body, numerator);
+				numerator.unNumberParameter();
 			}
 		}
 	}
