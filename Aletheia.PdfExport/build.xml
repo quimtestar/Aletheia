@@ -23,8 +23,8 @@
         <pathelement location="${Aletheia.PdfExport.location}/itextpdf-5.5.8.jar"/>
     </path>
     <path id="Log4j Library.userclasspath">
-        <pathelement location="${Aletheia.log4j.location}/log4j-api-2.5.jar"/>
-        <pathelement location="${Aletheia.log4j.location}/log4j-core-2.5.jar"/>
+        <pathelement location="${Aletheia.log4j.location}/log4j-api-2.8.2.jar"/>
+        <pathelement location="${Aletheia.log4j.location}/log4j-core-2.8.2.jar"/>
     </path>
     <path id="Aletheia.log4j.classpath">
         <pathelement location="${Aletheia.log4j.location}/bin"/>

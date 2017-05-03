@@ -22,8 +22,8 @@
             <fileset dir="${Aletheia.Version.location}/bin"/>
             <fileset dir="bin"/>
             <zipfileset excludes="META-INF/*.SF" src="${Aletheia.BerkeleyDB.location}/je-7.4.5.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-api-2.5.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-core-2.5.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-api-2.8.2.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-core-2.8.2.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${Aletheia.PdfExport.location}/itextpdf-5.5.8.jar"/>
         </jar>
     </target>
@@ -47,8 +47,8 @@
             <fileset dir="${Aletheia.Version.location}/bin"/>
             <fileset dir="bin"/>
             <zipfileset excludes="META-INF/*.SF" src="${Aletheia.BerkeleyDB.location}/je-7.4.5.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-api-2.5.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-core-2.5.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-api-2.8.2.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-core-2.8.2.jar"/>
             <zipfileset excludes="META-INF/*.SF" src="${Aletheia.PdfExport.location}/itextpdf-5.5.8.jar"/>
         </jar>
     </target>
