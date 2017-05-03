@@ -158,7 +158,9 @@ public class NewAuto extends NewStatement
 				{
 					try
 					{
-						statement.identify(getTransaction(), new Identifier(getIdentifier(), String.format("sub_%02d", i)));
+						if (i >= subStatementOverflow)
+							throw new Exception("Substatement identifier numerator overflowed.");
+						statement.identify(getTransaction(), new Identifier(getIdentifier(), String.format(subStatementFormat, i)));
 						break;
 					}
 					catch (AlreadyUsedIdentifierException e)
@@ -246,7 +248,9 @@ public class NewAuto extends NewStatement
 					{
 						try
 						{
-							subctx.identify(getTransaction(), new Identifier(getIdentifier(), String.format("sub_%02d", i++)));
+							if (i >= subStatementOverflow)
+								throw new Exception("Substatement identifier numerator overflowed.");
+							subctx.identify(getTransaction(), new Identifier(getIdentifier(), String.format(subStatementFormat, i++)));
 							break;
 						}
 						catch (AlreadyUsedIdentifierException e)

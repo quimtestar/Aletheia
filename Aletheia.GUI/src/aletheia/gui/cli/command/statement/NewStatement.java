@@ -43,6 +43,9 @@ import aletheia.persistence.Transaction;
 @TaggedCommand(tag = "new", groupPath = "/statement", factory = NewStatement.Factory.class)
 public abstract class NewStatement extends TransactionalCommand
 {
+	protected final static String subStatementFormat = "sub_%02d";
+	protected final static int subStatementOverflow = 100;
+
 	private final Identifier identifier;
 
 	public NewStatement(CommandSource from, Transaction transaction, Identifier identifier)

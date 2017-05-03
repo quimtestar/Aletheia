@@ -26,18 +26,14 @@ import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
-import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
-import aletheia.model.statement.Statement.StatementException;
 import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "spc", factory = NewSpecialization.Factory.class)
 public class NewSpecialization extends NewStatement
 {
-	protected final static String tag = "spc";
-
 	private final Statement general;
 	private final List<Term> instances;
 
@@ -59,7 +55,7 @@ public class NewSpecialization extends NewStatement
 	}
 
 	@Override
-	protected RunNewStatementReturnData runNewStatement() throws NomenclatorException, InvalidNameException, StatementException, NotActiveContextException
+	protected RunNewStatementReturnData runNewStatement() throws Exception
 	{
 		Context ctx = getActiveContext();
 		if (ctx == null)
@@ -69,7 +65,11 @@ public class NewSpecialization extends NewStatement
 		for (Term instance : instances)
 		{
 			if (i >= 0)
-				statement.identify(getTransaction(), new Identifier(getIdentifier(), String.format("sub_%02d", i)));
+			{
+				if (i >= subStatementOverflow)
+					throw new Exception("Substatement identifier numerator overflowed.");
+				statement.identify(getTransaction(), new Identifier(getIdentifier(), String.format(subStatementFormat, i)));
+			}
 			i++;
 			statement = ctx.specialize(getTransaction(), statement, instance);
 		}
