@@ -113,6 +113,7 @@ aletheia.gui.cli.command.term.TermDiff
 aletheia.gui.cli.command.term.TermOut
 aletheia.gui.cli.command.term.TermCb
 aletheia.gui.cli.command.term.TermType
+aletheia.gui.cli.command.term.TermTree
 
 aletheia.gui.cli.command.security.Passphrase
 aletheia.gui.cli.command.security.ClearPassphrase
