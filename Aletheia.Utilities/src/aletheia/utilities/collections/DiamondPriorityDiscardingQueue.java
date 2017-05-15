@@ -226,7 +226,7 @@ public class DiamondPriorityDiscardingQueue<E> implements Queue<E>
 
 	/**
 	 * Will always return true, but the element just inserted might be
-	 * inmediately discarded.
+	 * immediately discarded.
 	 */
 	@Override
 	public boolean add(E e)
