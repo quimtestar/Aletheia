@@ -1658,9 +1658,9 @@ public abstract class PersistenceManager
 		return lockPersistenceSecretKeySingletonEntity(transaction);
 	}
 
-	public void export(File file, Transaction transaction, Collection<Statement> statements, boolean signed) throws IOException
+	public void export(File file, Transaction transaction, Collection<Statement> statements, boolean signed, boolean skipSignedProof) throws IOException
 	{
-		new ExportImport(this).export(file, transaction, statements, signed);
+		new ExportImport(this).export(file, transaction, statements, signed, skipSignedProof);
 	}
 
 	public void import_(DataInput in) throws IOException, ProtocolException
@@ -1678,9 +1678,9 @@ public abstract class PersistenceManager
 		new ExportImport(this).import_(file);
 	}
 
-	public void export(DataOutput out, Transaction transaction, Collection<Statement> statements, boolean signed) throws IOException
+	public void export(DataOutput out, Transaction transaction, Collection<Statement> statements, boolean signed, boolean skipSignedProof) throws IOException
 	{
-		new ExportImport(this).export(out, transaction, statements, signed);
+		new ExportImport(this).export(out, transaction, statements, signed, skipSignedProof);
 	}
 
 	public void import_(DataInput in, ListenableAborter aborter) throws IOException, ProtocolException, AbortException

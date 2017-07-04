@@ -78,12 +78,12 @@ class ExportImport
 		return persistenceManager.beginTransaction(transactionTimeout);
 	}
 
-	public void export(File file, Transaction transaction, Collection<Statement> statements, boolean signed) throws IOException
+	public void export(File file, Transaction transaction, Collection<Statement> statements, boolean signed, boolean skipSignedProof) throws IOException
 	{
 		DataOutputStream out = new DataOutputStream(new GZIPOutputStream(new FileOutputStream(file)));
 		try
 		{
-			export(out, transaction, statements, signed);
+			export(out, transaction, statements, signed, skipSignedProof);
 		}
 		finally
 		{
@@ -209,7 +209,7 @@ class ExportImport
 		return false;
 	}
 
-	public void export(DataOutput out, Transaction transaction, Collection<Statement> statements, boolean signed) throws IOException
+	public void export(DataOutput out, Transaction transaction, Collection<Statement> statements, boolean signed, boolean skipSignedProof) throws IOException
 	{
 		versionProtocol.send(out, exportVersion);
 		class DequeEntry
@@ -294,7 +294,7 @@ class ExportImport
 				registerTypeProtocol.send(out, RegisterType.Authority);
 				statementAuthorityProtocol.send(out, stAuth);
 			}
-			if (e.descendents && e.statement instanceof Context)
+			if (e.descendents && e.statement instanceof Context && (!skipSignedProof || !e.statement.isSignedProof(transaction)))
 			{
 				Context ctx = (Context) e.statement;
 				for (Statement d : ctx.localDependencySortedStatements(transaction))

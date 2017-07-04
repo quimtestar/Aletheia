@@ -36,19 +36,21 @@ public class Export extends TransactionalCommand
 	private final File file;
 	private final List<Statement> statements;
 	private final boolean signed;
+	private final boolean skipSignedProof;
 
-	public Export(CommandSource from, Transaction transaction, File file, List<Statement> statements, boolean signed)
+	public Export(CommandSource from, Transaction transaction, File file, List<Statement> statements, boolean signed, boolean skipSignedProof)
 	{
 		super(from, transaction);
 		this.file = file;
 		this.statements = statements;
 		this.signed = signed;
+		this.skipSignedProof = skipSignedProof;
 	}
 
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		getPersistenceManager().export(file, getTransaction(), statements, signed);
+		getPersistenceManager().export(file, getTransaction(), statements, signed, skipSignedProof);
 		return null;
 	}
 
@@ -65,30 +67,25 @@ public class Export extends TransactionalCommand
 		public Export parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
+			boolean signed = split.remove("-signed");
+			boolean skipSignedProof = split.remove("-skipSignedProof");
 
 			File file = new File(split.get(0));
-
 			List<Statement> statements = new ArrayList<>();
-			boolean signed = false;
 			for (int i = 1; i < split.size(); i++)
 			{
-				if (split.get(i).equals("-signed"))
-					signed = true;
-				else
-				{
-					Statement st = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(i));
-					if (st == null)
-						throw new CommandParseException("Bad statement path: " + split.get(i));
-					statements.add(st);
-				}
+				Statement st = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(i));
+				if (st == null)
+					throw new CommandParseException("Bad statement path: " + split.get(i));
+				statements.add(st);
 			}
-			return new Export(from, transaction, file, statements, signed);
+			return new Export(from, transaction, file, statements, signed, skipSignedProof);
 		}
 
 		@Override
 		protected String paramSpec()
 		{
-			return "<file> <statement>* [-signed]";
+			return "<file> <statement>* [-signed] [-skipSignedProof]";
 		}
 
 		@Override
