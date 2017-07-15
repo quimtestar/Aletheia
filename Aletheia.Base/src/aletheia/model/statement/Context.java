@@ -2141,7 +2141,7 @@ public class Context extends Statement
 						Statement sol = iterator.next();
 						if (sol.isProved())
 						{
-							if (!equals(sol) && isDescendent(transaction, sol))
+							if (!Context.this.equals(sol) && isDescendent(transaction, sol))
 								return Collections.emptySet();
 							else
 								filtered.add(sol);
