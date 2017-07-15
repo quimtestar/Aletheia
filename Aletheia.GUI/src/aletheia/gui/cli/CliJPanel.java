@@ -49,6 +49,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -56,6 +57,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
+
 import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -1404,6 +1407,11 @@ public class CliJPanel extends JPanel implements CommandSource
 		command(new EmptyCommand(this));
 	}
 
+	private static String replaceMultiLinePromptWithSpaces(String s)
+	{
+		return s.replace(multiLinePrompt, Collections.nCopies(multiLinePrompt.length(), " ").stream().collect(Collectors.joining()));
+	}
+
 	protected Command command(String s) throws InterruptedException
 	{
 		synchronized (this)
@@ -1414,7 +1422,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		Transaction transaction = getPersistenceManager().beginTransaction();
 		try
 		{
-			Command cmd = Command.parse(this, transaction, s.replaceAll(multiLinePrompt, ""));
+			Command cmd = Command.parse(this, transaction, replaceMultiLinePromptWithSpaces(s));
 			command(cmd);
 			if (!(cmd instanceof TransactionalCommand))
 				transaction.abort();
