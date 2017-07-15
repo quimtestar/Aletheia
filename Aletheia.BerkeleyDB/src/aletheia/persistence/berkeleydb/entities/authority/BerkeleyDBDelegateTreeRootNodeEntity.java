@@ -171,7 +171,7 @@ public class BerkeleyDBDelegateTreeRootNodeEntity extends BerkeleyDBDelegateTree
 		public BerkeleyDBSuccessorEntryEntity remove(int index)
 		{
 			BerkeleyDBSuccessorEntryEntity last = successorEntryEntities.get(index);
-			if (!successorUuidKeys.remove(last.getSuccessorUuid()))
+			if (!successorUuidKeys.remove(new UUIDKey(last.getSuccessorUuid())))
 				throw new IllegalStateException();
 			return successorEntryEntities.remove(index);
 		}
