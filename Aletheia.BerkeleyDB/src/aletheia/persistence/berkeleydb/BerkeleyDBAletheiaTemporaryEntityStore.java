@@ -48,14 +48,14 @@ public class BerkeleyDBAletheiaTemporaryEntityStore extends BerkeleyDBAletheiaAb
 
 	@SuppressWarnings("deprecation")
 	private static final Collection<Class<?>> registerClasses = Arrays.<Class<?>> asList(
-			// @formatter:off
+	// @formatter:off
 			DeferredMessageContentProxy.class,
 			CipheredDeferredMessageContentProxy.class,
 			SignatureRequestDeferredMessageContentProxy.class,
 			PersonsDeferredMessageContentProxy.class,
 			aletheia.persistence.berkeleydb.proxies.peertopeer.deferredmessagecontent.DummyDeferredMessageContentProxy.class,
 			BerkeleyDBDeferredMessageEntity.class
-			// @formatter:on
+	// @formatter:on
 	);
 
 	protected BerkeleyDBAletheiaTemporaryEntityStore(BerkeleyDBAletheiaEnvironment env, String storeName, boolean bulkLoad) throws DatabaseException

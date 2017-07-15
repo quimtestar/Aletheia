@@ -102,7 +102,7 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 	private static final int minimalStoreVersion = 22;
 
 	private static final Collection<Class<?>> registerClasses = Arrays.<Class<?>> asList(
-			// @formatter:off
+	// @formatter:off
 			TermProxy.class,
 			TTermProxy.class,
 			FunctionTermProxy.class,
@@ -164,7 +164,7 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 			BerkeleyDBHookEntity.class,
 
 			BerkeleyDBPersistenceSecretKeySingletonEntity.class
-			// @formatter:on
+	// @formatter:on
 	);
 
 	protected BerkeleyDBAletheiaEntityStore(BerkeleyDBAletheiaEnvironment env, String storeName, boolean bulkLoad) throws DatabaseException

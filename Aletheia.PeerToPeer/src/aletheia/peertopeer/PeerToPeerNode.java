@@ -1081,7 +1081,8 @@ public abstract class PeerToPeerNode
 			{
 				return "PendingEntry [getClass()=" + getClass() + ", connectionId=" + connectionId + ", expires=" + expires
 						+ (pendingData != null
-								? ", pendingData=" + MiscUtilities.toHexString(pendingData.length <= 20 ? pendingData : Arrays.copyOf(pendingData, 20)) : "")
+								? ", pendingData=" + MiscUtilities.toHexString(pendingData.length <= 20 ? pendingData : Arrays.copyOf(pendingData, 20))
+								: "")
 						+ "]";
 			}
 
