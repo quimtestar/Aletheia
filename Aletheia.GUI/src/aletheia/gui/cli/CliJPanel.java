@@ -156,11 +156,11 @@ public class CliJPanel extends JPanel implements CommandSource
 		StyleConstants.setUnderline((MutableAttributeSet) errBAttributeSet, true);
 	}
 
-	private static final AttributeSet multilinePromptAttributeSet = new SimpleAttributeSet(defaultAttributeSet);
+	private static final AttributeSet multiLinePromptAttributeSet = new SimpleAttributeSet(defaultAttributeSet);
 
 	static
 	{
-		StyleConstants.setForeground((MutableAttributeSet) multilinePromptAttributeSet, Color.lightGray);
+		StyleConstants.setForeground((MutableAttributeSet) multiLinePromptAttributeSet, Color.lightGray);
 	}
 
 	private static final Object flushCommandBufferAttribute = new Object();
@@ -244,6 +244,19 @@ public class CliJPanel extends JPanel implements CommandSource
 
 	}
 
+	private void insertCommandStringToDocument(String command) throws BadLocationException
+	{
+		document.insertString(minimalCaretPosition, command, defaultAttributeSet);
+		int i = -1;
+		while (true)
+		{
+			i = command.indexOf("\n" + multiLinePrompt, i + 1);
+			if (i < 0)
+				break;
+			document.setCharacterAttributes(minimalCaretPosition + i + 1, multiLinePrompt.length(), multiLinePromptAttributeSet, true);
+		}
+	}
+
 	private class MyKeyListener implements KeyListener
 	{
 
@@ -287,7 +300,7 @@ public class CliJPanel extends JPanel implements CommandSource
 						if (!s.isEmpty() && (commandHistory.atEnd() || !s.equals(commandHistory.current())))
 							commandHistory.add(s);
 						document.remove(minimalCaretPosition, document.getLength() - minimalCaretPosition);
-						document.insertString(minimalCaretPosition, commandHistory.decrease(), defaultAttributeSet);
+						insertCommandStringToDocument(commandHistory.decrease());
 						moveCaretToEnd();
 					}
 					catch (BadLocationException ex)
@@ -308,7 +321,7 @@ public class CliJPanel extends JPanel implements CommandSource
 						if (!s.isEmpty() && (commandHistory.atEnd() || !s.equals(commandHistory.current())))
 							commandHistory.add(s);
 						document.remove(minimalCaretPosition, document.getLength() - minimalCaretPosition);
-						document.insertString(minimalCaretPosition, commandHistory.increase(), defaultAttributeSet);
+						insertCommandStringToDocument(commandHistory.increase());
 						moveCaretToEnd();
 					}
 					catch (BadLocationException ex)
@@ -381,7 +394,7 @@ public class CliJPanel extends JPanel implements CommandSource
 					{
 						try
 						{
-							document.insertString(textPane.getCaretPosition(), "\n" + multiLinePrompt + " ", multilinePromptAttributeSet);
+							document.insertString(textPane.getCaretPosition(), "\n" + multiLinePrompt + " ", multiLinePromptAttributeSet);
 							document.setCharacterAttributes(textPane.getCaretPosition() - 1, 1, defaultAttributeSet, true);
 							textPane.setCharacterAttributes(defaultAttributeSet, true);
 						}
@@ -1401,7 +1414,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		Transaction transaction = getPersistenceManager().beginTransaction();
 		try
 		{
-			Command cmd = Command.parse(this, transaction, s);
+			Command cmd = Command.parse(this, transaction, s.replaceAll(multiLinePrompt, ""));
 			command(cmd);
 			if (!(cmd instanceof TransactionalCommand))
 				transaction.abort();
