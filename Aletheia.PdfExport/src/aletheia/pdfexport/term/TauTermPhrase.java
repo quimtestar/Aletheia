@@ -29,7 +29,7 @@ public class TauTermPhrase extends TermPhrase
 	protected TauTermPhrase(TauTerm type)
 	{
 		super(type);
-		addSimpleChunk(new SimpleChunk("T"));
+		addSimpleChunk(new SimpleChunk("\u03a4"));
 	}
 
 	@Override
