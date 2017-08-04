@@ -234,7 +234,7 @@ public abstract class AbstractRenderer extends JPanel
 		return addTextLabel(text, getActiveFont(), color);
 	}
 
-	protected JLabel addTTermLabel()
+	protected JLabel addTauTermLabel()
 	{
 		return addTextLabel("\u03a4");
 	}

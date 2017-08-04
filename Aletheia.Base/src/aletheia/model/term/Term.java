@@ -797,7 +797,7 @@ public abstract class Term implements Serializable, Exportable
 							Term t = assignMapLeft.get(var);
 							if (t == null)
 							{
-								if (e.termRight instanceof TTerm)
+								if (e.termRight instanceof TauTerm)
 									return null;
 								try
 								{
@@ -836,7 +836,7 @@ public abstract class Term implements Serializable, Exportable
 							Term t = assignMapRight.get(var);
 							if (t == null)
 							{
-								if (e.termLeft instanceof TTerm)
+								if (e.termLeft instanceof TauTerm)
 									return null;
 								try
 								{

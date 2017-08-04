@@ -36,7 +36,7 @@ public class AletheiaConstants
 	 *
 	 * @see java.util.prefs
 	 */
-	private static final String PREFERENCES_NODE_PATH_default = "aletheia";
+	private static final String PREFERENCES_NODE_PATH_default = "aletheia_tau";  //TODO: Remove the "_tau" when merging to master branch 
 	public static final String PREFERENCES_NODE_PATH;
 
 	static
@@ -46,7 +46,7 @@ public class AletheiaConstants
 			TITLE = s == null ? TITLE_default : s;
 		}
 		{
-			String s = System.getProperty("aletheia.preferences.node");
+			String s = System.getProperty("aletheia_tau.preferences.node");   //TODO: Remove the "_tau" when merging to master branch 
 			PREFERENCES_NODE_PATH = s == null ? PREFERENCES_NODE_PATH_default : s;
 		}
 	}

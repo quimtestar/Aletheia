@@ -30,17 +30,17 @@ import aletheia.model.identifier.Identifier;
  *
  * <p>
  * There exists just one instance of this {@link Term} class, accessed through
- * the static member {@link TTerm#instance}. The primitive type is represented
- * textually by the literal <b>"T"</b>
+ * the static member {@link TauTerm#instance}. The primitive type is represented
+ * textually by the literal <b>"Τ"</b> (greek capital letter <b>tau</b>)
  *
  *
  */
-public class TTerm extends AtomicTerm
+public class TauTerm extends AtomicTerm
 {
 	private static final long serialVersionUID = 2981030395329810419L;
 	private final static int hashPrime = 2959937;
 
-	private TTerm()
+	private TauTerm()
 	{
 		super(null);
 	}
@@ -48,7 +48,7 @@ public class TTerm extends AtomicTerm
 	/**
 	 * The unique instance of this class.
 	 */
-	public static TTerm instance = new TTerm();
+	public static TauTerm instance = new TauTerm();
 
 	/**
 	 * The primitive type is represented with the String <b>"T"</b>.
@@ -60,7 +60,7 @@ public class TTerm extends AtomicTerm
 	}
 
 	@Override
-	protected TTerm replace(Deque<Replace> replaces, Set<VariableTerm> exclude)
+	protected TauTerm replace(Deque<Replace> replaces, Set<VariableTerm> exclude)
 	{
 		return this;
 	}
@@ -73,7 +73,7 @@ public class TTerm extends AtomicTerm
 	{
 		if (this == obj)
 			return true;
-		if (!(obj instanceof TTerm))
+		if (!(obj instanceof TauTerm))
 			return false;
 		if (!super.equals(obj))
 			return false;
@@ -88,7 +88,7 @@ public class TTerm extends AtomicTerm
 	}
 
 	@Override
-	protected TTerm clone()
+	protected TauTerm clone()
 	{
 		return this;
 	}
@@ -108,13 +108,13 @@ public class TTerm extends AtomicTerm
 		DiffInfo di = super.diff(term);
 		if (di != null)
 			return di;
-		if (!(term instanceof TTerm))
+		if (!(term instanceof TauTerm))
 			return new DiffInfoNotEqual(term);
 		return new DiffInfoEqual(term);
 	}
 
 	/**
-	 * The unprojection of the primitive tyhpe is itself.
+	 * The unprojection of the primitive type is itself.
 	 */
 	@Override
 	public Term unproject()

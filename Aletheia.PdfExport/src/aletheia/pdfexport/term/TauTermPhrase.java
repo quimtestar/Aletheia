@@ -19,23 +19,23 @@
  ******************************************************************************/
 package aletheia.pdfexport.term;
 
-import aletheia.model.term.TTerm;
+import aletheia.model.term.TauTerm;
 import aletheia.pdfexport.SimpleChunk;
 
-public class TTermPhrase extends TermPhrase
+public class TauTermPhrase extends TermPhrase
 {
 	private static final long serialVersionUID = 6308964401763707063L;
 
-	protected TTermPhrase(TTerm type)
+	protected TauTermPhrase(TauTerm type)
 	{
 		super(type);
 		addSimpleChunk(new SimpleChunk("T"));
 	}
 
 	@Override
-	public TTerm getTerm()
+	public TauTerm getTerm()
 	{
-		return (TTerm) super.getTerm();
+		return (TauTerm) super.getTerm();
 	}
 
 }

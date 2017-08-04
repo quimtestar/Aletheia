@@ -62,7 +62,7 @@ import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 import aletheia.model.term.SimpleTerm;
-import aletheia.model.term.TTerm;
+import aletheia.model.term.TauTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
 import aletheia.persistence.Transaction;
@@ -137,9 +137,9 @@ public class EntityStoreUpgrade_021 extends EntityStoreUpgrade
 							ProjectionTerm pTerm = (ProjectionTerm) term;
 							return new ProjectionTerm((FunctionTerm) translateTerm(paramMap, uuidMap, pTerm.getFunction()));
 						}
-						else if (term instanceof TTerm)
+						else if (term instanceof TauTerm)
 						{
-							return TTerm.instance;
+							return TauTerm.instance;
 						}
 						else if (term instanceof VariableTerm)
 						{

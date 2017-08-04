@@ -83,7 +83,7 @@ import aletheia.persistence.berkeleydb.proxies.term.IdentifiableVariableTermProx
 import aletheia.persistence.berkeleydb.proxies.term.ParameterVariableTermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.ProjectionTermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.SimpleTermProxy;
-import aletheia.persistence.berkeleydb.proxies.term.TTermProxy;
+import aletheia.persistence.berkeleydb.proxies.term.TauTermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.TermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.VariableTermProxy;
 import aletheia.persistence.berkeleydb.upgrade.EntityStoreUpgrade;
@@ -104,7 +104,7 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 	private static final Collection<Class<?>> registerClasses = Arrays.<Class<?>> asList(
 	// @formatter:off
 			TermProxy.class,
-			TTermProxy.class,
+			TauTermProxy.class,
 			FunctionTermProxy.class,
 			ProjectionTermProxy.class,
 			SimpleTermProxy.class,

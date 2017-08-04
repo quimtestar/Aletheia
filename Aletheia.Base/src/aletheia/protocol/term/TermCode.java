@@ -30,7 +30,7 @@ import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectionTerm;
-import aletheia.model.term.TTerm;
+import aletheia.model.term.TauTerm;
 import aletheia.model.term.Term;
 import aletheia.protocol.enumerate.ByteExportableEnum;
 import aletheia.protocol.enumerate.ExportableEnumInfo;
@@ -42,7 +42,7 @@ import aletheia.protocol.enumerate.ExportableEnumInfo;
 public enum TermCode implements ByteExportableEnum<TermCode>
 {
 	//@formatter:off
-	_TTerm((byte)'T', TTerm.class),
+	_TauTerm((byte)'T', TauTerm.class),
 	_ParameterVariableTerm((byte)'L', ParameterVariableTerm.class),
 	_IdentifiableVariableTerm((byte)'V', IdentifiableVariableTerm.class),
 	_CompositionTerm((byte)'C', CompositionTerm.class),

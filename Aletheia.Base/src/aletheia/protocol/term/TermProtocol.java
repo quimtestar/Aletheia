@@ -35,7 +35,7 @@ import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 import aletheia.model.term.SimpleTerm;
-import aletheia.model.term.TTerm;
+import aletheia.model.term.TauTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
 import aletheia.persistence.PersistenceManager;
@@ -127,7 +127,7 @@ public class TermProtocol extends PersistentExportableProtocol<Term>
 		case _FunctionTerm:
 			sendFunctionTerm(out, parameterNumerator, (FunctionTerm) term);
 			break;
-		case _TTerm:
+		case _TauTerm:
 			sendTypeTerm(out);
 			break;
 		case _ParameterVariableTerm:
@@ -153,7 +153,7 @@ public class TermProtocol extends PersistentExportableProtocol<Term>
 			return recvCompositionTerm(in, varStack);
 		case _FunctionTerm:
 			return recvFunctionTerm(in, varStack);
-		case _TTerm:
+		case _TauTerm:
 			return recvTypeTerm(in);
 		case _ParameterVariableTerm:
 			return recvParameterVariableTerm(in, varStack);
@@ -204,9 +204,9 @@ public class TermProtocol extends PersistentExportableProtocol<Term>
 	{
 	}
 
-	private TTerm recvTypeTerm(DataInput in)
+	private TauTerm recvTypeTerm(DataInput in)
 	{
-		return TTerm.instance;
+		return TauTerm.instance;
 	}
 
 	private void sendFunctionTerm(DataOutput out, Term.ParameterNumerator parameterNumerator, FunctionTerm functionTerm) throws IOException
@@ -284,7 +284,7 @@ public class TermProtocol extends PersistentExportableProtocol<Term>
 		case _FunctionTerm:
 			skipFunctionTerm(in);
 			break;
-		case _TTerm:
+		case _TauTerm:
 			skipTypeTerm(in);
 			break;
 		case _ParameterVariableTerm:

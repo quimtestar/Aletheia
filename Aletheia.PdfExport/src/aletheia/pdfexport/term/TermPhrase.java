@@ -28,7 +28,7 @@ import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.SimpleTerm;
-import aletheia.model.term.TTerm;
+import aletheia.model.term.TauTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
 import aletheia.pdfexport.BasePhrase;
@@ -74,8 +74,8 @@ public abstract class TermPhrase extends BasePhrase
 				else
 					throw new Error();
 			}
-			else if (term instanceof TTerm)
-				return new TTermPhrase((TTerm) term);
+			else if (term instanceof TauTerm)
+				return new TauTermPhrase((TauTerm) term);
 			else if (term instanceof ProjectionTerm)
 				return new ProjectionTermPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, (ProjectionTerm) term);
 			else

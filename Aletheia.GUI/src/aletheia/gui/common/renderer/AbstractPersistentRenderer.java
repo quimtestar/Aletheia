@@ -49,7 +49,7 @@ import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectionTerm;
-import aletheia.model.term.TTerm;
+import aletheia.model.term.TauTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
 import aletheia.persistence.PersistenceManager;
@@ -345,8 +345,8 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 			addCompositionTerm(variableToIdentifier, parameterNumerator, (CompositionTerm) term);
 		else if (term instanceof FunctionTerm)
 			addFunctionTerm(variableToIdentifier, parameterNumerator, (FunctionTerm) term);
-		else if (term instanceof TTerm)
-			addTTerm(variableToIdentifier, parameterNumerator, (TTerm) term);
+		else if (term instanceof TauTerm)
+			addTauTerm(variableToIdentifier, parameterNumerator, (TauTerm) term);
 		else if (term instanceof ProjectionTerm)
 			addProjectionTerm(variableToIdentifier, parameterNumerator, (ProjectionTerm) term);
 		else
@@ -444,9 +444,9 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 		addSpaceLabel();
 	}
 
-	protected void addTTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator, TTerm term)
+	protected void addTauTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator, TauTerm term)
 	{
-		addTTermLabel();
+		addTauTermLabel();
 	}
 
 }
