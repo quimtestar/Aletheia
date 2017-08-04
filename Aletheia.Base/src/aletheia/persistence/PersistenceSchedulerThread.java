@@ -97,7 +97,6 @@ public class PersistenceSchedulerThread extends Thread
 		@Override
 		public void run()
 		{
-			logger.trace("Sync");
 			persistenceManager.sync();
 		}
 

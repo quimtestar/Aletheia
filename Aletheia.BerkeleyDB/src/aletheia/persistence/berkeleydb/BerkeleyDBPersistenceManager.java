@@ -883,13 +883,17 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 	@Override
 	public void sync()
 	{
-		try
+		if (!isReadOnly())
 		{
-			environment.sync();
-		}
-		catch (DatabaseException e)
-		{
-			throw convertDatabaseException(e);
+			try
+			{
+				environment.sync();
+				logger.trace("Sync");
+			}
+			catch (DatabaseException e)
+			{
+				throw convertDatabaseException(e);
+			}
 		}
 	}
 
