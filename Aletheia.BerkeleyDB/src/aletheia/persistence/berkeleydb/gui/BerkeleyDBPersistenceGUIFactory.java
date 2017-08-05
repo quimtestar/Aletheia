@@ -91,11 +91,16 @@ public class BerkeleyDBPersistenceGUIFactory extends PersistenceGUIFactory
 				if (!getPreferences().isReadOnly())
 				{
 					JOptionPane.showMessageDialog(parent, MiscUtilities.wrapText(e.getMessage(), 80), "Error", JOptionPane.ERROR_MESSAGE);
-					int r = JOptionPane.showConfirmDialog(parent, "Try to upgrade environment in " + getPreferences().getDbFile().getAbsolutePath()
-							+ " from version " + e.getStoreVersion() + " to version " + e.getCodeStoreVersion() + "?", "", JOptionPane.YES_NO_OPTION);
-					if (r != JOptionPane.YES_OPTION)
+					if (e.getStoreVersion() <= e.getCodeStoreVersion())
+					{
+						int r = JOptionPane.showConfirmDialog(parent, "Try to upgrade environment in " + getPreferences().getDbFile().getAbsolutePath()
+								+ " from version " + e.getStoreVersion() + " to version " + e.getCodeStoreVersion() + "?", "", JOptionPane.YES_NO_OPTION);
+						if (r != JOptionPane.YES_OPTION)
+							throw new RedialogCreatePersistenceManagerException();
+						return new BerkeleyDBPersistenceManager(makePersistenceManagerConfiguration(progressListener, false, true));
+					}
+					else
 						throw new RedialogCreatePersistenceManagerException();
-					return new BerkeleyDBPersistenceManager(makePersistenceManagerConfiguration(progressListener, false, true));
 				}
 				else
 					throw new EncapsulatedCreatePersistenceManagerException(e);

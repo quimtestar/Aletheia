@@ -192,6 +192,10 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 	public static BerkeleyDBAletheiaEntityStore open(BerkeleyDBAletheiaEnvironment environment, String storeName, boolean allowUpgrade, boolean bulkLoad)
 			throws UpgradeException
 	{
+		int storeVersion = environment.getStoreVersion(storeName);
+		if (storeVersion > BerkeleyDBAletheiaEntityStore.storeVersion)
+			throw new EntityStoreVersionException("Database entity store version " + storeVersion + " not supported", storeVersion,
+					BerkeleyDBAletheiaEntityStore.storeVersion);
 		try
 		{
 			return new BerkeleyDBAletheiaEntityStore(environment, storeName, bulkLoad);
@@ -199,7 +203,6 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 		catch (Exception e)
 		{
 			logger.error("Error caught opening store", e);
-			int storeVersion = environment.getStoreVersion(storeName);
 			EntityStoreUpgrade upgrade = EntityStoreUpgrade.getEntityStoreUpgrade(storeVersion);
 			if (upgrade == null)
 				throw e;
