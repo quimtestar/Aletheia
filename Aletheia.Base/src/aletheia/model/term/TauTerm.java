@@ -56,7 +56,7 @@ public class TauTerm extends AtomicTerm
 	@Override
 	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
 	{
-		return "T";
+		return "Tau";
 	}
 
 	@Override
