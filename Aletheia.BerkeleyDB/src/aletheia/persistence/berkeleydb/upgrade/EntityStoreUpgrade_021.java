@@ -76,7 +76,7 @@ import aletheia.security.utilities.SecurityUtilities;
 import aletheia.utilities.collections.BufferedList;
 import aletheia.utilities.collections.CombinedMap;
 
-public class EntityStoreUpgrade_021 extends EntityStoreUpgrade
+public class EntityStoreUpgrade_021 extends EntityStoreUpgrade_022
 {
 	private static final Logger logger = LoggerManager.instance.logger();
 
@@ -86,7 +86,7 @@ public class EntityStoreUpgrade_021 extends EntityStoreUpgrade
 		return Arrays.asList(21);
 	}
 
-	protected class UpgradeInstance extends EntityStoreUpgrade.UpgradeInstance
+	protected class UpgradeInstance extends EntityStoreUpgrade_022.UpgradeInstance
 	{
 
 		protected UpgradeInstance(BerkeleyDBAletheiaEnvironment environment, String storeName)
