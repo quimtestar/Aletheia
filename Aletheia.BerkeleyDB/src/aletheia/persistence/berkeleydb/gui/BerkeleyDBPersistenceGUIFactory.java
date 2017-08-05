@@ -27,6 +27,7 @@ import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager.EntityStoreVersionException;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager.MustAllowCreateException;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager.UnsupportedEntityStoreVersionException;
 import aletheia.persistence.berkeleydb.preferences.BerkeleyDBPersistenceAletheiaPreferences;
 import aletheia.persistence.gui.PersistenceGUIFactory;
 import aletheia.preferences.AletheiaPreferences;
@@ -86,21 +87,21 @@ public class BerkeleyDBPersistenceGUIFactory extends PersistenceGUIFactory
 			{
 				return new BerkeleyDBPersistenceManager(makePersistenceManagerConfiguration(progressListener, false, false));
 			}
+			catch (UnsupportedEntityStoreVersionException e)
+			{
+				JOptionPane.showMessageDialog(parent, MiscUtilities.wrapText(e.getMessage(), 80), "Error", JOptionPane.ERROR_MESSAGE);
+				throw new RedialogCreatePersistenceManagerException();
+			}
 			catch (EntityStoreVersionException e)
 			{
 				if (!getPreferences().isReadOnly())
 				{
 					JOptionPane.showMessageDialog(parent, MiscUtilities.wrapText(e.getMessage(), 80), "Error", JOptionPane.ERROR_MESSAGE);
-					if (e.getStoreVersion() <= e.getCodeStoreVersion())
-					{
-						int r = JOptionPane.showConfirmDialog(parent, "Try to upgrade environment in " + getPreferences().getDbFile().getAbsolutePath()
-								+ " from version " + e.getStoreVersion() + " to version " + e.getCodeStoreVersion() + "?", "", JOptionPane.YES_NO_OPTION);
-						if (r != JOptionPane.YES_OPTION)
-							throw new RedialogCreatePersistenceManagerException();
-						return new BerkeleyDBPersistenceManager(makePersistenceManagerConfiguration(progressListener, false, true));
-					}
-					else
+					int r = JOptionPane.showConfirmDialog(parent, "Try to upgrade environment in " + getPreferences().getDbFile().getAbsolutePath()
+							+ " from version " + e.getStoreVersion() + " to version " + e.getCodeStoreVersion() + "?", "", JOptionPane.YES_NO_OPTION);
+					if (r != JOptionPane.YES_OPTION)
 						throw new RedialogCreatePersistenceManagerException();
+					return new BerkeleyDBPersistenceManager(makePersistenceManagerConfiguration(progressListener, false, true));
 				}
 				else
 					throw new EncapsulatedCreatePersistenceManagerException(e);

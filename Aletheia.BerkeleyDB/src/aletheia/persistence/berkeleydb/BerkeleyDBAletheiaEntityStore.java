@@ -28,6 +28,7 @@ import org.apache.logging.log4j.Logger;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.identifier.Identifier;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager.EntityStoreVersionException;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager.UnsupportedEntityStoreVersionException;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBContextAuthorityEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateAuthorizerEntity;
@@ -194,8 +195,7 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 	{
 		int storeVersion = environment.getStoreVersion(storeName);
 		if (storeVersion > BerkeleyDBAletheiaEntityStore.storeVersion)
-			throw new EntityStoreVersionException("Database entity store version " + storeVersion + " not supported", storeVersion,
-					BerkeleyDBAletheiaEntityStore.storeVersion);
+			throw new UnsupportedEntityStoreVersionException(storeVersion, BerkeleyDBAletheiaEntityStore.storeVersion);
 		try
 		{
 			return new BerkeleyDBAletheiaEntityStore(environment, storeName, bulkLoad);

@@ -423,6 +423,17 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 		}
 	}
 
+	public static class UnsupportedEntityStoreVersionException extends EntityStoreVersionException
+	{
+		private static final long serialVersionUID = -3862615279692540213L;
+
+		protected UnsupportedEntityStoreVersionException(int storeVersion, int codeStoreVersion)
+		{
+			super("Database entity store version " + storeVersion + " not supported", storeVersion, codeStoreVersion);
+		}
+
+	}
+
 	private static class InitializationData
 	{
 		private final BerkeleyDBAletheiaEnvironment environment;
