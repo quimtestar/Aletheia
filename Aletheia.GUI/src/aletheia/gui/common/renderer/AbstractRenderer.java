@@ -236,7 +236,7 @@ public abstract class AbstractRenderer extends JPanel
 
 	protected JLabel addTauTermLabel()
 	{
-		return addTextLabel("\u03a4");
+		return addTextLabel("\u03a4", getBoldFont());
 	}
 
 	protected JLabel addOpenFunLabel()

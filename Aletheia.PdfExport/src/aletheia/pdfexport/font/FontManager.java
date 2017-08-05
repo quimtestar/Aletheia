@@ -48,7 +48,12 @@ public class FontManager
 
 	public Font getFont(float size, BaseColor color)
 	{
-		return new Font(baseFont, size, Font.NORMAL, color);
+		return getFont(size, Font.NORMAL, color);
+	}
+
+	public Font getFont(float size, int style, BaseColor color)
+	{
+		return new Font(baseFont, size, style, color);
 	}
 
 }

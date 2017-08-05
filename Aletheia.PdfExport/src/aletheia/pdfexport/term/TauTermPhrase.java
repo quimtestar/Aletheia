@@ -19,8 +19,11 @@
  ******************************************************************************/
 package aletheia.pdfexport.term;
 
+import com.itextpdf.text.Font;
+
 import aletheia.model.term.TauTerm;
 import aletheia.pdfexport.SimpleChunk;
+import aletheia.pdfexport.font.FontManager;
 
 public class TauTermPhrase extends TermPhrase
 {
@@ -29,7 +32,7 @@ public class TauTermPhrase extends TermPhrase
 	protected TauTermPhrase(TauTerm type)
 	{
 		super(type);
-		addSimpleChunk(new SimpleChunk("\u03a4"));
+		addSimpleChunk(new SimpleChunk("\u03a4", FontManager.instance.getFont(fontSize, Font.BOLD, fontColor)));
 	}
 
 	@Override

@@ -33,11 +33,12 @@ public class BasePhrase extends Phrase
 	 */
 	private static final long serialVersionUID = 547941404454426747L;
 	protected final static float fontSize = 6;
+	protected final static BaseColor fontColor = BaseColor.BLACK;
 
 	public BasePhrase()
 	{
 		super();
-		Font font = FontManager.instance.getFont(fontSize, BaseColor.BLACK);
+		Font font = FontManager.instance.getFont(fontSize, fontColor);
 		this.setFont(font);
 		this.setLeading((float) (getFont().getSize() * 1.2));
 	}
