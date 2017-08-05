@@ -31,7 +31,8 @@ import aletheia.model.identifier.Identifier;
  * <p>
  * There exists just one instance of this {@link Term} class, accessed through
  * the static member {@link TauTerm#instance}. The primitive type is represented
- * textually by the literal <b>"Τ"</b> (greek capital letter <b>tau</b>)
+ * textually by the literal <b>"Τ"</b> (greek capital letter <b>tau</b>) or the
+ * text "Tau".
  *
  *
  */
@@ -51,7 +52,7 @@ public class TauTerm extends AtomicTerm
 	public static TauTerm instance = new TauTerm();
 
 	/**
-	 * The primitive type is represented with the String <b>"T"</b>.
+	 * The primitive type is represented with the String <b>"Tau"</b>.
 	 */
 	@Override
 	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
