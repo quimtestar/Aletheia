@@ -196,6 +196,11 @@ public abstract class AbstractRenderer extends JPanel
 		activeFont = font;
 	}
 
+	protected Font styledActiveFont(int style)
+	{
+		return getActiveFont().deriveFont(style);
+	}
+
 	@Override
 	public FlowLayout getLayout()
 	{
@@ -236,7 +241,7 @@ public abstract class AbstractRenderer extends JPanel
 
 	protected JLabel addTauTermLabel()
 	{
-		return addTextLabel("\u03a4", getBoldFont());
+		return addTextLabel("\u03a4", styledActiveFont(Font.BOLD));
 	}
 
 	protected JLabel addOpenFunLabel()
