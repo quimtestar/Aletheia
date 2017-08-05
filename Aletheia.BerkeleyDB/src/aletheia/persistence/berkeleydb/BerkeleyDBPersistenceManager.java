@@ -398,9 +398,16 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 		private final int storeVersion;
 		private final int codeStoreVersion;
 
-		public EntityStoreVersionException(Exception exception, int storeVersion, int codeStoreVersion)
+		protected EntityStoreVersionException(Exception exception, int storeVersion, int codeStoreVersion)
 		{
 			super(exception);
+			this.storeVersion = storeVersion;
+			this.codeStoreVersion = codeStoreVersion;
+		}
+
+		protected EntityStoreVersionException(String message, int storeVersion, int codeStoreVersion)
+		{
+			super(message);
 			this.storeVersion = storeVersion;
 			this.codeStoreVersion = codeStoreVersion;
 		}
