@@ -19,6 +19,8 @@
  ******************************************************************************/
 package aletheia.model.identifier;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -37,9 +39,14 @@ public class NodeNamespace extends Namespace
 	 */
 	private final static String nameRegex = "([_a-zA-Z][_a-zA-Z0-9]*)";
 
+	/**
+	 * Collection of reserved words that can't be a name.
+	 */
+	private final static Collection<String> reservedWordSet = Arrays.asList("Tau");
+
 	public static boolean validName(String name)
 	{
-		return name.matches(nameRegex);
+		return name.matches(nameRegex) && !reservedWordSet.contains(name);
 	}
 
 	private final Namespace parent;
