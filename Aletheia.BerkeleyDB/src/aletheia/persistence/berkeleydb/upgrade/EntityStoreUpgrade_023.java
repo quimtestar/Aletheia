@@ -35,6 +35,9 @@ import com.sleepycat.persist.raw.RawStore;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBAletheiaEnvironment;
+import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBRootContextEntity;
+import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBStatementEntity;
+import aletheia.persistence.berkeleydb.proxies.identifier.AbstractNodeNamespaceProxy;
 
 public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 {
@@ -71,7 +74,7 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 				final Transaction tx = getEnvironment().beginTransaction(null, null);
 				try
 				{
-					String className = "aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBStatementEntity";
+					String className = BerkeleyDBStatementEntity.class.getName();
 					PrimaryIndex<Object, RawObject> primaryIndex = rawStore.getPrimaryIndex(className);
 					EntityCursor<RawObject> cursor = primaryIndex.entities(tx, CursorConfig.DEFAULT);
 					int n = 0;
@@ -92,8 +95,8 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 								RawObject roAbstractNodeNamespace = (RawObject) oIdentifier;
 								while (roAbstractNodeNamespace != null)
 								{
-									while (roAbstractNodeNamespace != null && !roAbstractNodeNamespace.getType().getClassName()
-											.equals("aletheia.persistence.berkeleydb.proxies.identifier.AbstractNodeNamespaceProxy"))
+									while (roAbstractNodeNamespace != null
+											&& !roAbstractNodeNamespace.getType().getClassName().equals(AbstractNodeNamespaceProxy.class.getName()))
 										roAbstractNodeNamespace = roAbstractNodeNamespace.getSuper();
 									if (roAbstractNodeNamespace != null)
 									{
@@ -153,9 +156,7 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 			while (!hierarchyStack.isEmpty())
 			{
 				rawObject = hierarchyStack.pop();
-				switch (rawObject.getType().getClassName())
-				{
-				case "aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBStatementEntity":
+				if (rawObject.getType().getClassName().equals(BerkeleyDBStatementEntity.class.getName()))
 				{
 					rawObject.getValues().put("identifier", null);
 					rawObject.getValues().put("uuidContextIdentifier", null);
@@ -165,14 +166,9 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 						RawObject localSortKey = (RawObject) oLocalSortKey;
 						localSortKey.getValues().put("strIdentifier", "");
 					}
-					break;
 				}
-				case "aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBRootContextEntity":
-				{
+				else if (rawObject.getType().getClassName().equals(BerkeleyDBRootContextEntity.class.getName()))
 					rawObject.getValues().put("identifierKey", null);
-					break;
-				}
-				}
 			}
 
 		}
