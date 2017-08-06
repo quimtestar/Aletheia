@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Stack;
+import java.util.UUID;
 
 import org.apache.logging.log4j.Logger;
 
@@ -37,11 +38,15 @@ import com.sleepycat.persist.raw.RawObject;
 import com.sleepycat.persist.raw.RawStore;
 
 import aletheia.log4j.LoggerManager;
+import aletheia.model.authority.StatementAuthority;
 import aletheia.persistence.berkeleydb.BerkeleyDBAletheiaEntityStore;
 import aletheia.persistence.berkeleydb.BerkeleyDBAletheiaEnvironment;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
+import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBRootContextEntity;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBStatementEntity;
 import aletheia.persistence.berkeleydb.proxies.identifier.AbstractNodeNamespaceProxy;
+import aletheia.persistence.exceptions.PersistenceException;
 
 public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 {
@@ -64,18 +69,73 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 		@Override
 		protected void upgrade() throws UpgradeException
 		{
-			unidentifyTauStatements();
-			clearSecondaryIndices();
-			getEnvironment().putStoreVersion(getStoreName(), 24);
+			Collection<UUID> uuids = unidentifyTauStatements();
+			if (!uuids.isEmpty())
+			{
+				clearSecondaryIndices();
+				getEnvironment().putStoreVersion(getStoreName(), 24);
+				clearSignatures(uuids);
+			}
+			else
+				getEnvironment().putStoreVersion(getStoreName(), 24);
+		}
+
+		private void clearSignatures(Collection<UUID> uuids)
+		{
 			BerkeleyDBAletheiaEntityStore newStore = BerkeleyDBAletheiaEntityStore.open(getEnvironment(), getStoreName(), false);
 			try
 			{
-				postProcessing(getEnvironment(), newStore);
+				class MyPersistenceManager extends BerkeleyDBPersistenceManager
+				{
+					protected MyPersistenceManager()
+					{
+						super(UpgradeInstance.this.getEnvironment(), newStore);
+					}
+
+					@Override
+					public void close()
+					{
+						try
+						{
+							getPersistenceSchedulerThread().shutdown();
+						}
+						catch (InterruptedException e)
+						{
+							throw new PersistenceException(e);
+						}
+					}
+				}
+
+				MyPersistenceManager persistenceManager = new MyPersistenceManager();
+				try
+				{
+					BerkeleyDBTransaction transaction = persistenceManager.beginTransaction();
+					try
+					{
+						for (UUID uuid : uuids)
+						{
+							StatementAuthority stAuth = persistenceManager.getStatementAuthority(transaction, uuid);
+							if (stAuth != null)
+								stAuth.clearSignatures(transaction);
+						}
+						transaction.commit();
+					}
+					finally
+					{
+						transaction.abort();
+					}
+				}
+				finally
+				{
+					persistenceManager.close();
+				}
+
 			}
 			finally
 			{
 				newStore.close();
 			}
+
 		}
 
 		private void clearSecondaryIndices()
@@ -117,8 +177,30 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 
 		}
 
-		private void unidentifyTauStatements() throws UpgradeException
+		private UUID obtainUuidFromStatementRawObject(RawObject statementRawObject)
 		{
+			Object oUUIDKey = statementRawObject.getValues().get("uuidKey");
+			if (oUUIDKey instanceof RawObject)
+			{
+				RawObject uuidKey = (RawObject) oUUIDKey;
+				Object oLeastSigBits = uuidKey.getValues().get("leastSigBits");
+				Object oMostSigBits = uuidKey.getValues().get("mostSigBits");
+				if (oLeastSigBits instanceof Long && oMostSigBits instanceof Long)
+				{
+					long leastSigBits = ((Long) oLeastSigBits).longValue();
+					long mostSigBits = ((Long) oMostSigBits).longValue();
+					return new UUID(mostSigBits, leastSigBits);
+				}
+				else
+					return null;
+			}
+			else
+				return null;
+		}
+
+		private Collection<UUID> unidentifyTauStatements() throws UpgradeException
+		{
+			Collection<UUID> uuids = new ArrayList<>();
 			StoreConfig storeConfig = new StoreConfig();
 			storeConfig.setTransactional(true);
 			RawStore rawStore = new RawStore(getEnvironment(), getStoreName(), storeConfig);
@@ -161,6 +243,9 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 											{
 												unidentify(rawObject);
 												cursor.update(rawObject);
+												UUID uuid = obtainUuidFromStatementRawObject(statementRawObject);
+												if (uuid != null)
+													uuids.add(uuid);
 												break;
 											}
 										}
@@ -184,6 +269,7 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 						cursor.close();
 					}
 					tx.commit();
+					return uuids;
 				}
 				finally
 				{
