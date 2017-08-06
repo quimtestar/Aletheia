@@ -61,7 +61,8 @@ public abstract class EntityStoreUpgrade
 	// @formatter:off
 	private static final Class<? extends EntityStoreUpgrade>[] upgradeClasses = (Class<? extends EntityStoreUpgrade>[]) new Class<?>[]
 			{
-		EntityStoreUpgrade_022.class,
+				EntityStoreUpgrade_022.class,
+				EntityStoreUpgrade_023.class,
 			};
 	// @formatter:on
 
@@ -135,7 +136,7 @@ public abstract class EntityStoreUpgrade
 	}
 
 	@SuppressWarnings("unchecked")
-	private static Class<Object> resolveClass(EntityModel model, String className) throws ClassNotFoundException
+	protected static Class<Object> resolveClass(EntityModel model, String className) throws ClassNotFoundException
 	{
 		try
 		{
