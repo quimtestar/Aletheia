@@ -194,19 +194,24 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 		@Override
 		protected void upgrade() throws UpgradeException
 		{
-			clearSecondaryIndices();
 			Collection<UUID> uuids = unidentifyTauStatements();
-			getEnvironment().putStoreVersion(getStoreName(), 24);
-			BerkeleyDBAletheiaEntityStore aletheiaStore = BerkeleyDBAletheiaEntityStore.open(getEnvironment(), getStoreName(), false);
-			try
+			if (!uuids.isEmpty())
 			{
-				createSecondaryIndices(aletheiaStore);
-				clearSignatures(aletheiaStore, uuids);
+				clearSecondaryIndices();
+				getEnvironment().putStoreVersion(getStoreName(), 24);
+				BerkeleyDBAletheiaEntityStore aletheiaStore = BerkeleyDBAletheiaEntityStore.open(getEnvironment(), getStoreName(), false);
+				try
+				{
+					createSecondaryIndices(aletheiaStore);
+					clearSignatures(aletheiaStore, uuids);
+				}
+				finally
+				{
+					aletheiaStore.close();
+				}
 			}
-			finally
-			{
-				aletheiaStore.close();
-			}
+			else
+				getEnvironment().putStoreVersion(getStoreName(), 24);
 		}
 
 		protected void clearSignatures(BerkeleyDBAletheiaEntityStore aletheiaStore, Collection<UUID> uuids)
