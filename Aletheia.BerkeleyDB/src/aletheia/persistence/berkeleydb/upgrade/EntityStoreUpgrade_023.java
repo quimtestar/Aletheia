@@ -313,10 +313,16 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 							{
 								UUID uuid = obtainUuidFromStatementRawObject(rawObject);
 								logger.debug("Clearing identifier of statement: " + uuid);
+								throw new UpgradeException(
+										"This routine can't be trusted and needs further work. Try to search and modify the identifiers with *.Tau.* by yourself. Sorry.");
+								/*
+								 * TODO Uncomment and analyze this code
+								 * 
 								unidentify(rawObject);
 								cursor.update(rawObject);
 								if (uuid != null)
 									uuids.add(uuid);
+								*/
 							}
 							n++;
 							if (n % 1000 == 0)
