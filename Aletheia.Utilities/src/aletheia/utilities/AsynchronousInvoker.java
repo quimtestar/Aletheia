@@ -154,8 +154,8 @@ public class AsynchronousInvoker
 	}
 
 	/**
-	 * Puts the invoker in a wait state until the number of pending tasks is
-	 * lower than <b>n</b>.
+	 * Puts the invoker in a wait state until the number of pending tasks is lower
+	 * than <b>n</b>.
 	 *
 	 * @param n
 	 *            Minimum size that will keep the method waiting.

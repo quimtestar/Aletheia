@@ -40,8 +40,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 {
 
 	/**
-	 * Returns the {@linkplain InverseBijection inverse bijection} of another
-	 * one.
+	 * Returns the {@linkplain InverseBijection inverse bijection} of another one.
 	 *
 	 * @param b
 	 *            The input bijection.
@@ -184,9 +183,8 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 	}
 
 	/**
-	 * Extracts a full collection of objects into a collection of instances of
-	 * the output type, by {@linkplain #extracted(Object) extracting} its
-	 * elements.
+	 * Extracts a full collection of objects into a collection of instances of the
+	 * output type, by {@linkplain #extracted(Object) extracting} its elements.
 	 *
 	 * @param c
 	 *            The collection to be extracted.

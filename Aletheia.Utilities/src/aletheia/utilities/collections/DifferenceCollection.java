@@ -46,8 +46,8 @@ public class DifferenceCollection<E> extends AbstractReadOnlyCollection<E> imple
 	 * Creates a new difference collection.
 	 *
 	 * @param minuend
-	 *            The minuend of the difference. This collection is contained
-	 *            into the minuend.
+	 *            The minuend of the difference. This collection is contained into
+	 *            the minuend.
 	 * @param subtrahend
 	 *            The subrahend of the difference. This collection hasn't any
 	 *            element that is in the subtrahend.

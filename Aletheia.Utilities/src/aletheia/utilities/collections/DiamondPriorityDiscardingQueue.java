@@ -52,9 +52,8 @@ public class DiamondPriorityDiscardingQueue<E> implements Queue<E>
 	 * Creates a default {@link Comparator} based on the
 	 * {@link Comparable#compareTo(Object)} method. The
 	 * {@link Comparator#compare(Object, Object)} method of the returned
-	 * {@link Comparator} may throw a {@link ClassCastException} when it
-	 * compares an object that does not implement the {@link Comparable}
-	 * interface.
+	 * {@link Comparator} may throw a {@link ClassCastException} when it compares an
+	 * object that does not implement the {@link Comparable} interface.
 	 *
 	 * @return The created {@link Comparator}.
 	 */
@@ -72,8 +71,8 @@ public class DiamondPriorityDiscardingQueue<E> implements Queue<E>
 	}
 
 	/**
-	 * Creates a new priority discarding queue with a given height and a
-	 * comparator. The resulting capacity of the queue will be 3*2^height-2.
+	 * Creates a new priority discarding queue with a given height and a comparator.
+	 * The resulting capacity of the queue will be 3*2^height-2.
 	 *
 	 * @param height
 	 *            The height.
@@ -225,8 +224,8 @@ public class DiamondPriorityDiscardingQueue<E> implements Queue<E>
 	}
 
 	/**
-	 * Will always return true, but the element just inserted might be
-	 * immediately discarded.
+	 * Will always return true, but the element just inserted might be immediately
+	 * discarded.
 	 */
 	@Override
 	public boolean add(E e)

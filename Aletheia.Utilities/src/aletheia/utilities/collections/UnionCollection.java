@@ -55,8 +55,7 @@ public class UnionCollection<E> extends AbstractReadOnlyCollection<E>
 	}
 
 	/**
-	 * The sum of the sizes of all the element collections of the united
-	 * collection.
+	 * The sum of the sizes of all the element collections of the united collection.
 	 */
 	@Override
 	public int size()

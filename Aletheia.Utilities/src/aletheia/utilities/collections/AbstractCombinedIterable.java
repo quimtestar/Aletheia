@@ -72,8 +72,8 @@ public abstract class AbstractCombinedIterable<E> implements Serializable, Itera
 	protected abstract Iterable<E> getBack();
 
 	/**
-	 * We first iterate across the front collection and when finished, we
-	 * iterate across the back collection.
+	 * We first iterate across the front collection and when finished, we iterate
+	 * across the back collection.
 	 */
 	@Override
 	public Iterator<E> iterator()

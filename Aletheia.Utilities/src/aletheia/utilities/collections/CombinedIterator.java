@@ -46,9 +46,8 @@ public class CombinedIterator<E> extends AbstractReadOnlyIterator<E>
 	}
 
 	/**
-	 * If the front iterator still can be moved forward, we move it and return
-	 * the element found; if not we use the back iterator. we advance it one
-	 * position
+	 * If the front iterator still can be moved forward, we move it and return the
+	 * element found; if not we use the back iterator. we advance it one position
 	 *
 	 * @return The next element found in either iterator.
 	 */

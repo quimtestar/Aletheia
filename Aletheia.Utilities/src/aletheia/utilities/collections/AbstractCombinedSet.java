@@ -50,10 +50,10 @@ public abstract class AbstractCombinedSet<E> extends AbstractCombinedCollection<
 	protected abstract Set<E> getBack();
 
 	/**
-	 * Moves a pair of iterators one position and returns the next element
-	 * found. If the front iterator still can be moved forward, we move it and
-	 * return the element found; if not we use the back iterator, skipping the
-	 * elements that are also in the front set. we advance it one position
+	 * Moves a pair of iterators one position and returns the next element found. If
+	 * the front iterator still can be moved forward, we move it and return the
+	 * element found; if not we use the back iterator, skipping the elements that
+	 * are also in the front set. we advance it one position
 	 *
 	 * @param frontIterator
 	 * @param backIterator
@@ -71,8 +71,8 @@ public abstract class AbstractCombinedSet<E> extends AbstractCombinedCollection<
 	}
 
 	/**
-	 * The size is equals to the back set size plus the number of elements of
-	 * the front set that are not in the back set.
+	 * The size is equals to the back set size plus the number of elements of the
+	 * front set that are not in the back set.
 	 */
 	@Override
 	public int size()

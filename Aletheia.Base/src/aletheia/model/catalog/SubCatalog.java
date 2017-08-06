@@ -94,8 +94,8 @@ public class SubCatalog extends Catalog
 	}
 
 	/**
-	 * The statement associated with this catalog, or null if there isn't one.
-	 * I.e. the one that is identified by the catalog's prefix.
+	 * The statement associated with this catalog, or null if there isn't one. I.e.
+	 * the one that is identified by the catalog's prefix.
 	 *
 	 * @return The statement.
 	 */

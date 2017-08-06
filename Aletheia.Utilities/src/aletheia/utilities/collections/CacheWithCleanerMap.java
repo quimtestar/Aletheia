@@ -56,8 +56,8 @@ public interface CacheWithCleanerMap<K, V> extends CacheMap<K, V>
 	public void addListener(Listener<K> listener);
 
 	/**
-	 * Unregisters a listener to this map. While a listener is registered, it
-	 * will receive notifications.
+	 * Unregisters a listener to this map. While a listener is registered, it will
+	 * receive notifications.
 	 *
 	 * @param listener
 	 *            The listener.

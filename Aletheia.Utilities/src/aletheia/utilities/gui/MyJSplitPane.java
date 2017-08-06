@@ -202,8 +202,8 @@ public class MyJSplitPane extends JSplitPane
 
 	/**
 	 * If the parent container is valid we call to the
-	 * {@link #setDividerLocationOrCollapse(double)} inmediately. If not, we
-	 * save the value which will be in a subsequent call to {@link #validate()},
+	 * {@link #setDividerLocationOrCollapse(double)} inmediately. If not, we save
+	 * the value which will be in a subsequent call to {@link #validate()},
 	 * {@link #validateTree()} or {@link #paint(Graphics)}.
 	 */
 	public synchronized void setDividerLocationOrCollapseWhenValid(double proportionalLocation)

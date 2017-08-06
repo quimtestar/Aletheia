@@ -41,8 +41,8 @@ class CombinedCloseableSetSortedIterator<E> extends AbstractCombinedCloseableSet
 	private final Comparator<? super E> comparator;
 
 	/**
-	 * If the specified comparator is null the natural order of the elements
-	 * will be used.
+	 * If the specified comparator is null the natural order of the elements will be
+	 * used.
 	 *
 	 * @param front
 	 *            The front set.
