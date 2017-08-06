@@ -20,9 +20,12 @@
 package aletheia.persistence.berkeleydb.upgrade;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
+import java.util.UUID;
+
 import org.apache.logging.log4j.Logger;
 
 import com.sleepycat.persist.PrimaryIndex;
@@ -33,9 +36,10 @@ import com.sleepycat.persist.raw.RawType;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.term.TauTerm;
 import aletheia.persistence.berkeleydb.BerkeleyDBAletheiaEnvironment;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBStatementEntity;
 
-public class EntityStoreUpgrade_022 extends EntityStoreUpgrade
+public class EntityStoreUpgrade_022 extends EntityStoreUpgrade_023
 {
 	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerManager.instance.logger();
@@ -46,7 +50,7 @@ public class EntityStoreUpgrade_022 extends EntityStoreUpgrade
 		return Arrays.asList(22);
 	}
 
-	protected class UpgradeInstance extends EntityStoreUpgrade.UpgradeInstance
+	protected class UpgradeInstance extends EntityStoreUpgrade_023.AbstractUpgradeInstance
 	{
 
 		protected UpgradeInstance(BerkeleyDBAletheiaEnvironment environment, String storeName)
@@ -54,12 +58,19 @@ public class EntityStoreUpgrade_022 extends EntityStoreUpgrade
 			super(environment, storeName);
 		}
 
+		final Collection<UUID> uuids = new ArrayList<>();
+
 		@Override
 		protected void putConvertedRawObject(com.sleepycat.je.Transaction tx, EntityModel aletheiaModel, Class<Object> entityClass,
 				Class<Object> primaryKeyClass, PrimaryIndex<Object, Object> newPrimaryIndex, RawObject oldRawObject)
 		{
 			if (BerkeleyDBStatementEntity.class.equals(entityClass))
 			{
+				if (isTauInIdentifier(oldRawObject))
+				{
+					unidentify(oldRawObject);
+					uuids.add(obtainUuidFromStatementRawObject(oldRawObject));
+				}
 				try
 				{
 					Object object = partialConvertRawObject(aletheiaModel, oldRawObject);
@@ -84,6 +95,12 @@ public class EntityStoreUpgrade_022 extends EntityStoreUpgrade
 				return TauTerm.instance;
 			else
 				return super.partialConvertRawObjectDefaultType(model, rawObject, rawType, converted);
+		}
+
+		@Override
+		protected void postProcessing(BerkeleyDBPersistenceManager persistenceManager)
+		{
+			clearSignatures(persistenceManager, uuids);
 		}
 
 	}

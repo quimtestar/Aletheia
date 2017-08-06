@@ -58,7 +58,132 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 		return Arrays.asList(23);
 	}
 
-	protected class UpgradeInstance extends EntityStoreUpgrade.UpgradeInstance
+	protected abstract class AbstractUpgradeInstance extends EntityStoreUpgrade.UpgradeInstance
+	{
+
+		protected AbstractUpgradeInstance(BerkeleyDBAletheiaEnvironment environment, String storeName)
+		{
+			super(environment, storeName);
+		}
+
+		protected RawObject statementRawObject(RawObject rawObject)
+		{
+			RawObject statementRawObject = rawObject;
+			while (statementRawObject != null && !statementRawObject.getType().getClassName().equals(BerkeleyDBStatementEntity.class.getName()))
+				statementRawObject = statementRawObject.getSuper();
+			return statementRawObject;
+		}
+
+		protected UUID obtainUuidFromStatementRawObject(RawObject rawObject)
+		{
+			RawObject statementRawObject = statementRawObject(rawObject);
+			if (statementRawObject == null)
+				return null;
+			Object oUUIDKey = statementRawObject.getValues().get("uuidKey");
+			if (oUUIDKey instanceof RawObject)
+			{
+				RawObject uuidKey = (RawObject) oUUIDKey;
+				Object oLeastSigBits = uuidKey.getValues().get("leastSigBits");
+				Object oMostSigBits = uuidKey.getValues().get("mostSigBits");
+				if (oLeastSigBits instanceof Long && oMostSigBits instanceof Long)
+				{
+					long leastSigBits = ((Long) oLeastSigBits).longValue();
+					long mostSigBits = ((Long) oMostSigBits).longValue();
+					return new UUID(mostSigBits, leastSigBits);
+				}
+				else
+					return null;
+			}
+			else
+				return null;
+		}
+
+		protected boolean isTauInIdentifier(RawObject rawObject)
+		{
+			RawObject statementRawObject = statementRawObject(rawObject);
+			if (statementRawObject == null)
+				return false;
+			Object oIdentifier = statementRawObject.getValues().get("identifier");
+			if (oIdentifier instanceof RawObject)
+			{
+				RawObject roAbstractNodeNamespace = (RawObject) oIdentifier;
+				while (roAbstractNodeNamespace != null)
+				{
+					while (roAbstractNodeNamespace != null
+							&& !roAbstractNodeNamespace.getType().getClassName().equals(AbstractNodeNamespaceProxy.class.getName()))
+						roAbstractNodeNamespace = roAbstractNodeNamespace.getSuper();
+					if (roAbstractNodeNamespace != null)
+					{
+						Object oName = roAbstractNodeNamespace.getValues().get("name");
+						if (oName instanceof String)
+						{
+							String name = (String) oName;
+							if (name.equals("Tau"))
+								return true;
+						}
+						Object oParent = roAbstractNodeNamespace.getValues().get("parent");
+						if (oParent instanceof RawObject)
+							roAbstractNodeNamespace = (RawObject) oParent;
+						else
+							roAbstractNodeNamespace = null;
+					}
+				}
+
+			}
+			return false;
+
+		}
+
+		protected void unidentify(RawObject rawObject)
+		{
+			Stack<RawObject> hierarchyStack = new Stack<>();
+			while (rawObject != null)
+			{
+				hierarchyStack.push(rawObject);
+				rawObject = rawObject.getSuper();
+			}
+			while (!hierarchyStack.isEmpty())
+			{
+				rawObject = hierarchyStack.pop();
+				if (rawObject.getType().getClassName().equals(BerkeleyDBStatementEntity.class.getName()))
+				{
+					rawObject.getValues().put("identifier", null);
+					rawObject.getValues().put("uuidContextIdentifier", null);
+					Object oLocalSortKey = rawObject.getValues().get("localSortKey");
+					if (oLocalSortKey instanceof RawObject)
+					{
+						RawObject localSortKey = (RawObject) oLocalSortKey;
+						localSortKey.getValues().put("strIdentifier", "");
+					}
+				}
+				else if (rawObject.getType().getClassName().equals(BerkeleyDBRootContextEntity.class.getName()))
+					rawObject.getValues().put("identifierKey", null);
+			}
+
+		}
+
+		protected void clearSignatures(BerkeleyDBPersistenceManager persistenceManager, Collection<UUID> uuids)
+		{
+			BerkeleyDBTransaction transaction = persistenceManager.beginTransaction();
+			try
+			{
+				for (UUID uuid : uuids)
+				{
+					StatementAuthority stAuth = persistenceManager.getStatementAuthority(transaction, uuid);
+					if (stAuth != null)
+						stAuth.clearSignatures(transaction);
+				}
+				transaction.commit();
+			}
+			finally
+			{
+				transaction.abort();
+			}
+		}
+
+	}
+
+	protected class UpgradeInstance extends AbstractUpgradeInstance
 	{
 
 		protected UpgradeInstance(BerkeleyDBAletheiaEnvironment environment, String storeName)
@@ -89,7 +214,7 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 				getEnvironment().putStoreVersion(getStoreName(), 24);
 		}
 
-		private void clearSignatures(BerkeleyDBAletheiaEntityStore aletheiaStore, Collection<UUID> uuids)
+		protected void clearSignatures(BerkeleyDBAletheiaEntityStore aletheiaStore, Collection<UUID> uuids)
 		{
 			class MyPersistenceManager extends BerkeleyDBPersistenceManager
 			{
@@ -115,21 +240,7 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 			MyPersistenceManager persistenceManager = new MyPersistenceManager();
 			try
 			{
-				BerkeleyDBTransaction transaction = persistenceManager.beginTransaction();
-				try
-				{
-					for (UUID uuid : uuids)
-					{
-						StatementAuthority stAuth = persistenceManager.getStatementAuthority(transaction, uuid);
-						if (stAuth != null)
-							stAuth.clearSignatures(transaction);
-					}
-					transaction.commit();
-				}
-				finally
-				{
-					transaction.abort();
-				}
+				clearSignatures(persistenceManager, uuids);
 			}
 			finally
 			{
@@ -177,27 +288,6 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 
 		}
 
-		private UUID obtainUuidFromStatementRawObject(RawObject statementRawObject)
-		{
-			Object oUUIDKey = statementRawObject.getValues().get("uuidKey");
-			if (oUUIDKey instanceof RawObject)
-			{
-				RawObject uuidKey = (RawObject) oUUIDKey;
-				Object oLeastSigBits = uuidKey.getValues().get("leastSigBits");
-				Object oMostSigBits = uuidKey.getValues().get("mostSigBits");
-				if (oLeastSigBits instanceof Long && oMostSigBits instanceof Long)
-				{
-					long leastSigBits = ((Long) oLeastSigBits).longValue();
-					long mostSigBits = ((Long) oMostSigBits).longValue();
-					return new UUID(mostSigBits, leastSigBits);
-				}
-				else
-					return null;
-			}
-			else
-				return null;
-		}
-
 		private Collection<UUID> unidentifyTauStatements() throws UpgradeException
 		{
 			Collection<UUID> uuids = new ArrayList<>();
@@ -219,46 +309,14 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 						{
 							if (isAbort())
 								throw new AbortUpgradeException();
-							RawObject statementRawObject = rawObject;
-							while (statementRawObject != null && !statementRawObject.getType().getClassName().equals(className))
-								statementRawObject = statementRawObject.getSuper();
-							if (statementRawObject == null)
-								throw new UpgradeException();
-							Object oIdentifier = statementRawObject.getValues().get("identifier");
-							if (oIdentifier instanceof RawObject)
+							if (isTauInIdentifier(rawObject))
 							{
-								RawObject roAbstractNodeNamespace = (RawObject) oIdentifier;
-								while (roAbstractNodeNamespace != null)
-								{
-									while (roAbstractNodeNamespace != null
-											&& !roAbstractNodeNamespace.getType().getClassName().equals(AbstractNodeNamespaceProxy.class.getName()))
-										roAbstractNodeNamespace = roAbstractNodeNamespace.getSuper();
-									if (roAbstractNodeNamespace != null)
-									{
-										Object oName = roAbstractNodeNamespace.getValues().get("name");
-										if (oName instanceof String)
-										{
-											String name = (String) oName;
-											if (name.equals("Tau"))
-											{
-												unidentify(rawObject);
-												cursor.update(rawObject);
-												UUID uuid = obtainUuidFromStatementRawObject(statementRawObject);
-												if (uuid != null)
-													uuids.add(uuid);
-												break;
-											}
-										}
-										Object oParent = roAbstractNodeNamespace.getValues().get("parent");
-										if (oParent instanceof RawObject)
-											roAbstractNodeNamespace = (RawObject) oParent;
-										else
-											roAbstractNodeNamespace = null;
-									}
-								}
-
+								unidentify(rawObject);
+								cursor.update(rawObject);
+								UUID uuid = obtainUuidFromStatementRawObject(rawObject);
+								if (uuid != null)
+									uuids.add(uuid);
 							}
-
 							n++;
 							if (n % 1000 == 0)
 								logger.debug("Processed " + n + " entities");
@@ -284,38 +342,10 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 
 		}
 
-		private void unidentify(RawObject rawObject)
-		{
-			Stack<RawObject> hierarchyStack = new Stack<>();
-			while (rawObject != null)
-			{
-				hierarchyStack.push(rawObject);
-				rawObject = rawObject.getSuper();
-			}
-			while (!hierarchyStack.isEmpty())
-			{
-				rawObject = hierarchyStack.pop();
-				if (rawObject.getType().getClassName().equals(BerkeleyDBStatementEntity.class.getName()))
-				{
-					rawObject.getValues().put("identifier", null);
-					rawObject.getValues().put("uuidContextIdentifier", null);
-					Object oLocalSortKey = rawObject.getValues().get("localSortKey");
-					if (oLocalSortKey instanceof RawObject)
-					{
-						RawObject localSortKey = (RawObject) oLocalSortKey;
-						localSortKey.getValues().put("strIdentifier", "");
-					}
-				}
-				else if (rawObject.getType().getClassName().equals(BerkeleyDBRootContextEntity.class.getName()))
-					rawObject.getValues().put("identifierKey", null);
-			}
-
-		}
-
 	}
 
 	@Override
-	protected UpgradeInstance instance(BerkeleyDBAletheiaEnvironment environment, String storeName)
+	protected AbstractUpgradeInstance instance(BerkeleyDBAletheiaEnvironment environment, String storeName)
 	{
 		return new UpgradeInstance(environment, storeName);
 	}
