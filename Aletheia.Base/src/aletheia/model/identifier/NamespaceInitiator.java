@@ -27,9 +27,9 @@ public class NamespaceInitiator extends NamespaceExtreme
 	private static final long serialVersionUID = -3742891511411197852L;
 
 	/**
-	 * The name of a initiator (the mark) will always be the empty string. The
-	 * empty string is lexicographically smaller than any other valid name,
-	 * making it consistent with the sorting rules specified in
+	 * The name of a initiator (the mark) will always be the empty string. The empty
+	 * string is lexicographically smaller than any other valid name, making it
+	 * consistent with the sorting rules specified in
 	 * {@link aletheia.model.identifier}.
 	 */
 	public static final String mark = "!";

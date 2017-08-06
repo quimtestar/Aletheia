@@ -27,10 +27,9 @@ public class NamespaceTerminator extends NamespaceExtreme
 	private static final long serialVersionUID = -7409248011701915817L;
 
 	/**
-	 * The name of a initiator (the mark) will always be the string "~". This
-	 * string is lexicographically greater than any other valid name, making it
-	 * consistent with the sorting rules specified in
-	 * {@link aletheia.model.identifier}.
+	 * The name of a initiator (the mark) will always be the string "~". This string
+	 * is lexicographically greater than any other valid name, making it consistent
+	 * with the sorting rules specified in {@link aletheia.model.identifier}.
 	 */
 	public static final String mark = "~";
 

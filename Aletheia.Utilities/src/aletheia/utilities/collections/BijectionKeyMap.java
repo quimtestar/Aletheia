@@ -240,8 +240,7 @@ public class BijectionKeyMap<I, O, V> extends AbstractMap<O, V>
 	}
 
 	/**
-	 * Returns the {@linkplain InverseBijection inverse bijection} of another
-	 * one.
+	 * Returns the {@linkplain InverseBijection inverse bijection} of another one.
 	 *
 	 * @param b
 	 *            The input bijection.

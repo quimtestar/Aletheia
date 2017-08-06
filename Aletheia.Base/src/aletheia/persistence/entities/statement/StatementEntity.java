@@ -37,18 +37,16 @@ import aletheia.persistence.entities.Entity;
 public interface StatementEntity extends Entity
 {
 	/**
-	 * Gets the {@link UUID} of the {@link IdentifiableVariableTerm} associated
-	 * to this {@link Statement}. The {@link UUID} that identifies this
-	 * statement.
+	 * Gets the {@link UUID} of the {@link IdentifiableVariableTerm} associated to
+	 * this {@link Statement}. The {@link UUID} that identifies this statement.
 	 *
 	 * @return The UUID.
 	 */
 	public UUID getUuid();
 
 	/**
-	 * Sets the {@link UUID} of the {@link IdentifiableVariableTerm} associated
-	 * to this {@link Statement}. The {@link UUID} that identifies this
-	 * statement.
+	 * Sets the {@link UUID} of the {@link IdentifiableVariableTerm} associated to
+	 * this {@link Statement}. The {@link UUID} that identifies this statement.
 	 *
 	 * @param uuid
 	 *            The UUID.
@@ -56,20 +54,20 @@ public interface StatementEntity extends Entity
 	public void setUuid(UUID uuid);
 
 	/**
-	 * Gets the {@link UUID} of the {@link Context} of this {@link Statement}
-	 * (the one returned by
-	 * {@link Statement#getContext(aletheia.persistence.Transaction)}). In the
-	 * case of a {@link RootContext}, this will be null.
+	 * Gets the {@link UUID} of the {@link Context} of this {@link Statement} (the
+	 * one returned by
+	 * {@link Statement#getContext(aletheia.persistence.Transaction)}). In the case
+	 * of a {@link RootContext}, this will be null.
 	 *
 	 * @return The UUID.
 	 */
 	public UUID getContextUuid();
 
 	/**
-	 * Sets the {@link UUID} of the {@link Context} of this {@link Statement}
-	 * (the one returned by
-	 * {@link Statement#getContext(aletheia.persistence.Transaction)}). In the
-	 * case of a {@link RootContext}, this will be null.
+	 * Sets the {@link UUID} of the {@link Context} of this {@link Statement} (the
+	 * one returned by
+	 * {@link Statement#getContext(aletheia.persistence.Transaction)}). In the case
+	 * of a {@link RootContext}, this will be null.
 	 *
 	 * @param contextUuid
 	 *            The UUID.

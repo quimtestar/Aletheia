@@ -194,16 +194,16 @@ public class Context extends Statement
 	 * with innerTerm = term.
 	 *
 	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state
-	 *            of this statement.
+	 *            The persistence manager that will manage the persistence state of
+	 *            this statement.
 	 * @param transaction
 	 *            The transaction to be used in the creation of this statement.
 	 * @param entityClass
-	 *            The type object of the persistent entity (the generic
-	 *            interface, not the actual implementation of persistence) that
-	 *            will be created for storing the persistent state of this
-	 *            statement. Will depend on the actual subclass of
-	 *            {@link Context} that is actually being created.
+	 *            The type object of the persistent entity (the generic interface,
+	 *            not the actual implementation of persistence) that will be created
+	 *            for storing the persistent state of this statement. Will depend on
+	 *            the actual subclass of {@link Context} that is actually being
+	 *            created.
 	 * @param uuid
 	 *            The UUID associated to this statement (i.e. the variable that
 	 *            identifies this statement). Used as unique identifier of a
@@ -212,10 +212,10 @@ public class Context extends Statement
 	 *            The context that enclosures this context statement.
 	 * @param term
 	 *            The term representing the mathematical sentence which this
-	 *            statement represents, or the type of the variable associated
-	 *            to this statement. Since the term associated to the statement
-	 *            can't have projections pending, the actual term used is the
-	 *            unprojection of this one.
+	 *            statement represents, or the type of the variable associated to
+	 *            this statement. Since the term associated to the statement can't
+	 *            have projections pending, the actual term used is the unprojection
+	 *            of this one.
 	 * @throws StatementException
 	 */
 	protected Context(PersistenceManager persistenceManager, Transaction transaction, Class<? extends ContextEntity> entityClass, UUID uuid, Context context,
@@ -225,20 +225,20 @@ public class Context extends Statement
 	}
 
 	/**
-	 * Creates a new context from scratch. The assumptions of this context are
-	 * also computed and generated.
+	 * Creates a new context from scratch. The assumptions of this context are also
+	 * computed and generated.
 	 *
 	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state
-	 *            of this statement.
+	 *            The persistence manager that will manage the persistence state of
+	 *            this statement.
 	 * @param transaction
 	 *            The transaction to be used in the creation of this statement.
 	 * @param entityClass
-	 *            The type object of the persistent entity (the generic
-	 *            interface, not the actual implementation of persistence) that
-	 *            will be created for storing the persistent state of this
-	 *            statement. Will depend on the actual subclass of
-	 *            {@link Context} that is actually being created.
+	 *            The type object of the persistent entity (the generic interface,
+	 *            not the actual implementation of persistence) that will be created
+	 *            for storing the persistent state of this statement. Will depend on
+	 *            the actual subclass of {@link Context} that is actually being
+	 *            created.
 	 * @param uuid
 	 *            The UUID associated to this statement (i.e. the variable that
 	 *            identifies this statement). Used as unique identifier of a
@@ -247,15 +247,14 @@ public class Context extends Statement
 	 *            The context that enclosures this context statement.
 	 * @param term
 	 *            The term representing the mathematical sentence which this
-	 *            statement represents, or the type of the variable associated
-	 *            to this statement. Since the term associated to the statement
-	 *            can't have projections pending, the actual term used is the
-	 *            unprojection of this one.
+	 *            statement represents, or the type of the variable associated to
+	 *            this statement. Since the term associated to the statement can't
+	 *            have projections pending, the actual term used is the unprojection
+	 *            of this one.
 	 * @param innerTerm
-	 *            The term that is used to compute the antecedents and
-	 *            consequent of this context. It will be identical to the former
-	 *            parameter 'term', except for the instances of the subclass
-	 *            {@link UnfoldingContext}.
+	 *            The term that is used to compute the antecedents and consequent of
+	 *            this context. It will be identical to the former parameter 'term',
+	 *            except for the instances of the subclass {@link UnfoldingContext}.
 	 * @throws StatementException
 	 */
 	protected Context(PersistenceManager persistenceManager, Transaction transaction, Class<? extends ContextEntity> entityClass, UUID uuid, Context context,
@@ -294,15 +293,13 @@ public class Context extends Statement
 	}
 
 	/**
-	 * Creates a context that envelopes an already existing
-	 * {@link ContextEntity}
+	 * Creates a context that envelopes an already existing {@link ContextEntity}
 	 *
 	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state
-	 *            of this statement.
+	 *            The persistence manager that will manage the persistence state of
+	 *            this statement.
 	 * @param entity
-	 *            The persistence entity that will be enveloped in this
-	 *            statement.
+	 *            The persistence entity that will be enveloped in this statement.
 	 */
 	public Context(PersistenceManager persistenceManager, ContextEntity entity)
 	{
@@ -316,12 +313,12 @@ public class Context extends Statement
 	}
 
 	/**
-	 * Creates a mapping between variables and statements for the local
-	 * statements of this context.
+	 * Creates a mapping between variables and statements for the local statements
+	 * of this context.
 	 *
 	 * @param transaction
-	 *            The persistence transaction across which the operations on
-	 *            this map will be performed.
+	 *            The persistence transaction across which the operations on this
+	 *            map will be performed.
 	 * @return The map.
 	 *
 	 * @see LocalStatementsMap
@@ -332,13 +329,13 @@ public class Context extends Statement
 	}
 
 	/**
-	 * Creates a mapping between terms and statements for the local statements
-	 * of this context. Useful for finding the set of statements that match a
+	 * Creates a mapping between terms and statements for the local statements of
+	 * this context. Useful for finding the set of statements that match a
 	 * particular term.
 	 *
 	 * @param transaction
-	 *            The persistence transaction across which the operations on
-	 *            this map will be performed.
+	 *            The persistence transaction across which the operations on this
+	 *            map will be performed.
 	 * @return The map
 	 *
 	 * @see LocalStatementsByTerm
@@ -352,8 +349,8 @@ public class Context extends Statement
 	 * Creates a list of the assumptions of this context.
 	 *
 	 * @param transaction
-	 *            The persistence transaction across which the operations on
-	 *            this list will be performed.
+	 *            The persistence transaction across which the operations on this
+	 *            list will be performed.
 	 * @return The list.
 	 *
 	 * @see AssumptionList
@@ -367,8 +364,8 @@ public class Context extends Statement
 	 * The set of direct subcontexts of this context.
 	 *
 	 * @param transaction
-	 *            The persistence transaction across which the operations on
-	 *            this set will be performed.
+	 *            The persistence transaction across which the operations on this
+	 *            set will be performed.
 	 * @return The set.
 	 *
 	 * @see SubContextsSet
@@ -463,12 +460,12 @@ public class Context extends Statement
 
 	/**
 	 * Creates a nomenclator for this context. A nomenclator is a bidirectional
-	 * directory of the existing correspondences between identifiers and
-	 * statements for this context.
+	 * directory of the existing correspondences between identifiers and statements
+	 * for this context.
 	 *
 	 * @param transaction
-	 *            The persistence transaction across which the operations on
-	 *            this set will be performed.
+	 *            The persistence transaction across which the operations on this
+	 *            set will be performed.
 	 * @return The nomenclator.
 	 *
 	 * @see SubNomenclator
@@ -489,8 +486,8 @@ public class Context extends Statement
 	 *            The statement to be added.
 	 * @param checkContext
 	 *            If true, checks the context. To be set to false at context
-	 *            construction time, when it is not convenient to check the
-	 *            context that isn't still fully created.
+	 *            construction time, when it is not convenient to check the context
+	 *            that isn't still fully created.
 	 */
 	private void addStatement(Transaction transaction, Statement statement, boolean checkContext)
 	{
@@ -546,8 +543,8 @@ public class Context extends Statement
 
 	/**
 	 * For a context to be proven, the method
-	 * {@link Statement#calcProved(Transaction)} must return true and at least
-	 * one of its solvers must be proven.
+	 * {@link Statement#calcProved(Transaction)} must return true and at least one
+	 * of its solvers must be proven.
 	 */
 	@Override
 	protected boolean calcProved(Transaction transaction)
@@ -577,8 +574,8 @@ public class Context extends Statement
 	 * @param transaction
 	 *            The persistence transaction used in this operation.
 	 * @param uuid
-	 *            The UUID that will be assigned to this statement. If null, a
-	 *            new UUID will be generated.
+	 *            The UUID that will be assigned to this statement. If null, a new
+	 *            UUID will be generated.
 	 * @param term
 	 *            The term of this context.
 	 * @return The new context.
@@ -593,8 +590,8 @@ public class Context extends Statement
 	}
 
 	/**
-	 * Calls to {@link #openSubContext(Transaction, UUID, List, Term)} with uuid
-	 * and uuidAssumptions set to null, so the UUIDs will be fresh-generated.
+	 * Calls to {@link #openSubContext(Transaction, UUID, List, Term)} with uuid and
+	 * uuidAssumptions set to null, so the UUIDs will be fresh-generated.
 	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
@@ -614,13 +611,12 @@ public class Context extends Statement
 	 * @param transaction
 	 *            The persistence transaction used in this operation.
 	 * @param uuid
-	 *            The UUID that will be assigned to this statement. If null, a
-	 *            new UUID will be generated.
+	 *            The UUID that will be assigned to this statement. If null, a new
+	 *            UUID will be generated.
 	 * @param term
 	 *            The (outer) term of this context.
 	 * @param declaration
-	 *            The declaration statement that will be unfolded in this
-	 *            context.
+	 *            The declaration statement that will be unfolded in this context.
 	 * @return The new unfolding context
 	 * @throws StatementException
 	 */
@@ -651,9 +647,9 @@ public class Context extends Statement
 	}
 
 	/**
-	 * The full mapping of pairs variable-statement that are accessible from
-	 * this context. That is, the union of all the
-	 * {@link #localStatements(Transaction)} of the ancestors of this context.
+	 * The full mapping of pairs variable-statement that are accessible from this
+	 * context. That is, the union of all the {@link #localStatements(Transaction)}
+	 * of the ancestors of this context.
 	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the map.
@@ -670,10 +666,9 @@ public class Context extends Statement
 	}
 
 	/**
-	 * The full mapping of statements by term that are accessible from this
-	 * context. That is the union of all the
-	 * {@link #localStatementsByTerm(Transaction)} of the ancestors of this
-	 * context.
+	 * The full mapping of statements by term that are accessible from this context.
+	 * That is the union of all the {@link #localStatementsByTerm(Transaction)} of
+	 * the ancestors of this context.
 	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the map.
@@ -736,8 +731,8 @@ public class Context extends Statement
 	 * @param transaction
 	 *            The persistence transaction used in this operation.
 	 * @param uuid
-	 *            The UUID that will be assigned to this statement. If null, a
-	 *            new UUID will be generated.
+	 *            The UUID that will be assigned to this statement. If null, a new
+	 *            UUID will be generated.
 	 * @param value
 	 *            The value assigned to this declaration.
 	 * @return The new declaration.
@@ -751,8 +746,7 @@ public class Context extends Statement
 	}
 
 	/**
-	 * Calls to {@link #declare(Transaction, UUID, Term)} with the UUID set to
-	 * null.
+	 * Calls to {@link #declare(Transaction, UUID, Term)} with the UUID set to null.
 	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
@@ -772,8 +766,8 @@ public class Context extends Statement
 	 * @param transaction
 	 *            The persistence transaction used in this operation.
 	 * @param uuid
-	 *            The UUID that will be assigned to this statement. If null, a
-	 *            new UUID will be generated.
+	 *            The UUID that will be assigned to this statement. If null, a new
+	 *            UUID will be generated.
 	 * @param general
 	 *            The statement specialized.
 	 * @param instance
@@ -911,8 +905,8 @@ public class Context extends Statement
 	}
 
 	/**
-	 * Parse a string into a term using the identifiers defined in this context
-	 * (and ancestors).
+	 * Parse a string into a term using the identifiers defined in this context (and
+	 * ancestors).
 	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
@@ -970,10 +964,10 @@ public class Context extends Statement
 	}
 
 	/**
-	 * Delete a statement from this context, checking first if there are no
-	 * other statements depending on them. With the deletion, the proven status
-	 * of the pertinent statements is updated, so it's possible that the
-	 * execution of this methods spans through a long period of time.
+	 * Delete a statement from this context, checking first if there are no other
+	 * statements depending on them. With the deletion, the proven status of the
+	 * pertinent statements is updated, so it's possible that the execution of this
+	 * methods spans through a long period of time.
 	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
@@ -1121,10 +1115,10 @@ public class Context extends Statement
 
 	/**
 	 * Returns the set of descendant contexts of a context that match the given
-	 * consequent to propagate the resetting of the proved status. If the size
-	 * of that set is found too big (>=100) we first look for a safe alternative
-	 * in the same context that might satisfy all that subcontexts and if so, no
-	 * resetting will be necessary so the empty set is returned.
+	 * consequent to propagate the resetting of the proved status. If the size of
+	 * that set is found too big (>=100) we first look for a safe alternative in the
+	 * same context that might satisfy all that subcontexts and if so, no resetting
+	 * will be necessary so the empty set is returned.
 	 */
 	private static DescendantContextsByConsequent safelyProvedDescendantContextsToResetByTerm(Transaction transaction, Context context, Term term)
 	{
@@ -1159,8 +1153,8 @@ public class Context extends Statement
 	}
 
 	/**
-	 * Returns an {@link Iterable} of statements that descend of this context,
-	 * in preorder
+	 * Returns an {@link Iterable} of statements that descend of this context, in
+	 * preorder
 	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
@@ -1401,9 +1395,8 @@ public class Context extends Statement
 	 * @param statement
 	 *            The statement to be copied.
 	 * @param initMap
-	 *            The correspondence map to be used initially in the copy
-	 *            operation. To be used when copying a statement from another
-	 *            context.
+	 *            The correspondence map to be used initially in the copy operation.
+	 *            To be used when copying a statement from another context.
 	 * @return The new statement.
 	 * @throws StatementException
 	 */
@@ -1422,9 +1415,8 @@ public class Context extends Statement
 	 * @param statements
 	 *            The list of statements to be copied (in that order).
 	 * @param initMap
-	 *            The correspondence map to be used initially in the copy
-	 *            operation. To be used when copying a statement from another
-	 *            context.
+	 *            The correspondence map to be used initially in the copy operation.
+	 *            To be used when copying a statement from another context.
 	 * @return A map of correspondences between the original statements and the
 	 *         copied statements.
 	 * @throws StatementException
@@ -1455,17 +1447,15 @@ public class Context extends Statement
 	/**
 	 * Copies a list of statements (belonging or not to this context) into this
 	 * context. Some of that statements can be specified to not be identified
-	 * (usually the original identifiers are copied to the resulting
-	 * statements).
+	 * (usually the original identifiers are copied to the resulting statements).
 	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param statements
 	 *            The list of statements to be copied (in that order).
 	 * @param initMap
-	 *            The correspondence map to be used initially in the copy
-	 *            operation. To be used when copying a statement from another
-	 *            context.
+	 *            The correspondence map to be used initially in the copy operation.
+	 *            To be used when copying a statement from another context.
 	 * @param excludeFromIdentify
 	 *            The set of statements that will be excluded from identifying.
 	 * @return A map of correspondences between the original statements and the
@@ -1614,9 +1604,8 @@ public class Context extends Statement
 	 * @param statement
 	 *            The statement to be copied.
 	 * @param initMap
-	 *            The correspondence map to be used initially in the copy
-	 *            operation. To be used when copying a statement from another
-	 *            context.
+	 *            The correspondence map to be used initially in the copy operation.
+	 *            To be used when copying a statement from another context.
 	 * @return The new statement.
 	 * @throws StatementException
 	 *
@@ -1631,17 +1620,15 @@ public class Context extends Statement
 	/**
 	 * Copies a list of statements (belonging or not to this context) into this
 	 * context. Some of that statements can be specified to not be identified
-	 * (usually the original identifiers are copied to the resulting
-	 * statements).
+	 * (usually the original identifiers are copied to the resulting statements).
 	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
 	 * @param statements
 	 *            The list of statements to be copied (in that order).
 	 * @param initMap
-	 *            The correspondence map to be used initially in the copy
-	 *            operation. To be used when copying a statement from another
-	 *            context.
+	 *            The correspondence map to be used initially in the copy operation.
+	 *            To be used when copying a statement from another context.
 	 * @param excludeFromIdentify
 	 *            The set of statements that will be excluded from identifying.
 	 * @return The list of copied statements.
@@ -1668,9 +1655,8 @@ public class Context extends Statement
 	 * @param statements
 	 *            The list of statements to be copied (in that order).
 	 * @param initMap
-	 *            The correspondence map to be used initially in the copy
-	 *            operation. To be used when copying a statement from another
-	 *            context.
+	 *            The correspondence map to be used initially in the copy operation.
+	 *            To be used when copying a statement from another context.
 	 * @return The list of copied statements.
 	 * @throws CopyStatementException
 	 *
@@ -1748,9 +1734,9 @@ public class Context extends Statement
 	}
 
 	/**
-	 * Decides if a statement is a independent of this context. That is, it
-	 * doesn't depends on any of the substatements of this context and so, it
-	 * can be moved to the upper context.
+	 * Decides if a statement is a independent of this context. That is, it doesn't
+	 * depends on any of the substatements of this context and so, it can be moved
+	 * to the upper context.
 	 *
 	 * @param transaction
 	 *            The transaction used in this operation.
@@ -1824,8 +1810,7 @@ public class Context extends Statement
 	}
 
 	/**
-	 * The map from variables to statements of the local statements in this
-	 * context.
+	 * The map from variables to statements of the local statements in this context.
 	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the map.
@@ -1850,8 +1835,8 @@ public class Context extends Statement
 	}
 
 	/**
-	 * The set of all the dependencies of all the statements that descend from
-	 * this context.
+	 * The set of all the dependencies of all the statements that descend from this
+	 * context.
 	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the map.

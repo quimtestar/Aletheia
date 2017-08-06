@@ -42,8 +42,8 @@ public class Identifier extends NodeNamespace implements Exportable
 	}
 
 	/**
-	 * Creates new identifier as a direct descendant of the root name space with
-	 * the specified name.
+	 * Creates new identifier as a direct descendant of the root name space with the
+	 * specified name.
 	 *
 	 * @param name
 	 *            The name.
@@ -96,8 +96,8 @@ public class Identifier extends NodeNamespace implements Exportable
 	}
 
 	/**
-	 * Parse a string representing a fully qualified identifier into the
-	 * identifier it represents.
+	 * Parse a string representing a fully qualified identifier into the identifier
+	 * it represents.
 	 *
 	 * @param fullName
 	 *            The string to parse.

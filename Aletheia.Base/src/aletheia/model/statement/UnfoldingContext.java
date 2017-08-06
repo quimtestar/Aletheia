@@ -48,8 +48,8 @@ public class UnfoldingContext extends Context
 	 * Creates a new unfolding context statement from scratch.
 	 *
 	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state
-	 *            of this statement.
+	 *            The persistence manager that will manage the persistence state of
+	 *            this statement.
 	 * @param transaction
 	 *            The transaction to be used in the creation of this statement.
 	 * @param uuid
@@ -60,10 +60,10 @@ public class UnfoldingContext extends Context
 	 *            The context that enclosures this context statement.
 	 * @param term
 	 *            The term representing the mathematical sentence which this
-	 *            statement represents, or the type of the variable associated
-	 *            to this statement. Since the term associated to the statement
-	 *            can't have projections pending, the actual term used is the
-	 *            unprojection of this one.
+	 *            statement represents, or the type of the variable associated to
+	 *            this statement. Since the term associated to the statement can't
+	 *            have projections pending, the actual term used is the unprojection
+	 *            of this one.
 	 * @param declaration
 	 *            The declaration to be unfolded.
 	 */
@@ -80,11 +80,10 @@ public class UnfoldingContext extends Context
 	 * {@link UnfoldingContextEntity}
 	 *
 	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state
-	 *            of this statement.
+	 *            The persistence manager that will manage the persistence state of
+	 *            this statement.
 	 * @param entity
-	 *            The persistence entity that will be enveloped in this
-	 *            statement.
+	 *            The persistence entity that will be enveloped in this statement.
 	 */
 	public UnfoldingContext(PersistenceManager persistenceManager, UnfoldingContextEntity entity)
 	{
@@ -156,8 +155,8 @@ public class UnfoldingContext extends Context
 	/**
 	 * Computes the term that will be associated with a newly created unfolding
 	 * context. Takes the term and replaces the declaration's variable with the
-	 * declaration's value in it. Any exception thrown in the process is caught
-	 * and embedded into an {@link UnfoldingContextException}
+	 * declaration's value in it. Any exception thrown in the process is caught and
+	 * embedded into an {@link UnfoldingContextException}
 	 *
 	 * @param transaction
 	 *            The transaction used in the operation.

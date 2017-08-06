@@ -49,8 +49,8 @@ public interface NonBlockingSocketChannelStream
 	public long getTimeout();
 
 	/**
-	 * Interrupts the read/write operation to programatically unblock it if it's
-	 * on a wait state. The operation will throw a {@link InterruptedException}.
+	 * Interrupts the read/write operation to programatically unblock it if it's on
+	 * a wait state. The operation will throw a {@link InterruptedException}.
 	 */
 	public void interrupt();
 

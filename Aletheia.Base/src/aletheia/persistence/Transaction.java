@@ -50,8 +50,8 @@ public abstract class Transaction
 	private Collection<Hook> closeHooks;
 
 	/**
-	 * Creates a new transaction and registers it on the persistence manager as
-	 * a pending transaction.
+	 * Creates a new transaction and registers it on the persistence manager as a
+	 * pending transaction.
 	 *
 	 * @param persistenceManager
 	 *            The persistence manager associated to this transaction.
@@ -87,8 +87,8 @@ public abstract class Transaction
 	}
 
 	/**
-	 * A transaction is open if it hasn't been committed or aborted and can
-	 * still be used to operate on the persistence environment.
+	 * A transaction is open if it hasn't been committed or aborted and can still be
+	 * used to operate on the persistence environment.
 	 *
 	 * @return Is this transaction open?
 	 */
@@ -128,8 +128,8 @@ public abstract class Transaction
 	}
 
 	/**
-	 * If this transaction is open, aborts this transaction and unregisters it
-	 * as pending. If this transaction is not open, does nothing.
+	 * If this transaction is open, aborts this transaction and unregisters it as
+	 * pending. If this transaction is not open, does nothing.
 	 */
 	public synchronized void abort()
 	{
@@ -147,8 +147,8 @@ public abstract class Transaction
 	}
 
 	/**
-	 * Locks the current thread until this transaction is closed (either
-	 * committed or aborted):
+	 * Locks the current thread until this transaction is closed (either committed
+	 * or aborted):
 	 *
 	 * @throws InterruptedException
 	 */
@@ -159,8 +159,8 @@ public abstract class Transaction
 	}
 
 	/**
-	 * Locks the current Locks the current thread until this transaction is
-	 * closed (either committed or aborted) or the some time out is reached.
+	 * Locks the current Locks the current thread until this transaction is closed
+	 * (either committed or aborted) or the some time out is reached.
 	 *
 	 * @param timeOut
 	 *            The time out in milliseconds.

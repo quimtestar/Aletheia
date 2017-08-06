@@ -58,11 +58,11 @@ public class Specialization extends Statement
 	 * Creates a new specialization statement from scratch.
 	 *
 	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state
-	 *            of this statement.
+	 *            The persistence manager that will manage the persistence state of
+	 *            this statement.
 	 * @param transaction
-	 *            The transaction associated to the persistence manager that
-	 *            will be used in the creation of this statement.
+	 *            The transaction associated to the persistence manager that will be
+	 *            used in the creation of this statement.
 	 * @param uuid
 	 *            The UUID associated to this statement (i.e. the variable that
 	 *            identifies this statement). Used as unique identifier of a
@@ -99,11 +99,10 @@ public class Specialization extends Statement
 	 * {@link SpecializationEntity}
 	 *
 	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state
-	 *            of this statement.
+	 *            The persistence manager that will manage the persistence state of
+	 *            this statement.
 	 * @param entity
-	 *            The persistence entity that will be enveloped in this
-	 *            statement.
+	 *            The persistence entity that will be enveloped in this statement.
 	 */
 	public Specialization(PersistenceManager persistenceManager, SpecializationEntity entity)
 	{
@@ -261,9 +260,9 @@ public class Specialization extends Statement
 
 	/**
 	 * Computes the term that will be associated with a newly created
-	 * specialization. Makes a composition of the general's term with the
-	 * instance, and any exception thrown in the process is caught and enveloped
-	 * into {@link SpecializationException}.
+	 * specialization. Makes a composition of the general's term with the instance,
+	 * and any exception thrown in the process is caught and enveloped into
+	 * {@link SpecializationException}.
 	 *
 	 * @param transaction
 	 *            The transaction used in the operation.

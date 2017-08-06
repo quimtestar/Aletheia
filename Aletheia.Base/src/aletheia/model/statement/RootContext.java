@@ -81,16 +81,16 @@ public class RootContext extends Context
 	 * Creates a root context from scratch.
 	 *
 	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state
-	 *            of this statement.
+	 *            The persistence manager that will manage the persistence state of
+	 *            this statement.
 	 * @param transaction
 	 *            The transaction to be used in the creation of this statement.
 	 * @param term
 	 *            The term representing the mathematical sentence which this
-	 *            statement represents, or the type of the variable associated
-	 *            to this statement. Since the term associated to the statement
-	 *            can't have projections pending, the actual term used is the
-	 *            unprojection of this one.
+	 *            statement represents, or the type of the variable associated to
+	 *            this statement. Since the term associated to the statement can't
+	 *            have projections pending, the actual term used is the unprojection
+	 *            of this one.
 	 *
 	 * @throws StatementException
 	 */
@@ -104,11 +104,11 @@ public class RootContext extends Context
 	 * {@link RootContextEntity}
 	 *
 	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state
-	 *            of this statement.
+	 *            The persistence manager that will manage the persistence state of
+	 *            this statement.
 	 * @param entity
-	 *            The persistence entity that will be enveloped in this root
-	 *            context statement.
+	 *            The persistence entity that will be enveloped in this root context
+	 *            statement.
 	 */
 	public RootContext(PersistenceManager persistenceManager, RootContextEntity entity)
 	{
@@ -117,8 +117,7 @@ public class RootContext extends Context
 
 	/**
 	 * Since the root context statement is the only statement that isn't in any
-	 * context, this method always throws and
-	 * {@link UnsupportedOperationException}
+	 * context, this method always throws and {@link UnsupportedOperationException}
 	 *
 	 * @throws UnsupportedOperationException
 	 */

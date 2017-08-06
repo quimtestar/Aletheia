@@ -58,12 +58,12 @@ public class ParserItem implements Serializable
 	}
 
 	/**
-	 * Given a symbol of the grammar, populate the set of production states with
-	 * the initial production states (at position 0) that:
+	 * Given a symbol of the grammar, populate the set of production states with the
+	 * initial production states (at position 0) that:
 	 * <ul>
 	 * <li>Correspond to a production whose left side is that symbol.</li>
-	 * <li>For every first symbol of the right side on any of these productions,
-	 * do the same processing recursively.</li>
+	 * <li>For every first symbol of the right side on any of these productions, do
+	 * the same processing recursively.</li>
 	 * </ul>
 	 *
 	 * @param start
@@ -145,10 +145,10 @@ public class ParserItem implements Serializable
 	}
 
 	/**
-	 * Creates the initial grammar state of a grammar. The set of production
-	 * states of the initial grammar state is computed by just calling to the
-	 * {@link #populateStarters(Symbol, Set)} method with the start symbol of
-	 * the grammar.
+	 * Creates the initial grammar state of a grammar. The set of production states
+	 * of the initial grammar state is computed by just calling to the
+	 * {@link #populateStarters(Symbol, Set)} method with the start symbol of the
+	 * grammar.
 	 *
 	 * @param grammar
 	 *            The grammar.
@@ -183,8 +183,8 @@ public class ParserItem implements Serializable
 	}
 
 	/**
-	 * The set of {@link TerminalSymbol}s that may follow a
-	 * {@link ProductionState} on this item.
+	 * The set of {@link TerminalSymbol}s that may follow a {@link ProductionState}
+	 * on this item.
 	 *
 	 * @param productionState
 	 *            The production state;
@@ -247,9 +247,9 @@ public class ParserItem implements Serializable
 	}
 
 	/**
-	 * Computes the transition of this grammar state with a given symbol. The
-	 * next grammar state is computed by advancing every production state whose
-	 * next symbol is this parameter symbol and then calling the
+	 * Computes the transition of this grammar state with a given symbol. The next
+	 * grammar state is computed by advancing every production state whose next
+	 * symbol is this parameter symbol and then calling the
 	 * {@link #populateStarters(Symbol, Set)} method for the next symbol of the
 	 * advanced production state.
 	 *
@@ -301,8 +301,8 @@ public class ParserItem implements Serializable
 	}
 
 	/**
-	 * Computes the map of productions to terminal symbols that are at end in
-	 * the set of production states of this grammar state.
+	 * Computes the map of productions to terminal symbols that are at end in the
+	 * set of production states of this grammar state.
 	 *
 	 * @return The map.
 	 *

@@ -88,8 +88,8 @@ public abstract class Namespace implements Comparable<Namespace>, Serializable, 
 	public abstract boolean isPrefixOf(Namespace namespace);
 
 	/**
-	 * Computes the list of prefixes of this component, starting with the root
-	 * name space.
+	 * Computes the list of prefixes of this component, starting with the root name
+	 * space.
 	 *
 	 * @return The list.
 	 */
@@ -117,8 +117,8 @@ public abstract class Namespace implements Comparable<Namespace>, Serializable, 
 	public abstract int compareTo(Namespace namespace);
 
 	/**
-	 * Parses a fully qualified name (all the components separated by dots) into
-	 * a name space.
+	 * Parses a fully qualified name (all the components separated by dots) into a
+	 * name space.
 	 *
 	 * @param fullName
 	 *            The string to be parsed
@@ -145,10 +145,9 @@ public abstract class Namespace implements Comparable<Namespace>, Serializable, 
 	}
 
 	/**
-	 * Returns the initiator of this name space. The initiator is a special kind
-	 * of identifier that is by definition the first element in this name space
-	 * in the natural name space order specified in
-	 * {@link aletheia.model.identifier}.
+	 * Returns the initiator of this name space. The initiator is a special kind of
+	 * identifier that is by definition the first element in this name space in the
+	 * natural name space order specified in {@link aletheia.model.identifier}.
 	 *
 	 * @return The name space initiator.
 	 * @see #compareTo(Namespace)
@@ -166,10 +165,9 @@ public abstract class Namespace implements Comparable<Namespace>, Serializable, 
 	}
 
 	/**
-	 * Returns the terminator of this name space. The terminator is a special
-	 * kind of identifier that is by definition the last element in this name
-	 * space in the natural name space order specified in
-	 * {@link aletheia.model.identifier}.
+	 * Returns the terminator of this name space. The terminator is a special kind
+	 * of identifier that is by definition the last element in this name space in
+	 * the natural name space order specified in {@link aletheia.model.identifier}.
 	 *
 	 * @return The name space terminator.
 	 * @see #compareTo(Namespace)
@@ -187,9 +185,9 @@ public abstract class Namespace implements Comparable<Namespace>, Serializable, 
 	}
 
 	/**
-	 * Returns which is the minimal name space between this one and the
-	 * parameter according to the natural order. Null is allowed as parameter
-	 * but is never returned as result.
+	 * Returns which is the minimal name space between this one and the parameter
+	 * according to the natural order. Null is allowed as parameter but is never
+	 * returned as result.
 	 *
 	 * @param other
 	 *            The other name space to consider.
@@ -206,9 +204,9 @@ public abstract class Namespace implements Comparable<Namespace>, Serializable, 
 	}
 
 	/**
-	 * Returns which is the maximal name space between this one and the
-	 * parameter according to the natural order. Null is allowed as parameter
-	 * but is never returned as result.
+	 * Returns which is the maximal name space between this one and the parameter
+	 * according to the natural order. Null is allowed as parameter but is never
+	 * returned as result.
 	 *
 	 * @param other
 	 *            The other name space to consider.

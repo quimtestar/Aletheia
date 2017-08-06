@@ -235,8 +235,8 @@ public class LexerLexer extends AbstractLexer
 
 	/**
 	 * The token returned by the {@link LexerLexer} associated to the terminal
-	 * symbol tagged with the string "CHAR". Records the actual character read
-	 * from the input.
+	 * symbol tagged with the string "CHAR". Records the actual character read from
+	 * the input.
 	 */
 	public class CharToken extends TerminalToken
 	{
@@ -277,8 +277,8 @@ public class LexerLexer extends AbstractLexer
 
 	/**
 	 * The token returned by the {@link LexerLexer} associated to the terminal
-	 * symbol tagged with the string "NUMBER". Records the actual number read
-	 * from the input.
+	 * symbol tagged with the string "NUMBER". Records the actual number read from
+	 * the input.
 	 */
 	public class NumberToken extends TerminalToken
 	{
@@ -319,8 +319,8 @@ public class LexerLexer extends AbstractLexer
 
 	/**
 	 * The token returned by the {@link LexerLexer} associated to the terminal
-	 * symbol tagged with the string "TAG". Records the actual string read from
-	 * the input.
+	 * symbol tagged with the string "TAG". Records the actual string read from the
+	 * input.
 	 */
 	public class TagToken extends TerminalToken
 	{

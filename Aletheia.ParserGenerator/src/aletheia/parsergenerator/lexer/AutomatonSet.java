@@ -64,15 +64,15 @@ public class AutomatonSet implements Serializable
 	}
 
 	/**
-	 * Adds a deterministic automaton associated to a {@link TerminalSymbol}.
-	 * The order of the automatons is determined with the order in which this
-	 * method is called.
+	 * Adds a deterministic automaton associated to a {@link TerminalSymbol}. The
+	 * order of the automatons is determined with the order in which this method is
+	 * called.
 	 *
 	 * @param automaton
 	 *            The automaton.
 	 * @param terminalSymbol
-	 *            The terminal symbol. Might be null when the input recognized
-	 *            by this automaton is to be ignored.
+	 *            The terminal symbol. Might be null when the input recognized by
+	 *            this automaton is to be ignored.
 	 */
 	public void addAutomatonTag(DeterministicAutomaton automaton, TerminalSymbol terminalSymbol)
 	{
@@ -92,8 +92,7 @@ public class AutomatonSet implements Serializable
 	}
 
 	/**
-	 * Creates a comparator of deterministic automatons based on the order
-	 * defined.
+	 * Creates a comparator of deterministic automatons based on the order defined.
 	 *
 	 * @return The comparator.
 	 */
@@ -124,8 +123,7 @@ public class AutomatonSet implements Serializable
 	}
 
 	/**
-	 * The collection of terminal symbols associated to any automaton in this
-	 * set.
+	 * The collection of terminal symbols associated to any automaton in this set.
 	 *
 	 * @return The collection.
 	 */

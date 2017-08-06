@@ -280,8 +280,8 @@ public abstract class PersistenceManager
 	}
 
 	/**
-	 * Obtains a {@link Statement} given a {@link Transaction} and the
-	 * {@link UUID} that identifies the {@link Statement}. Calls to
+	 * Obtains a {@link Statement} given a {@link Transaction} and the {@link UUID}
+	 * that identifies the {@link Statement}. Calls to
 	 * {@link #getStatementEntity(Transaction, UUID)} and then to
 	 * {@link #entityToStatement(StatementEntity)};
 	 *
@@ -303,10 +303,10 @@ public abstract class PersistenceManager
 	}
 
 	/**
-	 * Obtains an {@link StatementEntity} from the persistence environment given
-	 * a {@link Transaction} and the {@link UUID} that identifies the entity. In
-	 * the resulting {@link StatementEntity}, the
-	 * {@link StatementEntity#getUuid()} must coincide with the parameter uuid.
+	 * Obtains an {@link StatementEntity} from the persistence environment given a
+	 * {@link Transaction} and the {@link UUID} that identifies the entity. In the
+	 * resulting {@link StatementEntity}, the {@link StatementEntity#getUuid()} must
+	 * coincide with the parameter uuid.
 	 *
 	 * @param transaction
 	 *            The transaction to use in the operation.
@@ -317,8 +317,8 @@ public abstract class PersistenceManager
 	public abstract StatementEntity getStatementEntity(Transaction transaction, UUID uuid);
 
 	/**
-	 * Returns a {@link Context} statement given it's identifying {@link UUID}.
-	 * If that UUID doesn't correspond to any context, return null.
+	 * Returns a {@link Context} statement given it's identifying {@link UUID}. If
+	 * that UUID doesn't correspond to any context, return null.
 	 *
 	 * @param transaction
 	 *            The transaction to use in the operation.
@@ -335,9 +335,8 @@ public abstract class PersistenceManager
 	}
 
 	/**
-	 * Returns a {@link RootContext} statement given it's identifying
-	 * {@link UUID}. If that UUID doesn't correspond to any context, return
-	 * null.
+	 * Returns a {@link RootContext} statement given it's identifying {@link UUID}.
+	 * If that UUID doesn't correspond to any context, return null.
 	 *
 	 * @param transaction
 	 *            The transaction to use in the operation.
@@ -354,9 +353,8 @@ public abstract class PersistenceManager
 	}
 
 	/**
-	 * Returns a {@link Declaration} statement given it's identifying
-	 * {@link UUID}. If that UUID doesn't correspond to any declaration, return
-	 * null.
+	 * Returns a {@link Declaration} statement given it's identifying {@link UUID}.
+	 * If that UUID doesn't correspond to any declaration, return null.
 	 *
 	 * @param transaction
 	 *            The transaction to use in the operation.
@@ -375,8 +373,8 @@ public abstract class PersistenceManager
 	/**
 	 * Inserts or updates (by {@link UUID}) a statement to the persistence
 	 * environment. Calls to
-	 * {@link #putStatementEntity(Transaction, StatementEntity)} with the result
-	 * of {@link Statement#getEntity()}.
+	 * {@link #putStatementEntity(Transaction, StatementEntity)} with the result of
+	 * {@link Statement#getEntity()}.
 	 *
 	 * @param transaction
 	 *            The transaction to use in the operation.
@@ -401,8 +399,8 @@ public abstract class PersistenceManager
 	public abstract void putStatementEntity(Transaction transaction, StatementEntity entity);
 
 	/**
-	 * Deletes a statement from the persistence environment whose UUID is the
-	 * same as this one.
+	 * Deletes a statement from the persistence environment whose UUID is the same
+	 * as this one.
 	 *
 	 * @param transaction
 	 *            The transaction to use in the operation.
@@ -454,8 +452,7 @@ public abstract class PersistenceManager
 	 * Cretes a set view of the statements that depend on another one.
 	 *
 	 * @param transaction
-	 *            The transaction to be used on the operations on the resulting
-	 *            set.
+	 *            The transaction to be used on the operations on the resulting set.
 	 * @param statement
 	 *            The statement.
 	 * @return The dependets set of the statement.
@@ -469,8 +466,8 @@ public abstract class PersistenceManager
 	 * {@link Context}.
 	 *
 	 * @param transaction
-	 *            The transaction transactions to be used in the operations on
-	 *            the map.
+	 *            The transaction transactions to be used in the operations on the
+	 *            map.
 	 * @param context
 	 *            The context.
 	 * @return The local statements map.
@@ -480,12 +477,12 @@ public abstract class PersistenceManager
 	public abstract LocalStatementsMap localStatements(Transaction transaction, Context context);
 
 	/**
-	 * Creates the map view of all the statements (variables -> statements) of
-	 * the system.
+	 * Creates the map view of all the statements (variables -> statements) of the
+	 * system.
 	 *
 	 * @param transaction
-	 *            The transaction transactions to be used in the operations on
-	 *            the map.
+	 *            The transaction transactions to be used in the operations on the
+	 *            map.
 	 * @return The statements map.
 	 *
 	 * @see StatementsMap
@@ -497,8 +494,8 @@ public abstract class PersistenceManager
 	 * this context.
 	 *
 	 * @param transaction
-	 *            The transaction transactions to be used in the operations on
-	 *            the map.
+	 *            The transaction transactions to be used in the operations on the
+	 *            map.
 	 * @param context
 	 *            The context.
 	 * @return The local statements by term map.
@@ -511,8 +508,8 @@ public abstract class PersistenceManager
 	 * Creates a list view of the assumptions of a context.
 	 *
 	 * @param transaction
-	 *            The transaction transactions to be used in the operations on
-	 *            the list.
+	 *            The transaction transactions to be used in the operations on the
+	 *            list.
 	 * @param context
 	 *            The context.
 	 * @return The list of assumptions.
@@ -525,8 +522,8 @@ public abstract class PersistenceManager
 	 * The set of direct subcontexts of this context.
 	 *
 	 * @param transaction
-	 *            The persistence transaction across which the operations on
-	 *            this set will be performed.
+	 *            The persistence transaction across which the operations on this
+	 *            set will be performed.
 	 * @return The set.
 	 *
 	 */
@@ -565,10 +562,10 @@ public abstract class PersistenceManager
 	public abstract IdentifierToRootContexts identifierToRootContexts(Transaction transaction);
 
 	/**
-	 * Creates a set view of all context that descent from a given one that
-	 * match a given consequent term. That is, essentially the answer to the
-	 * question "what contexts may this statement prove?". This view should
-	 * operate reasonably efficient.
+	 * Creates a set view of all context that descent from a given one that match a
+	 * given consequent term. That is, essentially the answer to the question "what
+	 * contexts may this statement prove?". This view should operate reasonably
+	 * efficient.
 	 *
 	 * @param transaction
 	 *            The transaction to be used in the operations on the map.
@@ -599,8 +596,8 @@ public abstract class PersistenceManager
 	public abstract LocalSortedStatements localSortedStatements(Transaction transaction, Context context);
 
 	/**
-	 * Closes this persistence manager. Aborts any pending transaction. Any
-	 * further operations will result in an error.
+	 * Closes this persistence manager. Aborts any pending transaction. Any further
+	 * operations will result in an error.
 	 */
 	public void close()
 	{
@@ -647,14 +644,14 @@ public abstract class PersistenceManager
 
 	/**
 	 * Synchronizes any buffering done in the persistence environment. In other
-	 * words, no information previously entered to the system will be lost if
-	 * the system crashes after this function returns.
+	 * words, no information previously entered to the system will be lost if the
+	 * system crashes after this function returns.
 	 */
 	public abstract void sync();
 
 	/**
-	 * Creates a new {@link Transaction} that can be used on the operations of
-	 * this persistence environment.
+	 * Creates a new {@link Transaction} that can be used on the operations of this
+	 * persistence environment.
 	 *
 	 * @return The transaction.
 	 */
@@ -663,17 +660,17 @@ public abstract class PersistenceManager
 	/**
 	 * Creates a new dirty {@link Transaction}. The precise meaning of what is a
 	 * dirty transaction will depend on the concrete implementation of the
-	 * persistence environment. Usually, from a dirty transaction the operation
-	 * will be see the modified data in other uncommited transactions.
+	 * persistence environment. Usually, from a dirty transaction the operation will
+	 * be see the modified data in other uncommited transactions.
 	 *
 	 * @return The transaction.
 	 */
 	public abstract Transaction beginDirtyTransaction();
 
 	/**
-	 * Creates a new {@link Transaction} with a lock timeout in milliseconds.
-	 * Any operation using this transaction will fail if it remains locked this
-	 * amount of time.
+	 * Creates a new {@link Transaction} with a lock timeout in milliseconds. Any
+	 * operation using this transaction will fail if it remains locked this amount
+	 * of time.
 	 *
 	 * @param timeOut
 	 *            The timeout in milliseconds.
@@ -682,8 +679,7 @@ public abstract class PersistenceManager
 	public abstract Transaction beginTransaction(long timeOut);
 
 	/**
-	 * Creates a new dirty {@link Transaction} with a lock timeout in
-	 * milliseconds.
+	 * Creates a new dirty {@link Transaction} with a lock timeout in milliseconds.
 	 *
 	 * @param timeOut
 	 *            The timeout in milliseconds.
@@ -707,8 +703,8 @@ public abstract class PersistenceManager
 	}
 
 	/**
-	 * Envelopes a {@link StatementEntity} with an {@link Statement} depending
-	 * on the kind of entity it is.
+	 * Envelopes a {@link StatementEntity} with an {@link Statement} depending on
+	 * the kind of entity it is.
 	 *
 	 * @param e
 	 *            The entity.
@@ -771,8 +767,7 @@ public abstract class PersistenceManager
 	}
 
 	/**
-	 * Envelope a {@link UnfoldingContextEntity} with a {@link UnfoldingContext}
-	 * .
+	 * Envelope a {@link UnfoldingContextEntity} with a {@link UnfoldingContext} .
 	 *
 	 * @param e
 	 *            The unfolding context entity.
@@ -847,10 +842,10 @@ public abstract class PersistenceManager
 	}
 
 	/**
-	 * Adapts a generic statement entity to a freshly created statement entity
-	 * that is suitable for this persistence manager. With this method an entity
-	 * from another persistence manager might be copied to this one in a way
-	 * that doesn't depend on the implementation.
+	 * Adapts a generic statement entity to a freshly created statement entity that
+	 * is suitable for this persistence manager. With this method an entity from
+	 * another persistence manager might be copied to this one in a way that doesn't
+	 * depend on the implementation.
 	 *
 	 * @param transaction
 	 *            The transaction to use in the operation.

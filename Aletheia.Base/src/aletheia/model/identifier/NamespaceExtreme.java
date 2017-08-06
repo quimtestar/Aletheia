@@ -37,9 +37,8 @@ public abstract class NamespaceExtreme extends Identifier
 	 * @param namespace
 	 *            The name space this extreme belongs to.
 	 * @param mark
-	 *            A special string serving as a name for extremes. It will
-	 *            depend on the actual extreme we are creating. See the
-	 *            sub-classes
+	 *            A special string serving as a name for extremes. It will depend on
+	 *            the actual extreme we are creating. See the sub-classes
 	 * @throws InvalidNameException
 	 */
 	protected NamespaceExtreme(Namespace namespace, String mark) throws InvalidNameException

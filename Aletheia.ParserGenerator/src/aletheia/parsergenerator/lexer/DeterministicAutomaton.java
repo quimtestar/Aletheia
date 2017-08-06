@@ -43,10 +43,10 @@ public class DeterministicAutomaton implements Serializable
 	private final Map<AutomatonState, Map<Character, AutomatonState>> transitions;
 
 	/**
-	 * Creates a new deterministic automaton with the specified start state, set
-	 * of accepting states and transitions. This method is private and doesn't
-	 * make a copy of the parameter data structures, so the caller must be
-	 * responsible of the further modifications done on them.
+	 * Creates a new deterministic automaton with the specified start state, set of
+	 * accepting states and transitions. This method is private and doesn't make a
+	 * copy of the parameter data structures, so the caller must be responsible of
+	 * the further modifications done on them.
 	 *
 	 * @param startState
 	 *            The start state.
@@ -64,8 +64,8 @@ public class DeterministicAutomaton implements Serializable
 	}
 
 	/**
-	 * Creates a new deterministic automaton as a determinized version of a
-	 * given generalized (nondeterministic) automaton.
+	 * Creates a new deterministic automaton as a determinized version of a given
+	 * generalized (nondeterministic) automaton.
 	 *
 	 * @param automaton
 	 *            The automaton to determinize.
@@ -174,8 +174,8 @@ public class DeterministicAutomaton implements Serializable
 	}
 
 	/**
-	 * Checks if this automaton accepts the empty string. I.e. the start state
-	 * is acceptable.
+	 * Checks if this automaton accepts the empty string. I.e. the start state is
+	 * acceptable.
 	 *
 	 * @return Does it?
 	 */
@@ -219,9 +219,9 @@ public class DeterministicAutomaton implements Serializable
 	}
 
 	/**
-	 * Compute the deterministic automaton that accepts the same language of
-	 * this one and have the minimal number of states. That minimal automaton is
-	 * unique for a language up to isomorphism.
+	 * Compute the deterministic automaton that accepts the same language of this
+	 * one and have the minimal number of states. That minimal automaton is unique
+	 * for a language up to isomorphism.
 	 *
 	 * @return The minimal deterministic finite automaton.
 	 */
@@ -420,8 +420,8 @@ public class DeterministicAutomaton implements Serializable
 	}
 
 	/**
-	 * Calls to {@link #union(DeterministicAutomaton, DeterministicAutomaton)}
-	 * with this automaton and another one.
+	 * Calls to {@link #union(DeterministicAutomaton, DeterministicAutomaton)} with
+	 * this automaton and another one.
 	 *
 	 * @param a
 	 *            The automaton to unite to this.
@@ -449,9 +449,8 @@ public class DeterministicAutomaton implements Serializable
 	}
 
 	/**
-	 * Calls to
-	 * {@link #concatenate(DeterministicAutomaton, DeterministicAutomaton)} with
-	 * this automaton and another one.
+	 * Calls to {@link #concatenate(DeterministicAutomaton, DeterministicAutomaton)}
+	 * with this automaton and another one.
 	 *
 	 * @param a
 	 *            The automaton to concatenate to this.
@@ -490,11 +489,10 @@ public class DeterministicAutomaton implements Serializable
 	 * Computes the cartesian product between two automatons. The set of accept
 	 * states of the resulting automaton might be:
 	 * <ul>
-	 * <li><b>If <i>sign</i> is true</b>, the cartesian product between the set
-	 * of accept states of a and the set of accept states of b.</li>
-	 * <li><b>If <i>sign</i> is false</b>, the cartesian product between the set
-	 * of accept states of a and the complement of the set of accept states of
-	 * b.</li>
+	 * <li><b>If <i>sign</i> is true</b>, the cartesian product between the set of
+	 * accept states of a and the set of accept states of b.</li>
+	 * <li><b>If <i>sign</i> is false</b>, the cartesian product between the set of
+	 * accept states of a and the complement of the set of accept states of b.</li>
 	 * </ul>
 	 *
 	 * @param a
@@ -652,8 +650,8 @@ public class DeterministicAutomaton implements Serializable
 
 	/**
 	 * Calls to
-	 * {@link #intersection(DeterministicAutomaton, DeterministicAutomaton)}
-	 * with this automaton and another one.
+	 * {@link #intersection(DeterministicAutomaton, DeterministicAutomaton)} with
+	 * this automaton and another one.
 	 *
 	 * @param a
 	 *            The other automaton.
@@ -680,9 +678,8 @@ public class DeterministicAutomaton implements Serializable
 	}
 
 	/**
-	 * Calls to
-	 * {@link #subtraction(DeterministicAutomaton, DeterministicAutomaton)} with
-	 * this automaton and another one.
+	 * Calls to {@link #subtraction(DeterministicAutomaton, DeterministicAutomaton)}
+	 * with this automaton and another one.
 	 *
 	 * @param a
 	 *            The other automaton.
@@ -694,8 +691,8 @@ public class DeterministicAutomaton implements Serializable
 	}
 
 	/**
-	 * Checks The equality of two deterministic automatons up to isomorphism.
-	 * Should be minimized first to check if they recognize the same language.
+	 * Checks The equality of two deterministic automatons up to isomorphism. Should
+	 * be minimized first to check if they recognize the same language.
 	 *
 	 * @param a1
 	 *            The first automaton to be compared.

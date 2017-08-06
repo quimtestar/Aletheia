@@ -40,8 +40,8 @@ public abstract class SegmentedInputStream extends InputStream
 	}
 
 	/**
-	 * Provide a byte array of data to be read. This method will be called when
-	 * the {@link SegmentedInputStream} gets out of data to provide to the
+	 * Provide a byte array of data to be read. This method will be called when the
+	 * {@link SegmentedInputStream} gets out of data to provide to the
 	 * {@link #read()} methods.
 	 */
 	public abstract byte[] segment() throws IOException;
