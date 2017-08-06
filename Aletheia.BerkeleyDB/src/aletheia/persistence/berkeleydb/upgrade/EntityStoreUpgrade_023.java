@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.upgrade;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Stack;
@@ -26,14 +27,17 @@ import java.util.Stack;
 import org.apache.logging.log4j.Logger;
 
 import com.sleepycat.je.CursorConfig;
+import com.sleepycat.je.Database;
 import com.sleepycat.je.Transaction;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.PrimaryIndex;
+import com.sleepycat.persist.SecondaryIndex;
 import com.sleepycat.persist.StoreConfig;
 import com.sleepycat.persist.raw.RawObject;
 import com.sleepycat.persist.raw.RawStore;
 
 import aletheia.log4j.LoggerManager;
+import aletheia.persistence.berkeleydb.BerkeleyDBAletheiaEntityStore;
 import aletheia.persistence.berkeleydb.BerkeleyDBAletheiaEnvironment;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBRootContextEntity;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBStatementEntity;
@@ -61,7 +65,56 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 		protected void upgrade() throws UpgradeException
 		{
 			unidentifyTauStatements();
+			clearSecondaryIndices();
 			getEnvironment().putStoreVersion(getStoreName(), 24);
+			BerkeleyDBAletheiaEntityStore newStore = BerkeleyDBAletheiaEntityStore.open(getEnvironment(), getStoreName(), false);
+			try
+			{
+				postProcessing(getEnvironment(), newStore);
+			}
+			finally
+			{
+				newStore.close();
+			}
+		}
+
+		private void clearSecondaryIndices()
+		{
+			Collection<String> databaseNames = new ArrayList<>();
+			RawStore rawStore = new RawStore(getEnvironment(), getStoreName(), new StoreConfig());
+			try
+			{
+				Collection<SecondaryIndex<?, ?, ?>> indices = Arrays.asList(
+						rawStore.getSecondaryIndex(BerkeleyDBStatementEntity.class.getName(), BerkeleyDBStatementEntity.localSortKey_FieldName),
+						rawStore.getSecondaryIndex(BerkeleyDBStatementEntity.class.getName(), BerkeleyDBStatementEntity.uuidContextIdentifier_FieldName),
+						rawStore.getSecondaryIndex(BerkeleyDBStatementEntity.class.getName(), BerkeleyDBRootContextEntity.identifierKey_FieldName));
+
+				for (SecondaryIndex<?, ?, ?> index : indices)
+				{
+					Database db = index.getDatabase();
+					if (db != null)
+						databaseNames.add(db.getDatabaseName());
+					Database kdb = index.getKeysDatabase();
+					if (kdb != null)
+						databaseNames.add(kdb.getDatabaseName());
+				}
+			}
+			finally
+			{
+				rawStore.close();
+			}
+			Transaction tx = getEnvironment().beginTransaction(null, null);
+			try
+			{
+				for (String dbn : databaseNames)
+					getEnvironment().removeDatabase(tx, dbn);
+				tx.commit();
+			}
+			finally
+			{
+				tx.abort();
+			}
+
 		}
 
 		private void unidentifyTauStatements() throws UpgradeException
