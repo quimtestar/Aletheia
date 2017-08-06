@@ -194,24 +194,19 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 		@Override
 		protected void upgrade() throws UpgradeException
 		{
+			clearSecondaryIndices();
 			Collection<UUID> uuids = unidentifyTauStatements();
-			if (!uuids.isEmpty())
+			getEnvironment().putStoreVersion(getStoreName(), 24);
+			BerkeleyDBAletheiaEntityStore aletheiaStore = BerkeleyDBAletheiaEntityStore.open(getEnvironment(), getStoreName(), false);
+			try
 			{
-				clearSecondaryIndices();
-				getEnvironment().putStoreVersion(getStoreName(), 24);
-				BerkeleyDBAletheiaEntityStore aletheiaStore = BerkeleyDBAletheiaEntityStore.open(getEnvironment(), getStoreName(), false);
-				try
-				{
-					createSecondaryIndices(aletheiaStore);
-					clearSignatures(aletheiaStore, uuids);
-				}
-				finally
-				{
-					aletheiaStore.close();
-				}
+				createSecondaryIndices(aletheiaStore);
+				clearSignatures(aletheiaStore, uuids);
 			}
-			else
-				getEnvironment().putStoreVersion(getStoreName(), 24);
+			finally
+			{
+				aletheiaStore.close();
+			}
 		}
 
 		protected void clearSignatures(BerkeleyDBAletheiaEntityStore aletheiaStore, Collection<UUID> uuids)
@@ -311,16 +306,18 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 								throw new AbortUpgradeException();
 							if (isTauInIdentifier(rawObject))
 							{
+								UUID uuid = obtainUuidFromStatementRawObject(rawObject);
+								logger.debug("Clearing identifier of statement: " + uuid);
 								unidentify(rawObject);
 								cursor.update(rawObject);
-								UUID uuid = obtainUuidFromStatementRawObject(rawObject);
 								if (uuid != null)
 									uuids.add(uuid);
 							}
 							n++;
 							if (n % 1000 == 0)
-								logger.debug("Processed " + n + " entities");
+								logger.debug("Processed " + n + " statement entities");
 						}
+						logger.debug("Processed " + n + " statement entities");
 					}
 					finally
 					{
