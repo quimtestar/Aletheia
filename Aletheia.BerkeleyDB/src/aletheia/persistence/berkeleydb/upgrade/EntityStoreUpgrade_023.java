@@ -74,66 +74,66 @@ public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 			{
 				clearSecondaryIndices();
 				getEnvironment().putStoreVersion(getStoreName(), 24);
-				clearSignatures(uuids);
+				BerkeleyDBAletheiaEntityStore aletheiaStore = BerkeleyDBAletheiaEntityStore.open(getEnvironment(), getStoreName(), false);
+				try
+				{
+					createSecondaryIndices(aletheiaStore);
+					clearSignatures(aletheiaStore, uuids);
+				}
+				finally
+				{
+					aletheiaStore.close();
+				}
 			}
 			else
 				getEnvironment().putStoreVersion(getStoreName(), 24);
 		}
 
-		private void clearSignatures(Collection<UUID> uuids)
+		private void clearSignatures(BerkeleyDBAletheiaEntityStore aletheiaStore, Collection<UUID> uuids)
 		{
-			BerkeleyDBAletheiaEntityStore newStore = BerkeleyDBAletheiaEntityStore.open(getEnvironment(), getStoreName(), false);
-			try
+			class MyPersistenceManager extends BerkeleyDBPersistenceManager
 			{
-				class MyPersistenceManager extends BerkeleyDBPersistenceManager
+				protected MyPersistenceManager()
 				{
-					protected MyPersistenceManager()
-					{
-						super(UpgradeInstance.this.getEnvironment(), newStore);
-					}
-
-					@Override
-					public void close()
-					{
-						try
-						{
-							getPersistenceSchedulerThread().shutdown();
-						}
-						catch (InterruptedException e)
-						{
-							throw new PersistenceException(e);
-						}
-					}
+					super(UpgradeInstance.this.getEnvironment(), aletheiaStore);
 				}
 
-				MyPersistenceManager persistenceManager = new MyPersistenceManager();
-				try
+				@Override
+				public void close()
 				{
-					BerkeleyDBTransaction transaction = persistenceManager.beginTransaction();
 					try
 					{
-						for (UUID uuid : uuids)
-						{
-							StatementAuthority stAuth = persistenceManager.getStatementAuthority(transaction, uuid);
-							if (stAuth != null)
-								stAuth.clearSignatures(transaction);
-						}
-						transaction.commit();
+						getPersistenceSchedulerThread().shutdown();
 					}
-					finally
+					catch (InterruptedException e)
 					{
-						transaction.abort();
+						throw new PersistenceException(e);
 					}
+				}
+			}
+
+			MyPersistenceManager persistenceManager = new MyPersistenceManager();
+			try
+			{
+				BerkeleyDBTransaction transaction = persistenceManager.beginTransaction();
+				try
+				{
+					for (UUID uuid : uuids)
+					{
+						StatementAuthority stAuth = persistenceManager.getStatementAuthority(transaction, uuid);
+						if (stAuth != null)
+							stAuth.clearSignatures(transaction);
+					}
+					transaction.commit();
 				}
 				finally
 				{
-					persistenceManager.close();
+					transaction.abort();
 				}
-
 			}
 			finally
 			{
-				newStore.close();
+				persistenceManager.close();
 			}
 
 		}
