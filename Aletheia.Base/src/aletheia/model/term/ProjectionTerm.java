@@ -152,9 +152,10 @@ public class ProjectionTerm extends AtomicTerm
 	}
 
 	@Override
-	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
+			ParameterIdentification parameterIdentification)
 	{
-		return function.toString(variableToIdentifier, parameterNumerator) + "* ";
+		return function.toString(variableToIdentifier, parameterNumerator, parameterIdentification) + "* ";
 	}
 
 	/**

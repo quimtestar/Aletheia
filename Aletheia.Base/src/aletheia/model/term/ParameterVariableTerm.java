@@ -65,12 +65,13 @@ public class ParameterVariableTerm extends VariableTerm
 	}
 
 	@Override
-	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
+			ParameterIdentification parameterIdentification)
 	{
 		if (parameterNumerator.isNumbered(this))
 			return numRef(parameterNumerator);
 		else
-			return super.toString(variableToIdentifier, parameterNumerator);
+			return super.toString(variableToIdentifier, parameterNumerator, parameterIdentification);
 	}
 
 }

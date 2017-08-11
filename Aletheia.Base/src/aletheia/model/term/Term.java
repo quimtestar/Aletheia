@@ -278,7 +278,73 @@ public abstract class Term implements Serializable, Exportable
 		return new BijectionSet<>(new CastBijection<VariableTerm, IdentifiableVariableTerm>(), freeVariables());
 	}
 
-	public abstract String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator);
+	public static abstract class ParameterIdentification
+	{
+
+	}
+
+	public static class FunctionParameterIdentification extends ParameterIdentification
+	{
+		private final Identifier parameter;
+		private final ParameterIdentification parameterType;
+		private final ParameterIdentification body;
+
+		public FunctionParameterIdentification(Identifier parameter, ParameterIdentification parameterType, ParameterIdentification body)
+		{
+			super();
+			this.parameter = parameter;
+			this.parameterType = parameterType;
+			this.body = body;
+		}
+
+		public Identifier getParameter()
+		{
+			return parameter;
+		}
+
+		public ParameterIdentification getParameterType()
+		{
+			return parameterType;
+		}
+
+		public ParameterIdentification getBody()
+		{
+			return body;
+		}
+
+	}
+
+	public static class CompositionParameterIdentification extends ParameterIdentification
+	{
+		private final CompositionParameterIdentification head;
+		private final ParameterIdentification tail;
+
+		public CompositionParameterIdentification(CompositionParameterIdentification head, ParameterIdentification tail)
+		{
+			super();
+			this.head = head;
+			this.tail = tail;
+		}
+
+		public CompositionParameterIdentification getHead()
+		{
+			return head;
+		}
+
+		public ParameterIdentification getTail()
+		{
+			return tail;
+		}
+
+	}
+
+	public abstract String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
+			ParameterIdentification parameterIdentification);
+
+	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+	{
+		return toString(variableToIdentifier, parameterNumerator, null);
+	}
 
 	/**
 	 * Converts term to {@link String} using the specified correspondence between
@@ -293,14 +359,24 @@ public abstract class Term implements Serializable, Exportable
 		return toString(variableToIdentifier, parameterNumerator());
 	}
 
-	public String toString(Transaction transaction, Context context)
+	public String toString(Transaction transaction, Context context, ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
-		return toString(transaction, context, parameterNumerator());
+		return toString(context != null ? context.variableToIdentifier(transaction) : null, parameterNumerator, parameterIdentification);
+	}
+
+	public String toString(Transaction transaction, Context context, ParameterIdentification parameterIdentification)
+	{
+		return toString(transaction, context, parameterNumerator(), parameterIdentification);
 	}
 
 	public String toString(Transaction transaction, Context context, ParameterNumerator parameterNumerator)
 	{
-		return toString(context != null ? context.variableToIdentifier(transaction) : null, parameterNumerator);
+		return toString(transaction, context, parameterNumerator, null);
+	}
+
+	public String toString(Transaction transaction, Context context)
+	{
+		return toString(transaction, context, parameterNumerator());
 	}
 
 	/**
@@ -626,7 +702,7 @@ public abstract class Term implements Serializable, Exportable
 		private final Stack<ParameterVariableTerm> parameterStack;
 		private final Map<ParameterVariableTerm, Stack<Integer>> parameterToNumberStackMap;
 
-		protected ParameterNumerator()
+		private ParameterNumerator()
 		{
 			this.parameterStack = new Stack<>();
 			this.parameterToNumberStackMap = new HashMap<>();

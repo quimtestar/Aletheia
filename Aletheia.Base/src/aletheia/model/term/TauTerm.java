@@ -55,7 +55,8 @@ public class TauTerm extends AtomicTerm
 	 * The primitive type is represented with the String <b>"Tau"</b>.
 	 */
 	@Override
-	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
+			ParameterIdentification parameterIdentification)
 	{
 		return "Tau";
 	}
