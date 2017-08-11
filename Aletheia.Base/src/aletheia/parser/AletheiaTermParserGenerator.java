@@ -19,10 +19,20 @@
  ******************************************************************************/
 package aletheia.parser;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 
 import aletheia.parsergenerator.ParserLexerException;
+import aletheia.parsergenerator.lexer.AutomatonSet;
+import aletheia.parsergenerator.lexer.LexerLexer;
+import aletheia.parsergenerator.lexer.LexerParser;
+import aletheia.parsergenerator.parser.Grammar;
+import aletheia.parsergenerator.parser.GrammarParser;
+import aletheia.parsergenerator.parser.TransitionTable;
+import aletheia.parsergenerator.parser.TransitionTableLalr1;
 import aletheia.parsergenerator.parser.TransitionTable.Conflict;
 import aletheia.parsergenerator.parser.TransitionTable.ConflictException;
 
@@ -32,6 +42,52 @@ import aletheia.parsergenerator.parser.TransitionTable.ConflictException;
  */
 public class AletheiaTermParserGenerator
 {
+
+	private static AutomatonSet createAutomatonSet() throws ParserLexerException, IOException
+	{
+		Reader reader = new InputStreamReader(ClassLoader.getSystemResourceAsStream(AletheiaTermParserConstants.lexerPath));
+		try
+		{
+			LexerLexer lexLex = new LexerLexer(reader);
+			LexerParser lexParser = new LexerParser();
+			AutomatonSet automatonSet = lexParser.parse(lexLex);
+			return automatonSet;
+		}
+		finally
+		{
+			reader.close();
+		}
+	}
+
+	private static TransitionTable createTermTransitionTable() throws ConflictException, ParserLexerException, IOException
+	{
+		Reader reader = new InputStreamReader(ClassLoader.getSystemResourceAsStream(AletheiaTermParserConstants.termGrammarPath));
+		try
+		{
+			GrammarParser gp = new GrammarParser();
+			Grammar g = gp.parse(reader);
+			TransitionTable table = new TransitionTableLalr1(g);
+			return table;
+		}
+		finally
+		{
+			reader.close();
+		}
+	}
+
+	private static void generate() throws ParserLexerException, IOException, ConflictException
+	{
+		AutomatonSet automatonSet = createAutomatonSet();
+		File automatonSetFile = new File("src/" + AletheiaTermParserConstants.automatonSetPath);
+		automatonSet.save(automatonSetFile);
+		System.out.println("Aletheia lexer automaton saved to " + automatonSetFile);
+
+		TransitionTable termTransitionTable = createTermTransitionTable();
+		File termTransitionTableFile = new File("src/" + AletheiaTermParserConstants.termTransitionTablePath);
+		termTransitionTable.save(termTransitionTableFile);
+		System.out.println("Aletheia term parser transition table saved to " + termTransitionTableFile);
+
+	}
 
 	/**
 	 * The main method.
@@ -46,7 +102,7 @@ public class AletheiaTermParserGenerator
 	{
 		try
 		{
-			AletheiaTermParser.generate();
+			AletheiaTermParserGenerator.generate();
 		}
 		catch (ConflictException e)
 		{

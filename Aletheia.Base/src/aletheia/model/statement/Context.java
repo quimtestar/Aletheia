@@ -69,7 +69,7 @@ import aletheia.model.term.Term;
 import aletheia.model.term.Term.ReplaceTypeException;
 import aletheia.model.term.Term.UnprojectTypeException;
 import aletheia.model.term.VariableTerm;
-import aletheia.parser.AletheiaTermParser;
+import aletheia.parser.TermParser;
 import aletheia.parser.TermParserException;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -917,7 +917,7 @@ public class Context extends Statement
 	 */
 	public Term parseTerm(Transaction transaction, String s) throws TermParserException
 	{
-		return AletheiaTermParser.parseTerm(this, transaction, s);
+		return TermParser.parseTerm(this, transaction, s);
 	}
 
 	public String unparseTerm(Transaction transaction, Term term)
