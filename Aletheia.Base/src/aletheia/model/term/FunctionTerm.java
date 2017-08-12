@@ -229,6 +229,37 @@ public class FunctionTerm extends Term
 
 	}
 
+	public static class FunctionParameterIdentification extends ParameterIdentification
+	{
+		private final Identifier parameter;
+		private final ParameterIdentification parameterType;
+		private final ParameterIdentification body;
+
+		public FunctionParameterIdentification(Identifier parameter, ParameterIdentification parameterType, ParameterIdentification body)
+		{
+			super();
+			this.parameter = parameter;
+			this.parameterType = parameterType;
+			this.body = body;
+		}
+
+		public Identifier getParameter()
+		{
+			return parameter;
+		}
+
+		public ParameterIdentification getParameterType()
+		{
+			return parameterType;
+		}
+
+		public ParameterIdentification getBody()
+		{
+			return body;
+		}
+
+	}
+
 	/**
 	 * A function is textually represented by the schema <b>
 	 * "<<i>parameter</i>:<i>type</i> -> <i>body</i>>"</b>.

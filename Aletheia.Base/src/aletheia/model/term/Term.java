@@ -283,61 +283,6 @@ public abstract class Term implements Serializable, Exportable
 
 	}
 
-	public static class FunctionParameterIdentification extends ParameterIdentification
-	{
-		private final Identifier parameter;
-		private final ParameterIdentification parameterType;
-		private final ParameterIdentification body;
-
-		public FunctionParameterIdentification(Identifier parameter, ParameterIdentification parameterType, ParameterIdentification body)
-		{
-			super();
-			this.parameter = parameter;
-			this.parameterType = parameterType;
-			this.body = body;
-		}
-
-		public Identifier getParameter()
-		{
-			return parameter;
-		}
-
-		public ParameterIdentification getParameterType()
-		{
-			return parameterType;
-		}
-
-		public ParameterIdentification getBody()
-		{
-			return body;
-		}
-
-	}
-
-	public static class CompositionParameterIdentification extends ParameterIdentification
-	{
-		private final CompositionParameterIdentification head;
-		private final ParameterIdentification tail;
-
-		public CompositionParameterIdentification(CompositionParameterIdentification head, ParameterIdentification tail)
-		{
-			super();
-			this.head = head;
-			this.tail = tail;
-		}
-
-		public CompositionParameterIdentification getHead()
-		{
-			return head;
-		}
-
-		public ParameterIdentification getTail()
-		{
-			return tail;
-		}
-
-	}
-
 	public abstract String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
 			ParameterIdentification parameterIdentification);
 

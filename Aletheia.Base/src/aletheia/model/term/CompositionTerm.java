@@ -167,6 +167,30 @@ public class CompositionTerm extends SimpleTerm
 		}
 	}
 
+	public static class CompositionParameterIdentification extends ParameterIdentification
+	{
+		private final CompositionParameterIdentification head;
+		private final ParameterIdentification tail;
+
+		public CompositionParameterIdentification(CompositionParameterIdentification head, ParameterIdentification tail)
+		{
+			super();
+			this.head = head;
+			this.tail = tail;
+		}
+
+		public CompositionParameterIdentification getHead()
+		{
+			return head;
+		}
+
+		public ParameterIdentification getTail()
+		{
+			return tail;
+		}
+
+	}
+
 	/**
 	 * The textual representation of a composition is just the concatenation of the
 	 * terms which compose it.
