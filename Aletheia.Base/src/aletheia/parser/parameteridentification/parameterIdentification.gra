@@ -18,27 +18,22 @@
 # <http://www.gnu.org/licenses/>.
 #-------------------------------------------------------------------------------
 
-F;
+T; 							
 
-F -> F arrow A;
-F -> A;
+T -> T A;										 
+T -> ;
 
-A -> P;
-A -> P colon C;
+A -> question;
+A -> F;							
+A -> openpar T closepar;		
 
-C -> ;
-C -> C IQ;
-C -> C openpar F closepar;
-  
 
-P -> IQ;
+F -> openfun P colon T arrow T closefun;		
+
+P -> I;
+P -> question;
 P -> ;
-
-IQ -> I;
-IQ -> question;
 
 I -> I dot id;
 I -> id;
-				
-
 
