@@ -44,6 +44,7 @@ import aletheia.model.statement.Statement;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.parser.AletheiaParserException;
+import aletheia.parser.parameteridentification.ParameterIdentificationParser;
 import aletheia.parser.term.TermParser;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -218,6 +219,18 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 	protected static Term parseTerm(Context ctx, Transaction transaction, String s) throws CommandParseException
 	{
 		return parseTerm(ctx, transaction, s, null);
+	}
+
+	protected static Term.ParameterIdentification parseParameterIdentification(String s) throws CommandParseException
+	{
+		try
+		{
+			return ParameterIdentificationParser.parseParameterIdentification(s);
+		}
+		catch (AletheiaParserException e)
+		{
+			throw CommandParseEmbeddedException.embed(e);
+		}
 	}
 
 	protected static CloseableSet<Person> specToPersons(PersistenceManager persistenceManager, Transaction transaction, String personSpec)

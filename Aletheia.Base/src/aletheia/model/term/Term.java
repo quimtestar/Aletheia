@@ -36,6 +36,8 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
+import aletheia.parser.AletheiaParserException;
+import aletheia.parser.parameteridentification.ParameterIdentificationParser;
 import aletheia.persistence.Transaction;
 import aletheia.protocol.Exportable;
 import aletheia.utilities.collections.BijectionSet;
@@ -283,6 +285,11 @@ public abstract class Term implements Serializable, Exportable
 
 	}
 
+	public static ParameterIdentification parseParameterIdentification(String input) throws AletheiaParserException
+	{
+		return ParameterIdentificationParser.parseParameterIdentification(input);
+	}
+
 	public abstract String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
 			ParameterIdentification parameterIdentification);
 
@@ -302,6 +309,11 @@ public abstract class Term implements Serializable, Exportable
 	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier)
 	{
 		return toString(variableToIdentifier, parameterNumerator());
+	}
+
+	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterIdentification parameterIdentification)
+	{
+		return toString(variableToIdentifier, parameterNumerator(), parameterIdentification);
 	}
 
 	public String toString(Transaction transaction, Context context, ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)

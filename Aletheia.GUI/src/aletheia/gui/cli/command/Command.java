@@ -304,9 +304,14 @@ public abstract class Command
 
 	}
 
+	protected static String termToString(Context ctx, Transaction transaction, Term term, Term.ParameterIdentification parameterIdentification)
+	{
+		return term.toString(ctx != null ? ctx.variableToIdentifier(transaction) : null, parameterIdentification);
+	}
+
 	protected static String termToString(Context ctx, Transaction transaction, Term term)
 	{
-		return term.toString(ctx != null ? ctx.variableToIdentifier(transaction) : null);
+		return termToString(ctx, transaction, term, (Term.ParameterIdentification) null);
 	}
 
 	protected static String termToString(Context ctx, Transaction transaction, Term term, List<Assumption> assumptions)

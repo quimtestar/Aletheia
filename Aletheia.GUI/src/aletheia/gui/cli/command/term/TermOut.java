@@ -26,28 +26,26 @@ import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.term.Term;
+import aletheia.model.term.Term.ParameterIdentification;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "term", groupPath = "/term", factory = TermOut.Factory.class)
 public class TermOut extends TransactionalCommand
 {
 	private final Term term;
+	private final ParameterIdentification parameterIdentification;
 
-	public TermOut(CommandSource from, Transaction transaction, Term term)
+	public TermOut(CommandSource from, Transaction transaction, Term term, ParameterIdentification parameterIdentification)
 	{
 		super(from, transaction);
 		this.term = term;
-	}
-
-	protected Term getTerm()
-	{
-		return term;
+		this.parameterIdentification = parameterIdentification;
 	}
 
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws NotActiveContextException
 	{
-		getOut().println(termToString(getActiveContext(), getTransaction(), term));
+		getOut().println(termToString(getActiveContext(), getTransaction(), term, parameterIdentification));
 		return null;
 	}
 
@@ -59,6 +57,7 @@ public class TermOut extends TransactionalCommand
 		{
 			checkMinParameters(split);
 			Term term;
+			ParameterIdentification parameterIdentification = null;
 			if (split.size() < 1)
 			{
 				if (from.getActiveContext() == null)
@@ -66,8 +65,12 @@ public class TermOut extends TransactionalCommand
 				term = from.getActiveContext().getConsequent();
 			}
 			else
+			{
 				term = parseTerm(from.getActiveContext(), transaction, split.get(0));
-			return new TermOut(from, transaction, term);
+				if (split.size() >= 2)
+					parameterIdentification = parseParameterIdentification(split.get(1));
+			}
+			return new TermOut(from, transaction, term, parameterIdentification);
 		}
 
 		@Override
@@ -79,7 +82,7 @@ public class TermOut extends TransactionalCommand
 		@Override
 		protected String paramSpec()
 		{
-			return "[<term>]";
+			return "[<term> [<parameter identification>]]";
 		}
 
 		@Override
