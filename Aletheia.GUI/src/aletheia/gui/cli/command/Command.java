@@ -42,7 +42,7 @@ import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
-import aletheia.parser.TermParserException;
+import aletheia.parser.AletheiaParserException;
 import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -428,8 +428,8 @@ public abstract class Command
 		{
 			if (e instanceof CommandParseException)
 				return (CommandParseException) e;
-			else if (e instanceof TermParserException)
-				return new CommandParseTermParserException((TermParserException) e);
+			else if (e instanceof AletheiaParserException)
+				return new CommandParseTermParserException((AletheiaParserException) e);
 			else if (e instanceof InvalidNameException)
 				return new CommandParseInvalidNameException((InvalidNameException) e);
 			else
@@ -441,15 +441,15 @@ public abstract class Command
 	{
 		private static final long serialVersionUID = -4893733325185413824L;
 
-		public CommandParseTermParserException(TermParserException cause)
+		public CommandParseTermParserException(AletheiaParserException cause)
 		{
 			super(cause);
 		}
 
 		@Override
-		public TermParserException getCause()
+		public AletheiaParserException getCause()
 		{
-			return (TermParserException) super.getCause();
+			return (AletheiaParserException) super.getCause();
 		}
 
 	}

@@ -41,8 +41,8 @@ import aletheia.model.nomenclator.Nomenclator;
 import aletheia.model.nomenclator.RootNomenclator;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.parser.TermParser;
-import aletheia.parser.TermParserException;
+import aletheia.parser.AletheiaParserException;
+import aletheia.parser.term.TermParser;
 import aletheia.persistence.PersistenceListener;
 import aletheia.persistence.PersistenceListenerManager.Listeners;
 import aletheia.persistence.PersistenceManager;
@@ -170,7 +170,7 @@ public class RootContext extends Context
 	}
 
 	public static RootContext create(PersistenceManager persistenceManager, Transaction transaction, String termString)
-			throws TermParserException, StatementException
+			throws AletheiaParserException, StatementException
 	{
 		return create(persistenceManager, transaction, TermParser.parseTerm(termString));
 	}

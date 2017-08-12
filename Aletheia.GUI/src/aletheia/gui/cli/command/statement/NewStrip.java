@@ -30,7 +30,7 @@ import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
-import aletheia.parser.TermParserException;
+import aletheia.parser.AletheiaParserException;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "strip", factory = NewStrip.Factory.class)
@@ -62,7 +62,7 @@ public class NewStrip extends NewAuto
 					hints.add(ctx.parseTerm(transaction, s));
 				return new NewStrip(from, transaction, identifier, ctx, statement, hints);
 			}
-			catch (NotActiveContextException | InvalidNameException | TermParserException e)
+			catch (NotActiveContextException | InvalidNameException | AletheiaParserException e)
 			{
 				throw CommandParseEmbeddedException.embed(e);
 			}

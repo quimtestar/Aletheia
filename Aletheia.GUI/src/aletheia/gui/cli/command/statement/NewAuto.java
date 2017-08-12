@@ -41,7 +41,7 @@ import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
-import aletheia.parser.TermParserException;
+import aletheia.parser.AletheiaParserException;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.BufferedList;
 
@@ -305,7 +305,7 @@ public class NewAuto extends NewStatement
 					for (String s : split.subList(2, split.size()))
 						hints.add(ctx.parseTerm(transaction, s));
 				}
-				catch (TermParserException e)
+				catch (AletheiaParserException e)
 				{
 					throw new CommandParseTermParserException(e);
 				}

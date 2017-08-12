@@ -24,7 +24,7 @@ import org.apache.logging.log4j.Logger;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.statement.NonOperationalCommand;
 import aletheia.log4j.LoggerManager;
-import aletheia.parser.TermParserException;
+import aletheia.parser.AletheiaParserException;
 
 public class TraceException extends NonOperationalCommand
 {
@@ -78,7 +78,7 @@ public class TraceException extends NonOperationalCommand
 			}
 			if (exception instanceof CommandParseTermParserException)
 			{
-				TermParserException tpe = ((CommandParseTermParserException) exception).getCause();
+				AletheiaParserException tpe = ((CommandParseTermParserException) exception).getCause();
 				if (tpe.getStartLocation() != null && tpe.getStopLocation() != null)
 				{
 					getErr().print(tpe.getInput().substring(0, tpe.getStartLocation().positionInText(tpe.getInput()) - 1));

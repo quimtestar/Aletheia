@@ -28,7 +28,7 @@ import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.parser.TermParserException;
+import aletheia.parser.AletheiaParserException;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "m", groupPath = "/statement", factory = Match.Factory.class)
@@ -87,7 +87,7 @@ public class Match extends TransactionalCommand
 				{
 					term = ctx.parseTerm(transaction, split.get(1));
 				}
-				catch (TermParserException e)
+				catch (AletheiaParserException e)
 				{
 					throw new CommandParseException(e);
 				}
