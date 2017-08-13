@@ -28,29 +28,27 @@ import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.gui.common.datatransfer.TermTransferable;
 import aletheia.model.term.Term;
+import aletheia.model.term.Term.ParameterIdentification;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "tcb", groupPath = "/term", factory = TermCb.Factory.class)
 public class TermCb extends TransactionalCommand
 {
 	private final Term term;
+	private final ParameterIdentification parameterIdentification;
 
-	public TermCb(CommandSource from, Transaction transaction, Term term)
+	public TermCb(CommandSource from, Transaction transaction, Term term, ParameterIdentification parameterIdentification)
 	{
 		super(from, transaction);
 		this.term = term;
-	}
-
-	protected Term getTerm()
-	{
-		return term;
+		this.parameterIdentification = parameterIdentification;
 	}
 
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws NotActiveContextException
 	{
-		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new TermTransferable(term), null);
-		getOut().println(termToString(getActiveContext(), getTransaction(), term));
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new TermTransferable(term, parameterIdentification), null);
+		getOut().println(termToString(getActiveContext(), getTransaction(), term, parameterIdentification));
 		return null;
 	}
 
@@ -61,6 +59,7 @@ public class TermCb extends TransactionalCommand
 		{
 			checkMinParameters(split);
 			Term term;
+			ParameterIdentification parameterIdentification = null;
 			if (split.size() < 1)
 			{
 				if (from.getActiveContext() == null)
@@ -68,8 +67,12 @@ public class TermCb extends TransactionalCommand
 				term = from.getActiveContext().getConsequent();
 			}
 			else
+			{
 				term = parseTerm(from.getActiveContext(), transaction, split.get(0));
-			return new TermCb(from, transaction, term);
+				if (split.size() >= 2)
+					parameterIdentification = parseParameterIdentification(split.get(1));
+			}
+			return new TermCb(from, transaction, term, parameterIdentification);
 		}
 
 		@Override
@@ -81,7 +84,7 @@ public class TermCb extends TransactionalCommand
 		@Override
 		protected String paramSpec()
 		{
-			return "[<term>]";
+			return "[<term> [<parameter identification>]]";
 		}
 
 		@Override

@@ -336,6 +336,11 @@ public abstract class Term implements Serializable, Exportable
 		return toString(transaction, context, parameterNumerator());
 	}
 
+	public String toString(ParameterIdentification parameterIdentification)
+	{
+		return toString(null, parameterIdentification);
+	}
+
 	/**
 	 * Equivalent to {@link #toString(Map)} with an empty map.
 	 *
@@ -344,7 +349,7 @@ public abstract class Term implements Serializable, Exportable
 	@Override
 	public String toString()
 	{
-		return toString(null);
+		return toString((Map<? extends VariableTerm, Identifier>) null);
 	}
 
 	/**

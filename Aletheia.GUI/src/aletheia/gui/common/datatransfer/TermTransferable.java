@@ -24,15 +24,23 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 import java.util.Arrays;
 import aletheia.model.term.Term;
+import aletheia.model.term.Term.ParameterIdentification;
 
 public class TermTransferable extends AletheiaTransferable
 {
 	private final Term term;
+	private final ParameterIdentification parameterIdentification;
+
+	public TermTransferable(Term term, ParameterIdentification parameterIdentification)
+	{
+		super(Arrays.<DataFlavor> asList(TermDataFlavor.instance, TermParameterIdentificationDataFlavor.instance, DataFlavor.stringFlavor));
+		this.term = term;
+		this.parameterIdentification = parameterIdentification;
+	}
 
 	public TermTransferable(Term term)
 	{
-		super(Arrays.<DataFlavor> asList(TermDataFlavor.instance, DataFlavor.stringFlavor));
-		this.term = term;
+		this(term, null);
 	}
 
 	@Override
@@ -40,6 +48,8 @@ public class TermTransferable extends AletheiaTransferable
 	{
 		if (flavor.equals(TermDataFlavor.instance))
 			return term;
+		else if (flavor.equals(TermParameterIdentificationDataFlavor.instance))
+			return parameterIdentification;
 		else if (flavor.equals(DataFlavor.stringFlavor))
 			return term.toString();
 		else

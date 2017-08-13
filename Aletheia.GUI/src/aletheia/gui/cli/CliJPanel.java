@@ -111,6 +111,7 @@ import aletheia.gui.common.PersistentJTreeLayerUI;
 import aletheia.gui.common.datatransfer.NamespaceDataFlavor;
 import aletheia.gui.common.datatransfer.StatementDataFlavor;
 import aletheia.gui.common.datatransfer.TermDataFlavor;
+import aletheia.gui.common.datatransfer.TermParameterIdentificationDataFlavor;
 import aletheia.gui.common.datatransfer.UUIDDataFlavor;
 import aletheia.gui.font.FontManager;
 import aletheia.log4j.LoggerManager;
@@ -122,6 +123,7 @@ import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
+import aletheia.model.term.Term.ParameterIdentification;
 import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -1061,14 +1063,17 @@ public class CliJPanel extends JPanel implements CommandSource
 				try
 				{
 					Term term = (Term) t.getTransferData(TermDataFlavor.instance);
+					Term.ParameterIdentification parameterIdentification = null;
+					if (t.isDataFlavorSupported(TermParameterIdentificationDataFlavor.instance))
+						parameterIdentification = (ParameterIdentification) t.getTransferData(TermParameterIdentificationDataFlavor.instance);
 					Transaction transaction = getPersistenceManager().beginTransaction(100);
 					try
 					{
 						Context context = getActiveContext();
 						if (context == null)
-							return importText(comp, term.toString());
+							return importText(comp, term.toString(parameterIdentification));
 						else
-							return importText(comp, term.toString(context.variableToIdentifier(transaction)));
+							return importText(comp, term.toString(transaction, context, parameterIdentification));
 					}
 					finally
 					{
