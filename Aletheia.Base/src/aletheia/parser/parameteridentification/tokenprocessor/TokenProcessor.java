@@ -37,15 +37,15 @@ public class TokenProcessor
 {
 	//@formatter:off
 	private final static List<Class<? extends TokenSubProcessor<?,?>>> subProcessorClasses=Arrays.asList(
+			T_T_F_ParameterIdentificationTokenSubProcessor.class,
+			T_T_openpar_T_closepar_ParameterIdentificationTokenSubProcessor.class,
 			T_ParameterIdentificationTokenSubProcessor.class,
-			T_T_A_ParameterIdentificationTokenSubProcessor.class,
-			A_question_ParameterIdentificationTokenSubProcessor.class,
-			A_F_ParameterIdentificationTokenSubProcessor.class,
-			A_openpar_T_closepar_ParameterIdentificationTokenSubProcessor.class,
-			F_openfun_P_colon_T_arrow_T_closefun_FunctionParameterIdentificationTokenSubProcessor.class,
+			F_openfun_P_arrow_T_closefun_FunctionParameterIdentificationTokenSubProcessor.class,
+			F_openfun_P_closefun_FunctionParameterIdentificationTokenSubProcessor.class,
 			P_I_IdentifierTokenSubProcessor.class,
-			P_question_IdentifierTokenSubProcessor.class,
 			P_IdentifierTokenSubProcessor.class,
+			P_I_colon_T_IdentifierTokenSubProcessor.class,
+			P_colon_T_IdentifierTokenSubProcessor.class,
 			I_I_dot_id_IdentifierTokenSubProcessor.class,
 			I_id_IdentifierTokenSubProcessor.class
 			);
@@ -196,6 +196,30 @@ public class TokenProcessor
 		if (processor == null)
 			throw new Error("No IdentifierTokenSubProcessor found for production.");
 		return processor.subProcess(token, input);
+	}
+
+	protected static class ParameterWithTypeParameterIdentification extends ParameterIdentification
+	{
+		private final Identifier parameter;
+		private final ParameterIdentification parameterType;
+
+		protected ParameterWithTypeParameterIdentification(Identifier parameter, ParameterIdentification parameterType)
+		{
+			super();
+			this.parameter = parameter;
+			this.parameterType = parameterType;
+		}
+
+		public Identifier getParameter()
+		{
+			return parameter;
+		}
+
+		public ParameterIdentification getParameterType()
+		{
+			return parameterType;
+		}
+
 	}
 
 }

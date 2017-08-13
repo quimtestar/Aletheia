@@ -20,19 +20,17 @@
 
 T; 							
 
-T -> T A;										 
+T -> T F;
+T -> T openpar T closepar;										 
 T -> ;
 
-A -> question;
-A -> F;							
-A -> openpar T closepar;		
-
-
-F -> openfun P colon T arrow T closefun;		
+F -> openfun P arrow T closefun;
+F -> openfun P closefun;
 
 P -> I;
-P -> question;
 P -> ;
+P -> I colon T;
+P -> colon T;		
 
 I -> I dot id;
 I -> id;

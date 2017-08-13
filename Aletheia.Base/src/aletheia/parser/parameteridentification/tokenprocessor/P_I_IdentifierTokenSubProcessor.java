@@ -20,12 +20,14 @@
 package aletheia.parser.parameteridentification.tokenprocessor;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.term.Term.ParameterIdentification;
 import aletheia.parser.AletheiaParserException;
+import aletheia.parser.parameteridentification.tokenprocessor.TokenProcessor.ParameterWithTypeParameterIdentification;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 
 @ProcessorProduction(left = "P", right =
 { "I" })
-public class P_I_IdentifierTokenSubProcessor extends IdentifierTokenSubProcessor
+public class P_I_IdentifierTokenSubProcessor extends ParameterIdentificationTokenSubProcessor
 {
 
 	protected P_I_IdentifierTokenSubProcessor(TokenProcessor processor)
@@ -34,9 +36,10 @@ public class P_I_IdentifierTokenSubProcessor extends IdentifierTokenSubProcessor
 	}
 
 	@Override
-	protected Identifier subProcess(NonTerminalToken token, String input) throws AletheiaParserException
+	protected ParameterIdentification subProcess(NonTerminalToken token, String input) throws AletheiaParserException
 	{
-		return getProcessor().processIdentifier((NonTerminalToken) token.getChildren().get(0), input);
+		Identifier identifier = getProcessor().processIdentifier((NonTerminalToken) token.getChildren().get(0), input);
+		return new ParameterWithTypeParameterIdentification(identifier, null);
 	}
 
 }
