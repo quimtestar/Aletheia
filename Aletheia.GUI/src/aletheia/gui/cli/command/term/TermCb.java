@@ -47,7 +47,7 @@ public class TermCb extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws NotActiveContextException
 	{
-		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new TermTransferable(term, parameterIdentification), null);
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new TermTransferable(term, getActiveContext(), parameterIdentification), null);
 		getOut().println(termToString(getActiveContext(), getTransaction(), term, parameterIdentification));
 		return null;
 	}
