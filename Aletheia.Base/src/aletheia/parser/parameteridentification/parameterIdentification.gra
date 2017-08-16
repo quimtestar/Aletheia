@@ -20,17 +20,23 @@
 
 T; 							
 
-T -> T F;
-T -> T openpar T closepar;										 
+T -> T_;
 T -> ;
 
-F -> openfun P arrow T closefun;
-F -> openfun P closefun;
+T_ -> T F;
+T_ -> T openpar T closepar;										 
+
+
+F -> openfun M arrow T_ closefun;
+F -> openfun M closefun;
+
+M -> M arrow P;
+M -> P;
 
 P -> I;
 P -> ;
 P -> I colon T;
-P -> colon T;		
+P -> colon T;
 
 I -> I dot id;
 I -> id;

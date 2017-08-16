@@ -5,12 +5,12 @@ import aletheia.model.term.Term.ParameterIdentification;
 import aletheia.parser.AletheiaParserException;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 
-@ProcessorProduction(left = "T", right =
-{ "T", "F" })
-public class T_T_F_ParameterIdentificationTokenSubProcessor extends ParameterIdentificationTokenSubProcessor
+@ProcessorProduction(left = "T_", right =
+{ "T", "openpar", "T", "closepar" })
+public class T__T_openpar_T_closepar_ParameterIdentificationTokenSubProcessor extends ParameterIdentificationTokenSubProcessor
 {
 
-	protected T_T_F_ParameterIdentificationTokenSubProcessor(TokenProcessor processor)
+	protected T__T_openpar_T_closepar_ParameterIdentificationTokenSubProcessor(TokenProcessor processor)
 	{
 		super(processor);
 	}
@@ -19,11 +19,9 @@ public class T_T_F_ParameterIdentificationTokenSubProcessor extends ParameterIde
 	protected ParameterIdentification subProcess(NonTerminalToken token, String input) throws AletheiaParserException
 	{
 		ParameterIdentification head = getProcessor().processParameterIdentification((NonTerminalToken) token.getChildren().get(0), input);
-		ParameterIdentification tail = getProcessor().processParameterIdentification((NonTerminalToken) token.getChildren().get(1), input);
-		if (head instanceof CompositionParameterIdentification)
+		ParameterIdentification tail = getProcessor().processParameterIdentification((NonTerminalToken) token.getChildren().get(2), input);
+		if (head instanceof CompositionParameterIdentification || head == null)
 			return new CompositionParameterIdentification((CompositionParameterIdentification) head, tail);
-		else if (head == null)
-			return tail;
 		else
 			return new CompositionParameterIdentification(null,
 					new CompositionParameterIdentification(new CompositionParameterIdentification(null, head), tail));

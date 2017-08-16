@@ -21,6 +21,7 @@ package aletheia.parser.parameteridentification.tokenprocessor;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -37,11 +38,14 @@ public class TokenProcessor
 {
 	//@formatter:off
 	private final static List<Class<? extends TokenSubProcessor<?,?>>> subProcessorClasses=Arrays.asList(
-			T_T_F_ParameterIdentificationTokenSubProcessor.class,
-			T_T_openpar_T_closepar_ParameterIdentificationTokenSubProcessor.class,
+			T_T__ParameterIdentificationTokenSubProcessor.class,
 			T_ParameterIdentificationTokenSubProcessor.class,
-			F_openfun_P_arrow_T_closefun_FunctionParameterIdentificationTokenSubProcessor.class,
-			F_openfun_P_closefun_FunctionParameterIdentificationTokenSubProcessor.class,
+			T__T_F_ParameterIdentificationTokenSubProcessor.class,
+			T__T_openpar_T_closepar_ParameterIdentificationTokenSubProcessor.class,
+			F_openfun_M_arrow_T__closefun_FunctionParameterIdentificationTokenSubProcessor.class,
+			F_openfun_M_closefun_FunctionParameterIdentificationTokenSubProcessor.class,
+			M_M_arrow_P_ParameterIdentificationTokenSubProcessor.class,
+			M_P_ParameterIdentificationTokenSubProcessor.class,
 			P_I_IdentifierTokenSubProcessor.class,
 			P_IdentifierTokenSubProcessor.class,
 			P_I_colon_T_IdentifierTokenSubProcessor.class,
@@ -186,7 +190,7 @@ public class TokenProcessor
 	{
 		ParameterIdentificationTokenSubProcessor processor = getProcessor(ParameterIdentificationTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
-			throw new Error("No ParameterIdentificationTokenSubProcessor found for production.");
+			throw new Error("No ParameterIdentificationTokenSubProcessor found for production: " + token.getProduction());
 		return processor.subProcess(token, input);
 	}
 
@@ -194,16 +198,16 @@ public class TokenProcessor
 	{
 		IdentifierTokenSubProcessor processor = getProcessor(IdentifierTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
-			throw new Error("No IdentifierTokenSubProcessor found for production.");
+			throw new Error("No IdentifierTokenSubProcessor found for production: " + token.getProduction());
 		return processor.subProcess(token, input);
 	}
 
-	protected static class ParameterWithTypeParameterIdentification extends ParameterIdentification
+	protected static class ParameterWithType
 	{
 		private final Identifier parameter;
 		private final ParameterIdentification parameterType;
 
-		protected ParameterWithTypeParameterIdentification(Identifier parameter, ParameterIdentification parameterType)
+		protected ParameterWithType(Identifier parameter, ParameterIdentification parameterType)
 		{
 			super();
 			this.parameter = parameter;
@@ -220,6 +224,28 @@ public class TokenProcessor
 			return parameterType;
 		}
 
+	}
+
+	protected ParameterWithType processParameterWithType(NonTerminalToken token, String input) throws AletheiaParserException
+	{
+		ParameterWithTypeTokenSubProcessor processor = getProcessor(ParameterWithTypeTokenSubProcessor.class, token.getProduction());
+		if (processor == null)
+			throw new Error("No ParameterWithTypeTokenSubProcessor found for production: " + token.getProduction());
+		return processor.subProcess(token, input);
+	}
+
+	protected static class ParameterWithTypeList extends ArrayList<ParameterWithType>
+	{
+		private static final long serialVersionUID = -6060639962653418191L;
+
+	}
+
+	protected ParameterWithTypeList processParameterWithTypeList(NonTerminalToken token, String input) throws AletheiaParserException
+	{
+		ParameterWithTypeListTokenSubProcessor processor = getProcessor(ParameterWithTypeListTokenSubProcessor.class, token.getProduction());
+		if (processor == null)
+			throw new Error("No ParameterWithTypeListTokenSubProcessor found for production: " + token.getProduction());
+		return processor.subProcess(token, input);
 	}
 
 }
