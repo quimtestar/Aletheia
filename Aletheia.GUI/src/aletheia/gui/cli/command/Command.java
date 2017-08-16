@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 import aletheia.gui.app.AletheiaJFrame;
@@ -310,8 +311,22 @@ public abstract class Command
 	protected static String termToString(Context ctx, Transaction transaction, Term term, List<Assumption> assumptions)
 	{
 		Stack<Identifier> stack = new Stack<>();
-		for (Assumption a : assumptions)
-			stack.push(a.getIdentifier());
+		{
+			Term body = term;
+			Iterator<Assumption> assumptionIterator = assumptions.iterator();
+			while (body instanceof FunctionTerm)
+			{
+				FunctionTerm function = (FunctionTerm) body;
+				Assumption assumption = null;
+				if (assumptionIterator.hasNext())
+					assumption = assumptionIterator.next();
+				if (function.getBody().freeVariables().contains(function.getParameter()) && assumption != null && assumption.getIdentifier() != null)
+					stack.push(assumption.getIdentifier());
+				else
+					stack.push(null);
+				body = function.getBody();
+			}
+		}
 		Term.ParameterIdentification parameterIdentification = null;
 		while (!stack.isEmpty())
 			parameterIdentification = new FunctionTerm.FunctionParameterIdentification(stack.pop(), null, parameterIdentification);
