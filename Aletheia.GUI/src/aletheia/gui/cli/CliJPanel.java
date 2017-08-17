@@ -1549,6 +1549,7 @@ public class CliJPanel extends JPanel implements CommandSource
 
 		private final AttributeSet activeAS;
 		private final AttributeSet errorAS;
+		private final AttributeSet warningAS;
 		private final Set<HighLight> highLights;
 
 		public BracketHighLightManager()
@@ -1561,6 +1562,10 @@ public class CliJPanel extends JPanel implements CommandSource
 			StyleConstants.setForeground((MutableAttributeSet) this.errorAS, Color.RED);
 			StyleConstants.setBold((MutableAttributeSet) this.errorAS, true);
 			StyleConstants.setUnderline((MutableAttributeSet) this.errorAS, true);
+			this.warningAS = new SimpleAttributeSet();
+			StyleConstants.setForeground((MutableAttributeSet) this.warningAS, Color.ORANGE.darker().darker());
+			StyleConstants.setBold((MutableAttributeSet) this.warningAS, true);
+			StyleConstants.setUnderline((MutableAttributeSet) this.warningAS, true);
 			this.highLights = new HashSet<>();
 		}
 
@@ -1765,7 +1770,7 @@ public class CliJPanel extends JPanel implements CommandSource
 			{
 				int p = 0;
 				int f = 0;
-				int a = 0;
+				boolean a = false;
 				Token token;
 				loop: while (true)
 				{
@@ -1780,23 +1785,26 @@ public class CliJPanel extends JPanel implements CommandSource
 						break;
 					case OpenFun:
 						f++;
-						a++;
 						break;
 					case CloseFun:
 						f--;
 						break;
 					case Arrow:
-						a--;
+						if (f < 1)
+						{
+							a = true;
+							break loop;
+						}
 						break;
 					case Star:
 						break;
 					default:
 						break loop;
 					}
-					if ((p < 0) || (f < 0) || (a < 0))
+					if ((p < 0) || (f < 0))
 						break;
 				}
-				boolean ok = (token.type == BHLMTokenType.CloseQuote) && (p == 0) && (f == 0) & (a == 0);
+				boolean ok = (token.type == BHLMTokenType.CloseQuote) && (p == 0) && (f == 0) && !a;
 				AttributeSet as = ok ? activeAS : errorAS;
 				createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
 				if (token.type != BHLMTokenType.Out)
@@ -1807,7 +1815,7 @@ public class CliJPanel extends JPanel implements CommandSource
 			{
 				int p = 0;
 				int f = 0;
-				int a = 0;
+				boolean a = false;
 				Token token;
 				loop: while (true)
 				{
@@ -1822,23 +1830,26 @@ public class CliJPanel extends JPanel implements CommandSource
 						break;
 					case CloseFun:
 						f++;
-						a++;
 						break;
 					case OpenFun:
 						f--;
 						break;
 					case Arrow:
-						a--;
+						if (f < 1)
+						{
+							a = true;
+							break loop;
+						}
 						break;
 					case Star:
 						break;
 					default:
 						break loop;
 					}
-					if ((p < 0) || (f < 0) || (a < 0))
+					if ((p < 0) || (f < 0))
 						break;
 				}
-				boolean ok = (token.type == BHLMTokenType.OpenQuote) && (p == 0) && (f == 0) & (a == 0);
+				boolean ok = (token.type == BHLMTokenType.OpenQuote) && (p == 0) && (f == 0) && !a;
 				AttributeSet as = ok ? activeAS : errorAS;
 				createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
 				if (token.type != BHLMTokenType.Out)
@@ -1849,7 +1860,7 @@ public class CliJPanel extends JPanel implements CommandSource
 			{
 				int p = 1;
 				int f = 0;
-				int a = 0;
+				boolean a = false;
 				Token token;
 				loop: while (true)
 				{
@@ -1864,23 +1875,26 @@ public class CliJPanel extends JPanel implements CommandSource
 						break;
 					case OpenFun:
 						f++;
-						a++;
 						break;
 					case CloseFun:
 						f--;
 						break;
 					case Arrow:
-						a--;
+						if (f < 1)
+						{
+							a = true;
+							break loop;
+						}
 						break;
 					case Star:
 						break;
 					default:
 						break loop;
 					}
-					if ((p <= 0) || (f < 0) || (a < 0))
+					if ((p <= 0) || (f < 0))
 						break;
 				}
-				boolean ok = (p == 0) && (f == 0) & (a == 0);
+				boolean ok = (p == 0) && (f == 0) && !a;
 				AttributeSet as = ok ? activeAS : errorAS;
 				createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
 				if (token.type != BHLMTokenType.Out)
@@ -1891,7 +1905,7 @@ public class CliJPanel extends JPanel implements CommandSource
 			{
 				int p = 1;
 				int f = 0;
-				int a = 0;
+				boolean a = false;
 				Token token;
 				loop: while (true)
 				{
@@ -1906,23 +1920,26 @@ public class CliJPanel extends JPanel implements CommandSource
 						break;
 					case CloseFun:
 						f++;
-						a++;
 						break;
 					case OpenFun:
 						f--;
 						break;
 					case Arrow:
-						a--;
+						if (f < 1)
+						{
+							a = true;
+							break loop;
+						}
 						break;
 					case Star:
 						break;
 					default:
 						break loop;
 					}
-					if ((p <= 0) || (f < 0) || (a < 0))
+					if ((p <= 0) || (f < 0))
 						break;
 				}
-				boolean ok = (p == 0) && (f == 0) & (a == 0);
+				boolean ok = (p == 0) && (f == 0) && !a;
 				AttributeSet as = ok ? activeAS : errorAS;
 				createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
 				if (token.type != BHLMTokenType.Out)
@@ -1933,9 +1950,8 @@ public class CliJPanel extends JPanel implements CommandSource
 			{
 				int p = 0;
 				int f = 1;
-				int a = 1;
 				Token token;
-				Token tarrow = null;
+				ArrayList<Token> tarrows = new ArrayList<>();
 				loop: while (true)
 				{
 					token = cursor.forward();
@@ -1949,34 +1965,28 @@ public class CliJPanel extends JPanel implements CommandSource
 						break;
 					case OpenFun:
 						f++;
-						a++;
 						break;
 					case CloseFun:
 						f--;
 						break;
 					case Arrow:
-						a--;
-						if ((a == 0) && (tarrow == null))
-						{
-							tarrow = token;
-							if (p != 0)
-								break loop;
-						}
+						if (f == 1)
+							tarrows.add(token);
 						break;
 					case Star:
 						break;
 					default:
 						break loop;
 					}
-					if ((f <= 0) || (p < 0) || (a < 0))
+					if ((f <= 0) || (p < 0))
 						break;
 				}
-				boolean ok = (p == 0) && (f == 0) & (a == 0);
-				AttributeSet as = ok ? activeAS : errorAS;
+				boolean ok = (p == 0) && (f == 0);
+				AttributeSet as = ok ? (tarrows.size() == 1 ? activeAS : warningAS) : errorAS;
 				createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
 				if (token.type != BHLMTokenType.Out)
 					createHighLight(as, token.absBegin(), token.absEnd());
-				if (tarrow != null)
+				for (Token tarrow : tarrows)
 					createHighLight(as, tarrow.absBegin(), tarrow.absEnd());
 				Token tstar = cursor.forward(false);
 				if (!tstar.type.equals(BHLMTokenType.Star))
@@ -1989,9 +1999,8 @@ public class CliJPanel extends JPanel implements CommandSource
 			{
 				int p = 0;
 				int f = 1;
-				int a = 1;
 				Token token;
-				Token tarrow = null;
+				ArrayList<Token> tarrows = new ArrayList<>();
 				Token tstar = cursor.forward(false);
 				if (!tstar.type.equals(BHLMTokenType.Star))
 					tstar = null;
@@ -2009,34 +2018,28 @@ public class CliJPanel extends JPanel implements CommandSource
 						break;
 					case CloseFun:
 						f++;
-						a++;
 						break;
 					case OpenFun:
 						f--;
 						break;
 					case Arrow:
-						a--;
-						if ((a == 0) && (tarrow == null))
-						{
-							tarrow = token;
-							if (p != 0)
-								break loop;
-						}
+						if (f == 1)
+							tarrows.add(token);
 						break;
 					case Star:
 						break;
 					default:
 						break loop;
 					}
-					if ((f <= 0) || (p < 0) || (a < 0))
+					if ((f <= 0) || (p < 0))
 						break;
 				}
-				boolean ok = (p == 0) && (f == 0) & (a == 0);
-				AttributeSet as = ok ? activeAS : errorAS;
+				boolean ok = (p == 0) && (f == 0);
+				AttributeSet as = ok ? (tarrows.size() == 1 ? activeAS : warningAS) : errorAS;
 				createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
 				if (token.type != BHLMTokenType.Out)
 					createHighLight(as, token.absBegin(), token.absEnd());
-				if (tarrow != null)
+				for (Token tarrow : tarrows)
 					createHighLight(as, tarrow.absBegin(), tarrow.absEnd());
 				if (tstar != null)
 					createHighLight(as, tstar.absBegin(), tstar.absEnd());
@@ -2046,7 +2049,7 @@ public class CliJPanel extends JPanel implements CommandSource
 			{
 				int p = 0;
 				int f = 1;
-				int a = 0;
+				ArrayList<Token> tarrows = new ArrayList<>();
 				Token token;
 				loop: while (true)
 				{
@@ -2061,23 +2064,23 @@ public class CliJPanel extends JPanel implements CommandSource
 						break;
 					case OpenFun:
 						f++;
-						a++;
 						break;
 					case CloseFun:
 						f--;
 						break;
 					case Arrow:
-						a--;
+						if (f == 1)
+							tarrows.add(token);
 						break;
 					case Star:
 						break;
 					default:
 						break loop;
 					}
-					if ((f <= 0) || (p < 0) || (a < 0))
+					if ((f <= 0) || (p < 0))
 						break;
 				}
-				boolean ok = (p == 0) && (f == 0) & (a == 0);
+				boolean ok = (p == 0) && (f == 0);
 				Token tstar = cursor.forward(false);
 				if (!tstar.type.equals(BHLMTokenType.Star))
 					tstar = null;
@@ -2085,7 +2088,6 @@ public class CliJPanel extends JPanel implements CommandSource
 				Token tokenRight = token;
 				p = 0;
 				f = 1;
-				a = 0;
 				loop: while (true)
 				{
 					token = cursor.backward();
@@ -2099,24 +2101,24 @@ public class CliJPanel extends JPanel implements CommandSource
 						break;
 					case CloseFun:
 						f++;
-						a++;
 						break;
 					case OpenFun:
 						f--;
 						break;
 					case Arrow:
-						a--;
+						if (f == 1)
+							tarrows.add(token);
 						break;
 					case Star:
 						break;
 					default:
 						break loop;
 					}
-					if ((f <= 0) || (p < 0) || (a < 0))
+					if ((f <= 0) || (p < 0))
 						break;
 				}
-				ok = ok && (p == 0) && (f == 0) & (a == 0);
-				AttributeSet as = ok ? activeAS : errorAS;
+				ok = ok && (p == 0) && (f == 0);
+				AttributeSet as = ok ? (tarrows.size() == 0 ? activeAS : warningAS) : errorAS;
 				createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
 				if (token.type != BHLMTokenType.Out)
 					createHighLight(as, token.absBegin(), token.absEnd());
@@ -2124,6 +2126,8 @@ public class CliJPanel extends JPanel implements CommandSource
 					createHighLight(as, tokenRight.absBegin(), tokenRight.absEnd());
 				if (tstar != null)
 					createHighLight(as, tstar.absBegin(), tstar.absEnd());
+				for (Token tarrow : tarrows)
+					createHighLight(as, tarrow.absBegin(), tarrow.absEnd());
 				break;
 			}
 			case Star:
@@ -2134,9 +2138,8 @@ public class CliJPanel extends JPanel implements CommandSource
 				{
 					int p = 0;
 					int f = 1;
-					int a = 1;
 					Token token;
-					Token tarrow = null;
+					ArrayList<Token> tarrows = new ArrayList<>();
 					loop: while (true)
 					{
 						token = cursor.backward();
@@ -2150,34 +2153,28 @@ public class CliJPanel extends JPanel implements CommandSource
 							break;
 						case CloseFun:
 							f++;
-							a++;
 							break;
 						case OpenFun:
 							f--;
 							break;
 						case Arrow:
-							a--;
-							if ((a == 0) && (tarrow == null))
-							{
-								tarrow = token;
-								if (p != 0)
-									break loop;
-							}
+							if (f == 1)
+								tarrows.add(token);
 							break;
 						case Star:
 							break;
 						default:
 							break loop;
 						}
-						if ((f <= 0) || (p < 0) || (a < 0))
+						if ((f <= 0) || (p < 0))
 							break;
 					}
-					boolean ok = (p == 0) && (f == 0) & (a == 0);
-					AttributeSet as = ok ? activeAS : errorAS;
+					boolean ok = (p == 0) && (f == 0);
+					AttributeSet as = ok ? (tarrows.size() == 1 ? activeAS : warningAS) : errorAS;
 					createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
 					if (token.type != BHLMTokenType.Out)
 						createHighLight(as, token.absBegin(), token.absEnd());
-					if (tarrow != null)
+					for (Token tarrow : tarrows)
 						createHighLight(as, tarrow.absBegin(), tarrow.absEnd());
 					if (tstar != null)
 						createHighLight(as, tstar.absBegin(), tstar.absEnd());
