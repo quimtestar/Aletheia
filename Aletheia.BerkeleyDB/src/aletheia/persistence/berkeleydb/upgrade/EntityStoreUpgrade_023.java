@@ -48,6 +48,13 @@ import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBStatementEnt
 import aletheia.persistence.berkeleydb.proxies.identifier.AbstractNodeNamespaceProxy;
 import aletheia.persistence.exceptions.PersistenceException;
 
+/*
+ * TODO This upgrade has been proven hazardous.
+ * This should be replaced with just a check that there is no "Tau" keyword
+ * in the database with no modification or just delete it.
+ * 
+ * For now it is just dropped from the upgrade catalog in EntityStoreUpgrade.java.
+ */
 public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 {
 	private static final Logger logger = LoggerManager.instance.logger();
