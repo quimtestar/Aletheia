@@ -54,6 +54,9 @@ import aletheia.persistence.exceptions.PersistenceException;
  * in the database with no modification or just delete it.
  * 
  * For now it is just dropped from the upgrade catalog in EntityStoreUpgrade.java.
+ * 
+ * UPDATE: Should be enough to delete and re-create the secondary indices that
+ * store an identifier in its key.
  */
 public class EntityStoreUpgrade_023 extends EntityStoreUpgrade
 {
