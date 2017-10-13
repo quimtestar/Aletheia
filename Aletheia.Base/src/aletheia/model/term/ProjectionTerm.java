@@ -22,6 +22,7 @@ package aletheia.model.term;
 import java.util.Deque;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.term.FunctionTerm.NullParameterTypeException;
@@ -155,7 +156,30 @@ public class ProjectionTerm extends AtomicTerm
 	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
 			ParameterIdentification parameterIdentification)
 	{
-		return function.toString(variableToIdentifier, parameterNumerator, parameterIdentification) + "* ";
+		Term term = this;
+		Stack<ParameterVariableTerm> stack = new Stack<>();
+		while (term instanceof ProjectionTerm)
+		{
+			FunctionTerm function = ((ProjectionTerm) term).getFunction();
+			stack.push(function.getParameter());
+			term = function.getBody();
+		}
+		int nProjections = stack.size();
+		while (!stack.isEmpty())
+		{
+			try
+			{
+				term = new FunctionTerm(stack.pop(), term);
+			}
+			catch (NullParameterTypeException e)
+			{
+				throw new Error(e);
+			}
+		}
+		StringBuilder stringBuilder = new StringBuilder(term.toString(variableToIdentifier, parameterNumerator, parameterIdentification));
+		for (int i = 0; i < nProjections; i++)
+			stringBuilder.append("*");
+		return stringBuilder.toString();
 	}
 
 	/**
