@@ -20,8 +20,8 @@
 package aletheia.model.term;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Deque;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -268,36 +268,56 @@ public class FunctionTerm extends Term
 	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
 			ParameterIdentification parameterIdentification)
 	{
-		Identifier parameterIdentifier = null;
-		ParameterIdentification parameterTypeParameterIdentification = null;
-		ParameterIdentification bodyParameterIdentification = null;
-		if (parameterIdentification instanceof FunctionParameterIdentification)
+		Term term = this;
+		Map<ParameterVariableTerm, Identifier> localVariableToIdentifier = new HashMap<>();
+		Map<VariableTerm, Identifier> totalVariableToIdentifier = variableToIdentifier == null ? new AdaptedMap<>(localVariableToIdentifier)
+				: new CombinedMap<>(new AdaptedMap<>(localVariableToIdentifier), new AdaptedMap<>(variableToIdentifier));
+		StringBuilder parameterListStringBuilder = new StringBuilder();
+		boolean first = true;
+		int numberedParameters = 0;
+		while (term instanceof FunctionTerm)
 		{
-			parameterIdentifier = ((FunctionParameterIdentification) parameterIdentification).getParameter();
-			parameterTypeParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getParameterType();
-			bodyParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getBody();
+			ParameterVariableTerm parameter = ((FunctionTerm) term).getParameter();
+			Term body = ((FunctionTerm) term).getBody();
+
+			Identifier parameterIdentifier = null;
+			ParameterIdentification parameterTypeParameterIdentification = null;
+			ParameterIdentification bodyParameterIdentification = null;
+			if (parameterIdentification instanceof FunctionParameterIdentification)
+			{
+				parameterIdentifier = ((FunctionParameterIdentification) parameterIdentification).getParameter();
+				parameterTypeParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getParameterType();
+				bodyParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getBody();
+			}
+			String sParameter, sType;
+			if (parameterIdentifier != null)
+			{
+				sParameter = parameterIdentifier.toString();
+				sType = parameter.getType().toString(totalVariableToIdentifier, parameterNumerator, parameterTypeParameterIdentification);
+				localVariableToIdentifier.put(parameter, parameterIdentifier);
+			}
+			else
+			{
+				if (!totalVariableToIdentifier.containsKey(parameter))
+				{
+					parameterNumerator.numberParameter(parameter);
+					numberedParameters++;
+				}
+				sParameter = parameter.toString(totalVariableToIdentifier, parameterNumerator);
+				sType = parameter.getType().toString(totalVariableToIdentifier, parameterNumerator, parameterTypeParameterIdentification);
+			}
+
+			if (!first)
+				parameterListStringBuilder.append(", ");
+			parameterListStringBuilder.append(sParameter + ":" + sType);
+			first = false;
+
+			parameterIdentification = bodyParameterIdentification;
+			term = body;
 		}
-		String sParameter, sType, sBody;
-		if (parameterIdentifier != null)
-		{
-			sParameter = parameterIdentifier.toString();
-			sType = parameter.getType().toString(variableToIdentifier, parameterNumerator, parameterTypeParameterIdentification);
-			Map<? extends VariableTerm, Identifier> variableToIdentifier_ = new CombinedMap<>(
-					Collections.<VariableTerm, Identifier> singletonMap(parameter, parameterIdentifier), new AdaptedMap<>(variableToIdentifier));
-			sBody = body.toString(variableToIdentifier_, parameterNumerator, bodyParameterIdentification);
-		}
-		else
-		{
-			boolean mappedParameter = variableToIdentifier != null && variableToIdentifier.containsKey(parameter);
-			if (!mappedParameter)
-				parameterNumerator.numberParameter(parameter);
-			sParameter = parameter.toString(variableToIdentifier, parameterNumerator);
-			sType = parameter.getType().toString(variableToIdentifier, parameterNumerator, parameterTypeParameterIdentification);
-			sBody = body.toString(variableToIdentifier, parameterNumerator, bodyParameterIdentification);
-			if (!mappedParameter && parameterIdentifier == null)
-				parameterNumerator.unNumberParameter();
-		}
-		return "<" + sParameter + ":" + sType + " -> " + sBody + ">";
+		String sBody = term.toString(totalVariableToIdentifier, parameterNumerator, parameterIdentification);
+		parameterNumerator.unNumberParameters(numberedParameters);
+		return "<" + parameterListStringBuilder + " -> " + sBody + ">";
 	}
 
 	/**

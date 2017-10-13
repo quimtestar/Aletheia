@@ -699,6 +699,12 @@ public abstract class Term implements Serializable, Exportable
 			return parameter;
 		}
 
+		public void unNumberParameters(int n)
+		{
+			for (int i = 0; i < n; i++)
+				unNumberParameter();
+		}
+
 		public class NotNumberedException extends RuntimeException
 		{
 			private static final long serialVersionUID = 486154559108015069L;
