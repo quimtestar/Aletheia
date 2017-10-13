@@ -19,12 +19,11 @@
  ******************************************************************************/
 package aletheia.parser.term.tokenprocessor;
 
-import aletheia.model.term.Term;
+import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefList;
 
-public abstract class TermTokenSubProcessor extends TermLikeTokenSubProcessor<Term>
+public abstract class TypedParameterRefListTokenSubProcessor extends TermLikeTokenSubProcessor<TypedParameterRefList>
 {
-
-	public TermTokenSubProcessor(TokenProcessor processor)
+	protected TypedParameterRefListTokenSubProcessor(TokenProcessor processor)
 	{
 		super(processor);
 	}

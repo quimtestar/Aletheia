@@ -34,6 +34,8 @@ import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.parser.AletheiaParserException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
+import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRef;
+import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefList;
 import aletheia.parsergenerator.parser.Grammar;
 import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.symbols.Symbol;
@@ -67,10 +69,10 @@ public class TokenProcessor
 			A_A_bang_I_TermTokenSubProcessor.class,
 			A_equals_bang_I_TermTokenSubProcessor.class,
 			A_openpar_T_closepar_TermTokenSubProcessor.class,
-			A_A_comma_number_M_TermTokenSubProcessor.class,
+			A_A_underscore_number_M_TermTokenSubProcessor.class,
 			M_hyphen_BooleanTokenSubProcessor.class,
 			M_BooleanTokenSubProcessor.class,
-			F_openfun_P_colon_T_arrow_T_closefun_TermTokenSubProcessor.class,
+			F_openfun_TPL_arrow_T_closefun_TermTokenSubProcessor.class,
 			U_openfun_P_assignment_T_arrow_T_closefun_TermTokenSubProcessor.class,
 			P_I_ParameterRefTokenSubProcessor.class,
 			P_atparam_ParameterRefTokenSubProcessor.class,
@@ -91,7 +93,11 @@ public class TokenProcessor
 			Sp_S_bar_Sp_StatementReferenceTokenSubProcessor.class,
 			Sp_St_StatementReferenceTokenSubProcessor.class,
 			S_I_StatementTokenSubProcessor.class,
-			S_hexref_StatementTokenSubProcessor.class);
+			S_hexref_StatementTokenSubProcessor.class,
+			TP_P_colon_Term_ParameterRefTokenSubProcessor.class,
+			TPL_ParameterRefListTokenSubProcessor.class,
+			TPL_TP_ParameterRefListTokenSubProcessor.class,
+			TPL_TPL_comma_TP_ParameterRefListTokenSubProcessor.class);
 	//@formatter:on
 
 	private static class SubProcessorClassKey
@@ -239,7 +245,10 @@ public class TokenProcessor
 	protected Term processTerm(NonTerminalToken token, String input, Context context, Transaction transaction,
 			Map<ParameterRef, ParameterVariableTerm> tempParameterTable) throws AletheiaParserException
 	{
-		return processTerm(token, input, context, transaction, tempParameterTable, null);
+		TermTokenSubProcessor processor = getProcessor(TermTokenSubProcessor.class, token.getProduction());
+		if (processor == null)
+			throw new Error("No TermTokenSubProcessor found for production.");
+		return processor.subProcess(token, input, context, transaction, tempParameterTable);
 	}
 
 	protected ParameterRef processParameterRef(NonTerminalToken token, String input) throws AletheiaParserException
@@ -248,6 +257,24 @@ public class TokenProcessor
 		if (processor == null)
 			throw new Error("No ParameterRefTokenSubProcessor found for production.");
 		return processor.subProcess(token, input);
+	}
+
+	protected TypedParameterRef processTypedParameterRef(NonTerminalToken token, String input, Context context, Transaction transaction,
+			Map<ParameterRef, ParameterVariableTerm> tempParameterTable) throws AletheiaParserException
+	{
+		TypedParameterRefTokenSubProcessor processor = getProcessor(TypedParameterRefTokenSubProcessor.class, token.getProduction());
+		if (processor == null)
+			throw new Error("No TypedParameterRefTokenSubProcessor found for production.");
+		return processor.subProcess(token, input, context, transaction, tempParameterTable);
+	}
+
+	protected TypedParameterRefList processTypedParameterRefList(NonTerminalToken token, String input, Context context, Transaction transaction,
+			Map<ParameterRef, ParameterVariableTerm> tempParameterTable) throws AletheiaParserException
+	{
+		TypedParameterRefListTokenSubProcessor processor = getProcessor(TypedParameterRefListTokenSubProcessor.class, token.getProduction());
+		if (processor == null)
+			throw new Error("No TypedParameterRefListTokenSubProcessor found for production.");
+		return processor.subProcess(token, input, context, transaction, tempParameterTable);
 	}
 
 	protected Identifier processIdentifier(NonTerminalToken token, String input) throws AletheiaParserException

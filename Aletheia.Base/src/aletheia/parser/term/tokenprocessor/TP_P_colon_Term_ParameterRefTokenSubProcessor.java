@@ -23,56 +23,33 @@ import java.util.Map;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
-import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.parser.AletheiaParserException;
-import aletheia.parser.term.tokenprocessor.parameterRef.IdentifierParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
+import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRef;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.persistence.Transaction;
 
-@ProcessorProduction(left = "F", right =
-{ "openfun", "P", "colon", "T", "arrow", "T", "closefun" })
-public class F_openfun_P_colon_T_arrow_T_closefun_TermTokenSubProcessor extends TermTokenSubProcessor
+@ProcessorProduction(left = "TP", right =
+{ "P", "colon", "T" })
+public class TP_P_colon_Term_ParameterRefTokenSubProcessor extends TypedParameterRefTokenSubProcessor
 {
-	protected F_openfun_P_colon_T_arrow_T_closefun_TermTokenSubProcessor(TokenProcessor processor)
+
+	protected TP_P_colon_Term_ParameterRefTokenSubProcessor(TokenProcessor processor)
 	{
 		super(processor);
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, String input, Context context, Transaction transaction,
+	protected TypedParameterRef subProcess(NonTerminalToken token, String input, Context context, Transaction transaction,
 			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 			throws AletheiaParserException
 	{
-		ParameterRef parameterRef = getProcessor().processParameterRef((NonTerminalToken) token.getChildren().get(1), input);
-		Term type = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(3), input, context, transaction, tempParameterTable);
+		ParameterRef parameterRef = getProcessor().processParameterRef((NonTerminalToken) token.getChildren().get(0), input);
+		Term type = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(2), input, context, transaction, tempParameterTable);
 		ParameterVariableTerm parameter = new ParameterVariableTerm(type);
-		if (parameterIdentifiers != null && parameterRef instanceof IdentifierParameterRef)
-			parameterIdentifiers.put(parameter, ((IdentifierParameterRef) parameterRef).getIdentifier());
-		ParameterVariableTerm oldpar = tempParameterTable.put(parameterRef, parameter);
-		try
-		{
-			Term body = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(5), input, context, transaction, tempParameterTable,
-					parameterIdentifiers);
-			try
-			{
-				return new FunctionTerm(parameter, body);
-			}
-			catch (NullParameterTypeException e)
-			{
-				throw new AletheiaParserException(e, token.getStartLocation(), token.getStopLocation(), input);
-			}
-		}
-		finally
-		{
-			if (oldpar != null)
-				tempParameterTable.put(parameterRef, oldpar);
-			else
-				tempParameterTable.remove(parameterRef);
-		}
+		return new TypedParameterRef(parameterRef, parameter);
 	}
 
 }

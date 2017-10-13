@@ -30,7 +30,7 @@
 'Tau'															: ttype;			# "Tau" is the reserved word for the primitive.
 '&'																: ampersand;		# Begins a reference.
 '\^'															: caret;			# Refers to the instance of a specialization statement. 
-'\,'															: comma;			# For the component number operator.
+'\,'															: comma;			# Parameter list separator in functions
 '\|\-'															: turnstile;		# "|-" symbol to refer to the consequent of a context.
 '%'																: percent;			# Parameter's type operator.
 '\#'															: sharp;			# Type operator.
@@ -41,6 +41,7 @@
 '\?'															: question;			# Term matching operator.
 '\''															: apostrophe;		# Function body operator.
 ':='															: assignment;		# Separates the variable from it's assigned value in an assignment term;
+'\_'															: underscore;		# For the component number operator.
 '[\0-\9]+'														: number;			# For the component number operator.
 '[a-zA-Z\_][a-zA-Z\_\0-\9]*'									: id;				# Identifier unqualified components. 
 '@[\0-\9]+'														: atparam;			# Alternative to identifiers just for function parameters.
