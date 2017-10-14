@@ -52,8 +52,9 @@ public class TokenProcessor
 			T_B_TermTokenSubProcessor.class,
 			B_B_bar_Q_TermTokenSubProcessor.class,
 			B_Q_TermTokenSubProcessor.class,
-			Q_A_question_A_TermTokenSubProcessor.class,
-			Q_A_TermTokenSubProcessor.class,
+			Q_C_question_C_TermTokenSubProcessor.class,
+			Q_C_TermTokenSubProcessor.class,
+			C_A_MP_TermTokenSubProcessor.class,
 			A_ttype_TermTokenSubProcessor.class,
 			A_I_TermTokenSubProcessor.class,
 			A_atparam_TermTokenSubProcessor.class,
@@ -61,7 +62,6 @@ public class TokenProcessor
 			A_U_TermTokenSubProcessor.class,
 			A_R_TermTokenSubProcessor.class,
 			A_hexref_TermTokenSubProcessor.class,
-			A_A_asterisk_TermTokenSubProcessor.class,
 			A_A_tilde_TermTokenSubProcessor.class,
 			A_A_percent_TermTokenSubProcessor.class,
 			A_A_sharp_TermTokenSubProcessor.class,
@@ -73,6 +73,10 @@ public class TokenProcessor
 			M_hyphen_BooleanTokenSubProcessor.class,
 			M_BooleanTokenSubProcessor.class,
 			F_openfun_TPL_arrow_T_closefun_TermTokenSubProcessor.class,
+			TP_P_colon_Term_ParameterRefTokenSubProcessor.class,
+			TPL_ParameterRefListTokenSubProcessor.class,
+			TPL_TP_ParameterRefListTokenSubProcessor.class,
+			TPL_TPL_comma_TP_ParameterRefListTokenSubProcessor.class,
 			U_openfun_P_assignment_T_arrow_T_closefun_TermTokenSubProcessor.class,
 			P_I_ParameterRefTokenSubProcessor.class,
 			P_atparam_ParameterRefTokenSubProcessor.class,
@@ -94,10 +98,9 @@ public class TokenProcessor
 			Sp_St_StatementReferenceTokenSubProcessor.class,
 			S_I_StatementTokenSubProcessor.class,
 			S_hexref_StatementTokenSubProcessor.class,
-			TP_P_colon_Term_ParameterRefTokenSubProcessor.class,
-			TPL_ParameterRefListTokenSubProcessor.class,
-			TPL_TP_ParameterRefListTokenSubProcessor.class,
-			TPL_TPL_comma_TP_ParameterRefListTokenSubProcessor.class);
+			MP_IntegerTokenSubProcessor.class,
+			MP_MP_asterisk_IntegerTokenSubProcessor.class
+			);
 	//@formatter:on
 
 	private static class SubProcessorClassKey
@@ -336,6 +339,14 @@ public class TokenProcessor
 		BooleanTokenSubProcessor processor = getProcessor(BooleanTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
 			throw new Error("No BooleanTokenSubProcessor found for production.");
+		return processor.subProcess(token, input);
+	}
+
+	protected int processInteger(NonTerminalToken token, String input) throws AletheiaParserException
+	{
+		IntegerTokenSubProcessor processor = getProcessor(IntegerTokenSubProcessor.class, token.getProduction());
+		if (processor == null)
+			throw new Error("No IntegerTokenSubProcessor found for production.");
 		return processor.subProcess(token, input);
 	}
 

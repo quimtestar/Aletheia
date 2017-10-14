@@ -19,41 +19,23 @@
  ******************************************************************************/
 package aletheia.parser.term.tokenprocessor;
 
-import java.util.Map;
-
-import aletheia.model.identifier.Identifier;
-import aletheia.model.statement.Context;
-import aletheia.model.term.ParameterVariableTerm;
-import aletheia.model.term.Term;
-import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 import aletheia.parser.AletheiaParserException;
-import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
-import aletheia.persistence.Transaction;
 
-@ProcessorProduction(left = "A", right =
-{ "A", "asterisk" })
-public class A_A_asterisk_TermTokenSubProcessor extends TermTokenSubProcessor
+public abstract class IntegerTokenSubProcessor extends TokenSubProcessor<Integer, Void>
 {
-	protected A_A_asterisk_TermTokenSubProcessor(TokenProcessor processor)
+
+	protected IntegerTokenSubProcessor(TokenProcessor processor)
 	{
 		super(processor);
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, String input, Context context, Transaction transaction,
-			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
-			throws AletheiaParserException
+	protected Integer subProcess(NonTerminalToken token, String input, Void parameter) throws AletheiaParserException
 	{
-		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), input, context, transaction, tempParameterTable);
-		try
-		{
-			return term.project();
-		}
-		catch (ProjectionTypeException e)
-		{
-			throw new AletheiaParserException(e, token.getStartLocation(), token.getStopLocation(), input);
-		}
+		return subProcess(token, input);
 	}
+
+	protected abstract int subProcess(NonTerminalToken token, String input) throws AletheiaParserException;
 
 }

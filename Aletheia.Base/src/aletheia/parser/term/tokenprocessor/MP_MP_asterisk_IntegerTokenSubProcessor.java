@@ -19,33 +19,23 @@
  ******************************************************************************/
 package aletheia.parser.term.tokenprocessor;
 
-import java.util.Map;
-
-import aletheia.model.identifier.Identifier;
-import aletheia.model.statement.Context;
-import aletheia.model.term.ParameterVariableTerm;
-import aletheia.model.term.Term;
 import aletheia.parser.AletheiaParserException;
-import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
-import aletheia.persistence.Transaction;
 
-@ProcessorProduction(left = "Q", right =
-{ "A" })
-public class Q_A_TermTokenSubProcessor extends TermTokenSubProcessor
+@ProcessorProduction(left = "MP", right =
+{ "MP", "asterisk" })
+public class MP_MP_asterisk_IntegerTokenSubProcessor extends IntegerTokenSubProcessor
 {
 
-	protected Q_A_TermTokenSubProcessor(TokenProcessor processor)
+	protected MP_MP_asterisk_IntegerTokenSubProcessor(TokenProcessor processor)
 	{
 		super(processor);
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, String input, Context context, Transaction transaction,
-			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
-			throws AletheiaParserException
+	protected int subProcess(NonTerminalToken token, String input) throws AletheiaParserException
 	{
-		return getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), input, context, transaction, tempParameterTable, parameterIdentifiers);
+		return getProcessor().processInteger((NonTerminalToken) token.getChildren().get(0), input) + 1;
 	}
 
 }

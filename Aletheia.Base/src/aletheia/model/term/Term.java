@@ -659,6 +659,32 @@ public abstract class Term implements Serializable, Exportable
 
 	public abstract ProjectionTerm project() throws ProjectionTypeException;
 
+	public Term project(int n) throws ProjectionTypeException
+	{
+		Term term = this;
+		int i = 0;
+		Stack<ParameterVariableTerm> stack = new Stack<>();
+		for (; i < n && term instanceof FunctionTerm; i++)
+		{
+			stack.push(((FunctionTerm) term).getParameter());
+			term = ((FunctionTerm) term).getBody();
+		}
+		for (; i < n; i++)
+			term = term.project();
+		while (!stack.isEmpty())
+		{
+			try
+			{
+				term = new FunctionTerm(stack.pop(), term).project();
+			}
+			catch (NullParameterTypeException e)
+			{
+				throw new ProjectionTypeException(e.getMessage(), e);
+			}
+		}
+		return term;
+	}
+
 	public class ParameterNumerator
 	{
 		private final Stack<ParameterVariableTerm> parameterStack;

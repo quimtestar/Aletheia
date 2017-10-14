@@ -19,10 +19,8 @@
  ******************************************************************************/
 package aletheia.parser.term.tokenprocessor;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
+
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.term.ParameterVariableTerm;
@@ -33,11 +31,11 @@ import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.persistence.Transaction;
 
 @ProcessorProduction(left = "Q", right =
-{ "A", "question", "A" })
-public class Q_A_question_A_TermTokenSubProcessor extends TermTokenSubProcessor
+{ "C" })
+public class Q_C_TermTokenSubProcessor extends TermTokenSubProcessor
 {
 
-	protected Q_A_question_A_TermTokenSubProcessor(TokenProcessor processor)
+	protected Q_C_TermTokenSubProcessor(TokenProcessor processor)
 	{
 		super(processor);
 	}
@@ -47,18 +45,7 @@ public class Q_A_question_A_TermTokenSubProcessor extends TermTokenSubProcessor
 			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 			throws AletheiaParserException
 	{
-		Term termMatch = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), input, context, transaction, tempParameterTable);
-		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(2), input, context, transaction, tempParameterTable);
-		List<ParameterVariableTerm> assignable = new ArrayList<>();
-		Term.Match match = termMatch.consequent(assignable).match(new HashSet<>(assignable), term);
-		if (match == null)
-			throw new AletheiaParserException("No match.", token.getStartLocation(), token.getStopLocation(), input);
-		if (assignable.isEmpty())
-			throw new AletheiaParserException("Nothing assignable.", token.getStartLocation(), token.getStopLocation(), input);
-		Term assigned = match.getAssignMapLeft().get(assignable.get(0));
-		if (assigned == null)
-			throw new AletheiaParserException("Nothing assignable.", token.getStartLocation(), token.getStopLocation(), input);
-		return assigned;
+		return getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), input, context, transaction, tempParameterTable, parameterIdentifiers);
 	}
 
 }

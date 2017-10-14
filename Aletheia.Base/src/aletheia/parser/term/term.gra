@@ -30,8 +30,10 @@ B -> B bar Q; 					# The '/' operator extracts the given sub-term of this term a
 B -> Q;							# Just an match term.
 
 # The '?' operator is non-associative.
-Q -> A question A;				# Term matching: "<x:t -> a(x)>?a(b)" ~> b.
-Q -> A;							# Just an atom.
+Q -> C question C;				# Term matching: "<x:t -> a(x)>?a(b)" ~> b.
+Q -> C;							# Just a (possibly) multiprojected atom.
+
+C -> A MP;						# An atom projected zero or more times: "<p:t->b>*"
 
 # An atom might be:
 A -> ttype;						# The primitive type "T".
@@ -41,7 +43,6 @@ A -> F;							# A function term : "<parameter:type -> body>".
 A -> U;							# A substituted term: "<variable:=value -> term>" ~> "<variable:value# -> term> value".
 A -> R;							# A reference to a statement: "&something".
 A -> hexref;					# An hexadecimal reference to a variable of the form "#xxxxxxxx" where xxxxxxxx are hexadecimal digits. 
-A -> A asterisk;				# Another atom (which should resolve to a function) projected: "<p:t->b>*".
 A -> A tilde;					# Another atom (which should resolve to a projected function) unprojected: "<p:t->b>*~" ~> "<p:t->b>". 
 A -> A percent;					# The '%' operator resolves to the parameter's type of the given function: "<p:t->b>%" ~> "t".   
 A -> A sharp;					# the '#' operator resolves to the type of the given atom.
@@ -64,7 +65,7 @@ TP -> P colon T;
 
 U -> openfun P assignment T arrow T closefun;	# An substituted term: "<variable:=value -> term>" ~> "<variable:value# -> term> value".
 
-# The function parameter:
+# The function parameter.
 P -> I;											# An identifier.
 P -> atparam;									# An 'at' parameter of the form "@n" where n is a natural number.
 
@@ -90,3 +91,6 @@ S_p -> S_t;
 S -> I;										# Path component might be an identifier.
 S -> hexref;								# Path component might be an hexadecimal reference.
 
+# Multiprojection.
+MP -> ;
+MP -> MP asterisk;
