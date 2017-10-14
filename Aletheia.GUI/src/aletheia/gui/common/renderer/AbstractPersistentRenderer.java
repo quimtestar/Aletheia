@@ -427,29 +427,31 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 		{
 			ParameterVariableTerm parameter = ((FunctionTerm) term).getParameter();
 			Term body = ((FunctionTerm) term).getBody();
-
-			if (!totalVariableToIdentifier.containsKey(parameter))
-			{
-				parameterNumerator.numberParameter(parameter);
-				numberedParameters++;
-			}
 			if (!first)
 			{
 				addCommaLabel();
 				addSpaceLabel();
 			}
+			boolean mappedParameter = totalVariableToIdentifier.containsKey(parameter);
+			if (!mappedParameter)
+				parameterNumerator.numberParameter(parameter);
 			addParameterVariableTerm(totalVariableToIdentifier, parameterNumerator, parameter);
+			if (!mappedParameter)
+				parameterNumerator.unNumberParameter();
 			addColonLabel();
-			addTerm(variableToIdentifier, parameterNumerator, parameter.getType());
-
+			addTerm(totalVariableToIdentifier, parameterNumerator, parameter.getType());
+			if (!mappedParameter)
+			{
+				parameterNumerator.numberParameter(parameter);
+				numberedParameters++;
+			}
 			first = false;
-
 			term = body;
 		}
 		addSpaceLabel();
 		addArrowLabel();
 		addSpaceLabel();
-		addTerm(variableToIdentifier, parameterNumerator, term);
+		addTerm(totalVariableToIdentifier, parameterNumerator, term);
 		parameterNumerator.unNumberParameters(numberedParameters);
 		addCloseFunLabel();
 	}
