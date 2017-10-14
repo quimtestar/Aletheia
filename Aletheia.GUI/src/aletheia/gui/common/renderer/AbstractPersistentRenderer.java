@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -54,6 +55,7 @@ import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.TauTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
+import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.AdaptedMap;
@@ -457,11 +459,31 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 	}
 
 	protected void addProjectionTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
-			ProjectionTerm term)
+			ProjectionTerm projectionTerm)
 	{
-		addFunctionTerm(variableToIdentifier, parameterNumerator, term.getFunction());
-		addProjectionTermLabel();
-		addSpaceLabel();
+		Term term = projectionTerm;
+		Stack<ParameterVariableTerm> stack = new Stack<>();
+		while (term instanceof ProjectionTerm)
+		{
+			FunctionTerm function = ((ProjectionTerm) term).getFunction();
+			stack.push(function.getParameter());
+			term = function.getBody();
+		}
+		int nProjections = stack.size();
+		while (!stack.isEmpty())
+		{
+			try
+			{
+				term = new FunctionTerm(stack.pop(), term);
+			}
+			catch (NullParameterTypeException e)
+			{
+				throw new Error(e);
+			}
+		}
+		addFunctionTerm(variableToIdentifier, parameterNumerator, (FunctionTerm) term);
+		for (int i = 0; i < nProjections; i++)
+			addProjectionTermLabel();
 	}
 
 	protected void addTauTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator, TauTerm term)
