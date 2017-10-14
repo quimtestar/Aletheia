@@ -21,6 +21,7 @@ package aletheia.gui.common.renderer;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Toolkit;
@@ -34,6 +35,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JLabel;
@@ -432,19 +434,17 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 				addCommaLabel();
 				addSpaceLabel();
 			}
-			boolean mappedParameter = totalVariableToIdentifier.containsKey(parameter);
-			if (!mappedParameter)
-				parameterNumerator.numberParameter(parameter);
-			addParameterVariableTerm(totalVariableToIdentifier, parameterNumerator, parameter);
-			if (!mappedParameter)
-				parameterNumerator.unNumberParameter();
-			addColonLabel();
+			pushComponentList();
 			addTerm(totalVariableToIdentifier, parameterNumerator, parameter.getType());
-			if (!mappedParameter)
+			List<Component> parameterTypeComponentList = popComponentList();
+			if (!totalVariableToIdentifier.containsKey(parameter))
 			{
 				parameterNumerator.numberParameter(parameter);
 				numberedParameters++;
 			}
+			addParameterVariableTerm(totalVariableToIdentifier, parameterNumerator, parameter);
+			addColonLabel();
+			add(parameterTypeComponentList);
 			first = false;
 			term = body;
 		}

@@ -20,13 +20,18 @@
 package aletheia.gui.common.renderer;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.LayoutManager;
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 import java.util.UUID;
 
 import javax.swing.BorderFactory;
@@ -119,6 +124,8 @@ public abstract class AbstractRenderer extends JPanel
 
 	private final boolean withBorder;
 
+	private final Stack<List<Component>> stack;
+
 	private boolean hasFocus;
 
 	private Font activeFont;
@@ -131,6 +138,8 @@ public abstract class AbstractRenderer extends JPanel
 		super();
 		this.editableComponents = new HashSet<>();
 		this.withBorder = withBorder;
+		this.stack = new Stack<>();
+
 		this.activeFont = getDefaultFont();
 		FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
 		layout.setHgap(0);
@@ -144,6 +153,34 @@ public abstract class AbstractRenderer extends JPanel
 	public AbstractRenderer()
 	{
 		this(false);
+	}
+
+	protected void pushComponentList()
+	{
+		stack.push(new ArrayList<Component>());
+	}
+
+	protected List<Component> popComponentList()
+	{
+		return stack.pop();
+	}
+
+	@Override
+	public Component add(Component comp)
+	{
+		if (stack.isEmpty())
+			return super.add(comp);
+		else
+		{
+			stack.peek().add(comp);
+			return comp;
+		}
+	}
+
+	protected void add(Collection<Component> list)
+	{
+		for (Component comp : list)
+			add(comp);
 	}
 
 	public Color getNormalBackgroundColor()
