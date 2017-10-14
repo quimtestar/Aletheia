@@ -74,6 +74,7 @@ public class TokenProcessor
 			M_BooleanTokenSubProcessor.class,
 			F_openfun_TPL_arrow_T_closefun_TermTokenSubProcessor.class,
 			TP_P_colon_T_ParameterRefTokenSubProcessor.class,
+			TP_T_ParameterRefTokenSubProcessor.class,
 			TPL_ParameterRefListTokenSubProcessor.class,
 			TPL_TP_ParameterRefListTokenSubProcessor.class,
 			TPL_TPL_comma_TP_ParameterRefListTokenSubProcessor.class,

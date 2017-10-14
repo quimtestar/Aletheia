@@ -54,12 +54,15 @@ public class TypedParameterRefList
 	{
 		getList().add(typedParameterRef);
 		ParameterRef parameterRef = typedParameterRef.getParameterRef();
-		ParameterVariableTerm parameter = typedParameterRef.getParameter();
-		if (parameterIdentifiers != null && parameterRef instanceof IdentifierParameterRef)
-			parameterIdentifiers.put(parameter, ((IdentifierParameterRef) parameterRef).getIdentifier());
-		ParameterVariableTerm oldpar = tempParameterTable.put(parameterRef, parameter);
-		if (!getOldParameterTable().containsKey(parameterRef))
-			getOldParameterTable().put(parameterRef, oldpar);
+		if (parameterRef != null)
+		{
+			ParameterVariableTerm parameter = typedParameterRef.getParameter();
+			if (parameterIdentifiers != null && parameterRef instanceof IdentifierParameterRef)
+				parameterIdentifiers.put(parameter, ((IdentifierParameterRef) parameterRef).getIdentifier());
+			ParameterVariableTerm oldpar = tempParameterTable.put(parameterRef, parameter);
+			if (!getOldParameterTable().containsKey(parameterRef))
+				getOldParameterTable().put(parameterRef, oldpar);
+		}
 	}
 
 }

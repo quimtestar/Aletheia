@@ -68,11 +68,14 @@ public class F_openfun_TPL_arrow_T_closefun_TermTokenSubProcessor extends TermTo
 		for (Entry<ParameterRef, ParameterVariableTerm> e : typedParameterRefList.getOldParameterTable().entrySet())
 		{
 			ParameterRef parameterRef = e.getKey();
-			ParameterVariableTerm oldPar = e.getValue();
-			if (oldPar != null)
-				tempParameterTable.put(parameterRef, oldPar);
-			else
-				tempParameterTable.remove(parameterRef);
+			if (parameterRef != null)
+			{
+				ParameterVariableTerm oldPar = e.getValue();
+				if (oldPar != null)
+					tempParameterTable.put(parameterRef, oldPar);
+				else
+					tempParameterTable.remove(parameterRef);
+			}
 		}
 		return term;
 	}
