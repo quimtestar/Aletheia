@@ -672,7 +672,7 @@ public abstract class Term implements Serializable, Exportable
 
 		public int numberParameter(ParameterVariableTerm parameter)
 		{
-			int number = parameterStack.size();
+			int number = nextNumber();
 			parameterStack.push(parameter);
 			Stack<Integer> numberStack = parameterToNumberStackMap.get(parameter);
 			if (numberStack == null)
@@ -682,6 +682,11 @@ public abstract class Term implements Serializable, Exportable
 			}
 			numberStack.push(number);
 			return number;
+		}
+
+		public int nextNumber()
+		{
+			return parameterStack.size();
 		}
 
 		public boolean isEmpty()
