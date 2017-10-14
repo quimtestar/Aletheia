@@ -33,10 +33,10 @@ import aletheia.persistence.Transaction;
 
 @ProcessorProduction(left = "TP", right =
 { "P", "colon", "T" })
-public class TP_P_colon_Term_ParameterRefTokenSubProcessor extends TypedParameterRefTokenSubProcessor
+public class TP_P_colon_T_ParameterRefTokenSubProcessor extends TypedParameterRefTokenSubProcessor
 {
 
-	protected TP_P_colon_Term_ParameterRefTokenSubProcessor(TokenProcessor processor)
+	protected TP_P_colon_T_ParameterRefTokenSubProcessor(TokenProcessor processor)
 	{
 		super(processor);
 	}
