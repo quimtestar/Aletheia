@@ -49,8 +49,8 @@ A -> A apostrophe;				# The ''' operator resolves to the body of the given funct
 A -> A bang I;					# The '!' operator unfolds the given identified variable as its value as a declaration statement in the active context.  
 A -> equals bang I;				# The '=!' operator is equivalent to a reflexive application of the binary '!': "=!i" ~> "i!i". 
 A -> openpar T closepar;		# A term (list of atoms) between parentheses.
-A -> A underscore number M;		# The '_n' operator resolves to the nth atomic component (starting by zero) of the given term: "(a b c)_1" ~> "b".
-								# The '_n-' operator resolves to the first n+1 atomic components of the given term: "(a b c)_1-" ~> "a b".
+A -> A number M;				# The 'n' operator resolves to the nth atomic component (starting by zero) of the given term: "(a b c)_1" ~> "b".
+								# The 'n-' operator resolves to the first n+1 atomic components of the given term: "(a b c)_1-" ~> "a b".
 
 # An hyphen or nothing for the ',n[-]' operator.
 M -> hyphen;

@@ -35,10 +35,10 @@ import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.BufferedList;
 
 @ProcessorProduction(left = "A", right =
-{ "A", "underscore", "number", "M" })
-public class A_A_underscore_number_M_TermTokenSubProcessor extends TermTokenSubProcessor
+{ "A", "number", "M" })
+public class A_A_number_M_TermTokenSubProcessor extends TermTokenSubProcessor
 {
-	protected A_A_underscore_number_M_TermTokenSubProcessor(TokenProcessor processor)
+	protected A_A_number_M_TermTokenSubProcessor(TokenProcessor processor)
 	{
 		super(processor);
 	}
@@ -52,11 +52,11 @@ public class A_A_underscore_number_M_TermTokenSubProcessor extends TermTokenSubP
 		if (term instanceof CompositionTerm)
 		{
 			List<Term> components;
-			if (getProcessor().processBoolean((NonTerminalToken) token.getChildren().get(3), input))
+			if (getProcessor().processBoolean((NonTerminalToken) token.getChildren().get(2), input))
 				components = new BufferedList<>(((CompositionTerm) term).aggregateComponents());
 			else
 				components = new BufferedList<>(((CompositionTerm) term).components());
-			int n = Integer.parseInt(((TaggedTerminalToken) token.getChildren().get(2)).getText());
+			int n = Integer.parseInt(((TaggedTerminalToken) token.getChildren().get(1)).getText());
 			if (n < 0 || n >= components.size())
 				throw new AletheiaParserException("Composition coordinate " + n + " out of bounds for term: " + "'" + term.toString(transaction, context) + "'",
 						token.getChildren().get(2).getStartLocation(), token.getChildren().get(2).getStopLocation(), input);
