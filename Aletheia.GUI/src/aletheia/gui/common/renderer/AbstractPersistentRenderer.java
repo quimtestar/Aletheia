@@ -416,23 +416,41 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 	protected void addFunctionTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
 			FunctionTerm functionTerm)
 	{
-		boolean mappedParameter = variableToIdentifier.containsKey(functionTerm.getParameter());
 		addOpenFunLabel();
-		if (!mappedParameter)
-			parameterNumerator.numberParameter(functionTerm.getParameter());
-		addParameterVariableTerm(variableToIdentifier, parameterNumerator, functionTerm.getParameter());
-		if (!mappedParameter)
-			parameterNumerator.unNumberParameter();
-		addColonLabel();
-		addTerm(variableToIdentifier, parameterNumerator, functionTerm.getParameter().getType());
+		Term term = functionTerm;
+		Map<ParameterVariableTerm, Identifier> localVariableToIdentifier = new HashMap<>();
+		Map<VariableTerm, Identifier> totalVariableToIdentifier = new CombinedMap<>(new AdaptedMap<>(localVariableToIdentifier),
+				new AdaptedMap<>(variableToIdentifier));
+		boolean first = true;
+		int numberedParameters = 0;
+		while (term instanceof FunctionTerm)
+		{
+			ParameterVariableTerm parameter = ((FunctionTerm) term).getParameter();
+			Term body = ((FunctionTerm) term).getBody();
+
+			if (!totalVariableToIdentifier.containsKey(parameter))
+			{
+				parameterNumerator.numberParameter(parameter);
+				numberedParameters++;
+			}
+			if (!first)
+			{
+				addCommaLabel();
+				addSpaceLabel();
+			}
+			addParameterVariableTerm(totalVariableToIdentifier, parameterNumerator, parameter);
+			addColonLabel();
+			addTerm(variableToIdentifier, parameterNumerator, parameter.getType());
+
+			first = false;
+
+			term = body;
+		}
 		addSpaceLabel();
 		addArrowLabel();
 		addSpaceLabel();
-		if (!mappedParameter)
-			parameterNumerator.numberParameter(functionTerm.getParameter());
-		addTerm(variableToIdentifier, parameterNumerator, functionTerm.getBody());
-		if (!mappedParameter)
-			parameterNumerator.unNumberParameter();
+		addTerm(variableToIdentifier, parameterNumerator, term);
+		parameterNumerator.unNumberParameters(numberedParameters);
 		addCloseFunLabel();
 	}
 
