@@ -46,7 +46,8 @@ public class C_A_MP_TermTokenSubProcessor extends TermTokenSubProcessor
 			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 			throws AletheiaParserException
 	{
-		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), input, context, transaction, tempParameterTable);
+		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), input, context, transaction, tempParameterTable,
+				parameterIdentifiers);
 		int n = getProcessor().processInteger((NonTerminalToken) token.getChildren().get(1), input);
 		try
 		{
