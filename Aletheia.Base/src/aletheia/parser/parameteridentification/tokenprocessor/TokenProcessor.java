@@ -44,7 +44,7 @@ public class TokenProcessor
 			T__T_openpar_T_closepar_ParameterIdentificationTokenSubProcessor.class,
 			F_openfun_M_arrow_T__closefun_FunctionParameterIdentificationTokenSubProcessor.class,
 			F_openfun_M_closefun_FunctionParameterIdentificationTokenSubProcessor.class,
-			M_M_arrow_P_ParameterIdentificationTokenSubProcessor.class,
+			M_M_comma_P_ParameterIdentificationTokenSubProcessor.class,
 			M_P_ParameterIdentificationTokenSubProcessor.class,
 			P_I_IdentifierTokenSubProcessor.class,
 			P_IdentifierTokenSubProcessor.class,

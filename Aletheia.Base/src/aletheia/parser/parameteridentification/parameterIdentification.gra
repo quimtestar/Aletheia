@@ -30,7 +30,7 @@ T_ -> T openpar T closepar;
 F -> openfun M arrow T_ closefun;
 F -> openfun M closefun;
 
-M -> M arrow P;
+M -> M comma P;
 M -> P;
 
 P -> I;
