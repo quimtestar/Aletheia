@@ -47,7 +47,7 @@ public class TPL_TPL_comma_TP_ParameterRefListTokenSubProcessor extends TypedPar
 			throws AletheiaParserException
 	{
 		TypedParameterRefList typedParameterRefList = getProcessor().processTypedParameterRefList((NonTerminalToken) token.getChildren().get(0), input, context,
-				transaction, tempParameterTable);
+				transaction, tempParameterTable, parameterIdentifiers);
 		TypedParameterRef typedParameterRef = getProcessor().processTypedParameterRef((NonTerminalToken) token.getChildren().get(2), input, context,
 				transaction, tempParameterTable);
 		typedParameterRefList.addTypedParameterRef(typedParameterRef, tempParameterTable, parameterIdentifiers);

@@ -269,12 +269,13 @@ public class TokenProcessor
 	}
 
 	protected TypedParameterRefList processTypedParameterRefList(NonTerminalToken token, String input, Context context, Transaction transaction,
-			Map<ParameterRef, ParameterVariableTerm> tempParameterTable) throws AletheiaParserException
+			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+			throws AletheiaParserException
 	{
 		TypedParameterRefListTokenSubProcessor processor = getProcessor(TypedParameterRefListTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
 			throw new Error("No TypedParameterRefListTokenSubProcessor found for production.");
-		return processor.subProcess(token, input, context, transaction, tempParameterTable);
+		return processor.subProcess(token, input, context, transaction, tempParameterTable, parameterIdentifiers);
 	}
 
 	protected Identifier processIdentifier(NonTerminalToken token, String input) throws AletheiaParserException
