@@ -320,7 +320,7 @@ public abstract class Command
 				Assumption assumption = null;
 				if (assumptionIterator.hasNext())
 					assumption = assumptionIterator.next();
-				if (function.getBody().freeVariables().contains(function.getParameter()) && assumption != null && assumption.getIdentifier() != null)
+				if (function.getBody().isFreeVariable(function.getParameter()) && assumption != null && assumption.getIdentifier() != null)
 					stack.push(assumption.getIdentifier());
 				else
 					stack.push(null);

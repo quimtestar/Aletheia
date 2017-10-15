@@ -53,7 +53,7 @@ public class A_A_apostrophe_TermTokenSubProcessor extends TermTokenSubProcessor
 		{
 			FunctionTerm functionTerm = (FunctionTerm) term;
 			Term body = functionTerm.getBody();
-			if (body.freeVariables().contains(functionTerm.getParameter()))
+			if (body.isFreeVariable(functionTerm.getParameter()))
 				throw new AletheiaParserException("Function's body depends on function parameter", token.getStartLocation(), token.getStopLocation(), input);
 			else
 				return body;

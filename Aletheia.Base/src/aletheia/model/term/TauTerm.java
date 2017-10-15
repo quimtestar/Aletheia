@@ -105,6 +105,12 @@ public class TauTerm extends AtomicTerm
 	}
 
 	@Override
+	public boolean isFreeVariable(VariableTerm variable)
+	{
+		return false;
+	}
+
+	@Override
 	public DiffInfo diff(Term term)
 	{
 		DiffInfo di = super.diff(term);

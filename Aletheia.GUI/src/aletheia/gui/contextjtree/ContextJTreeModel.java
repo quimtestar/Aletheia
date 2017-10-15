@@ -1051,7 +1051,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 				if (node_ != null)
 				{
 					nodeChanged((ContextJTreeNode) node_);
-					if (ctx.getConsequent().freeVariables().contains(statement.getVariable()) || ctx.getConsequent().equals(statement.getTerm()))
+					if (ctx.getConsequent().isFreeVariable(statement.getVariable()) || ctx.getConsequent().equals(statement.getTerm()))
 					{
 						ContextSorterContextJTreeNode node__ = (ContextSorterContextJTreeNode) nodeMap.getByStatement(ctx);
 						nodeChanged(node__.getConsequentNode());
@@ -1071,7 +1071,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 						if (user instanceof Context)
 						{
 							Context ctx_ = (Context) user;
-							if (ctx_.getConsequent().freeVariables().contains(statement.getVariable()) || ctx_.getConsequent().equals(statement.getTerm()))
+							if (ctx_.getConsequent().isFreeVariable(statement.getVariable()) || ctx_.getConsequent().equals(statement.getTerm()))
 							{
 								ContextSorterContextJTreeNode node__ = (ContextSorterContextJTreeNode) nodeMap.cachedByStatement(ctx_);
 								if (node__ != null)
@@ -1085,8 +1085,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 									ContextSorterContextJTreeNode node__ = (ContextSorterContextJTreeNode) nodeMap.cachedByStatement(unf);
 									if (node__ != null)
 									{
-										if (unf.getConsequent().freeVariables().contains(statement.getVariable())
-												|| unf.getConsequent().equals(statement.getTerm()))
+										if (unf.getConsequent().isFreeVariable(statement.getVariable()) || unf.getConsequent().equals(statement.getTerm()))
 											nodeChanged(node__.getConsequentNode());
 									}
 								}

@@ -143,7 +143,7 @@ public class FunctionTerm extends Term
 	{
 		if (parameter.getType().equals(term.getType()))
 		{
-			if (term.freeVariables().contains(parameter))
+			if (term.isFreeVariable(parameter))
 				throw new ComposeTypeException("Invalid composition: function parameter is free in instance", this, term);
 			try
 			{
@@ -386,6 +386,12 @@ public class FunctionTerm extends Term
 		body.freeVariables(freeVars, localVars);
 		if (added)
 			localVars.remove(parameter);
+	}
+
+	@Override
+	public boolean isFreeVariable(VariableTerm variable)
+	{
+		return !parameter.equals(variable) && (parameter.getType().isFreeVariable(variable) || body.isFreeVariable(variable));
 	}
 
 	public abstract class DiffInfoFunction extends DiffInfoNotEqual

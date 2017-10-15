@@ -257,6 +257,12 @@ public class CompositionTerm extends SimpleTerm
 		tail.freeVariables(freeVars, localVars);
 	}
 
+	@Override
+	public boolean isFreeVariable(VariableTerm variable)
+	{
+		return head.isFreeVariable(variable) || tail.isFreeVariable(variable);
+	}
+
 	public class DiffInfoComposition extends DiffInfoNotEqual
 	{
 		public final DiffInfo diffHead;

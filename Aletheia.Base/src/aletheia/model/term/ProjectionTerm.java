@@ -74,7 +74,7 @@ public class ProjectionTerm extends AtomicTerm
 	private static Term computeType(FunctionTerm function) throws ProjectionTypeException
 	{
 		Term bodyType = function.getBody().getType();
-		if (bodyType != null && bodyType.freeVariables().contains(function.getParameter()))
+		if (bodyType != null && bodyType.isFreeVariable(function.getParameter()))
 			throw new ProjectionTypeException("Non projectable function: body's type depends on parameter");
 		return bodyType;
 	}
@@ -150,6 +150,12 @@ public class ProjectionTerm extends AtomicTerm
 	protected void freeVariables(Set<VariableTerm> freeVars, Set<VariableTerm> localVars)
 	{
 		function.freeVariables(freeVars, localVars);
+	}
+
+	@Override
+	public boolean isFreeVariable(VariableTerm variable)
+	{
+		return function.isFreeVariable(variable);
 	}
 
 	@Override

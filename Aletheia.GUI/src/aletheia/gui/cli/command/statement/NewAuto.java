@@ -93,7 +93,7 @@ public class NewAuto extends NewStatement
 			Term type = parameter.getType();
 			Term body = functionTerm.getBody();
 			Term t = m != null && oParamIt.hasNext() ? m.getTermMatch().getAssignMapLeft().get(oParamIt.next()) : null;
-			if (t == null && body.freeVariables().contains(parameter))
+			if (t == null && body.isFreeVariable(parameter))
 			{
 				{
 					Iterator<Term> hi = hints.iterator();

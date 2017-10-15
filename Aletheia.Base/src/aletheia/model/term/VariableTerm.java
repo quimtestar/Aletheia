@@ -109,6 +109,12 @@ public abstract class VariableTerm extends AtomicTerm
 	}
 
 	@Override
+	public boolean isFreeVariable(VariableTerm variable)
+	{
+		return equals(variable);
+	}
+
+	@Override
 	public DiffInfo diff(Term term)
 	{
 		DiffInfo di = super.diff(term);

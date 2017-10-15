@@ -121,7 +121,7 @@ public class TermTree extends TransactionalCommand
 					prefixA_ = prefixB + "\u2514\u2500\u2500";
 				String prefixB_ = prefixB + "  ";
 				String tag;
-				if (body.freeVariables().contains(functionTerm.getParameter()))
+				if (body.isFreeVariable(functionTerm.getParameter()))
 					tag = String.format("%3s", "@" + parNum);
 				else
 					tag = "  '";

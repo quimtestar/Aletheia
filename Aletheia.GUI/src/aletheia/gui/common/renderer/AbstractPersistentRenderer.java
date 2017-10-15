@@ -372,7 +372,7 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 					Assumption assumption = null;
 					if (assumptionIterator.hasNext())
 						assumption = assumptionIterator.next();
-					if (function.getBody().freeVariables().contains(function.getParameter()) && assumption != null && assumption.getIdentifier() != null)
+					if (function.getBody().isFreeVariable(function.getParameter()) && assumption != null && assumption.getIdentifier() != null)
 						localVariableToIdentifier.put(function.getParameter(), assumption.getIdentifier());
 					body = function.getBody();
 				}

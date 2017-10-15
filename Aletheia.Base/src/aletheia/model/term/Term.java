@@ -254,6 +254,8 @@ public abstract class Term implements Serializable, Exportable
 	 */
 	protected abstract void freeVariables(Set<VariableTerm> freeVars, Set<VariableTerm> localVars);
 
+	public abstract boolean isFreeVariable(VariableTerm variable);
+
 	/**
 	 * Returns the set of free variables in this term. A variable is free when it
 	 * doesn't occur in the body of a function which the variable is the parameter
