@@ -289,27 +289,30 @@ public class FunctionTerm extends Term
 				parameterTypeParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getParameterType();
 				bodyParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getBody();
 			}
-			String sParameter, sType;
-			if (parameterIdentifier != null)
+			String sType = parameter.getType().toString(totalVariableToIdentifier, parameterNumerator, parameterTypeParameterIdentification);
+
+			String sParameter = null;
+			if (body.isFreeVariable(parameter))
 			{
-				sParameter = parameterIdentifier.toString();
-				sType = parameter.getType().toString(totalVariableToIdentifier, parameterNumerator, parameterTypeParameterIdentification);
-				localVariableToIdentifier.put(parameter, parameterIdentifier);
-			}
-			else
-			{
-				sType = parameter.getType().toString(totalVariableToIdentifier, parameterNumerator, parameterTypeParameterIdentification);
-				if (!totalVariableToIdentifier.containsKey(parameter))
+				if (parameterIdentifier != null)
 				{
-					parameterNumerator.numberParameter(parameter);
-					numberedParameters++;
+					sParameter = parameterIdentifier.toString();
+					localVariableToIdentifier.put(parameter, parameterIdentifier);
 				}
-				sParameter = parameter.toString(totalVariableToIdentifier, parameterNumerator);
+				else
+				{
+					if (!totalVariableToIdentifier.containsKey(parameter))
+					{
+						parameterNumerator.numberParameter(parameter);
+						numberedParameters++;
+					}
+					sParameter = parameter.toString(totalVariableToIdentifier, parameterNumerator);
+				}
 			}
 
 			if (!first)
 				parameterListStringBuilder.append(", ");
-			parameterListStringBuilder.append(sParameter + ":" + sType);
+			parameterListStringBuilder.append((sParameter != null ? (sParameter + ":") : "") + sType);
 			first = false;
 
 			parameterIdentification = bodyParameterIdentification;

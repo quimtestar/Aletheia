@@ -439,13 +439,16 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 			pushComponentList();
 			addTerm(totalVariableToIdentifier, parameterNumerator, parameter.getType());
 			List<Component> parameterTypeComponentList = popComponentList();
-			if (!totalVariableToIdentifier.containsKey(parameter))
+			if (body.isFreeVariable(parameter))
 			{
-				parameterNumerator.numberParameter(parameter);
-				numberedParameters++;
+				if (!totalVariableToIdentifier.containsKey(parameter))
+				{
+					parameterNumerator.numberParameter(parameter);
+					numberedParameters++;
+				}
+				addParameterVariableTerm(totalVariableToIdentifier, parameterNumerator, parameter);
+				addColonLabel();
 			}
-			addParameterVariableTerm(totalVariableToIdentifier, parameterNumerator, parameter);
-			addColonLabel();
 			add(parameterTypeComponentList);
 			first = false;
 			term = body;
