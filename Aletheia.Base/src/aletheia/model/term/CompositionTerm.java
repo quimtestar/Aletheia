@@ -268,7 +268,7 @@ public class CompositionTerm extends SimpleTerm
 		public final DiffInfo diffHead;
 		public final DiffInfo diffTail;
 
-		public DiffInfoComposition(CompositionTerm other, DiffInfo diffHead, DiffInfo diffTail)
+		protected DiffInfoComposition(CompositionTerm other, DiffInfo diffHead, DiffInfo diffTail)
 		{
 			super(other);
 			this.diffHead = diffHead;

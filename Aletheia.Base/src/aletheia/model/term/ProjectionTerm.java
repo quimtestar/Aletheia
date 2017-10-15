@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.Stack;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.term.FunctionTerm.DiffInfoFunction;
 import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 
 /**
@@ -236,22 +237,93 @@ public class ProjectionTerm extends AtomicTerm
 	{
 		public final DiffInfo diffFunction;
 
-		public DiffInfoProjection(ProjectionTerm other, DiffInfo diffFunction)
+		protected DiffInfoProjection(ProjectionTerm other, DiffInfo diffFunction)
 		{
 			super(other);
 			this.diffFunction = diffFunction;
 		}
 
+		protected FunctionTerm getFunction()
+		{
+			return ProjectionTerm.this.getFunction();
+		}
+
 		@Override
 		public String toStringLeft(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
 		{
-			return diffFunction.toStringLeft(variableToIdentifier, parameterNumerator) + "* ";
+			DiffInfo di = this;
+			class StackEntry
+			{
+				final FunctionTerm functionTerm;
+				final FunctionTerm other;
+				final DiffInfo diffParamType;
+
+				StackEntry(FunctionTerm functionTerm, FunctionTerm other, DiffInfo diffParamType)
+				{
+					super();
+					this.functionTerm = functionTerm;
+					this.other = other;
+					this.diffParamType = diffParamType;
+				}
+
+			}
+			;
+			Stack<StackEntry> stack = new Stack<>();
+			while (di instanceof DiffInfoProjection)
+			{
+				DiffInfoFunction diffFunction = (DiffInfoFunction) (((DiffInfoProjection) di).diffFunction);
+				stack.push(new StackEntry(diffFunction.getFunctionTerm(), (FunctionTerm) diffFunction.other, diffFunction.diffParamType));
+				di = diffFunction.diffBody;
+			}
+			int nProjections = stack.size();
+			while (!stack.isEmpty())
+			{
+				StackEntry se = stack.pop();
+				di = se.functionTerm.new DiffInfoFunction(se.other, se.diffParamType, di);
+			}
+			StringBuilder stringBuilder = new StringBuilder(di.toStringLeft(variableToIdentifier, parameterNumerator));
+			for (int i = 0; i < nProjections; i++)
+				stringBuilder.append("*");
+			return stringBuilder.toString();
 		}
 
 		@Override
 		public String toStringRight(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
 		{
-			return diffFunction.toStringRight(variableToIdentifier, parameterNumerator) + "* ";
+			DiffInfo di = this;
+			class StackEntry
+			{
+				final FunctionTerm functionTerm;
+				final FunctionTerm other;
+				final DiffInfo diffParamType;
+
+				StackEntry(FunctionTerm functionTerm, FunctionTerm other, DiffInfo diffParamType)
+				{
+					super();
+					this.functionTerm = functionTerm;
+					this.other = other;
+					this.diffParamType = diffParamType;
+				}
+
+			}
+			;
+			Stack<StackEntry> stack = new Stack<>();
+			while (di instanceof DiffInfoProjection)
+			{
+				DiffInfoFunction diffFunction = (DiffInfoFunction) (((DiffInfoProjection) di).diffFunction);
+				stack.push(new StackEntry(diffFunction.getFunctionTerm(), (FunctionTerm) diffFunction.other, diffFunction.diffParamType));
+				di = diffFunction.diffBody;
+			}
+			int nProjections = stack.size();
+			while (!stack.isEmpty())
+			{
+				StackEntry se = stack.pop();
+				di = se.functionTerm.new DiffInfoFunction(se.other, se.diffParamType, di);
+			}
+			StringBuilder stringBuilder = new StringBuilder(di.toStringRight(variableToIdentifier, parameterNumerator));
+			for (int i = 0; i < nProjections; i++)
+				stringBuilder.append("*");
+			return stringBuilder.toString();
 		}
 	}
 

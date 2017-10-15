@@ -397,76 +397,99 @@ public class FunctionTerm extends Term
 		return !parameter.equals(variable) && (parameter.getType().isFreeVariable(variable) || body.isFreeVariable(variable));
 	}
 
-	public abstract class DiffInfoFunction extends DiffInfoNotEqual
+	public class DiffInfoFunction extends DiffInfoNotEqual
 	{
-		public DiffInfo diffParamType;
-		public DiffInfo diffBody;
+		public final DiffInfo diffParamType;
+		public final DiffInfo diffBody;
 
-		public DiffInfoFunction(FunctionTerm other, DiffInfo diffParamType, DiffInfo diffBody)
+		protected DiffInfoFunction(FunctionTerm other, DiffInfo diffParamType, DiffInfo diffBody)
 		{
 			super(other);
 			this.diffParamType = diffParamType;
 			this.diffBody = diffBody;
 		}
 
-	}
-
-	public class DiffInfoFunctionParam extends DiffInfoFunction
-	{
-		public DiffInfoFunctionParam(FunctionTerm other, DiffInfo diffParamType)
+		protected FunctionTerm getFunctionTerm()
 		{
-			super(other, diffParamType, null);
+			return FunctionTerm.this;
+		}
+
+		protected ParameterVariableTerm getParameter()
+		{
+			return getFunctionTerm().getParameter();
+		}
+
+		protected Term getBody()
+		{
+			return getFunctionTerm().getBody();
 		}
 
 		@Override
 		public String toStringLeft(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
 		{
-			String sParamType = diffParamType.toStringLeft(variableToIdentifier, parameterNumerator);
-			parameterNumerator.numberParameter(FunctionTerm.this.getParameter());
-			String sParameter = FunctionTerm.this.getParameter().toString(variableToIdentifier, parameterNumerator);
-			parameterNumerator.unNumberParameter();
-			return "<" + sParameter + ":" + sParamType + " -> " + "..." + ">";
+			DiffInfo di = this;
+			StringBuilder parameterListStringBuilder = new StringBuilder();
+			boolean first = true;
+			int numberedParameters = 0;
+			while (di instanceof DiffInfoFunction)
+			{
+				DiffInfo diffParamType = ((DiffInfoFunction) di).diffParamType;
+				DiffInfo diffBody = ((DiffInfoFunction) di).diffBody;
+				ParameterVariableTerm parameter = ((DiffInfoFunction) di).getParameter();
+				Term body = ((DiffInfoFunction) di).getBody();
+				String sType = diffParamType.toStringLeft(variableToIdentifier, parameterNumerator);
+				String sParameter = null;
+				if (body.isFreeVariable(parameter))
+				{
+					parameterNumerator.numberParameter(parameter);
+					numberedParameters++;
+					sParameter = parameter.toString(variableToIdentifier, parameterNumerator);
+				}
+				if (!first)
+					parameterListStringBuilder.append(", ");
+				parameterListStringBuilder.append((sParameter != null ? (sParameter + ":") : "") + sType);
+				first = false;
+				di = diffBody;
+			}
+			String sBody = null;
+			if (di != null)
+				sBody = di.toStringLeft(variableToIdentifier, parameterNumerator);
+			parameterNumerator.unNumberParameters(numberedParameters);
+			return "<" + parameterListStringBuilder + " " + (sBody != null ? ("-> " + sBody) : "...") + ">";
 		}
 
 		@Override
 		public String toStringRight(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
 		{
-			String sParamType = diffParamType.toStringRight(variableToIdentifier, parameterNumerator);
-			parameterNumerator.numberParameter(((FunctionTerm) other).getParameter());
-			String sParameter = ((FunctionTerm) other).getParameter().toString(variableToIdentifier, parameterNumerator);
-			parameterNumerator.unNumberParameter();
-			return "<" + sParameter + ":" + sParamType + " -> " + "..." + ">";
-		}
-
-	}
-
-	public class DiffInfoFunctionBody extends DiffInfoFunction
-	{
-		public DiffInfoFunctionBody(FunctionTerm other, DiffInfo diffBody)
-		{
-			super(other, getParameter().getType().new DiffInfoEqual(other.getParameter().getType()), diffBody);
-		}
-
-		@Override
-		public String toStringLeft(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
-		{
-			String sParamType = diffParamType.toStringLeft(variableToIdentifier, parameterNumerator);
-			parameterNumerator.numberParameter(getParameter());
-			String sParameter = getParameter().toString(variableToIdentifier, parameterNumerator);
-			String sBody = diffBody.toStringLeft(variableToIdentifier, parameterNumerator);
-			parameterNumerator.unNumberParameter();
-			return "<" + sParameter + ":" + sParamType + " -> " + sBody + ">";
-		}
-
-		@Override
-		public String toStringRight(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
-		{
-			String sParamType = diffParamType.toStringRight(variableToIdentifier, parameterNumerator);
-			parameterNumerator.numberParameter(getParameter());
-			String sParameter = getParameter().toString(variableToIdentifier, parameterNumerator);
-			String sBody = diffBody.toStringRight(variableToIdentifier, parameterNumerator);
-			parameterNumerator.unNumberParameter();
-			return "<" + sParameter + ":" + sParamType + " -> " + sBody + ">";
+			DiffInfo di = this;
+			StringBuilder parameterListStringBuilder = new StringBuilder();
+			boolean first = true;
+			int numberedParameters = 0;
+			while (di instanceof DiffInfoFunction)
+			{
+				DiffInfo diffParamType = ((DiffInfoFunction) di).diffParamType;
+				DiffInfo diffBody = ((DiffInfoFunction) di).diffBody;
+				ParameterVariableTerm parameter = ((DiffInfoFunction) di).getParameter();
+				Term body = ((DiffInfoFunction) di).getBody();
+				String sType = diffParamType.toStringRight(variableToIdentifier, parameterNumerator);
+				String sParameter = null;
+				if (body.isFreeVariable(parameter))
+				{
+					parameterNumerator.numberParameter(parameter);
+					numberedParameters++;
+					sParameter = parameter.toString(variableToIdentifier, parameterNumerator);
+				}
+				if (!first)
+					parameterListStringBuilder.append(", ");
+				parameterListStringBuilder.append((sParameter != null ? (sParameter + ":") : "") + sType);
+				first = false;
+				di = diffBody;
+			}
+			String sBody = null;
+			if (di != null)
+				sBody = di.toStringRight(variableToIdentifier, parameterNumerator);
+			parameterNumerator.unNumberParameters(numberedParameters);
+			return "<" + parameterListStringBuilder + " " + (sBody != null ? ("-> " + sBody) : "...") + ">";
 		}
 
 	}
@@ -481,19 +504,18 @@ public class FunctionTerm extends Term
 			return new DiffInfoNotEqual(term);
 		FunctionTerm func = (FunctionTerm) term;
 		DiffInfo diffParamType = getParameter().getType().diff(func.getParameter().getType());
-		if (!(diffParamType instanceof DiffInfoEqual))
-			return new DiffInfoFunctionParam(func, diffParamType);
+		DiffInfo diffBody;
 		try
 		{
-			DiffInfo diffBody = getBody().diff(func.getBody().replace(func.getParameter(), getParameter()));
-			if (!(diffBody instanceof DiffInfoEqual))
-				return new DiffInfoFunctionBody(func, diffBody);
-			return new DiffInfoEqual(func);
+			diffBody = getBody().diff(func.getBody().replace(func.getParameter(), getParameter()));
 		}
 		catch (ReplaceTypeException e)
 		{
-			throw new Error(e);
+			diffBody = null;
 		}
+		if ((diffParamType instanceof DiffInfoEqual) && (diffBody instanceof DiffInfoEqual))
+			return new DiffInfoEqual(func);
+		return new DiffInfoFunction(func, diffParamType, diffBody);
 	}
 
 	/**

@@ -385,7 +385,7 @@ public abstract class Term implements Serializable, Exportable
 		 * @param other
 		 *            The right part of the comparison.
 		 */
-		public DiffInfo(Term other)
+		protected DiffInfo(Term other)
 		{
 			super();
 			this.other = other;
@@ -439,7 +439,7 @@ public abstract class Term implements Serializable, Exportable
 	public class DiffInfoEqual extends DiffInfo
 	{
 
-		public DiffInfoEqual(Term other)
+		protected DiffInfoEqual(Term other)
 		{
 			super(other);
 		}
@@ -464,7 +464,7 @@ public abstract class Term implements Serializable, Exportable
 	 */
 	public class DiffInfoNotEqual extends DiffInfo
 	{
-		public DiffInfoNotEqual(Term other)
+		protected DiffInfoNotEqual(Term other)
 		{
 			super(other);
 		}
