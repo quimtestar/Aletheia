@@ -34,7 +34,7 @@ public class ProjectionTermPhrase extends TermPhrase
 {
 	private static final long serialVersionUID = -2536637561143669857L;
 
-	protected ProjectionTermPhrase(PersistenceManager persistenceManager, Transaction transaction, Map<VariableTerm, Identifier> variableToIdentifier,
+	protected ProjectionTermPhrase(PersistenceManager persistenceManager, Transaction transaction, Map<? extends VariableTerm, Identifier> variableToIdentifier,
 			ParameterNumerator parameterNumerator, ProjectionTerm term)
 	{
 		super(term);

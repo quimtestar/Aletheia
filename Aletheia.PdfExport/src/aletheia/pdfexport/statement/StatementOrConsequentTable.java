@@ -22,12 +22,9 @@ package aletheia.pdfexport.statement;
 import java.util.Map;
 
 import aletheia.model.identifier.Identifier;
-import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.VariableTerm;
 import aletheia.pdfexport.BasePhrase;
 import aletheia.pdfexport.BaseTable;
-import aletheia.utilities.collections.AdaptedMap;
-
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.pdf.PdfPCell;
 
@@ -70,23 +67,18 @@ public abstract class StatementOrConsequentTable extends BaseTable
 
 	}
 
-	private final Map<IdentifiableVariableTerm, Identifier> identifiableVariableToIdentifier;
+	private final Map<? extends VariableTerm, Identifier> variableToIdentifier;
 
-	public StatementOrConsequentTable(int numColumns, Map<IdentifiableVariableTerm, Identifier> identifiableVariableToIdentifier)
+	public StatementOrConsequentTable(int numColumns, Map<? extends VariableTerm, Identifier> variableToIdentifier)
 	{
 		super(numColumns);
-		this.identifiableVariableToIdentifier = identifiableVariableToIdentifier;
+		this.variableToIdentifier = variableToIdentifier;
 		this.setSplitRows(false);
 	}
 
-	protected Map<IdentifiableVariableTerm, Identifier> getIdentifiableVariableToIdentifier()
+	protected Map<? extends VariableTerm, Identifier> getVariableToIdentifier()
 	{
-		return identifiableVariableToIdentifier;
-	}
-
-	protected Map<VariableTerm, Identifier> variableToIdentifier()
-	{
-		return new AdaptedMap<>(getIdentifiableVariableToIdentifier());
+		return variableToIdentifier;
 	}
 
 }

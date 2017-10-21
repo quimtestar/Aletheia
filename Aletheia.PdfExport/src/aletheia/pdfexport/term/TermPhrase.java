@@ -52,14 +52,14 @@ public abstract class TermPhrase extends BasePhrase
 		return term;
 	}
 
-	public static TermPhrase termPhrase(PersistenceManager persistenceManager, Transaction transaction, Map<VariableTerm, Identifier> variableToIdentifier,
-			Term term)
+	public static TermPhrase termPhrase(PersistenceManager persistenceManager, Transaction transaction,
+			Map<? extends VariableTerm, Identifier> variableToIdentifier, Term term)
 	{
 		return termPhrase(persistenceManager, transaction, variableToIdentifier, term.parameterNumerator(), term);
 	}
 
-	protected static TermPhrase termPhrase(PersistenceManager persistenceManager, Transaction transaction, Map<VariableTerm, Identifier> variableToIdentifier,
-			Term.ParameterNumerator parameterNumerator, Term term)
+	protected static TermPhrase termPhrase(PersistenceManager persistenceManager, Transaction transaction,
+			Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator, Term term)
 	{
 		if (term instanceof SimpleTerm)
 		{
@@ -70,7 +70,7 @@ public abstract class TermPhrase extends BasePhrase
 				if (term instanceof IdentifiableVariableTerm)
 					return new IdentifiableVariableTermReferencePhrase(persistenceManager, transaction, variableToIdentifier, (IdentifiableVariableTerm) term);
 				else if (term instanceof ParameterVariableTerm)
-					return new ParameterVariableTermPhrase(parameterNumerator, (VariableTerm) term);
+					return new ParameterVariableTermPhrase((VariableTerm) term, variableToIdentifier, parameterNumerator);
 				else
 					throw new Error();
 			}

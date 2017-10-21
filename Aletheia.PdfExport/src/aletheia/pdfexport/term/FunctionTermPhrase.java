@@ -23,6 +23,7 @@ import java.util.Map;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.term.FunctionTerm;
+import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term.ParameterNumerator;
 import aletheia.model.term.VariableTerm;
 import aletheia.pdfexport.SimpleChunk;
@@ -33,20 +34,29 @@ public class FunctionTermPhrase extends TermPhrase
 {
 	private static final long serialVersionUID = -357818252943847397L;
 
-	protected FunctionTermPhrase(PersistenceManager persistenceManager, Transaction transaction, Map<VariableTerm, Identifier> variableToIdentifier,
+	protected FunctionTermPhrase(PersistenceManager persistenceManager, Transaction transaction, Map<? extends VariableTerm, Identifier> variableToIdentifier,
 			ParameterNumerator parameterNumerator, FunctionTerm term)
 	{
 		super(term);
 		addSimpleChunk(new SimpleChunk("<"));
-		parameterNumerator.numberParameter(term.getParameter());
-		addBasePhrase(termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term.getParameter()));
-		parameterNumerator.unNumberParameter();
+		ParameterVariableTerm parameter = term.getParameter();
+		boolean numbered = false;
+		if (!variableToIdentifier.containsKey(parameter))
+		{
+			parameterNumerator.numberParameter(parameter);
+			numbered = true;
+		}
+		addBasePhrase(termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, parameter));
+		if (numbered)
+			parameterNumerator.unNumberParameter();
 		addSimpleChunk(new SimpleChunk(":"));
-		addBasePhrase(termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term.getParameter().getType()));
+		addBasePhrase(termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, parameter.getType()));
 		addSimpleChunk(new SimpleChunk(" \u2192 "));
-		parameterNumerator.numberParameter(term.getParameter());
+		if (numbered)
+			parameterNumerator.numberParameter(term.getParameter());
 		addBasePhrase(termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term.getBody()));
-		parameterNumerator.unNumberParameter();
+		if (numbered)
+			parameterNumerator.unNumberParameter();
 		addSimpleChunk(new SimpleChunk(">"));
 	}
 

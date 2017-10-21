@@ -46,7 +46,7 @@ public class ConsequentTable extends StatementOrConsequentTable
 		public TermCellPhrase()
 		{
 			super();
-			TermPhrase termPhrase = TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier(), context.getConsequent());
+			TermPhrase termPhrase = TermPhrase.termPhrase(persistenceManager, transaction, getVariableToIdentifier(), context.getConsequent());
 			addSimpleChunk(new SimpleChunk("\u22a2 ", FontManager.instance.getFont(fontSize, BaseColor.ORANGE)));
 			addBasePhrase(termPhrase);
 		}
@@ -66,7 +66,7 @@ public class ConsequentTable extends StatementOrConsequentTable
 				if (!first)
 					addSimpleChunk(new SimpleChunk(", "));
 				first = false;
-				addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier(), st.getVariable()));
+				addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, getVariableToIdentifier(), st.getVariable()));
 			}
 		}
 	}

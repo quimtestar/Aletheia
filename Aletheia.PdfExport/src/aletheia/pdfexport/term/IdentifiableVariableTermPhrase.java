@@ -29,12 +29,9 @@ public abstract class IdentifiableVariableTermPhrase extends VariableTermPhrase
 {
 	private static final long serialVersionUID = -1035132395440023184L;
 
-	private final Map<? extends VariableTerm, Identifier> variableToIdentifier;
-
 	protected IdentifiableVariableTermPhrase(Map<? extends VariableTerm, Identifier> variableToIdentifier, IdentifiableVariableTerm term)
 	{
-		super(term);
-		this.variableToIdentifier = variableToIdentifier;
+		super(term, variableToIdentifier);
 	}
 
 	@Override
@@ -46,7 +43,7 @@ public abstract class IdentifiableVariableTermPhrase extends VariableTermPhrase
 	@Override
 	protected String getText()
 	{
-		return getTerm().toString(variableToIdentifier);
+		return getTerm().toString(getVariableToIdentifier());
 	}
 
 }

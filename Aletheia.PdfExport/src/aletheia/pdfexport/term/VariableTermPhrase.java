@@ -19,16 +19,26 @@
  ******************************************************************************/
 package aletheia.pdfexport.term;
 
+import java.util.Map;
+
+import aletheia.model.identifier.Identifier;
 import aletheia.model.term.VariableTerm;
 
 public abstract class VariableTermPhrase extends TermPhrase
 {
 	private static final long serialVersionUID = -8504623430280520181L;
 
-	protected VariableTermPhrase(VariableTerm term)
+	private final Map<? extends VariableTerm, Identifier> variableToIdentifier;
+
+	protected VariableTermPhrase(VariableTerm term, Map<? extends VariableTerm, Identifier> variableToIdentifier)
 	{
 		super(term);
+		this.variableToIdentifier = variableToIdentifier;
+	}
 
+	protected Map<? extends VariableTerm, Identifier> getVariableToIdentifier()
+	{
+		return variableToIdentifier;
 	}
 
 	@Override

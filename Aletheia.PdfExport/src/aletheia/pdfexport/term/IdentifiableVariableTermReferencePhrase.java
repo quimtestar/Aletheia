@@ -44,7 +44,7 @@ public class IdentifiableVariableTermReferencePhrase extends IdentifiableVariabl
 	}
 
 	protected IdentifiableVariableTermReferencePhrase(PersistenceManager persistenceManager, Transaction transaction,
-			Map<VariableTerm, Identifier> variableToIdentifier, IdentifiableVariableTerm term)
+			Map<? extends VariableTerm, Identifier> variableToIdentifier, IdentifiableVariableTerm term)
 	{
 		super(variableToIdentifier, term);
 		SimpleChunk c = new SimpleChunk(getText(), FontManager.instance.getFont(fontSize, color(persistenceManager, transaction, term)));

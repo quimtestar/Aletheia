@@ -38,10 +38,10 @@ public class SpecializationTable extends StatementTable
 		{
 			super();
 			addSimpleChunk(new SimpleChunk("Specialization: "));
-			addBasePhrase(TermPhrase.termPhrase(getPersistenceManager(), getTransaction(), variableToIdentifier(),
+			addBasePhrase(TermPhrase.termPhrase(getPersistenceManager(), getTransaction(), getVariableToIdentifier(),
 					getStatement().getGeneral(getTransaction()).getVariable()));
 			addSimpleChunk(new SimpleChunk(" \u2190 "));
-			addBasePhrase(TermPhrase.termPhrase(getPersistenceManager(), getTransaction(), variableToIdentifier(), getStatement().getInstance()));
+			addBasePhrase(TermPhrase.termPhrase(getPersistenceManager(), getTransaction(), getVariableToIdentifier(), getStatement().getInstance()));
 		}
 	}
 

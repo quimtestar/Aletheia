@@ -19,10 +19,9 @@
  ******************************************************************************/
 package aletheia.pdfexport.term;
 
-import java.util.Collections;
+import java.util.Map;
 
 import aletheia.model.identifier.Identifier;
-import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.Term.ParameterNumerator;
 import aletheia.model.term.VariableTerm;
 import aletheia.pdfexport.SimpleChunk;
@@ -33,9 +32,10 @@ public class ParameterVariableTermPhrase extends VariableTermPhrase
 
 	private final ParameterNumerator parameterNumerator;
 
-	protected ParameterVariableTermPhrase(ParameterNumerator parameterNumerator, VariableTerm term)
+	protected ParameterVariableTermPhrase(VariableTerm term, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+			ParameterNumerator parameterNumerator)
 	{
-		super(term);
+		super(term, variableToIdentifier);
 		this.parameterNumerator = parameterNumerator;
 		addSimpleChunk(new SimpleChunk(getText()));
 	}
@@ -43,7 +43,7 @@ public class ParameterVariableTermPhrase extends VariableTermPhrase
 	@Override
 	protected String getText()
 	{
-		return getTerm().toString(Collections.<IdentifiableVariableTerm, Identifier> emptyMap(), parameterNumerator);
+		return getTerm().toString(getVariableToIdentifier(), parameterNumerator);
 	}
 
 }

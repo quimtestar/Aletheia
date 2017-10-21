@@ -33,8 +33,8 @@ public class CompositionTermPhrase extends TermPhrase
 {
 	private static final long serialVersionUID = 4487221289844310777L;
 
-	protected CompositionTermPhrase(PersistenceManager persistenceManager, Transaction transaction, Map<VariableTerm, Identifier> variableToIdentifier,
-			Term.ParameterNumerator parameterNumerator, CompositionTerm term)
+	protected CompositionTermPhrase(PersistenceManager persistenceManager, Transaction transaction,
+			Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator, CompositionTerm term)
 	{
 		super(term);
 		addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term.getHead()));
