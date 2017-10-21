@@ -33,7 +33,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -55,8 +54,6 @@ import aletheia.model.term.VariableTerm;
 import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
-import aletheia.utilities.collections.AdaptedMap;
-import aletheia.utilities.collections.CombinedMap;
 
 public abstract class AbstractPersistentRenderer extends AbstractRenderer
 {
@@ -356,7 +353,7 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 
 	protected void addTerm(Transaction transaction, Statement statement, Term term)
 	{
-		addTerm(statement.parentVariableToIdentifierWithParameters(transaction), term);
+		addTerm(statement.parentVariableToIdentifierWithParameters(transaction, term), term);
 	}
 
 	protected void addTerm(Transaction transaction, Statement statement)
@@ -393,9 +390,6 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 	{
 		addOpenFunLabel();
 		Term term = functionTerm;
-		Map<ParameterVariableTerm, Identifier> localVariableToIdentifier = new HashMap<>();
-		Map<VariableTerm, Identifier> totalVariableToIdentifier = new CombinedMap<>(new AdaptedMap<>(localVariableToIdentifier),
-				new AdaptedMap<>(variableToIdentifier));
 		boolean first = true;
 		int numberedParameters = 0;
 		while (term instanceof FunctionTerm)
@@ -408,16 +402,16 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 				addSpaceLabel();
 			}
 			pushComponentList();
-			addTerm(totalVariableToIdentifier, parameterNumerator, parameter.getType());
+			addTerm(variableToIdentifier, parameterNumerator, parameter.getType());
 			List<Component> parameterTypeComponentList = popComponentList();
 			if (body.isFreeVariable(parameter))
 			{
-				if (!totalVariableToIdentifier.containsKey(parameter))
+				if (!variableToIdentifier.containsKey(parameter))
 				{
 					parameterNumerator.numberParameter(parameter);
 					numberedParameters++;
 				}
-				addParameterVariableTerm(totalVariableToIdentifier, parameterNumerator, parameter);
+				addParameterVariableTerm(variableToIdentifier, parameterNumerator, parameter);
 				addColonLabel();
 			}
 			add(parameterTypeComponentList);
@@ -427,7 +421,7 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 		addSpaceLabel();
 		addArrowLabel();
 		addSpaceLabel();
-		addTerm(totalVariableToIdentifier, parameterNumerator, term);
+		addTerm(variableToIdentifier, parameterNumerator, term);
 		parameterNumerator.unNumberParameters(numberedParameters);
 		addCloseFunLabel();
 	}

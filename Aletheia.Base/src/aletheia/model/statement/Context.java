@@ -2325,10 +2325,10 @@ public class Context extends Statement
 	}
 
 	@Override
-	public Map<VariableTerm, Identifier> parentVariableToIdentifierWithParameters(Transaction transaction)
+	public Map<VariableTerm, Identifier> parentVariableToIdentifierWithParameters(Transaction transaction, Term term)
 	{
-		Map<VariableTerm, Identifier> parent = super.parentVariableToIdentifierWithParameters(transaction);
-		Map<ParameterVariableTerm, Identifier> parameter = parameterVariableToIdentifier(transaction);
+		Map<VariableTerm, Identifier> parent = super.parentVariableToIdentifierWithParameters(transaction, term);
+		Map<ParameterVariableTerm, Identifier> parameter = parameterVariableToIdentifier(transaction, term);
 		if (parameter == null)
 			return parent;
 		else

@@ -783,9 +783,14 @@ public abstract class Statement implements Exportable
 		return getParentNomenclator(transaction).variableToIdentifier();
 	}
 
-	public Map<VariableTerm, Identifier> parentVariableToIdentifierWithParameters(Transaction transaction)
+	public Map<VariableTerm, Identifier> parentVariableToIdentifierWithParameters(Transaction transaction, Term term)
 	{
 		return new AdaptedMap<>(parentVariableToIdentifier(transaction));
+	}
+
+	public Map<VariableTerm, Identifier> parentVariableToIdentifierWithParameters(Transaction transaction)
+	{
+		return parentVariableToIdentifierWithParameters(transaction, getTerm());
 	}
 
 	/**
