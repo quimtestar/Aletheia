@@ -2284,4 +2284,32 @@ public class Context extends Statement
 		return subCtx;
 	}
 
+	public Term.ParameterIdentification makeParameterIdentification(Transaction transaction, Term term)
+	{
+		Stack<Identifier> stack = new Stack<>();
+		Term body = term;
+		Iterator<Assumption> assumptionIterator = assumptions(transaction).iterator();
+		while (body instanceof FunctionTerm)
+		{
+			FunctionTerm function = (FunctionTerm) body;
+			Assumption assumption = null;
+			if (assumptionIterator.hasNext())
+				assumption = assumptionIterator.next();
+			if (function.getBody().isFreeVariable(function.getParameter()) && assumption != null && assumption.getIdentifier() != null)
+				stack.push(assumption.getIdentifier());
+			else
+				stack.push(null);
+			body = function.getBody();
+		}
+		Term.ParameterIdentification parameterIdentification = null;
+		while (!stack.isEmpty())
+			parameterIdentification = new FunctionTerm.FunctionParameterIdentification(stack.pop(), null, parameterIdentification);
+		return parameterIdentification;
+	}
+
+	public Term.ParameterIdentification makeParameterIdentification(Transaction transaction)
+	{
+		return makeParameterIdentification(transaction, getTerm());
+	}
+
 }

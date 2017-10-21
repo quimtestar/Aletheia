@@ -61,7 +61,7 @@ public class StatementOut extends TransactionalCommand
 		{
 			Context context = (Context) statement;
 			Term term = context.getTerm();
-			String sterm = termToString(activeContext, getTransaction(), term, context.assumptions(getTransaction()));
+			String sterm = termToString(activeContext, getTransaction(), term, context.makeParameterIdentification(getTransaction()));
 			if (context instanceof UnfoldingContext)
 			{
 				UnfoldingContext unfoldingContext = (UnfoldingContext) context;
@@ -78,7 +78,7 @@ public class StatementOut extends TransactionalCommand
 			{
 				Declaration dec = (Declaration) statement;
 				Term value = dec.getValue();
-				String svalue = termToString(activeContext, getTransaction(), value, context.assumptions(getTransaction()));
+				String svalue = termToString(activeContext, getTransaction(), value, context.makeParameterIdentification(getTransaction(), value));
 				getOut().println("dec \"" + svalue + "\"");
 			}
 			else

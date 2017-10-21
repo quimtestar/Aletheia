@@ -24,19 +24,13 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Stack;
 import aletheia.gui.app.AletheiaJFrame;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.model.authority.UnpackedSignatureRequest;
-import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
-import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
-import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.Term;
 import aletheia.parser.AletheiaParserException;
 import aletheia.peertopeer.PeerToPeerNode;
@@ -306,31 +300,6 @@ public abstract class Command
 	protected static String termToString(Context ctx, Transaction transaction, Term term)
 	{
 		return termToString(ctx, transaction, term, (Term.ParameterIdentification) null);
-	}
-
-	protected static String termToString(Context ctx, Transaction transaction, Term term, List<Assumption> assumptions)
-	{
-		Stack<Identifier> stack = new Stack<>();
-		{
-			Term body = term;
-			Iterator<Assumption> assumptionIterator = assumptions.iterator();
-			while (body instanceof FunctionTerm)
-			{
-				FunctionTerm function = (FunctionTerm) body;
-				Assumption assumption = null;
-				if (assumptionIterator.hasNext())
-					assumption = assumptionIterator.next();
-				if (function.getBody().isFreeVariable(function.getParameter()) && assumption != null && assumption.getIdentifier() != null)
-					stack.push(assumption.getIdentifier());
-				else
-					stack.push(null);
-				body = function.getBody();
-			}
-		}
-		Term.ParameterIdentification parameterIdentification = null;
-		while (!stack.isEmpty())
-			parameterIdentification = new FunctionTerm.FunctionParameterIdentification(stack.pop(), null, parameterIdentification);
-		return term.toString(transaction, ctx, parameterIdentification);
 	}
 
 	public static Command parse(CommandSource from, Transaction transaction, String command) throws CommandParseException
