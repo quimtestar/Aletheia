@@ -23,9 +23,9 @@ import java.util.Map;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.term.CompositionTerm;
-import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.Term.ParameterNumerator;
+import aletheia.model.term.VariableTerm;
 import aletheia.pdfexport.SimpleChunk;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -34,8 +34,8 @@ public class ProjectionTermPhrase extends TermPhrase
 {
 	private static final long serialVersionUID = -2536637561143669857L;
 
-	protected ProjectionTermPhrase(PersistenceManager persistenceManager, Transaction transaction,
-			Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator, ProjectionTerm term)
+	protected ProjectionTermPhrase(PersistenceManager persistenceManager, Transaction transaction, Map<VariableTerm, Identifier> variableToIdentifier,
+			ParameterNumerator parameterNumerator, ProjectionTerm term)
 	{
 		super(term);
 		addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term.getFunction()));

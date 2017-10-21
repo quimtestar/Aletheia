@@ -23,13 +23,14 @@ import java.util.Map;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.term.IdentifiableVariableTerm;
+import aletheia.model.term.VariableTerm;
 import aletheia.pdfexport.SimpleChunk;
 
 public class IdentifiableVariableTermAnchorPhrase extends IdentifiableVariableTermPhrase
 {
 	private static final long serialVersionUID = -4340097945414733212L;
 
-	public IdentifiableVariableTermAnchorPhrase(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, IdentifiableVariableTerm term)
+	public IdentifiableVariableTermAnchorPhrase(Map<? extends VariableTerm, Identifier> variableToIdentifier, IdentifiableVariableTerm term)
 	{
 		super(variableToIdentifier, term);
 		SimpleChunk c = new SimpleChunk(String.format("%-20s", getText()));

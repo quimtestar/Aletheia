@@ -23,8 +23,8 @@ import java.util.Map;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.term.FunctionTerm;
-import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.Term.ParameterNumerator;
+import aletheia.model.term.VariableTerm;
 import aletheia.pdfexport.SimpleChunk;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -33,7 +33,7 @@ public class FunctionTermPhrase extends TermPhrase
 {
 	private static final long serialVersionUID = -357818252943847397L;
 
-	protected FunctionTermPhrase(PersistenceManager persistenceManager, Transaction transaction, Map<IdentifiableVariableTerm, Identifier> variableToIdentifier,
+	protected FunctionTermPhrase(PersistenceManager persistenceManager, Transaction transaction, Map<VariableTerm, Identifier> variableToIdentifier,
 			ParameterNumerator parameterNumerator, FunctionTerm term)
 	{
 		super(term);
