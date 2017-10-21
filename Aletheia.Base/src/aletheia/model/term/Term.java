@@ -354,6 +354,11 @@ public abstract class Term implements Serializable, Exportable
 		return toString((Map<? extends VariableTerm, Identifier>) null);
 	}
 
+	public Map<ParameterVariableTerm, Identifier> parameterVariableToIdentifier(ParameterIdentification parameterIdentification)
+	{
+		return Collections.emptyMap();
+	}
+
 	/**
 	 *
 	 * Information about the result of a comparison of two given terms.

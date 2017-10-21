@@ -20,6 +20,7 @@
 package aletheia.model.term;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.Map;
@@ -321,6 +322,32 @@ public class FunctionTerm extends Term
 		String sBody = term.toString(totalVariableToIdentifier, parameterNumerator, parameterIdentification);
 		parameterNumerator.unNumberParameters(numberedParameters);
 		return "<" + parameterListStringBuilder + " -> " + sBody + ">";
+	}
+
+	@Override
+	public Map<ParameterVariableTerm, Identifier> parameterVariableToIdentifier(ParameterIdentification parameterIdentification)
+	{
+		Map<ParameterVariableTerm, Identifier> localMap = null;
+		if (parameterIdentification instanceof FunctionParameterIdentification)
+		{
+			Identifier identifier = ((FunctionParameterIdentification) parameterIdentification).getParameter();
+			if (identifier != null)
+				localMap = Collections.singletonMap(parameter, identifier);
+		}
+		Map<ParameterVariableTerm, Identifier> bodyMap = null;
+		if (body instanceof FunctionTerm)
+		{
+			ParameterIdentification bodyParameterIdentification = null;
+			if (parameterIdentification instanceof FunctionParameterIdentification)
+				bodyParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getBody();
+			bodyMap = ((FunctionTerm) body).parameterVariableToIdentifier(bodyParameterIdentification);
+		}
+		if (localMap == null)
+			return bodyMap;
+		else if (bodyMap == null)
+			return localMap;
+		else
+			return new CombinedMap<>(localMap, bodyMap);
 	}
 
 	/**

@@ -73,6 +73,7 @@ import aletheia.persistence.entities.statement.StatementEntity;
 import aletheia.protocol.Exportable;
 import aletheia.utilities.collections.AbstractCloseableCollection;
 import aletheia.utilities.collections.AdaptedCollection;
+import aletheia.utilities.collections.AdaptedMap;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCloseableCollection;
 import aletheia.utilities.collections.BijectionCloseableSet;
@@ -780,6 +781,11 @@ public abstract class Statement implements Exportable
 	public Map<IdentifiableVariableTerm, Identifier> parentVariableToIdentifier(Transaction transaction)
 	{
 		return getParentNomenclator(transaction).variableToIdentifier();
+	}
+
+	public Map<VariableTerm, Identifier> parentVariableToIdentifierWithParameters(Transaction transaction)
+	{
+		return new AdaptedMap<>(parentVariableToIdentifier(transaction));
 	}
 
 	/**

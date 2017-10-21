@@ -34,7 +34,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -44,8 +43,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import aletheia.model.identifier.Identifier;
-import aletheia.model.statement.Assumption;
-import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.CompositionTerm;
 import aletheia.model.term.FunctionTerm;
@@ -357,35 +354,9 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 			throw new Error();
 	}
 
-	private Map<? extends VariableTerm, Identifier> variableToIdentifier(Transaction transaction, Statement statement, Term term)
-	{
-		Map<? extends VariableTerm, Identifier> variableToIdentifier = statement.parentVariableToIdentifier(transaction);
-		if (statement instanceof Context)
-		{
-			Map<ParameterVariableTerm, Identifier> localVariableToIdentifier = new HashMap<>();
-			{
-				Term body = term;
-				Iterator<Assumption> assumptionIterator = ((Context) statement).assumptions(transaction).iterator();
-				while (body instanceof FunctionTerm)
-				{
-					FunctionTerm function = (FunctionTerm) body;
-					Assumption assumption = null;
-					if (assumptionIterator.hasNext())
-						assumption = assumptionIterator.next();
-					if (function.getBody().isFreeVariable(function.getParameter()) && assumption != null && assumption.getIdentifier() != null)
-						localVariableToIdentifier.put(function.getParameter(), assumption.getIdentifier());
-					body = function.getBody();
-				}
-			}
-			variableToIdentifier = new CombinedMap<>(new AdaptedMap<VariableTerm, Identifier>(localVariableToIdentifier),
-					new AdaptedMap<>(variableToIdentifier));
-		}
-		return variableToIdentifier;
-	}
-
 	protected void addTerm(Transaction transaction, Statement statement, Term term)
 	{
-		addTerm(variableToIdentifier(transaction, statement, term), term);
+		addTerm(statement.parentVariableToIdentifierWithParameters(transaction), term);
 	}
 
 	protected void addTerm(Transaction transaction, Statement statement)

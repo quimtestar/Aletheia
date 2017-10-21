@@ -83,6 +83,7 @@ import aletheia.persistence.collections.statement.LocalStatementsMap;
 import aletheia.persistence.collections.statement.SubContextsSet;
 import aletheia.persistence.entities.statement.ContextEntity;
 import aletheia.utilities.collections.AdaptedList;
+import aletheia.utilities.collections.AdaptedMap;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCloseableSet;
 import aletheia.utilities.collections.BijectionCollection;
@@ -98,6 +99,7 @@ import aletheia.utilities.collections.CloseableSortedMap;
 import aletheia.utilities.collections.CombinedCloseableMap;
 import aletheia.utilities.collections.CombinedCloseableMultimap;
 import aletheia.utilities.collections.CombinedCollection;
+import aletheia.utilities.collections.CombinedMap;
 import aletheia.utilities.collections.CombinedSet;
 import aletheia.utilities.collections.EmptyCloseableSet;
 import aletheia.utilities.collections.FilteredCloseableSet;
@@ -2310,6 +2312,27 @@ public class Context extends Statement
 	public Term.ParameterIdentification makeParameterIdentification(Transaction transaction)
 	{
 		return makeParameterIdentification(transaction, getTerm());
+	}
+
+	public Map<ParameterVariableTerm, Identifier> parameterVariableToIdentifier(Transaction transaction, Term term)
+	{
+		return getTerm().parameterVariableToIdentifier(makeParameterIdentification(transaction, term));
+	}
+
+	public Map<ParameterVariableTerm, Identifier> parameterVariableToIdentifier(Transaction transaction)
+	{
+		return parameterVariableToIdentifier(transaction, getTerm());
+	}
+
+	@Override
+	public Map<VariableTerm, Identifier> parentVariableToIdentifierWithParameters(Transaction transaction)
+	{
+		Map<VariableTerm, Identifier> parent = super.parentVariableToIdentifierWithParameters(transaction);
+		Map<ParameterVariableTerm, Identifier> parameter = parameterVariableToIdentifier(transaction);
+		if (parameter == null)
+			return parent;
+		else
+			return new CombinedMap<>(parent, new AdaptedMap<>(parameter));
 	}
 
 }
