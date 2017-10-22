@@ -20,12 +20,17 @@
 package aletheia.pdfexport.term;
 
 import java.util.Map;
+import java.util.Stack;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.term.CompositionTerm;
+import aletheia.model.term.FunctionTerm;
+import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectionTerm;
+import aletheia.model.term.Term;
 import aletheia.model.term.Term.ParameterNumerator;
 import aletheia.model.term.VariableTerm;
+import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.pdfexport.SimpleChunk;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -35,11 +40,32 @@ public class ProjectionTermPhrase extends TermPhrase
 	private static final long serialVersionUID = -2536637561143669857L;
 
 	protected ProjectionTermPhrase(PersistenceManager persistenceManager, Transaction transaction, Map<? extends VariableTerm, Identifier> variableToIdentifier,
-			ParameterNumerator parameterNumerator, ProjectionTerm term)
+			ParameterNumerator parameterNumerator, ProjectionTerm projectionTerm)
 	{
-		super(term);
-		addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term.getFunction()));
-		addSimpleChunk(new SimpleChunk("* "));
+		super(projectionTerm);
+		Term term = projectionTerm;
+		Stack<ParameterVariableTerm> stack = new Stack<>();
+		while (term instanceof ProjectionTerm)
+		{
+			FunctionTerm function = ((ProjectionTerm) term).getFunction();
+			stack.push(function.getParameter());
+			term = function.getBody();
+		}
+		int nProjections = stack.size();
+		while (!stack.isEmpty())
+		{
+			try
+			{
+				term = new FunctionTerm(stack.pop(), term);
+			}
+			catch (NullParameterTypeException e)
+			{
+				throw new Error(e);
+			}
+		}
+		addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term));
+		for (int i = 0; i < nProjections; i++)
+			addSimpleChunk(new SimpleChunk("*"));
 	}
 
 	@Override
