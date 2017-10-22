@@ -47,5 +47,5 @@
 '\$[\0-\9a-fA-F]+'												: hexref;			# Hexadecimal references.
 '[\0-\9a-fA-F]{8}\-([\0-\9a-fA-F]{4}\-){3}[\0-\9a-fA-F]{12}'	: uuid;				# UUID references.
 '#0xab|#0xbb'													: ;					# Skip guillemets (might be copied from the result of the "diff" gui cli command).
-'_*'															: ;					# Skip whitespaces.
+'(_|·)*'														: ;					# Skip whitespaces and middots.
 
