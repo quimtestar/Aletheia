@@ -20,23 +20,24 @@
 package aletheia.pdfexport.statement;
 
 import aletheia.model.statement.UnfoldingContext;
+import aletheia.pdfexport.BasePhrase;
 import aletheia.pdfexport.SimpleChunk;
 import aletheia.pdfexport.term.TermPhrase;
 import aletheia.persistence.Transaction;
 
 import com.itextpdf.text.Document;
 
-public class UnfoldingContextTable extends ContextTable
+public class UnfoldingContextTable extends StatementTable
 {
 
-	private class UnfoldingContextPhrase extends ContextPhrase
+	private class UnfoldingContextPhrase extends BasePhrase
 	{
 		private static final long serialVersionUID = 1733632129361357209L;
 
 		public UnfoldingContextPhrase()
 		{
 			super();
-			addSimpleChunk(new SimpleChunk(" Unfolding: "));
+			addSimpleChunk(new SimpleChunk("Unfolding: "));
 			addBasePhrase(TermPhrase.termPhrase(getPersistenceManager(), getTransaction(), getVariableToIdentifier(),
 					getStatement().getDeclaration(getTransaction()).getVariable()));
 		}
@@ -45,11 +46,6 @@ public class UnfoldingContextTable extends ContextTable
 	public UnfoldingContextTable(Document doc, int depth, Transaction transaction, UnfoldingContext statement)
 	{
 		super(doc, depth, transaction, statement);
-	}
-
-	@Override
-	protected void addContextCell()
-	{
 		addCell(new MyCell(new UnfoldingContextPhrase()));
 	}
 

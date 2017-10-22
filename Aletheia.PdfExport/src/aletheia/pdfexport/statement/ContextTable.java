@@ -43,11 +43,6 @@ public class ContextTable extends StatementTable
 	public ContextTable(Document doc, int depth, Transaction transaction, Context statement)
 	{
 		super(doc, depth, transaction, statement);
-		addContextCell();
-	}
-
-	protected void addContextCell()
-	{
 		addCell(new MyCell(new ContextPhrase()));
 	}
 
