@@ -24,6 +24,7 @@ import java.util.Map;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.ParameterVariableTerm;
+import aletheia.model.term.Term;
 import aletheia.model.term.Term.ParameterNumerator;
 import aletheia.model.term.VariableTerm;
 import aletheia.pdfexport.SimpleChunk;
@@ -35,28 +36,37 @@ public class FunctionTermPhrase extends TermPhrase
 	private static final long serialVersionUID = -357818252943847397L;
 
 	protected FunctionTermPhrase(PersistenceManager persistenceManager, Transaction transaction, Map<? extends VariableTerm, Identifier> variableToIdentifier,
-			ParameterNumerator parameterNumerator, FunctionTerm term)
+			ParameterNumerator parameterNumerator, FunctionTerm functionTerm)
 	{
-		super(term);
+		super(functionTerm);
 		addSimpleChunk(new SimpleChunk("<"));
-		ParameterVariableTerm parameter = term.getParameter();
-		boolean numbered = false;
-		if (!variableToIdentifier.containsKey(parameter))
+		Term term = functionTerm;
+		boolean first = true;
+		int numberedParameters = 0;
+		while (term instanceof FunctionTerm)
 		{
-			parameterNumerator.numberParameter(parameter);
-			numbered = true;
+			ParameterVariableTerm parameter = ((FunctionTerm) term).getParameter();
+			Term body = ((FunctionTerm) term).getBody();
+			if (!first)
+				addSimpleChunk(new SimpleChunk(", "));
+			TermPhrase parameterTypePhrase = termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, parameter.getType());
+			if (body.isFreeVariable(parameter))
+			{
+				if (!variableToIdentifier.containsKey(parameter))
+				{
+					parameterNumerator.numberParameter(parameter);
+					numberedParameters++;
+				}
+				addBasePhrase(termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, parameter));
+				addSimpleChunk(new SimpleChunk(":"));
+			}
+			addBasePhrase(parameterTypePhrase);
+			first = false;
+			term = body;
 		}
-		addBasePhrase(termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, parameter));
-		if (numbered)
-			parameterNumerator.unNumberParameter();
-		addSimpleChunk(new SimpleChunk(":"));
-		addBasePhrase(termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, parameter.getType()));
 		addSimpleChunk(new SimpleChunk(" \u2192 "));
-		if (numbered)
-			parameterNumerator.numberParameter(term.getParameter());
-		addBasePhrase(termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term.getBody()));
-		if (numbered)
-			parameterNumerator.unNumberParameter();
+		addBasePhrase(termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term));
+		parameterNumerator.unNumberParameters(numberedParameters);
 		addSimpleChunk(new SimpleChunk(">"));
 	}
 
