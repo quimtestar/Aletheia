@@ -19,14 +19,18 @@
  ******************************************************************************/
 package aletheia.pdfexport.statement;
 
+import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
+import aletheia.model.term.VariableTerm;
 import aletheia.pdfexport.BasePhrase;
 import aletheia.pdfexport.SimpleChunk;
 import aletheia.pdfexport.font.FontManager;
 import aletheia.pdfexport.term.TermPhrase;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
+
+import java.util.Map;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -46,7 +50,7 @@ public class ConsequentTable extends StatementOrConsequentTable
 		public TermCellPhrase()
 		{
 			super();
-			TermPhrase termPhrase = TermPhrase.termPhrase(persistenceManager, transaction, getVariableToIdentifier(), context.getConsequent());
+			TermPhrase termPhrase = TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier(), context.getConsequent());
 			addSimpleChunk(new SimpleChunk("\u22a2 ", FontManager.instance.getFont(fontSize, BaseColor.ORANGE)));
 			addBasePhrase(termPhrase);
 		}
@@ -66,7 +70,7 @@ public class ConsequentTable extends StatementOrConsequentTable
 				if (!first)
 					addSimpleChunk(new SimpleChunk(", "));
 				first = false;
-				addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, getVariableToIdentifier(), st.getVariable()));
+				addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier(), st.getVariable()));
 			}
 		}
 	}
@@ -97,7 +101,7 @@ public class ConsequentTable extends StatementOrConsequentTable
 
 	public ConsequentTable(Document doc, int depth, Transaction transaction, Context context)
 	{
-		super(3, context.variableToIdentifier(transaction));
+		super(3);
 		this.setSplitRows(false);
 		this.persistenceManager = context.getPersistenceManager();
 		this.transaction = transaction;
@@ -143,6 +147,12 @@ public class ConsequentTable extends StatementOrConsequentTable
 	public Transaction getTransaction()
 	{
 		return transaction;
+	}
+
+	@Override
+	protected Map<? extends VariableTerm, Identifier> variableToIdentifier()
+	{
+		return context.variableToIdentifier(transaction);
 	}
 
 }

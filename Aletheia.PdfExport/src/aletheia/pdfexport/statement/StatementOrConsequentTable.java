@@ -67,18 +67,12 @@ public abstract class StatementOrConsequentTable extends BaseTable
 
 	}
 
-	private final Map<? extends VariableTerm, Identifier> variableToIdentifier;
-
-	public StatementOrConsequentTable(int numColumns, Map<? extends VariableTerm, Identifier> variableToIdentifier)
+	public StatementOrConsequentTable(int numColumns)
 	{
 		super(numColumns);
-		this.variableToIdentifier = variableToIdentifier;
 		this.setSplitRows(false);
 	}
 
-	protected Map<? extends VariableTerm, Identifier> getVariableToIdentifier()
-	{
-		return variableToIdentifier;
-	}
+	protected abstract Map<? extends VariableTerm, Identifier> variableToIdentifier();
 
 }

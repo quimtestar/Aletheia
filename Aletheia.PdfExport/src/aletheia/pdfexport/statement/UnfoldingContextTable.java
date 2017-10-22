@@ -38,7 +38,7 @@ public class UnfoldingContextTable extends StatementTable
 		{
 			super();
 			addSimpleChunk(new SimpleChunk("Unfolding: "));
-			addBasePhrase(TermPhrase.termPhrase(getPersistenceManager(), getTransaction(), getVariableToIdentifier(),
+			addBasePhrase(TermPhrase.termPhrase(getPersistenceManager(), getTransaction(), variableToIdentifier(),
 					getStatement().getDeclaration(getTransaction()).getVariable()));
 		}
 	}

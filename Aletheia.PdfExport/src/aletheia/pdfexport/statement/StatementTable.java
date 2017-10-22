@@ -19,12 +19,14 @@
  ******************************************************************************/
 package aletheia.pdfexport.statement;
 
+import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
 import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
 import aletheia.model.statement.UnfoldingContext;
+import aletheia.model.term.VariableTerm;
 import aletheia.pdfexport.BasePhrase;
 import aletheia.pdfexport.SimpleChunk;
 import aletheia.pdfexport.font.FontManager;
@@ -32,6 +34,8 @@ import aletheia.pdfexport.term.IdentifiableVariableTermAnchorPhrase;
 import aletheia.pdfexport.term.TermPhrase;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
+
+import java.util.Map;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -68,7 +72,7 @@ public abstract class StatementTable extends StatementOrConsequentTable
 		public TermCellPhrase()
 		{
 			super();
-			TermPhrase termPhrase = TermPhrase.termPhrase(persistenceManager, transaction, getVariableToIdentifier(), statement.getTerm());
+			TermPhrase termPhrase = TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier(), statement.getTerm());
 			addSimpleChunk(new SimpleChunk(":"));
 			addBasePhrase(termPhrase);
 		}
@@ -100,7 +104,7 @@ public abstract class StatementTable extends StatementOrConsequentTable
 
 	public StatementTable(Document doc, int depth, Transaction transaction, Statement statement)
 	{
-		super(4, statement.parentVariableToIdentifierWithParameters(transaction));
+		super(4);
 		this.setSplitRows(false);
 		this.persistenceManager = statement.getPersistenceManager();
 		this.transaction = transaction;
@@ -147,6 +151,12 @@ public abstract class StatementTable extends StatementOrConsequentTable
 	public Transaction getTransaction()
 	{
 		return transaction;
+	}
+
+	@Override
+	protected Map<? extends VariableTerm, Identifier> variableToIdentifier()
+	{
+		return statement.parentVariableToIdentifierWithParameters(transaction);
 	}
 
 	public static StatementTable statementTable(Document doc, int depth, Transaction transaction, Statement statement)
