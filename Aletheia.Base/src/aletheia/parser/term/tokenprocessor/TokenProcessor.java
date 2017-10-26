@@ -70,6 +70,8 @@ public class TokenProcessor
 			A_equals_bang_I_TermTokenSubProcessor.class,
 			A_openpar_T_closepar_TermTokenSubProcessor.class,
 			A_A_number_M_TermTokenSubProcessor.class,
+			AN_asterisk_IntegerTokenSubProcessor.class,
+			AN_asterisk_number_IntegerTokenSubProcessor.class,
 			M_hyphen_BooleanTokenSubProcessor.class,
 			M_BooleanTokenSubProcessor.class,
 			F_openfun_TPL_arrow_T_closefun_TermTokenSubProcessor.class,
@@ -100,7 +102,7 @@ public class TokenProcessor
 			S_I_StatementTokenSubProcessor.class,
 			S_hexref_StatementTokenSubProcessor.class,
 			MP_IntegerTokenSubProcessor.class,
-			MP_MP_asterisk_IntegerTokenSubProcessor.class
+			MP_MP_AN_IntegerTokenSubProcessor.class
 			);
 	//@formatter:on
 

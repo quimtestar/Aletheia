@@ -93,4 +93,6 @@ S -> hexref;								# Path component might be an hexadecimal reference.
 
 # Multiprojection.
 MP -> ;
-MP -> MP asterisk;
+MP -> MP AN;
+AN -> asterisk;
+AN -> asterisk number;

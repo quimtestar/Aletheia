@@ -22,12 +22,12 @@ package aletheia.parser.term.tokenprocessor;
 import aletheia.parser.AletheiaParserException;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 
-@ProcessorProduction(left = "MP", right =
-{ "MP", "asterisk" })
-public class MP_MP_asterisk_IntegerTokenSubProcessor extends IntegerTokenSubProcessor
+@ProcessorProduction(left = "AN", right =
+{ "asterisk" })
+public class AN_asterisk_IntegerTokenSubProcessor extends IntegerTokenSubProcessor
 {
 
-	protected MP_MP_asterisk_IntegerTokenSubProcessor(TokenProcessor processor)
+	protected AN_asterisk_IntegerTokenSubProcessor(TokenProcessor processor)
 	{
 		super(processor);
 	}
@@ -35,7 +35,7 @@ public class MP_MP_asterisk_IntegerTokenSubProcessor extends IntegerTokenSubProc
 	@Override
 	protected int subProcess(NonTerminalToken token, String input) throws AletheiaParserException
 	{
-		return getProcessor().processInteger((NonTerminalToken) token.getChildren().get(0), input) + 1;
+		return 1;
 	}
 
 }
