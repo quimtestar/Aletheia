@@ -27,11 +27,13 @@ import aletheia.model.statement.Context;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
+import aletheia.model.term.Term.ComposeTypeException;
 import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.parser.AletheiaParserException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefList;
+import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefWithValue;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.ReverseList;
@@ -59,8 +61,10 @@ public class F_openfun_TPL_arrow_T_closefun_TermTokenSubProcessor extends TermTo
 			try
 			{
 				term = new FunctionTerm(typedParameterRef.getParameter(), term);
+				if (typedParameterRef instanceof TypedParameterRefWithValue)
+					term = term.compose(((TypedParameterRefWithValue) typedParameterRef).getValue());
 			}
-			catch (NullParameterTypeException e)
+			catch (NullParameterTypeException | ComposeTypeException e)
 			{
 				throw new AletheiaParserException(e, token.getStartLocation(), token.getStopLocation(), input);
 			}

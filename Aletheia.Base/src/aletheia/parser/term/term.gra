@@ -63,8 +63,7 @@ TPL -> TP;
 TPL -> TPL comma TP;
 TP -> P colon T;
 TP -> T;
-
-U -> openfun P assignment T arrow T closefun;	# An substituted term: "<variable:=value -> term>" ~> "<variable:value# -> term> value".
+TP -> P assignment T; 
 
 # The function parameter.
 P -> I;											# An identifier.
