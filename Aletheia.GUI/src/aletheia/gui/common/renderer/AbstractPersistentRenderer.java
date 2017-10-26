@@ -450,8 +450,14 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 			}
 		}
 		addFunctionTerm(variableToIdentifier, parameterNumerator, (FunctionTerm) term);
-		for (int i = 0; i < nProjections; i++)
+		if (nProjections <= 3)
+			for (int i = 0; i < nProjections; i++)
+				addProjectionTermLabel();
+		else
+		{
 			addProjectionTermLabel();
+			addTextLabel(Integer.toString(nProjections));
+		}
 	}
 
 	protected void addTauTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator, TauTerm term)
