@@ -183,10 +183,16 @@ public class ProjectionTerm extends AtomicTerm
 				throw new Error(e);
 			}
 		}
-		StringBuilder stringBuilder = new StringBuilder(term.toString(variableToIdentifier, parameterNumerator, parameterIdentification));
-		for (int i = 0; i < nProjections; i++)
-			stringBuilder.append("*");
-		return stringBuilder.toString();
+		String sTerm = term.toString(variableToIdentifier, parameterNumerator, parameterIdentification);
+		if (nProjections <= 3)
+		{
+			StringBuilder stringBuilder = new StringBuilder(sTerm);
+			for (int i = 0; i < nProjections; i++)
+				stringBuilder.append("*");
+			return stringBuilder.toString();
+		}
+		else
+			return sTerm + "*" + nProjections;
 	}
 
 	/**
