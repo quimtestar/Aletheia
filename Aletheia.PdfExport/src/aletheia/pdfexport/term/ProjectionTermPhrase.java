@@ -64,8 +64,17 @@ public class ProjectionTermPhrase extends TermPhrase
 			}
 		}
 		addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term));
-		for (int i = 0; i < nProjections; i++)
-			addSimpleChunk(new SimpleChunk("*"));
+		String sProjections;
+		if (nProjections <= 3)
+		{
+			StringBuilder sbProjections = new StringBuilder();
+			for (int i = 0; i < nProjections; i++)
+				sbProjections.append("*");
+			sProjections = sbProjections.toString();
+		}
+		else
+			sProjections = "*" + nProjections;
+		addSimpleChunk(new SimpleChunk(sProjections));
 	}
 
 	@Override
