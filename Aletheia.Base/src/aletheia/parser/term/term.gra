@@ -40,7 +40,6 @@ A -> ttype;						# The primitive type "T".
 A -> I;							# An identifier.
 A -> atparam;					# An 'at' parameter of the form "@n" where n is a natural number. 
 A -> F;							# A function term : "<parameter:type -> body>".
-A -> U;							# A substituted term: "<variable:=value -> term>" ~> "<variable:value# -> term> value".
 A -> R;							# A reference to a statement: "&something".
 A -> hexref;					# An hexadecimal reference to a variable of the form "#xxxxxxxx" where xxxxxxxx are hexadecimal digits. 
 A -> A tilde;					# Another atom (which should resolve to a projected function) unprojected: "<p:t->b>*~" ~> "<p:t->b>". 
