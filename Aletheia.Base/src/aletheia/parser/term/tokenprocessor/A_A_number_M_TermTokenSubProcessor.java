@@ -59,7 +59,7 @@ public class A_A_number_M_TermTokenSubProcessor extends TermTokenSubProcessor
 			int n = Integer.parseInt(((TaggedTerminalToken) token.getChildren().get(1)).getText());
 			if (n < 0 || n >= components.size())
 				throw new AletheiaParserException("Composition coordinate " + n + " out of bounds for term: " + "'" + term.toString(transaction, context) + "'",
-						token.getChildren().get(2).getStartLocation(), token.getChildren().get(2).getStopLocation(), input);
+						token.getChildren().get(1).getStartLocation(), token.getChildren().get(1).getStopLocation(), input);
 			return components.get(n);
 		}
 		else
