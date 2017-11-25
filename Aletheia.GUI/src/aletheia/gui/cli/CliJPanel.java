@@ -2276,7 +2276,7 @@ public class CliJPanel extends JPanel implements CommandSource
 				ArrayList<Token> stars = new ArrayList<>();
 				for (; firstToken.type.equals(BHLMTokenType.Star); firstToken = cursor.forward(false))
 					;
-				firstToken = cursor.backward(false);
+				firstToken = firstToken.type.equals(BHLMTokenType.Out) ? cursor.getToken() : cursor.backward(false);
 				for (; firstToken.type.equals(BHLMTokenType.Star); firstToken = cursor.backward(false))
 					stars.add(firstToken);
 				if (firstToken.type.equals(BHLMTokenType.CloseFun))
