@@ -60,7 +60,7 @@
         <path refid="Aletheia.Protocol.classpath"/>
     </path>
     <path id="Berkeley DB Library.userclasspath">
-        <pathelement location="${Aletheia.BerkeleyDB.location}/je-7.4.5.jar"/>
+        <pathelement location="${Aletheia.BerkeleyDB.location}/je-7.5.11.jar"/>
     </path>
     <path id="Aletheia.BerkeleyDB.classpath">
         <pathelement location="bin"/>

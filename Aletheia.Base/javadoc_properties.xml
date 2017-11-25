@@ -15,7 +15,7 @@
 	<property name="access" value="private"/>
 	<property name="author" value="true"/>
 	<property name="sourcepath" value="src"/>
-	<property name="classpath" value="${Aletheia.Base.location}/bin:${Aletheia.BerkeleyDB.location}/bin:${Aletheia.BerkeleyDB.location}/je-7.4.5.jar:${Aletheia.GUI.location}/bin:${Aletheia.log4j.location}/bin:${Aletheia.log4j.location}/log4j-api-2.8.2.jar:${Aletheia.log4j.location}/log4j-core-2.8.2.jar:${Aletheia.ParserGenerator.location}/bin:${Aletheia.PdfExport.location}/bin:${Aletheia.PdfExport.location}/itext5-itextpdf-5.5.12.jar:${Aletheia.PeerToPeer.location}/bin:${Aletheia.ProofFinder.location}/bin:${Aletheia.Protocol.location}/bin:${Aletheia.Security.location}/bin:${Aletheia.Utilities.location}/bin"/>
+	<property name="classpath" value="${Aletheia.Base.location}/bin:${Aletheia.BerkeleyDB.location}/bin:${Aletheia.BerkeleyDB.location}/je-7.5.11.jar:${Aletheia.GUI.location}/bin:${Aletheia.log4j.location}/bin:${Aletheia.log4j.location}/log4j-api-2.8.2.jar:${Aletheia.log4j.location}/log4j-core-2.8.2.jar:${Aletheia.ParserGenerator.location}/bin:${Aletheia.PdfExport.location}/bin:${Aletheia.PdfExport.location}/itext5-itextpdf-5.5.12.jar:${Aletheia.PeerToPeer.location}/bin:${Aletheia.ProofFinder.location}/bin:${Aletheia.Protocol.location}/bin:${Aletheia.Security.location}/bin:${Aletheia.Utilities.location}/bin"/>
 	<property name="nodeprecated" value="false"/>
 	<property name="nodeprecatedlist" value="false"/>
 	<property name="noindex" value="false"/> 
