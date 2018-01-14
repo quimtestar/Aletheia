@@ -696,11 +696,13 @@ public abstract class Term implements Serializable, Exportable
 	{
 		private final Stack<ParameterVariableTerm> parameterStack;
 		private final Map<ParameterVariableTerm, Stack<Integer>> parameterToNumberStackMap;
+		private final Map<ParameterVariableTerm, Integer> unNumberedParametersMap;
 
 		private ParameterNumerator()
 		{
 			this.parameterStack = new Stack<>();
 			this.parameterToNumberStackMap = new HashMap<>();
+			this.unNumberedParametersMap = new HashMap<>();
 		}
 
 		public int numberParameter(ParameterVariableTerm parameter)
@@ -731,9 +733,10 @@ public abstract class Term implements Serializable, Exportable
 		{
 			ParameterVariableTerm parameter = parameterStack.pop();
 			Stack<Integer> numberStack = parameterToNumberStackMap.get(parameter);
-			numberStack.pop();
+			int number = numberStack.pop();
 			if (numberStack.isEmpty())
 				parameterToNumberStackMap.remove(parameter);
+			unNumberedParametersMap.put(parameter, number);
 			return parameter;
 		}
 
@@ -763,6 +766,12 @@ public abstract class Term implements Serializable, Exportable
 			if (numberStack == null)
 				return false;
 			return true;
+		}
+
+		public int unNumberedParameterNumber(ParameterVariableTerm parameter)
+		{
+			Integer number = unNumberedParametersMap.get(parameter);
+			return number != null ? number : -1;
 		}
 	}
 

@@ -115,15 +115,16 @@ public class LookUp extends TransactionalCommand
 		while (n < size && !matches.isEmpty())
 		{
 			Context.Match m = matches.poll();
+			Term t = m.getStatement().getTerm();
+			Term.ParameterNumerator pn = t.parameterNumerator();
 			getOut().println("-> " + m.getStatement().statementPathString(getTransaction(), context) + ": "
-					+ m.getStatement().getTerm().toString(context.variableToIdentifier(getTransaction())) + ": ");
-			int i = 0;
+					+ t.toString(context.variableToIdentifier(getTransaction()), pn) + ": ");
 			for (ParameterVariableTerm p : m.getAssignable())
 			{
-				Term t = m.getTermMatch().getAssignMapLeft().get(p);
-				if (t != null)
-					getOut().println("\t[ " + "@" + i + " <- " + t.toString(context.variableToIdentifier(getTransaction())) + " ]");
-				i++;
+				Term t_ = m.getTermMatch().getAssignMapLeft().get(p);
+				if (t_ != null)
+					getOut().println(
+							"\t[ " + "@" + pn.unNumberedParameterNumber(p) + " <- " + t_.toString(context.variableToIdentifier(getTransaction())) + " ]");
 			}
 			getOut().println();
 			n++;
