@@ -329,6 +329,8 @@ public class CompositionTerm extends SimpleTerm
 	@Override
 	public Term unproject() throws UnprojectTypeException
 	{
+		return this;
+		/*
 		Term headp = head.unproject();
 		try
 		{
@@ -341,6 +343,7 @@ public class CompositionTerm extends SimpleTerm
 		finally
 		{
 		}
+		*/
 	}
 
 	@Override
