@@ -113,6 +113,15 @@ public abstract class Term implements Serializable, Exportable
 	}
 
 	/**
+	 * The size of a term is defined to be as the total number of variable instances
+	 * it contains.
+	 *
+	 * @return The size.
+	 */
+
+	public abstract int size();
+
+	/**
 	 *
 	 * Exception related with the non-matching types of the replacing terms.
 	 *
@@ -208,6 +217,8 @@ public abstract class Term implements Serializable, Exportable
 	 * Perform a series of replacements on this term (auxiliary-internal method).
 	 */
 	protected abstract Term replace(Deque<Replace> replaces, Set<VariableTerm> exclude) throws ReplaceTypeException;
+
+	public abstract Term replace(Map<VariableTerm, Term> replaces) throws ReplaceTypeException;
 
 	/**
 	 * Two terms are equal by default.
@@ -632,22 +643,22 @@ public abstract class Term implements Serializable, Exportable
 	{
 		private static final long serialVersionUID = 6702315755038199240L;
 
-		public UnprojectTypeException()
+		protected UnprojectTypeException()
 		{
 			super();
 		}
 
-		public UnprojectTypeException(String message, Throwable cause)
+		protected UnprojectTypeException(String message, Throwable cause)
 		{
 			super(message, cause);
 		}
 
-		public UnprojectTypeException(String message)
+		protected UnprojectTypeException(String message)
 		{
 			super(message);
 		}
 
-		public UnprojectTypeException(Throwable cause)
+		protected UnprojectTypeException(Throwable cause)
 		{
 			super(cause);
 		}
@@ -998,6 +1009,39 @@ public abstract class Term implements Serializable, Exportable
 
 		return new Match(assignMapLeft, assignMapRight);
 
+	}
+
+	public class DomainTypeException extends TypeException
+	{
+		private static final long serialVersionUID = -3844170094945165916L;
+
+		protected DomainTypeException()
+		{
+			super();
+		}
+
+		protected DomainTypeException(String message, Throwable cause)
+		{
+			super(message, cause);
+		}
+
+		protected DomainTypeException(String message)
+		{
+			super(message);
+		}
+
+		protected DomainTypeException(Throwable cause)
+		{
+			super(cause);
+		}
+
+	}
+
+	public Term domain() throws DomainTypeException
+	{
+		if (type == null)
+			throw new DomainTypeException();
+		return type.domain();
 	}
 
 }

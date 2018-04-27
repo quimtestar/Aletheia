@@ -46,6 +46,12 @@ public class TauTerm extends AtomicTerm
 		super(null);
 	}
 
+	@Override
+	public int size()
+	{
+		return 0;
+	}
+
 	/**
 	 * The unique instance of this class.
 	 */
@@ -63,6 +69,12 @@ public class TauTerm extends AtomicTerm
 
 	@Override
 	protected TauTerm replace(Deque<Replace> replaces, Set<VariableTerm> exclude)
+	{
+		return this;
+	}
+
+	@Override
+	public Term replace(Map<VariableTerm, Term> replaces)
 	{
 		return this;
 	}

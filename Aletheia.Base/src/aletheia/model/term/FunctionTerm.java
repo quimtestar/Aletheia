@@ -132,6 +132,12 @@ public class FunctionTerm extends Term
 		return body;
 	}
 
+	@Override
+	public int size()
+	{
+		return parameter.getType().size() + body.size();
+	}
+
 	/**
 	 * In the case of a function, the composition is performed replacing the
 	 * parameter with the term in the body. A function can only be composed if the
@@ -196,6 +202,33 @@ public class FunctionTerm extends Term
 			{
 				throw new ReplaceTypeException(e);
 			}
+	}
+
+	@Override
+	public Term replace(Map<VariableTerm, Term> replaces) throws ReplaceTypeException
+	{
+		Term parType = getParameter().getType().replace(replaces);
+		ParameterVariableTerm parameter;
+		Map<VariableTerm, Term> bodyReplaces;
+		if (parType.equals(getParameter().getType()))
+		{
+			parameter = getParameter();
+			bodyReplaces = replaces;
+		}
+		else
+		{
+			parameter = new ParameterVariableTerm(parType);
+			bodyReplaces = new CombinedMap<>(Collections.singletonMap(getParameter(), parameter), replaces);
+		}
+		Term body = getBody().replace(bodyReplaces);
+		try
+		{
+			return new FunctionTerm(parameter, body);
+		}
+		catch (NullParameterTypeException e)
+		{
+			throw new ReplaceTypeException(e);
+		}
 	}
 
 	@Override
@@ -598,13 +631,18 @@ public class FunctionTerm extends Term
 				throw new UnprojectTypeException(e);
 			}
 		}
-
 	}
 
 	@Override
 	public ProjectionTerm project() throws ProjectionTypeException
 	{
 		return new ProjectionTerm(this);
+	}
+
+	@Override
+	public Term domain()
+	{
+		return getParameter().getType();
 	}
 
 }

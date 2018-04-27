@@ -102,6 +102,12 @@ public class ProjectionTerm extends AtomicTerm
 		return function;
 	}
 
+	@Override
+	public int size()
+	{
+		return function.size();
+	}
+
 	/**
 	 * Performs a series of replacements on this projection. The replacements are
 	 * first performed on the function and then the resulting function is projected.
@@ -115,6 +121,19 @@ public class ProjectionTerm extends AtomicTerm
 		try
 		{
 			return new ProjectionTerm(function.replace(replaces, exclude));
+		}
+		catch (ProjectionTypeException e)
+		{
+			throw new ReplaceTypeException(e);
+		}
+	}
+
+	@Override
+	public Term replace(Map<VariableTerm, Term> replaces) throws ReplaceTypeException
+	{
+		try
+		{
+			return function.replace(replaces).project();
 		}
 		catch (ProjectionTypeException e)
 		{

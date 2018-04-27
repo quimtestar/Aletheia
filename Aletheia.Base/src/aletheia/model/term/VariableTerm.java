@@ -53,6 +53,12 @@ public abstract class VariableTerm extends AtomicTerm
 		super(type);
 	}
 
+	@Override
+	public int size()
+	{
+		return 1;
+	}
+
 	/**
 	 * Replacing a variable term is quite trivial. If the variable to be replaced
 	 * equals this, then the result is the term to replace; else the result is this
@@ -71,6 +77,16 @@ public abstract class VariableTerm extends AtomicTerm
 			}
 		}
 		return term;
+	}
+
+	@Override
+	public Term replace(Map<VariableTerm, Term> replaces) throws ReplaceTypeException
+	{
+		Term term = replaces.get(this);
+		if (term == null)
+			return this;
+		else
+			return term;
 	}
 
 	/**

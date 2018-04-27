@@ -125,6 +125,12 @@ public class CompositionTerm extends SimpleTerm
 		return tail;
 	}
 
+	@Override
+	public int size()
+	{
+		return head.size() + tail.size();
+	}
+
 	/**
 	 * A term is replaced simply composing the replacement of the parts (head and
 	 * tail).
@@ -139,6 +145,19 @@ public class CompositionTerm extends SimpleTerm
 		try
 		{
 			return headRep.compose(tailRep);
+		}
+		catch (ComposeTypeException e)
+		{
+			throw new ReplaceTypeException(e);
+		}
+	}
+
+	@Override
+	public Term replace(Map<VariableTerm, Term> replaces) throws ReplaceTypeException
+	{
+		try
+		{
+			return head.replace(replaces).compose(tail.replace(replaces));
 		}
 		catch (ComposeTypeException e)
 		{
@@ -329,6 +348,8 @@ public class CompositionTerm extends SimpleTerm
 	@Override
 	public Term unproject() throws UnprojectTypeException
 	{
+		//TODO ???????
+		/*
 		Term headp = head.unproject();
 		try
 		{
@@ -338,9 +359,8 @@ public class CompositionTerm extends SimpleTerm
 		{
 			throw new UnprojectTypeException(e);
 		}
-		finally
-		{
-		}
+		*/
+		return this;
 	}
 
 	@Override

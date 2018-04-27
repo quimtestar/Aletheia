@@ -153,18 +153,12 @@ public abstract class SimpleTerm extends Term
 
 	public FunctionTerm functionalize() throws FunctionalizeTypeException
 	{
-		Term type = getType();
-		if (type == null)
-			throw new FunctionalizeTypeException("Term has no type.");
-		if (!(type instanceof FunctionTerm))
-			throw new FunctionalizeTypeException("Term's type must be a function.");
-		FunctionTerm functionType = (FunctionTerm) type;
-		ParameterVariableTerm v = new ParameterVariableTerm(functionType.getParameter().getType());
 		try
 		{
+			ParameterVariableTerm v = new ParameterVariableTerm(domain());
 			return new FunctionTerm(v, new CompositionTerm(this, v));
 		}
-		catch (NullParameterTypeException | CompositionTypeException e)
+		catch (NullParameterTypeException | CompositionTypeException | DomainTypeException e)
 		{
 			throw new FunctionalizeTypeException(e);
 		}
