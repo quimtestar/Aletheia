@@ -666,14 +666,15 @@ public abstract class Term implements Serializable, Exportable
 
 	/**
 	 * Computes the <i>unprojection</i> of this term. This is, converts all the
-	 * projected functions of this terms to regular functions (and, if needed,
-	 * composes them with the terms which they are composed with, since a projected
-	 * function can be the head of a composition term and a regular function can't).
+	 * projected functions of this terms to regular functions.
 	 *
 	 * @return This term unprojected.
 	 * @throws UnprojectTypeException
 	 */
-	public abstract Term unproject() throws UnprojectTypeException;
+	public Term unproject() throws UnprojectTypeException
+	{
+		return this;
+	}
 
 	public abstract ProjectionTerm project() throws ProjectionTypeException;
 
