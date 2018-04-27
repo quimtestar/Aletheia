@@ -121,13 +121,4 @@ public class TauTerm extends AtomicTerm
 		return new DiffInfoEqual(term);
 	}
 
-	/**
-	 * The unprojection of the primitive type is itself.
-	 */
-	@Override
-	public Term unproject()
-	{
-		return this;
-	}
-
 }

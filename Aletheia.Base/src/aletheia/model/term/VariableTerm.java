@@ -125,15 +125,6 @@ public abstract class VariableTerm extends AtomicTerm
 		return new DiffInfoNotEqual(term);
 	}
 
-	/**
-	 * The unprojection of a variable term is itself.
-	 */
-	@Override
-	public Term unproject()
-	{
-		return this;
-	}
-
 	public abstract String hexRef();
 
 	@Override

@@ -322,27 +322,6 @@ public class CompositionTerm extends SimpleTerm
 		return head.length() + tail.consequent().length();
 	}
 
-	/**
-	 * The unprojection of a composition is the composition of the unprojected
-	 * parts.
-	 */
-	@Override
-	public Term unproject() throws UnprojectTypeException
-	{
-		Term headp = head.unproject();
-		try
-		{
-			return headp.compose(tail);
-		}
-		catch (ComposeTypeException e)
-		{
-			throw new UnprojectTypeException(e);
-		}
-		finally
-		{
-		}
-	}
-
 	@Override
 	public SimpleTerm head()
 	{
