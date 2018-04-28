@@ -34,7 +34,6 @@ import java.util.Stack;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
-import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 import aletheia.parser.AletheiaParserException;
 import aletheia.parser.parameteridentification.ParameterIdentificationParser;
@@ -612,14 +611,7 @@ public abstract class Term implements Serializable, Exportable
 		}
 		parameters.retainAll(term.freeVariables());
 		for (ParameterVariableTerm param : new ReverseList<>(parameters))
-			try
-			{
-				term = new FunctionTerm(param, term);
-			}
-			catch (NullParameterTypeException e)
-			{
-				throw new RuntimeException(e);
-			}
+			term = new FunctionTerm(param, term);
 		return term;
 	}
 
@@ -681,14 +673,7 @@ public abstract class Term implements Serializable, Exportable
 			term = term.project();
 		while (!stack.isEmpty())
 		{
-			try
-			{
-				term = new FunctionTerm(stack.pop(), term).project();
-			}
-			catch (NullParameterTypeException e)
-			{
-				throw new ProjectionTypeException(e.getMessage(), e);
-			}
+			term = new FunctionTerm(stack.pop(), term).project();
 		}
 		return term;
 	}

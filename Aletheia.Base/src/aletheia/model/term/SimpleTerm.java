@@ -23,7 +23,6 @@ import java.util.Collection;
 import java.util.List;
 
 import aletheia.model.term.CompositionTerm.CompositionTypeException;
-import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 
 /**
@@ -164,7 +163,7 @@ public abstract class SimpleTerm extends Term
 		{
 			return new FunctionTerm(v, new CompositionTerm(this, v));
 		}
-		catch (NullParameterTypeException | CompositionTypeException e)
+		catch (CompositionTypeException e)
 		{
 			throw new FunctionalizeTypeException(e);
 		}

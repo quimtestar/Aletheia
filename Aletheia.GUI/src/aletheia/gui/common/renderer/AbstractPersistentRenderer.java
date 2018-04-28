@@ -51,7 +51,6 @@ import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.TauTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
-import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 
@@ -440,14 +439,7 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 		int nProjections = stack.size();
 		while (!stack.isEmpty())
 		{
-			try
-			{
-				term = new FunctionTerm(stack.pop(), term);
-			}
-			catch (NullParameterTypeException e)
-			{
-				throw new Error(e);
-			}
+			term = new FunctionTerm(stack.pop(), term);
 		}
 		addFunctionTerm(variableToIdentifier, parameterNumerator, (FunctionTerm) term);
 		if (nProjections <= 3)

@@ -28,7 +28,6 @@ import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.ComposeTypeException;
-import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.parser.AletheiaParserException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRef;
@@ -64,7 +63,7 @@ public class F_openfun_TPL_arrow_T_closefun_TermTokenSubProcessor extends TermTo
 				if (typedParameterRef instanceof TypedParameterRefWithValue)
 					term = term.compose(((TypedParameterRefWithValue) typedParameterRef).getValue());
 			}
-			catch (NullParameterTypeException | ComposeTypeException e)
+			catch (ComposeTypeException e)
 			{
 				throw new AletheiaParserException(e, token.getStartLocation(), token.getStopLocation(), input);
 			}

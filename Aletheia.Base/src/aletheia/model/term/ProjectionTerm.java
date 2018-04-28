@@ -26,7 +26,6 @@ import java.util.Stack;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.term.FunctionTerm.DiffInfoFunction;
-import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 
 /**
  * A projection of a function is a term which is roughly equivalent to the
@@ -174,14 +173,7 @@ public class ProjectionTerm extends AtomicTerm
 		int nProjections = stack.size();
 		while (!stack.isEmpty())
 		{
-			try
-			{
-				term = new FunctionTerm(stack.pop(), term);
-			}
-			catch (NullParameterTypeException e)
-			{
-				throw new Error(e);
-			}
+			term = new FunctionTerm(stack.pop(), term);
 		}
 		String sTerm = term.toString(variableToIdentifier, parameterNumerator, parameterIdentification);
 		if (nProjections <= 3)
@@ -208,14 +200,7 @@ public class ProjectionTerm extends AtomicTerm
 	@Override
 	public ProjectionTerm project() throws ProjectionTypeException
 	{
-		try
-		{
-			return new ProjectionTerm(new FunctionTerm(function.getParameter(), function.getBody().project()));
-		}
-		catch (NullParameterTypeException e)
-		{
-			throw new ProjectionTypeException(e.getMessage(), e);
-		}
+		return new ProjectionTerm(new FunctionTerm(function.getParameter(), function.getBody().project()));
 	}
 
 	@Override

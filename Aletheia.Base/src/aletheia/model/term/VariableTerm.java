@@ -47,6 +47,7 @@ public abstract class VariableTerm extends AtomicTerm
 	 *
 	 * @param type
 	 *            The type of the new variable.
+	 * @throws NullVariableTypeException
 	 */
 	public VariableTerm(Term type)
 	{

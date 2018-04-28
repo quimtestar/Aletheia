@@ -30,7 +30,6 @@ import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.ParameterNumerator;
 import aletheia.model.term.VariableTerm;
-import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.pdfexport.SimpleChunk;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -54,14 +53,7 @@ public class ProjectionTermPhrase extends TermPhrase
 		int nProjections = stack.size();
 		while (!stack.isEmpty())
 		{
-			try
-			{
-				term = new FunctionTerm(stack.pop(), term);
-			}
-			catch (NullParameterTypeException e)
-			{
-				throw new Error(e);
-			}
+			term = new FunctionTerm(stack.pop(), term);
 		}
 		addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term));
 		String sProjections;
