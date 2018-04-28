@@ -68,7 +68,6 @@ import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.SimpleTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.ComposeTypeException;
-import aletheia.model.term.Term.DomainTypeException;
 import aletheia.model.term.Term.ReplaceTypeException;
 import aletheia.model.term.Term.UnprojectTypeException;
 import aletheia.model.term.VariableTerm;
@@ -2392,11 +2391,14 @@ public class Context extends Statement
 				{
 
 					Term term;
-					System.out.println("--> " + st);
+					System.out.println("--> " + st.getUuid() + ":" + st);
 					if (st.getUuid().equals(UUID.fromString("224d4786-7a03-5aed-9578-5ff26216140c")))
 						System.out.println("hola");
 					if (st.getUuid().equals(UUID.fromString("9bcf6be6-fd99-48a5-b9bd-23e66667979e")))
 						System.out.println("hola");
+					if (st.getUuid().equals(UUID.fromString("f6b07476-adb0-5d04-b986-e334a37759aa")))
+						System.out.println("hola");
+
 					if (st instanceof Assumption)
 					{
 						Term type = st.getTerm().replace(replaceMap);
@@ -2410,8 +2412,6 @@ public class Context extends Statement
 						Statement general = spc.getGeneral(transaction);
 						Term termGeneral = stTermFunction.apply(general);
 						Term instance = spc.getInstance().replace(replaceMap);
-						Term domain = termGeneral.domain();
-						//instance=instance.reproject(domain);
 						term = termGeneral.compose(instance);
 					}
 					else if (st instanceof Context)
@@ -2458,8 +2458,8 @@ public class Context extends Statement
 						if (!equals(st) && !term.equals(old))
 						{
 							//Check
-							assert (term.getType().unproject().equals(st.getTerm().replace(replaceMap))) : term.getType().unproject().toString(transaction,
-									this) + " != " + st.getTerm().replace(replaceMap).toString(transaction, this);
+							assert (term.getType().equals(st.getTerm().replace(replaceMap))) : term.getType().toString(transaction, this) + " != "
+									+ st.getTerm().replace(replaceMap).toString(transaction, this);
 							//
 							for (Statement dep : st.dependents(transaction))
 								if (isDescendent(transaction, dep))
@@ -2484,7 +2484,7 @@ public class Context extends Statement
 						}
 					}
 				}
-				catch (ReplaceTypeException | ComposeTypeException | NullParameterTypeException | UnprojectTypeException | DomainTypeException e)
+				catch (ReplaceTypeException | ComposeTypeException | NullParameterTypeException e)
 				{
 					throw new RuntimeException(e);
 				}
