@@ -29,7 +29,6 @@ import aletheia.model.statement.Statement;
 import aletheia.model.term.CompositionTerm;
 import aletheia.model.term.CompositionTerm.CompositionTypeException;
 import aletheia.model.term.FunctionTerm;
-import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectionTerm;
@@ -128,7 +127,7 @@ public class TermProtocol extends PersistentExportableProtocol<Term>
 			sendFunctionTerm(out, parameterNumerator, (FunctionTerm) term);
 			break;
 		case _TauTerm:
-			sendTypeTerm(out);
+			sendTauTerm(out);
 			break;
 		case _ParameterVariableTerm:
 			sendParameterVariableTerm(out, parameterNumerator, (ParameterVariableTerm) term);
@@ -154,7 +153,7 @@ public class TermProtocol extends PersistentExportableProtocol<Term>
 		case _FunctionTerm:
 			return recvFunctionTerm(in, varStack);
 		case _TauTerm:
-			return recvTypeTerm(in);
+			return recvTauTerm(in);
 		case _ParameterVariableTerm:
 			return recvParameterVariableTerm(in, varStack);
 		case _IdentifiableVariableTerm:
@@ -200,11 +199,11 @@ public class TermProtocol extends PersistentExportableProtocol<Term>
 		}
 	}
 
-	private void sendTypeTerm(DataOutput out) throws IOException
+	private void sendTauTerm(DataOutput out) throws IOException
 	{
 	}
 
-	private TauTerm recvTypeTerm(DataInput in)
+	private TauTerm recvTauTerm(DataInput in)
 	{
 		return TauTerm.instance;
 	}
@@ -224,14 +223,7 @@ public class TermProtocol extends PersistentExportableProtocol<Term>
 		varStack.push(var);
 		Term body = recv(in, varStack);
 		varStack.pop();
-		try
-		{
-			return new FunctionTerm(var, body);
-		}
-		catch (NullParameterTypeException e)
-		{
-			throw new ProtocolException(e);
-		}
+		return new FunctionTerm(var, body);
 	}
 
 	private void sendCompositionTerm(DataOutput out, Term.ParameterNumerator parameterNumerator, CompositionTerm compositionTerm) throws IOException

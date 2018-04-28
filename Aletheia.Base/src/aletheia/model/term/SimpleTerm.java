@@ -23,7 +23,6 @@ import java.util.Collection;
 import java.util.List;
 
 import aletheia.model.term.CompositionTerm.CompositionTypeException;
-import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 
 /**
@@ -158,7 +157,7 @@ public abstract class SimpleTerm extends Term
 			ParameterVariableTerm v = new ParameterVariableTerm(domain());
 			return new FunctionTerm(v, new CompositionTerm(this, v));
 		}
-		catch (NullParameterTypeException | CompositionTypeException | DomainTypeException e)
+		catch (CompositionTypeException | DomainTypeException e)
 		{
 			throw new FunctionalizeTypeException(e);
 		}

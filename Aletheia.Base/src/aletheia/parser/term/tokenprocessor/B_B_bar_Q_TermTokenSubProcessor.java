@@ -26,7 +26,6 @@ import aletheia.model.statement.Context;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.model.term.Term.ReplaceTypeException;
 import aletheia.parser.AletheiaParserException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
@@ -55,7 +54,7 @@ public class B_B_bar_Q_TermTokenSubProcessor extends TermTokenSubProcessor
 		{
 			return new FunctionTerm(param, term.replaceSubterm(oldTerm, param));
 		}
-		catch (ReplaceTypeException | NullParameterTypeException e)
+		catch (ReplaceTypeException e)
 		{
 			throw new AletheiaParserException(e, token.getStartLocation(), token.getStopLocation(), input);
 		}

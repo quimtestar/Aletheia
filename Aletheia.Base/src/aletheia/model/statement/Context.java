@@ -62,7 +62,6 @@ import aletheia.model.nomenclator.Nomenclator.AlreadyUsedIdentifierException;
 import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
 import aletheia.model.nomenclator.SubNomenclator;
 import aletheia.model.term.FunctionTerm;
-import aletheia.model.term.FunctionTerm.NullParameterTypeException;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.SimpleTerm;
@@ -2247,14 +2246,7 @@ public class Context extends Statement
 			throw new FromStatementContextException("Can't copy statement here due to some dependency.", e);
 		}
 		while (!paramStack.isEmpty())
-			try
-			{
-				term = new FunctionTerm(paramStack.pop(), term);
-			}
-			catch (NullParameterTypeException e)
-			{
-				throw new RuntimeException(e);
-			}
+			term = new FunctionTerm(paramStack.pop(), term);
 		Context subCtx = openSubContext(transaction, term);
 		if (statement instanceof Context)
 		{
@@ -2484,7 +2476,7 @@ public class Context extends Statement
 						}
 					}
 				}
-				catch (ReplaceTypeException | ComposeTypeException | NullParameterTypeException e)
+				catch (ReplaceTypeException | ComposeTypeException e)
 				{
 					throw new RuntimeException(e);
 				}
