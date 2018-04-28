@@ -601,6 +601,8 @@ public class FunctionTerm extends Term
 	 * with the unprojection of the body. A new and different parameter variable
 	 * might be generated if the unprojection of the parameter type results in a
 	 * different term than the original parameter type itself.
+	 * 
+	 * @throws UnprojectTypeException
 	 */
 	@Override
 	public Term unproject() throws UnprojectTypeException
@@ -608,28 +610,28 @@ public class FunctionTerm extends Term
 		Term partype = parameter.getType();
 		Term ppartype = partype.unproject();
 		Term pbody = body.unproject();
-		if (!partype.equals(ppartype))
+		try
 		{
-			ParameterVariableTerm pparam = new ParameterVariableTerm(ppartype);
-			try
+			if (!partype.equals(ppartype))
 			{
-				return new FunctionTerm(pparam, pbody.replace(parameter, pparam));
+				ParameterVariableTerm pparam = new ParameterVariableTerm(ppartype);
+				try
+				{
+					return new FunctionTerm(pparam, pbody.replace(parameter, pparam));
+				}
+				catch (ReplaceTypeException e)
+				{
+					throw new UnprojectTypeException(e);
+				}
 			}
-			catch (ReplaceTypeException | NullParameterTypeException e)
-			{
-				throw new UnprojectTypeException(e);
-			}
-		}
-		else
-		{
-			try
+			else
 			{
 				return new FunctionTerm(parameter, pbody);
 			}
-			catch (NullParameterTypeException e)
-			{
-				throw new UnprojectTypeException(e);
-			}
+		}
+		catch (NullParameterTypeException e)
+		{
+			throw new RuntimeException(e);
 		}
 	}
 

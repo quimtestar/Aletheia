@@ -217,6 +217,8 @@ public class ProjectionTerm extends AtomicTerm
 	/**
 	 * A projection unprojected is the unprojection of the function. The "projection
 	 * element" recursively disappears.
+	 * 
+	 * @throws UnprojectTypeException
 	 */
 	@Override
 	public Term unproject() throws UnprojectTypeException
