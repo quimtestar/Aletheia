@@ -45,7 +45,7 @@ public abstract class SimpleTerm extends Term
 	{
 		if (this == obj)
 			return true;
-		if (!(obj instanceof CompositionTerm))
+		if (!(obj instanceof SimpleTerm))
 			return false;
 		if (!super.equals(obj))
 			return false;
