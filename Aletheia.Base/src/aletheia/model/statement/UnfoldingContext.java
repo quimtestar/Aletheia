@@ -211,6 +211,20 @@ public class UnfoldingContext extends Context
 		return (Declaration) getPersistenceManager().getStatement(transaction, getDeclarationUuid());
 	}
 
+	@Override
+	public Term getInnerTerm(Transaction transaction)
+	{
+		Declaration dec = getDeclaration(transaction);
+		try
+		{
+			return getTerm().replace(dec.getVariable(), dec.getValue());
+		}
+		catch (ReplaceTypeException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
 	/**
 	 * For a unfolding context statement to be proven, the method
 	 * {@link Statement#calcProved(Transaction)} must return true and the

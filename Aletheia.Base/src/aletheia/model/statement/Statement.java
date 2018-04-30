@@ -641,6 +641,11 @@ public abstract class Statement implements Exportable
 		return getVariable().getType();
 	}
 
+	public Term getInnerTerm(Transaction transaction)
+	{
+		return getTerm();
+	}
+
 	/**
 	 * @return The proven status of this statement (might be unsynchronized with the
 	 *         persistence layer, if the actual present value is needed, the method
@@ -1842,12 +1847,6 @@ public abstract class Statement implements Exportable
 	{
 		Map<Statement, Term> map = new HashMap<>();
 
-		if (this instanceof UnfoldingContext)
-		{
-			Declaration dec = ((UnfoldingContext) this).getDeclaration(transaction);
-			map.put(dec, dec.getValue());
-		}
-
 		Map<VariableTerm, Term> replaceMap = new BijectionKeyMap<>(new Bijection<Statement, VariableTerm>()
 		{
 
@@ -1951,7 +1950,7 @@ public abstract class Statement implements Exportable
 						throw new Error();
 					if (term != null)
 					{
-						term = CastTypeTerm.castToType(term, st.getTerm().replace(replaceMap));
+						term = CastTypeTerm.castToType(term, st.getInnerTerm(transaction).replace(replaceMap));
 						Term old = map.put(st, term);
 						if (!equals(st) && !term.equals(old))
 						{
