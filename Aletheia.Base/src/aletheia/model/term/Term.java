@@ -129,22 +129,22 @@ public abstract class Term implements Serializable, Exportable
 	{
 		private static final long serialVersionUID = 8300442083665283294L;
 
-		public ReplaceTypeException()
+		protected ReplaceTypeException()
 		{
 			super();
 		}
 
-		public ReplaceTypeException(String message, Throwable cause)
+		protected ReplaceTypeException(String message, Throwable cause)
 		{
 			super(message, cause);
 		}
 
-		public ReplaceTypeException(String message)
+		protected ReplaceTypeException(String message)
 		{
 			super(message);
 		}
 
-		public ReplaceTypeException(Throwable cause)
+		protected ReplaceTypeException(Throwable cause)
 		{
 			super(cause);
 		}
@@ -527,28 +527,28 @@ public abstract class Term implements Serializable, Exportable
 		private final Term head;
 		private final Term tail;
 
-		public ComposeTypeException(Term head, Term tail)
+		protected ComposeTypeException(Term head, Term tail)
 		{
 			super();
 			this.head = head;
 			this.tail = tail;
 		}
 
-		public ComposeTypeException(String message, Throwable cause, Term head, Term tail)
+		protected ComposeTypeException(String message, Throwable cause, Term head, Term tail)
 		{
 			super(message, cause);
 			this.head = head;
 			this.tail = tail;
 		}
 
-		public ComposeTypeException(String message, Term head, Term tail)
+		protected ComposeTypeException(String message, Term head, Term tail)
 		{
 			super(message);
 			this.head = head;
 			this.tail = tail;
 		}
 
-		public ComposeTypeException(Throwable cause, Term head, Term tail)
+		protected ComposeTypeException(Throwable cause, Term head, Term tail)
 		{
 			super(cause);
 			this.head = head;

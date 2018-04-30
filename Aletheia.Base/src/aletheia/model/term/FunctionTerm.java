@@ -117,6 +117,8 @@ public class FunctionTerm extends Term
 	@Override
 	public Term compose(Term term) throws ComposeTypeException
 	{
+		if (parameter.equals(term))
+			return body;
 		if (parameter.getType().equals(term.getType()))
 		{
 			if (term.isFreeVariable(parameter))

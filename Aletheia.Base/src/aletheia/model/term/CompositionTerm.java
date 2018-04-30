@@ -49,22 +49,22 @@ public class CompositionTerm extends SimpleTerm
 	{
 		private static final long serialVersionUID = 8530964165091126355L;
 
-		public CompositionTypeException()
+		protected CompositionTypeException()
 		{
 			super();
 		}
 
-		public CompositionTypeException(String message, Throwable cause)
+		protected CompositionTypeException(String message, Throwable cause)
 		{
 			super(message, cause);
 		}
 
-		public CompositionTypeException(String message)
+		protected CompositionTypeException(String message)
 		{
 			super(message);
 		}
 
-		public CompositionTypeException(Throwable cause)
+		protected CompositionTypeException(Throwable cause)
 		{
 			super(cause);
 		}

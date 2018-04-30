@@ -52,6 +52,8 @@ A -> openpar T closepar;		# A term (list of atoms) between parentheses.
 A -> A number M;				# The 'n' operator resolves to the nth atomic component (starting by zero) of the given term: "(a b c);1" ~> "b".
 A -> A semicolon number M;		# The 'n' operator resolves to the nth atomic component (starting by zero) of the given term: "(a b c);1" ~> "b".
 								# The 'n-' operator resolves to the first n+1 atomic components of the given term: "(a b c);1-" ~> "a b".
+A -> opensq T closesq;			# A term between square brackets. 
+A -> opencur T closecur;		# A term between curly brackets.
 
 # An hyphen or nothing for the ',n[-]' operator.
 M -> hyphen;

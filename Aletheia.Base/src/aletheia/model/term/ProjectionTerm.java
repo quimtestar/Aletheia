@@ -50,22 +50,22 @@ public class ProjectionTerm extends AtomicTerm
 	{
 		private static final long serialVersionUID = -1123291437628030140L;
 
-		public ProjectionTypeException()
+		protected ProjectionTypeException()
 		{
 			super();
 		}
 
-		public ProjectionTypeException(String message, Throwable cause)
+		protected ProjectionTypeException(String message, Throwable cause)
 		{
 			super(message, cause);
 		}
 
-		public ProjectionTypeException(String message)
+		protected ProjectionTypeException(String message)
 		{
 			super(message);
 		}
 
-		public ProjectionTypeException(Throwable cause)
+		protected ProjectionTypeException(Throwable cause)
 		{
 			super(cause);
 		}

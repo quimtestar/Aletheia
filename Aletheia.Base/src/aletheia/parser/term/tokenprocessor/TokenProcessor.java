@@ -69,6 +69,8 @@ public class TokenProcessor
 			A_A_bang_I_TermTokenSubProcessor.class,
 			A_equals_bang_I_TermTokenSubProcessor.class,
 			A_openpar_T_closepar_TermTokenSubProcessor.class,
+			A_opensq_T_closesq_TermTokenSubProcessor.class,
+			A_opencur_T_closecur_TermTokenSubProcessor.class,
 			A_A_number_M_TermTokenSubProcessor.class,
 			A_A_semicolon_number_M_TermTokenSubProcessor.class,
 			AN_asterisk_IntegerTokenSubProcessor.class,
