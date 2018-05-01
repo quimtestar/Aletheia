@@ -309,6 +309,16 @@ public abstract class Term implements Serializable, Exportable
 			super();
 		}
 
+		protected void openSub()
+		{
+
+		}
+
+		protected void closeSub()
+		{
+
+		}
+
 		protected abstract void append(String s);
 
 		protected void append(Object obj)
@@ -322,12 +332,12 @@ public abstract class Term implements Serializable, Exportable
 	protected abstract void stringConvert(StringConverter stringConverter, Map<? extends VariableTerm, Identifier> variableToIdentifier,
 			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification);
 
-	private class StringBuilderStringConverter extends StringConverter
+	private class BasicStringConverter extends StringConverter
 	{
 
 		private final StringBuilder stringBuilder;
 
-		protected StringBuilderStringConverter()
+		protected BasicStringConverter()
 		{
 			super();
 			this.stringBuilder = new StringBuilder();
@@ -350,7 +360,7 @@ public abstract class Term implements Serializable, Exportable
 	protected final String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
 			ParameterIdentification parameterIdentification)
 	{
-		StringBuilderStringConverter stringConverter = new StringBuilderStringConverter();
+		BasicStringConverter stringConverter = new BasicStringConverter();
 		stringConvert(stringConverter, variableToIdentifier, parameterNumerator, parameterIdentification);
 		return stringConverter.generateString();
 	}
@@ -413,6 +423,157 @@ public abstract class Term implements Serializable, Exportable
 	public final String toString()
 	{
 		return toString((Map<? extends VariableTerm, Identifier>) null);
+	}
+
+	private class IndentedStringConverter extends StringConverter
+	{
+
+		private final int width;
+		private final String indentString;
+		private final int indentWeight;
+
+		abstract class Node
+		{
+			final InternalNode parent;
+			int size;
+
+			protected Node(InternalNode parent)
+			{
+				super();
+				this.parent = parent;
+				this.size = 0;
+			}
+
+			protected abstract void stringBuild(StringBuilder stringBuilder, int indent, int pos);
+
+			@Override
+			public String toString()
+			{
+				StringBuilder stringBuilder = new StringBuilder();
+				stringBuild(stringBuilder, 0, Integer.MIN_VALUE);
+				return stringBuilder.toString();
+			}
+
+		}
+
+		class InternalNode extends Node
+		{
+			final List<Node> children;
+
+			protected InternalNode(InternalNode parent)
+			{
+				super(parent);
+				this.children = new ArrayList<>();
+			}
+
+			protected void appendChild(Node node)
+			{
+				children.add(node);
+				if (node.size != 0)
+					for (InternalNode n = this; n != null; n = n.parent)
+						n.size += node.size;
+			}
+
+			@Override
+			protected void stringBuild(StringBuilder stringBuilder, int indent, int pos)
+			{
+				if (indent * indentWeight + pos + size <= width)
+				{
+					int pos_ = pos;
+					for (Node node : children)
+					{
+						node.stringBuild(stringBuilder, indent, pos_);
+						pos_ += node.size;
+					}
+				}
+				else
+				{
+					stringBuilder.append("\n");
+					for (int i = 0; i < indent; i++)
+						stringBuilder.append(indentString);
+					int pos_ = 0;
+					for (Node node : children)
+					{
+						node.stringBuild(stringBuilder, indent + 1, pos_);
+						pos_ += node.size;
+					}
+				}
+
+			}
+
+		}
+
+		class LeafNode extends Node
+		{
+			final String string;
+
+			protected LeafNode(InternalNode parent, String string)
+			{
+				super(parent);
+				this.string = string;
+				this.size = string.length();
+			}
+
+			@Override
+			protected void stringBuild(StringBuilder stringBuilder, int indent, int pos)
+			{
+				stringBuilder.append(string);
+			}
+
+		}
+
+		private final InternalNode rootNode;
+		private InternalNode current;
+
+		protected IndentedStringConverter(int width, String indentString, int indentWeight)
+		{
+			super();
+			this.width = width;
+			this.indentString = indentString;
+			this.indentWeight = indentWeight;
+
+			this.rootNode = new InternalNode(null);
+
+			this.current = rootNode;
+		}
+
+		@Override
+		protected void openSub()
+		{
+			super.openSub();
+			InternalNode node = new InternalNode(current);
+			current.appendChild(node);
+			current = node;
+		}
+
+		@Override
+		protected void closeSub()
+		{
+			super.closeSub();
+			current = current.parent;
+		}
+
+		@Override
+		protected void append(String s)
+		{
+			current.appendChild(new LeafNode(current, s));
+		}
+
+		@Override
+		protected String generateString()
+		{
+			StringBuilder stringBuilder = new StringBuilder();
+			rootNode.stringBuild(stringBuilder, 0, 0);
+			return stringBuilder.toString();
+		}
+
+	}
+
+	public final String toIndentedString(Transaction transaction, Context context)
+	{
+		IndentedStringConverter stringConverter = new IndentedStringConverter(256, "\t", 4);
+		stringConvert(stringConverter, context.variableToIdentifier(transaction), new ParameterNumerator(), null);
+		return stringConverter.generateString();
 	}
 
 	public Map<ParameterVariableTerm, Identifier> parameterVariableToIdentifier(ParameterIdentification parameterIdentification)

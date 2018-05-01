@@ -233,11 +233,13 @@ public class CompositionTerm extends SimpleTerm
 		}
 		head.stringConvert(stringConverter, variableToIdentifier, parameterNumerator, headParameterIdentification);
 		stringConverter.append(" ");
+		stringConverter.openSub();
 		if (tail instanceof CompositionTerm)
 			stringConverter.append("(");
 		tail.stringConvert(stringConverter, variableToIdentifier, parameterNumerator, tailParameterIdentification);
 		if (tail instanceof CompositionTerm)
 			stringConverter.append(")");
+		stringConverter.closeSub();
 	}
 
 	/**

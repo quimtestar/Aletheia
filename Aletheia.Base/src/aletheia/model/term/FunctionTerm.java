@@ -254,12 +254,17 @@ public class FunctionTerm extends Term
 		Map<VariableTerm, Identifier> totalVariableToIdentifier = variableToIdentifier == null ? new AdaptedMap<>(localVariableToIdentifier)
 				: new CombinedMap<>(new AdaptedMap<>(localVariableToIdentifier), new AdaptedMap<>(variableToIdentifier));
 		stringConverter.append("<");
+		stringConverter.openSub();
 		boolean first = true;
 		int numberedParameters = 0;
 		while (term instanceof FunctionTerm)
 		{
 			if (!first)
+			{
 				stringConverter.append(", ");
+				stringConverter.closeSub();
+				stringConverter.openSub();
+			}
 			first = false;
 
 			ParameterVariableTerm parameter = ((FunctionTerm) term).getParameter();
@@ -306,10 +311,13 @@ public class FunctionTerm extends Term
 			parameterIdentification = bodyParameterIdentification;
 			term = body;
 		}
+		stringConverter.closeSub();
+		stringConverter.openSub();
 		stringConverter.append(" -> ");
 		term.stringConvert(stringConverter, totalVariableToIdentifier, parameterNumerator, parameterIdentification);
 		parameterNumerator.unNumberParameters(numberedParameters);
 		stringConverter.append(">");
+		stringConverter.closeSub();
 	}
 
 	@Override
