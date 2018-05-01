@@ -221,7 +221,7 @@ public class CompositionTerm extends SimpleTerm
 	 *
 	 */
 	@Override
-	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
+	public void buildString(StringBuilder stringBuilder, Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
 			ParameterIdentification parameterIdentification)
 	{
 		CompositionParameterIdentification headParameterIdentification = null;
@@ -231,10 +231,13 @@ public class CompositionTerm extends SimpleTerm
 			headParameterIdentification = ((CompositionParameterIdentification) parameterIdentification).getHead();
 			tailParameterIdentification = ((CompositionParameterIdentification) parameterIdentification).getTail();
 		}
-		String sHead = head.toString(variableToIdentifier, parameterNumerator, headParameterIdentification);
-		String sTail_ = tail.toString(variableToIdentifier, parameterNumerator, tailParameterIdentification);
-		String sTail = tail instanceof CompositionTerm ? "(" + sTail_ + ")" : sTail_;
-		return sHead + " " + sTail;
+		head.buildString(stringBuilder, variableToIdentifier, parameterNumerator, headParameterIdentification);
+		stringBuilder.append(" ");
+		if (tail instanceof CompositionTerm)
+			stringBuilder.append("(");
+		tail.buildString(stringBuilder, variableToIdentifier, parameterNumerator, tailParameterIdentification);
+		if (tail instanceof CompositionTerm)
+			stringBuilder.append(")");
 	}
 
 	/**

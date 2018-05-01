@@ -218,10 +218,12 @@ public abstract class CastTypeTerm extends AtomicTerm
 	protected abstract String symbolClose();
 
 	@Override
-	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
+	public void buildString(StringBuilder stringBuilder, Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
 			ParameterIdentification parameterIdentification)
 	{
-		return symbolOpen() + term.toString(variableToIdentifier, parameterNumerator, parameterIdentification) + symbolClose();
+		stringBuilder.append(symbolOpen());
+		term.buildString(stringBuilder, variableToIdentifier, parameterNumerator, parameterIdentification);
+		stringBuilder.append(symbolClose());
 	}
 
 }

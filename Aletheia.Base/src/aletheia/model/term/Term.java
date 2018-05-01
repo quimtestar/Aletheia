@@ -302,10 +302,18 @@ public abstract class Term implements Serializable, Exportable
 		return ParameterIdentificationParser.parseParameterIdentification(input);
 	}
 
-	public abstract String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
-			ParameterIdentification parameterIdentification);
+	public abstract void buildString(StringBuilder stringBuilder, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification);
 
-	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+	public final String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
+			ParameterIdentification parameterIdentification)
+	{
+		StringBuilder stringBuilder = new StringBuilder();
+		buildString(stringBuilder, variableToIdentifier, parameterNumerator, parameterIdentification);
+		return stringBuilder.toString();
+	}
+
+	public final String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
 	{
 		return toString(variableToIdentifier, parameterNumerator, null);
 	}
@@ -318,37 +326,38 @@ public abstract class Term implements Serializable, Exportable
 	 *            Mapping from variables to identifiers to use for the conversion.
 	 * @return this term converted to a String.
 	 */
-	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier)
+	public final String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier)
 	{
 		return toString(variableToIdentifier, parameterNumerator());
 	}
 
-	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterIdentification parameterIdentification)
+	public final String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterIdentification parameterIdentification)
 	{
 		return toString(variableToIdentifier, parameterNumerator(), parameterIdentification);
 	}
 
-	public String toString(Transaction transaction, Context context, ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
+	public final String toString(Transaction transaction, Context context, ParameterNumerator parameterNumerator,
+			ParameterIdentification parameterIdentification)
 	{
 		return toString(context != null ? context.variableToIdentifier(transaction) : null, parameterNumerator, parameterIdentification);
 	}
 
-	public String toString(Transaction transaction, Context context, ParameterIdentification parameterIdentification)
+	public final String toString(Transaction transaction, Context context, ParameterIdentification parameterIdentification)
 	{
 		return toString(transaction, context, parameterNumerator(), parameterIdentification);
 	}
 
-	public String toString(Transaction transaction, Context context, ParameterNumerator parameterNumerator)
+	public final String toString(Transaction transaction, Context context, ParameterNumerator parameterNumerator)
 	{
 		return toString(transaction, context, parameterNumerator, null);
 	}
 
-	public String toString(Transaction transaction, Context context)
+	public final String toString(Transaction transaction, Context context)
 	{
 		return toString(transaction, context, parameterNumerator());
 	}
 
-	public String toString(ParameterIdentification parameterIdentification)
+	public final String toString(ParameterIdentification parameterIdentification)
 	{
 		return toString(null, parameterIdentification);
 	}

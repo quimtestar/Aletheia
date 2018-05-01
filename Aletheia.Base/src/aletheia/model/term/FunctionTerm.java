@@ -246,18 +246,22 @@ public class FunctionTerm extends Term
 	 * "<<i>parameter</i>:<i>type</i> -> <i>body</i>>"</b>.
 	 */
 	@Override
-	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
+	public void buildString(StringBuilder stringBuilder, Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
 			ParameterIdentification parameterIdentification)
 	{
 		Term term = this;
 		Map<ParameterVariableTerm, Identifier> localVariableToIdentifier = new HashMap<>();
 		Map<VariableTerm, Identifier> totalVariableToIdentifier = variableToIdentifier == null ? new AdaptedMap<>(localVariableToIdentifier)
 				: new CombinedMap<>(new AdaptedMap<>(localVariableToIdentifier), new AdaptedMap<>(variableToIdentifier));
-		StringBuilder parameterListStringBuilder = new StringBuilder();
+		stringBuilder.append("<");
 		boolean first = true;
 		int numberedParameters = 0;
 		while (term instanceof FunctionTerm)
 		{
+			if (!first)
+				stringBuilder.append(", ");
+			first = false;
+
 			ParameterVariableTerm parameter = ((FunctionTerm) term).getParameter();
 			Term body = ((FunctionTerm) term).getBody();
 
@@ -270,38 +274,42 @@ public class FunctionTerm extends Term
 				parameterTypeParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getParameterType();
 				bodyParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getBody();
 			}
-			String sType = parameter.getType().toString(totalVariableToIdentifier, parameterNumerator, parameterTypeParameterIdentification);
-
-			String sParameter = null;
+			boolean numberedParameter = false;
 			if (body.isFreeVariable(parameter))
 			{
 				if (parameterIdentifier != null)
 				{
-					sParameter = parameterIdentifier.toString();
+					stringBuilder.append(parameterIdentifier);
 					localVariableToIdentifier.put(parameter, parameterIdentifier);
 				}
 				else
 				{
-					if (!totalVariableToIdentifier.containsKey(parameter))
+					Identifier id = totalVariableToIdentifier.get(parameter);
+					if (id != null)
+						stringBuilder.append(id);
+					else
 					{
-						parameterNumerator.numberParameter(parameter);
-						numberedParameters++;
+						stringBuilder.append(parameter.numRef(parameterNumerator.nextNumber()));
+						numberedParameter = true;
 					}
-					sParameter = parameter.toString(totalVariableToIdentifier, parameterNumerator);
 				}
+				stringBuilder.append(":");
 			}
+			parameter.getType().buildString(stringBuilder, totalVariableToIdentifier, parameterNumerator, parameterTypeParameterIdentification);
 
-			if (!first)
-				parameterListStringBuilder.append(", ");
-			parameterListStringBuilder.append((sParameter != null ? (sParameter + ":") : "") + sType);
-			first = false;
+			if (numberedParameter)
+			{
+				parameterNumerator.numberParameter(parameter);
+				numberedParameters++;
+			}
 
 			parameterIdentification = bodyParameterIdentification;
 			term = body;
 		}
-		String sBody = term.toString(totalVariableToIdentifier, parameterNumerator, parameterIdentification);
+		stringBuilder.append(" -> ");
+		term.buildString(stringBuilder, totalVariableToIdentifier, parameterNumerator, parameterIdentification);
 		parameterNumerator.unNumberParameters(numberedParameters);
-		return "<" + parameterListStringBuilder + " -> " + sBody + ">";
+		stringBuilder.append(">");
 	}
 
 	@Override
