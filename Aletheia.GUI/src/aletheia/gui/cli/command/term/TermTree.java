@@ -31,7 +31,10 @@ import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
-
+/*
+ * TODO:
+ * This command implementation is probably severely outdated and should be revised
+ */
 @TaggedCommand(tag = "termtree", groupPath = "/term", factory = TermTree.Factory.class)
 public class TermTree extends TransactionalCommand
 {
