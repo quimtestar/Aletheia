@@ -61,10 +61,10 @@ public class TauTerm extends AtomicTerm
 	 * The primitive type is represented with the String <b>"Tau"</b>.
 	 */
 	@Override
-	public void buildString(StringBuilder stringBuilder, Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
-			ParameterIdentification parameterIdentification)
+	protected void stringConvert(StringConverter stringConverter, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
-		stringBuilder.append("Tau");
+		stringConverter.append("Tau");
 	}
 
 	@Override

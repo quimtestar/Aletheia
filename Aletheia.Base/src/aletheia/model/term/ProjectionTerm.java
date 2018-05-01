@@ -178,8 +178,8 @@ public class ProjectionTerm extends AtomicTerm
 	}
 
 	@Override
-	public void buildString(StringBuilder stringBuilder, Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
-			ParameterIdentification parameterIdentification)
+	protected void stringConvert(StringConverter stringConverter, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
 		Term term = this;
 		Stack<ParameterVariableTerm> stack = new Stack<>();
@@ -194,14 +194,14 @@ public class ProjectionTerm extends AtomicTerm
 		{
 			term = new FunctionTerm(stack.pop(), term);
 		}
-		term.buildString(stringBuilder, variableToIdentifier, parameterNumerator, parameterIdentification);
+		term.stringConvert(stringConverter, variableToIdentifier, parameterNumerator, parameterIdentification);
 		if (nProjections <= 3)
 		{
 			for (int i = 0; i < nProjections; i++)
-				stringBuilder.append("*");
+				stringConverter.append("*");
 		}
 		else
-			stringBuilder.append("*" + nProjections);
+			stringConverter.append("*" + nProjections);
 	}
 
 	/**

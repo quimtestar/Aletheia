@@ -70,13 +70,13 @@ public class ParameterVariableTerm extends VariableTerm
 	}
 
 	@Override
-	public void buildString(StringBuilder stringBuilder, Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
-			ParameterIdentification parameterIdentification)
+	protected void stringConvert(StringConverter stringConverter, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
 		if (parameterNumerator.isNumbered(this))
-			stringBuilder.append(numRef(parameterNumerator));
+			stringConverter.append(numRef(parameterNumerator));
 		else
-			super.buildString(stringBuilder, variableToIdentifier, parameterNumerator, parameterIdentification);
+			super.stringConvert(stringConverter, variableToIdentifier, parameterNumerator, parameterIdentification);
 	}
 
 }

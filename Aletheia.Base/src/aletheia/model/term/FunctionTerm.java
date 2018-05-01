@@ -246,20 +246,20 @@ public class FunctionTerm extends Term
 	 * "<<i>parameter</i>:<i>type</i> -> <i>body</i>>"</b>.
 	 */
 	@Override
-	public void buildString(StringBuilder stringBuilder, Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
-			ParameterIdentification parameterIdentification)
+	protected void stringConvert(StringConverter stringConverter, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
 		Term term = this;
 		Map<ParameterVariableTerm, Identifier> localVariableToIdentifier = new HashMap<>();
 		Map<VariableTerm, Identifier> totalVariableToIdentifier = variableToIdentifier == null ? new AdaptedMap<>(localVariableToIdentifier)
 				: new CombinedMap<>(new AdaptedMap<>(localVariableToIdentifier), new AdaptedMap<>(variableToIdentifier));
-		stringBuilder.append("<");
+		stringConverter.append("<");
 		boolean first = true;
 		int numberedParameters = 0;
 		while (term instanceof FunctionTerm)
 		{
 			if (!first)
-				stringBuilder.append(", ");
+				stringConverter.append(", ");
 			first = false;
 
 			ParameterVariableTerm parameter = ((FunctionTerm) term).getParameter();
@@ -279,23 +279,23 @@ public class FunctionTerm extends Term
 			{
 				if (parameterIdentifier != null)
 				{
-					stringBuilder.append(parameterIdentifier);
+					stringConverter.append(parameterIdentifier);
 					localVariableToIdentifier.put(parameter, parameterIdentifier);
 				}
 				else
 				{
 					Identifier id = totalVariableToIdentifier.get(parameter);
 					if (id != null)
-						stringBuilder.append(id);
+						stringConverter.append(id);
 					else
 					{
-						stringBuilder.append(parameter.numRef(parameterNumerator.nextNumber()));
+						stringConverter.append(parameter.numRef(parameterNumerator.nextNumber()));
 						numberedParameter = true;
 					}
 				}
-				stringBuilder.append(":");
+				stringConverter.append(":");
 			}
-			parameter.getType().buildString(stringBuilder, totalVariableToIdentifier, parameterNumerator, parameterTypeParameterIdentification);
+			parameter.getType().stringConvert(stringConverter, totalVariableToIdentifier, parameterNumerator, parameterTypeParameterIdentification);
 
 			if (numberedParameter)
 			{
@@ -306,10 +306,10 @@ public class FunctionTerm extends Term
 			parameterIdentification = bodyParameterIdentification;
 			term = body;
 		}
-		stringBuilder.append(" -> ");
-		term.buildString(stringBuilder, totalVariableToIdentifier, parameterNumerator, parameterIdentification);
+		stringConverter.append(" -> ");
+		term.stringConvert(stringConverter, totalVariableToIdentifier, parameterNumerator, parameterIdentification);
 		parameterNumerator.unNumberParameters(numberedParameters);
-		stringBuilder.append(">");
+		stringConverter.append(">");
 	}
 
 	@Override

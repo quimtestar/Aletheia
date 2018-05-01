@@ -302,15 +302,57 @@ public abstract class Term implements Serializable, Exportable
 		return ParameterIdentificationParser.parseParameterIdentification(input);
 	}
 
-	public abstract void buildString(StringBuilder stringBuilder, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+	protected abstract class StringConverter
+	{
+		protected StringConverter()
+		{
+			super();
+		}
+
+		protected abstract void append(String s);
+
+		protected void append(Object obj)
+		{
+			append(obj.toString());
+		}
+
+		protected abstract String generateString();
+	}
+
+	protected abstract void stringConvert(StringConverter stringConverter, Map<? extends VariableTerm, Identifier> variableToIdentifier,
 			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification);
 
-	public final String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
+	private class StringBuilderStringConverter extends StringConverter
+	{
+
+		private final StringBuilder stringBuilder;
+
+		protected StringBuilderStringConverter()
+		{
+			super();
+			this.stringBuilder = new StringBuilder();
+		}
+
+		@Override
+		protected void append(String s)
+		{
+			stringBuilder.append(s);
+		}
+
+		@Override
+		protected String generateString()
+		{
+			return stringBuilder.toString();
+		}
+
+	}
+
+	protected final String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
 			ParameterIdentification parameterIdentification)
 	{
-		StringBuilder stringBuilder = new StringBuilder();
-		buildString(stringBuilder, variableToIdentifier, parameterNumerator, parameterIdentification);
-		return stringBuilder.toString();
+		StringBuilderStringConverter stringConverter = new StringBuilderStringConverter();
+		stringConvert(stringConverter, variableToIdentifier, parameterNumerator, parameterIdentification);
+		return stringConverter.generateString();
 	}
 
 	public final String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
@@ -368,7 +410,7 @@ public abstract class Term implements Serializable, Exportable
 	 * @see #toString(Map)
 	 */
 	@Override
-	public String toString()
+	public final String toString()
 	{
 		return toString((Map<? extends VariableTerm, Identifier>) null);
 	}
