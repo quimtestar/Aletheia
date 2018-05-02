@@ -145,14 +145,14 @@ public abstract class VariableTerm extends AtomicTerm
 	public abstract String hexRef();
 
 	@Override
-	protected void stringConvert(StringConverter stringConverter, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+	protected void stringAppend(StringAppender stringAppender, Map<? extends VariableTerm, Identifier> variableToIdentifier,
 			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
 		Identifier identifier = variableToIdentifier != null ? variableToIdentifier.get(this) : null;
 		if (identifier != null)
-			stringConverter.append(identifier);
+			stringAppender.append(identifier);
 		else
-			stringConverter.append(hexRef());
+			stringAppender.append(hexRef());
 	}
 
 }

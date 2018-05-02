@@ -19,6 +19,8 @@
  ******************************************************************************/
 package aletheia.model.term;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -302,21 +304,19 @@ public abstract class Term implements Serializable, Exportable
 		return ParameterIdentificationParser.parseParameterIdentification(input);
 	}
 
-	protected abstract class StringConverter
+	protected abstract class StringAppender
 	{
-		protected StringConverter()
+		protected StringAppender()
 		{
 			super();
 		}
 
 		protected void openSub()
 		{
-
 		}
 
 		protected void closeSub()
 		{
-
 		}
 
 		protected abstract void append(String s);
@@ -326,18 +326,16 @@ public abstract class Term implements Serializable, Exportable
 			append(obj.toString());
 		}
 
-		protected abstract String generateString();
 	}
 
-	protected abstract void stringConvert(StringConverter stringConverter, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+	protected abstract void stringAppend(StringAppender stringAppender, Map<? extends VariableTerm, Identifier> variableToIdentifier,
 			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification);
 
-	private class BasicStringConverter extends StringConverter
+	private class BasicStringAppender extends StringAppender
 	{
-
 		private final StringBuilder stringBuilder;
 
-		protected BasicStringConverter()
+		protected BasicStringAppender()
 		{
 			super();
 			this.stringBuilder = new StringBuilder();
@@ -349,8 +347,7 @@ public abstract class Term implements Serializable, Exportable
 			stringBuilder.append(s);
 		}
 
-		@Override
-		protected String generateString()
+		protected String string()
 		{
 			return stringBuilder.toString();
 		}
@@ -360,9 +357,9 @@ public abstract class Term implements Serializable, Exportable
 	protected final String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
 			ParameterIdentification parameterIdentification)
 	{
-		BasicStringConverter stringConverter = new BasicStringConverter();
-		stringConvert(stringConverter, variableToIdentifier, parameterNumerator, parameterIdentification);
-		return stringConverter.generateString();
+		BasicStringAppender stringConverter = new BasicStringAppender();
+		stringAppend(stringConverter, variableToIdentifier, parameterNumerator, parameterIdentification);
+		return stringConverter.string();
 	}
 
 	public final String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
@@ -425,33 +422,36 @@ public abstract class Term implements Serializable, Exportable
 		return toString((Map<? extends VariableTerm, Identifier>) null);
 	}
 
-	private class IndentedStringConverter extends StringConverter
+	private class IndentedStringAppender extends StringAppender
 	{
 
-		private final int width;
+		private final int pageWidth;
+		private final int minLength;
 		private final String indentString;
-		private final int indentWeight;
+		private final int indentLength;
 
 		abstract class Node
 		{
 			final InternalNode parent;
-			int size;
+			int length;
 
 			protected Node(InternalNode parent)
 			{
 				super();
 				this.parent = parent;
-				this.size = 0;
+				this.length = 0;
 			}
 
-			protected abstract void stringBuild(StringBuilder stringBuilder, int indent, int pos);
+			protected abstract void print(PrintWriter printWriter, int indent, int pos);
 
 			@Override
 			public String toString()
 			{
-				StringBuilder stringBuilder = new StringBuilder();
-				stringBuild(stringBuilder, 0, Integer.MIN_VALUE);
-				return stringBuilder.toString();
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				PrintWriter pw = new PrintWriter(baos);
+				print(pw, 0, Integer.MIN_VALUE);
+				pw.close();
+				return baos.toString();
 			}
 
 		}
@@ -469,38 +469,36 @@ public abstract class Term implements Serializable, Exportable
 			protected void appendChild(Node node)
 			{
 				children.add(node);
-				if (node.size != 0)
+				if (node.length != 0)
 					for (InternalNode n = this; n != null; n = n.parent)
-						n.size += node.size;
+						n.length += node.length;
 			}
 
 			@Override
-			protected void stringBuild(StringBuilder stringBuilder, int indent, int pos)
+			protected void print(PrintWriter printWriter, int indent, int pos)
 			{
-				if (indent * indentWeight + pos + size <= width)
+				if (length <= minLength || indent * indentLength + pos + length <= pageWidth)
 				{
 					int pos_ = pos;
 					for (Node node : children)
 					{
-						node.stringBuild(stringBuilder, indent, pos_);
-						pos_ += node.size;
+						node.print(printWriter, indent, pos_);
+						pos_ += node.length;
 					}
 				}
 				else
 				{
-					stringBuilder.append("\n");
+					printWriter.println();
 					for (int i = 0; i < indent; i++)
-						stringBuilder.append(indentString);
+						printWriter.print(indentString);
 					int pos_ = 0;
 					for (Node node : children)
 					{
-						node.stringBuild(stringBuilder, indent + 1, pos_);
-						pos_ += node.size;
+						node.print(printWriter, indent + 1, pos_);
+						pos_ += node.length;
 					}
 				}
-
 			}
-
 		}
 
 		class LeafNode extends Node
@@ -511,13 +509,13 @@ public abstract class Term implements Serializable, Exportable
 			{
 				super(parent);
 				this.string = string;
-				this.size = string.length();
+				this.length = string.length();
 			}
 
 			@Override
-			protected void stringBuild(StringBuilder stringBuilder, int indent, int pos)
+			protected void print(PrintWriter printWriter, int indent, int pos)
 			{
-				stringBuilder.append(string);
+				printWriter.print(string);
 			}
 
 		}
@@ -525,12 +523,13 @@ public abstract class Term implements Serializable, Exportable
 		private final InternalNode rootNode;
 		private InternalNode current;
 
-		protected IndentedStringConverter(int width, String indentString, int indentWeight)
+		protected IndentedStringAppender(int pageWidth, int minLength, String indentString, int indentLength)
 		{
 			super();
-			this.width = width;
+			this.pageWidth = pageWidth;
+			this.minLength = minLength;
 			this.indentString = indentString;
-			this.indentWeight = indentWeight;
+			this.indentLength = indentLength;
 
 			this.rootNode = new InternalNode(null);
 
@@ -559,21 +558,28 @@ public abstract class Term implements Serializable, Exportable
 			current.appendChild(new LeafNode(current, s));
 		}
 
-		@Override
-		protected String generateString()
+		protected void print(PrintWriter printWriter)
 		{
-			StringBuilder stringBuilder = new StringBuilder();
-			rootNode.stringBuild(stringBuilder, 0, 0);
-			return stringBuilder.toString();
+			rootNode.print(printWriter, 0, 0);
 		}
 
 	}
 
+	public final void print(PrintWriter printWriter, Transaction transaction, Context context)
+	{
+		IndentedStringAppender stringAppender = new IndentedStringAppender(256, 16, "\t", 4);
+		stringAppend(stringAppender, context.variableToIdentifier(transaction), new ParameterNumerator(), null);
+		stringAppender.print(printWriter);
+	}
+
 	public final String toIndentedString(Transaction transaction, Context context)
 	{
-		IndentedStringConverter stringConverter = new IndentedStringConverter(256, "\t", 4);
-		stringConvert(stringConverter, context.variableToIdentifier(transaction), new ParameterNumerator(), null);
-		return stringConverter.generateString();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		PrintWriter pw = new PrintWriter(baos);
+		print(pw, transaction, context);
+		pw.close();
+		return baos.toString();
+
 	}
 
 	public Map<ParameterVariableTerm, Identifier> parameterVariableToIdentifier(ParameterIdentification parameterIdentification)

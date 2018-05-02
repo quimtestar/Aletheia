@@ -246,24 +246,24 @@ public class FunctionTerm extends Term
 	 * "<<i>parameter</i>:<i>type</i> -> <i>body</i>>"</b>.
 	 */
 	@Override
-	protected void stringConvert(StringConverter stringConverter, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+	protected void stringAppend(StringAppender stringAppend, Map<? extends VariableTerm, Identifier> variableToIdentifier,
 			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
 		Term term = this;
 		Map<ParameterVariableTerm, Identifier> localVariableToIdentifier = new HashMap<>();
 		Map<VariableTerm, Identifier> totalVariableToIdentifier = variableToIdentifier == null ? new AdaptedMap<>(localVariableToIdentifier)
 				: new CombinedMap<>(new AdaptedMap<>(localVariableToIdentifier), new AdaptedMap<>(variableToIdentifier));
-		stringConverter.append("<");
-		stringConverter.openSub();
+		stringAppend.append("<");
+		stringAppend.openSub();
 		boolean first = true;
 		int numberedParameters = 0;
 		while (term instanceof FunctionTerm)
 		{
 			if (!first)
 			{
-				stringConverter.append(", ");
-				stringConverter.closeSub();
-				stringConverter.openSub();
+				stringAppend.append(", ");
+				stringAppend.closeSub();
+				stringAppend.openSub();
 			}
 			first = false;
 
@@ -284,23 +284,23 @@ public class FunctionTerm extends Term
 			{
 				if (parameterIdentifier != null)
 				{
-					stringConverter.append(parameterIdentifier);
+					stringAppend.append(parameterIdentifier);
 					localVariableToIdentifier.put(parameter, parameterIdentifier);
 				}
 				else
 				{
 					Identifier id = totalVariableToIdentifier.get(parameter);
 					if (id != null)
-						stringConverter.append(id);
+						stringAppend.append(id);
 					else
 					{
-						stringConverter.append(parameter.numRef(parameterNumerator.nextNumber()));
+						stringAppend.append(parameter.numRef(parameterNumerator.nextNumber()));
 						numberedParameter = true;
 					}
 				}
-				stringConverter.append(":");
+				stringAppend.append(":");
 			}
-			parameter.getType().stringConvert(stringConverter, totalVariableToIdentifier, parameterNumerator, parameterTypeParameterIdentification);
+			parameter.getType().stringAppend(stringAppend, totalVariableToIdentifier, parameterNumerator, parameterTypeParameterIdentification);
 
 			if (numberedParameter)
 			{
@@ -311,13 +311,13 @@ public class FunctionTerm extends Term
 			parameterIdentification = bodyParameterIdentification;
 			term = body;
 		}
-		stringConverter.closeSub();
-		stringConverter.openSub();
-		stringConverter.append(" -> ");
-		term.stringConvert(stringConverter, totalVariableToIdentifier, parameterNumerator, parameterIdentification);
+		stringAppend.closeSub();
+		stringAppend.openSub();
+		stringAppend.append(" -> ");
+		term.stringAppend(stringAppend, totalVariableToIdentifier, parameterNumerator, parameterIdentification);
 		parameterNumerator.unNumberParameters(numberedParameters);
-		stringConverter.append(">");
-		stringConverter.closeSub();
+		stringAppend.append(">");
+		stringAppend.closeSub();
 	}
 
 	@Override

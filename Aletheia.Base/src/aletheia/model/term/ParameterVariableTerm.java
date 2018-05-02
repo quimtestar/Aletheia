@@ -70,13 +70,13 @@ public class ParameterVariableTerm extends VariableTerm
 	}
 
 	@Override
-	protected void stringConvert(StringConverter stringConverter, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+	protected void stringAppend(StringAppender stringAppend, Map<? extends VariableTerm, Identifier> variableToIdentifier,
 			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
 		if (parameterNumerator.isNumbered(this))
-			stringConverter.append(numRef(parameterNumerator));
+			stringAppend.append(numRef(parameterNumerator));
 		else
-			super.stringConvert(stringConverter, variableToIdentifier, parameterNumerator, parameterIdentification);
+			super.stringAppend(stringAppend, variableToIdentifier, parameterNumerator, parameterIdentification);
 	}
 
 }

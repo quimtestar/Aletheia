@@ -218,12 +218,12 @@ public abstract class CastTypeTerm extends AtomicTerm
 	protected abstract String symbolClose();
 
 	@Override
-	protected void stringConvert(StringConverter stringConverter, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+	protected void stringAppend(StringAppender stringAppend, Map<? extends VariableTerm, Identifier> variableToIdentifier,
 			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
-		stringConverter.append(symbolOpen());
-		term.stringConvert(stringConverter, variableToIdentifier, parameterNumerator, parameterIdentification);
-		stringConverter.append(symbolClose());
+		stringAppend.append(symbolOpen());
+		term.stringAppend(stringAppend, variableToIdentifier, parameterNumerator, parameterIdentification);
+		stringAppend.append(symbolClose());
 	}
 
 }
