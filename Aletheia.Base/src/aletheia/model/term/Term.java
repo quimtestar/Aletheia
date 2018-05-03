@@ -425,8 +425,9 @@ public abstract class Term implements Serializable, Exportable
 	private class IndentedStringAppender extends StringAppender
 	{
 
-		private final int pageWidth;
 		private final int minLength;
+		private final int maxLength;
+		private final int pageWidth;
 		private final String indentString;
 		private final int indentLength;
 
@@ -477,7 +478,7 @@ public abstract class Term implements Serializable, Exportable
 			@Override
 			protected void print(PrintWriter printWriter, int indent, int pos)
 			{
-				if (length <= minLength || indent * indentLength + pos + length <= pageWidth)
+				if ((length <= minLength || indent * indentLength + pos + length <= pageWidth) && length < maxLength)
 				{
 					int pos_ = pos;
 					for (Node node : children)
@@ -488,7 +489,8 @@ public abstract class Term implements Serializable, Exportable
 				}
 				else
 				{
-					printWriter.println();
+					if (indent > 0)
+						printWriter.println();
 					for (int i = 0; i < indent; i++)
 						printWriter.print(indentString);
 					int pos_ = 0;
@@ -523,11 +525,12 @@ public abstract class Term implements Serializable, Exportable
 		private final InternalNode rootNode;
 		private InternalNode current;
 
-		protected IndentedStringAppender(int pageWidth, int minLength, String indentString, int indentLength)
+		protected IndentedStringAppender(int minLength, int maxLength, int pageWidth, String indentString, int indentLength)
 		{
 			super();
-			this.pageWidth = pageWidth;
 			this.minLength = minLength;
+			this.maxLength = maxLength;
+			this.pageWidth = pageWidth;
 			this.indentString = indentString;
 			this.indentLength = indentLength;
 
@@ -561,13 +564,14 @@ public abstract class Term implements Serializable, Exportable
 		protected void print(PrintWriter printWriter)
 		{
 			rootNode.print(printWriter, 0, 0);
+			printWriter.println();
 		}
 
 	}
 
 	public final void print(PrintWriter printWriter, Transaction transaction, Context context)
 	{
-		IndentedStringAppender stringAppender = new IndentedStringAppender(256, 16, "\t", 4);
+		IndentedStringAppender stringAppender = new IndentedStringAppender(16, 64, Integer.MAX_VALUE, "\t", 4);
 		stringAppend(stringAppender, context.variableToIdentifier(transaction), new ParameterNumerator(), null);
 		stringAppender.print(printWriter);
 	}
