@@ -35,8 +35,6 @@ import aletheia.utilities.MiscUtilities;
 
 public class BerkeleyDBPersistenceGUIFactory extends PersistenceGUIFactory
 {
-	private static final int cachePercent = 50;
-
 	private final BerkeleyDBPersistenceAletheiaPreferences preferences;
 
 	public BerkeleyDBPersistenceGUIFactory(AletheiaPreferences preferencesParent)
@@ -71,7 +69,7 @@ public class BerkeleyDBPersistenceGUIFactory extends PersistenceGUIFactory
 		configuration.setAllowCreate(allowCreate);
 		configuration.setReadOnly(getPreferences().isReadOnly());
 		configuration.setAllowUpgrade(allowUpgrade);
-		configuration.setCachePercent(cachePercent);
+		configuration.setCachePercent(getPreferences().getCachePercent());
 		return configuration;
 	}
 

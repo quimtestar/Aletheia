@@ -30,7 +30,9 @@ import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.plaf.metal.MetalIconFactory;
 
 import aletheia.persistence.berkeleydb.preferences.BerkeleyDBPersistenceAletheiaPreferences;
@@ -45,6 +47,7 @@ public class BerkeleyDBPersistencePreferencesJPanel extends PersistencePreferenc
 
 	private final JTextField berkeleyDbPersistenceFolderTextField;
 	private final JCheckBox berkeleyDbPersistenceReadOnlyCheckBox;
+	private final JSpinner berkeleyDbPersistenceCachePercentSpinner;
 
 	protected BerkeleyDBPersistencePreferencesJPanel(BerkeleyDBPersistenceAletheiaPreferences preferences)
 	{
@@ -101,6 +104,25 @@ public class BerkeleyDBPersistencePreferencesJPanel extends PersistencePreferenc
 			gbc.anchor = GridBagConstraints.WEST;
 			add(berkeleyDbPersistenceReadOnlyCheckBox, gbc);
 		}
+		{
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.gridx = 0;
+			gbc.gridy = 2;
+			gbc.insets = formFieldInsets;
+			gbc.anchor = GridBagConstraints.WEST;
+			add(new JLabel("Cache percent"), gbc);
+		}
+		this.berkeleyDbPersistenceCachePercentSpinner = new JSpinner(
+				new SpinnerNumberModel(Integer.max(1, Integer.min(preferences.getCachePercent(), 90)), 1, 90, 1));
+		{
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.gridx = 1;
+			gbc.gridy = 2;
+			gbc.insets = formFieldInsets;
+			gbc.anchor = GridBagConstraints.WEST;
+			add(berkeleyDbPersistenceCachePercentSpinner, gbc);
+		}
+
 	}
 
 	private class ChoosePersistenceFolderAction extends AbstractAction
@@ -147,6 +169,7 @@ public class BerkeleyDBPersistencePreferencesJPanel extends PersistencePreferenc
 		}
 		preferences.setDbFile(dbFile);
 		preferences.setReadOnly(berkeleyDbPersistenceReadOnlyCheckBox.isSelected());
+		preferences.setCachePercent((int) berkeleyDbPersistenceCachePercentSpinner.getValue());
 	}
 
 }

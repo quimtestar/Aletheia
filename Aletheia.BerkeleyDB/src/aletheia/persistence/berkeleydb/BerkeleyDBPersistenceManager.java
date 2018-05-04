@@ -546,6 +546,11 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 		return environment.getConfig().getReadOnly();
 	}
 
+	public int getCachePercent()
+	{
+		return environment.getConfig().getCachePercent();
+	}
+
 	public BerkeleyDBAletheiaEnvironment getEnvironment()
 	{
 		return environment;
