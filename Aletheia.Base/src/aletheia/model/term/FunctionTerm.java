@@ -109,10 +109,10 @@ public class FunctionTerm extends Term
 
 	/**
 	 * In the case of a function, the composition is performed replacing the
-	 * parameter with the term in the body. A function can only be composed if the
-	 * type of the term which it is being composed to matches the function
-	 * parameter's type. If it's not the case, a {@link Term.ComposeTypeException}
-	 * is thrown.
+	 * parameter with the term in the body. A function can only be composed if
+	 * the type of the term which it is being composed to matches the function
+	 * parameter's type. If it's not the case, a
+	 * {@link Term.ComposeTypeException} is thrown.
 	 */
 	@Override
 	public Term compose(Term term) throws ComposeTypeException
@@ -348,7 +348,8 @@ public class FunctionTerm extends Term
 
 	/**
 	 * Two functions are equal when the parameters are of the same type and when
-	 * replacing one parameter with another in one body results to the other body.
+	 * replacing one parameter with another in one body results to the other
+	 * body.
 	 */
 	@Override
 	public boolean equals(Object obj)

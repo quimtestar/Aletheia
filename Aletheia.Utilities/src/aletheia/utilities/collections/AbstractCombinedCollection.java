@@ -102,9 +102,10 @@ public abstract class AbstractCombinedCollection<E> extends AbstractReadOnlyColl
 	}
 
 	/**
-	 * Moves a pair of iterators one position and returns the next element found. If
-	 * the front iterator still can be moved forward, we move it and return the
-	 * element found; if not we use the back iterator. we advance it one position
+	 * Moves a pair of iterators one position and returns the next element
+	 * found. If the front iterator still can be moved forward, we move it and
+	 * return the element found; if not we use the back iterator. we advance it
+	 * one position
 	 *
 	 * @param frontIterator
 	 * @param backIterator
@@ -177,8 +178,8 @@ public abstract class AbstractCombinedCollection<E> extends AbstractReadOnlyColl
 	}
 
 	/**
-	 * We first iterate across the front collection and when finished, we iterate
-	 * across the back collection.
+	 * We first iterate across the front collection and when finished, we
+	 * iterate across the back collection.
 	 */
 	@Override
 	public Iterator<E> iterator()

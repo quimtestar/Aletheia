@@ -54,7 +54,8 @@ public abstract class Catalog
 	private final Context context;
 
 	/**
-	 * Creates a new catalog associated to a persistence transaction and a context.
+	 * Creates a new catalog associated to a persistence transaction and a
+	 * context.
 	 *
 	 * @param persistenceManager
 	 * @param transaction

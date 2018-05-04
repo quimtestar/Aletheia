@@ -105,7 +105,8 @@ public abstract class Parser implements Serializable
 	private final TransitionTable transitionTable;
 
 	/**
-	 * Creates a new parser from a {@linkplain TransitionTable transition table} .
+	 * Creates a new parser from a {@linkplain TransitionTable transition table}
+	 * .
 	 *
 	 * @param transitionTable
 	 *            The transition table.
@@ -194,8 +195,8 @@ public abstract class Parser implements Serializable
 	}
 
 	/**
-	 * Parse the flow of terminal tokens served by a lexer, building a non terminal
-	 * token.
+	 * Parse the flow of terminal tokens served by a lexer, building a non
+	 * terminal token.
 	 *
 	 * @param lexer
 	 *            The lexer.

@@ -35,7 +35,8 @@ public class BijectionIterator<I, O> implements Iterator<O>
 {
 
 	/**
-	 * Returns the {@linkplain InverseBijection inverse bijection} of another one.
+	 * Returns the {@linkplain InverseBijection inverse bijection} of another
+	 * one.
 	 *
 	 * @param b
 	 *            The input bijection.

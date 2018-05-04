@@ -197,15 +197,16 @@ public abstract class TransitionTable implements Serializable
 	/**
 	 * This class is used to implement the bidirectional conversion from
 	 * {@link ParserItem}s to {@link State}s. The creation of new states must be
-	 * done inside the {@link ItemStateTranslator#itemToState(ParserItem)}, and the
-	 * inverse {@link ItemStateTranslator#stateToItem(State)} must respond
+	 * done inside the {@link ItemStateTranslator#itemToState(ParserItem)}, and
+	 * the inverse {@link ItemStateTranslator#stateToItem(State)} must respond
 	 * coherently to the former.
 	 */
 	protected abstract class ItemStateTranslator
 	{
 		/**
-		 * Create a new {@link State} from a {@link ParserItem} or return a previously
-		 * generated {@link State} if it was already created in a previous call.
+		 * Create a new {@link State} from a {@link ParserItem} or return a
+		 * previously generated {@link State} if it was already created in a
+		 * previous call.
 		 *
 		 * @param item
 		 *            The {@link ParserItem}.

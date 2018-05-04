@@ -132,8 +132,8 @@ public class CompositionTerm extends SimpleTerm
 	}
 
 	/**
-	 * A term is replaced simply composing the replacement of the parts (head and
-	 * tail).
+	 * A term is replaced simply composing the replacement of the parts (head
+	 * and tail).
 	 */
 	@Override
 	protected Term replace(Deque<Replace> replaces, Set<VariableTerm> exclude) throws ReplaceTypeException
@@ -211,12 +211,13 @@ public class CompositionTerm extends SimpleTerm
 	}
 
 	/**
-	 * The textual representation of a composition is just the concatenation of the
-	 * terms which compose it.
+	 * The textual representation of a composition is just the concatenation of
+	 * the terms which compose it.
 	 *
 	 * <p>
 	 * If the tail is a composition, it is represented inside a couple of
-	 * parentheses since it the composition is interpreted to be left-associative.
+	 * parentheses since it the composition is interpreted to be
+	 * left-associative.
 	 * </p>
 	 *
 	 */

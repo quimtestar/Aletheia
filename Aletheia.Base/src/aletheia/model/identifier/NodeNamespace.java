@@ -107,7 +107,8 @@ public class NodeNamespace extends Namespace
 	}
 
 	/**
-	 * Creates a direct descendant of the root name space with the specified name.
+	 * Creates a direct descendant of the root name space with the specified
+	 * name.
 	 *
 	 * @param name
 	 *            The name.

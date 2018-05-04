@@ -426,8 +426,8 @@ public abstract class Nomenclator implements Serializable, Exportable
 	}
 
 	/**
-	 * A mapping from the variables to the identifiers the statements associated to
-	 * them hav in this nomenclator.
+	 * A mapping from the variables to the identifiers the statements associated
+	 * to them hav in this nomenclator.
 	 *
 	 * @return The map.
 	 */
@@ -493,8 +493,8 @@ public abstract class Nomenclator implements Serializable, Exportable
 	}
 
 	/**
-	 * True if and only if a given identifier is assigned to a local statement to
-	 * the context.
+	 * True if and only if a given identifier is assigned to a local statement
+	 * to the context.
 	 *
 	 * @param identifier
 	 *            The identifier.

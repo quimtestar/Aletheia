@@ -66,9 +66,10 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 	/**
 	 * The comparator that will be used in the iterator. If the front map has a
 	 * comparator, use this. If not, a natural comparator is created using the
-	 * {@link Comparable#compareTo(Object)} method of the elements. In that case, a
-	 * {@link ClassCastException} might be thrown (not now but when using the
-	 * comparator) if an element that does no implement {@link Comparable} is found.
+	 * {@link Comparable#compareTo(Object)} method of the elements. In that
+	 * case, a {@link ClassCastException} might be thrown (not now but when
+	 * using the comparator) if an element that does no implement
+	 * {@link Comparable} is found.
 	 *
 	 * @return The comparator.
 	 */

@@ -48,7 +48,8 @@ public class NonTerminalToken extends Token<NonTerminalSymbol>
 	 * @param stopLocation
 	 *            The stop location of this token.
 	 * @param children
-	 *            The list of tokens on which we are applying the production rule.
+	 *            The list of tokens on which we are applying the production
+	 *            rule.
 	 */
 	public NonTerminalToken(Production production, Location startLocation, Location stopLocation, List<Token<? extends Symbol>> children)
 	{
