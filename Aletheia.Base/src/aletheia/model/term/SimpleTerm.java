@@ -60,8 +60,8 @@ public abstract class SimpleTerm extends Term
 	}
 
 	/**
-	 * Simple term is composed by simply creating a composition term with itself as
-	 * the head and the term to compose with as the tail.
+	 * Simple term is composed by simply creating a composition term with itself
+	 * as the head and the term to compose with as the tail.
 	 *
 	 * @throws ComposeTypeException
 	 */

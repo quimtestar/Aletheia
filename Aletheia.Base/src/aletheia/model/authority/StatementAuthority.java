@@ -1034,10 +1034,10 @@ public class StatementAuthority implements Exportable
 
 	/**
 	 * Returns the set of descendant contexts of a context that match the given
-	 * consequent to propagate the resetting of the signed proof status. If the size
-	 * of that set is found too big (>=100) we first look for a safe alternative in
-	 * the same context that might satisfy all that subcontexts and if so, no
-	 * resetting will be necessary so the empty set is returned.
+	 * consequent to propagate the resetting of the signed proof status. If the
+	 * size of that set is found too big (>=100) we first look for a safe
+	 * alternative in the same context that might satisfy all that subcontexts
+	 * and if so, no resetting will be necessary so the empty set is returned.
 	 */
 	private static DescendantContextsByConsequent safelySignedProofDescendantContextsToResetByTerm(Transaction transaction, Context context, Term term)
 	{
@@ -1078,11 +1078,11 @@ public class StatementAuthority implements Exportable
 	 * 
 	 * *) All its dependents safely have a signed proof.
 	 * 
-	 * *) If a context, at least one of its solvers is a descendant and safely have
-	 * a signed proof.
+	 * *) If a context, at least one of its solvers is a descendant and safely
+	 * have a signed proof.
 	 * 
-	 * (Warning: This function might return some false negatives according to the
-	 * previous definition but no false positives)
+	 * (Warning: This function might return some false negatives according to
+	 * the previous definition but no false positives)
 	 * 
 	 */
 	private static boolean checkSafelySignedProof(Statement statement, Transaction transaction)

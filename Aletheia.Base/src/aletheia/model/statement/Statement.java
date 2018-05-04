@@ -254,17 +254,17 @@ public abstract class Statement implements Exportable
 	 * Creates a new statement from scratch.
 	 *
 	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state of
-	 *            this statement.
+	 *            The persistence manager that will manage the persistence state
+	 *            of this statement.
 	 * @param transaction
-	 *            The transaction associated to the persistence manager that will be
-	 *            used in the creation of this statement.
+	 *            The transaction associated to the persistence manager that
+	 *            will be used in the creation of this statement.
 	 * @param entityClass
-	 *            The type object of the persistent entity (the generic interface,
-	 *            not the actual implementation of persistence) that will be created
-	 *            for storing the persistent state of this statement. Will depend on
-	 *            the actual subclass of {@link Statement} that is actually being
-	 *            created.
+	 *            The type object of the persistent entity (the generic
+	 *            interface, not the actual implementation of persistence) that
+	 *            will be created for storing the persistent state of this
+	 *            statement. Will depend on the actual subclass of
+	 *            {@link Statement} that is actually being created.
 	 * @param uuid
 	 *            The UUID associated to this statement (i.e. the variable that
 	 *            identifies this statement). Used as unique identifier of a
@@ -273,10 +273,10 @@ public abstract class Statement implements Exportable
 	 *            The context.
 	 * @param term
 	 *            The term representing the mathematical sentence which this
-	 *            statement represents, or the type of the variable associated to
-	 *            this statement. Since the term associated to the statement can't
-	 *            have projections pending, the actual term used is the unprojection
-	 *            of this one.
+	 *            statement represents, or the type of the variable associated
+	 *            to this statement. Since the term associated to the statement
+	 *            can't have projections pending, the actual term used is the
+	 *            unprojection of this one.
 	 * @throws StatementException
 	 */
 	protected Statement(PersistenceManager persistenceManager, Transaction transaction, Class<? extends StatementEntity> entityClass, UUID uuid,
@@ -329,10 +329,11 @@ public abstract class Statement implements Exportable
 	 * {@link StatementEntity}
 	 *
 	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state of
-	 *            this statement.
+	 *            The persistence manager that will manage the persistence state
+	 *            of this statement.
 	 * @param entity
-	 *            The persistence entity that will be enveloped in this statement.
+	 *            The persistence entity that will be enveloped in this
+	 *            statement.
 	 */
 	protected Statement(PersistenceManager persistenceManager, StatementEntity entity)
 	{
@@ -392,18 +393,18 @@ public abstract class Statement implements Exportable
 
 	/**
 	 * Checks the proof status of a set of statements. When the status of a
-	 * statement is changed, the status of all the statements that depend on it must
-	 * be checked too, so this method can trigger the checking of a huge set of
-	 * statements.
+	 * statement is changed, the status of all the statements that depend on it
+	 * must be checked too, so this method can trigger the checking of a huge
+	 * set of statements.
 	 *
 	 * @param transaction
 	 *            The transaction to use in the operation.
 	 * @param checkContext
 	 *            If true, the checking can be propagated to a context which
-	 *            consequent matches this statement. This flag must be set to false
-	 *            when we are checking the status of the assumptions of a context
-	 *            which we are creating (if not, that would result into a infinite
-	 *            loop).
+	 *            consequent matches this statement. This flag must be set to
+	 *            false when we are checking the status of the assumptions of a
+	 *            context which we are creating (if not, that would result into
+	 *            a infinite loop).
 	 * @param statements
 	 *            The collection of statements to be checked.
 	 */
@@ -428,18 +429,18 @@ public abstract class Statement implements Exportable
 
 	/**
 	 * Checks the proof status of a set of statements. When the status of a
-	 * statement is changed, the status of all the statements that depend on it must
-	 * be checked too, so this method can trigger the checking of a huge set of
-	 * statements.
+	 * statement is changed, the status of all the statements that depend on it
+	 * must be checked too, so this method can trigger the checking of a huge
+	 * set of statements.
 	 *
 	 * @param transaction
 	 *            The transaction to use in the operation.
 	 * @param checkContext
 	 *            If true, the checking can be propagated to a context which
-	 *            consequent matches this statement. This flag must be set to false
-	 *            when we are checking the status of the assumptions of a context
-	 *            which we are creating (if not, that would result into a infinite
-	 *            loop).
+	 *            consequent matches this statement. This flag must be set to
+	 *            false when we are checking the status of the assumptions of a
+	 *            context which we are creating (if not, that would result into
+	 *            a infinite loop).
 	 * @param statementsUuids
 	 *            The collection of statement to be checked uuid's.
 	 */
@@ -540,10 +541,10 @@ public abstract class Statement implements Exportable
 	 *            The transaction to be used in the operation.
 	 * @param checkContext
 	 *            If true, the checking can be propagated to a context which
-	 *            consequent matches this statement. This flag must be set to false
-	 *            when we are checking the status of the assumptions of a context
-	 *            which we are creating (if not, that would result into a infinite
-	 *            loop).
+	 *            consequent matches this statement. This flag must be set to
+	 *            false when we are checking the status of the assumptions of a
+	 *            context which we are creating (if not, that would result into
+	 *            a infinite loop).
 	 */
 	protected void checkProved(Transaction transaction, boolean checkContext)
 	{
@@ -551,8 +552,8 @@ public abstract class Statement implements Exportable
 	}
 
 	/**
-	 * Equivalent to {@link #checkProved(Transaction, boolean)} with checkContext
-	 * set to true.
+	 * Equivalent to {@link #checkProved(Transaction, boolean)} with
+	 * checkContext set to true.
 	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
@@ -625,8 +626,8 @@ public abstract class Statement implements Exportable
 	}
 
 	/**
-	 * @return The term that this statement expresses, i.e.the type of the variable
-	 *         associated to this statement.
+	 * @return The term that this statement expresses, i.e.the type of the
+	 *         variable associated to this statement.
 	 */
 	public Term getTerm()
 	{
@@ -634,9 +635,9 @@ public abstract class Statement implements Exportable
 	}
 
 	/**
-	 * @return The proven status of this statement (might be unsynchronized with the
-	 *         persistence layer, if the actual present value is needed, the method
-	 *         {@link #refresh(Transaction)} must be used).
+	 * @return The proven status of this statement (might be unsynchronized with
+	 *         the persistence layer, if the actual present value is needed, the
+	 *         method {@link #refresh(Transaction)} must be used).
 	 */
 	public boolean isProved()
 	{
@@ -703,10 +704,10 @@ public abstract class Statement implements Exportable
 	}
 
 	/**
-	 * Calculates the proved status based on (the conjunction of) the statuses of
-	 * statements associated to the free variables of the term. Must be overridden
-	 * by the subclasses to add the specific logic on this computation. This method
-	 * doesn't set the proven flag of this class.
+	 * Calculates the proved status based on (the conjunction of) the statuses
+	 * of statements associated to the free variables of the term. Must be
+	 * overridden by the subclasses to add the specific logic on this
+	 * computation. This method doesn't set the proven flag of this class.
 	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
@@ -729,8 +730,8 @@ public abstract class Statement implements Exportable
 	}
 
 	/**
-	 * Returns the set of statements on which this statement depends. This is the
-	 * opposite relation of {@link #dependents(Transaction)}.
+	 * Returns the set of statements on which this statement depends. This is
+	 * the opposite relation of {@link #dependents(Transaction)}.
 	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
@@ -807,8 +808,8 @@ public abstract class Statement implements Exportable
 	/**
 	 * @param transaction
 	 *            The transaction to be used in the operations on the map.
-	 * @return The {@link Context#localStatementToIdentifier(Transaction)} map of
-	 *         the context of this statement.
+	 * @return The {@link Context#localStatementToIdentifier(Transaction)} map
+	 *         of the context of this statement.
 	 */
 	public Map<Statement, Identifier> parentLocalStatementToIdentifier(Transaction transaction)
 	{
@@ -828,7 +829,8 @@ public abstract class Statement implements Exportable
 	/**
 	 * @param transaction
 	 *            The transaction to be used in the operation.
-	 * @return The identifier associated to this statement on the parent context.
+	 * @return The identifier associated to this statement on the parent
+	 *         context.
 	 */
 	public Identifier identifier(Transaction transaction)
 	{
@@ -846,8 +848,9 @@ public abstract class Statement implements Exportable
 	/**
 	 * @param transaction
 	 *            The transaction to be used in the operation.
-	 * @return The list of statements you need to traverse to reach this statement
-	 *         from the {@link RootContext} via the context-statement relation.
+	 * @return The list of statements you need to traverse to reach this
+	 *         statement from the {@link RootContext} via the context-statement
+	 *         relation.
 	 */
 	public List<? extends Statement> statementPath(Transaction transaction)
 	{
@@ -857,7 +860,8 @@ public abstract class Statement implements Exportable
 	/**
 	 * @param transaction
 	 *            The transaction to be used in the operation.
-	 * @return A string representation of the {@link #statementPath(Transaction)}
+	 * @return A string representation of the
+	 *         {@link #statementPath(Transaction)}
 	 */
 	public String statementPathString(Transaction transaction)
 	{
@@ -867,8 +871,8 @@ public abstract class Statement implements Exportable
 	/**
 	 * Same as {@link #statementPath(Transaction)}, but relative to a specified
 	 * context. i.e. the list of stataments you need to traverse to reach this
-	 * statement from the specified context to this statement. If this statement is
-	 * not a descendent of that context, the absolute path is returned.
+	 * statement from the specified context to this statement. If this statement
+	 * is not a descendent of that context, the absolute path is returned.
 	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
@@ -990,8 +994,9 @@ public abstract class Statement implements Exportable
 	}
 
 	/**
-	 * A string representation of this statement. Calls to {@link #toString(Map)}
-	 * with the {@link #parentVariableToIdentifier(Transaction)} of this statement.
+	 * A string representation of this statement. Calls to
+	 * {@link #toString(Map)} with the
+	 * {@link #parentVariableToIdentifier(Transaction)} of this statement.
 	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
@@ -1031,21 +1036,21 @@ public abstract class Statement implements Exportable
 	}
 
 	/**
-	 * Listener interface for keeping track of the state changes on a statement. Any
-	 * object implementing this interface and registered as a listener of this
-	 * statement will receive update notifications. A simple observer pattern is
-	 * implemented.
+	 * Listener interface for keeping track of the state changes on a statement.
+	 * Any object implementing this interface and registered as a listener of
+	 * this statement will receive update notifications. A simple observer
+	 * pattern is implemented.
 	 */
 	public interface StateListener extends PersistenceListener
 	{
 		/**
-		 * The statement's proven status has changed. This listener must be registered
-		 * on that statement's listeners poll.
+		 * The statement's proven status has changed. This listener must be
+		 * registered on that statement's listeners poll.
 		 *
 		 * @param transaction
-		 *            The transaction under which the modification has been done.
-		 *            Possibly the data change is not visible outside of this
-		 *            transaction if it hasn't been commited.
+		 *            The transaction under which the modification has been
+		 *            done. Possibly the data change is not visible outside of
+		 *            this transaction if it hasn't been commited.
 		 * @param statement
 		 *            The statement that has been proven or unproven.
 		 * @param proved
@@ -1059,9 +1064,9 @@ public abstract class Statement implements Exportable
 		 * A statement has been added to a listened context.
 		 *
 		 * @param transaction
-		 *            The transaction under which the modification has been done.
-		 *            Possibly the data change is not visible outside of this
-		 *            transaction if it hasn't been commited.
+		 *            The transaction under which the modification has been
+		 *            done. Possibly the data change is not visible outside of
+		 *            this transaction if it hasn't been commited.
 		 * @param context
 		 *            The context on which a statement has been added.
 		 * @param statement
@@ -1073,16 +1078,16 @@ public abstract class Statement implements Exportable
 		 * A statement has been deleted from a listened context.
 		 *
 		 * @param transaction
-		 *            The transaction under which the modification has been done.
-		 *            Possibly the data change is not visible outside of this
-		 *            transaction if it hasn't been commited.
+		 *            The transaction under which the modification has been
+		 *            done. Possibly the data change is not visible outside of
+		 *            this transaction if it hasn't been commited.
 		 * @param context
 		 *            The context on which a statement has been deleted.
 		 * @param statement
 		 *            The deleted statement.
 		 * @param identifier
-		 *            The identifier that the deleted statement had on this context, or
-		 *            null if it was an unidentified statement.
+		 *            The identifier that the deleted statement had on this
+		 *            context, or null if it was an unidentified statement.
 		 */
 		public void statementDeletedFromContext(Transaction transaction, Context context, Statement statement, Identifier identifier);
 
@@ -1139,8 +1144,8 @@ public abstract class Statement implements Exportable
 	}
 
 	/**
-	 * The UUID of the variable assigned to this statement. Identifies uniquely this
-	 * statement.
+	 * The UUID of the variable assigned to this statement. Identifies uniquely
+	 * this statement.
 	 *
 	 * @return The UUID.
 	 */
@@ -1427,8 +1432,8 @@ public abstract class Statement implements Exportable
 	}
 
 	/**
-	 * Rebuild the proven statuses of all the descendants of this context (and the
-	 * statements that depend on them).
+	 * Rebuild the proven statuses of all the descendants of this context (and
+	 * the statements that depend on them).
 	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
@@ -1645,10 +1650,11 @@ public abstract class Statement implements Exportable
 	 * 
 	 * *) All its dependents are safely proved.
 	 * 
-	 * *) If a context, at least one of its solvers is a safely proved descendant.
+	 * *) If a context, at least one of its solvers is a safely proved
+	 * descendant.
 	 * 
-	 * (Warning: This function might return some false negatives according to the
-	 * previous definition but no false positives)
+	 * (Warning: This function might return some false negatives according to
+	 * the previous definition but no false positives)
 	 * 
 	 */
 	protected boolean checkSafelyProved(Transaction transaction)

@@ -291,8 +291,8 @@ public class MiscUtilities
 	}
 
 	/**
-	 * The value of a particular bit of a long integer as a boolean. Bit zero being
-	 * the least significant.
+	 * The value of a particular bit of a long integer as a boolean. Bit zero
+	 * being the least significant.
 	 */
 	private static boolean bitAt(long x, int i)
 	{
@@ -300,8 +300,8 @@ public class MiscUtilities
 	}
 
 	/**
-	 * The value of a particular bit of a {@link UUID} as a boolean. Bit zero being
-	 * the least significant.
+	 * The value of a particular bit of a {@link UUID} as a boolean. Bit zero
+	 * being the least significant.
 	 */
 	public static boolean bitAt(UUID uuid, int i)
 	{
@@ -316,8 +316,8 @@ public class MiscUtilities
 	}
 
 	/**
-	 * First bit position that differs between two {@link UUID}s. Bit zero being the
-	 * least significant.
+	 * First bit position that differs between two {@link UUID}s. Bit zero being
+	 * the least significant.
 	 */
 	public static int firstDifferentBit(UUID uuid1, UUID uuid2)
 	{
@@ -415,8 +415,8 @@ public class MiscUtilities
 	}
 
 	/**
-	 * Nth element from the actual position (the next is the zeroth) of an iterator
-	 * or null it there is no nth element.
+	 * Nth element from the actual position (the next is the zeroth) of an
+	 * iterator or null it there is no nth element.
 	 */
 	private static <E> E nthFromIterator(Iterator<E> iterator, int n)
 	{
@@ -437,8 +437,8 @@ public class MiscUtilities
 	}
 
 	/**
-	 * Nth element of an {@link Iterable} object (the first is the zeroth) of null
-	 * if there are not so many elements.
+	 * Nth element of an {@link Iterable} object (the first is the zeroth) of
+	 * null if there are not so many elements.
 	 */
 	public static <E> E nthFromIterable(Iterable<E> iterable, int n)
 	{
@@ -447,8 +447,8 @@ public class MiscUtilities
 	}
 
 	/**
-	 * Nth element of a {@link CloseableIterable} object (the first is the zeroth)
-	 * of null if there are not so many elements.
+	 * Nth element of a {@link CloseableIterable} object (the first is the
+	 * zeroth) of null if there are not so many elements.
 	 */
 	public static <E> E nthFromCloseableIterable(CloseableIterable<E> iterable, int n)
 	{
@@ -473,8 +473,8 @@ public class MiscUtilities
 	}
 
 	/**
-	 * First element of a {@link CloseableIterable} objects. Closes the generated
-	 * iterator.
+	 * First element of a {@link CloseableIterable} objects. Closes the
+	 * generated iterator.
 	 */
 	public static <E> E firstFromCloseableIterable(CloseableIterable<E> iterable)
 	{
@@ -557,8 +557,8 @@ public class MiscUtilities
 	}
 
 	/**
-	 * Constructs an object of a given class using a constructor that matches the
-	 * given arguments.
+	 * Constructs an object of a given class using a constructor that matches
+	 * the given arguments.
 	 *
 	 * @see #matchingConstructor(Class, Object...)
 	 */

@@ -72,8 +72,8 @@ public class LoggerManager
 	}
 
 	/**
-	 * Configures an {@link UncaughtExceptionHandler} that logs a fatal error with
-	 * the exception and then prints the stack trace to the standard error.
+	 * Configures an {@link UncaughtExceptionHandler} that logs a fatal error
+	 * with the exception and then prints the stack trace to the standard error.
 	 *
 	 * Meant to be used once at the application level.
 	 *

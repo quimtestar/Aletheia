@@ -67,8 +67,8 @@ public class SynchronizedFlag<V>
 	}
 
 	/**
-	 * Waits until this flag is set to any value of a given collection or a timeout
-	 * is expired.
+	 * Waits until this flag is set to any value of a given collection or a
+	 * timeout is expired.
 	 */
 	public synchronized void waitForValue(Collection<V> values, long timeout) throws InterruptedException
 	{

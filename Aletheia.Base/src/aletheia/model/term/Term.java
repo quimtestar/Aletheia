@@ -164,8 +164,8 @@ public abstract class Term implements Serializable, Exportable
 	}
 
 	/**
-	 * Replace all occurrences of the <i>oldTerm</i> sub-term in this term with the
-	 * <i>newTerm</i>.
+	 * Replace all occurrences of the <i>oldTerm</i> sub-term in this term with
+	 * the <i>newTerm</i>.
 	 *
 	 * @param subterm
 	 *            The sub-term to be replaced.
@@ -204,7 +204,8 @@ public abstract class Term implements Serializable, Exportable
 	}
 
 	/**
-	 * Perform a series of replacements on this term (auxiliary-internal method).
+	 * Perform a series of replacements on this term (auxiliary-internal
+	 * method).
 	 */
 	protected abstract Term replace(Deque<Replace> replaces, Set<VariableTerm> exclude) throws ReplaceTypeException;
 
@@ -243,8 +244,8 @@ public abstract class Term implements Serializable, Exportable
 
 	/**
 	 * Adds the free variables in this term to <i>freeVars</i>, considering
-	 * <i>localVars</i> as bounded (allegedly, they are the parameter variables of
-	 * function terms which this term is embedded in the body of).
+	 * <i>localVars</i> as bounded (allegedly, they are the parameter variables
+	 * of function terms which this term is embedded in the body of).
 	 *
 	 * @param freeVars
 	 *            The set of free variables.
@@ -256,9 +257,9 @@ public abstract class Term implements Serializable, Exportable
 	public abstract boolean isFreeVariable(VariableTerm variable);
 
 	/**
-	 * Returns the set of free variables in this term. A variable is free when it
-	 * doesn't occur in the body of a function which the variable is the parameter
-	 * of.
+	 * Returns the set of free variables in this term. A variable is free when
+	 * it doesn't occur in the body of a function which the variable is the
+	 * parameter of.
 	 *
 	 * @return The set of free variables.
 	 */
@@ -271,8 +272,9 @@ public abstract class Term implements Serializable, Exportable
 
 	/**
 	 * The set of free variables as {@link IdentifiableVariableTerm}s. Set
-	 * operations might throw a {@link ClassCastException} if the term has any free
-	 * {@link VariableTerm} that is not an {@link IdentifiableVariableTerm} .
+	 * operations might throw a {@link ClassCastException} if the term has any
+	 * free {@link VariableTerm} that is not an {@link IdentifiableVariableTerm}
+	 * .
 	 *
 	 * @return The set of free {@link IdentifiableVariableTerm}s
 	 */
@@ -300,11 +302,12 @@ public abstract class Term implements Serializable, Exportable
 	}
 
 	/**
-	 * Converts term to {@link String} using the specified correspondence between
-	 * variables and identifiers.
+	 * Converts term to {@link String} using the specified correspondence
+	 * between variables and identifiers.
 	 *
 	 * @param variableToIdentifier
-	 *            Mapping from variables to identifiers to use for the conversion.
+	 *            Mapping from variables to identifiers to use for the
+	 *            conversion.
 	 * @return this term converted to a String.
 	 */
 	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier)
@@ -416,20 +419,24 @@ public abstract class Term implements Serializable, Exportable
 
 		/**
 		 * Shows the left part of the comparison as a {@link String}. Marks the
-		 * differences to the other part using {@link #beginMark} and {@link #endMark}.
+		 * differences to the other part using {@link #beginMark} and
+		 * {@link #endMark}.
 		 *
 		 * @param variableToIdentifier
-		 *            Mapping from variables to identifiers to use for the conversion.
+		 *            Mapping from variables to identifiers to use for the
+		 *            conversion.
 		 * @return The left part of the comparison as a {@link String}.
 		 */
 		public abstract String toStringLeft(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator);
 
 		/**
 		 * Shows the right part of the comparison as a {@link String}. Marks the
-		 * differences to the other part using {@link #beginMark} and {@link #endMark}.
+		 * differences to the other part using {@link #beginMark} and
+		 * {@link #endMark}.
 		 *
 		 * @param variableToIdentifier
-		 *            Mapping from variables to identifiers to use for the conversion.
+		 *            Mapping from variables to identifiers to use for the
+		 *            conversion.
 		 * @return The right part of the comparison as a {@link String}.
 		 */
 		public abstract String toStringRight(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator);
@@ -487,8 +494,8 @@ public abstract class Term implements Serializable, Exportable
 	}
 
 	/**
-	 * Computes the {@link DiffInfo} for the comparison between this term and the
-	 * parameter.
+	 * Computes the {@link DiffInfo} for the comparison between this term and
+	 * the parameter.
 	 *
 	 * @param term
 	 *            The term to compare with.
@@ -571,8 +578,8 @@ public abstract class Term implements Serializable, Exportable
 	public abstract SimpleTerm consequent(Collection<ParameterVariableTerm> parameters);
 
 	/**
-	 * The consequent of a term is defined to be itself if it's a simple term or the
-	 * consequent of the body if it's a function
+	 * The consequent of a term is defined to be itself if it's a simple term or
+	 * the consequent of the body if it's a function
 	 *
 	 *
 	 * @return The consequent of this term.

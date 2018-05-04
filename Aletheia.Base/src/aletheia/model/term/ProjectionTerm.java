@@ -102,10 +102,11 @@ public class ProjectionTerm extends AtomicTerm
 	}
 
 	/**
-	 * Performs a series of replacements on this projection. The replacements are
-	 * first performed on the function and then the resulting function is projected.
-	 * It is possible than the resulting term of the replacements is not a function
-	 * in which case a {@link Term.ReplaceTypeException} will be thrown.
+	 * Performs a series of replacements on this projection. The replacements
+	 * are first performed on the function and then the resulting function is
+	 * projected. It is possible than the resulting term of the replacements is
+	 * not a function in which case a {@link Term.ReplaceTypeException} will be
+	 * thrown.
 	 *
 	 */
 	@Override
@@ -188,8 +189,8 @@ public class ProjectionTerm extends AtomicTerm
 	}
 
 	/**
-	 * A projection unprojected is the unprojection of the function. The "projection
-	 * element" recursively disappears.
+	 * A projection unprojected is the unprojection of the function. The
+	 * "projection element" recursively disappears.
 	 */
 	@Override
 	public Term unproject() throws UnprojectTypeException

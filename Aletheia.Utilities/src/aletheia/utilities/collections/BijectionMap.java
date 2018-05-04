@@ -226,7 +226,8 @@ public class BijectionMap<K, I, O> extends AbstractMap<K, O>
 	}
 
 	/**
-	 * Returns the {@linkplain InverseBijection inverse bijection} of another one.
+	 * Returns the {@linkplain InverseBijection inverse bijection} of another
+	 * one.
 	 *
 	 * @param b
 	 *            The input bijection.

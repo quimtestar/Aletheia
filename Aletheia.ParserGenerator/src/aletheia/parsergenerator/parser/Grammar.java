@@ -57,7 +57,8 @@ public class Grammar implements Serializable
 	private final Map<NonTerminalSymbol, Set<TerminalSymbol>> nextSymbols;
 
 	/**
-	 * Creates a new grammar from a collection of productions and a start symbol.
+	 * Creates a new grammar from a collection of productions and a start
+	 * symbol.
 	 *
 	 * @param productions
 	 *            The collection of productions.
@@ -124,8 +125,8 @@ public class Grammar implements Serializable
 	}
 
 	/**
-	 * The full set of symbols of this grammar. Any symbol appearing on any side of
-	 * any production of this grammar is in this set.
+	 * The full set of symbols of this grammar. Any symbol appearing on any side
+	 * of any production of this grammar is in this set.
 	 *
 	 * @return The set of symbols.
 	 */
@@ -135,7 +136,8 @@ public class Grammar implements Serializable
 	}
 
 	/**
-	 * Computes the set of nullable symbols. To be called only at construction time.
+	 * Computes the set of nullable symbols. To be called only at construction
+	 * time.
 	 *
 	 * @see #nullableSymbol(NonTerminalSymbol)
 	 */
@@ -168,8 +170,8 @@ public class Grammar implements Serializable
 	}
 
 	/**
-	 * Checks if a symbol is nullable. A symbol is nullable if it can be converted
-	 * to the empty string using the production rules of this grammar.
+	 * Checks if a symbol is nullable. A symbol is nullable if it can be
+	 * converted to the empty string using the production rules of this grammar.
 	 *
 	 * @param s
 	 *            The symbol.
@@ -181,7 +183,8 @@ public class Grammar implements Serializable
 	}
 
 	/**
-	 * Computes the map of first symbols. To be called only at construction time.
+	 * Computes the map of first symbols. To be called only at construction
+	 * time.
 	 *
 	 * @see #firstSymbols(NonTerminalSymbol)
 	 */
@@ -325,8 +328,8 @@ public class Grammar implements Serializable
 	/**
 	 * The set of next symbols of a non-terminal symbol. A next symbol is any
 	 * terminal symbol that can be found following any string produced by that
-	 * non-terminal symbol, including the {@linkplain EndTerminalSymbol end terminal
-	 * symbol} if that string can be at the end of the input.
+	 * non-terminal symbol, including the {@linkplain EndTerminalSymbol end
+	 * terminal symbol} if that string can be at the end of the input.
 	 *
 	 * @param s
 	 *            The non-terminal symbol.

@@ -39,8 +39,8 @@ public class CombinedSortedSet<E> extends AbstractCombinedSortedSet<E> implement
 	private final Comparator<? super E> comparator;
 
 	/**
-	 * The comparators of front and back set must be the same, and will be used as a
-	 * the comparator of this set.
+	 * The comparators of front and back set must be the same, and will be used
+	 * as a the comparator of this set.
 	 *
 	 * @param front
 	 *            The front sorted set.

@@ -45,9 +45,9 @@ public class Automaton implements Serializable
 
 	/**
 	 * Creates a new automaton with the specified set of start states, accepting
-	 * states and transitions. This method is private and doesn't make a copy of the
-	 * parameter data structures, so the caller must be responsible of the further
-	 * modifications done on them.
+	 * states and transitions. This method is private and doesn't make a copy of
+	 * the parameter data structures, so the caller must be responsible of the
+	 * further modifications done on them.
 	 *
 	 * @param startStates
 	 *            Set of start states.
@@ -86,9 +86,9 @@ public class Automaton implements Serializable
 	/**
 	 * Creates a new automaton from a {@linkplain DeterministicAutomaton
 	 * deterministic automaton}. A deterministic automaton can be seen as an
-	 * specialized type of automaton. This constructor makes the conversion so we
-	 * can apply the methods developed for generalized nondeterministic automatons
-	 * to a deterministic one.
+	 * specialized type of automaton. This constructor makes the conversion so
+	 * we can apply the methods developed for generalized nondeterministic
+	 * automatons to a deterministic one.
 	 *
 	 * @param deterministicAutomaton
 	 *            The original deterministic automaton.
@@ -253,9 +253,9 @@ public class Automaton implements Serializable
 	}
 
 	/**
-	 * Creates the empty string automaton. The empty string automaton is the trivial
-	 * automaton that accepts the singleton set of the empty string (i.e. accepts
-	 * the empty string and rejects any other).
+	 * Creates the empty string automaton. The empty string automaton is the
+	 * trivial automaton that accepts the singleton set of the empty string
+	 * (i.e. accepts the empty string and rejects any other).
 	 *
 	 * @return The empty string automaton.
 	 */
@@ -267,10 +267,10 @@ public class Automaton implements Serializable
 	}
 
 	/**
-	 * Creates a singleton automaton of a given character. A singleton automaton is
-	 * a trivial automaton that accepts the singleton set of a singleton string
-	 * (i.e. accepts the string consisting on that sole character and rejects any
-	 * other).
+	 * Creates a singleton automaton of a given character. A singleton automaton
+	 * is a trivial automaton that accepts the singleton set of a singleton
+	 * string (i.e. accepts the string consisting on that sole character and
+	 * rejects any other).
 	 *
 	 * @param c
 	 *            The character.
@@ -345,8 +345,8 @@ public class Automaton implements Serializable
 	}
 
 	/**
-	 * Calls to {@link #union(Automaton, Automaton)} with this automaton and another
-	 * one.
+	 * Calls to {@link #union(Automaton, Automaton)} with this automaton and
+	 * another one.
 	 *
 	 * @param a
 	 *            The automaton to unite to this.
@@ -358,10 +358,10 @@ public class Automaton implements Serializable
 	}
 
 	/**
-	 * Create the union automaton of two previously existing automatons. The union
-	 * automaton accepts the union set of the languages accepted by the two original
-	 * functions. The union operation on automatons has the same properties as the
-	 * union of sets.
+	 * Create the union automaton of two previously existing automatons. The
+	 * union automaton accepts the union set of the languages accepted by the
+	 * two original functions. The union operation on automatons has the same
+	 * properties as the union of sets.
 	 *
 	 * @param a1
 	 *            The first automaton to unite.
@@ -415,8 +415,8 @@ public class Automaton implements Serializable
 	}
 
 	/**
-	 * Calls to {@link #concatenate(Automaton, Automaton)} with this automaton and
-	 * another one.
+	 * Calls to {@link #concatenate(Automaton, Automaton)} with this automaton
+	 * and another one.
 	 *
 	 * @param a
 	 *            The automaton to concatenate to this.
@@ -429,8 +429,8 @@ public class Automaton implements Serializable
 
 	/**
 	 * Creates the concatenation of two automatons. The concatenated automaton
-	 * accepts the set of strings that are the result of the concatenation of two
-	 * string accepted by the two parameter automatons, respectively.
+	 * accepts the set of strings that are the result of the concatenation of
+	 * two string accepted by the two parameter automatons, respectively.
 	 *
 	 * @param a1
 	 *            The first automaton to concatenate.
@@ -494,9 +494,9 @@ public class Automaton implements Serializable
 	}
 
 	/**
-	 * Creates the Kleene star of an automaton. The Kleene star automaton accepts
-	 * any string that is an iterated concatenation of any sequence of strings
-	 * accepted by the original automaton.
+	 * Creates the Kleene star of an automaton. The Kleene star automaton
+	 * accepts any string that is an iterated concatenation of any sequence of
+	 * strings accepted by the original automaton.
 	 *
 	 * @param a
 	 *            The source automaton.
@@ -555,8 +555,8 @@ public class Automaton implements Serializable
 	}
 
 	/**
-	 * Creates an automaton that recognizes a set of singleton strings defined by a
-	 * given collection of characters.
+	 * Creates an automaton that recognizes a set of singleton strings defined
+	 * by a given collection of characters.
 	 *
 	 * @param col
 	 *            The collection of characters to recognize.
@@ -602,8 +602,8 @@ public class Automaton implements Serializable
 	}
 
 	/**
-	 * Calls to {@link #intersection(Automaton, Automaton)} with this automaton and
-	 * another one.
+	 * Calls to {@link #intersection(Automaton, Automaton)} with this automaton
+	 * and another one.
 	 *
 	 * @param a
 	 *            The automaton to intersect to this.
@@ -634,8 +634,8 @@ public class Automaton implements Serializable
 	}
 
 	/**
-	 * Calls to {@link #subtraction(Automaton, Automaton)} with this automaton and
-	 * another one.
+	 * Calls to {@link #subtraction(Automaton, Automaton)} with this automaton
+	 * and another one.
 	 *
 	 * @param a
 	 *            The automaton to subtract to this.

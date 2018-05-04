@@ -55,8 +55,8 @@ public class Declaration extends Context
 	 * Creates a new declaration statement from scratch.
 	 *
 	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state of
-	 *            this statement.
+	 *            The persistence manager that will manage the persistence state
+	 *            of this statement.
 	 * @param transaction
 	 *            The transaction to be used in the creation of this statement.
 	 * @param uuid
@@ -115,9 +115,9 @@ public class Declaration extends Context
 	}
 
 	/**
-	 * Computes the term of the statement, that is, the value's type. Any exception
-	 * thrown while the type computation will be caught and embedded into a
-	 * {@link DeclarationException}
+	 * Computes the term of the statement, that is, the value's type. Any
+	 * exception thrown while the type computation will be caught and embedded
+	 * into a {@link DeclarationException}
 	 *
 	 * @param transaction
 	 *            The transaction used in the operation.
@@ -143,10 +143,11 @@ public class Declaration extends Context
 	 * {@link DeclarationEntity}
 	 *
 	 * @param persistenceManager
-	 *            The persistence manager that will manage the persistence state of
-	 *            this statement.
+	 *            The persistence manager that will manage the persistence state
+	 *            of this statement.
 	 * @param entity
-	 *            The persistence entity that will be enveloped in this statement.
+	 *            The persistence entity that will be enveloped in this
+	 *            statement.
 	 */
 	public Declaration(PersistenceManager persistenceManager, DeclarationEntity entity)
 	{
@@ -169,8 +170,9 @@ public class Declaration extends Context
 
 	/**
 	 * For a declaration to be proven, the method
-	 * {@link Statement#calcProved(Transaction)} must return true and the statements
-	 * associated to all the free variables of the value must be proven.
+	 * {@link Statement#calcProved(Transaction)} must return true and the
+	 * statements associated to all the free variables of the value must be
+	 * proven.
 	 */
 	@Override
 	protected boolean calcProved(Transaction transaction)

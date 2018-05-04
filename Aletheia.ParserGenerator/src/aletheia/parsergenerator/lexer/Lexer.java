@@ -64,9 +64,9 @@ public interface Lexer
 	}
 
 	/**
-	 * Moves the lexer forward to the next {@link TerminalToken} and returns it. If
-	 * the lexer is at the end of the input it will return an {@link EndToken} in
-	 * all the subsequent calls.
+	 * Moves the lexer forward to the next {@link TerminalToken} and returns it.
+	 * If the lexer is at the end of the input it will return an
+	 * {@link EndToken} in all the subsequent calls.
 	 *
 	 * @return The next token.
 	 *

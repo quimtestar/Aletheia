@@ -56,8 +56,8 @@ public class AutomatonSetState
 	}
 
 	/**
-	 * Forces the choosing of the automaton still non-discarded state that is first
-	 * in the defined order.
+	 * Forces the choosing of the automaton still non-discarded state that is
+	 * first in the defined order.
 	 *
 	 * @see #getChosen()
 	 */
@@ -126,7 +126,8 @@ public class AutomatonSetState
 	}
 
 	/**
-	 * Checks true if the chosen automaton is associated with no terminal symbol.
+	 * Checks true if the chosen automaton is associated with no terminal
+	 * symbol.
 	 *
 	 * @return Is this state ignoring input?
 	 */

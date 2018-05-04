@@ -31,8 +31,8 @@ public class AletheiaConstants
 	public static final String TITLE;
 
 	/**
-	 * Path of the user preferences' node to use for storing the preferences related
-	 * to the system.
+	 * Path of the user preferences' node to use for storing the preferences
+	 * related to the system.
 	 *
 	 * @see java.util.prefs
 	 */

@@ -37,7 +37,8 @@ public abstract class PersistentExportableProtocol<E extends Exportable> extends
 	private final Transaction transaction;
 
 	/**
-	 * Creates a new protocol for a given persistence manager and transaction to use
+	 * Creates a new protocol for a given persistence manager and transaction to
+	 * use
 	 *
 	 * @param persistenceManager
 	 *            The persistence manager.

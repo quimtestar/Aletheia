@@ -55,9 +55,9 @@ public abstract class VariableTerm extends AtomicTerm
 	}
 
 	/**
-	 * Replacing a variable term is quite trivial. If the variable to be replaced
-	 * equals this, then the result is the term to replace; else the result is this
-	 * variable term unaltered.
+	 * Replacing a variable term is quite trivial. If the variable to be
+	 * replaced equals this, then the result is the term to replace; else the
+	 * result is this variable term unaltered.
 	 */
 	@Override
 	protected Term replace(Deque<Replace> replaces, Set<VariableTerm> exclude)
@@ -95,9 +95,10 @@ public abstract class VariableTerm extends AtomicTerm
 	}
 
 	/**
-	 * The type-recursive version of the free variables method. The result includes
-	 * the free variables of its type term, and the type-recursive free variables of
-	 * each of these variables, but does not include this variable object.
+	 * The type-recursive version of the free variables method. The result
+	 * includes the free variables of its type term, and the type-recursive free
+	 * variables of each of these variables, but does not include this variable
+	 * object.
 	 *
 	 * @return The type-recursive free variables set of this variable (excluding
 	 *         itself).

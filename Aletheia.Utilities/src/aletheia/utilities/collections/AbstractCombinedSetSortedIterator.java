@@ -57,9 +57,10 @@ abstract class AbstractCombinedSetSortedIterator<E> extends AbstractCombinedSet<
 	/**
 	 * The comparator that will be used in the iterator. If no comparator was
 	 * specified at construction time, a natural comparator is created using the
-	 * {@link Comparable#compareTo(Object)} method of the elements. In that case, a
-	 * {@link ClassCastException} might be thrown (not now but when using the
-	 * comparator) if an element that does no implement {@link Comparable} is found.
+	 * {@link Comparable#compareTo(Object)} method of the elements. In that
+	 * case, a {@link ClassCastException} might be thrown (not now but when
+	 * using the comparator) if an element that does no implement
+	 * {@link Comparable} is found.
 	 *
 	 * @return The comparator.
 	 */
