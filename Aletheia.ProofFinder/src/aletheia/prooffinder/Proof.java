@@ -263,7 +263,7 @@ public class Proof
 						}
 					}
 
-					st = e.ctx.specialize(transaction, st, t_);
+					st = e.ctx.specialize(transaction, st, t_, null); //TODO
 				}
 			}
 			catch (ReplaceTypeException e)

@@ -173,7 +173,7 @@ public class NewAuto extends NewStatement
 			Statement st_;
 			if (t != null)
 			{
-				st_ = context.specialize(getTransaction(), statement, t);
+				st_ = context.specialize(getTransaction(), statement, t, null); //TODO
 				body = body.replace(parameter, t);
 			}
 			else
@@ -240,7 +240,7 @@ public class NewAuto extends NewStatement
 					}
 				}
 				if (solver != null)
-					st_ = context.specialize(getTransaction(), statement, solver.getVariable());
+					st_ = context.specialize(getTransaction(), statement, solver.getVariable(), null); //TODO
 				else
 				{
 					Context subctx = context.openSubContext(getTransaction(), type);
@@ -257,7 +257,7 @@ public class NewAuto extends NewStatement
 						{
 						}
 					}
-					st_ = context.specialize(getTransaction(), statement, subctx.getVariable());
+					st_ = context.specialize(getTransaction(), statement, subctx.getVariable(), null); //TODO
 				}
 			}
 			statement = st_;

@@ -779,12 +779,13 @@ public class Context extends Statement
 	 *            The statement specialized.
 	 * @param instance
 	 *            The instance used to specialize.
+	 * @param instanceProof
 	 * @return The new specialization statement.
 	 * @throws StatementException
 	 */
-	public Specialization specialize(Transaction transaction, UUID uuid, Statement general, Term instance) throws StatementException
+	public Specialization specialize(Transaction transaction, UUID uuid, Statement general, Term instance, Statement instanceProof) throws StatementException
 	{
-		Specialization spec = new Specialization(getPersistenceManager(), transaction, uuid, this, general, instance);
+		Specialization spec = new Specialization(getPersistenceManager(), transaction, uuid, this, general, instance, instanceProof);
 		addStatement(transaction, spec);
 		return spec;
 	}
@@ -799,12 +800,13 @@ public class Context extends Statement
 	 *            The statement specialized.
 	 * @param instance
 	 *            The instance used to specialize.
+	 * @param instanceProof
 	 * @return The new specialization statement.
 	 * @throws StatementException
 	 */
-	public Specialization specialize(Transaction transaction, Statement general, Term instance) throws StatementException
+	public Specialization specialize(Transaction transaction, Statement general, Term instance, Statement instanceProof) throws StatementException
 	{
-		return specialize(transaction, null, general, instance);
+		return specialize(transaction, null, general, instance, instanceProof);
 	}
 
 	@Override
@@ -1477,7 +1479,7 @@ public class Context extends Statement
 			Set<Statement> excludeFromIdentify) throws CopyStatementException
 	{
 		Map<Statement, Statement> map = new HashMap<>(initMap);
-		List<Term.Replace> replaces = new LinkedList<>();
+		List<Term.Replace> replaces = new LinkedList<>(); //TODO change this to replace with map when branch proof_term is merged
 		for (Map.Entry<Statement, Statement> e : map.entrySet())
 			replaces.add(new Term.Replace(e.getKey().getVariable(), e.getValue().getVariable()));
 		Set<Statement> copied = new HashSet<>(initMap.values());
@@ -1501,19 +1503,15 @@ public class Context extends Statement
 			else if (stOrig instanceof Specialization)
 			{
 				Specialization specOrig = (Specialization) stOrig;
-				Statement genDest = map.get(specOrig.getGeneral(transaction));
-				if (genDest == null)
-					genDest = specOrig.getGeneral(transaction);
+				Statement generalOrig = specOrig.getGeneral(transaction);
+				Statement instanceProofOrig = specOrig.getInstanceProof(transaction);
 				Specialization specDest;
 				try
 				{
-					specDest = ctxParentDest.specialize(transaction, genDest, specOrig.getInstance().replace(replaces));
+					specDest = ctxParentDest.specialize(transaction, map.getOrDefault(generalOrig, generalOrig), specOrig.getInstance().replace(replaces),
+							map.getOrDefault(instanceProofOrig, instanceProofOrig));
 				}
-				catch (ReplaceTypeException e)
-				{
-					throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
-				}
-				catch (StatementException e)
+				catch (ReplaceTypeException | StatementException e)
 				{
 					throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
 				}

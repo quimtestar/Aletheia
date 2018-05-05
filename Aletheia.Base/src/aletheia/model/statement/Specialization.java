@@ -73,14 +73,16 @@ public class Specialization extends Statement
 	 *            The general statement used that is specialized.
 	 * @param instance
 	 *            The instance term used in the specialization.
+	 * @param instanceProof
 	 * @throws StatementException
 	 */
-	protected Specialization(PersistenceManager persistenceManager, Transaction transaction, UUID uuid, Context context, Statement general, Term instance)
-			throws StatementException
+	protected Specialization(PersistenceManager persistenceManager, Transaction transaction, UUID uuid, Context context, Statement general, Term instance,
+			Statement instanceProof) throws StatementException
 	{
-		super(persistenceManager, transaction, SpecializationEntity.class, uuid, context, computeTerm(transaction, context, general, instance));
+		super(persistenceManager, transaction, SpecializationEntity.class, uuid, context, computeTerm(transaction, context, general, instance, instanceProof));
 		getEntity().setGeneralUuid(general.getUuid());
 		getEntity().setInstance(instance);
+		getEntity().setInstanceProofUuid(instanceProof.getUuid());
 		Set<UUID> uuidDependencies = getEntity().getUuidDependencies();
 		uuidDependencies.add(general.getUuid());
 		try
@@ -92,6 +94,7 @@ public class Specialization extends Statement
 		{
 			throw new FreeVariableNotIdentifiableStatementException(e);
 		}
+		uuidDependencies.add(instanceProof.getUuid());
 	}
 
 	/**
@@ -120,42 +123,57 @@ public class Specialization extends Statement
 	{
 		private static final long serialVersionUID = -5181126631681562425L;
 
-		public SpecializationException()
+		private SpecializationException()
 		{
 			super();
 		}
 
-		public SpecializationException(String message, Throwable cause)
+		private SpecializationException(String message, Throwable cause)
 		{
 			super(message, cause);
 		}
 
-		public SpecializationException(String message)
+		private SpecializationException(String message)
 		{
 			super(message);
 		}
 
-		public SpecializationException(Throwable cause)
+		private SpecializationException(Throwable cause)
 		{
 			super(cause);
 		}
 	}
 
-	public static abstract class InvalidGeneralStatementException extends SpecializationException
+	public static abstract class InvalidStatementException extends SpecializationException
+	{
+		private static final long serialVersionUID = 8377894347587007924L;
+		private final Statement statement;
+
+		private InvalidStatementException(String messagePrefix, Statement statement)
+		{
+			super(messagePrefix + (statement.getIdentifier() == null ? statement.getVariable().toString() : statement.getIdentifier().toString()));
+			this.statement = statement;
+		}
+
+		public Statement getStatement()
+		{
+			return statement;
+		}
+
+	}
+
+	public static abstract class InvalidGeneralStatementException extends InvalidStatementException
 	{
 		private static final long serialVersionUID = 8127879566374729178L;
 
-		private final Statement general;
-
-		public InvalidGeneralStatementException(String messagePrefix, Statement general)
+		private InvalidGeneralStatementException(String messagePrefix, Statement general)
 		{
-			super(messagePrefix + (general.getIdentifier() == null ? general.getVariable().toString() : general.getIdentifier().toString()));
-			this.general = general;
+			super(messagePrefix, general);
 		}
 
 		public Statement getGeneral()
 		{
-			return general;
+			return getStatement();
 		}
 
 	}
@@ -164,7 +182,7 @@ public class Specialization extends Statement
 	{
 		private static final long serialVersionUID = 6462483287028995345L;
 
-		public GeneralStatementNotInContextException(Statement general)
+		private GeneralStatementNotInContextException(Statement general)
 		{
 			super("General statement not in context: ", general);
 		}
@@ -175,7 +193,7 @@ public class Specialization extends Statement
 	{
 		private static final long serialVersionUID = -6803016941538989470L;
 
-		public GeneralStatementNotComposableException(Statement general)
+		private GeneralStatementNotComposableException(Statement general)
 		{
 			super("General statement not composable: ", general);
 		}
@@ -185,22 +203,22 @@ public class Specialization extends Statement
 	{
 		private static final long serialVersionUID = -7225829170291763310L;
 
-		public InvalidInstanceException()
+		private InvalidInstanceException()
 		{
 			super();
 		}
 
-		public InvalidInstanceException(String message, Throwable cause)
+		private InvalidInstanceException(String message, Throwable cause)
 		{
 			super(message, cause);
 		}
 
-		public InvalidInstanceException(String message)
+		private InvalidInstanceException(String message)
 		{
 			super(message);
 		}
 
-		public InvalidInstanceException(Throwable cause)
+		private InvalidInstanceException(Throwable cause)
 		{
 			super(cause);
 		}
@@ -212,7 +230,7 @@ public class Specialization extends Statement
 
 		private final Set<String> undefined;
 
-		public UndefinedVariablesInInstanceException(Set<String> undefined)
+		private UndefinedVariablesInInstanceException(Set<String> undefined)
 		{
 			this.undefined = undefined;
 		}
@@ -240,7 +258,7 @@ public class Specialization extends Statement
 
 		private final TypeException exception;
 
-		public BadInstanceException(TypeException exception)
+		private BadInstanceException(TypeException exception)
 		{
 			super();
 			this.exception = exception;
@@ -256,7 +274,50 @@ public class Specialization extends Statement
 		{
 			return exception.getMessage();
 		}
+	}
 
+	public static abstract class InstanceProofStatementException extends InvalidStatementException
+	{
+
+		private static final long serialVersionUID = 3442764995403083380L;
+
+		private InstanceProofStatementException(String messagePrefix, Statement instanceProof)
+		{
+			super(messagePrefix, instanceProof);
+		}
+
+		public Statement getInstanceProof()
+		{
+			return getStatement();
+		}
+
+	}
+
+	public static class InstanceProofStatementNotInContextException extends InstanceProofStatementException
+	{
+		private static final long serialVersionUID = -3766232259419778304L;
+
+		private InstanceProofStatementNotInContextException(Statement instanceProof)
+		{
+			super("Instance proof statement not in context: ", instanceProof);
+		}
+	}
+
+	public static class InstanceProofStatementDoesntMatchException extends InstanceProofStatementException
+	{
+		private static final long serialVersionUID = -4818169169330766472L;
+		private final Term instance;
+
+		private InstanceProofStatementDoesntMatchException(Statement instanceProof, Term instance)
+		{
+			super("Instance type does not match with proof statement's term: ", instanceProof);
+			this.instance = instance;
+		}
+
+		public Term getInstance()
+		{
+			return instance;
+		}
 	}
 
 	/**
@@ -273,10 +334,12 @@ public class Specialization extends Statement
 	 *            The general statement of the specialization being constructed.
 	 * @param instance
 	 *            The instance of the statement being constructed.
+	 * @param instanceProof
 	 * @return The computed term.
 	 * @throws SpecializationException
 	 */
-	private static Term computeTerm(Transaction transaction, Context context, Statement general, Term instance) throws SpecializationException
+	private static Term computeTerm(Transaction transaction, Context context, Statement general, Term instance, Statement instanceProof)
+			throws SpecializationException
 	{
 		if (!context.statements(transaction).containsKey(general.getVariable()))
 			throw new GeneralStatementNotInContextException(general);
@@ -302,6 +365,10 @@ public class Specialization extends Statement
 			}
 			throw new UndefinedVariablesInInstanceException(undefined);
 		}
+		if (!(context.statements(transaction).containsKey(instanceProof.getVariable())))
+			throw new InstanceProofStatementNotInContextException(instanceProof);
+		if (!instance.getType().equals(instanceProof.getTerm()))
+			throw new InstanceProofStatementDoesntMatchException(instanceProof, instance);
 		Term term = general.getTerm();
 		try
 		{
@@ -346,6 +413,28 @@ public class Specialization extends Statement
 	}
 
 	/**
+	 * The UUID of the instance proof statement of this specialization.
+	 *
+	 * @return The UUID.
+	 */
+	public UUID getInstanceProofUuid()
+	{
+		return getEntity().getInstanceProofUuid();
+	}
+
+	/**
+	 * The instance proof statement of this specialization
+	 *
+	 * @param transaction
+	 *            The transaction to be used in the operation.
+	 * @return The general statement.
+	 */
+	public Statement getInstanceProof(Transaction transaction)
+	{
+		return getPersistenceManager().getStatement(transaction, getInstanceProofUuid());
+	}
+
+	/**
 	 * For a specialization statement to be proven, the method
 	 * {@link Statement#calcProved(Transaction)} must return true, the general
 	 * statement must be proven, and all the free variables of the instance must
@@ -358,6 +447,8 @@ public class Specialization extends Statement
 			return false;
 		if (!getGeneral(transaction).isProved())
 			return false;
+		if (!getInstanceProof(transaction).isProved())
+			return false;
 		for (VariableTerm var : getInstance().freeVariables())
 		{
 			if (!getPersistenceManager().statements(transaction).get(var).isProved())
@@ -369,8 +460,8 @@ public class Specialization extends Statement
 	@Override
 	public String toString(Transaction transaction)
 	{
-		return super.toString(transaction) + " [Specialization: " + getGeneral(transaction).getVariable().toString(parentVariableToIdentifier(transaction))
-				+ " <- " + " " + getInstance().toString(parentVariableToIdentifier(transaction)) + "]";
+		return super.toString(transaction) + " [Specialization: " + getGeneral(transaction).label() + " <- " + " "
+				+ getInstance().toString(parentVariableToIdentifier(transaction)) + "; " + getInstanceProof(transaction).label() + "]";
 	}
 
 	@Override
@@ -384,7 +475,7 @@ public class Specialization extends Statement
 	{
 		try
 		{
-			return context.specialize(transaction, getUuid(), getGeneral(transaction), getInstance());
+			return context.specialize(transaction, getUuid(), getGeneral(transaction), getInstance(), getInstanceProof(transaction));
 		}
 		catch (StatementException e)
 		{

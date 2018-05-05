@@ -35,13 +35,27 @@ import aletheia.persistence.Transaction;
 public class NewSpecialization extends NewStatement
 {
 	private final Statement general;
-	private final List<Term> instances;
 
-	public NewSpecialization(CommandSource from, Transaction transaction, Identifier identifier, Statement general, List<Term> instances)
+	protected static class ProvedInstance
+	{
+		final Term instance;
+		final Statement instanceProof;
+
+		protected ProvedInstance(Term instance, Statement instanceProof)
+		{
+			super();
+			this.instance = instance;
+			this.instanceProof = instanceProof;
+		}
+	}
+
+	private final List<ProvedInstance> provedInstances;
+
+	public NewSpecialization(CommandSource from, Transaction transaction, Identifier identifier, Statement general, List<ProvedInstance> provedInstances)
 	{
 		super(from, transaction, identifier);
 		this.general = general;
-		this.instances = new ArrayList<>(instances);
+		this.provedInstances = provedInstances;
 	}
 
 	protected Statement getGeneral()
@@ -49,9 +63,9 @@ public class NewSpecialization extends NewStatement
 		return general;
 	}
 
-	protected List<Term> getInstances()
+	protected List<ProvedInstance> getProvedInstances()
 	{
-		return instances;
+		return provedInstances;
 	}
 
 	@Override
@@ -62,7 +76,7 @@ public class NewSpecialization extends NewStatement
 			throw new NotActiveContextException();
 		Statement statement = general;
 		int i = -1;
-		for (Term instance : instances)
+		for (ProvedInstance provedInstance : provedInstances)
 		{
 			if (i >= 0)
 			{
@@ -71,7 +85,7 @@ public class NewSpecialization extends NewStatement
 				statement.identify(getTransaction(), new Identifier(getIdentifier(), String.format(subStatementFormat, i)));
 			}
 			i++;
-			statement = ctx.specialize(getTransaction(), statement, instance);
+			statement = ctx.specialize(getTransaction(), statement, provedInstance.instance, provedInstance.instanceProof);
 		}
 		return new RunNewStatementReturnData(statement);
 	}
@@ -90,13 +104,14 @@ public class NewSpecialization extends NewStatement
 				Statement general = from.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(0)));
 				if (general == null)
 					throw new CommandParseException("Statement not found: " + split.get(0));
-				List<Term> instances = new ArrayList<>();
-				for (int i = 1; i < split.size(); i++)
+				List<ProvedInstance> provedInstances = new ArrayList<>();
+				for (int i = 1; i < split.size(); i += 2)
 				{
 					Term instance = parseTerm(from.getActiveContext(), transaction, split.get(i));
-					instances.add(instance);
+					Statement instanceProof = from.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(i + 1)));
+					provedInstances.add(new ProvedInstance(instance, instanceProof));
 				}
-				return new NewSpecialization(from, transaction, identifier, general, instances);
+				return new NewSpecialization(from, transaction, identifier, general, provedInstances);
 			}
 			catch (NotActiveContextException | InvalidNameException e)
 			{
@@ -117,13 +132,13 @@ public class NewSpecialization extends NewStatement
 		@Override
 		protected String paramSpec()
 		{
-			return "<statement> <term>+";
+			return "<statement> (<term> <statement>)+";
 		}
 
 		@Override
 		public String shortHelp()
 		{
-			return "Creates a series of new specialization statements with the specified general statement and the given succession of instances.";
+			return "Creates a series of new specialization statements with the specified general statement and the given succession of instances and their proof statement.";
 		}
 
 	}

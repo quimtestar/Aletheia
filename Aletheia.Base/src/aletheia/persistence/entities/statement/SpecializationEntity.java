@@ -63,4 +63,21 @@ public interface SpecializationEntity extends StatementEntity
 	 */
 	public void setInstance(Term instance);
 
+	/**
+	 * Gets the UUID of the instance proof {@link Statement} of this
+	 * {@link Specialization}.
+	 *
+	 * @return The UUID.
+	 */
+	public UUID getInstanceProofUuid();
+
+	/**
+	 * Sets the UUID of the instanceProof {@link Statement} of this
+	 * {@link Specialization}.
+	 *
+	 * @param uuidInstanceProof
+	 *            The UUID.
+	 */
+	public void setInstanceProofUuid(UUID uuidInstanceProof);
+
 }

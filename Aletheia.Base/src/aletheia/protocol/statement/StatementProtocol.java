@@ -367,7 +367,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 			Specialization specialization;
 			try
 			{
-				specialization = context.specialize(getTransaction(), uuid, general, instance);
+				specialization = context.specialize(getTransaction(), uuid, general, instance, null); //TODO
 			}
 			catch (StatementException e)
 			{
