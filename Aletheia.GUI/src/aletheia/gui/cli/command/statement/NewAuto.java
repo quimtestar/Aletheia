@@ -179,13 +179,12 @@ public class NewAuto extends NewStatement
 			else
 			{
 				Statement solver = null;
-				Term type_ = type.unproject();
 				{
 					Iterator<Term> hi = hints.iterator();
 					while (hi.hasNext())
 					{
 						Term hint = hi.next();
-						if ((hint instanceof IdentifiableVariableTerm) && hint.getType().equals(type_))
+						if ((hint instanceof IdentifiableVariableTerm) && hint.getType().equals(type))
 						{
 							solver = context.statements(getTransaction()).get(hint);
 							if (solver != null)
@@ -200,7 +199,7 @@ public class NewAuto extends NewStatement
 				{
 					for (Context ctx : context.statementPath(getTransaction()))
 					{
-						List<Statement> solvers = new BufferedList<>(ctx.localStatementsByTerm(getTransaction()).get(type_));
+						List<Statement> solvers = new BufferedList<>(ctx.localStatementsByTerm(getTransaction()).get(type));
 						Collections.sort(solvers, new Comparator<Statement>()
 						{
 
