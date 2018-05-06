@@ -82,7 +82,7 @@ public class StatementResponseMessage extends AbstractUUIDPersistentInfoMessage<
 			{
 				super(0, persistenceManager, transaction);
 				checkVersionAvailability(SubProtocol.class, requiredVersion);
-				this.statementProtocol = new StatementProtocol(2, persistenceManager, transaction);
+				this.statementProtocol = new StatementProtocol(3, persistenceManager, transaction);
 				this.statementAuthorityProtocol = new StatementAuthorityProtocol(0, persistenceManager, transaction);
 			}
 

@@ -79,7 +79,7 @@ import aletheia.protocol.term.TermProtocol;
  * </ul>
  */
 @ProtocolInfo(availableVersions =
-{ 2 })
+{ 3 })
 public class StatementProtocol extends PersistentExportableProtocol<Statement>
 {
 	private final IntegerProtocol integerProtocol;
@@ -348,6 +348,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 	{
 		uuidProtocol.send(out, specialization.getGeneralUuid());
 		termProtocol.send(out, specialization.getInstance());
+		uuidProtocol.send(out, specialization.getInstanceProofUuid());
 	}
 
 	private Specialization recvSpecialization(DataInput in, Context context, Statement old, UUID uuid) throws IOException, ProtocolException
@@ -362,12 +363,17 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		if (general == null)
 			throw new ProtocolException();
 		Term instance = termProtocol.recv(in);
+		UUID uuidInstanceProof = uuidProtocol.recv(in);
+		Statement instanceProof = getPersistenceManager().getStatement(getTransaction(), uuidInstanceProof);
+		if (instanceProof == null)
+			throw new ProtocolException();
+
 		if (old == null)
 		{
 			Specialization specialization;
 			try
 			{
-				specialization = context.specialize(getTransaction(), uuid, general, instance, null); //TODO
+				specialization = context.specialize(getTransaction(), uuid, general, instance, instanceProof);
 			}
 			catch (StatementException e)
 			{
@@ -387,6 +393,8 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 			if (!specialization.getGeneral(getTransaction()).equals(general))
 				throw new ProtocolException();
 			if (!specialization.getInstance().equals(instance))
+				throw new ProtocolException();
+			if (!specialization.getInstanceProof(getTransaction()).equals(instanceProof))
 				throw new ProtocolException();
 			return specialization;
 		}
