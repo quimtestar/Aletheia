@@ -62,6 +62,85 @@ public class NewAuto extends NewStatement
 		this.hints = hints;
 	}
 
+	private Statement suitableFromHints(Term term)
+	{
+		Statement statement = null;
+		Iterator<Term> hi = hints.iterator();
+		while (hi.hasNext())
+		{
+			Term hint = hi.next();
+			if ((hint instanceof IdentifiableVariableTerm) && hint.getType().equals(term))
+			{
+				statement = context.statements(getTransaction()).get(hint);
+				if (statement != null)
+				{
+					hi.remove();
+					break;
+				}
+			}
+		}
+		return statement;
+	}
+
+	private Statement suitableFromContext(Term term)
+	{
+		Statement statement = null;
+		for (Context ctx : context.statementPath(getTransaction()))
+		{
+			List<Statement> candidates = new BufferedList<>(ctx.localStatementsByTerm(getTransaction()).get(term));
+			Collections.sort(candidates, new Comparator<Statement>()
+			{
+
+				@Override
+				public int compare(Statement st1, Statement st2)
+				{
+					Identifier id1 = st1.getIdentifier();
+					Identifier id2 = st2.getIdentifier();
+					int c;
+					c = Boolean.compare(id1 == null, id2 == null);
+					if (c != 0)
+						return c;
+					if (id1 == null || id2 == null)
+						return 0;
+					c = Integer.compare(id1.length(), id2.length());
+					if (c != 0)
+						return c;
+					return c;
+				}
+			});
+			for (Statement c : candidates)
+			{
+				if (c.isProved())
+				{
+					statement = c;
+					break;
+				}
+			}
+			if (statement == null && ctx.equals(context))
+				for (Statement c : candidates)
+				{
+					statement = c;
+					break;
+				}
+			if (statement != null)
+				break;
+		}
+		return statement;
+
+	}
+
+	private Statement suitable(Term term)
+	{
+		Statement statement = null;
+		statement = suitableFromHints(term);
+		if (statement != null)
+			return statement;
+		statement = suitableFromContext(term);
+		if (statement != null)
+			return statement;
+		return statement;
+	}
+
 	@Override
 	protected RunNewStatementReturnData runNewStatement() throws Exception
 	{
@@ -170,95 +249,33 @@ public class NewAuto extends NewStatement
 				}
 			}
 			i++;
+
+			Statement instanceProof = suitable(type);
+			if (instanceProof == null)
+			{
+				instanceProof = context.openSubContext(getTransaction(), type);
+				while (true)
+				{
+					try
+					{
+						if (i >= subStatementOverflow)
+							throw new Exception("Substatement identifier numerator overflowed.");
+						instanceProof.identify(getTransaction(), new Identifier(getIdentifier(), String.format(subStatementFormat, i++)));
+						break;
+					}
+					catch (AlreadyUsedIdentifierException e)
+					{
+					}
+				}
+			}
 			Statement st_;
 			if (t != null)
 			{
-				st_ = context.specialize(getTransaction(), statement, t, null); //TODO
+				st_ = context.specialize(getTransaction(), statement, t, instanceProof);
 				body = body.replace(parameter, t);
 			}
 			else
-			{
-				Statement solver = null;
-				{
-					Iterator<Term> hi = hints.iterator();
-					while (hi.hasNext())
-					{
-						Term hint = hi.next();
-						if ((hint instanceof IdentifiableVariableTerm) && hint.getType().equals(type))
-						{
-							solver = context.statements(getTransaction()).get(hint);
-							if (solver != null)
-							{
-								hi.remove();
-								break;
-							}
-						}
-					}
-				}
-				if (solver == null)
-				{
-					for (Context ctx : context.statementPath(getTransaction()))
-					{
-						List<Statement> solvers = new BufferedList<>(ctx.localStatementsByTerm(getTransaction()).get(type));
-						Collections.sort(solvers, new Comparator<Statement>()
-						{
-
-							@Override
-							public int compare(Statement st1, Statement st2)
-							{
-								Identifier id1 = st1.getIdentifier();
-								Identifier id2 = st2.getIdentifier();
-								int c;
-								c = Boolean.compare(id1 == null, id2 == null);
-								if (c != 0)
-									return c;
-								if (id1 == null || id2 == null)
-									return 0;
-								c = Integer.compare(id1.length(), id2.length());
-								if (c != 0)
-									return c;
-								return c;
-							}
-						});
-						for (Statement stsol : solvers)
-						{
-							if (stsol.isProved())
-							{
-								solver = stsol;
-								break;
-							}
-						}
-						if (solver == null && ctx.equals(context))
-							for (Statement stsol : solvers)
-							{
-								solver = stsol;
-								break;
-							}
-						if (solver != null)
-							break;
-					}
-				}
-				if (solver != null)
-					st_ = context.specialize(getTransaction(), statement, solver.getVariable(), null); //TODO
-				else
-				{
-					Context subctx = context.openSubContext(getTransaction(), type);
-					while (true)
-					{
-						try
-						{
-							if (i >= subStatementOverflow)
-								throw new Exception("Substatement identifier numerator overflowed.");
-							subctx.identify(getTransaction(), new Identifier(getIdentifier(), String.format(subStatementFormat, i++)));
-							break;
-						}
-						catch (AlreadyUsedIdentifierException e)
-						{
-						}
-					}
-					st_ = context.specialize(getTransaction(), statement, subctx.getVariable(), null); //TODO
-				}
-			}
+				st_ = context.specialize(getTransaction(), statement, instanceProof.getVariable(), instanceProof);
 			statement = st_;
 			term = body;
 			if (term instanceof ProjectionTerm)
