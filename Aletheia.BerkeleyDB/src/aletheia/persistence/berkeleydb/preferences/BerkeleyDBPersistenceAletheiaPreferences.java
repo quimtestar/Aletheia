@@ -32,8 +32,10 @@ public class BerkeleyDBPersistenceAletheiaPreferences extends PersistenceAlethei
 
 	private final static String DB_FILE_NAME = "db_file_name";
 	private final static String READONLY = "readonly";
+	private final static String CACHE_PERCENT = "cache_percent";
 
-	private final static boolean defaultBerkeleyDBReadOnly = false;
+	private final static boolean defaultReadOnly = false;
+	private final static int defaultCachePercent = 50;
 
 	public BerkeleyDBPersistenceAletheiaPreferences(AletheiaPreferences parent)
 	{
@@ -60,6 +62,8 @@ public class BerkeleyDBPersistenceAletheiaPreferences extends PersistenceAlethei
 				return false;
 			if (isReadOnly() != berkeleyDBPersistenceManager.isReadOnly())
 				return false;
+			if (getCachePercent() != berkeleyDBPersistenceManager.getCachePercent())
+				return false;
 			return true;
 		}
 	}
@@ -82,12 +86,21 @@ public class BerkeleyDBPersistenceAletheiaPreferences extends PersistenceAlethei
 
 	public boolean isReadOnly()
 	{
-		return getPreferences().getBoolean(READONLY, defaultBerkeleyDBReadOnly);
+		return getPreferences().getBoolean(READONLY, defaultReadOnly);
 	}
 
-	public void setReadOnly(boolean berkeleyDBReadOnly)
+	public void setReadOnly(boolean readOnly)
 	{
-		getPreferences().putBoolean(READONLY, berkeleyDBReadOnly);
+		getPreferences().putBoolean(READONLY, readOnly);
 	}
 
+	public int getCachePercent()
+	{
+		return getPreferences().getInt(CACHE_PERCENT, defaultCachePercent);
+	}
+
+	public void setCachePercent(int cachePercent)
+	{
+		getPreferences().putInt(CACHE_PERCENT, cachePercent);
+	}
 }
