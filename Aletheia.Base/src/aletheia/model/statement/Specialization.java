@@ -461,7 +461,8 @@ public class Specialization extends Statement
 	public String toString(Transaction transaction)
 	{
 		return super.toString(transaction) + " [Specialization: " + getGeneral(transaction).label() + " <- " + " "
-				+ getInstance().toString(parentVariableToIdentifier(transaction)) + "; " + getInstanceProof(transaction).label() + "]";
+				+ getInstance().toString(parentVariableToIdentifier(transaction))
+				+ (getInstanceProof(transaction).getVariable().equals(getInstance()) ? "" : " ~~ " + getInstanceProof(transaction).label()) + "]";
 	}
 
 	@Override

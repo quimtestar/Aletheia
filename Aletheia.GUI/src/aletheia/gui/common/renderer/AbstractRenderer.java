@@ -295,6 +295,12 @@ public abstract class AbstractRenderer extends JPanel
 	{
 		return addTextLabel(";");
 	}
+	
+	protected JLabel addAlmostEqualLabel()
+	{
+		return addTextLabel("≈");
+	}
+
 
 	protected JLabel addArrowLabel()
 	{
