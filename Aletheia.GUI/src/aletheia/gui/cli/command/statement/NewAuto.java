@@ -33,6 +33,7 @@ import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.nomenclator.Nomenclator.AlreadyUsedIdentifierException;
+import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.FunctionTerm;
@@ -97,6 +98,9 @@ public class NewAuto extends NewStatement
 					Identifier id1 = st1.getIdentifier();
 					Identifier id2 = st2.getIdentifier();
 					int c;
+					c = -Boolean.compare(st1 instanceof Assumption, st2 instanceof Assumption);
+					if (c != 0)
+						return c;
 					c = Boolean.compare(id1 == null, id2 == null);
 					if (c != 0)
 						return c;
@@ -250,7 +254,9 @@ public class NewAuto extends NewStatement
 			}
 			i++;
 
-			Statement instanceProof = suitable(type);
+			Statement instanceProof = context.statements(getTransaction()).get(t);
+			if (instanceProof == null)
+				instanceProof = suitable(type);
 			if (instanceProof == null)
 			{
 				instanceProof = context.openSubContext(getTransaction(), type);
