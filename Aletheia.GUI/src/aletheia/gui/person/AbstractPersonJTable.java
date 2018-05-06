@@ -46,6 +46,8 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import org.apache.logging.log4j.Logger;
+
 import aletheia.gui.common.renderer.AbstractRenderer;
 import aletheia.gui.common.renderer.BoldTextLabelRenderer;
 import aletheia.gui.common.renderer.EmptyRenderer;
@@ -54,6 +56,7 @@ import aletheia.gui.common.renderer.UUIDLabelRenderer;
 import aletheia.gui.font.FontManager;
 import aletheia.gui.person.AbstractPersonTableModel.AddedPersonTableModelEvent;
 import aletheia.gui.person.AbstractPersonTableModel.PersonTableModelEvent;
+import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.IncompleteDataSignatureException;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.PrivatePerson;
@@ -65,10 +68,13 @@ import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.collections.ArrayAsList;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCollection;
+import aletheia.utilities.collections.BufferedList;
 
 public abstract class AbstractPersonJTable extends JTable
 {
 	private static final long serialVersionUID = -2555445093957096158L;
+
+	private final static Logger logger = LoggerManager.instance.logger();
 
 	protected abstract class MyTableCellRenderer<T> implements TableCellRenderer
 	{
@@ -343,16 +349,12 @@ public abstract class AbstractPersonJTable extends JTable
 			ChangeEvent event = new ChangeEvent(textField);
 			try
 			{
-				synchronized (getListeners())
-				{
-					for (CellEditorListener l : getListeners())
-					{
-						l.editingStopped(event);
-					}
-				}
+				for (CellEditorListener l : new BufferedList<>(getListeners()))
+					l.editingStopped(event);
 			}
 			catch (Exception e)
 			{
+				logger.error(e.getMessage(), e);
 				JOptionPane.showMessageDialog(AbstractPersonJTable.this, MiscUtilities.wrapText(e.getMessage(), 80), "Error", JOptionPane.ERROR_MESSAGE);
 				return false;
 			}
@@ -364,12 +366,15 @@ public abstract class AbstractPersonJTable extends JTable
 		{
 			textField.setText(null);
 			ChangeEvent event = new ChangeEvent(textField);
-			synchronized (getListeners())
+			try
 			{
-				for (CellEditorListener l : getListeners())
-				{
+				for (CellEditorListener l : new BufferedList<>(getListeners()))
 					l.editingCanceled(event);
-				}
+			}
+			catch (Exception e)
+			{
+				logger.error(e.getMessage(), e);
+				JOptionPane.showMessageDialog(AbstractPersonJTable.this, MiscUtilities.wrapText(e.getMessage(), 80), "Error", JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
@@ -588,6 +593,7 @@ public abstract class AbstractPersonJTable extends JTable
 		}
 		catch (BerkeleyDBPersistenceException e)
 		{
+			logger.error(e.getMessage(), e);
 			JOptionPane.showMessageDialog(this, MiscUtilities.wrapText(e.getMessage(), 80), "Error", JOptionPane.ERROR_MESSAGE);
 		}
 		finally
