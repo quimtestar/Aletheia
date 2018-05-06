@@ -29,7 +29,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -85,7 +84,9 @@ import aletheia.utilities.collections.AdaptedMap;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCloseableSet;
 import aletheia.utilities.collections.BijectionCollection;
+import aletheia.utilities.collections.BijectionKeyMap;
 import aletheia.utilities.collections.BijectionList;
+import aletheia.utilities.collections.BijectionMap;
 import aletheia.utilities.collections.BufferedList;
 import aletheia.utilities.collections.CastBijection;
 import aletheia.utilities.collections.CloseableCollection;
@@ -1476,9 +1477,35 @@ public class Context extends Statement
 			Set<Statement> excludeFromIdentify) throws CopyStatementException
 	{
 		Map<Statement, Statement> map = new HashMap<>(initMap);
-		List<Term.Replace> replaces = new LinkedList<>();
-		for (Map.Entry<Statement, Statement> e : map.entrySet())
-			replaces.add(new Term.Replace(e.getKey().getVariable(), e.getValue().getVariable()));
+		Map<VariableTerm, Term> termReplaceMap = new BijectionKeyMap<>(new Bijection<Statement, VariableTerm>()
+		{
+
+			@Override
+			public VariableTerm forward(Statement statement)
+			{
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public Statement backward(VariableTerm variable)
+			{
+				return transaction.getPersistenceManager().statements(transaction).get(variable);
+			}
+		}, new BijectionMap<>(new Bijection<Statement, Term>()
+		{
+
+			@Override
+			public Term forward(Statement statement)
+			{
+				return statement == null ? null : statement.getVariable();
+			}
+
+			@Override
+			public Statement backward(Term term)
+			{
+				throw new UnsupportedOperationException();
+			}
+		}, map));
 		Set<Statement> copied = new HashSet<>(initMap.values());
 		Queue<Statement> queue = new ArrayDeque<>();
 		queue.addAll(statements);
@@ -1506,7 +1533,7 @@ public class Context extends Statement
 				Specialization specDest;
 				try
 				{
-					specDest = ctxParentDest.specialize(transaction, genDest, specOrig.getInstance().replace(replaces));
+					specDest = ctxParentDest.specialize(transaction, genDest, specOrig.getInstance().replace(termReplaceMap));
 				}
 				catch (ReplaceTypeException e)
 				{
@@ -1527,7 +1554,7 @@ public class Context extends Statement
 					Declaration decDest;
 					try
 					{
-						decDest = ctxParentDest.declare(transaction, decOrig.getValue().replace(replaces));
+						decDest = ctxParentDest.declare(transaction, decOrig.getValue().replace(termReplaceMap));
 					}
 					catch (ReplaceTypeException e)
 					{
@@ -1548,7 +1575,7 @@ public class Context extends Statement
 					UnfoldingContext unfDest;
 					try
 					{
-						unfDest = ctxParentDest.openUnfoldingSubContext(transaction, unfOrig.getTerm().replace(replaces), decDest);
+						unfDest = ctxParentDest.openUnfoldingSubContext(transaction, unfOrig.getTerm().replace(termReplaceMap), decDest);
 					}
 					catch (ReplaceTypeException e)
 					{
@@ -1567,7 +1594,7 @@ public class Context extends Statement
 					Context ctxDest;
 					try
 					{
-						ctxDest = ctxParentDest.openSubContext(transaction, ctxOrig.getTerm().replace(replaces));
+						ctxDest = ctxParentDest.openSubContext(transaction, ctxOrig.getTerm().replace(termReplaceMap));
 					}
 					catch (ReplaceTypeException e)
 					{
@@ -1584,7 +1611,6 @@ public class Context extends Statement
 			else
 				throw new Error();
 			map.put(stOrig, stDest);
-			replaces.add(new Term.Replace(stOrig.getVariable(), stDest.getVariable()));
 			copied.add(stDest);
 			if (!excludeFromIdentify.contains(stOrig))
 			{
