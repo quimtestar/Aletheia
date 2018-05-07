@@ -19,29 +19,92 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.statement;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
+import aletheia.model.identifier.NodeNamespace.InvalidNameException;
+import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
+import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.collections.BufferedList;
 
 @TaggedCommand(tag = "dec", factory = NewDeclaration.Factory.class)
 public class NewDeclaration extends NewStatement
 {
 	private final Term value;
+	private final Statement valueProof;
 
-	public NewDeclaration(CommandSource from, Transaction transaction, Identifier identifier, Term value)
+	public NewDeclaration(CommandSource from, Transaction transaction, Identifier identifier, Term value, Statement valueProof)
 	{
 		super(from, transaction, identifier);
 		this.value = value;
+		this.valueProof = valueProof;
 	}
 
 	protected Term getValue()
 	{
 		return value;
+	}
+
+	protected Statement getValueProof()
+	{
+		return valueProof;
+	}
+
+	private Statement suitableFromContext(Context context, Term term)
+	{
+		Statement statement = null;
+		for (Context ctx : context.statementPath(getTransaction()))
+		{
+			List<Statement> candidates = new BufferedList<>(ctx.localStatementsByTerm(getTransaction()).get(term));
+			Collections.sort(candidates, new Comparator<Statement>()
+			{
+
+				@Override
+				public int compare(Statement st1, Statement st2)
+				{
+					Identifier id1 = st1.getIdentifier();
+					Identifier id2 = st2.getIdentifier();
+					int c;
+					c = -Boolean.compare(st1 instanceof Assumption, st2 instanceof Assumption);
+					if (c != 0)
+						return c;
+					c = Boolean.compare(id1 == null, id2 == null);
+					if (c != 0)
+						return c;
+					if (id1 == null || id2 == null)
+						return 0;
+					c = Integer.compare(id1.length(), id2.length());
+					if (c != 0)
+						return c;
+					return c;
+				}
+			});
+			for (Statement c : candidates)
+			{
+				if (c.isProved())
+				{
+					statement = c;
+					break;
+				}
+			}
+			if (statement == null && ctx.equals(context))
+				for (Statement c : candidates)
+				{
+					statement = c;
+					break;
+				}
+			if (statement != null)
+				break;
+		}
+		return statement;
+
 	}
 
 	@Override
@@ -50,7 +113,16 @@ public class NewDeclaration extends NewStatement
 		Context ctx = getActiveContext();
 		if (ctx == null)
 			throw new NotActiveContextException();
-		Declaration declaration = ctx.declare(getTransaction(), value);
+
+		Statement valueProof_ = valueProof;
+		if (valueProof_ == null)
+			valueProof_ = ctx.statements(getTransaction()).get(value);
+		if (valueProof_ == null)
+			valueProof_ = suitableFromContext(ctx, value.getType());
+		if (valueProof_ == null)
+			throw new Exception("Value proof missing for type: " + value.getType().toString(getTransaction(), ctx));
+
+		Declaration declaration = ctx.declare(getTransaction(), value, valueProof_);
 		return new RunNewStatementReturnData(declaration);
 	}
 
@@ -62,7 +134,17 @@ public class NewDeclaration extends NewStatement
 		{
 			checkMinParameters(split);
 			Term value = parseTerm(from.getActiveContext(), transaction, split.get(0));
-			return new NewDeclaration(from, transaction, identifier, value);
+			Statement valueProof = null;
+			if (1 < split.size())
+				try
+				{
+					valueProof = from.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(1)));
+				}
+				catch (InvalidNameException e)
+				{
+					throw new CommandParseException(e);
+				}
+			return new NewDeclaration(from, transaction, identifier, value, valueProof);
 		}
 
 		@Override
@@ -74,13 +156,13 @@ public class NewDeclaration extends NewStatement
 		@Override
 		protected String paramSpec()
 		{
-			return "<term>";
+			return "<term> [<statement>]";
 		}
 
 		@Override
 		public String shortHelp()
 		{
-			return "Creates a new declaration with the specified value.";
+			return "Creates a new declaration with the specified value and value proof statement.";
 		}
 
 	}

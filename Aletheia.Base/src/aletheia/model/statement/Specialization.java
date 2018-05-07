@@ -427,7 +427,7 @@ public class Specialization extends Statement
 	 *
 	 * @param transaction
 	 *            The transaction to be used in the operation.
-	 * @return The general statement.
+	 * @return The instance proof statement.
 	 */
 	public Statement getInstanceProof(Transaction transaction)
 	{
@@ -447,13 +447,13 @@ public class Specialization extends Statement
 			return false;
 		if (!getGeneral(transaction).isProved())
 			return false;
-		if (!getInstanceProof(transaction).isProved())
-			return false;
 		for (VariableTerm var : getInstance().freeVariables())
 		{
 			if (!getPersistenceManager().statements(transaction).get(var).isProved())
 				return false;
 		}
+		if (!getInstanceProof(transaction).isProved())
+			return false;
 		return true;
 	}
 

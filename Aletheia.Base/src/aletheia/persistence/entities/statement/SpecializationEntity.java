@@ -72,7 +72,7 @@ public interface SpecializationEntity extends StatementEntity
 	public UUID getInstanceProofUuid();
 
 	/**
-	 * Sets the UUID of the instanceProof {@link Statement} of this
+	 * Sets the UUID of the instance proof {@link Statement} of this
 	 * {@link Specialization}.
 	 *
 	 * @param uuidInstanceProof

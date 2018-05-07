@@ -305,6 +305,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 	private void sendDeclaration(DataOutput out, Declaration declaration) throws IOException
 	{
 		termProtocol.send(out, declaration.getValue());
+		uuidProtocol.send(out, declaration.getValueProofUuid());
 	}
 
 	private Declaration recvDeclaration(DataInput in, Context context, Statement old, UUID uuid) throws IOException, ProtocolException
@@ -315,12 +316,16 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 			return null;
 		}
 		Term value = termProtocol.recv(in);
+		UUID uuidValueProof = uuidProtocol.recv(in);
+		Statement valueProof = getPersistenceManager().getStatement(getTransaction(), uuidValueProof);
+		if (valueProof == null)
+			throw new ProtocolException();
 		if (old == null)
 		{
 			Declaration declaration;
 			try
 			{
-				declaration = context.declare(getTransaction(), uuid, value);
+				declaration = context.declare(getTransaction(), uuid, value, valueProof);
 			}
 			catch (StatementException e)
 			{

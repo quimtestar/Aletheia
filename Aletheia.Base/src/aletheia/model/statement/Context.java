@@ -741,12 +741,13 @@ public class Context extends Statement
 	 *            new UUID will be generated.
 	 * @param value
 	 *            The value assigned to this declaration.
+	 * @param valueProof
 	 * @return The new declaration.
 	 * @throws StatementException
 	 */
-	public Declaration declare(Transaction transaction, UUID uuid, Term value) throws StatementException
+	public Declaration declare(Transaction transaction, UUID uuid, Term value, Statement valueProof) throws StatementException
 	{
-		Declaration dec = new Declaration(getPersistenceManager(), transaction, uuid, this, value);
+		Declaration dec = new Declaration(getPersistenceManager(), transaction, uuid, this, value, valueProof);
 		addStatement(transaction, dec);
 		return dec;
 	}
@@ -759,12 +760,13 @@ public class Context extends Statement
 	 *            The transaction to be used in the operation.
 	 * @param value
 	 *            The value assigned to this declaration.
+	 * @param valueProof
 	 * @return The new declaration.
 	 * @throws StatementException
 	 */
-	public Declaration declare(Transaction transaction, Term value) throws StatementException
+	public Declaration declare(Transaction transaction, Term value, Statement valueProof) throws StatementException
 	{
-		return declare(transaction, null, value);
+		return declare(transaction, null, value, valueProof);
 	}
 
 	/**
@@ -1520,10 +1522,11 @@ public class Context extends Statement
 			else if (stOrig instanceof Declaration)
 			{
 				Declaration decOrig = (Declaration) stOrig;
+				Statement valueProofOrig = decOrig.getValueProof(transaction);
 				Declaration decDest;
 				try
 				{
-					decDest = ctxParentDest.declare(transaction, decOrig.getValue().replace(replaces));
+					decDest = ctxParentDest.declare(transaction, decOrig.getValue().replace(replaces), map.getOrDefault(valueProofOrig, valueProofOrig));
 				}
 				catch (ReplaceTypeException e)
 				{

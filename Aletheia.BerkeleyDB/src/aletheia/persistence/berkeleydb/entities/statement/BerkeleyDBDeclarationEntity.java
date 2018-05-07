@@ -20,14 +20,23 @@
 package aletheia.persistence.berkeleydb.entities.statement;
 
 import aletheia.model.term.Term;
+import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.entities.statement.DeclarationEntity;
 
-import com.sleepycat.persist.model.Persistent;
+import java.util.UUID;
 
-@Persistent(version = 2)
+import com.sleepycat.persist.model.Persistent;
+import com.sleepycat.persist.model.Relationship;
+import com.sleepycat.persist.model.SecondaryKey;
+
+@Persistent(version = 3)
 public class BerkeleyDBDeclarationEntity extends BerkeleyDBStatementEntity implements DeclarationEntity
 {
 	private Term value;
+
+	public static final String uuidKeyInstanceProof_FieldName = "uuidKeyValueProof";
+	@SecondaryKey(name = uuidKeyInstanceProof_FieldName, relatedEntity = BerkeleyDBStatementEntity.class, relate = Relationship.MANY_TO_ONE)
+	private UUIDKey uuidKeyValueProof;
 
 	public BerkeleyDBDeclarationEntity()
 	{
@@ -46,12 +55,23 @@ public class BerkeleyDBDeclarationEntity extends BerkeleyDBStatementEntity imple
 		this.value = value;
 	}
 
+	public UUIDKey getUuidKeyValueProof()
+	{
+		return uuidKeyValueProof;
+	}
+
+	public void setUuidKeyValueProof(UUIDKey uuidKeyValueProof)
+	{
+		this.uuidKeyValueProof = uuidKeyValueProof;
+	}
+
 	@Override
 	public int hashCode()
 	{
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		result = prime * result + ((uuidKeyValueProof == null) ? 0 : uuidKeyValueProof.hashCode());
 		return result;
 	}
 
@@ -72,7 +92,26 @@ public class BerkeleyDBDeclarationEntity extends BerkeleyDBStatementEntity imple
 		}
 		else if (!value.equals(other.value))
 			return false;
+		if (uuidKeyValueProof == null)
+		{
+			if (other.uuidKeyValueProof != null)
+				return false;
+		}
+		else if (!uuidKeyValueProof.equals(other.uuidKeyValueProof))
+			return false;
 		return true;
+	}
+
+	@Override
+	public UUID getValueProofUuid()
+	{
+		return uuidKeyValueProof.uuid();
+	}
+
+	@Override
+	public void setValueProofUuid(UUID uuidValueProof)
+	{
+		uuidKeyValueProof = new UUIDKey(uuidValueProof);
 	}
 
 }
