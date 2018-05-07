@@ -1517,28 +1517,28 @@ public class Context extends Statement
 				}
 				stDest = specDest;
 			}
+			else if (stOrig instanceof Declaration)
+			{
+				Declaration decOrig = (Declaration) stOrig;
+				Declaration decDest;
+				try
+				{
+					decDest = ctxParentDest.declare(transaction, decOrig.getValue().replace(replaces));
+				}
+				catch (ReplaceTypeException e)
+				{
+					throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
+				}
+				catch (StatementException e)
+				{
+					throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
+				}
+				stDest = decDest;
+			}
 			else if (stOrig instanceof Context)
 			{
 				Context ctxOrig = (Context) stOrig;
-				if (ctxOrig instanceof Declaration)
-				{
-					Declaration decOrig = (Declaration) ctxOrig;
-					Declaration decDest;
-					try
-					{
-						decDest = ctxParentDest.declare(transaction, decOrig.getValue().replace(replaces));
-					}
-					catch (ReplaceTypeException e)
-					{
-						throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
-					}
-					catch (StatementException e)
-					{
-						throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
-					}
-					stDest = decDest;
-				}
-				else if (ctxOrig instanceof UnfoldingContext)
+				if (ctxOrig instanceof UnfoldingContext)
 				{
 					UnfoldingContext unfOrig = (UnfoldingContext) ctxOrig;
 					Declaration decDest = (Declaration) map.get(unfOrig.getDeclaration(transaction));

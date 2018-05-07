@@ -722,6 +722,8 @@ public abstract class PersistenceManager
 			return contextEntityToStatement((ContextEntity) e);
 		else if (e instanceof SpecializationEntity)
 			return specializationEntityToStatement((SpecializationEntity) e);
+		else if (e instanceof DeclarationEntity)
+			return declarationEntityToStatement((DeclarationEntity) e);
 		else
 			throw new Error();
 	}
@@ -752,8 +754,6 @@ public abstract class PersistenceManager
 			return rootContextEntityToStatement((RootContextEntity) e);
 		else if (e instanceof UnfoldingContextEntity)
 			return unfoldingContextEntityToStatement((UnfoldingContextEntity) e);
-		else if (e instanceof DeclarationEntity)
-			return declarationEntityToStatement((DeclarationEntity) e);
 		else
 			return new Context(this, e);
 	}

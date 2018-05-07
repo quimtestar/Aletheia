@@ -146,7 +146,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 			if (statementCode != StatementCode._RootContext)
 			{
 				UUID uuidContext = uuidProtocol.recv(in);
-				context = (Context) getPersistenceManager().getStatement(getTransaction(), uuidContext);
+				context = getPersistenceManager().getContext(getTransaction(), uuidContext);
 				if (context == null)
 					throw new ProtocolException();
 			}

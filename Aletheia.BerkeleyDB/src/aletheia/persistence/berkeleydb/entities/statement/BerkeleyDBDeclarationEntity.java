@@ -24,8 +24,8 @@ import aletheia.persistence.entities.statement.DeclarationEntity;
 
 import com.sleepycat.persist.model.Persistent;
 
-@Persistent(version = 1)
-public class BerkeleyDBDeclarationEntity extends BerkeleyDBContextEntity implements DeclarationEntity
+@Persistent(version = 2)
+public class BerkeleyDBDeclarationEntity extends BerkeleyDBStatementEntity implements DeclarationEntity
 {
 	private Term value;
 

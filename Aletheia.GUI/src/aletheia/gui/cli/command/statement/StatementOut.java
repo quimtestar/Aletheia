@@ -74,13 +74,6 @@ public class StatementOut extends TransactionalCommand
 			{
 				getOut().println("root \"" + sterm + "\"");
 			}
-			else if (statement instanceof Declaration)
-			{
-				Declaration dec = (Declaration) statement;
-				Term value = dec.getValue();
-				String svalue = termToString(activeContext, getTransaction(), value, context.makeParameterIdentification(getTransaction(), value));
-				getOut().println("dec \"" + svalue + "\"");
-			}
 			else
 			{
 				getOut().println("ctx \"" + sterm + "\"");
@@ -97,6 +90,13 @@ public class StatementOut extends TransactionalCommand
 			String sgeneral = idgeneral.toString();
 			String sinstance = termToString(activeContext, getTransaction(), instance);
 			getOut().println("spc " + sgeneral + " \"" + sinstance + "\"");
+		}
+		else if (statement instanceof Declaration)
+		{
+			Declaration dec = (Declaration) statement;
+			Term value = dec.getValue();
+			String svalue = termToString(activeContext, getTransaction(), value);
+			getOut().println("dec \"" + svalue + "\"");
 		}
 		else
 			throw new Exception("Invalid statement type");

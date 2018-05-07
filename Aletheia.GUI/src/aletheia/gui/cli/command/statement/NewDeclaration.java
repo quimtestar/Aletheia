@@ -19,28 +19,23 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.statement;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
-import aletheia.model.statement.Statement.StatementException;
-import aletheia.model.term.ParameterVariableTerm;
+import aletheia.model.statement.Declaration;
 import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "dec", factory = NewDeclaration.Factory.class)
-public class NewDeclaration extends NewContext
+public class NewDeclaration extends NewStatement
 {
 	private final Term value;
 
-	public NewDeclaration(CommandSource from, Transaction transaction, Identifier identifier, Term value,
-			Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+	public NewDeclaration(CommandSource from, Transaction transaction, Identifier identifier, Term value)
 	{
-		super(from, transaction, identifier, value.getType(), parameterIdentifiers);
+		super(from, transaction, identifier);
 		this.value = value;
 	}
 
@@ -50,12 +45,13 @@ public class NewDeclaration extends NewContext
 	}
 
 	@Override
-	protected Context openSubContext() throws StatementException, NotActiveContextException
+	protected RunNewStatementReturnData runNewStatement() throws Exception
 	{
 		Context ctx = getActiveContext();
 		if (ctx == null)
 			throw new NotActiveContextException();
-		return ctx.declare(getTransaction(), value);
+		Declaration declaration = ctx.declare(getTransaction(), value);
+		return new RunNewStatementReturnData(declaration);
 	}
 
 	public static class Factory extends AbstractNewStatementFactory<NewDeclaration>
@@ -65,9 +61,8 @@ public class NewDeclaration extends NewContext
 		public NewDeclaration parse(CommandSource from, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<>();
-			Term value = parseTerm(from.getActiveContext(), transaction, split.get(0), parameterIdentifiers);
-			return new NewDeclaration(from, transaction, identifier, value, parameterIdentifiers);
+			Term value = parseTerm(from.getActiveContext(), transaction, split.get(0));
+			return new NewDeclaration(from, transaction, identifier, value);
 		}
 
 		@Override

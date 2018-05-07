@@ -49,7 +49,7 @@ import aletheia.persistence.entities.statement.DeclarationEntity;
  *
  *
  */
-public class Declaration extends Context
+public class Declaration extends Statement
 {
 	/**
 	 * Creates a new declaration statement from scratch.
@@ -217,7 +217,7 @@ public class Declaration extends Context
 	}
 
 	@Override
-	protected Context undeleteStatement(Transaction transaction, Context context) throws UndeleteStatementException
+	protected Declaration undeleteStatement(Transaction transaction, Context context) throws UndeleteStatementException
 	{
 		try
 		{

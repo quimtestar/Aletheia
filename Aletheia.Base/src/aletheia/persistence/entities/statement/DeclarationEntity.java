@@ -25,7 +25,7 @@ import aletheia.model.term.Term;
 /**
  * The persistence entity for a {@link Declaration} statement.
  */
-public interface DeclarationEntity extends ContextEntity
+public interface DeclarationEntity extends StatementEntity
 {
 	/**
 	 * Gets the value {@link Term} of this declaration.
