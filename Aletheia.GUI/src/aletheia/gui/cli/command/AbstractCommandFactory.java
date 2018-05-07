@@ -281,12 +281,17 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 			super("Missing parameters");
 		}
 
+		public MissingParametersException(int needed, int obtained)
+		{
+			super("Missing " + (needed - obtained) + " parameters");
+		}
+
 	}
 
 	protected void checkMinParameters(List<String> split) throws MissingParametersException
 	{
 		if (split.size() < minParameters())
-			throw new MissingParametersException();
+			throw new MissingParametersException(minParameters(), split.size());
 	}
 
 	public abstract C parse(CommandSource from, Transaction transaction, E extra, List<String> split) throws CommandParseException;
@@ -373,7 +378,7 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 				signatures.add(signature);
 			}
 			else
-				throw new MissingParametersException();
+				throw new MissingParametersException(3, split.size());
 		}
 		return signatures;
 	}

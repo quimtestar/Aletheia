@@ -20,8 +20,6 @@
 package aletheia.gui.cli.command.statement;
 
 import java.io.PrintStream;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -33,7 +31,6 @@ import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.nomenclator.Nomenclator.AlreadyUsedIdentifierException;
-import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.FunctionTerm;
@@ -44,26 +41,23 @@ import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
 import aletheia.parser.AletheiaParserException;
 import aletheia.persistence.Transaction;
-import aletheia.utilities.collections.BufferedList;
 
 @TaggedCommand(tag = "auto", factory = NewAuto.Factory.class)
 public class NewAuto extends NewStatement
 {
-	private final Context context;
 	private final Statement general;
 	private final Term target;
 	private final List<Term> hints;
 
-	public NewAuto(CommandSource from, Transaction transaction, Identifier identifier, Context context, Statement general, Term target, List<Term> hints)
+	public NewAuto(CommandSource from, Transaction transaction, Identifier identifier, Statement general, Term target, List<Term> hints)
 	{
 		super(from, transaction, identifier);
-		this.context = context;
 		this.general = general;
 		this.target = target;
 		this.hints = hints;
 	}
 
-	private Statement suitableFromHints(Term term)
+	private Statement suitableFromHints(Context context, Term term)
 	{
 		Statement statement = null;
 		Iterator<Term> hi = hints.iterator();
@@ -83,63 +77,13 @@ public class NewAuto extends NewStatement
 		return statement;
 	}
 
-	private Statement suitableFromContext(Term term)
+	private Statement suitable(Context context, Term term)
 	{
 		Statement statement = null;
-		for (Context ctx : context.statementPath(getTransaction()))
-		{
-			List<Statement> candidates = new BufferedList<>(ctx.localStatementsByTerm(getTransaction()).get(term));
-			Collections.sort(candidates, new Comparator<Statement>()
-			{
-
-				@Override
-				public int compare(Statement st1, Statement st2)
-				{
-					Identifier id1 = st1.getIdentifier();
-					Identifier id2 = st2.getIdentifier();
-					int c;
-					c = -Boolean.compare(st1 instanceof Assumption, st2 instanceof Assumption);
-					if (c != 0)
-						return c;
-					c = Boolean.compare(id1 == null, id2 == null);
-					if (c != 0)
-						return c;
-					if (id1 == null || id2 == null)
-						return 0;
-					c = Integer.compare(id1.length(), id2.length());
-					if (c != 0)
-						return c;
-					return c;
-				}
-			});
-			for (Statement c : candidates)
-			{
-				if (c.isProved())
-				{
-					statement = c;
-					break;
-				}
-			}
-			if (statement == null && ctx.equals(context))
-				for (Statement c : candidates)
-				{
-					statement = c;
-					break;
-				}
-			if (statement != null)
-				break;
-		}
-		return statement;
-
-	}
-
-	private Statement suitable(Term term)
-	{
-		Statement statement = null;
-		statement = suitableFromHints(term);
+		statement = suitableFromHints(context, term);
 		if (statement != null)
 			return statement;
-		statement = suitableFromContext(term);
+		statement = suitableStatement(context, term);
 		if (statement != null)
 			return statement;
 		return statement;
@@ -148,6 +92,10 @@ public class NewAuto extends NewStatement
 	@Override
 	protected RunNewStatementReturnData runNewStatement() throws Exception
 	{
+		Context context = getActiveContext();
+		if (context == null)
+			throw new NotActiveContextException();
+
 		Context.Match m = null;
 		if (target != null)
 		{
@@ -256,7 +204,7 @@ public class NewAuto extends NewStatement
 
 			Statement instanceProof = context.statements(getTransaction()).get(t);
 			if (instanceProof == null)
-				instanceProof = suitable(type);
+				instanceProof = suitable(context, type);
 			if (instanceProof == null)
 			{
 				instanceProof = context.openSubContext(getTransaction(), type);
@@ -333,7 +281,7 @@ public class NewAuto extends NewStatement
 				}
 			else
 				term = ctx.getConsequent();
-			return new NewAuto(from, transaction, identifier, ctx, statement, term, hints);
+			return new NewAuto(from, transaction, identifier, statement, term, hints);
 		}
 
 		@Override

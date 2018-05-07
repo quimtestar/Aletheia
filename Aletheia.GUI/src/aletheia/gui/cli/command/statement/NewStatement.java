@@ -22,6 +22,8 @@ package aletheia.gui.cli.command.statement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,9 +38,13 @@ import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
+import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
+import aletheia.model.statement.Declaration;
 import aletheia.model.statement.Statement;
+import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.collections.BufferedList;
 
 @TaggedCommand(tag = "new", groupPath = "/statement", factory = NewStatement.Factory.class)
 public abstract class NewStatement extends TransactionalCommand
@@ -93,6 +99,67 @@ public abstract class NewStatement extends TransactionalCommand
 	}
 
 	protected abstract RunNewStatementReturnData runNewStatement() throws Exception;
+
+	protected Statement suitableStatement(Context context, Term term)
+	{
+		Statement statement = null;
+		for (Context ctx : context.statementPath(getTransaction()))
+		{
+			List<Statement> candidates = new BufferedList<>(ctx.localStatementsByTerm(getTransaction()).get(term));
+			Collections.sort(candidates, new Comparator<Statement>()
+			{
+
+				private int compareClasses(Statement st1, Statement st2)
+				{
+					int c;
+					c = -Boolean.compare(st1 instanceof Assumption, st2 instanceof Assumption);
+					if (c != 0)
+						return c;
+					c = Boolean.compare(st1 instanceof Declaration, st2 instanceof Declaration);
+					if (c != 0)
+						return c;
+					return c;
+				}
+
+				@Override
+				public int compare(Statement st1, Statement st2)
+				{
+					Identifier id1 = st1.getIdentifier();
+					Identifier id2 = st2.getIdentifier();
+					int c;
+					c = compareClasses(st1, st2);
+					if (c != 0)
+						return c;
+					c = Boolean.compare(id1 == null, id2 == null);
+					if (c != 0)
+						return c;
+					if (id1 == null || id2 == null)
+						return 0;
+					c = Integer.compare(id1.length(), id2.length());
+					if (c != 0)
+						return c;
+					return c;
+				}
+			});
+			for (Statement c : candidates)
+			{
+				if (c.isProved())
+				{
+					statement = c;
+					break;
+				}
+			}
+			if (statement == null && ctx.equals(context))
+				for (Statement c : candidates)
+				{
+					statement = c;
+					break;
+				}
+			if (statement != null)
+				break;
+		}
+		return statement;
+	}
 
 	public static class Factory extends AbstractVoidCommandFactory<NewStatement>
 	{

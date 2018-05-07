@@ -26,7 +26,6 @@ import java.util.List;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
-import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
@@ -37,9 +36,9 @@ import aletheia.persistence.Transaction;
 public class NewStrip extends NewAuto
 {
 
-	public NewStrip(CommandSource from, Transaction transaction, Identifier identifier, Context context, Statement statement, List<Term> hints)
+	public NewStrip(CommandSource from, Transaction transaction, Identifier identifier, Statement statement, List<Term> hints)
 	{
-		super(from, transaction, identifier, context, statement, null, hints);
+		super(from, transaction, identifier, statement, null, hints);
 	}
 
 	public static class Factory extends AbstractNewStatementFactory<NewStrip>
@@ -54,15 +53,15 @@ public class NewStrip extends NewAuto
 				Context ctx = from.getActiveContext();
 				if (ctx == null)
 					throw new NotActiveContextException();
-				Statement statement = ctx.identifierToStatement(transaction).get(Identifier.parse(split.get(0)));
+				Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, ctx, split.get(0));
 				if (statement == null)
 					throw new CommandParseException("Statement not found: " + split.get(0));
 				List<Term> hints = new LinkedList<>();
 				for (String s : split.subList(1, split.size()))
 					hints.add(ctx.parseTerm(transaction, s));
-				return new NewStrip(from, transaction, identifier, ctx, statement, hints);
+				return new NewStrip(from, transaction, identifier, statement, hints);
 			}
-			catch (NotActiveContextException | InvalidNameException | AletheiaParserException e)
+			catch (NotActiveContextException | AletheiaParserException e)
 			{
 				throw CommandParseEmbeddedException.embed(e);
 			}

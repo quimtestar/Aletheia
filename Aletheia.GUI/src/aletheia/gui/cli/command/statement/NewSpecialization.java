@@ -25,7 +25,6 @@ import java.util.List;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
-import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
@@ -85,7 +84,16 @@ public class NewSpecialization extends NewStatement
 				statement.identify(getTransaction(), new Identifier(getIdentifier(), String.format(subStatementFormat, i)));
 			}
 			i++;
-			statement = ctx.specialize(getTransaction(), statement, provedInstance.instance, provedInstance.instanceProof);
+
+			Statement instanceProof_ = provedInstance.instanceProof;
+			if (instanceProof_ == null)
+				instanceProof_ = ctx.statements(getTransaction()).get(provedInstance.instance);
+			if (instanceProof_ == null)
+				instanceProof_ = suitableStatement(ctx, provedInstance.instance.getType());
+			if (instanceProof_ == null)
+				throw new Exception("Value proof missing for type: " + provedInstance.instance.getType().toString(getTransaction(), ctx));
+
+			statement = ctx.specialize(getTransaction(), statement, provedInstance.instance, instanceProof_);
 		}
 		return new RunNewStatementReturnData(statement);
 	}
@@ -101,21 +109,27 @@ public class NewSpecialization extends NewStatement
 			{
 				if (from.getActiveContext() == null)
 					throw new NotActiveContextException();
-				Statement general = from.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(0)));
+				Statement general = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 				if (general == null)
-					throw new CommandParseException("Statement not found: " + split.get(0));
+					throw new CommandParseException("General statement not found: " + split.get(0));
 				List<ProvedInstance> provedInstances = new ArrayList<>();
 				for (int i = 1; i < split.size(); i += 2)
 				{
 					Term instance = parseTerm(from.getActiveContext(), transaction, split.get(i));
-					Statement instanceProof = from.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(i + 1)));
+					Statement instanceProof = null;
+					if (i + 1 < split.size())
+					{
+						instanceProof = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(i + 1));
+						if (instanceProof == null)
+							throw new CommandParseException("Instance proof statement not found: " + split.get(i + 1));
+					}
 					provedInstances.add(new ProvedInstance(instance, instanceProof));
 				}
 				return new NewSpecialization(from, transaction, identifier, general, provedInstances);
 			}
-			catch (NotActiveContextException | InvalidNameException e)
+			catch (NotActiveContextException e)
 			{
-				throw new CommandParseException(e);
+				throw CommandParseEmbeddedException.embed(e);
 			}
 			finally
 			{
@@ -126,7 +140,7 @@ public class NewSpecialization extends NewStatement
 		@Override
 		protected int minParameters()
 		{
-			return 1;
+			return 2;
 		}
 
 		@Override
