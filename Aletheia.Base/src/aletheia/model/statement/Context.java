@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -695,6 +696,72 @@ public class Context extends Statement
 	public CloseableMap<Term, CloseableSet<Statement>> localStatementsByTerm(Transaction transaction)
 	{
 		return getLocalStatementsByTerm(transaction);
+	}
+
+	/**
+	 * A statement in this context that match with the given term, with the following rules:
+	 * @formatter:off
+	 * 		*) Higher ancestor context have more priority.
+	 * 		*) Within the same context level, assumptions have maximum priority and declarations minimum priority.
+	 * 		*) Within the same context level and with the same statement class, identified statements have more priority than non-identified statements.
+	 * 		*) Within the same context level and with the same statement class, less components in the identifier of the identified statement have more priority.
+	 * 		*) When higherProved is set, if the statement is not local to the context must have set it's proved status to true.
+	 * @formatter:on
+	 */
+	public Statement suitableForInstanceProofStatementByTerm(Transaction transaction, Term term, boolean higherProved)
+	{
+		for (Context ctx : statementPath(transaction))
+		{
+			List<Statement> candidates = new BufferedList<>(ctx.localStatementsByTerm(transaction).get(term));
+			Collections.sort(candidates, new Comparator<Statement>()
+			{
+
+				private int compareClasses(Statement st1, Statement st2)
+				{
+					int c;
+					c = -Boolean.compare(st1 instanceof Assumption, st2 instanceof Assumption);
+					if (c != 0)
+						return c;
+					c = Boolean.compare(st1 instanceof Declaration, st2 instanceof Declaration);
+					if (c != 0)
+						return c;
+					return c;
+				}
+
+				@Override
+				public int compare(Statement st1, Statement st2)
+				{
+					Identifier id1 = st1.getIdentifier();
+					Identifier id2 = st2.getIdentifier();
+					int c;
+					c = compareClasses(st1, st2);
+					if (c != 0)
+						return c;
+					c = Boolean.compare(id1 == null, id2 == null);
+					if (c != 0)
+						return c;
+					if (id1 == null || id2 == null)
+						return 0;
+					c = Integer.compare(id1.length(), id2.length());
+					if (c != 0)
+						return c;
+					return c;
+				}
+			});
+			for (Statement c : candidates)
+				if (!higherProved || c.isProved() || equals(ctx))
+					return c;
+		}
+		return null;
+	}
+
+	/**
+	 * Just {@link #suitableForInstanceProofStatementByTerm(Transaction, Term,
+	 * boolean))} with higherProved set to true.
+	 */
+	public Statement suitableForInstanceProofStatementByTerm(Transaction transaction, Term term)
+	{
+		return suitableForInstanceProofStatementByTerm(transaction, term, true);
 	}
 
 	/**

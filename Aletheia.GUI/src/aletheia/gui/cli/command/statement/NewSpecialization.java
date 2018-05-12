@@ -89,7 +89,7 @@ public class NewSpecialization extends NewStatement
 			if (instanceProof_ == null)
 				instanceProof_ = ctx.statements(getTransaction()).get(provedInstance.instance);
 			if (instanceProof_ == null)
-				instanceProof_ = suitableStatement(ctx, provedInstance.instance.getType());
+				instanceProof_ = ctx.suitableForInstanceProofStatementByTerm(getTransaction(), provedInstance.instance.getType());
 			if (instanceProof_ == null)
 				throw new Exception("Value proof missing for type: " + provedInstance.instance.getType().toString(getTransaction(), ctx));
 

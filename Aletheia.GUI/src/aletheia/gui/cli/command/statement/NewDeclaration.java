@@ -63,7 +63,7 @@ public class NewDeclaration extends NewStatement
 		if (valueProof_ == null)
 			valueProof_ = ctx.statements(getTransaction()).get(value);
 		if (valueProof_ == null)
-			valueProof_ = suitableStatement(ctx, value.getType());
+			valueProof_ = ctx.suitableForInstanceProofStatementByTerm(getTransaction(), value.getType());
 		if (valueProof_ == null)
 			throw new Exception("Value proof missing for type: " + value.getType().toString(getTransaction(), ctx));
 

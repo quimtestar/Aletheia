@@ -83,7 +83,7 @@ public class NewAuto extends NewStatement
 		statement = suitableFromHints(context, term);
 		if (statement != null)
 			return statement;
-		statement = suitableStatement(context, term);
+		statement = context.suitableForInstanceProofStatementByTerm(getTransaction(), term);
 		if (statement != null)
 			return statement;
 		return statement;
