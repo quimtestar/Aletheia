@@ -2022,6 +2022,56 @@ public class Context extends Statement
 		}
 	}
 
+	public boolean isSubscribeStatements(Transaction transaction)
+	{
+		ContextLocal contextLocal = getLocal(transaction);
+		if (contextLocal == null)
+			return false;
+		return contextLocal.isSubscribeStatements();
+	}
+
+	public CloseableSet<Statement> subscribeProofStatementSet(Transaction transaction)
+	{
+		ContextLocal contextLocal = getLocal(transaction);
+		if (contextLocal == null)
+			return new EmptyCloseableSet<>();
+		return new BijectionCloseableSet<>(new Bijection<StatementLocal, Statement>()
+		{
+			@Override
+			public Statement forward(StatementLocal statementLocal)
+			{
+				return statementLocal.getStatement(transaction);
+			}
+
+			@Override
+			public StatementLocal backward(Statement statement)
+			{
+				return statement.getLocal(transaction);
+			}
+		}, contextLocal.subscribeProofStatementLocalSet(transaction));
+	}
+
+	public CloseableSet<Context> subscribeStatementsContextSet(Transaction transaction)
+	{
+		ContextLocal contextLocal = getLocal(transaction);
+		if (contextLocal == null)
+			return new EmptyCloseableSet<>();
+		return new BijectionCloseableSet<>(new Bijection<ContextLocal, Context>()
+		{
+			@Override
+			public Context forward(ContextLocal contextLocal)
+			{
+				return contextLocal.getStatement(transaction);
+			}
+
+			@Override
+			public ContextLocal backward(Context context)
+			{
+				return context.getLocal(transaction);
+			}
+		}, contextLocal.subscribeStatementsContextLocalSet(transaction));
+	}
+
 	public CloseableSet<StatementAuthority> descendantContextAuthoritiesByConsequent(final Transaction transaction, Term consequent)
 	{
 		return new FilteredCloseableSet<>(new NotNullFilter<StatementAuthority>(), new BijectionCloseableSet<>(new Bijection<Context, StatementAuthority>()
