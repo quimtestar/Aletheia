@@ -115,7 +115,7 @@ public class PersonProtocol extends PersistentExportableProtocol<Person>
 	public void skip(DataInput in) throws IOException, ProtocolException
 	{
 		signatoryProtocol.skip(in);
-		nullableStringProtocol.skip(in);
+		stringProtocol.skip(in);
 		nullableStringProtocol.skip(in);
 		nullableStringProtocol.skip(in);
 		dateProtocol.skip(in);

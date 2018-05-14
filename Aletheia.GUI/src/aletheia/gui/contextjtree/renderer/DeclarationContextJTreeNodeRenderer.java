@@ -23,7 +23,7 @@ import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.model.statement.Declaration;
 import aletheia.persistence.Transaction;
 
-public class DeclarationContextJTreeNodeRenderer extends ContextContextJTreeNodeRenderer<Declaration>
+public class DeclarationContextJTreeNodeRenderer extends ProperStatementContextJTreeNodeRenderer<Declaration>
 {
 	private static final long serialVersionUID = 6841890763302299054L;
 
@@ -39,6 +39,13 @@ public class DeclarationContextJTreeNodeRenderer extends ContextContextJTreeNode
 			addDeclarationLabel();
 			addColonLabel();
 			addTerm(transaction, declaration, declaration.getValue());
+			if (!declaration.getValueProof(transaction).getVariable().equals(declaration.getValue()))
+			{
+				addSpaceLabel();
+				addAlmostEqualLabel();
+				addSpaceLabel();
+				addTerm(declaration.parentVariableToIdentifier(transaction), declaration.getValueProof(transaction).getVariable());
+			}
 			addCloseBracket();
 		}
 		finally

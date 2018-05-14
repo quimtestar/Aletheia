@@ -19,29 +19,27 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.statement;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
-import aletheia.model.statement.Statement.StatementException;
-import aletheia.model.term.ParameterVariableTerm;
+import aletheia.model.statement.Declaration;
+import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "dec", factory = NewDeclaration.Factory.class)
-public class NewDeclaration extends NewContext
+public class NewDeclaration extends NewStatement
 {
 	private final Term value;
+	private final Statement valueProof;
 
-	public NewDeclaration(CommandSource from, Transaction transaction, Identifier identifier, Term value,
-			Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+	public NewDeclaration(CommandSource from, Transaction transaction, Identifier identifier, Term value, Statement valueProof)
 	{
-		super(from, transaction, identifier, value.getType(), parameterIdentifiers);
+		super(from, transaction, identifier);
 		this.value = value;
+		this.valueProof = valueProof;
 	}
 
 	protected Term getValue()
@@ -49,13 +47,28 @@ public class NewDeclaration extends NewContext
 		return value;
 	}
 
+	protected Statement getValueProof()
+	{
+		return valueProof;
+	}
+
 	@Override
-	protected Context openSubContext() throws StatementException, NotActiveContextException
+	protected RunNewStatementReturnData runNewStatement() throws Exception
 	{
 		Context ctx = getActiveContext();
 		if (ctx == null)
 			throw new NotActiveContextException();
-		return ctx.declare(getTransaction(), value);
+
+		Statement valueProof_ = valueProof;
+		if (valueProof_ == null)
+			valueProof_ = ctx.statements(getTransaction()).get(value);
+		if (valueProof_ == null)
+			valueProof_ = ctx.suitableForInstanceProofStatementByTerm(getTransaction(), value.getType());
+		if (valueProof_ == null)
+			throw new Exception("Value proof missing for type: " + value.getType().toString(getTransaction(), ctx));
+
+		Declaration declaration = ctx.declare(getTransaction(), value, valueProof_);
+		return new RunNewStatementReturnData(declaration);
 	}
 
 	public static class Factory extends AbstractNewStatementFactory<NewDeclaration>
@@ -65,9 +78,16 @@ public class NewDeclaration extends NewContext
 		public NewDeclaration parse(CommandSource from, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<>();
-			Term value = parseTerm(from.getActiveContext(), transaction, split.get(0), parameterIdentifiers);
-			return new NewDeclaration(from, transaction, identifier, value, parameterIdentifiers);
+			Term value = parseTerm(from.getActiveContext(), transaction, split.get(0));
+			Statement valueProof = null;
+			if (1 < split.size())
+			{
+				valueProof = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(1));
+				if (valueProof == null)
+					throw new CommandParseException("Instance proof statement not found: " + split.get(1));
+
+			}
+			return new NewDeclaration(from, transaction, identifier, value, valueProof);
 		}
 
 		@Override
@@ -79,13 +99,13 @@ public class NewDeclaration extends NewContext
 		@Override
 		protected String paramSpec()
 		{
-			return "<term>";
+			return "<term> [<statement>]";
 		}
 
 		@Override
 		public String shortHelp()
 		{
-			return "Creates a new declaration with the specified value.";
+			return "Creates a new declaration with the specified value and value proof statement.";
 		}
 
 	}

@@ -377,6 +377,7 @@ public class FunctionTerm extends Term
 	public int hashCode(int hasher)
 	{
 		int ret = super.hashCode(hasher *= hashPrime);
+		ret = ret * hashPrime + parameter.getType().hashCode(hasher *= hashPrime);
 		final int fhasher = hasher *= hashPrime;
 		VariableTerm vthasher = new ParameterVariableTerm(parameter.getType())
 		{
@@ -397,7 +398,6 @@ public class FunctionTerm extends Term
 		{
 			throw new RuntimeException(e);
 		}
-
 		return ret;
 	}
 

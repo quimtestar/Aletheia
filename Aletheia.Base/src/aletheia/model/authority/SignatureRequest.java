@@ -205,7 +205,7 @@ public abstract class SignatureRequest implements Exportable
 
 	protected abstract static class Builder
 	{
-		protected final static int version = 2;
+		protected final static int version = 3;
 
 		@ExportableEnumInfo(availableVersions = 0)
 		protected enum RegisterType implements ByteExportableEnum<Enum<RegisterType>>
@@ -302,7 +302,7 @@ public abstract class SignatureRequest implements Exportable
 			this.transaction = transaction;
 			this.versionProtocol = new VersionProtocol();
 			this.registerTypeProtocol = new RegisterType.Protocol(0);
-			this.statementProtocol = new StatementProtocol(2, persistenceManager, transaction);
+			this.statementProtocol = new StatementProtocol(3, persistenceManager, transaction);
 			this.statementAuthorityProtocol = new StatementAuthorityProtocol(0, persistenceManager, transaction);
 			this.personProtocol = new PersonProtocol(0, persistenceManager, transaction);
 			this.byteArrayProtocol = new ByteArrayProtocol(0);

@@ -119,4 +119,17 @@ public class Identifier extends NodeNamespace implements Exportable
 			return new Identifier(namespace, name);
 	}
 
+	@Override
+	public Identifier concat(Namespace right)
+	{
+		try
+		{
+			return new Identifier(super.concat(right));
+		}
+		catch (InvalidNameException e)
+		{
+			throw new Error(e);
+		}
+	}
+
 }

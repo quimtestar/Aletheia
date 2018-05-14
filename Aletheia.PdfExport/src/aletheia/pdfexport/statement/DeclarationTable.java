@@ -40,6 +40,12 @@ public class DeclarationTable extends StatementTable
 			addSimpleChunk(new SimpleChunk("Declaration: "));
 			addBasePhrase(TermPhrase.termPhrase(getPersistenceManager(), getTransaction(),
 					getStatement().parentVariableToIdentifierWithParameters(getTransaction(), getStatement().getValue()), getStatement().getValue()));
+			if (!getStatement().getValueProof(getTransaction()).getVariable().equals(getStatement().getValue()))
+			{
+				addSimpleChunk(new SimpleChunk(" \u2248 "));
+				addBasePhrase(TermPhrase.termPhrase(getPersistenceManager(), getTransaction(), variableToIdentifier(),
+						getStatement().getValueProof(getTransaction()).getVariable()));
+			}
 		}
 	}
 

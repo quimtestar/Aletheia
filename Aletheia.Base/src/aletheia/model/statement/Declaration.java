@@ -49,7 +49,7 @@ import aletheia.persistence.entities.statement.DeclarationEntity;
  *
  *
  */
-public class Declaration extends Context
+public class Declaration extends Statement
 {
 	/**
 	 * Creates a new declaration statement from scratch.
@@ -67,16 +67,19 @@ public class Declaration extends Context
 	 *            The context that enclosures this declaration statement.
 	 * @param value
 	 *            The value of this declaration.
+	 * @param valueProof
 	 *
 	 * @throws StatementException
 	 */
-	protected Declaration(PersistenceManager persistenceManager, Transaction transaction, UUID uuid, Context context, Term value) throws StatementException
+	protected Declaration(PersistenceManager persistenceManager, Transaction transaction, UUID uuid, Context context, Term value, Statement valueProof)
+			throws StatementException
 	{
-		super(persistenceManager, transaction, DeclarationEntity.class, uuid, context, computeTerm(transaction, context, value));
+		super(persistenceManager, transaction, DeclarationEntity.class, uuid, context, computeTerm(transaction, context, value, valueProof));
 		Set<VariableTerm> undefined = context.undefinedVariables(transaction, value);
 		if (!undefined.isEmpty())
 			throw new UndefinedVariableStatementException(context, transaction, undefined);
 		getEntity().setValue(value);
+		getEntity().setValueProofUuid(valueProof.getUuid());
 		Set<UUID> uuidDependencies = getEntity().getUuidDependencies();
 		try
 		{
@@ -87,6 +90,7 @@ public class Declaration extends Context
 		{
 			throw new FreeVariableNotIdentifiableStatementException(e);
 		}
+		uuidDependencies.add(valueProof.getUuid());
 	}
 
 	public static class DeclarationException extends StatementException
@@ -114,6 +118,68 @@ public class Declaration extends Context
 		}
 	}
 
+	public static abstract class InvalidStatementException extends DeclarationException
+	{
+		private static final long serialVersionUID = -6677050304893682802L;
+		private final Statement statement;
+
+		private InvalidStatementException(String messagePrefix, Statement statement)
+		{
+			super(messagePrefix + (statement.getIdentifier() == null ? statement.getVariable().toString() : statement.getIdentifier().toString()));
+			this.statement = statement;
+		}
+
+		public Statement getStatement()
+		{
+			return statement;
+		}
+
+	}
+
+	public static abstract class ValueProofStatementException extends InvalidStatementException
+	{
+
+		private static final long serialVersionUID = -6685092308358744436L;
+
+		private ValueProofStatementException(String messagePrefix, Statement valueProof)
+		{
+			super(messagePrefix, valueProof);
+		}
+
+		public Statement getValueProof()
+		{
+			return getStatement();
+		}
+
+	}
+
+	public static class ValueProofStatementNotInContextException extends ValueProofStatementException
+	{
+		private static final long serialVersionUID = -3171924267152732609L;
+
+		private ValueProofStatementNotInContextException(Statement valueProof)
+		{
+			super("Value proof statement not in context: ", valueProof);
+		}
+	}
+
+	public static class ValueProofStatementDoesntMatchException extends ValueProofStatementException
+	{
+		private static final long serialVersionUID = -4248408870645572029L;
+		private final Term value;
+
+		private ValueProofStatementDoesntMatchException(Statement valueProof, Term value)
+		{
+			super("Instance type does not match with proof statement's term: ", valueProof);
+			this.value = value;
+		}
+
+		public Term getValue()
+		{
+			return value;
+		}
+	}
+
 	/**
 	 * Computes the term of the statement, that is, the value's type. Any
 	 * exception thrown while the type computation will be caught and embedded
@@ -125,16 +191,21 @@ public class Declaration extends Context
 	 *            The context of the declaration being constructed.
 	 * @param value
 	 *            The value.
+	 * @param valueProof
 	 * @return The computed term.
 	 * @throws DeclarationException
 	 */
-	private static Term computeTerm(Transaction transaction, Context context, Term value) throws DeclarationException
+	private static Term computeTerm(Transaction transaction, Context context, Term value, Statement valueProof) throws DeclarationException
 	{
 		if (value.getType() == null)
 		{
 			String svalue = value.toString(context.variableToIdentifier(transaction));
 			throw new DeclarationException("'" + svalue + "' has no type");
 		}
+		if (!(context.statements(transaction).containsKey(valueProof.getVariable())))
+			throw new ValueProofStatementNotInContextException(valueProof);
+		if (!value.getType().equals(valueProof.getTerm()))
+			throw new ValueProofStatementDoesntMatchException(valueProof, value);
 		return value.getType();
 	}
 
@@ -169,6 +240,28 @@ public class Declaration extends Context
 	}
 
 	/**
+	 * The UUID of the value proof statement of this declaration.
+	 *
+	 * @return The UUID.
+	 */
+	public UUID getValueProofUuid()
+	{
+		return getEntity().getValueProofUuid();
+	}
+
+	/**
+	 * The value proof statement of this declaration
+	 *
+	 * @param transaction
+	 *            The transaction to be used in the operation.
+	 * @return The value proof statement.
+	 */
+	public Statement getValueProof(Transaction transaction)
+	{
+		return getPersistenceManager().getStatement(transaction, getValueProofUuid());
+	}
+
+	/**
 	 * For a declaration to be proven, the method
 	 * {@link Statement#calcProved(Transaction)} must return true and the
 	 * statements associated to all the free variables of the value must be
@@ -185,8 +278,9 @@ public class Declaration extends Context
 			if (!st.isProved())
 				return false;
 		}
+		if (!getValueProof(transaction).isProved())
+			return false;
 		return true;
-
 	}
 
 	/**
@@ -207,7 +301,8 @@ public class Declaration extends Context
 	@Override
 	public String toString(Transaction transaction)
 	{
-		return super.toString(transaction) + " [Declaration: " + getValue().toString(parentVariableToIdentifier(transaction)) + "]";
+		return super.toString(transaction) + " [Declaration: " + getValue().toString(parentVariableToIdentifier(transaction))
+				+ (getValueProof(transaction).getVariable().equals(getValue()) ? "" : " ~~ " + getValueProof(transaction).label()) + "]";
 	}
 
 	@Override
@@ -217,11 +312,11 @@ public class Declaration extends Context
 	}
 
 	@Override
-	protected Context undeleteStatement(Transaction transaction, Context context) throws UndeleteStatementException
+	protected Declaration undeleteStatement(Transaction transaction, Context context) throws UndeleteStatementException
 	{
 		try
 		{
-			return context.declare(transaction, getUuid(), getValue());
+			return context.declare(transaction, getUuid(), getValue(), getValueProof(transaction));
 		}
 		catch (StatementException e)
 		{

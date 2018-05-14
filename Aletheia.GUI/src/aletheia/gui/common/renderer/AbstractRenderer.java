@@ -291,6 +291,16 @@ public abstract class AbstractRenderer extends JPanel
 		return addTextLabel(":");
 	}
 
+	protected JLabel addSemiColonLabel()
+	{
+		return addTextLabel(";");
+	}
+
+	protected JLabel addAlmostEqualLabel()
+	{
+		return addTextLabel("\u2248");
+	}
+
 	protected JLabel addArrowLabel()
 	{
 		return addTextLabel("\u2192");

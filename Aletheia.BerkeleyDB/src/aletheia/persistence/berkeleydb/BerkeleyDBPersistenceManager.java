@@ -236,12 +236,14 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 		private final static boolean defaultReadOnly = true;
 		private final static boolean defaultAllowUpgrade = false;
 		private final static int defaultCachePercent = 0;
+		private final static boolean defaultSharedCache = false;
 
 		private File dbFile;
 		private boolean allowCreate;
 		private boolean readOnly;
 		private boolean allowUpgrade;
 		private int cachePercent;
+		private boolean sharedCache;
 
 		public Configuration()
 		{
@@ -250,6 +252,7 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 			this.readOnly = defaultReadOnly;
 			this.allowUpgrade = defaultAllowUpgrade;
 			this.cachePercent = defaultCachePercent;
+			this.sharedCache = defaultSharedCache;
 		}
 
 		public File getDbFile()
@@ -302,11 +305,21 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 			this.cachePercent = cachePercent;
 		}
 
+		public boolean isSharedCache()
+		{
+			return sharedCache;
+		}
+
+		public void setSharedCache(boolean sharedCache)
+		{
+			this.sharedCache = sharedCache;
+		}
+
 		@Override
 		public String toString()
 		{
 			return super.toString() + "[dbFile=" + dbFile + ", allowCreate=" + allowCreate + ", readOnly=" + readOnly + ", allowUpgrade=" + allowUpgrade
-					+ ", cachePercent=" + cachePercent + "]";
+					+ ", cachePercent=" + cachePercent + ", sharedCache=" + sharedCache + "]";
 		}
 
 	}

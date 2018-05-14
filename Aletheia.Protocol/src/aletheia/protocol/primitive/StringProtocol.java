@@ -54,8 +54,7 @@ public class StringProtocol extends Protocol<String>
 	@Override
 	public void skip(DataInput in) throws IOException
 	{
-		int n = in.readUnsignedShort();
-		in.skipBytes(n);
+		in.readUTF();
 	}
 
 }

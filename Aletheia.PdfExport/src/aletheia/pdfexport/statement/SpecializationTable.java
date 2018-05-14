@@ -42,6 +42,12 @@ public class SpecializationTable extends StatementTable
 					getStatement().getGeneral(getTransaction()).getVariable()));
 			addSimpleChunk(new SimpleChunk(" \u2190 "));
 			addBasePhrase(TermPhrase.termPhrase(getPersistenceManager(), getTransaction(), variableToIdentifier(), getStatement().getInstance()));
+			if (!getStatement().getInstanceProof(getTransaction()).getVariable().equals(getStatement().getInstance()))
+			{
+				addSimpleChunk(new SimpleChunk(" \u2248 "));
+				addBasePhrase(TermPhrase.termPhrase(getPersistenceManager(), getTransaction(), variableToIdentifier(),
+						getStatement().getInstanceProof(getTransaction()).getVariable()));
+			}
 		}
 	}
 

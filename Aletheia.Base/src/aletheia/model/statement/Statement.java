@@ -1339,6 +1339,14 @@ public abstract class Statement implements Exportable
 			statementLocal.delete(transaction);
 	}
 
+	public boolean isSubscribeProof(Transaction transaction)
+	{
+		StatementLocal statementLocal = getLocal(transaction);
+		if (statementLocal == null)
+			return false;
+		return statementLocal.isSubscribeProof();
+	}
+
 	public boolean isValidSignature(Transaction transaction)
 	{
 		StatementAuthority authority = getAuthority(transaction);
