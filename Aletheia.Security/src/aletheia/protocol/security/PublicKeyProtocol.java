@@ -19,14 +19,13 @@
  ******************************************************************************/
 package aletheia.protocol.security;
 
-import java.io.DataInput;
-import java.io.IOException;
-import java.lang.reflect.Method;
+import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
 
-import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
 import aletheia.security.utilities.SecurityUtilities;
+import aletheia.security.utilities.SecurityUtilities.NoSuchFormatException;
 
 @ProtocolInfo(availableVersions = 0)
 public class PublicKeyProtocol extends KeyProtocol<PublicKey>
@@ -39,21 +38,9 @@ public class PublicKeyProtocol extends KeyProtocol<PublicKey>
 	}
 
 	@Override
-	public PublicKey recv(DataInput in) throws IOException, ProtocolException
+	protected PublicKey decode(String format, String algorithm, byte[] encoded) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchFormatException
 	{
-		try
-		{
-			Method method = SecurityUtilities.class.getMethod("decodePublicKey", String.class, String.class, byte[].class);
-			return (PublicKey) recv(in, method);
-		}
-		catch (NoSuchMethodException | SecurityException | ClassCastException e)
-		{
-			throw new ProtocolException(e);
-		}
-		finally
-		{
-
-		}
+		return SecurityUtilities.instance.decodePublicKey(format, algorithm, encoded);
 	}
 
 }

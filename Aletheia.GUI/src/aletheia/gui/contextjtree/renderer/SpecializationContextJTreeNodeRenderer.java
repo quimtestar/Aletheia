@@ -43,6 +43,13 @@ public class SpecializationContextJTreeNodeRenderer extends ProperStatementConte
 			addReverseArrowLabel();
 			addSpaceLabel();
 			addTerm(specialization.parentVariableToIdentifier(transaction), specialization.getInstance());
+			if (!specialization.getInstanceProof(transaction).getVariable().equals(specialization.getInstance()))
+			{
+				addSpaceLabel();
+				addAlmostEqualLabel();
+				addSpaceLabel();
+				addTerm(specialization.parentVariableToIdentifier(transaction), specialization.getInstanceProof(transaction).getVariable());
+			}
 			addCloseBracket();
 		}
 		finally

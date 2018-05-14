@@ -20,8 +20,6 @@
 package aletheia.gui.cli.command.statement;
 
 import java.io.PrintStream;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -43,28 +41,61 @@ import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
 import aletheia.parser.AletheiaParserException;
 import aletheia.persistence.Transaction;
-import aletheia.utilities.collections.BufferedList;
 
 @TaggedCommand(tag = "auto", factory = NewAuto.Factory.class)
 public class NewAuto extends NewStatement
 {
-	private final Context context;
 	private final Statement general;
 	private final Term target;
 	private final List<Term> hints;
 
-	public NewAuto(CommandSource from, Transaction transaction, Identifier identifier, Context context, Statement general, Term target, List<Term> hints)
+	public NewAuto(CommandSource from, Transaction transaction, Identifier identifier, Statement general, Term target, List<Term> hints)
 	{
 		super(from, transaction, identifier);
-		this.context = context;
 		this.general = general;
 		this.target = target;
 		this.hints = hints;
 	}
 
+	private Statement suitableFromHints(Context context, Term term)
+	{
+		Statement statement = null;
+		Iterator<Term> hi = hints.iterator();
+		while (hi.hasNext())
+		{
+			Term hint = hi.next();
+			if ((hint instanceof IdentifiableVariableTerm) && hint.getType().equals(term))
+			{
+				statement = context.statements(getTransaction()).get(hint);
+				if (statement != null)
+				{
+					hi.remove();
+					break;
+				}
+			}
+		}
+		return statement;
+	}
+
+	private Statement suitable(Context context, Term term)
+	{
+		Statement statement = null;
+		statement = suitableFromHints(context, term);
+		if (statement != null)
+			return statement;
+		statement = context.suitableForInstanceProofStatementByTerm(getTransaction(), term);
+		if (statement != null)
+			return statement;
+		return statement;
+	}
+
 	@Override
 	protected RunNewStatementReturnData runNewStatement() throws Exception
 	{
+		Context context = getActiveContext();
+		if (context == null)
+			throw new NotActiveContextException();
+
 		Context.Match m = null;
 		if (target != null)
 		{
@@ -170,95 +201,35 @@ public class NewAuto extends NewStatement
 				}
 			}
 			i++;
+
+			Statement instanceProof = context.statements(getTransaction()).get(t);
+			if (instanceProof == null)
+				instanceProof = suitable(context, type);
+			if (instanceProof == null)
+			{
+				instanceProof = context.openSubContext(getTransaction(), type);
+				while (true)
+				{
+					try
+					{
+						if (i >= subStatementOverflow)
+							throw new Exception("Substatement identifier numerator overflowed.");
+						instanceProof.identify(getTransaction(), new Identifier(getIdentifier(), String.format(subStatementFormat, i++)));
+						break;
+					}
+					catch (AlreadyUsedIdentifierException e)
+					{
+					}
+				}
+			}
 			Statement st_;
 			if (t != null)
 			{
-				st_ = context.specialize(getTransaction(), statement, t);
+				st_ = context.specialize(getTransaction(), statement, t, instanceProof);
 				body = body.replace(parameter, t);
 			}
 			else
-			{
-				Statement solver = null;
-				{
-					Iterator<Term> hi = hints.iterator();
-					while (hi.hasNext())
-					{
-						Term hint = hi.next();
-						if ((hint instanceof IdentifiableVariableTerm) && hint.getType().equals(type))
-						{
-							solver = context.statements(getTransaction()).get(hint);
-							if (solver != null)
-							{
-								hi.remove();
-								break;
-							}
-						}
-					}
-				}
-				if (solver == null)
-				{
-					for (Context ctx : context.statementPath(getTransaction()))
-					{
-						List<Statement> solvers = new BufferedList<>(ctx.localStatementsByTerm(getTransaction()).get(type));
-						Collections.sort(solvers, new Comparator<Statement>()
-						{
-
-							@Override
-							public int compare(Statement st1, Statement st2)
-							{
-								Identifier id1 = st1.getIdentifier();
-								Identifier id2 = st2.getIdentifier();
-								int c;
-								c = Boolean.compare(id1 == null, id2 == null);
-								if (c != 0)
-									return c;
-								if (id1 == null || id2 == null)
-									return 0;
-								c = Integer.compare(id1.length(), id2.length());
-								if (c != 0)
-									return c;
-								return c;
-							}
-						});
-						for (Statement stsol : solvers)
-						{
-							if (stsol.isProved())
-							{
-								solver = stsol;
-								break;
-							}
-						}
-						if (solver == null && ctx.equals(context))
-							for (Statement stsol : solvers)
-							{
-								solver = stsol;
-								break;
-							}
-						if (solver != null)
-							break;
-					}
-				}
-				if (solver != null)
-					st_ = context.specialize(getTransaction(), statement, solver.getVariable());
-				else
-				{
-					Context subctx = context.openSubContext(getTransaction(), type);
-					while (true)
-					{
-						try
-						{
-							if (i >= subStatementOverflow)
-								throw new Exception("Substatement identifier numerator overflowed.");
-							subctx.identify(getTransaction(), new Identifier(getIdentifier(), String.format(subStatementFormat, i++)));
-							break;
-						}
-						catch (AlreadyUsedIdentifierException e)
-						{
-						}
-					}
-					st_ = context.specialize(getTransaction(), statement, subctx.getVariable());
-				}
-			}
+				st_ = context.specialize(getTransaction(), statement, instanceProof.getVariable(), instanceProof);
 			statement = st_;
 			term = body;
 			if (term instanceof ProjectionTerm)
@@ -310,7 +281,7 @@ public class NewAuto extends NewStatement
 				}
 			else
 				term = ctx.getConsequent();
-			return new NewAuto(from, transaction, identifier, ctx, statement, term, hints);
+			return new NewAuto(from, transaction, identifier, statement, term, hints);
 		}
 
 		@Override

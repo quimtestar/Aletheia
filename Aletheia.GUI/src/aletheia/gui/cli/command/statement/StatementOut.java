@@ -74,13 +74,6 @@ public class StatementOut extends TransactionalCommand
 			{
 				getOut().println("root \"" + sterm + "\"");
 			}
-			else if (statement instanceof Declaration)
-			{
-				Declaration dec = (Declaration) statement;
-				Term value = dec.getValue();
-				String svalue = termToString(activeContext, getTransaction(), value, context.makeParameterIdentification(getTransaction(), value));
-				getOut().println("dec \"" + svalue + "\"");
-			}
 			else
 			{
 				getOut().println("ctx \"" + sterm + "\"");
@@ -91,12 +84,29 @@ public class StatementOut extends TransactionalCommand
 			Specialization spec = (Specialization) statement;
 			Statement general = spec.getGeneral(getTransaction());
 			Term instance = spec.getInstance();
+			Statement instanceProof = spec.getInstanceProof(getTransaction());
 			Identifier idgeneral = statementToIdentifier(activeContext, general);
 			if (idgeneral == null)
 				throw new Exception("General is not identified");
 			String sgeneral = idgeneral.toString();
 			String sinstance = termToString(activeContext, getTransaction(), instance);
-			getOut().println("spc " + sgeneral + " \"" + sinstance + "\"");
+			Identifier idInstanceProof = statementToIdentifier(activeContext, instanceProof);
+			if (idInstanceProof == null)
+				throw new Exception("Instance proof is not identified");
+			String sInstanceProof = idInstanceProof.toString();
+			getOut().println("spc " + sgeneral + " \"" + sinstance + "\" " + sInstanceProof);
+		}
+		else if (statement instanceof Declaration)
+		{
+			Declaration dec = (Declaration) statement;
+			Term value = dec.getValue();
+			Statement valueProof = dec.getValueProof(getTransaction());
+			String svalue = termToString(activeContext, getTransaction(), value);
+			Identifier idValueProof = statementToIdentifier(activeContext, valueProof);
+			if (idValueProof == null)
+				throw new Exception("Value proof is not identified");
+			String sValueProof = idValueProof.toString();
+			getOut().println("dec \"" + svalue + "\" " + sValueProof);
 		}
 		else
 			throw new Exception("Invalid statement type");

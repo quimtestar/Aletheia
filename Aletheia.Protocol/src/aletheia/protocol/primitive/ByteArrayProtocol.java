@@ -31,6 +31,8 @@ import aletheia.protocol.ProtocolInfo;
 @ProtocolInfo(availableVersions = 0)
 public class ByteArrayProtocol extends Protocol<byte[]>
 {
+	private final static int skipBuffLen = 4096;
+
 	private final IntegerProtocol integerProtocol;
 
 	public ByteArrayProtocol(int requiredVersion)
@@ -81,7 +83,11 @@ public class ByteArrayProtocol extends Protocol<byte[]>
 		int n = integerProtocol.recv(in);
 		if (n < 0)
 			throw new ProtocolException();
-		in.skipBytes(n);
+		if (n == 0)
+			return 0;
+		byte[] a = new byte[skipBuffLen];
+		for (int i = n; i > 0; i -= skipBuffLen)
+			in.readFully(a, 0, Integer.min(skipBuffLen, i));
 		return n;
 	}
 

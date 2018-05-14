@@ -99,8 +99,10 @@ public class StatementAuthorityProtocol extends PersistentExportableProtocol<Sta
 		uuidProtocol.skip(in);
 		uuidProtocol.skip(in);
 		dateProtocol.skip(in);
+		StatementAuthoritySignatureProtocol statementAuthoritySignatureProtocol = new StatementAuthoritySignatureProtocol(0, getPersistenceManager(),
+				getTransaction(), null);
 		NonReturningCollectionProtocol<StatementAuthoritySignature> statementAuthoritySignatureCollectionProtocol = new NonReturningCollectionProtocol<>(0,
-				null);
+				statementAuthoritySignatureProtocol);
 		statementAuthoritySignatureCollectionProtocol.skip(in);
 	}
 

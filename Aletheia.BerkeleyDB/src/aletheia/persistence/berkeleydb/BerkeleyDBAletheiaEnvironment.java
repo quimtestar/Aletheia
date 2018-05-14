@@ -76,6 +76,7 @@ public class BerkeleyDBAletheiaEnvironment extends Environment
 		environmentConfig.setLockTimeout(0, TimeUnit.SECONDS);
 		if (configuration.getCachePercent() > 0)
 			environmentConfig.setCachePercent(configuration.getCachePercent());
+		environmentConfig.setSharedCache(configuration.isSharedCache());
 		environmentConfig.setRecoveryProgressListener(new ProgressListener<RecoveryProgress>()
 		{
 			@Override

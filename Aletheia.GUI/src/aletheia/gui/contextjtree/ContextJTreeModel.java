@@ -1061,8 +1061,14 @@ public class ContextJTreeModel extends PersistentTreeModel
 			CloseableIterator<Statement> iterator = statement.dependents(transaction).iterator();
 			try
 			{
+				long t0 = System.nanoTime();
 				while (iterator.hasNext())
 				{
+					if (System.nanoTime() - t0 >= 5 * 1e9)
+					{
+						logger.warn("5 second timeout expired updating identifier change on dependent nodes");
+						break;
+					}
 					Statement user = iterator.next();
 					StatementContextJTreeNode node_ = nodeMap.cachedByStatement(user);
 					if (node_ != null)

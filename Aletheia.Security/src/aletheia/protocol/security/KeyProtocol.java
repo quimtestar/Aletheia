@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 import aletheia.protocol.Protocol;
 import aletheia.protocol.ProtocolException;
@@ -32,6 +34,7 @@ import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.primitive.ByteArrayProtocol;
 import aletheia.protocol.primitive.StringProtocol;
 import aletheia.security.utilities.SecurityUtilities;
+import aletheia.security.utilities.SecurityUtilities.NoSuchFormatException;
 
 @ProtocolInfo(availableVersions = 0)
 public abstract class KeyProtocol<K extends Key> extends Protocol<K>
@@ -53,7 +56,6 @@ public abstract class KeyProtocol<K extends Key> extends Protocol<K>
 		stringProtocol.send(out, k.getFormat());
 		stringProtocol.send(out, k.getAlgorithm());
 		byteArrayProtocol.send(out, k.getEncoded());
-
 	}
 
 	protected Key recv(DataInput in, Method decoder) throws IOException, ProtocolException
@@ -70,6 +72,25 @@ public abstract class KeyProtocol<K extends Key> extends Protocol<K>
 			throw new ProtocolException(e);
 		}
 	}
+
+	@Override
+	public K recv(DataInput in) throws IOException, ProtocolException
+	{
+		String format = stringProtocol.recv(in);
+		String algorithm = stringProtocol.recv(in);
+		byte[] encoded = byteArrayProtocol.recv(in);
+		try
+		{
+			return decode(format, algorithm, encoded);
+		}
+		catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchFormatException e)
+		{
+			throw new ProtocolException(e);
+		}
+	}
+
+	protected abstract K decode(String format, String algorithm, byte[] encoded)
+			throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchFormatException;
 
 	@Override
 	public void skip(DataInput in) throws IOException, ProtocolException

@@ -263,7 +263,13 @@ public class Proof
 						}
 					}
 
-					st = e.ctx.specialize(transaction, st, t_);
+					Statement instanceProof = e.ctx.statements(transaction).get(t_);
+					if (instanceProof == null)
+						instanceProof = e.ctx.suitableForInstanceProofStatementByTerm(transaction, t_);
+					if (instanceProof == null)
+						throw new ExecutionException();
+
+					st = e.ctx.specialize(transaction, st, t_, instanceProof);
 				}
 			}
 			catch (ReplaceTypeException e)

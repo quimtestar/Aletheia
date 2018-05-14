@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -698,6 +699,72 @@ public class Context extends Statement
 	}
 
 	/**
+	 * A statement in this context that match with the given term, with the following rules:
+	 * @formatter:off
+	 * 		*) Higher ancestor context have more priority.
+	 * 		*) Within the same context level, assumptions have maximum priority and declarations minimum priority.
+	 * 		*) Within the same context level and with the same statement class, identified statements have more priority than non-identified statements.
+	 * 		*) Within the same context level and with the same statement class, less components in the identifier of the identified statement have more priority.
+	 * 		*) When higherProved is set, if the statement is not local to the context must have set it's proved status to true.
+	 * @formatter:on
+	 */
+	public Statement suitableForInstanceProofStatementByTerm(Transaction transaction, Term term, boolean higherProved)
+	{
+		for (Context ctx : statementPath(transaction))
+		{
+			List<Statement> candidates = new BufferedList<>(ctx.localStatementsByTerm(transaction).get(term));
+			Collections.sort(candidates, new Comparator<Statement>()
+			{
+
+				private int compareClasses(Statement st1, Statement st2)
+				{
+					int c;
+					c = -Boolean.compare(st1 instanceof Assumption, st2 instanceof Assumption);
+					if (c != 0)
+						return c;
+					c = Boolean.compare(st1 instanceof Declaration, st2 instanceof Declaration);
+					if (c != 0)
+						return c;
+					return c;
+				}
+
+				@Override
+				public int compare(Statement st1, Statement st2)
+				{
+					Identifier id1 = st1.getIdentifier();
+					Identifier id2 = st2.getIdentifier();
+					int c;
+					c = compareClasses(st1, st2);
+					if (c != 0)
+						return c;
+					c = Boolean.compare(id1 == null, id2 == null);
+					if (c != 0)
+						return c;
+					if (id1 == null || id2 == null)
+						return 0;
+					c = Integer.compare(id1.length(), id2.length());
+					if (c != 0)
+						return c;
+					return c;
+				}
+			});
+			for (Statement c : candidates)
+				if (!higherProved || c.isProved() || equals(ctx))
+					return c;
+		}
+		return null;
+	}
+
+	/**
+	 * Just {@link #suitableForInstanceProofStatementByTerm(Transaction, Term,
+	 * boolean))} with higherProved set to true.
+	 */
+	public Statement suitableForInstanceProofStatementByTerm(Transaction transaction, Term term)
+	{
+		return suitableForInstanceProofStatementByTerm(transaction, term, true);
+	}
+
+	/**
 	 * The list of assumptions of this context.
 	 *
 	 * @param transaction
@@ -741,12 +808,13 @@ public class Context extends Statement
 	 *            new UUID will be generated.
 	 * @param value
 	 *            The value assigned to this declaration.
+	 * @param valueProof
 	 * @return The new declaration.
 	 * @throws StatementException
 	 */
-	public Declaration declare(Transaction transaction, UUID uuid, Term value) throws StatementException
+	public Declaration declare(Transaction transaction, UUID uuid, Term value, Statement valueProof) throws StatementException
 	{
-		Declaration dec = new Declaration(getPersistenceManager(), transaction, uuid, this, value);
+		Declaration dec = new Declaration(getPersistenceManager(), transaction, uuid, this, value, valueProof);
 		addStatement(transaction, dec);
 		return dec;
 	}
@@ -759,12 +827,13 @@ public class Context extends Statement
 	 *            The transaction to be used in the operation.
 	 * @param value
 	 *            The value assigned to this declaration.
+	 * @param valueProof
 	 * @return The new declaration.
 	 * @throws StatementException
 	 */
-	public Declaration declare(Transaction transaction, Term value) throws StatementException
+	public Declaration declare(Transaction transaction, Term value, Statement valueProof) throws StatementException
 	{
-		return declare(transaction, null, value);
+		return declare(transaction, null, value, valueProof);
 	}
 
 	/**
@@ -779,12 +848,13 @@ public class Context extends Statement
 	 *            The statement specialized.
 	 * @param instance
 	 *            The instance used to specialize.
+	 * @param instanceProof
 	 * @return The new specialization statement.
 	 * @throws StatementException
 	 */
-	public Specialization specialize(Transaction transaction, UUID uuid, Statement general, Term instance) throws StatementException
+	public Specialization specialize(Transaction transaction, UUID uuid, Statement general, Term instance, Statement instanceProof) throws StatementException
 	{
-		Specialization spec = new Specialization(getPersistenceManager(), transaction, uuid, this, general, instance);
+		Specialization spec = new Specialization(getPersistenceManager(), transaction, uuid, this, general, instance, instanceProof);
 		addStatement(transaction, spec);
 		return spec;
 	}
@@ -799,12 +869,13 @@ public class Context extends Statement
 	 *            The statement specialized.
 	 * @param instance
 	 *            The instance used to specialize.
+	 * @param instanceProof
 	 * @return The new specialization statement.
 	 * @throws StatementException
 	 */
-	public Specialization specialize(Transaction transaction, Statement general, Term instance) throws StatementException
+	public Specialization specialize(Transaction transaction, Statement general, Term instance, Statement instanceProof) throws StatementException
 	{
-		return specialize(transaction, null, general, instance);
+		return specialize(transaction, null, general, instance, instanceProof);
 	}
 
 	@Override
@@ -1477,7 +1548,7 @@ public class Context extends Statement
 			Set<Statement> excludeFromIdentify) throws CopyStatementException
 	{
 		Map<Statement, Statement> map = new HashMap<>(initMap);
-		List<Term.Replace> replaces = new LinkedList<>();
+		List<Term.Replace> replaces = new LinkedList<>(); //TODO change this to replace with map when branch proof_term is merged
 		for (Map.Entry<Statement, Statement> e : map.entrySet())
 			replaces.add(new Term.Replace(e.getKey().getVariable(), e.getValue().getVariable()));
 		Set<Statement> copied = new HashSet<>(initMap.values());
@@ -1501,13 +1572,28 @@ public class Context extends Statement
 			else if (stOrig instanceof Specialization)
 			{
 				Specialization specOrig = (Specialization) stOrig;
-				Statement genDest = map.get(specOrig.getGeneral(transaction));
-				if (genDest == null)
-					genDest = specOrig.getGeneral(transaction);
+				Statement generalOrig = specOrig.getGeneral(transaction);
+				Statement instanceProofOrig = specOrig.getInstanceProof(transaction);
 				Specialization specDest;
 				try
 				{
-					specDest = ctxParentDest.specialize(transaction, genDest, specOrig.getInstance().replace(replaces));
+					specDest = ctxParentDest.specialize(transaction, map.getOrDefault(generalOrig, generalOrig), specOrig.getInstance().replace(replaces),
+							map.getOrDefault(instanceProofOrig, instanceProofOrig));
+				}
+				catch (ReplaceTypeException | StatementException e)
+				{
+					throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
+				}
+				stDest = specDest;
+			}
+			else if (stOrig instanceof Declaration)
+			{
+				Declaration decOrig = (Declaration) stOrig;
+				Statement valueProofOrig = decOrig.getValueProof(transaction);
+				Declaration decDest;
+				try
+				{
+					decDest = ctxParentDest.declare(transaction, decOrig.getValue().replace(replaces), map.getOrDefault(valueProofOrig, valueProofOrig));
 				}
 				catch (ReplaceTypeException e)
 				{
@@ -1517,30 +1603,12 @@ public class Context extends Statement
 				{
 					throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
 				}
-				stDest = specDest;
+				stDest = decDest;
 			}
 			else if (stOrig instanceof Context)
 			{
 				Context ctxOrig = (Context) stOrig;
-				if (ctxOrig instanceof Declaration)
-				{
-					Declaration decOrig = (Declaration) ctxOrig;
-					Declaration decDest;
-					try
-					{
-						decDest = ctxParentDest.declare(transaction, decOrig.getValue().replace(replaces));
-					}
-					catch (ReplaceTypeException e)
-					{
-						throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
-					}
-					catch (StatementException e)
-					{
-						throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
-					}
-					stDest = decDest;
-				}
-				else if (ctxOrig instanceof UnfoldingContext)
+				if (ctxOrig instanceof UnfoldingContext)
 				{
 					UnfoldingContext unfOrig = (UnfoldingContext) ctxOrig;
 					Declaration decDest = (Declaration) map.get(unfOrig.getDeclaration(transaction));
@@ -1952,6 +2020,56 @@ public class Context extends Statement
 				sl.getStatement(transaction).deleteLocal(transaction);
 			super.deleteLocal(transaction);
 		}
+	}
+
+	public boolean isSubscribeStatements(Transaction transaction)
+	{
+		ContextLocal contextLocal = getLocal(transaction);
+		if (contextLocal == null)
+			return false;
+		return contextLocal.isSubscribeStatements();
+	}
+
+	public CloseableSet<Statement> subscribeProofStatementSet(Transaction transaction)
+	{
+		ContextLocal contextLocal = getLocal(transaction);
+		if (contextLocal == null)
+			return new EmptyCloseableSet<>();
+		return new BijectionCloseableSet<>(new Bijection<StatementLocal, Statement>()
+		{
+			@Override
+			public Statement forward(StatementLocal statementLocal)
+			{
+				return statementLocal.getStatement(transaction);
+			}
+
+			@Override
+			public StatementLocal backward(Statement statement)
+			{
+				return statement.getLocal(transaction);
+			}
+		}, contextLocal.subscribeProofStatementLocalSet(transaction));
+	}
+
+	public CloseableSet<Context> subscribeStatementsContextSet(Transaction transaction)
+	{
+		ContextLocal contextLocal = getLocal(transaction);
+		if (contextLocal == null)
+			return new EmptyCloseableSet<>();
+		return new BijectionCloseableSet<>(new Bijection<ContextLocal, Context>()
+		{
+			@Override
+			public Context forward(ContextLocal contextLocal)
+			{
+				return contextLocal.getStatement(transaction);
+			}
+
+			@Override
+			public ContextLocal backward(Context context)
+			{
+				return context.getLocal(transaction);
+			}
+		}, contextLocal.subscribeStatementsContextLocalSet(transaction));
 	}
 
 	public CloseableSet<StatementAuthority> descendantContextAuthoritiesByConsequent(final Transaction transaction, Term consequent)

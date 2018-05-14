@@ -40,7 +40,7 @@ import aletheia.security.signerverifier.Verifier;
 
 public class StatementAuthoritySignature implements Exportable
 {
-	private final static int signingSignatureVersion = 2;
+	private final static int signingSignatureVersion = 3;
 
 	private final PersistenceManager persistenceManager;
 	private final StatementAuthoritySignatureEntity entity;

@@ -19,13 +19,16 @@
  ******************************************************************************/
 package aletheia.persistence.entities.statement;
 
+import java.util.UUID;
+
 import aletheia.model.statement.Declaration;
+import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
 
 /**
  * The persistence entity for a {@link Declaration} statement.
  */
-public interface DeclarationEntity extends ContextEntity
+public interface DeclarationEntity extends StatementEntity
 {
 	/**
 	 * Gets the value {@link Term} of this declaration.
@@ -41,5 +44,22 @@ public interface DeclarationEntity extends ContextEntity
 	 *            The value.
 	 */
 	public void setValue(Term value);
+
+	/**
+	 * Gets the UUID of the value proof {@link Statement} of this
+	 * {@link Declaration}.
+	 *
+	 * @return The UUID.
+	 */
+	public UUID getValueProofUuid();
+
+	/**
+	 * Sets the UUID of the value proof {@link Statement} of this
+	 * {@link Declaration}.
+	 *
+	 * @param uuidValueProof
+	 *            The UUID.
+	 */
+	public void setValueProofUuid(UUID uuidValueProof);
 
 }

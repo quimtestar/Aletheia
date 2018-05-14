@@ -29,7 +29,7 @@ import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
 
-@Persistent(version = 0)
+@Persistent(version = 1)
 public class BerkeleyDBSpecializationEntity extends BerkeleyDBStatementEntity implements SpecializationEntity
 {
 	public static final String uuidKeyGeneral_FieldName = "uuidKeyGeneral";
@@ -37,6 +37,10 @@ public class BerkeleyDBSpecializationEntity extends BerkeleyDBStatementEntity im
 	private UUIDKey uuidKeyGeneral;
 
 	private Term instance;
+
+	public static final String uuidKeyInstanceProof_FieldName = "uuidKeyInstanceProof";
+	@SecondaryKey(name = uuidKeyInstanceProof_FieldName, relatedEntity = BerkeleyDBStatementEntity.class, relate = Relationship.MANY_TO_ONE)
+	private UUIDKey uuidKeyInstanceProof;
 
 	public BerkeleyDBSpecializationEntity()
 	{
@@ -65,13 +69,24 @@ public class BerkeleyDBSpecializationEntity extends BerkeleyDBStatementEntity im
 		this.instance = instance;
 	}
 
+	public UUIDKey getUuidKeyInstanceProof()
+	{
+		return uuidKeyInstanceProof;
+	}
+
+	public void setUuidKeyInstanceProof(UUIDKey uuidKeyInstanceProof)
+	{
+		this.uuidKeyInstanceProof = uuidKeyInstanceProof;
+	}
+
 	@Override
 	public int hashCode()
 	{
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((instance == null) ? 0 : instance.hashCode());
 		result = prime * result + ((uuidKeyGeneral == null) ? 0 : uuidKeyGeneral.hashCode());
+		result = prime * result + ((instance == null) ? 0 : instance.hashCode());
+		result = prime * result + ((uuidKeyInstanceProof == null) ? 0 : uuidKeyInstanceProof.hashCode());
 		return result;
 	}
 
@@ -85,6 +100,13 @@ public class BerkeleyDBSpecializationEntity extends BerkeleyDBStatementEntity im
 		if (getClass() != obj.getClass())
 			return false;
 		BerkeleyDBSpecializationEntity other = (BerkeleyDBSpecializationEntity) obj;
+		if (uuidKeyGeneral == null)
+		{
+			if (other.uuidKeyGeneral != null)
+				return false;
+		}
+		else if (!uuidKeyGeneral.equals(other.uuidKeyGeneral))
+			return false;
 		if (instance == null)
 		{
 			if (other.instance != null)
@@ -92,12 +114,12 @@ public class BerkeleyDBSpecializationEntity extends BerkeleyDBStatementEntity im
 		}
 		else if (!instance.equals(other.instance))
 			return false;
-		if (uuidKeyGeneral == null)
+		if (uuidKeyInstanceProof == null)
 		{
-			if (other.uuidKeyGeneral != null)
+			if (other.uuidKeyInstanceProof != null)
 				return false;
 		}
-		else if (!uuidKeyGeneral.equals(other.uuidKeyGeneral))
+		else if (!uuidKeyInstanceProof.equals(other.uuidKeyInstanceProof))
 			return false;
 		return true;
 	}
@@ -112,6 +134,18 @@ public class BerkeleyDBSpecializationEntity extends BerkeleyDBStatementEntity im
 	public void setGeneralUuid(UUID uuidGeneral)
 	{
 		uuidKeyGeneral = new UUIDKey(uuidGeneral);
+	}
+
+	@Override
+	public UUID getInstanceProofUuid()
+	{
+		return uuidKeyInstanceProof.uuid();
+	}
+
+	@Override
+	public void setInstanceProofUuid(UUID uuidInstanceProof)
+	{
+		uuidKeyInstanceProof = new UUIDKey(uuidInstanceProof);
 	}
 
 }
