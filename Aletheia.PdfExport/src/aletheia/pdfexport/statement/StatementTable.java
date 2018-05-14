@@ -169,11 +169,11 @@ public abstract class StatementTable extends StatementOrConsequentTable
 		{
 			if (statement instanceof UnfoldingContext)
 				return new UnfoldingContextTable(doc, depth, transaction, (UnfoldingContext) statement);
-			else if (statement instanceof Declaration)
-				return new DeclarationTable(doc, depth, transaction, (Declaration) statement);
 			else
 				return new ContextTable(doc, depth, transaction, (Context) statement);
 		}
+		else if (statement instanceof Declaration)
+			return new DeclarationTable(doc, depth, transaction, (Declaration) statement);
 		else
 			throw new Error();
 	}
