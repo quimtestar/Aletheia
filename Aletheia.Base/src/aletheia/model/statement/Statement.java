@@ -1925,40 +1925,37 @@ public abstract class Statement implements Exportable
 						Term instance = spc.getInstance().replace(replaceMap);
 						term = termGeneral.compose(instance);
 					}
+					else if (st instanceof Declaration)
+					{
+						Declaration dec = (Declaration) st;
+						term = dec.getValue().replace(replaceMap);
+					}
 					else if (st instanceof Context)
 					{
-						if (st instanceof Declaration)
+						Context ctx = (Context) st;
+						term = null;
+						int size = Integer.MAX_VALUE;
+						for (Statement solver : ctx.solvers(transaction))
 						{
-							Declaration dec = (Declaration) st;
-							term = dec.getValue().replace(replaceMap);
-						}
-						else
-						{
-							Context ctx = (Context) st;
-							term = null;
-							int size = Integer.MAX_VALUE;
-							for (Statement solver : ctx.solvers(transaction))
+							if (solver.isProved())
 							{
-								if (solver.isProved())
+								Term term_ = stTermFunction.apply(solver);
+								if (term_ != null)
 								{
-									Term term_ = stTermFunction.apply(solver);
-									if (term_ != null)
+									int size_ = term_.size();
+									if (size_ < size)
 									{
-										int size_ = term_.size();
-										if (size_ < size)
-										{
-											term = term_;
-											size = size_;
-										}
+										term = term_;
+										size = size_;
 									}
-									else if (!ctx.equals(solver) && ctx.isDescendent(transaction, solver))
-										stack.push(solver);
 								}
+								else if (!ctx.equals(solver) && ctx.isDescendent(transaction, solver))
+									stack.push(solver);
 							}
-							if (term != null)
-								for (Assumption a : new ReverseList<>(ctx.assumptions(transaction)))
-									term = new FunctionTerm((ParameterVariableTerm) map.get(a), term);
 						}
+						if (term != null)
+							for (Assumption a : new ReverseList<>(ctx.assumptions(transaction)))
+								term = new FunctionTerm((ParameterVariableTerm) map.get(a), term);
 					}
 					else
 						throw new Error();
