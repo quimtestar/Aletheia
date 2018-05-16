@@ -1949,7 +1949,7 @@ public abstract class Statement implements Exportable
 										size = size_;
 									}
 								}
-								else if (!ctx.equals(solver) && ctx.isDescendent(transaction, solver))
+								else if (isDescendent(transaction, solver))
 									stack.push(solver);
 							}
 						}
