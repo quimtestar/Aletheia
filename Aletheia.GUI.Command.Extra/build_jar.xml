@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project basedir="." default="runnable">
+    <import file="build.xml"/>
+    <target depends="build" name="runnable">
+        <jar destfile="aletheiagui_extra.jar" filesetmanifest="mergewithoutmain">
+            <fileset dir="bin"/>
+        </jar>
+    </target>
+</project>
+
