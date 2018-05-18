@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (c) 2018 Quim Testar
+   
+  This file is part of the Aletheia Proof Assistant.
+  
+  The Aletheia Proof Assistant is free software: you can redistribute it and/or
+  modify it under the terms of the GNU Affero General Public License as
+  published by the Free Software Foundation, either version 3 of the License,
+  or (at your option) any later version.
+  
+  The Aletheia Proof Assistant is distributed in the hope that it will be
+  useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
+  General Public License for more details.
+  
+  You should have received a copy of the GNU Affero General Public License
+  along with the Aletheia Proof Assistant. If not, see
+  <http://www.gnu.org/licenses/>.
+-->
+<Configuration shutdownhook="disable" monitorInterval="60">
+  <Appenders>
+    <Console name="stdout" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{ISO8601}{UTC} %d{zzz}{UTC} [%t] %-5p %c - %m%n"/>
+    </Console>
+    <!--
+	<RollingFile name="file" fileName="aletheia.log" filePattern="aletheia.log.%i.gz" append="true">
+      <PatternLayout pattern="%d{ISO8601}{UTC} %d{zzz}{UTC} [%t] %-5p %c - %m%n"/>
+      <Policies>
+        <SizeBasedTriggeringPolicy size="1 GB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="10"/>
+	</RollingFile>
+	-->
+	<File name="file" fileName="aletheia.log" append="false" locking="false">
+      <PatternLayout pattern="%d{ISO8601}{UTC} %d{zzz}{UTC} [%t] %-5p %c - %m%n"/>
+	</File>
+  </Appenders>
+  <Loggers>
+    <Logger name="aletheia" level="debug"/>
+    <Root level="trace">
+      <AppenderRef ref="stdout"/>
+      <AppenderRef ref="file"/>
+    </Root>
+  </Loggers>
+</Configuration>
