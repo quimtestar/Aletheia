@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration shutdownhook="disable" monitorInterval="60">
+  <Appenders>
+    <Console name="stdout" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{ISO8601}{UTC} %d{zzz}{UTC} [%t] %-5p %c - %m%n"/>
+    </Console>
+    <!--
+	<RollingFile name="file" fileName="aletheia.log" filePattern="aletheia.log.%i.gz" append="true">
+      <PatternLayout pattern="%d{ISO8601}{UTC} %d{zzz}{UTC} [%t] %-5p %c - %m%n"/>
+      <Policies>
+        <SizeBasedTriggeringPolicy size="1 GB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="10"/>
+	</RollingFile>
+	-->
+	<File name="file" fileName="aletheia.log" append="false" locking="false">
+      <PatternLayout pattern="%d{ISO8601}{UTC} %d{zzz}{UTC} [%t] %-5p %c - %m%n"/>
+	</File>
+  </Appenders>
+  <Loggers>
+    <Logger name="aletheia" level="debug"/>
+    <Root level="trace">
+      <AppenderRef ref="stdout"/>
+      <AppenderRef ref="file"/>
+    </Root>
+  </Loggers>
+</Configuration>
