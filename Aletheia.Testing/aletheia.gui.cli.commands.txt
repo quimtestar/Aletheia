@@ -1,0 +1,1 @@
+../Aletheia.GUI.Command.Extra/bin/; aletheia/gui/cli/command/extra/staticTaggedCommandsExtra.txt
