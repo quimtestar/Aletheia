@@ -183,7 +183,8 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 			{
 				for (String s : new StreamAsStringIterable(new FileInputStream(commandsFileName)))
 				{
-					String[] a = s.replaceAll("#.*", "").split(",|;");
+					String s_ = s.replaceAll("#.*", "");
+					String[] a = s_.split(",|;");
 					if (a.length >= 2)
 					{
 						try
@@ -196,7 +197,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 							logger.warn("Couldn't generate command resource for: " + s, e);
 						}
 					}
-					else
+					else if (!s_.trim().isEmpty())
 					{
 						logger.warn("Couldn't read command resource line: " + s);
 					}
