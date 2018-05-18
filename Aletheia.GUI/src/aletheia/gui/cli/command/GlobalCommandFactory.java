@@ -27,6 +27,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -121,7 +122,10 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 	{
 		InputStream stream = classLoader.getResourceAsStream(commandsListResourceName);
 		if (stream == null)
+		{
+			logger.warn("Couldn't load commands from: " + commandsListResourceName);
 			return new EmptyCloseableCollection<>();
+		}
 		return new FilteredCloseableIterable<>(new NotNullFilter<Class<? extends Command>>(),
 				new BijectionCloseableIterable<>(new Bijection<String, Class<? extends Command>>()
 				{
@@ -179,17 +183,22 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 			{
 				for (String s : new StreamAsStringIterable(new FileInputStream(commandsFileName)))
 				{
-					String[] a = s.replaceAll("#.*", "").split(",");
+					String[] a = s.replaceAll("#.*", "").split(",|;");
 					if (a.length >= 2)
 					{
 						try
 						{
 							commandResourceList.add(new CommandResource(new URLClassLoader(new URL[]
-							{ new URL(a[0].trim()) }), a[1].trim()));
+							{ new URL(Paths.get("").toAbsolutePath().toUri().toURL(), a[0].trim()) }), a[1].trim()));
 						}
 						catch (Exception e)
 						{
+							logger.warn("Couldn't generate command resource for: " + s, e);
 						}
+					}
+					else
+					{
+						logger.warn("Couldn't read command resource line: " + s);
 					}
 				}
 			}
