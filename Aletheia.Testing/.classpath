@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.Base"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.BerkeleyDB"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.GUI"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.GUI.Command.Extra"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.GUI.Fonts"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.log4j"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.ParserGenerator"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.PdfExport"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.PeerToPeer"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.ProofFinder"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.Protocol"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.Security"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.Utilities"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.Version"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
