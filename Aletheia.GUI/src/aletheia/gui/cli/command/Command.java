@@ -397,28 +397,35 @@ public abstract class Command
 		{
 			if (e instanceof CommandParseException)
 				return (CommandParseException) e;
-			else if (e instanceof AletheiaParserException)
-				return new CommandParseTermParserException((AletheiaParserException) e);
 			else if (e instanceof InvalidNameException)
 				return new CommandParseInvalidNameException((InvalidNameException) e);
 			else
 				return new CommandParseEmbeddedException(e);
 		}
+
 	}
 
 	public static class CommandParseTermParserException extends CommandParseEmbeddedException
 	{
 		private static final long serialVersionUID = -4893733325185413824L;
 
-		public CommandParseTermParserException(AletheiaParserException cause)
+		private final String input;
+
+		public CommandParseTermParserException(AletheiaParserException cause, String input)
 		{
 			super(cause);
+			this.input = input;
 		}
 
 		@Override
 		public AletheiaParserException getCause()
 		{
 			return (AletheiaParserException) super.getCause();
+		}
+
+		public String getInput()
+		{
+			return input;
 		}
 
 	}

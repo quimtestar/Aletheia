@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.parser.term.tokenprocessor;
 
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 
 @ProcessorProduction(left = "M", right = {})
@@ -32,7 +32,7 @@ public class M_BooleanTokenSubProcessor extends BooleanTokenSubProcessor
 	}
 
 	@Override
-	protected boolean subProcess(NonTerminalToken token, String input) throws AletheiaParserException
+	protected boolean subProcess(NonTerminalToken token) throws TokenProcessorException
 	{
 		return false;
 	}

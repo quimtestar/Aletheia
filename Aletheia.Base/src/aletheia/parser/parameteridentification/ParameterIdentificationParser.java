@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.StringReader;
 import aletheia.model.term.Term.ParameterIdentification;
 import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parser.AletheiaParserConstants;
 import aletheia.parser.parameteridentification.tokenprocessor.TokenProcessor;
 import aletheia.parsergenerator.ParserLexerException;
@@ -85,11 +86,15 @@ public class ParameterIdentificationParser extends Parser
 		try
 		{
 			NonTerminalToken token = parseToken(new AutomatonSetLexer(automatonSet, new StringReader(input)));
-			return tokenProcessor.process(token, input);
+			return tokenProcessor.process(token);
 		}
 		catch (ParserLexerException e)
 		{
-			throw new AletheiaParserException(e, input);
+			throw new AletheiaParserException(e);
+		}
+		catch (TokenProcessorException e)
+		{
+			throw new AletheiaParserException(e);
 		}
 	}
 

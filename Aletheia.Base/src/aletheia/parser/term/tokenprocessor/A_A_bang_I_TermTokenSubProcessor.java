@@ -28,7 +28,7 @@ import aletheia.model.statement.Statement;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.ReplaceTypeException;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.persistence.Transaction;
@@ -43,12 +43,11 @@ public class A_A_bang_I_TermTokenSubProcessor extends TermTokenSubProcessor
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, String input, Context context, Transaction transaction,
-			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
-			throws AletheiaParserException
+	protected Term subProcess(NonTerminalToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
+			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TokenProcessorException
 	{
-		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), input, context, transaction, tempParameterTable);
-		Identifier identifier = getProcessor().processIdentifier((NonTerminalToken) token.getChildren().get(2), input);
+		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), context, transaction, tempParameterTable);
+		Identifier identifier = getProcessor().processIdentifier((NonTerminalToken) token.getChildren().get(2));
 		Statement statement = context.identifierToStatement(transaction).get(identifier);
 		if (statement instanceof Declaration)
 		{
@@ -59,12 +58,12 @@ public class A_A_bang_I_TermTokenSubProcessor extends TermTokenSubProcessor
 			}
 			catch (ReplaceTypeException e)
 			{
-				throw new AletheiaParserException(e, token.getStartLocation(), token.getStopLocation(), input);
+				throw new TokenProcessorException(e, token.getStartLocation(), token.getStopLocation());
 			}
 		}
 		else
-			throw new AletheiaParserException("Referenced statement: '" + identifier + "' after the bang must be a declaration",
-					token.getChildren().get(2).getStartLocation(), token.getChildren().get(2).getStopLocation(), input);
+			throw new TokenProcessorException("Referenced statement: '" + identifier + "' after the bang must be a declaration",
+					token.getChildren().get(2).getStartLocation(), token.getChildren().get(2).getStopLocation());
 	}
 
 }

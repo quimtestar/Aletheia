@@ -21,7 +21,7 @@ package aletheia.parser.term.tokenprocessor;
 
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.TaggedTerminalToken;
 import aletheia.persistence.Transaction;
@@ -36,23 +36,23 @@ public class S_hexref_StatementTokenSubProcessor extends StatementTokenSubProces
 	}
 
 	@Override
-	public Statement subProcess(NonTerminalToken token, String input, Context context, Transaction transaction) throws AletheiaParserException
+	public Statement subProcess(NonTerminalToken token, Context context, Transaction transaction) throws TokenProcessorException
 	{
 		String hexRef = ((TaggedTerminalToken) token.getChildren().get(0)).getText();
 		if (context == null)
 		{
 			Statement statement = transaction.getPersistenceManager().getRootContextByHexRef(transaction, hexRef);
 			if (statement == null)
-				throw new AletheiaParserException("Reference: + " + "'" + hexRef + "'" + " not found on root level",
-						token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation(), input);
+				throw new TokenProcessorException("Reference: + " + "'" + hexRef + "'" + " not found on root level",
+						token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation());
 			return statement;
 		}
 		else
 		{
 			Statement statement = context.getStatementByHexRef(transaction, hexRef);
 			if (statement == null)
-				throw new AletheiaParserException("Reference: + " + "'" + hexRef + "'" + " not found on context: \"" + context.label() + "\"",
-						token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation(), input);
+				throw new TokenProcessorException("Reference: + " + "'" + hexRef + "'" + " not found on context: \"" + context.label() + "\"",
+						token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation());
 			return statement;
 		}
 	}

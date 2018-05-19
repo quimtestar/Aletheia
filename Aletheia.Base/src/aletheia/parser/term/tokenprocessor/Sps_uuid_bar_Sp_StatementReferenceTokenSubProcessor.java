@@ -24,7 +24,7 @@ import java.util.UUID;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.TerminalToken;
 import aletheia.persistence.Transaction;
@@ -40,18 +40,17 @@ public class Sps_uuid_bar_Sp_StatementReferenceTokenSubProcessor extends Stateme
 	}
 
 	@Override
-	public Term subProcess(NonTerminalToken token, String input, Context context, Transaction transaction, ReferenceType referenceType)
-			throws AletheiaParserException
+	public Term subProcess(NonTerminalToken token, Context context, Transaction transaction, ReferenceType referenceType) throws TokenProcessorException
 	{
-		UUID uuid = getProcessor().processUuid((TerminalToken) token.getChildren().get(0), input);
+		UUID uuid = getProcessor().processUuid((TerminalToken) token.getChildren().get(0));
 		Statement st = transaction.getPersistenceManager().getStatement(transaction, uuid);
 		if (st == null)
-			throw new AletheiaParserException("Statement not found with UUID: " + uuid, token.getChildren().get(0).getStartLocation(),
-					token.getChildren().get(0).getStopLocation(), input);
+			throw new TokenProcessorException("Statement not found with UUID: " + uuid, token.getChildren().get(0).getStartLocation(),
+					token.getChildren().get(0).getStopLocation());
 		if (!(st instanceof Context))
-			throw new AletheiaParserException("Statement: " + "\"" + st.label() + "\"" + " not a context", token.getChildren().get(0).getStartLocation(),
-					token.getChildren().get(0).getStopLocation(), input);
-		return getProcessor().processStatementReference((NonTerminalToken) token.getChildren().get(2), input, (Context) st, transaction, referenceType);
+			throw new TokenProcessorException("Statement: " + "\"" + st.label() + "\"" + " not a context", token.getChildren().get(0).getStartLocation(),
+					token.getChildren().get(0).getStopLocation());
+		return getProcessor().processStatementReference((NonTerminalToken) token.getChildren().get(2), (Context) st, transaction, referenceType);
 	}
 
 }

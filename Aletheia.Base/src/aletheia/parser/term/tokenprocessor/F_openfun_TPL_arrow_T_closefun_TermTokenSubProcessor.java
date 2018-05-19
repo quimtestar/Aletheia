@@ -28,7 +28,7 @@ import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.ComposeTypeException;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefList;
@@ -47,14 +47,12 @@ public class F_openfun_TPL_arrow_T_closefun_TermTokenSubProcessor extends TermTo
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, String input, Context context, Transaction transaction,
-			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
-			throws AletheiaParserException
+	protected Term subProcess(NonTerminalToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
+			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TokenProcessorException
 	{
-		TypedParameterRefList typedParameterRefList = getProcessor().processTypedParameterRefList((NonTerminalToken) token.getChildren().get(1), input, context,
+		TypedParameterRefList typedParameterRefList = getProcessor().processTypedParameterRefList((NonTerminalToken) token.getChildren().get(1), context,
 				transaction, tempParameterTable, parameterIdentifiers);
-		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(3), input, context, transaction, tempParameterTable,
-				parameterIdentifiers);
+		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(3), context, transaction, tempParameterTable, parameterIdentifiers);
 		for (TypedParameterRef typedParameterRef : new ReverseList<>(typedParameterRefList.getList()))
 		{
 			try
@@ -65,7 +63,7 @@ public class F_openfun_TPL_arrow_T_closefun_TermTokenSubProcessor extends TermTo
 			}
 			catch (ComposeTypeException e)
 			{
-				throw new AletheiaParserException(e, token.getStartLocation(), token.getStopLocation(), input);
+				throw new TokenProcessorException(e, token.getStartLocation(), token.getStopLocation());
 			}
 		}
 		for (Entry<ParameterRef, ParameterVariableTerm> e : typedParameterRefList.getOldParameterTable().entrySet())

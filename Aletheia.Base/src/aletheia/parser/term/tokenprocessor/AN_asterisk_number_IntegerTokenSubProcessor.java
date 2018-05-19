@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.parser.term.tokenprocessor;
 
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.TaggedTerminalToken;
 
@@ -34,7 +34,7 @@ public class AN_asterisk_number_IntegerTokenSubProcessor extends IntegerTokenSub
 	}
 
 	@Override
-	protected int subProcess(NonTerminalToken token, String input) throws AletheiaParserException
+	protected int subProcess(NonTerminalToken token) throws TokenProcessorException
 	{
 		return Integer.parseInt(((TaggedTerminalToken) token.getChildren().get(1)).getText());
 	}

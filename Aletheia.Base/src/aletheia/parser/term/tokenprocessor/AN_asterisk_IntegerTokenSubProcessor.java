@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.parser.term.tokenprocessor;
 
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 
 @ProcessorProduction(left = "AN", right =
@@ -33,7 +33,7 @@ public class AN_asterisk_IntegerTokenSubProcessor extends IntegerTokenSubProcess
 	}
 
 	@Override
-	protected int subProcess(NonTerminalToken token, String input) throws AletheiaParserException
+	protected int subProcess(NonTerminalToken token) throws TokenProcessorException
 	{
 		return 1;
 	}

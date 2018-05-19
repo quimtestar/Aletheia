@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2018 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -22,25 +22,32 @@ package aletheia.parser;
 import aletheia.parsergenerator.ParserLexerException;
 import aletheia.parsergenerator.tokens.Location;
 
-public class AletheiaParserException extends Exception
+public class TokenProcessorException extends Exception
 {
-	private static final long serialVersionUID = 313143433656661210L;
+	private static final long serialVersionUID = 5888776553497775726L;
 
 	private final Location startLocation;
 	private final Location stopLocation;
 
-	public AletheiaParserException(ParserLexerException e)
+	public TokenProcessorException(String message, Location startLocation, Location stopLocation)
+	{
+		super(message);
+		this.startLocation = startLocation;
+		this.stopLocation = stopLocation;
+	}
+
+	public TokenProcessorException(ParserLexerException e)
 	{
 		super(e.getMessage(), e);
 		this.startLocation = e.getStartLocation();
 		this.stopLocation = e.getStopLocation();
 	}
 
-	public AletheiaParserException(TokenProcessorException e)
+	public TokenProcessorException(Exception e, Location startLocation, Location stopLocation)
 	{
 		super(e.getMessage(), e);
-		this.startLocation = e.getStartLocation();
-		this.stopLocation = e.getStopLocation();
+		this.startLocation = startLocation;
+		this.stopLocation = stopLocation;
 	}
 
 	public Location getStartLocation()
@@ -56,15 +63,6 @@ public class AletheiaParserException extends Exception
 	public String position()
 	{
 		return startLocation.position();
-	}
-
-	@Override
-	public String getMessage()
-	{
-		if (getCause() != null)
-			return getCause().getMessage();
-		else
-			return super.getMessage();
 	}
 
 }

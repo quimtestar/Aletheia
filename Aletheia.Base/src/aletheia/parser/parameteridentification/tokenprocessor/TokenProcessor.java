@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.term.Term.ParameterIdentification;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.parser.Grammar;
 import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.symbols.Symbol;
@@ -181,25 +181,25 @@ public class TokenProcessor
 		return subProcessorClass.cast(subProcessor);
 	}
 
-	public ParameterIdentification process(NonTerminalToken token, String input) throws AletheiaParserException
+	public ParameterIdentification process(NonTerminalToken token) throws TokenProcessorException
 	{
-		return processParameterIdentification(token, input);
+		return processParameterIdentification(token);
 	}
 
-	protected ParameterIdentification processParameterIdentification(NonTerminalToken token, String input) throws AletheiaParserException
+	protected ParameterIdentification processParameterIdentification(NonTerminalToken token) throws TokenProcessorException
 	{
 		ParameterIdentificationTokenSubProcessor processor = getProcessor(ParameterIdentificationTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
 			throw new Error("No ParameterIdentificationTokenSubProcessor found for production: " + token.getProduction());
-		return processor.subProcess(token, input);
+		return processor.subProcess(token);
 	}
 
-	protected Identifier processIdentifier(NonTerminalToken token, String input) throws AletheiaParserException
+	protected Identifier processIdentifier(NonTerminalToken token) throws TokenProcessorException
 	{
 		IdentifierTokenSubProcessor processor = getProcessor(IdentifierTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
 			throw new Error("No IdentifierTokenSubProcessor found for production: " + token.getProduction());
-		return processor.subProcess(token, input);
+		return processor.subProcess(token);
 	}
 
 	protected static class ParameterWithType
@@ -226,12 +226,12 @@ public class TokenProcessor
 
 	}
 
-	protected ParameterWithType processParameterWithType(NonTerminalToken token, String input) throws AletheiaParserException
+	protected ParameterWithType processParameterWithType(NonTerminalToken token) throws TokenProcessorException
 	{
 		ParameterWithTypeTokenSubProcessor processor = getProcessor(ParameterWithTypeTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
 			throw new Error("No ParameterWithTypeTokenSubProcessor found for production: " + token.getProduction());
-		return processor.subProcess(token, input);
+		return processor.subProcess(token);
 	}
 
 	protected static class ParameterWithTypeList extends ArrayList<ParameterWithType>
@@ -240,12 +240,12 @@ public class TokenProcessor
 
 	}
 
-	protected ParameterWithTypeList processParameterWithTypeList(NonTerminalToken token, String input) throws AletheiaParserException
+	protected ParameterWithTypeList processParameterWithTypeList(NonTerminalToken token) throws TokenProcessorException
 	{
 		ParameterWithTypeListTokenSubProcessor processor = getProcessor(ParameterWithTypeListTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
 			throw new Error("No ParameterWithTypeListTokenSubProcessor found for production: " + token.getProduction());
-		return processor.subProcess(token, input);
+		return processor.subProcess(token);
 	}
 
 }

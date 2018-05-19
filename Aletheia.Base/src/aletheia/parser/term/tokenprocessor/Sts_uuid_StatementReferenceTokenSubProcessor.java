@@ -24,7 +24,7 @@ import java.util.UUID;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.TerminalToken;
 import aletheia.persistence.Transaction;
@@ -40,16 +40,14 @@ public class Sts_uuid_StatementReferenceTokenSubProcessor extends StatementRefer
 	}
 
 	@Override
-	public Term subProcess(NonTerminalToken token, String input, Context context, Transaction transaction, ReferenceType referenceType)
-			throws AletheiaParserException
+	public Term subProcess(NonTerminalToken token, Context context, Transaction transaction, ReferenceType referenceType) throws TokenProcessorException
 	{
-		UUID uuid = getProcessor().processUuid((TerminalToken) token.getChildren().get(0), input);
+		UUID uuid = getProcessor().processUuid((TerminalToken) token.getChildren().get(0));
 		Statement statement = transaction.getPersistenceManager().getStatement(transaction, uuid);
 		if (statement == null)
-			throw new AletheiaParserException("Statement not found with UUID: " + uuid, token.getChildren().get(0).getStartLocation(),
-					token.getChildren().get(0).getStopLocation(), input);
-		return dereferenceStatement(statement, referenceType, token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation(),
-				input);
+			throw new TokenProcessorException("Statement not found with UUID: " + uuid, token.getChildren().get(0).getStartLocation(),
+					token.getChildren().get(0).getStopLocation());
+		return dereferenceStatement(statement, referenceType, token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation());
 	}
 
 }

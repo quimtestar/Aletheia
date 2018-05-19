@@ -27,7 +27,7 @@ import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.Term;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.persistence.Transaction;
@@ -42,17 +42,16 @@ public class A_A_percent_TermTokenSubProcessor extends TermTokenSubProcessor
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, String input, Context context, Transaction transaction,
-			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
-			throws AletheiaParserException
+	protected Term subProcess(NonTerminalToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
+			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TokenProcessorException
 	{
-		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), input, context, transaction, tempParameterTable);
+		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), context, transaction, tempParameterTable);
 		while (term instanceof ProjectionTerm)
 			term = ((ProjectionTerm) term).getFunction();
 		if (term instanceof FunctionTerm)
 			return ((FunctionTerm) term).getParameter().getType();
 		else
-			throw new AletheiaParserException("Only can take the paremeter type of a function term", token.getStartLocation(), token.getStopLocation(), input);
+			throw new TokenProcessorException("Only can take the paremeter type of a function term", token.getStartLocation(), token.getStopLocation());
 	}
 
 }

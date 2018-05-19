@@ -26,7 +26,7 @@ import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.TaggedTerminalToken;
@@ -42,15 +42,14 @@ public class A_hexref_TermTokenSubProcessor extends TermTokenSubProcessor
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, String input, Context context, Transaction transaction,
-			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
-			throws AletheiaParserException
+	protected Term subProcess(NonTerminalToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
+			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TokenProcessorException
 	{
 		String hexRef = ((TaggedTerminalToken) token.getChildren().get(0)).getText();
 		Statement statement = context.getStatementByHexRef(transaction, hexRef, 5000);
 		if (statement == null)
-			throw new AletheiaParserException("Reference not found on context", token.getChildren().get(0).getStartLocation(),
-					token.getChildren().get(0).getStopLocation(), input);
+			throw new TokenProcessorException("Reference not found on context", token.getChildren().get(0).getStartLocation(),
+					token.getChildren().get(0).getStopLocation());
 		return statement.getVariable();
 	}
 

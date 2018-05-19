@@ -21,7 +21,7 @@ package aletheia.parser.term.tokenprocessor;
 
 import aletheia.model.statement.Context;
 import aletheia.model.term.Term;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.persistence.Transaction;
 
@@ -47,11 +47,11 @@ public abstract class ReferenceTokenSubProcessor extends TokenSubProcessor<Term,
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, String input, Parameter parameter) throws AletheiaParserException
+	protected Term subProcess(NonTerminalToken token, Parameter parameter) throws TokenProcessorException
 	{
-		return subProcess(token, input, parameter.context, parameter.transaction);
+		return subProcess(token, parameter.context, parameter.transaction);
 	}
 
-	protected abstract Term subProcess(NonTerminalToken token, String input, Context context, Transaction transaction) throws AletheiaParserException;
+	protected abstract Term subProcess(NonTerminalToken token, Context context, Transaction transaction) throws TokenProcessorException;
 
 }

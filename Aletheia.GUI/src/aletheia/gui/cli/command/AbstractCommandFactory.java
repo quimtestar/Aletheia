@@ -30,6 +30,7 @@ import java.util.UUID;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.Command.CommandParseEmbeddedException;
 import aletheia.gui.cli.command.Command.CommandParseException;
+import aletheia.gui.cli.command.Command.CommandParseTermParserException;
 import aletheia.model.authority.DelegateAuthorizer;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.Signatory;
@@ -212,7 +213,7 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 		}
 		catch (AletheiaParserException e)
 		{
-			throw CommandParseEmbeddedException.embed(e);
+			throw new CommandParseTermParserException(e, s);
 		}
 	}
 

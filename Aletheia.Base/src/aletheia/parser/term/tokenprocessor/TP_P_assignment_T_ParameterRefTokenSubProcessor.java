@@ -25,7 +25,7 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefWithValue;
@@ -43,17 +43,17 @@ public class TP_P_assignment_T_ParameterRefTokenSubProcessor extends TypedParame
 	}
 
 	@Override
-	protected TypedParameterRef subProcess(NonTerminalToken token, String input, Context context, Transaction transaction,
+	protected TypedParameterRef subProcess(NonTerminalToken token, Context context, Transaction transaction,
 			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
-			throws AletheiaParserException
+			throws TokenProcessorException
 	{
-		ParameterRef parameterRef = getProcessor().processParameterRef((NonTerminalToken) token.getChildren().get(0), input);
-		Term value = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(2), input, context, transaction, tempParameterTable);
+		ParameterRef parameterRef = getProcessor().processParameterRef((NonTerminalToken) token.getChildren().get(0));
+		Term value = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(2), context, transaction, tempParameterTable);
 		Term type = value.getType();
 		if (type == null)
 		{
 			NonTerminalToken t = (NonTerminalToken) token.getChildren().get(2);
-			throw new AletheiaParserException("Typeless substitution term", t.getStartLocation(), t.getStopLocation(), input);
+			throw new TokenProcessorException("Typeless substitution term", t.getStartLocation(), t.getStopLocation());
 		}
 		ParameterVariableTerm parameter = new ParameterVariableTerm(type);
 		return new TypedParameterRefWithValue(parameterRef, parameter, value);

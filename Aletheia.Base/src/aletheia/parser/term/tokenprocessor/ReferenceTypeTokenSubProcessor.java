@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.parser.term.tokenprocessor;
 
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 
 public abstract class ReferenceTypeTokenSubProcessor extends TokenSubProcessor<ReferenceType, Void>
@@ -30,7 +30,7 @@ public abstract class ReferenceTypeTokenSubProcessor extends TokenSubProcessor<R
 	}
 
 	@Override
-	protected ReferenceType subProcess(NonTerminalToken token, String input, Void parameter) throws AletheiaParserException
+	protected ReferenceType subProcess(NonTerminalToken token, Void parameter) throws TokenProcessorException
 	{
 		return subProcess(token);
 	}

@@ -24,7 +24,7 @@ import aletheia.model.statement.Declaration;
 import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.tokens.Location;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.persistence.Transaction;
@@ -53,16 +53,16 @@ public abstract class StatementReferenceTokenSubProcessor extends TokenSubProces
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, String input, Parameter parameter) throws AletheiaParserException
+	protected Term subProcess(NonTerminalToken token, Parameter parameter) throws TokenProcessorException
 	{
-		return subProcess(token, input, parameter.context, parameter.transaction, parameter.referenceType);
+		return subProcess(token, parameter.context, parameter.transaction, parameter.referenceType);
 	}
 
-	public abstract Term subProcess(NonTerminalToken token, String input, Context context, Transaction transaction, ReferenceType referenceType)
-			throws AletheiaParserException;
+	public abstract Term subProcess(NonTerminalToken token, Context context, Transaction transaction, ReferenceType referenceType)
+			throws TokenProcessorException;
 
-	protected Term dereferenceStatement(Statement statement, ReferenceType referenceType, Location startLocation, Location stopLocation, String input)
-			throws AletheiaParserException
+	protected Term dereferenceStatement(Statement statement, ReferenceType referenceType, Location startLocation, Location stopLocation)
+			throws TokenProcessorException
 	{
 		switch (referenceType)
 		{
@@ -71,13 +71,13 @@ public abstract class StatementReferenceTokenSubProcessor extends TokenSubProces
 		case INSTANCE:
 		{
 			if (!(statement instanceof Specialization))
-				throw new AletheiaParserException("Cannot reference the instance of a non-specialization statement", startLocation, stopLocation, input);
+				throw new TokenProcessorException("Cannot reference the instance of a non-specialization statement", startLocation, stopLocation);
 			return ((Specialization) statement).getInstance();
 		}
 		case VALUE:
 		{
 			if (!(statement instanceof Declaration))
-				throw new AletheiaParserException("Cannot reference the value of a non-declaration statement", startLocation, stopLocation, input);
+				throw new TokenProcessorException("Cannot reference the value of a non-declaration statement", startLocation, stopLocation);
 			return ((Declaration) statement).getValue();
 		}
 		default:

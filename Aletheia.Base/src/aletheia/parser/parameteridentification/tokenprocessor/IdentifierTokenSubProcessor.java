@@ -20,7 +20,7 @@
 package aletheia.parser.parameteridentification.tokenprocessor;
 
 import aletheia.model.identifier.Identifier;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 
 public abstract class IdentifierTokenSubProcessor extends TokenSubProcessor<Identifier, Void>
@@ -32,11 +32,11 @@ public abstract class IdentifierTokenSubProcessor extends TokenSubProcessor<Iden
 	}
 
 	@Override
-	protected Identifier subProcess(NonTerminalToken token, String input, Void parameter) throws AletheiaParserException
+	protected Identifier subProcess(NonTerminalToken token, Void parameter) throws TokenProcessorException
 	{
-		return subProcess(token, input);
+		return subProcess(token);
 	}
 
-	protected abstract Identifier subProcess(NonTerminalToken token, String input) throws AletheiaParserException;
+	protected abstract Identifier subProcess(NonTerminalToken token) throws TokenProcessorException;
 
 }
