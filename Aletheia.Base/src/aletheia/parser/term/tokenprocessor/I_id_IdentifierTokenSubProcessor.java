@@ -21,7 +21,7 @@ package aletheia.parser.term.tokenprocessor;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.TaggedTerminalToken;
 
@@ -36,7 +36,7 @@ public class I_id_IdentifierTokenSubProcessor extends IdentifierTokenSubProcesso
 	}
 
 	@Override
-	protected Identifier subProcess(NonTerminalToken token, String input) throws AletheiaParserException
+	protected Identifier subProcess(NonTerminalToken token) throws TokenProcessorException
 	{
 		String name = ((TaggedTerminalToken) token.getChildren().get(0)).getText();
 		try
@@ -45,7 +45,7 @@ public class I_id_IdentifierTokenSubProcessor extends IdentifierTokenSubProcesso
 		}
 		catch (InvalidNameException e)
 		{
-			throw new AletheiaParserException(e, token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation(), input);
+			throw new TokenProcessorException(e, token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation());
 		}
 	}
 

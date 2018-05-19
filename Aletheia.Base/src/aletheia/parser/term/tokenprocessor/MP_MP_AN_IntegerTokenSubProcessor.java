@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.parser.term.tokenprocessor;
 
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 
 @ProcessorProduction(left = "MP", right =
@@ -33,10 +33,10 @@ public class MP_MP_AN_IntegerTokenSubProcessor extends IntegerTokenSubProcessor
 	}
 
 	@Override
-	protected int subProcess(NonTerminalToken token, String input) throws AletheiaParserException
+	protected int subProcess(NonTerminalToken token) throws TokenProcessorException
 	{
-		int nMP = getProcessor().processInteger((NonTerminalToken) token.getChildren().get(0), input);
-		int nAN = getProcessor().processInteger((NonTerminalToken) token.getChildren().get(1), input);
+		int nMP = getProcessor().processInteger((NonTerminalToken) token.getChildren().get(0));
+		int nAN = getProcessor().processInteger((NonTerminalToken) token.getChildren().get(1));
 		return nMP + nAN;
 	}
 

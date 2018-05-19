@@ -19,8 +19,6 @@
  ******************************************************************************/
 package aletheia.test;
 
-import java.io.File;
-
 import aletheia.test.unsorted.Test0000;
 
 public abstract class Test
@@ -30,9 +28,7 @@ public abstract class Test
 
 	public static void main(String[] args) throws Exception
 	{
-		File dbFile = new File("/mnt/vlb0/quim/Aletheia/aletheiadb");
-		Test test = new Test0000(dbFile);
-		test.run();
+		new Test0000().run();
 	}
 
 }

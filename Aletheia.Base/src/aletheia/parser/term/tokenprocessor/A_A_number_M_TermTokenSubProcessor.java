@@ -27,7 +27,7 @@ import aletheia.model.statement.Context;
 import aletheia.model.term.CompositionTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.TaggedTerminalToken;
@@ -44,26 +44,25 @@ public class A_A_number_M_TermTokenSubProcessor extends TermTokenSubProcessor
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, String input, Context context, Transaction transaction,
-			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
-			throws AletheiaParserException
+	protected Term subProcess(NonTerminalToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
+			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TokenProcessorException
 	{
-		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), input, context, transaction, tempParameterTable);
+		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), context, transaction, tempParameterTable);
 		if (term instanceof CompositionTerm)
 		{
 			List<Term> components;
-			if (getProcessor().processBoolean((NonTerminalToken) token.getChildren().get(2), input))
+			if (getProcessor().processBoolean((NonTerminalToken) token.getChildren().get(2)))
 				components = new BufferedList<>(((CompositionTerm) term).aggregateComponents());
 			else
 				components = new BufferedList<>(((CompositionTerm) term).components());
 			int n = Integer.parseInt(((TaggedTerminalToken) token.getChildren().get(1)).getText());
 			if (n < 0 || n >= components.size())
-				throw new AletheiaParserException("Composition coordinate " + n + " out of bounds for term: " + "'" + term.toString(transaction, context) + "'",
-						token.getChildren().get(1).getStartLocation(), token.getChildren().get(1).getStopLocation(), input);
+				throw new TokenProcessorException("Composition coordinate " + n + " out of bounds for term: " + "'" + term.toString(transaction, context) + "'",
+						token.getChildren().get(1).getStartLocation(), token.getChildren().get(1).getStopLocation());
 			return components.get(n);
 		}
 		else
-			throw new AletheiaParserException("Only can use composition coordinates in compositions", token.getStartLocation(), token.getStopLocation(), input);
+			throw new TokenProcessorException("Only can use composition coordinates in compositions", token.getStartLocation(), token.getStopLocation());
 	}
 
 }

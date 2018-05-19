@@ -30,6 +30,7 @@ import aletheia.model.term.Term;
 import aletheia.parser.AletheiaParserException;
 import aletheia.parser.AletheiaParserConstants;
 import aletheia.parser.AletheiaParserGenerator;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.TokenProcessor;
 import aletheia.parsergenerator.ParserLexerException;
 import aletheia.parsergenerator.lexer.AutomatonSet;
@@ -121,11 +122,15 @@ public class TermParser extends Parser
 		try
 		{
 			NonTerminalToken token = parseToken(new AutomatonSetLexer(automatonSet, new StringReader(input)));
-			return tokenProcessor.process(token, input, context, transaction, parameterIdentifiers);
+			return tokenProcessor.process(token, context, transaction, parameterIdentifiers);
 		}
 		catch (ParserLexerException e)
 		{
-			throw new AletheiaParserException(e, input);
+			throw new AletheiaParserException(e);
+		}
+		catch (TokenProcessorException e)
+		{
+			throw new AletheiaParserException(e);
 		}
 	}
 

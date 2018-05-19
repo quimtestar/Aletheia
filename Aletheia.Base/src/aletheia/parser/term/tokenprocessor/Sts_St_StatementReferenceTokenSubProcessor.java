@@ -21,7 +21,7 @@ package aletheia.parser.term.tokenprocessor;
 
 import aletheia.model.statement.Context;
 import aletheia.model.term.Term;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.persistence.Transaction;
 
@@ -36,10 +36,9 @@ public class Sts_St_StatementReferenceTokenSubProcessor extends StatementReferen
 	}
 
 	@Override
-	public Term subProcess(NonTerminalToken token, String input, Context context, Transaction transaction, ReferenceType referenceType)
-			throws AletheiaParserException
+	public Term subProcess(NonTerminalToken token, Context context, Transaction transaction, ReferenceType referenceType) throws TokenProcessorException
 	{
-		return getProcessor().processStatementReference((NonTerminalToken) token.getChildren().get(0), input, context, transaction, referenceType);
+		return getProcessor().processStatementReference((NonTerminalToken) token.getChildren().get(0), context, transaction, referenceType);
 	}
 
 }

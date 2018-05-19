@@ -22,7 +22,7 @@ package aletheia.parser.term.tokenprocessor;
 import aletheia.model.statement.Context;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.persistence.Transaction;
 
@@ -37,19 +37,19 @@ public class R_Rt_openpar_Sps_closepar_ReferenceTokenSubProcessor extends Refere
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, String input, Context context, Transaction transaction) throws AletheiaParserException
+	protected Term subProcess(NonTerminalToken token, Context context, Transaction transaction) throws TokenProcessorException
 	{
 		ReferenceType referenceType = getProcessor().processReferenceType((NonTerminalToken) token.getChildren().get(0));
-		Term term = getProcessor().processStatementReference((NonTerminalToken) token.getChildren().get(2), input, context, transaction, referenceType);
+		Term term = getProcessor().processStatementReference((NonTerminalToken) token.getChildren().get(2), context, transaction, referenceType);
 		for (IdentifiableVariableTerm v : term.freeIdentifiableVariables())
 		{
 			if (context == null)
-				throw new AletheiaParserException("Referenced term contains free variables", token.getChildren().get(2).getStartLocation(),
-						token.getChildren().get(2).getStopLocation(), input);
+				throw new TokenProcessorException("Referenced term contains free variables", token.getChildren().get(2).getStartLocation(),
+						token.getChildren().get(2).getStopLocation());
 			else if (!context.statements(transaction).containsKey(v))
 			{
-				throw new AletheiaParserException("Referenced term contains free variables not of this context", token.getChildren().get(2).getStartLocation(),
-						token.getChildren().get(2).getStopLocation(), input);
+				throw new TokenProcessorException("Referenced term contains free variables not of this context", token.getChildren().get(2).getStartLocation(),
+						token.getChildren().get(2).getStopLocation());
 			}
 		}
 		return term;

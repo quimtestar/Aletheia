@@ -39,7 +39,6 @@ import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
-import aletheia.parser.AletheiaParserException;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "auto", factory = NewAuto.Factory.class)
@@ -269,16 +268,11 @@ public class NewAuto extends NewStatement
 			Term term = null;
 			List<Term> hints = new LinkedList<>();
 			if (split.size() > 1)
-				try
-				{
-					term = ctx.parseTerm(transaction, split.get(1));
-					for (String s : split.subList(2, split.size()))
-						hints.add(ctx.parseTerm(transaction, s));
-				}
-				catch (AletheiaParserException e)
-				{
-					throw new CommandParseTermParserException(e);
-				}
+			{
+				term = parseTerm(ctx, transaction, split.get(1));
+				for (String s : split.subList(2, split.size()))
+					hints.add(parseTerm(ctx, transaction, s));
+			}
 			else
 				term = ctx.getConsequent();
 			return new NewAuto(from, transaction, identifier, statement, term, hints);

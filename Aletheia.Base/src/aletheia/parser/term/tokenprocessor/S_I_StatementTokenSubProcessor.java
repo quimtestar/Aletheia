@@ -22,7 +22,7 @@ package aletheia.parser.term.tokenprocessor;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.collections.statement.GenericRootContextsMap;
@@ -38,18 +38,18 @@ public class S_I_StatementTokenSubProcessor extends StatementTokenSubProcessor
 	}
 
 	@Override
-	public Statement subProcess(NonTerminalToken token, String input, Context context, Transaction transaction) throws AletheiaParserException
+	public Statement subProcess(NonTerminalToken token, Context context, Transaction transaction) throws TokenProcessorException
 	{
-		Identifier identifier = getProcessor().processIdentifier((NonTerminalToken) token.getChildren().get(0), input);
+		Identifier identifier = getProcessor().processIdentifier((NonTerminalToken) token.getChildren().get(0));
 		if (context == null)
 		{
 			GenericRootContextsMap rcm = transaction.getPersistenceManager().identifierToRootContexts(transaction).get(identifier);
 			if (rcm == null || rcm.size() < 1)
-				throw new AletheiaParserException("Identifier: " + "'" + identifier + "'" + " not defined at root level",
-						token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation(), input);
+				throw new TokenProcessorException("Identifier: " + "'" + identifier + "'" + " not defined at root level",
+						token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation());
 			if (rcm.size() > 1)
-				throw new AletheiaParserException("Multiple root contexts with identifier: " + "'" + identifier + "'",
-						token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation(), input);
+				throw new TokenProcessorException("Multiple root contexts with identifier: " + "'" + identifier + "'",
+						token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation());
 			else
 				return MiscUtilities.firstFromCloseableIterable(rcm.values());
 		}
@@ -57,8 +57,8 @@ public class S_I_StatementTokenSubProcessor extends StatementTokenSubProcessor
 		{
 			Statement statement = context.identifierToStatement(transaction).get(identifier);
 			if (statement == null)
-				throw new AletheiaParserException("Identifier: " + "'" + identifier + "'" + " not defined in context: \"" + context.label() + "\"",
-						token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation(), input);
+				throw new TokenProcessorException("Identifier: " + "'" + identifier + "'" + " not defined in context: \"" + context.label() + "\"",
+						token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation());
 			return statement;
 		}
 	}

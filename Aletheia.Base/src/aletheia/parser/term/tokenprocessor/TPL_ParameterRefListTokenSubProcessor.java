@@ -24,7 +24,7 @@ import java.util.Map;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.term.ParameterVariableTerm;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefList;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
@@ -40,9 +40,9 @@ public class TPL_ParameterRefListTokenSubProcessor extends TypedParameterRefList
 	}
 
 	@Override
-	protected TypedParameterRefList subProcess(NonTerminalToken token, String input, Context context, Transaction transaction,
+	protected TypedParameterRefList subProcess(NonTerminalToken token, Context context, Transaction transaction,
 			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
-			throws AletheiaParserException
+			throws TokenProcessorException
 	{
 		return new TypedParameterRefList();
 	}

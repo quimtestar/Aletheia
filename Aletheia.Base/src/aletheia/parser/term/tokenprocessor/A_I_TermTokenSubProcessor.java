@@ -27,7 +27,7 @@ import aletheia.model.statement.Statement;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.IdentifierParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
@@ -43,11 +43,10 @@ public class A_I_TermTokenSubProcessor extends TermTokenSubProcessor
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, String input, Context context, Transaction transaction,
-			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
-			throws AletheiaParserException
+	protected Term subProcess(NonTerminalToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
+			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TokenProcessorException
 	{
-		Identifier identifier = getProcessor().processIdentifier((NonTerminalToken) token.getChildren().get(0), input);
+		Identifier identifier = getProcessor().processIdentifier((NonTerminalToken) token.getChildren().get(0));
 		VariableTerm variable = tempParameterTable.get(new IdentifierParameterRef(identifier));
 		if (variable == null && context != null && transaction != null)
 		{
@@ -56,8 +55,8 @@ public class A_I_TermTokenSubProcessor extends TermTokenSubProcessor
 				variable = statement.getVariable();
 		}
 		if (variable == null)
-			throw new AletheiaParserException("Identifier:" + "'" + identifier + "'" + " not defined", token.getChildren().get(0).getStartLocation(),
-					token.getChildren().get(0).getStopLocation(), input);
+			throw new TokenProcessorException("Identifier:" + "'" + identifier + "'" + " not defined", token.getChildren().get(0).getStartLocation(),
+					token.getChildren().get(0).getStopLocation());
 		return variable;
 	}
 

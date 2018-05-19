@@ -32,7 +32,7 @@ import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefList;
@@ -235,72 +235,71 @@ public class TokenProcessor
 		return subProcessorClass.cast(subProcessor);
 	}
 
-	public Term process(NonTerminalToken token, String input, Context context, Transaction transaction,
-			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws AletheiaParserException
+	public Term process(NonTerminalToken token, Context context, Transaction transaction, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+			throws TokenProcessorException
 	{
-		return processTerm(token, input, context, transaction, new HashMap<>(), parameterIdentifiers);
+		return processTerm(token, context, transaction, new HashMap<>(), parameterIdentifiers);
 	}
 
-	protected Term processTerm(NonTerminalToken token, String input, Context context, Transaction transaction,
-			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
-			throws AletheiaParserException
-	{
-		TermTokenSubProcessor processor = getProcessor(TermTokenSubProcessor.class, token.getProduction());
-		if (processor == null)
-			throw new Error("No TermTokenSubProcessor found for production.");
-		return processor.subProcess(token, input, context, transaction, tempParameterTable, parameterIdentifiers);
-	}
-
-	protected Term processTerm(NonTerminalToken token, String input, Context context, Transaction transaction,
-			Map<ParameterRef, ParameterVariableTerm> tempParameterTable) throws AletheiaParserException
+	protected Term processTerm(NonTerminalToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
+			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TokenProcessorException
 	{
 		TermTokenSubProcessor processor = getProcessor(TermTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
 			throw new Error("No TermTokenSubProcessor found for production.");
-		return processor.subProcess(token, input, context, transaction, tempParameterTable);
+		return processor.subProcess(token, context, transaction, tempParameterTable, parameterIdentifiers);
 	}
 
-	protected ParameterRef processParameterRef(NonTerminalToken token, String input) throws AletheiaParserException
+	protected Term processTerm(NonTerminalToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable)
+			throws TokenProcessorException
+	{
+		TermTokenSubProcessor processor = getProcessor(TermTokenSubProcessor.class, token.getProduction());
+		if (processor == null)
+			throw new Error("No TermTokenSubProcessor found for production.");
+		return processor.subProcess(token, context, transaction, tempParameterTable);
+	}
+
+	protected ParameterRef processParameterRef(NonTerminalToken token) throws TokenProcessorException
 	{
 		ParameterRefTokenSubProcessor processor = getProcessor(ParameterRefTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
 			throw new Error("No ParameterRefTokenSubProcessor found for production.");
-		return processor.subProcess(token, input);
+		return processor.subProcess(token);
 	}
 
-	protected TypedParameterRef processTypedParameterRef(NonTerminalToken token, String input, Context context, Transaction transaction,
-			Map<ParameterRef, ParameterVariableTerm> tempParameterTable) throws AletheiaParserException
+	protected TypedParameterRef processTypedParameterRef(NonTerminalToken token, Context context, Transaction transaction,
+			Map<ParameterRef, ParameterVariableTerm> tempParameterTable) throws TokenProcessorException
 	{
 		TypedParameterRefTokenSubProcessor processor = getProcessor(TypedParameterRefTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
 			throw new Error("No TypedParameterRefTokenSubProcessor found for production.");
-		return processor.subProcess(token, input, context, transaction, tempParameterTable);
+		return processor.subProcess(token, context, transaction, tempParameterTable);
 	}
 
-	protected TypedParameterRefList processTypedParameterRefList(NonTerminalToken token, String input, Context context, Transaction transaction,
+	protected TypedParameterRefList processTypedParameterRefList(NonTerminalToken token, Context context, Transaction transaction,
 			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
-			throws AletheiaParserException
+			throws TokenProcessorException
 	{
 		TypedParameterRefListTokenSubProcessor processor = getProcessor(TypedParameterRefListTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
 			throw new Error("No TypedParameterRefListTokenSubProcessor found for production.");
-		return processor.subProcess(token, input, context, transaction, tempParameterTable, parameterIdentifiers);
+		return processor.subProcess(token, context, transaction, tempParameterTable, parameterIdentifiers);
 	}
 
-	protected Identifier processIdentifier(NonTerminalToken token, String input) throws AletheiaParserException
+	protected Identifier processIdentifier(NonTerminalToken token) throws TokenProcessorException
 	{
 		IdentifierTokenSubProcessor processor = getProcessor(IdentifierTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
 			throw new Error("No IdentifierTokenSubProcessor found for production.");
-		return processor.subProcess(token, input);
+		return processor.subProcess(token);
 	}
 
-	protected Term processReference(NonTerminalToken token, String input, Context context, Transaction transaction) throws AletheiaParserException
+	protected Term processReference(NonTerminalToken token, Context context, Transaction transaction) throws TokenProcessorException
 	{
 		ReferenceTokenSubProcessor processor = getProcessor(ReferenceTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
 			throw new Error("No ReferenceTokenSubProcessor found for production.");
-		return processor.subProcess(token, input, context, transaction);
+		return processor.subProcess(token, context, transaction);
 	}
 
 	protected ReferenceType processReferenceType(NonTerminalToken token)
@@ -311,7 +310,7 @@ public class TokenProcessor
 		return processor.subProcess(token);
 	}
 
-	protected UUID processUuid(TerminalToken token, String input) throws AletheiaParserException
+	protected UUID processUuid(TerminalToken token) throws TokenProcessorException
 	{
 		try
 		{
@@ -319,41 +318,41 @@ public class TokenProcessor
 		}
 		catch (IllegalArgumentException e)
 		{
-			throw new AletheiaParserException("Bad UUID string", token.getStartLocation(), token.getStopLocation(), input);
+			throw new TokenProcessorException("Bad UUID string", token.getStartLocation(), token.getStopLocation());
 		}
 	}
 
-	protected Term processStatementReference(NonTerminalToken token, String input, Context context, Transaction transaction, ReferenceType referenceType)
-			throws AletheiaParserException
+	protected Term processStatementReference(NonTerminalToken token, Context context, Transaction transaction, ReferenceType referenceType)
+			throws TokenProcessorException
 	{
 		StatementReferenceTokenSubProcessor processor = getProcessor(StatementReferenceTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
 			throw new Error("No StatementReferenceTokenSubProcessor found for production.");
-		return processor.subProcess(token, input, context, transaction, referenceType);
+		return processor.subProcess(token, context, transaction, referenceType);
 	}
 
-	protected Statement processStatement(NonTerminalToken token, String input, Context context, Transaction transaction) throws AletheiaParserException
+	protected Statement processStatement(NonTerminalToken token, Context context, Transaction transaction) throws TokenProcessorException
 	{
 		StatementTokenSubProcessor processor = getProcessor(StatementTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
 			throw new Error("No StatementTokenSubProcessor found for production.");
-		return processor.subProcess(token, input, context, transaction);
+		return processor.subProcess(token, context, transaction);
 	}
 
-	protected boolean processBoolean(NonTerminalToken token, String input) throws AletheiaParserException
+	protected boolean processBoolean(NonTerminalToken token) throws TokenProcessorException
 	{
 		BooleanTokenSubProcessor processor = getProcessor(BooleanTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
 			throw new Error("No BooleanTokenSubProcessor found for production.");
-		return processor.subProcess(token, input);
+		return processor.subProcess(token);
 	}
 
-	protected int processInteger(NonTerminalToken token, String input) throws AletheiaParserException
+	protected int processInteger(NonTerminalToken token) throws TokenProcessorException
 	{
 		IntegerTokenSubProcessor processor = getProcessor(IntegerTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
 			throw new Error("No IntegerTokenSubProcessor found for production.");
-		return processor.subProcess(token, input);
+		return processor.subProcess(token);
 	}
 
 }

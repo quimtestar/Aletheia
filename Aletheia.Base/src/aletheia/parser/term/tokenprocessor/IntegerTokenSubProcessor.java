@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.parser.term.tokenprocessor;
 
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 
 public abstract class IntegerTokenSubProcessor extends TokenSubProcessor<Integer, Void>
@@ -31,11 +31,11 @@ public abstract class IntegerTokenSubProcessor extends TokenSubProcessor<Integer
 	}
 
 	@Override
-	protected Integer subProcess(NonTerminalToken token, String input, Void parameter) throws AletheiaParserException
+	protected Integer subProcess(NonTerminalToken token, Void parameter) throws TokenProcessorException
 	{
-		return subProcess(token, input);
+		return subProcess(token);
 	}
 
-	protected abstract int subProcess(NonTerminalToken token, String input) throws AletheiaParserException;
+	protected abstract int subProcess(NonTerminalToken token) throws TokenProcessorException;
 
 }

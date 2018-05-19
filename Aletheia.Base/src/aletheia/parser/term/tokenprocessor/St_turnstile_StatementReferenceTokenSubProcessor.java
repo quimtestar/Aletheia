@@ -21,7 +21,7 @@ package aletheia.parser.term.tokenprocessor;
 
 import aletheia.model.statement.Context;
 import aletheia.model.term.Term;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.persistence.Transaction;
 
@@ -36,15 +36,14 @@ public class St_turnstile_StatementReferenceTokenSubProcessor extends StatementR
 	}
 
 	@Override
-	public Term subProcess(NonTerminalToken token, String input, Context context, Transaction transaction, ReferenceType referenceType)
-			throws AletheiaParserException
+	public Term subProcess(NonTerminalToken token, Context context, Transaction transaction, ReferenceType referenceType) throws TokenProcessorException
 	{
 		if (context == null)
-			throw new AletheiaParserException("Cannot refer to the consequent without a context", token.getChildren().get(0).getStartLocation(),
-					token.getChildren().get(0).getStopLocation(), input);
+			throw new TokenProcessorException("Cannot refer to the consequent without a context", token.getChildren().get(0).getStartLocation(),
+					token.getChildren().get(0).getStopLocation());
 		if (referenceType != ReferenceType.TYPE)
-			throw new AletheiaParserException("Invalid reference type to the consequent", token.getChildren().get(0).getStartLocation(),
-					token.getChildren().get(0).getStopLocation(), input);
+			throw new TokenProcessorException("Invalid reference type to the consequent", token.getChildren().get(0).getStartLocation(),
+					token.getChildren().get(0).getStopLocation());
 		return context.getConsequent();
 	}
 

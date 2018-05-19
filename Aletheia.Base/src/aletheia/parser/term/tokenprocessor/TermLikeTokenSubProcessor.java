@@ -24,7 +24,7 @@ import java.util.Map;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.term.ParameterVariableTerm;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.persistence.Transaction;
@@ -57,19 +57,19 @@ public abstract class TermLikeTokenSubProcessor<R> extends TokenSubProcessor<R, 
 	}
 
 	@Override
-	protected R subProcess(NonTerminalToken token, String input, Parameter parameter) throws AletheiaParserException
+	protected R subProcess(NonTerminalToken token, Parameter parameter) throws TokenProcessorException
 	{
-		return subProcess(token, input, parameter.context, parameter.transaction, parameter.tempParameterTable, parameter.parameterIdentifiers);
+		return subProcess(token, parameter.context, parameter.transaction, parameter.tempParameterTable, parameter.parameterIdentifiers);
 	}
 
-	protected abstract R subProcess(NonTerminalToken token, String input, Context context, Transaction transaction,
+	protected abstract R subProcess(NonTerminalToken token, Context context, Transaction transaction,
 			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
-			throws AletheiaParserException;
+			throws TokenProcessorException;
 
-	protected R subProcess(NonTerminalToken token, String input, Context context, Transaction transaction,
-			Map<ParameterRef, ParameterVariableTerm> tempParameterTable) throws AletheiaParserException
+	protected R subProcess(NonTerminalToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable)
+			throws TokenProcessorException
 	{
-		return subProcess(token, input, context, transaction, tempParameterTable, null);
+		return subProcess(token, context, transaction, tempParameterTable, null);
 	}
 
 }

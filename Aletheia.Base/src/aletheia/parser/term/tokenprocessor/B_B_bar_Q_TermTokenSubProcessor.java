@@ -27,7 +27,7 @@ import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.ReplaceTypeException;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.persistence.Transaction;
@@ -43,12 +43,11 @@ public class B_B_bar_Q_TermTokenSubProcessor extends TermTokenSubProcessor
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, String input, Context context, Transaction transaction,
-			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
-			throws AletheiaParserException
+	protected Term subProcess(NonTerminalToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
+			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TokenProcessorException
 	{
-		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), input, context, transaction, tempParameterTable);
-		Term oldTerm = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(2), input, context, transaction, tempParameterTable);
+		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), context, transaction, tempParameterTable);
+		Term oldTerm = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(2), context, transaction, tempParameterTable);
 		ParameterVariableTerm param = new ParameterVariableTerm(oldTerm.getType());
 		try
 		{
@@ -56,7 +55,7 @@ public class B_B_bar_Q_TermTokenSubProcessor extends TermTokenSubProcessor
 		}
 		catch (ReplaceTypeException e)
 		{
-			throw new AletheiaParserException(e, token.getStartLocation(), token.getStopLocation(), input);
+			throw new TokenProcessorException(e, token.getStartLocation(), token.getStopLocation());
 		}
 	}
 
