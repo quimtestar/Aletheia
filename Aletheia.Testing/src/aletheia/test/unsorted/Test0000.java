@@ -19,7 +19,6 @@
  ******************************************************************************/
 package aletheia.test.unsorted;
 
-import java.io.File;
 import java.util.UUID;
 
 import aletheia.model.statement.Context;
@@ -27,30 +26,22 @@ import aletheia.model.term.Term;
 import aletheia.parser.AletheiaParserException;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
-import aletheia.test.BerkeleyDBPersistenceManagerTest;
+import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
 
-public class Test0000 extends BerkeleyDBPersistenceManagerTest
+public class Test0000 extends TransactionalBerkeleyDBPersistenceManagerTest
 {
 
-	public Test0000(File dbFile)
+	public Test0000()
 	{
-		super(dbFile);
+		super(false);
 	}
 
 	@Override
-	protected void run(BerkeleyDBPersistenceManager persistenceManager) throws AletheiaParserException
+	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws AletheiaParserException
 	{
-		Transaction transaction = persistenceManager.beginTransaction();
-		try
-		{
-			Context context = persistenceManager.getContext(transaction, UUID.fromString("42cc8199-8159-5567-b65c-db023f95eaa3"));
-			Term term = context.parseTerm(transaction, "<x:Set, y:Set, Set.Equal x y -> Set.Equal y x>");
-			System.out.println(context.unparseTerm(transaction, term));
-		}
-		finally
-		{
-			transaction.abort();
-		}
+		Context context = persistenceManager.getContext(transaction, UUID.fromString("42cc8199-8159-5567-b65c-db023f95eaa3"));
+		Term term = context.parseTerm(transaction, "<x:Set, y:Set, Set.Equal x y -> Set.Equal y x>");
+		System.out.println(context.unparseTerm(transaction, term));
 	}
 
 }

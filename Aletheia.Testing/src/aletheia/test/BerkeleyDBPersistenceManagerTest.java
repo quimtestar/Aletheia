@@ -26,9 +26,12 @@ import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager.Configuratio
 
 public abstract class BerkeleyDBPersistenceManagerTest extends PersistenceManagerTest
 {
-	public BerkeleyDBPersistenceManagerTest(File dbFile)
+	public BerkeleyDBPersistenceManagerTest()
 	{
 		super(new Configuration());
+		File dbFile = TestingAletheiaPreferences.instance.getDbFile();
+		if (dbFile == null)
+			throw new RuntimeException("No db file configured");
 		getConfiguration().setDbFile(dbFile);
 	}
 

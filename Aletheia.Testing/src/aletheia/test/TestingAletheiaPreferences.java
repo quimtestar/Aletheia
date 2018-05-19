@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright (c) 2018 Quim Testar
- *  
+ * 
  * This file is part of the Aletheia Proof Assistant.
  * 
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
