@@ -30,7 +30,7 @@ public abstract class Test
 
 	public static void main(String[] args) throws Exception
 	{
-		File dbFile = new File("/mnt/vlb0/quim/Aletheia/aletheiadb");
+		File dbFile = TestingAletheiaPreferences.instance.getDbFile();
 		Test test = new Test0000(dbFile);
 		test.run();
 	}
