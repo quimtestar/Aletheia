@@ -5,12 +5,14 @@ import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 
 public abstract class TransactionalBerkeleyDBPersistenceManagerTest extends BerkeleyDBPersistenceManagerTest
 {
-	private final boolean commit;
+	public TransactionalBerkeleyDBPersistenceManagerTest(boolean readOnly)
+	{
+		super(readOnly);
+	}
 
-	protected TransactionalBerkeleyDBPersistenceManagerTest(boolean commit)
+	public TransactionalBerkeleyDBPersistenceManagerTest()
 	{
 		super();
-		this.commit = commit;
 	}
 
 	@Override
@@ -20,7 +22,7 @@ public abstract class TransactionalBerkeleyDBPersistenceManagerTest extends Berk
 		try
 		{
 			run(persistenceManager, transaction);
-			if (commit)
+			if (!isReadOnly())
 				transaction.commit();
 		}
 		finally

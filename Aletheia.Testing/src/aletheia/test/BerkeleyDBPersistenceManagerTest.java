@@ -26,19 +26,30 @@ import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager.Configuratio
 
 public abstract class BerkeleyDBPersistenceManagerTest extends PersistenceManagerTest
 {
-	public BerkeleyDBPersistenceManagerTest()
+	public BerkeleyDBPersistenceManagerTest(boolean readOnly)
 	{
 		super(new Configuration());
 		File dbFile = TestingAletheiaPreferences.instance.getDbFile();
 		if (dbFile == null)
 			throw new RuntimeException("No db file configured");
 		getConfiguration().setDbFile(dbFile);
+		getConfiguration().setReadOnly(readOnly);
+	}
+
+	public BerkeleyDBPersistenceManagerTest()
+	{
+		this(true);
 	}
 
 	@Override
 	public Configuration getConfiguration()
 	{
 		return (Configuration) super.getConfiguration();
+	}
+
+	public boolean isReadOnly()
+	{
+		return getConfiguration().isReadOnly();
 	}
 
 	@Override
