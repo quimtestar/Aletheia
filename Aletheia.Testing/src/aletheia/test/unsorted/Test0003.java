@@ -19,41 +19,36 @@
  ******************************************************************************/
 package aletheia.test.unsorted;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.PrintWriter;
 import java.util.UUID;
 
 import aletheia.model.statement.Context;
-import aletheia.model.statement.Statement;
+import aletheia.model.term.Term;
 import aletheia.parser.AletheiaParserException;
+import aletheia.parser.term.TermParser;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
-import aletheia.utilities.collections.CloseableIterator;
 
-public class Test0001 extends TransactionalBerkeleyDBPersistenceManagerTest
+public class Test0003 extends TransactionalBerkeleyDBPersistenceManagerTest
 {
 
-	public Test0001()
+	public Test0003()
 	{
 		super();
 	}
 
 	@Override
-	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws AletheiaParserException
+	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws FileNotFoundException, AletheiaParserException
 	{
-		Context context = persistenceManager.getContext(transaction, UUID.fromString("3e6fc222-aefa-5551-b182-7a736264f03b"));
-		int i = 0;
-		try (CloseableIterator<Statement> iterator = context.localStatements(transaction).values().iterator())
+		Context context = persistenceManager.getContext(transaction, UUID.fromString("42cc8199-8159-5567-b65c-db023f95eaa3"));
+		Term term = TermParser.parseTerm(context, transaction, new FileReader("tmp/term.txt"));
+		try (PrintWriter pw = new PrintWriter(System.out))
 		{
-			while (iterator.hasNext())
-			{
-				Statement st = iterator.next();
-				System.out.println(st.label());
-				i++;
-				if (i >= 10)
-					break;
-			}
+			term.print(pw, transaction, context);
 		}
-
 	}
 
 }

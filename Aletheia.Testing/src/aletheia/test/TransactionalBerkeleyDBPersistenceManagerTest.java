@@ -18,16 +18,11 @@ public abstract class TransactionalBerkeleyDBPersistenceManagerTest extends Berk
 	@Override
 	protected final void run(BerkeleyDBPersistenceManager persistenceManager) throws Exception
 	{
-		Transaction transaction = persistenceManager.beginTransaction();
-		try
+		try (Transaction transaction = persistenceManager.beginTransaction())
 		{
 			run(persistenceManager, transaction);
 			if (!isReadOnly())
 				transaction.commit();
-		}
-		finally
-		{
-			transaction.abort();
 		}
 	}
 
