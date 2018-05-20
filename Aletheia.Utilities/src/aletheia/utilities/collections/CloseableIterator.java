@@ -30,7 +30,8 @@ import java.util.Iterator;
  *
  * @author Quim Testar
  */
-public interface CloseableIterator<E> extends Iterator<E>
+public interface CloseableIterator<E> extends Iterator<E>, AutoCloseable
 {
+	@Override
 	public void close();
 }
