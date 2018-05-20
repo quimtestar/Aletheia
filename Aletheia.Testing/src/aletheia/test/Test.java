@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.test;
 
-import aletheia.test.unsorted.Test0000;
+import aletheia.test.unsorted.*;
 
 public abstract class Test
 {
@@ -28,7 +28,7 @@ public abstract class Test
 
 	public static void main(String[] args) throws Exception
 	{
-		new Test0000().run();
+		new Test0001().run();
 	}
 
 }
