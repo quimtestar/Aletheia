@@ -22,6 +22,7 @@ package aletheia.model.term;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -303,7 +304,7 @@ public abstract class Term implements Serializable, Exportable
 
 	public static ParameterIdentification parseParameterIdentification(String input) throws AletheiaParserException
 	{
-		return ParameterIdentificationParser.parseParameterIdentification(input);
+		return ParameterIdentificationParser.parseParameterIdentification(new StringReader(input));
 	}
 
 	protected abstract class StringAppender
