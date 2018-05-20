@@ -20,6 +20,7 @@
 package aletheia.model.statement;
 
 import java.io.PrintStream;
+import java.io.StringReader;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -990,12 +991,18 @@ public class Context extends Statement
 	 *            The transaction to be used in the operation.
 	 * @param s
 	 *            The string to be parsed.
+	 * @param parameterIdentifiers
 	 * @return The resulting term.
 	 * @throws AletheiaParserException
 	 */
+	public Term parseTerm(Transaction transaction, String s, Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws AletheiaParserException
+	{
+		return TermParser.parseTerm(this, transaction, new StringReader(s), parameterIdentifiers);
+	}
+
 	public Term parseTerm(Transaction transaction, String s) throws AletheiaParserException
 	{
-		return TermParser.parseTerm(this, transaction, s);
+		return TermParser.parseTerm(this, transaction, new StringReader(s));
 	}
 
 	public String unparseTerm(Transaction transaction, Term term)

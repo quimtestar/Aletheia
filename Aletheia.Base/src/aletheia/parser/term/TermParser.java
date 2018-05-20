@@ -21,7 +21,7 @@ package aletheia.parser.term;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
+import java.io.Reader;
 import java.util.Map;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
@@ -95,33 +95,33 @@ public class TermParser extends Parser
 		this.tokenProcessor = new TokenProcessor(getGrammar());
 	}
 
-	public static Term parseTerm(Context context, Transaction transaction, String input, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+	public static Term parseTerm(Context context, Transaction transaction, Reader reader, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 			throws AletheiaParserException
 	{
-		return instance.parse(context, transaction, input, parameterIdentifiers);
+		return instance.parse(context, transaction, reader, parameterIdentifiers);
 	}
 
-	public static Term parseTerm(Context context, Transaction transaction, String input) throws AletheiaParserException
+	public static Term parseTerm(Context context, Transaction transaction, Reader reader) throws AletheiaParserException
 	{
-		return parseTerm(context, transaction, input, null);
+		return parseTerm(context, transaction, reader, null);
 	}
 
-	public static Term parseTerm(String input, Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws AletheiaParserException
+	public static Term parseTerm(Reader reader, Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws AletheiaParserException
 	{
-		return parseTerm(null, null, input, parameterIdentifiers);
+		return parseTerm(null, null, reader, parameterIdentifiers);
 	}
 
-	public static Term parseTerm(String input) throws AletheiaParserException
+	public static Term parseTerm(Reader reader) throws AletheiaParserException
 	{
-		return parseTerm(input, null);
+		return parseTerm(reader, null);
 	}
 
-	private Term parse(Context context, Transaction transaction, String input, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+	private Term parse(Context context, Transaction transaction, Reader reader, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 			throws AletheiaParserException
 	{
 		try
 		{
-			NonTerminalToken token = parseToken(new AutomatonSetLexer(automatonSet, new StringReader(input)));
+			NonTerminalToken token = parseToken(new AutomatonSetLexer(automatonSet, reader));
 			return tokenProcessor.process(token, context, transaction, parameterIdentifiers);
 		}
 		catch (ParserLexerException e)
