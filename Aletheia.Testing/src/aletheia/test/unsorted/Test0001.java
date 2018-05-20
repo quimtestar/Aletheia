@@ -56,7 +56,7 @@ public class Test0001 extends TransactionalBerkeleyDBPersistenceManagerTest
 			System.out.println("     : " + statement.getInnerTerm(transaction).toString(transaction, statement.getContext(transaction)));
 			assert term.getType().equals(statement.getInnerTerm(transaction));
 
-			PrintWriter printWriter = new PrintWriter("tmp/out.txt");
+			PrintWriter printWriter = new PrintWriter("tmp/term.txt");
 			term.print(printWriter, transaction, statement.getContext(transaction));
 			printWriter.close();
 		}
