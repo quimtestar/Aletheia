@@ -304,6 +304,7 @@ class ExportImport
 		registerTypeProtocol.send(out, RegisterType.End);
 	}
 
+	@SuppressWarnings("resource")
 	private void import_(DataInput in, ListenableAborter aborter, int statementProtocolVersion, int statementAuthorityDelegateTreeProtocolVersion,
 			int personProtocolVersion) throws IOException, ProtocolException, AbortException
 	{

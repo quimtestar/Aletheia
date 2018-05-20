@@ -35,7 +35,7 @@ import aletheia.utilities.MiscUtilities;
  * be locked to other transactions to keep consistency.
  *
  */
-public abstract class Transaction
+public abstract class Transaction implements AutoCloseable
 {
 	public interface Hook
 	{
@@ -144,6 +144,15 @@ public abstract class Transaction
 			}
 			notifyAll();
 		}
+	}
+
+	/**
+	 * Just a call to {@link #abort()}. Go override there.
+	 */
+	@Override
+	public final void close()
+	{
+		abort();
 	}
 
 	/**
