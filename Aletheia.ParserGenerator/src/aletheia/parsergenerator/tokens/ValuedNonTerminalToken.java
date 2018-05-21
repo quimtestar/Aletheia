@@ -2,6 +2,7 @@ package aletheia.parsergenerator.tokens;
 
 import aletheia.parsergenerator.symbols.NonTerminalSymbol;
 
+//TODO: will this be really useful?
 public class ValuedNonTerminalToken<V> extends NonTerminalToken
 {
 	private final V value;
