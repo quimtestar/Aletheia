@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.test.unsorted;
+package aletheia.test.unsorted.parse_on_the_fly;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -32,10 +32,10 @@ import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
 
-public class Test0003 extends TransactionalBerkeleyDBPersistenceManagerTest
+public class Test0001 extends TransactionalBerkeleyDBPersistenceManagerTest
 {
 
-	public Test0003()
+	public Test0001()
 	{
 		super();
 	}
