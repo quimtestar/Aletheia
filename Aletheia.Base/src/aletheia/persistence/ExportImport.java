@@ -304,11 +304,9 @@ class ExportImport
 		registerTypeProtocol.send(out, RegisterType.End);
 	}
 
-	@SuppressWarnings("resource")
 	private void import_(DataInput in, ListenableAborter aborter, int statementProtocolVersion, int statementAuthorityDelegateTreeProtocolVersion,
 			int personProtocolVersion) throws IOException, ProtocolException, AbortException
 	{
-		Transaction transaction = beginTransaction();
 		class AborterListener implements ListenableAborter.Listener
 		{
 			private Transaction transaction;
@@ -326,47 +324,47 @@ class ExportImport
 		}
 		AborterListener aborterListener = new AborterListener();
 		aborter.addListener(aborterListener);
-		aborterListener.setTransaction(transaction);
-		StatementProtocol statementProtocol = new StatementProtocol(statementProtocolVersion, persistenceManager, transaction);
-		StatementAuthorityDelegateTreeProtocol statementAuthorityProtocol = new StatementAuthorityDelegateTreeProtocol(
-				statementAuthorityDelegateTreeProtocolVersion, persistenceManager, transaction);
-		PersonProtocol personProtocol = new PersonProtocol(personProtocolVersion, persistenceManager, transaction);
 
 		int recvd = 0;
 		try
 		{
 			loop: while (true)
 			{
-				RegisterType type = registerTypeProtocol.recv(in);
-				switch (type)
+				try (Transaction transaction = beginTransaction())
 				{
-				case Statement:
-					statementProtocol.recv(in);
-					break;
-				case Authority:
-					statementAuthorityProtocol.recv(in);
-					break;
-				case Person:
-					personProtocol.recv(in);
-					break;
-				case End:
-					transaction.commit();
-					break loop;
-				}
-
-				recvd++;
-				if (recvd % 1000 == 0)
-				{
-					logger.info("--> restore:" + recvd);
-					transaction.commit();
-					transaction = beginTransaction();
 					aborterListener.setTransaction(transaction);
-					statementProtocol = new StatementProtocol(statementProtocolVersion, persistenceManager, transaction);
-					statementAuthorityProtocol = new StatementAuthorityDelegateTreeProtocol(statementAuthorityDelegateTreeProtocolVersion, persistenceManager,
-							transaction);
-					personProtocol = new PersonProtocol(personProtocolVersion, persistenceManager, transaction);
-				}
+					StatementProtocol statementProtocol = new StatementProtocol(statementProtocolVersion, persistenceManager, transaction);
+					StatementAuthorityDelegateTreeProtocol statementAuthorityProtocol = new StatementAuthorityDelegateTreeProtocol(
+							statementAuthorityDelegateTreeProtocolVersion, persistenceManager, transaction);
+					PersonProtocol personProtocol = new PersonProtocol(personProtocolVersion, persistenceManager, transaction);
+					while (true)
+					{
+						RegisterType type = registerTypeProtocol.recv(in);
+						switch (type)
+						{
+						case Statement:
+							statementProtocol.recv(in);
+							break;
+						case Authority:
+							statementAuthorityProtocol.recv(in);
+							break;
+						case Person:
+							personProtocol.recv(in);
+							break;
+						case End:
+							transaction.commit();
+							break loop;
+						}
 
+						recvd++;
+						if (recvd % 1000 == 0)
+						{
+							logger.info("--> restore:" + recvd);
+							break;
+						}
+					}
+					transaction.commit();
+				}
 			}
 		}
 		catch (Exception e)
@@ -377,7 +375,6 @@ class ExportImport
 		finally
 		{
 			aborter.removeListener(aborterListener);
-			transaction.abort();
 		}
 		logger.info("--> restore:" + recvd);
 	}
