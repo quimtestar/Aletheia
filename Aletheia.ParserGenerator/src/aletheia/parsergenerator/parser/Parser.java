@@ -209,7 +209,7 @@ public abstract class Parser implements Serializable
 	 * @return The {@link Token} containing the parsed structure.
 	 * @throws ParserLexerException
 	 */
-	protected NonTerminalToken parseToken(Lexer lexer, NonTerminalTokenFactory tokenFactory) throws ParserLexerException
+	protected <T extends NonTerminalToken> T parseToken(Lexer lexer, NonTerminalTokenFactory<T> tokenFactory) throws ParserLexerException
 	{
 		Stack<State> stateStack = new Stack<>();
 		Stack<Token<?>> inputStack = new Stack<>();
@@ -222,7 +222,9 @@ public abstract class Parser implements Serializable
 				inputStack.push(lexer.readToken());
 			if (state.equals(transitionTable.getAcceptState()) && inputStack.peek().getSymbol().equals(EndTerminalSymbol.instance))
 			{
-				return (NonTerminalToken) outputStack.pop();
+				@SuppressWarnings("unchecked")
+				T pop = (T) outputStack.pop();
+				return pop;
 			}
 			State shiftTo = transitionTable.getTransitions().get(state).get(inputStack.peek().getSymbol());
 			if (shiftTo != null)
@@ -259,7 +261,7 @@ public abstract class Parser implements Serializable
 
 	protected ParseTreeToken parseToken(Lexer lexer) throws ParserLexerException
 	{
-		return (ParseTreeToken) parseToken(lexer, new ParseTreeTokenFactory());
+		return parseToken(lexer, new ParseTreeTokenFactory());
 	}
 
 	/**
