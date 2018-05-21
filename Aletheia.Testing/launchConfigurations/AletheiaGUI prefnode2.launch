@@ -11,4 +11,5 @@
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="aletheia.gui.app.AletheiaGUI"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Aletheia.GUI"/>
 <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Daletheia.preferences.node=aletheia2 -Daletheia.p2pnode.properties.file=aletheia2.p2pnode.properties -Daletheia.title=Ἀλήθεια2 -Daletheia.gui.cli.commands=aletheia.gui.cli.commands.txt"/>
+<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:Aletheia.Testing}"/>
 </launchConfiguration>

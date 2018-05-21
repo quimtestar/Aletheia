@@ -5,7 +5,7 @@ import java.util.List;
 import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.symbols.Symbol;
 
-public class ParseTreeTokenFactory extends TokenFactory<ParseTreeToken>
+public class ParseTreeTokenFactory extends NonTerminalTokenFactory
 {
 
 	@Override

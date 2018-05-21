@@ -24,7 +24,6 @@ import java.util.Collections;
 import java.util.List;
 
 import aletheia.parsergenerator.parser.Production;
-import aletheia.parsergenerator.symbols.NonTerminalSymbol;
 import aletheia.parsergenerator.symbols.Symbol;
 
 /**
@@ -33,7 +32,7 @@ import aletheia.parsergenerator.symbols.Symbol;
  * corresponding to the symbols on the right part of that production used to
  * create it.
  */
-public class ParseTreeToken extends Token<NonTerminalSymbol>
+public class ParseTreeToken extends NonTerminalToken
 {
 	private final Production production;
 	private final List<Token<? extends Symbol>> children;
