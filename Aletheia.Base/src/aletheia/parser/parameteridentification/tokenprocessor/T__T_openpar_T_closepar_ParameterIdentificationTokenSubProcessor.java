@@ -22,7 +22,7 @@ package aletheia.parser.parameteridentification.tokenprocessor;
 import aletheia.model.term.CompositionTerm.CompositionParameterIdentification;
 import aletheia.model.term.Term.ParameterIdentification;
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 
 @ProcessorProduction(left = "T_", right =
 { "T", "openpar", "T", "closepar" })
@@ -35,10 +35,10 @@ public class T__T_openpar_T_closepar_ParameterIdentificationTokenSubProcessor ex
 	}
 
 	@Override
-	protected ParameterIdentification subProcess(NonTerminalToken token) throws TokenProcessorException
+	protected ParameterIdentification subProcess(ParseTreeToken token) throws TokenProcessorException
 	{
-		ParameterIdentification head = getProcessor().processParameterIdentification((NonTerminalToken) token.getChildren().get(0));
-		ParameterIdentification tail = getProcessor().processParameterIdentification((NonTerminalToken) token.getChildren().get(2));
+		ParameterIdentification head = getProcessor().processParameterIdentification((ParseTreeToken) token.getChildren().get(0));
+		ParameterIdentification tail = getProcessor().processParameterIdentification((ParseTreeToken) token.getChildren().get(2));
 		if (head instanceof CompositionParameterIdentification || head == null)
 			return new CompositionParameterIdentification((CompositionParameterIdentification) head, tail);
 		else

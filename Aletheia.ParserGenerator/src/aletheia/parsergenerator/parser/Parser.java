@@ -38,19 +38,21 @@ import aletheia.parsergenerator.parser.TransitionTable.State;
 import aletheia.parsergenerator.symbols.EndTerminalSymbol;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.tokens.Location;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
+import aletheia.parsergenerator.tokens.ParseTreeTokenFactory;
 import aletheia.parsergenerator.tokens.TerminalToken;
 import aletheia.parsergenerator.tokens.Token;
+import aletheia.parsergenerator.tokens.TokenFactory;
 
 /**
  * A class that parses. That is, use a {@link TransitionTable} for converting
  * the flow of {@link TerminalToken}s produced by a {@link Lexer} to a
- * {@link NonTerminalToken} object according to the {@link Grammar} rules. Once
+ * {@link ParseTreeToken} object according to the {@link Grammar} rules. Once
  * generated, a parser might be saved to a file for further use skipping the
  * generation phase.
  *
  * This class is abstract; his subclasses will typically implement a method that
- * builds the useful parsed objects by converting the {@link NonTerminalToken}
+ * builds the useful parsed objects by converting the {@link ParseTreeToken}
  * structure returned by the {@link #parseToken(Lexer)} method.
  *
  */
@@ -195,15 +197,18 @@ public abstract class Parser implements Serializable
 	}
 
 	/**
-	 * Parse the flow of terminal tokens served by a lexer, building a non
-	 * terminal token.
+	 * Parse the flow of terminal tokens served by a lexer, building a output
+	 * token using the given token factory.
 	 *
 	 * @param lexer
 	 *            The lexer.
-	 * @return The {@link NonTerminalToken} containing the parsed structure.
+	 * @param tokenFactory
+	 *            The token factory.
+	 * 
+	 * @return The {@link Token} containing the parsed structure.
 	 * @throws ParserLexerException
 	 */
-	protected NonTerminalToken parseToken(Lexer lexer) throws ParserLexerException
+	protected <T extends Token<? extends Symbol>> T parseToken(Lexer lexer, TokenFactory<T> tokenFactory) throws ParserLexerException
 	{
 		Stack<State> stateStack = new Stack<>();
 		Stack<Token<?>> inputStack = new Stack<>();
@@ -216,10 +221,9 @@ public abstract class Parser implements Serializable
 				inputStack.push(lexer.readToken());
 			if (state.equals(transitionTable.getAcceptState()) && inputStack.peek().getSymbol().equals(EndTerminalSymbol.instance))
 			{
-				Token<?> token = outputStack.pop();
-				if (!(token instanceof NonTerminalToken))
-					throw new Error();
-				return (NonTerminalToken) token;
+				@SuppressWarnings("unchecked")
+				T pop = (T) outputStack.pop();
+				return pop;
 			}
 			State shiftTo = transitionTable.getTransitions().get(state).get(inputStack.peek().getSymbol());
 			if (shiftTo != null)
@@ -248,10 +252,15 @@ public abstract class Parser implements Serializable
 					if (stopLocation == null)
 						stopLocation = token.getStopLocation();
 				}
-				inputStack.push(new NonTerminalToken(prod, startLocation, stopLocation, children));
+				inputStack.push(tokenFactory.makeToken(prod, startLocation, stopLocation, children));
 			}
 		}
 		throw new Error();
+	}
+
+	protected ParseTreeToken parseToken(Lexer lexer) throws ParserLexerException
+	{
+		return parseToken(lexer, new ParseTreeTokenFactory());
 	}
 
 	/**

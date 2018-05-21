@@ -33,7 +33,7 @@ import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefList;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefWithValue;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.ReverseList;
 
@@ -47,12 +47,12 @@ public class F_openfun_TPL_arrow_T_closefun_TermTokenSubProcessor extends TermTo
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
+	protected Term subProcess(ParseTreeToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
 			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TokenProcessorException
 	{
-		TypedParameterRefList typedParameterRefList = getProcessor().processTypedParameterRefList((NonTerminalToken) token.getChildren().get(1), context,
+		TypedParameterRefList typedParameterRefList = getProcessor().processTypedParameterRefList((ParseTreeToken) token.getChildren().get(1), context,
 				transaction, tempParameterTable, parameterIdentifiers);
-		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(3), context, transaction, tempParameterTable, parameterIdentifiers);
+		Term term = getProcessor().processTerm((ParseTreeToken) token.getChildren().get(3), context, transaction, tempParameterTable, parameterIdentifiers);
 		for (TypedParameterRef typedParameterRef : new ReverseList<>(typedParameterRefList.getList()))
 		{
 			try

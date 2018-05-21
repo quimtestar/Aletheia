@@ -25,7 +25,7 @@ import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 import aletheia.parsergenerator.tokens.TerminalToken;
 import aletheia.persistence.Transaction;
 
@@ -40,7 +40,7 @@ public class Sps_uuid_bar_Sp_StatementReferenceTokenSubProcessor extends Stateme
 	}
 
 	@Override
-	public Term subProcess(NonTerminalToken token, Context context, Transaction transaction, ReferenceType referenceType) throws TokenProcessorException
+	public Term subProcess(ParseTreeToken token, Context context, Transaction transaction, ReferenceType referenceType) throws TokenProcessorException
 	{
 		UUID uuid = getProcessor().processUuid((TerminalToken) token.getChildren().get(0));
 		Statement st = transaction.getPersistenceManager().getStatement(transaction, uuid);
@@ -50,7 +50,7 @@ public class Sps_uuid_bar_Sp_StatementReferenceTokenSubProcessor extends Stateme
 		if (!(st instanceof Context))
 			throw new TokenProcessorException("Statement: " + "\"" + st.label() + "\"" + " not a context", token.getChildren().get(0).getStartLocation(),
 					token.getChildren().get(0).getStopLocation());
-		return getProcessor().processStatementReference((NonTerminalToken) token.getChildren().get(2), (Context) st, transaction, referenceType);
+		return getProcessor().processStatementReference((ParseTreeToken) token.getChildren().get(2), (Context) st, transaction, referenceType);
 	}
 
 }

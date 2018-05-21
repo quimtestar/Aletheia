@@ -34,7 +34,7 @@ import aletheia.utilities.collections.ReverseList;
  * @param <S>
  *            The symbol class that is associated to this token class.
  */
-public class Token<S extends Symbol>
+public abstract class Token<S extends Symbol>
 {
 	private final S symbol;
 	private final Location startLocation;
@@ -139,9 +139,9 @@ public class Token<S extends Symbol>
 				else
 					out.println();
 			}
-			else if (se.token instanceof NonTerminalToken)
+			else if (se.token instanceof ParseTreeToken)
 			{
-				NonTerminalToken nttok = (NonTerminalToken) se.token;
+				ParseTreeToken nttok = (ParseTreeToken) se.token;
 				out.println(": " + nttok.getProduction().getRight());
 				String indent = se.indent + " ";
 				for (Token<?> c : new ReverseList<>(nttok.getChildren()))

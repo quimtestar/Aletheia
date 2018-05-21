@@ -21,7 +21,7 @@ package aletheia.parser.parameteridentification.tokenprocessor;
 
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.parameteridentification.tokenprocessor.TokenProcessor.ParameterWithTypeList;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 
 public abstract class ParameterWithTypeListTokenSubProcessor extends TokenSubProcessor<ParameterWithTypeList, Void>
 {
@@ -32,11 +32,11 @@ public abstract class ParameterWithTypeListTokenSubProcessor extends TokenSubPro
 	}
 
 	@Override
-	protected ParameterWithTypeList subProcess(NonTerminalToken token, Void parameter) throws TokenProcessorException
+	protected ParameterWithTypeList subProcess(ParseTreeToken token, Void parameter) throws TokenProcessorException
 	{
 		return subProcess(token);
 	}
 
-	protected abstract ParameterWithTypeList subProcess(NonTerminalToken token) throws TokenProcessorException;
+	protected abstract ParameterWithTypeList subProcess(ParseTreeToken token) throws TokenProcessorException;
 
 }

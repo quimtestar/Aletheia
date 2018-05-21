@@ -25,7 +25,7 @@ import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 import aletheia.parsergenerator.tokens.TerminalToken;
 import aletheia.persistence.Transaction;
 
@@ -40,7 +40,7 @@ public class Sts_uuid_StatementReferenceTokenSubProcessor extends StatementRefer
 	}
 
 	@Override
-	public Term subProcess(NonTerminalToken token, Context context, Transaction transaction, ReferenceType referenceType) throws TokenProcessorException
+	public Term subProcess(ParseTreeToken token, Context context, Transaction transaction, ReferenceType referenceType) throws TokenProcessorException
 	{
 		UUID uuid = getProcessor().processUuid((TerminalToken) token.getChildren().get(0));
 		Statement statement = transaction.getPersistenceManager().getStatement(transaction, uuid);

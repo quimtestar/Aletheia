@@ -20,7 +20,7 @@
 package aletheia.parser.term.tokenprocessor;
 
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 
 @ProcessorProduction(left = "M", right = "hyphen")
 public class M_hyphen_BooleanTokenSubProcessor extends BooleanTokenSubProcessor
@@ -32,7 +32,7 @@ public class M_hyphen_BooleanTokenSubProcessor extends BooleanTokenSubProcessor
 	}
 
 	@Override
-	protected boolean subProcess(NonTerminalToken token) throws TokenProcessorException
+	protected boolean subProcess(ParseTreeToken token) throws TokenProcessorException
 	{
 		return true;
 	}

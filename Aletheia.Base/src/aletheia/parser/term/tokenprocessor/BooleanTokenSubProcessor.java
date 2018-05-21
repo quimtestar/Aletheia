@@ -20,7 +20,7 @@
 package aletheia.parser.term.tokenprocessor;
 
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 
 public abstract class BooleanTokenSubProcessor extends TokenSubProcessor<Boolean, Void>
 {
@@ -31,11 +31,11 @@ public abstract class BooleanTokenSubProcessor extends TokenSubProcessor<Boolean
 	}
 
 	@Override
-	protected Boolean subProcess(NonTerminalToken token, Void parameter) throws TokenProcessorException
+	protected Boolean subProcess(ParseTreeToken token, Void parameter) throws TokenProcessorException
 	{
 		return subProcess(token);
 	}
 
-	protected abstract boolean subProcess(NonTerminalToken token) throws TokenProcessorException;
+	protected abstract boolean subProcess(ParseTreeToken token) throws TokenProcessorException;
 
 }

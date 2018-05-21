@@ -37,7 +37,7 @@ import aletheia.parsergenerator.parser.TransitionTable.ConflictException;
 import aletheia.parsergenerator.parser.TransitionTableLalr1;
 import aletheia.parsergenerator.symbols.TaggedNonTerminalSymbol;
 import aletheia.parsergenerator.symbols.TaggedTerminalSymbol;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 import aletheia.parsergenerator.tokens.Token;
 
 /**
@@ -107,23 +107,23 @@ public class LexerParser extends Parser
 	 */
 	public AutomatonSet parse(LexerLexer lexerLexer) throws ParserLexerException
 	{
-		NonTerminalToken token = parseToken(lexerLexer);
+		ParseTreeToken token = parseToken(lexerLexer);
 		return processTokenLexer(token);
 	}
 
-	public AutomatonSet processTokenLexer(NonTerminalToken token)
+	public AutomatonSet processTokenLexer(ParseTreeToken token)
 	{
 		AutomatonSet automatonSet;
 		if (token.getProduction().getRight().size() == 3)
 		{
-			automatonSet = processTokenLexer((NonTerminalToken) token.getChildren().get(0));
-			AutomatonTag at = processTokenAutomatonTag((NonTerminalToken) token.getChildren().get(1));
+			automatonSet = processTokenLexer((ParseTreeToken) token.getChildren().get(0));
+			AutomatonTag at = processTokenAutomatonTag((ParseTreeToken) token.getChildren().get(1));
 			automatonSet.addAutomatonTag(at.automaton, at.tag);
 		}
 		else if (token.getProduction().getRight().size() == 2)
 		{
 			automatonSet = new AutomatonSet();
-			AutomatonTag at = processTokenAutomatonTag((NonTerminalToken) token.getChildren().get(0));
+			AutomatonTag at = processTokenAutomatonTag((ParseTreeToken) token.getChildren().get(0));
 			automatonSet.addAutomatonTag(at.automaton, at.tag);
 		}
 		else
@@ -144,9 +144,9 @@ public class LexerParser extends Parser
 		}
 	}
 
-	public AutomatonTag processTokenAutomatonTag(NonTerminalToken token)
+	public AutomatonTag processTokenAutomatonTag(ParseTreeToken token)
 	{
-		Automaton a = processTokenRegExp((NonTerminalToken) token.getChildren().get(1));
+		Automaton a = processTokenRegExp((ParseTreeToken) token.getChildren().get(1));
 		TaggedTerminalSymbol tag = null;
 		if (token.getProduction().getRight().size() > 4)
 		{
@@ -168,28 +168,28 @@ public class LexerParser extends Parser
 		}
 	}
 
-	private Automaton processTokenRegExp(NonTerminalToken token)
+	private Automaton processTokenRegExp(ParseTreeToken token)
 	{
 		if (token.getProduction().getLeft().equals(new TaggedNonTerminalSymbol("E")))
 		{
 			if (token.getProduction().getRight().size() == 1)
-				return processTokenRegExp((NonTerminalToken) token.getChildren().get(0));
+				return processTokenRegExp((ParseTreeToken) token.getChildren().get(0));
 			else if ((token.getProduction().getRight().size() == 3) && (token.getProduction().getRight().get(1).equals(new TaggedTerminalSymbol("UNION"))))
 			{
-				Automaton a1 = processTokenRegExp((NonTerminalToken) token.getChildren().get(0));
-				Automaton a2 = processTokenRegExp((NonTerminalToken) token.getChildren().get(2));
+				Automaton a1 = processTokenRegExp((ParseTreeToken) token.getChildren().get(0));
+				Automaton a2 = processTokenRegExp((ParseTreeToken) token.getChildren().get(2));
 				return a1.union(a2);
 			}
 			else if ((token.getProduction().getRight().size() == 3) && (token.getProduction().getRight().get(1).equals(new TaggedTerminalSymbol("CARET"))))
 			{
-				Automaton a1 = processTokenRegExp((NonTerminalToken) token.getChildren().get(0));
-				Automaton a2 = processTokenRegExp((NonTerminalToken) token.getChildren().get(2));
+				Automaton a1 = processTokenRegExp((ParseTreeToken) token.getChildren().get(0));
+				Automaton a2 = processTokenRegExp((ParseTreeToken) token.getChildren().get(2));
 				return a1.intersection(a2);
 			}
 			else if ((token.getProduction().getRight().size() == 3) && (token.getProduction().getRight().get(1).equals(new TaggedTerminalSymbol("HYPHEN"))))
 			{
-				Automaton a1 = processTokenRegExp((NonTerminalToken) token.getChildren().get(0));
-				Automaton a2 = processTokenRegExp((NonTerminalToken) token.getChildren().get(2));
+				Automaton a1 = processTokenRegExp((ParseTreeToken) token.getChildren().get(0));
+				Automaton a2 = processTokenRegExp((ParseTreeToken) token.getChildren().get(2));
 				return a1.subtraction(a2);
 			}
 			else
@@ -201,8 +201,8 @@ public class LexerParser extends Parser
 				return Automaton.emptyString();
 			else if ((token.getProduction().getRight().size() == 2))
 			{
-				Automaton a1 = processTokenRegExp((NonTerminalToken) token.getChildren().get(0));
-				Automaton a2 = processTokenRegExp((NonTerminalToken) token.getChildren().get(1));
+				Automaton a1 = processTokenRegExp((ParseTreeToken) token.getChildren().get(0));
+				Automaton a2 = processTokenRegExp((ParseTreeToken) token.getChildren().get(1));
 				return a1.concatenate(a2);
 			}
 			else
@@ -238,23 +238,23 @@ public class LexerParser extends Parser
 				{
 					if (token.getProduction().getRight().get(1).equals(new TaggedTerminalSymbol("KLEENE")))
 					{
-						Automaton a = processTokenRegExp((NonTerminalToken) token.getChildren().get(0));
+						Automaton a = processTokenRegExp((ParseTreeToken) token.getChildren().get(0));
 						return a.kleene();
 					}
 					else if (token.getProduction().getRight().get(1).equals(new TaggedTerminalSymbol("PLUS")))
 					{
-						Automaton a = processTokenRegExp((NonTerminalToken) token.getChildren().get(0));
+						Automaton a = processTokenRegExp((ParseTreeToken) token.getChildren().get(0));
 						return a.concatenate(a.kleene());
 					}
 					else if (token.getProduction().getRight().get(1).equals(new TaggedTerminalSymbol("QUESTION")))
 					{
-						Automaton a = processTokenRegExp((NonTerminalToken) token.getChildren().get(0));
+						Automaton a = processTokenRegExp((ParseTreeToken) token.getChildren().get(0));
 						return a.union(Automaton.emptyString());
 					}
 					else if (token.getProduction().getRight().get(1).equals(new TaggedNonTerminalSymbol("R")))
 					{
-						Automaton a = processTokenRegExp((NonTerminalToken) token.getChildren().get(0));
-						Interval i = processTokenInterval((NonTerminalToken) token.getChildren().get(1));
+						Automaton a = processTokenRegExp((ParseTreeToken) token.getChildren().get(0));
+						Interval i = processTokenInterval((ParseTreeToken) token.getChildren().get(1));
 						Automaton b = Automaton.emptyString();
 						for (int j = 0; j < i.from; j++)
 							b = b.concatenate(a);
@@ -286,11 +286,11 @@ public class LexerParser extends Parser
 			else if ((token.getProduction().getRight().size() == 3))
 			{
 				if (token.getProduction().getRight().get(0).equals(new TaggedTerminalSymbol("OP")))
-					return processTokenRegExp((NonTerminalToken) token.getChildren().get(1));
+					return processTokenRegExp((ParseTreeToken) token.getChildren().get(1));
 				if (token.getProduction().getRight().get(0).equals(new TaggedTerminalSymbol("OB")))
 				{
 					Set<Character> set = new TreeSet<>();
-					processTokenCharset((NonTerminalToken) token.getChildren().get(1), set);
+					processTokenCharset((ParseTreeToken) token.getChildren().get(1), set);
 					return Automaton.charset(set);
 				}
 				else
@@ -304,11 +304,11 @@ public class LexerParser extends Parser
 			throw new Error();
 	}
 
-	private Interval processTokenInterval(NonTerminalToken token)
+	private Interval processTokenInterval(ParseTreeToken token)
 	{
 		if (token.getProduction().getLeft().equals(new TaggedNonTerminalSymbol("R")))
 		{
-			return processTokenInterval((NonTerminalToken) token.getChildren().get(1));
+			return processTokenInterval((ParseTreeToken) token.getChildren().get(1));
 		}
 		else if (token.getProduction().getLeft().equals(new TaggedNonTerminalSymbol("I")))
 		{
@@ -346,12 +346,12 @@ public class LexerParser extends Parser
 
 	}
 
-	private void processTokenCharset(NonTerminalToken token, Set<Character> set)
+	private void processTokenCharset(ParseTreeToken token, Set<Character> set)
 	{
 		if (token.getProduction().getLeft().equals(new TaggedNonTerminalSymbol("D")))
 		{
 			for (Token<?> tok : token.getChildren())
-				processTokenCharset((NonTerminalToken) tok, set);
+				processTokenCharset((ParseTreeToken) tok, set);
 		}
 		else if (token.getProduction().getLeft().equals(new TaggedNonTerminalSymbol("C")))
 		{

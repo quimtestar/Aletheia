@@ -33,7 +33,7 @@ import aletheia.parsergenerator.symbols.Symbol;
  * corresponding to the symbols on the right part of that production used to
  * create it.
  */
-public class NonTerminalToken extends Token<NonTerminalSymbol>
+public class ParseTreeToken extends Token<NonTerminalSymbol>
 {
 	private final Production production;
 	private final List<Token<? extends Symbol>> children;
@@ -51,7 +51,7 @@ public class NonTerminalToken extends Token<NonTerminalSymbol>
 	 *            The list of tokens on which we are applying the production
 	 *            rule.
 	 */
-	public NonTerminalToken(Production production, Location startLocation, Location stopLocation, List<Token<? extends Symbol>> children)
+	public ParseTreeToken(Production production, Location startLocation, Location stopLocation, List<Token<? extends Symbol>> children)
 	{
 		super(production.getLeft(), startLocation, stopLocation);
 		this.production = production;
@@ -71,7 +71,7 @@ public class NonTerminalToken extends Token<NonTerminalSymbol>
 	@Override
 	public String toString()
 	{
-		return "NonTerminalToken [production=" + production + ", children=" + children + "]";
+		return "ParseTreeToken [production=" + production + ", children=" + children + "]";
 	}
 
 }

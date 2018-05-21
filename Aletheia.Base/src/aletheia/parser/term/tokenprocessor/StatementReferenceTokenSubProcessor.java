@@ -26,7 +26,7 @@ import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.tokens.Location;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 import aletheia.persistence.Transaction;
 
 public abstract class StatementReferenceTokenSubProcessor extends TokenSubProcessor<Term, StatementReferenceTokenSubProcessor.Parameter>
@@ -53,13 +53,12 @@ public abstract class StatementReferenceTokenSubProcessor extends TokenSubProces
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, Parameter parameter) throws TokenProcessorException
+	protected Term subProcess(ParseTreeToken token, Parameter parameter) throws TokenProcessorException
 	{
 		return subProcess(token, parameter.context, parameter.transaction, parameter.referenceType);
 	}
 
-	public abstract Term subProcess(NonTerminalToken token, Context context, Transaction transaction, ReferenceType referenceType)
-			throws TokenProcessorException;
+	public abstract Term subProcess(ParseTreeToken token, Context context, Transaction transaction, ReferenceType referenceType) throws TokenProcessorException;
 
 	protected Term dereferenceStatement(Statement statement, ReferenceType referenceType, Location startLocation, Location stopLocation)
 			throws TokenProcessorException

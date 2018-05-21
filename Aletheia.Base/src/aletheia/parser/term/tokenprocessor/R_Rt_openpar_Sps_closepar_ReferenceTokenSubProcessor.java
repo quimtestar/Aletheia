@@ -23,7 +23,7 @@ import aletheia.model.statement.Context;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 import aletheia.persistence.Transaction;
 
 @ProcessorProduction(left = "R", right =
@@ -37,10 +37,10 @@ public class R_Rt_openpar_Sps_closepar_ReferenceTokenSubProcessor extends Refere
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, Context context, Transaction transaction) throws TokenProcessorException
+	protected Term subProcess(ParseTreeToken token, Context context, Transaction transaction) throws TokenProcessorException
 	{
-		ReferenceType referenceType = getProcessor().processReferenceType((NonTerminalToken) token.getChildren().get(0));
-		Term term = getProcessor().processStatementReference((NonTerminalToken) token.getChildren().get(2), context, transaction, referenceType);
+		ReferenceType referenceType = getProcessor().processReferenceType((ParseTreeToken) token.getChildren().get(0));
+		Term term = getProcessor().processStatementReference((ParseTreeToken) token.getChildren().get(2), context, transaction, referenceType);
 		for (IdentifiableVariableTerm v : term.freeIdentifiableVariables())
 		{
 			if (context == null)

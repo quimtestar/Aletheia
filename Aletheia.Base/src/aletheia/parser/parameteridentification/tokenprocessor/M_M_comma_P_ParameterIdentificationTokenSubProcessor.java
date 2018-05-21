@@ -21,7 +21,7 @@ package aletheia.parser.parameteridentification.tokenprocessor;
 
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.parameteridentification.tokenprocessor.TokenProcessor.ParameterWithTypeList;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 
 @ProcessorProduction(left = "M", right =
 { "M", "comma", "P" })
@@ -34,10 +34,10 @@ public class M_M_comma_P_ParameterIdentificationTokenSubProcessor extends Parame
 	}
 
 	@Override
-	protected ParameterWithTypeList subProcess(NonTerminalToken token) throws TokenProcessorException
+	protected ParameterWithTypeList subProcess(ParseTreeToken token) throws TokenProcessorException
 	{
-		ParameterWithTypeList list = getProcessor().processParameterWithTypeList((NonTerminalToken) token.getChildren().get(0));
-		list.add(getProcessor().processParameterWithType((NonTerminalToken) token.getChildren().get(2)));
+		ParameterWithTypeList list = getProcessor().processParameterWithTypeList((ParseTreeToken) token.getChildren().get(0));
+		list.add(getProcessor().processParameterWithType((ParseTreeToken) token.getChildren().get(2)));
 		return list;
 	}
 

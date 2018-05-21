@@ -27,7 +27,7 @@ import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 import aletheia.persistence.Transaction;
 
 @ProcessorProduction(left = "A", right =
@@ -40,13 +40,13 @@ public class A_R_TermTokenSubProcessor extends TermTokenSubProcessor
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
+	protected Term subProcess(ParseTreeToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
 			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TokenProcessorException
 	{
 		if (transaction == null)
 			throw new TokenProcessorException("Can't process references", token.getChildren().get(0).getStartLocation(),
 					token.getChildren().get(0).getStopLocation());
-		return getProcessor().processReference((NonTerminalToken) token.getChildren().get(0), context, transaction);
+		return getProcessor().processReference((ParseTreeToken) token.getChildren().get(0), context, transaction);
 	}
 
 }

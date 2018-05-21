@@ -21,7 +21,7 @@ package aletheia.parser.term.tokenprocessor;
 
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 
 public abstract class ParameterRefTokenSubProcessor extends TokenSubProcessor<ParameterRef, Void>
 {
@@ -31,11 +31,11 @@ public abstract class ParameterRefTokenSubProcessor extends TokenSubProcessor<Pa
 	}
 
 	@Override
-	protected ParameterRef subProcess(NonTerminalToken token, Void parameter) throws TokenProcessorException
+	protected ParameterRef subProcess(ParseTreeToken token, Void parameter) throws TokenProcessorException
 	{
 		return subProcess(token);
 	}
 
-	protected abstract ParameterRef subProcess(NonTerminalToken token) throws TokenProcessorException;
+	protected abstract ParameterRef subProcess(ParseTreeToken token) throws TokenProcessorException;
 
 }

@@ -28,7 +28,7 @@ import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.Term;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 import aletheia.persistence.Transaction;
 
 @ProcessorProduction(left = "A", right =
@@ -41,10 +41,10 @@ public class A_A_tilde_TermTokenSubProcessor extends TermTokenSubProcessor
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
+	protected Term subProcess(ParseTreeToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
 			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TokenProcessorException
 	{
-		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), context, transaction, tempParameterTable);
+		Term term = getProcessor().processTerm((ParseTreeToken) token.getChildren().get(0), context, transaction, tempParameterTable);
 		if (term instanceof ProjectionTerm)
 			return ((ProjectionTerm) term).getFunction();
 		else

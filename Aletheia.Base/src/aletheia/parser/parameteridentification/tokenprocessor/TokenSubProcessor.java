@@ -20,7 +20,7 @@
 package aletheia.parser.parameteridentification.tokenprocessor;
 
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 
 public abstract class TokenSubProcessor<R, P>
 {
@@ -37,6 +37,6 @@ public abstract class TokenSubProcessor<R, P>
 		return processor;
 	}
 
-	protected abstract R subProcess(NonTerminalToken token, P parameter) throws TokenProcessorException;
+	protected abstract R subProcess(ParseTreeToken token, P parameter) throws TokenProcessorException;
 
 }

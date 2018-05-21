@@ -32,7 +32,7 @@ import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.parser.Grammar;
 import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.symbols.Symbol;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 
 public class TokenProcessor
 {
@@ -181,12 +181,12 @@ public class TokenProcessor
 		return subProcessorClass.cast(subProcessor);
 	}
 
-	public ParameterIdentification process(NonTerminalToken token) throws TokenProcessorException
+	public ParameterIdentification process(ParseTreeToken token) throws TokenProcessorException
 	{
 		return processParameterIdentification(token);
 	}
 
-	protected ParameterIdentification processParameterIdentification(NonTerminalToken token) throws TokenProcessorException
+	protected ParameterIdentification processParameterIdentification(ParseTreeToken token) throws TokenProcessorException
 	{
 		ParameterIdentificationTokenSubProcessor processor = getProcessor(ParameterIdentificationTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
@@ -194,7 +194,7 @@ public class TokenProcessor
 		return processor.subProcess(token);
 	}
 
-	protected Identifier processIdentifier(NonTerminalToken token) throws TokenProcessorException
+	protected Identifier processIdentifier(ParseTreeToken token) throws TokenProcessorException
 	{
 		IdentifierTokenSubProcessor processor = getProcessor(IdentifierTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
@@ -226,7 +226,7 @@ public class TokenProcessor
 
 	}
 
-	protected ParameterWithType processParameterWithType(NonTerminalToken token) throws TokenProcessorException
+	protected ParameterWithType processParameterWithType(ParseTreeToken token) throws TokenProcessorException
 	{
 		ParameterWithTypeTokenSubProcessor processor = getProcessor(ParameterWithTypeTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
@@ -240,7 +240,7 @@ public class TokenProcessor
 
 	}
 
-	protected ParameterWithTypeList processParameterWithTypeList(NonTerminalToken token) throws TokenProcessorException
+	protected ParameterWithTypeList processParameterWithTypeList(ParseTreeToken token) throws TokenProcessorException
 	{
 		ParameterWithTypeListTokenSubProcessor processor = getProcessor(ParameterWithTypeListTokenSubProcessor.class, token.getProduction());
 		if (processor == null)

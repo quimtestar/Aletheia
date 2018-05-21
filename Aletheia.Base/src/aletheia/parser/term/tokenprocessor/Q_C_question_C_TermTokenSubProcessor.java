@@ -29,7 +29,7 @@ import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 import aletheia.persistence.Transaction;
 
 @ProcessorProduction(left = "Q", right =
@@ -43,11 +43,11 @@ public class Q_C_question_C_TermTokenSubProcessor extends TermTokenSubProcessor
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
+	protected Term subProcess(ParseTreeToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
 			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TokenProcessorException
 	{
-		Term termMatch = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), context, transaction, tempParameterTable);
-		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(2), context, transaction, tempParameterTable);
+		Term termMatch = getProcessor().processTerm((ParseTreeToken) token.getChildren().get(0), context, transaction, tempParameterTable);
+		Term term = getProcessor().processTerm((ParseTreeToken) token.getChildren().get(2), context, transaction, tempParameterTable);
 		List<ParameterVariableTerm> assignable = new ArrayList<>();
 		Term.Match match = termMatch.consequent(assignable).match(new HashSet<>(assignable), term);
 		if (match == null)

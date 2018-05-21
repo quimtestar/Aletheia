@@ -33,7 +33,7 @@ import aletheia.parsergenerator.symbols.NonTerminalSymbol;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.symbols.TaggedNonTerminalSymbol;
 import aletheia.parsergenerator.symbols.TaggedTerminalSymbol;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 import aletheia.parsergenerator.tokens.Token;
 
 /**
@@ -70,7 +70,7 @@ public class GrammarParser extends Parser
 	 */
 	protected Grammar parse(GrammarLexer lexer) throws ParserLexerException
 	{
-		NonTerminalToken token = parseToken(lexer);
+		ParseTreeToken token = parseToken(lexer);
 		Set<String> leftTags = new HashSet<>();
 		leftTags(token, leftTags);
 		Map<String, TaggedNonTerminalSymbol> mapLeft = new HashMap<>();
@@ -105,14 +105,14 @@ public class GrammarParser extends Parser
 		return parse(new GrammarLexer(reader));
 	}
 
-	private void productions(NonTerminalToken token, Map<String, Symbol> mapSymbols, Set<Production> set)
+	private void productions(ParseTreeToken token, Map<String, Symbol> mapSymbols, Set<Production> set)
 	{
 		if (token.getProduction().equals(GrammarGrammar.prodG))
-			productions((NonTerminalToken) token.getChildren().get(1), mapSymbols, set);
+			productions((ParseTreeToken) token.getChildren().get(1), mapSymbols, set);
 		else if (token.getProduction().equals(GrammarGrammar.prodQ))
 		{
-			productions((NonTerminalToken) token.getChildren().get(0), mapSymbols, set);
-			productions((NonTerminalToken) token.getChildren().get(1), mapSymbols, set);
+			productions((ParseTreeToken) token.getChildren().get(0), mapSymbols, set);
+			productions((ParseTreeToken) token.getChildren().get(1), mapSymbols, set);
 		}
 		else if (token.getProduction().equals(GrammarGrammar.prodP))
 		{
@@ -120,32 +120,32 @@ public class GrammarParser extends Parser
 		}
 	}
 
-	private Production production(NonTerminalToken token, Map<String, Symbol> mapSymbols)
+	private Production production(ParseTreeToken token, Map<String, Symbol> mapSymbols)
 	{
 		NonTerminalSymbol left = (NonTerminalSymbol) mapSymbols.get(((GrammarLexer.IdentifierToken) token.getChildren().get(0)).getText());
 		List<Symbol> right = new ArrayList<>();
-		rightProduction((NonTerminalToken) token.getChildren().get(2), mapSymbols, right);
+		rightProduction((ParseTreeToken) token.getChildren().get(2), mapSymbols, right);
 		return new Production(left, right);
 	}
 
-	private void rightProduction(NonTerminalToken token, Map<String, Symbol> mapSymbols, List<Symbol> right)
+	private void rightProduction(ParseTreeToken token, Map<String, Symbol> mapSymbols, List<Symbol> right)
 	{
 		if (token.getProduction().equals(GrammarGrammar.prodR))
 		{
-			rightProduction((NonTerminalToken) token.getChildren().get(0), mapSymbols, right);
+			rightProduction((ParseTreeToken) token.getChildren().get(0), mapSymbols, right);
 			Symbol s = mapSymbols.get(((GrammarLexer.IdentifierToken) token.getChildren().get(1)).getText());
 			right.add(s);
 		}
 	}
 
-	private void leftTags(NonTerminalToken token, Set<String> set)
+	private void leftTags(ParseTreeToken token, Set<String> set)
 	{
 		if (token.getProduction().equals(GrammarGrammar.prodG))
-			leftTags((NonTerminalToken) token.getChildren().get(1), set);
+			leftTags((ParseTreeToken) token.getChildren().get(1), set);
 		else if (token.getProduction().equals(GrammarGrammar.prodQ))
 		{
-			leftTags((NonTerminalToken) token.getChildren().get(0), set);
-			leftTags((NonTerminalToken) token.getChildren().get(1), set);
+			leftTags((ParseTreeToken) token.getChildren().get(0), set);
+			leftTags((ParseTreeToken) token.getChildren().get(1), set);
 		}
 		else if (token.getProduction().equals(GrammarGrammar.prodP))
 		{
@@ -153,27 +153,27 @@ public class GrammarParser extends Parser
 		}
 	}
 
-	private void rightTags(NonTerminalToken token, Set<String> set)
+	private void rightTags(ParseTreeToken token, Set<String> set)
 	{
 		if (token.getProduction().equals(GrammarGrammar.prodG))
-			rightTags((NonTerminalToken) token.getChildren().get(1), set);
+			rightTags((ParseTreeToken) token.getChildren().get(1), set);
 		else if (token.getProduction().equals(GrammarGrammar.prodQ))
 		{
-			rightTags((NonTerminalToken) token.getChildren().get(0), set);
-			rightTags((NonTerminalToken) token.getChildren().get(1), set);
+			rightTags((ParseTreeToken) token.getChildren().get(0), set);
+			rightTags((ParseTreeToken) token.getChildren().get(1), set);
 		}
 		else if (token.getProduction().equals(GrammarGrammar.prodP))
 		{
-			rightTags((NonTerminalToken) token.getChildren().get(2), set);
+			rightTags((ParseTreeToken) token.getChildren().get(2), set);
 		}
 		else if (token.getProduction().equals(GrammarGrammar.prodR))
 		{
-			rightTags((NonTerminalToken) token.getChildren().get(0), set);
+			rightTags((ParseTreeToken) token.getChildren().get(0), set);
 			set.add(((GrammarLexer.IdentifierToken) token.getChildren().get(1)).getText());
 		}
 	}
 
-	private String startTag(NonTerminalToken token)
+	private String startTag(ParseTreeToken token)
 	{
 		if (!token.getProduction().equals(GrammarGrammar.prodG))
 			throw new Error();

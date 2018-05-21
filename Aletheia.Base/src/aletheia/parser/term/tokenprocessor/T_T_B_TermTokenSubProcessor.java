@@ -28,7 +28,7 @@ import aletheia.model.term.Term;
 import aletheia.model.term.Term.ComposeTypeException;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 import aletheia.persistence.Transaction;
 
 @ProcessorProduction(left = "T", right =
@@ -42,11 +42,11 @@ public class T_T_B_TermTokenSubProcessor extends TermTokenSubProcessor
 	}
 
 	@Override
-	protected Term subProcess(NonTerminalToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
+	protected Term subProcess(ParseTreeToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
 			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TokenProcessorException
 	{
-		Term term = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(0), context, transaction, tempParameterTable);
-		Term tail = getProcessor().processTerm((NonTerminalToken) token.getChildren().get(1), context, transaction, tempParameterTable);
+		Term term = getProcessor().processTerm((ParseTreeToken) token.getChildren().get(0), context, transaction, tempParameterTable);
+		Term tail = getProcessor().processTerm((ParseTreeToken) token.getChildren().get(1), context, transaction, tempParameterTable);
 		try
 		{
 			return term.compose(tail);

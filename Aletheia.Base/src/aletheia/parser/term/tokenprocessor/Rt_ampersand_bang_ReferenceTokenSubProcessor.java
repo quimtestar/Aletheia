@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.parser.term.tokenprocessor;
 
-import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.ParseTreeToken;
 
 @ProcessorProduction(left = "R_t", right =
 { "ampersand", "bang" })
@@ -32,7 +32,7 @@ public class Rt_ampersand_bang_ReferenceTokenSubProcessor extends ReferenceTypeT
 	}
 
 	@Override
-	protected ReferenceType subProcess(NonTerminalToken token)
+	protected ReferenceType subProcess(ParseTreeToken token)
 	{
 		return ReferenceType.VALUE;
 	}
