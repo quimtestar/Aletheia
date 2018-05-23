@@ -5,11 +5,11 @@ import java.util.List;
 import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.symbols.Symbol;
 
-public class ParseTreeTokenFactory extends NonTerminalTokenFactory<ParseTreeToken>
+public class ParseTreeTokenReducer extends TokenReducer<ParseTreeToken>
 {
 
 	@Override
-	public ParseTreeToken reduceToken(List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+	public ParseTreeToken reduce(List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
 	{
 		return new ParseTreeToken(production, reducees);
 	}

@@ -39,10 +39,10 @@ import aletheia.parsergenerator.symbols.EndTerminalSymbol;
 import aletheia.parsergenerator.tokens.Location;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.ParseTreeToken;
-import aletheia.parsergenerator.tokens.ParseTreeTokenFactory;
+import aletheia.parsergenerator.tokens.ParseTreeTokenReducer;
 import aletheia.parsergenerator.tokens.TerminalToken;
 import aletheia.parsergenerator.tokens.Token;
-import aletheia.parsergenerator.tokens.NonTerminalTokenFactory;
+import aletheia.parsergenerator.tokens.TokenReducer;
 
 /**
  * A class that parses. That is, use a {@link TransitionTable} for converting
@@ -208,7 +208,7 @@ public abstract class Parser implements Serializable
 	 * @return The {@link Token} containing the parsed structure.
 	 * @throws ParserLexerException
 	 */
-	protected <T extends NonTerminalToken> T parseToken(Lexer lexer, NonTerminalTokenFactory<T> tokenFactory) throws ParserLexerException
+	protected <T extends NonTerminalToken> T parseToken(Lexer lexer, TokenReducer<T> tokenReducer) throws ParserLexerException
 	{
 		Stack<State> stateStack = new Stack<>();
 		Stack<Token<?>> inputStack = new Stack<>();
@@ -238,7 +238,7 @@ public abstract class Parser implements Serializable
 					throw new UnexpectedTokenException(inputStack.peek(), state);
 				List<Token<?>> antecedents = Collections.unmodifiableList(outputStack.subList(0, outputStack.size() - prod.getRight().size()));
 				List<Token<?>> reducees = Collections.unmodifiableList(outputStack.subList(outputStack.size() - prod.getRight().size(), outputStack.size()));
-				inputStack.push(tokenFactory.reduceToken(antecedents, prod, reducees));
+				inputStack.push(tokenReducer.reduce(antecedents, prod, reducees));
 				outputStack.setSize(outputStack.size() - prod.getRight().size());
 				stateStack.setSize(stateStack.size() - prod.getRight().size());
 			}
@@ -248,7 +248,7 @@ public abstract class Parser implements Serializable
 
 	protected ParseTreeToken parseToken(Lexer lexer) throws ParserLexerException
 	{
-		return parseToken(lexer, new ParseTreeTokenFactory());
+		return parseToken(lexer, new ParseTreeTokenReducer());
 	}
 
 	/**
