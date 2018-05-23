@@ -40,7 +40,7 @@ public class Test0000 extends TransactionalBerkeleyDBPersistenceManagerTest
 	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws AletheiaParserException
 	{
 		Context context = persistenceManager.getContext(transaction, UUID.fromString("42cc8199-8159-5567-b65c-db023f95eaa3"));
-		Term term = context.parseTerm(transaction, "<x:Set, y:Set, Set.Equal x y -> Set.Equal y x>");
+		Term term = context.parseTerm(transaction, "<x:Set, y:Set -> < Set.Equal x y -> Set.Equal y x>>");
 		System.out.println(context.unparseTerm(transaction, term));
 	}
 

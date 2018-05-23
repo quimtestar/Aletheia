@@ -28,15 +28,14 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.ListIterator;
+import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 import aletheia.parsergenerator.ParserLexerException;
 import aletheia.parsergenerator.lexer.Lexer;
 import aletheia.parsergenerator.parser.TransitionTable.State;
 import aletheia.parsergenerator.symbols.EndTerminalSymbol;
-import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.tokens.Location;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.ParseTreeToken;
@@ -237,23 +236,11 @@ public abstract class Parser implements Serializable
 				Production prod = transitionTable.getReductions().get(state).get(inputStack.peek().getSymbol());
 				if (prod == null)
 					throw new UnexpectedTokenException(inputStack.peek(), state);
-				LinkedList<Token<?>> children = new LinkedList<>();
-				Location startLocation = null;
-				Location stopLocation = null;
-				for (ListIterator<Symbol> i = prod.getRight().listIterator(prod.getRight().size()); i.hasPrevious();)
-				{
-					Symbol s = i.previous();
-					stateStack.pop();
-					Token<? extends Symbol> token = outputStack.pop();
-					if (!token.getSymbol().equals(s))
-						throw new Error();
-					children.addFirst(token);
-					if (token.getStartLocation() != null)
-						startLocation = token.getStartLocation();
-					if (stopLocation == null)
-						stopLocation = token.getStopLocation();
-				}
-				inputStack.push(tokenFactory.makeToken(prod, startLocation, stopLocation, children));
+				List<Token<?>> antecedents = Collections.unmodifiableList(outputStack.subList(0, outputStack.size() - prod.getRight().size()));
+				List<Token<?>> reducees = Collections.unmodifiableList(outputStack.subList(outputStack.size() - prod.getRight().size(), outputStack.size()));
+				inputStack.push(tokenFactory.reduceToken(antecedents, prod, reducees));
+				outputStack.setSize(outputStack.size() - prod.getRight().size());
+				stateStack.setSize(stateStack.size() - prod.getRight().size());
 			}
 		}
 		throw new RuntimeException();

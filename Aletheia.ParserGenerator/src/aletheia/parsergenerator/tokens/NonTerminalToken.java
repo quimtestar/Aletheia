@@ -1,18 +1,28 @@
 package aletheia.parsergenerator.tokens;
 
+import java.util.List;
+
+import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.symbols.NonTerminalSymbol;
+import aletheia.parsergenerator.symbols.Symbol;
+import aletheia.utilities.MiscUtilities;
 
 public abstract class NonTerminalToken extends Token<NonTerminalSymbol>
 {
 
-	public NonTerminalToken(NonTerminalSymbol symbol, Location startLocation, Location stopLocation)
+	private static Location startLocationFromChildren(List<Token<? extends Symbol>> children)
 	{
-		super(symbol, startLocation, stopLocation);
+		return children.isEmpty() ? null : MiscUtilities.firstFromIterable(children).getStartLocation();
 	}
 
-	public NonTerminalToken(NonTerminalSymbol symbol, Location location)
+	private static Location stopLocationFromChildren(List<Token<? extends Symbol>> children)
 	{
-		super(symbol, location);
+		return children.isEmpty() ? null : MiscUtilities.lastFromList(children).getStopLocation();
+	}
+
+	public NonTerminalToken(Production production, List<Token<? extends Symbol>> children)
+	{
+		super(production.getLeft(), startLocationFromChildren(children), stopLocationFromChildren(children));
 	}
 
 }

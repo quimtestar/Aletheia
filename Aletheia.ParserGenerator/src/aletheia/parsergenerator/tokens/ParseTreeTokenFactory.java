@@ -9,9 +9,9 @@ public class ParseTreeTokenFactory extends NonTerminalTokenFactory<ParseTreeToke
 {
 
 	@Override
-	public ParseTreeToken makeToken(Production production, Location startLocation, Location stopLocation, List<Token<? extends Symbol>> children)
+	public ParseTreeToken reduceToken(List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
 	{
-		return new ParseTreeToken(production, startLocation, stopLocation, children);
+		return new ParseTreeToken(production, reducees);
 	}
 
 }

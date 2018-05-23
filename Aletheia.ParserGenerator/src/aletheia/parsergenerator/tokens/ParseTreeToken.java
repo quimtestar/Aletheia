@@ -50,9 +50,9 @@ public class ParseTreeToken extends NonTerminalToken
 	 *            The list of tokens on which we are applying the production
 	 *            rule.
 	 */
-	public ParseTreeToken(Production production, Location startLocation, Location stopLocation, List<Token<? extends Symbol>> children)
+	public ParseTreeToken(Production production, List<Token<? extends Symbol>> children)
 	{
-		super(production.getLeft(), startLocation, stopLocation);
+		super(production, children);
 		this.production = production;
 		this.children = new ArrayList<>(children);
 	}
