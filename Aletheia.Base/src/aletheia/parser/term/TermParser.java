@@ -30,7 +30,6 @@ import aletheia.model.term.Term;
 import aletheia.parser.AletheiaParserException;
 import aletheia.parser.AletheiaParserConstants;
 import aletheia.parser.AletheiaParserGenerator;
-import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.TokenProcessor;
 import aletheia.parsergenerator.ParserLexerException;
 import aletheia.parsergenerator.lexer.AutomatonSet;
@@ -38,7 +37,6 @@ import aletheia.parsergenerator.lexer.AutomatonSetLexer;
 import aletheia.parsergenerator.lexer.Lexer;
 import aletheia.parsergenerator.parser.Parser;
 import aletheia.parsergenerator.parser.TransitionTable;
-import aletheia.parsergenerator.tokens.ParseTreeToken;
 import aletheia.persistence.Transaction;
 
 /**
@@ -121,14 +119,10 @@ public class TermParser extends Parser
 	{
 		try
 		{
-			ParseTreeToken token = parseToken(new AutomatonSetLexer(automatonSet, reader));
-			return tokenProcessor.process(token, context, transaction, parameterIdentifiers);
+			TermParserToken token = parseToken(new AutomatonSetLexer(automatonSet, reader), new TermTokenReducer());
+			return ((TermTermParserToken) token).getTerm();
 		}
 		catch (ParserLexerException e)
-		{
-			throw new AletheiaParserException(e);
-		}
-		catch (TokenProcessorException e)
 		{
 			throw new AletheiaParserException(e);
 		}

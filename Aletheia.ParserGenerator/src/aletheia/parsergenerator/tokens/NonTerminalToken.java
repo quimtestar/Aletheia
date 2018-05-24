@@ -9,6 +9,10 @@ import aletheia.utilities.MiscUtilities;
 
 public abstract class NonTerminalToken extends Token<NonTerminalSymbol>
 {
+	public NonTerminalToken(NonTerminalSymbol symbol, Location startLocation, Location stopLocation)
+	{
+		super(symbol, startLocation, stopLocation);
+	}
 
 	private static Location startLocationFromChildren(List<Token<? extends Symbol>> children)
 	{
@@ -22,7 +26,7 @@ public abstract class NonTerminalToken extends Token<NonTerminalSymbol>
 
 	public NonTerminalToken(Production production, List<Token<? extends Symbol>> children)
 	{
-		super(production.getLeft(), startLocationFromChildren(children), stopLocationFromChildren(children));
+		this(production.getLeft(), startLocationFromChildren(children), stopLocationFromChildren(children));
 	}
 
 }
