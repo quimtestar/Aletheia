@@ -4,17 +4,17 @@ import java.util.List;
 
 import aletheia.parsergenerator.symbols.Symbol;
 
-public abstract class ProductionReducer<T extends NonTerminalToken>
+public abstract class ProductionReducer<T extends NonTerminalToken, R extends TokenReducer<? super T>>
 {
-	private final TokenReducer<? super T> tokenReducer;
+	private final R tokenReducer;
 
-	public ProductionReducer(TokenReducer<? super T> tokenReducer)
+	public ProductionReducer(R tokenReducer)
 	{
 		super();
 		this.tokenReducer = tokenReducer;
 	}
 
-	public TokenReducer<? super T> getTokenReducer()
+	public R getTokenReducer()
 	{
 		return tokenReducer;
 	}
