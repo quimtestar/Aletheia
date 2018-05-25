@@ -138,7 +138,8 @@ public class ProductionManagedTokenReducer<G, T extends NonTerminalToken> extend
 		{
 			AssociatedProduction associatedProduction = productionTokenReducerClass.getAnnotation(AssociatedProduction.class);
 			if (associatedProduction == null)
-				throw new ProductionManagedTokenReducerException("Unannotated ProductionTokenReducer class: " + productionTokenReducerClass.getName());
+				throw new ProductionManagedTokenReducerException(
+						"A ProductionTokenReducer class must be annotated with an AssociatedProduction: " + productionTokenReducerClass.getName());
 			AssociatedProductionKey associatedProductionKey = new AssociatedProductionKey(associatedProduction);
 			try
 			{
