@@ -198,17 +198,19 @@ public abstract class Parser implements Serializable
 
 	/**
 	 * Parse the flow of terminal tokens served by a lexer, building a output
-	 * token using the given token factory.
+	 * token using the given token reducer.
 	 *
 	 * @param lexer
 	 *            The lexer.
-	 * @param tokenFactory
-	 *            The token factory.
+	 * @param tokenReducer
+	 *            The token reducer.
+	 * @param globals
+	 *            Global data needed for parsing.
 	 * 
 	 * @return The {@link Token} containing the parsed structure.
 	 * @throws ParserLexerException
 	 */
-	protected <T extends NonTerminalToken> T parseToken(Lexer lexer, TokenReducer<T> tokenReducer) throws ParserLexerException
+	protected <G, T extends NonTerminalToken> T parseToken(Lexer lexer, TokenReducer<G, T> tokenReducer, G globals) throws ParserLexerException
 	{
 		Stack<State> stateStack = new Stack<>();
 		Stack<Token<?>> inputStack = new Stack<>();
@@ -238,12 +240,17 @@ public abstract class Parser implements Serializable
 					throw new UnexpectedTokenException(inputStack.peek(), state);
 				List<Token<?>> antecedents = Collections.unmodifiableList(outputStack.subList(0, outputStack.size() - prod.getRight().size()));
 				List<Token<?>> reducees = Collections.unmodifiableList(outputStack.subList(outputStack.size() - prod.getRight().size(), outputStack.size()));
-				inputStack.push(tokenReducer.reduce(antecedents, prod, reducees));
+				inputStack.push(tokenReducer.reduce(globals, antecedents, prod, reducees));
 				outputStack.setSize(outputStack.size() - prod.getRight().size());
 				stateStack.setSize(stateStack.size() - prod.getRight().size());
 			}
 		}
 		throw new RuntimeException();
+	}
+
+	protected <T extends NonTerminalToken> T parseToken(Lexer lexer, TokenReducer<Void, T> tokenReducer) throws ParserLexerException
+	{
+		return parseToken(lexer, tokenReducer, null);
 	}
 
 	protected ParseTreeToken parseToken(Lexer lexer) throws ParserLexerException

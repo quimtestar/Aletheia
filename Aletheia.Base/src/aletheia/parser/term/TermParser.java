@@ -63,8 +63,32 @@ public class TermParser extends Parser
 {
 	private static final long serialVersionUID = -4016748422579759655L;
 
+	public final static class ContextTransaction
+	{
+		private final Context context;
+		private final Transaction transaction;
+
+		public ContextTransaction(Context context, Transaction transaction)
+		{
+			super();
+			this.context = context;
+			this.transaction = transaction;
+		}
+
+		public Context getContext()
+		{
+			return context;
+		}
+
+		public Transaction getTransaction()
+		{
+			return transaction;
+		}
+
+	}
+
 	//@formatter:off
-	private final static Collection<Class<? extends ProductionTokenReducer<? extends NonTerminalToken>>> reducerClasses =
+	private final static Collection<Class<? extends ProductionTokenReducer<ContextTransaction,? extends NonTerminalToken>>> reducerClasses =
 			Arrays.asList(
 					I__id_TokenReducer.class);
 	//@formatter:on
@@ -72,7 +96,7 @@ public class TermParser extends Parser
 	private final static TermParser instance = new TermParser();
 
 	private final AutomatonSet automatonSet;
-	private final ProductionManagedTokenReducer<NonTerminalToken> tokenReducer;
+	private final ProductionManagedTokenReducer<ContextTransaction, NonTerminalToken> tokenReducer;
 
 	private static TransitionTable loadTransitionTable()
 	{
@@ -148,7 +172,7 @@ public class TermParser extends Parser
 	{
 		try
 		{
-			TermToken token = (TermToken) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenReducer);
+			TermToken token = (TermToken) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenReducer, new ContextTransaction(context, transaction));
 			return token.getTerm();
 		}
 		catch (ParserLexerException e)
