@@ -32,7 +32,7 @@ import aletheia.parsergenerator.lexer.AutomatonSet;
 import aletheia.parsergenerator.lexer.AutomatonSetLexer;
 import aletheia.parsergenerator.parser.Parser;
 import aletheia.parsergenerator.parser.TransitionTable;
-import aletheia.parsergenerator.tokens.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTreeToken;
 
 public class ParameterIdentificationParser extends Parser
 {

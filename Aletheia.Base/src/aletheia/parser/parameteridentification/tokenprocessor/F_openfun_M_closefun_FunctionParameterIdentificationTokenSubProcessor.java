@@ -22,7 +22,7 @@ package aletheia.parser.parameteridentification.tokenprocessor;
 import aletheia.model.term.FunctionTerm.FunctionParameterIdentification;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.parameteridentification.tokenprocessor.TokenProcessor.ParameterWithTypeList;
-import aletheia.parsergenerator.tokens.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTreeToken;
 
 @ProcessorProduction(left = "F", right =
 { "openfun", "M", "closefun" })

@@ -22,7 +22,7 @@ package aletheia.parser.term.tokenprocessor;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.tokens.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTreeToken;
 import aletheia.parsergenerator.tokens.TaggedTerminalToken;
 import aletheia.persistence.Transaction;
 

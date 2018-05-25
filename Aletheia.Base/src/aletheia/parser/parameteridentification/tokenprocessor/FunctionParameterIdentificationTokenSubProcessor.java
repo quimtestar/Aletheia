@@ -25,7 +25,7 @@ import aletheia.model.term.Term.ParameterIdentification;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.parameteridentification.tokenprocessor.TokenProcessor.ParameterWithType;
 import aletheia.parser.parameteridentification.tokenprocessor.TokenProcessor.ParameterWithTypeList;
-import aletheia.parsergenerator.tokens.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTreeToken;
 import aletheia.utilities.collections.ReverseList;
 
 public abstract class FunctionParameterIdentificationTokenSubProcessor extends ParameterIdentificationTokenSubProcessor

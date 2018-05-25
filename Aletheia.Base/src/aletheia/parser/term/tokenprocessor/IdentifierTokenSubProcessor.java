@@ -21,7 +21,7 @@ package aletheia.parser.term.tokenprocessor;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.tokens.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTreeToken;
 
 public abstract class IdentifierTokenSubProcessor extends TokenSubProcessor<Identifier, Void>
 {

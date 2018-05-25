@@ -22,7 +22,7 @@ package aletheia.parser.term.tokenprocessor;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.IdentifierParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
-import aletheia.parsergenerator.tokens.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTreeToken;
 
 @ProcessorProduction(left = "P", right =
 { "I" })

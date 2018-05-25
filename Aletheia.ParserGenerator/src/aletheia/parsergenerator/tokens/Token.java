@@ -22,6 +22,7 @@ package aletheia.parsergenerator.tokens;
 import java.io.PrintStream;
 import java.util.Stack;
 
+import aletheia.parsergenerator.semantic.ParseTreeToken;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.utilities.collections.ReverseList;
 

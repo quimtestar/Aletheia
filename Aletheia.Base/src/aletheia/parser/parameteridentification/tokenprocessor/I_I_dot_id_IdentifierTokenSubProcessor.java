@@ -22,7 +22,7 @@ package aletheia.parser.parameteridentification.tokenprocessor;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.tokens.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTreeToken;
 import aletheia.parsergenerator.tokens.TaggedTerminalToken;
 
 @ProcessorProduction(left = "I", right =

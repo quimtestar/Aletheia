@@ -22,21 +22,28 @@ package aletheia.parser.term;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
+
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.parser.AletheiaParserException;
 import aletheia.parser.AletheiaParserConstants;
+import aletheia.parser.AletheiaParserException;
 import aletheia.parser.AletheiaParserGenerator;
-import aletheia.parser.term.tokenprocessor.TokenProcessor;
+import aletheia.parser.term.semantic.I__id_TokenReducer;
+import aletheia.parser.term.tokens.TermToken;
 import aletheia.parsergenerator.ParserLexerException;
 import aletheia.parsergenerator.lexer.AutomatonSet;
 import aletheia.parsergenerator.lexer.AutomatonSetLexer;
 import aletheia.parsergenerator.lexer.Lexer;
 import aletheia.parsergenerator.parser.Parser;
 import aletheia.parsergenerator.parser.TransitionTable;
+import aletheia.parsergenerator.semantic.ProductionManagedTokenReducer;
+import aletheia.parsergenerator.semantic.ProductionManagedTokenReducer.ProductionTokenReducer;
+import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.persistence.Transaction;
 
 /**
@@ -56,77 +63,16 @@ public class TermParser extends Parser
 {
 	private static final long serialVersionUID = -4016748422579759655L;
 
+	//@formatter:off
+	private final static Collection<Class<? extends ProductionTokenReducer<? extends NonTerminalToken>>> reducerClasses =
+			Arrays.asList(
+					I__id_TokenReducer.class);
+	//@formatter:on
+
 	private final static TermParser instance = new TermParser();
 
 	private final AutomatonSet automatonSet;
-	private final TokenProcessor tokenProcessor;
-
-	private TermParser()
-	{
-		super(loadTransitionTable());
-		try
-		{
-			{
-				InputStream is = ClassLoader.getSystemResourceAsStream(AletheiaParserConstants.automatonSetPath);
-				try
-				{
-					automatonSet = AutomatonSet.load(is);
-				}
-				finally
-				{
-					if (is != null)
-						is.close();
-				}
-			}
-		}
-		catch (IOException e)
-		{
-			throw new Error(e);
-		}
-		catch (ClassNotFoundException e)
-		{
-			throw new Error(e);
-		}
-		finally
-		{
-		}
-		this.tokenProcessor = new TokenProcessor(getGrammar());
-	}
-
-	public static Term parseTerm(Context context, Transaction transaction, Reader reader, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
-			throws AletheiaParserException
-	{
-		return instance.parse(context, transaction, reader, parameterIdentifiers);
-	}
-
-	public static Term parseTerm(Context context, Transaction transaction, Reader reader) throws AletheiaParserException
-	{
-		return parseTerm(context, transaction, reader, null);
-	}
-
-	public static Term parseTerm(Reader reader, Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws AletheiaParserException
-	{
-		return parseTerm(null, null, reader, parameterIdentifiers);
-	}
-
-	public static Term parseTerm(Reader reader) throws AletheiaParserException
-	{
-		return parseTerm(reader, null);
-	}
-
-	private Term parse(Context context, Transaction transaction, Reader reader, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
-			throws AletheiaParserException
-	{
-		try
-		{
-			TermParserToken token = parseToken(new AutomatonSetLexer(automatonSet, reader), new TermTokenReducer());
-			return ((TermTermParserToken) token).getTerm();
-		}
-		catch (ParserLexerException e)
-		{
-			throw new AletheiaParserException(e);
-		}
-	}
+	private final ProductionManagedTokenReducer<NonTerminalToken> tokenReducer;
 
 	private static TransitionTable loadTransitionTable()
 	{
@@ -154,6 +100,60 @@ public class TermParser extends Parser
 			{
 				throw new Error(e);
 			}
+		}
+	}
+
+	private TermParser()
+	{
+		super(loadTransitionTable());
+		try
+		{
+			{
+				InputStream is = ClassLoader.getSystemResourceAsStream(AletheiaParserConstants.automatonSetPath);
+				try
+				{
+					automatonSet = AutomatonSet.load(is);
+				}
+				finally
+				{
+					if (is != null)
+						is.close();
+				}
+			}
+		}
+		catch (IOException e)
+		{
+			throw new Error(e);
+		}
+		catch (ClassNotFoundException e)
+		{
+			throw new Error(e);
+		}
+		this.tokenReducer = new ProductionManagedTokenReducer<>(reducerClasses);
+	}
+
+	public static Term parseTerm(Context context, Transaction transaction, Reader reader, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+			throws AletheiaParserException
+	{
+		return instance.parse(context, transaction, reader, parameterIdentifiers);
+	}
+
+	public static Term parseTerm(Context context, Transaction transaction, Reader reader) throws AletheiaParserException
+	{
+		return parseTerm(context, transaction, reader, null);
+	}
+
+	private Term parse(Context context, Transaction transaction, Reader reader, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+			throws AletheiaParserException
+	{
+		try
+		{
+			TermToken token = (TermToken) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenReducer);
+			return token.getTerm();
+		}
+		catch (ParserLexerException e)
+		{
+			throw new AletheiaParserException(e);
 		}
 	}
 

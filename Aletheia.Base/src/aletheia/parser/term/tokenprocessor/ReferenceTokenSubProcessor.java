@@ -22,7 +22,7 @@ package aletheia.parser.term.tokenprocessor;
 import aletheia.model.statement.Context;
 import aletheia.model.term.Term;
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.tokens.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTreeToken;
 import aletheia.persistence.Transaction;
 
 public abstract class ReferenceTokenSubProcessor extends TokenSubProcessor<Term, ReferenceTokenSubProcessor.Parameter>

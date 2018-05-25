@@ -29,11 +29,11 @@ import java.util.Set;
 
 import aletheia.parsergenerator.ParserLexerException;
 import aletheia.parsergenerator.parser.TransitionTable.ConflictException;
+import aletheia.parsergenerator.semantic.ParseTreeToken;
 import aletheia.parsergenerator.symbols.NonTerminalSymbol;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.symbols.TaggedNonTerminalSymbol;
 import aletheia.parsergenerator.symbols.TaggedTerminalSymbol;
-import aletheia.parsergenerator.tokens.ParseTreeToken;
 import aletheia.parsergenerator.tokens.Token;
 
 /**

@@ -20,7 +20,7 @@
 package aletheia.parser.term.tokenprocessor;
 
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.tokens.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTreeToken;
 
 @ProcessorProduction(left = "M", right = "hyphen")
 public class M_hyphen_BooleanTokenSubProcessor extends BooleanTokenSubProcessor

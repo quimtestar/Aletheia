@@ -34,10 +34,10 @@ import aletheia.parsergenerator.lexer.LexerLexer.TagToken;
 import aletheia.parsergenerator.parser.Parser;
 import aletheia.parsergenerator.parser.TransitionTable;
 import aletheia.parsergenerator.parser.TransitionTable.ConflictException;
+import aletheia.parsergenerator.semantic.ParseTreeToken;
 import aletheia.parsergenerator.parser.TransitionTableLalr1;
 import aletheia.parsergenerator.symbols.TaggedNonTerminalSymbol;
 import aletheia.parsergenerator.symbols.TaggedTerminalSymbol;
-import aletheia.parsergenerator.tokens.ParseTreeToken;
 import aletheia.parsergenerator.tokens.Token;
 
 /**

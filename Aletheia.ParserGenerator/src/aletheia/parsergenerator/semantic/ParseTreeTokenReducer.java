@@ -4,7 +4,6 @@ import java.util.List;
 
 import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.symbols.Symbol;
-import aletheia.parsergenerator.tokens.ParseTreeToken;
 import aletheia.parsergenerator.tokens.Token;
 
 public class ParseTreeTokenReducer extends TokenReducer<ParseTreeToken>

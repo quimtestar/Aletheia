@@ -28,7 +28,7 @@ import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 import aletheia.model.term.Term;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
-import aletheia.parsergenerator.tokens.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTreeToken;
 import aletheia.persistence.Transaction;
 
 @ProcessorProduction(left = "C", right =

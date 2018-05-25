@@ -25,8 +25,8 @@ import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
 import aletheia.parser.TokenProcessorException;
+import aletheia.parsergenerator.semantic.ParseTreeToken;
 import aletheia.parsergenerator.tokens.Location;
-import aletheia.parsergenerator.tokens.ParseTreeToken;
 import aletheia.persistence.Transaction;
 
 public abstract class StatementReferenceTokenSubProcessor extends TokenSubProcessor<Term, StatementReferenceTokenSubProcessor.Parameter>

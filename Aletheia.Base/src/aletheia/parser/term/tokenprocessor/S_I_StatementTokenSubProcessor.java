@@ -23,7 +23,7 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.tokens.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTreeToken;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.collections.statement.GenericRootContextsMap;
 import aletheia.utilities.MiscUtilities;

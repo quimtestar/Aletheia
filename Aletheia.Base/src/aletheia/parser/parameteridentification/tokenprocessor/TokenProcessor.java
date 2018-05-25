@@ -31,8 +31,8 @@ import aletheia.model.term.Term.ParameterIdentification;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parsergenerator.parser.Grammar;
 import aletheia.parsergenerator.parser.Production;
+import aletheia.parsergenerator.semantic.ParseTreeToken;
 import aletheia.parsergenerator.symbols.Symbol;
-import aletheia.parsergenerator.tokens.ParseTreeToken;
 
 public class TokenProcessor
 {

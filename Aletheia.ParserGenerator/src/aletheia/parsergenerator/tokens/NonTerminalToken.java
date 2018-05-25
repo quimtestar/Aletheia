@@ -14,19 +14,19 @@ public abstract class NonTerminalToken extends Token<NonTerminalSymbol>
 		super(symbol, startLocation, stopLocation);
 	}
 
-	private static Location startLocationFromChildren(List<Token<? extends Symbol>> children)
+	private static Location startLocationFromChildren(List<Token<? extends Symbol>> reducees)
 	{
-		return children.isEmpty() ? null : MiscUtilities.firstFromIterable(children).getStartLocation();
+		return reducees.isEmpty() ? null : MiscUtilities.firstFromIterable(reducees).getStartLocation();
 	}
 
-	private static Location stopLocationFromChildren(List<Token<? extends Symbol>> children)
+	private static Location stopLocationFromChildren(List<Token<? extends Symbol>> reducees)
 	{
-		return children.isEmpty() ? null : MiscUtilities.lastFromList(children).getStopLocation();
+		return reducees.isEmpty() ? null : MiscUtilities.lastFromList(reducees).getStopLocation();
 	}
 
-	public NonTerminalToken(Production production, List<Token<? extends Symbol>> children)
+	public NonTerminalToken(Production production, List<Token<? extends Symbol>> reducees)
 	{
-		this(production.getLeft(), startLocationFromChildren(children), stopLocationFromChildren(children));
+		this(production.getLeft(), startLocationFromChildren(reducees), stopLocationFromChildren(reducees));
 	}
 
 }
