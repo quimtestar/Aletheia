@@ -74,12 +74,12 @@ public class TermParser extends Parser
 {
 	private static final long serialVersionUID = -4016748422579759655L;
 
-	private final static class ContextTransaction
+	private final static class Globals
 	{
 		final Context context;
 		final Transaction transaction;
 
-		ContextTransaction(Context context, Transaction transaction)
+		Globals(Context context, Transaction transaction)
 		{
 			this.context = context;
 			this.transaction = transaction;
@@ -87,13 +87,12 @@ public class TermParser extends Parser
 
 	}
 
-	public static abstract class ProductionTokenReducer<T extends NonTerminalToken>
-			extends ProductionManagedTokenReducer.ProductionTokenReducer<ContextTransaction, T>
+	public static abstract class ProductionTokenReducer<T extends NonTerminalToken> extends ProductionManagedTokenReducer.ProductionTokenReducer<Globals, T>
 	{
 
 		@Override
-		public final T reduce(ContextTransaction globals, List<Token<? extends Symbol>> antecedents, Production production,
-				List<Token<? extends Symbol>> reducees) throws SemanticException
+		public final T reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
 		{
 			return reduce(globals.context, globals.transaction, antecedents, production, reducees);
 		}
@@ -154,7 +153,7 @@ public class TermParser extends Parser
 	private final static TermParser instance = new TermParser();
 
 	private final AutomatonSet automatonSet;
-	private final ProductionManagedTokenReducer<ContextTransaction, NonTerminalToken> tokenReducer;
+	private final ProductionManagedTokenReducer<Globals, NonTerminalToken> tokenReducer;
 
 	private static TransitionTable loadTransitionTable()
 	{
@@ -230,7 +229,7 @@ public class TermParser extends Parser
 	{
 		try
 		{
-			TermToken token = (TermToken) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenReducer, new ContextTransaction(context, transaction));
+			TermToken token = (TermToken) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenReducer, new Globals(context, transaction));
 			return token.getTerm();
 		}
 		catch (ParserLexerException e)
