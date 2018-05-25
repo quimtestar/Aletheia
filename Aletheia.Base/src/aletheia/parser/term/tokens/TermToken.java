@@ -4,23 +4,21 @@ import java.util.List;
 
 import aletheia.model.term.Term;
 import aletheia.parsergenerator.parser.Production;
+import aletheia.parsergenerator.semantic.ValuedNonTerminalToken;
 import aletheia.parsergenerator.symbols.Symbol;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
 
-public class TermToken extends NonTerminalToken
+public class TermToken extends ValuedNonTerminalToken<Term>
 {
-	private final Term term;
 
 	public TermToken(Production production, List<Token<? extends Symbol>> reducees, Term term)
 	{
-		super(production, reducees);
-		this.term = term;
+		super(production, reducees, term);
 	}
 
 	public Term getTerm()
 	{
-		return term;
+		return getValue();
 	}
 
 }

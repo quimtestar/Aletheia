@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import aletheia.model.identifier.Identifier;
@@ -33,17 +34,27 @@ import aletheia.model.term.Term;
 import aletheia.parser.AletheiaParserConstants;
 import aletheia.parser.AletheiaParserException;
 import aletheia.parser.AletheiaParserGenerator;
+import aletheia.parser.term.semantic.A__I_TokenReducer;
+import aletheia.parser.term.semantic.B__Q_TokenReducer;
+import aletheia.parser.term.semantic.C__A_MP_TokenReducer;
 import aletheia.parser.term.semantic.I__id_TokenReducer;
+import aletheia.parser.term.semantic.MP___TokenReducer;
+import aletheia.parser.term.semantic.Q__C_TokenReducer;
+import aletheia.parser.term.semantic.T__B_TokenReducer;
 import aletheia.parser.term.tokens.TermToken;
 import aletheia.parsergenerator.ParserLexerException;
 import aletheia.parsergenerator.lexer.AutomatonSet;
 import aletheia.parsergenerator.lexer.AutomatonSetLexer;
 import aletheia.parsergenerator.lexer.Lexer;
 import aletheia.parsergenerator.parser.Parser;
+import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.parser.TransitionTable;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenReducer;
-import aletheia.parsergenerator.semantic.ProductionManagedTokenReducer.ProductionTokenReducer;
+import aletheia.parsergenerator.semantic.SemanticException;
+import aletheia.parsergenerator.semantic.ValuedNonTerminalToken;
+import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.Token;
 import aletheia.persistence.Transaction;
 
 /**
@@ -63,34 +74,81 @@ public class TermParser extends Parser
 {
 	private static final long serialVersionUID = -4016748422579759655L;
 
-	public final static class ContextTransaction
+	private final static class ContextTransaction
 	{
-		private final Context context;
-		private final Transaction transaction;
+		final Context context;
+		final Transaction transaction;
 
-		public ContextTransaction(Context context, Transaction transaction)
+		ContextTransaction(Context context, Transaction transaction)
 		{
-			super();
 			this.context = context;
 			this.transaction = transaction;
 		}
 
-		public Context getContext()
+	}
+
+	public static abstract class ProductionTokenReducer<T extends NonTerminalToken>
+			extends ProductionManagedTokenReducer.ProductionTokenReducer<ContextTransaction, T>
+	{
+
+		@Override
+		public final T reduce(ContextTransaction globals, List<Token<? extends Symbol>> antecedents, Production production,
+				List<Token<? extends Symbol>> reducees) throws SemanticException
 		{
-			return context;
+			return reduce(globals.context, globals.transaction, antecedents, production, reducees);
 		}
 
-		public Transaction getTransaction()
+		public abstract T reduce(Context context, Transaction transaction, List<Token<? extends Symbol>> antecedents, Production production,
+				List<Token<? extends Symbol>> reducees) throws SemanticException;
+
+	}
+
+	public static abstract class TrivialProductionTokenReducer<V, T extends ValuedNonTerminalToken<V>> extends ProductionTokenReducer<T>
+	{
+		private final int position;
+
+		public TrivialProductionTokenReducer(int position)
 		{
-			return transaction;
+			this.position = position;
+		}
+
+		public TrivialProductionTokenReducer()
+		{
+			this(0);
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		public T reduce(Context context, Transaction transaction, List<Token<? extends Symbol>> antecedents, Production production,
+				List<Token<? extends Symbol>> reducees) throws SemanticException
+		{
+			return makeToken(production, reducees, ((ValuedNonTerminalToken<V>) reducees.get(position)).getValue());
+		}
+
+		public abstract T makeToken(Production production, List<Token<? extends Symbol>> reducees, V value);
+	}
+
+	public static abstract class TermTrivialProductionTokenReducer extends TrivialProductionTokenReducer<Term, TermToken>
+	{
+
+		@Override
+		public TermToken makeToken(Production production, List<Token<? extends Symbol>> reducees, Term term)
+		{
+			return new TermToken(production, reducees, term);
 		}
 
 	}
 
 	//@formatter:off
-	private final static Collection<Class<? extends ProductionTokenReducer<ContextTransaction,? extends NonTerminalToken>>> reducerClasses =
+	private final static Collection<Class<? extends ProductionTokenReducer<? extends NonTerminalToken>>> reducerClasses =
 			Arrays.asList(
-					I__id_TokenReducer.class);
+					I__id_TokenReducer.class,
+					A__I_TokenReducer.class,
+					MP___TokenReducer.class,
+					C__A_MP_TokenReducer.class,
+					Q__C_TokenReducer.class,
+					B__Q_TokenReducer.class,
+					T__B_TokenReducer.class);
 	//@formatter:on
 
 	private final static TermParser instance = new TermParser();

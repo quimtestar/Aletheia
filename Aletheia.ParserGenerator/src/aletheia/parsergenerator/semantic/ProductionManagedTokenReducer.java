@@ -129,7 +129,7 @@ public class ProductionManagedTokenReducer<G, T extends NonTerminalToken> extend
 
 	private final Map<AssociatedProductionKey, ProductionTokenReducer<G, ? extends T>> productionTokenReducerMap;
 
-	public ProductionManagedTokenReducer(Collection<Class<? extends ProductionTokenReducer<G, ? extends T>>> productionTokenReducerClasses)
+	public ProductionManagedTokenReducer(Collection<? extends Class<? extends ProductionTokenReducer<G, ? extends T>>> productionTokenReducerClasses)
 			throws ProductionManagedTokenReducerException
 	{
 		super();

@@ -20,10 +20,12 @@
 package aletheia.parsergenerator.tokens;
 
 import java.io.PrintStream;
+import java.util.List;
 import java.util.Stack;
 
 import aletheia.parsergenerator.semantic.ParseTreeToken;
 import aletheia.parsergenerator.symbols.Symbol;
+import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.collections.ReverseList;
 
 /**
@@ -105,6 +107,16 @@ public abstract class Token<S extends Symbol>
 	public Location getStopLocation()
 	{
 		return stopLocation;
+	}
+
+	public static Location startLocationFromList(List<Token<? extends Symbol>> list)
+	{
+		return list.isEmpty() ? null : MiscUtilities.firstFromIterable(list).getStartLocation();
+	}
+
+	public static Location stopLocationFromList(List<Token<? extends Symbol>> list)
+	{
+		return list.isEmpty() ? null : MiscUtilities.lastFromList(list).getStopLocation();
 	}
 
 	public void trace(PrintStream out)

@@ -1,30 +1,53 @@
 package aletheia.parsergenerator.semantic;
 
+import java.util.List;
+
 import aletheia.parsergenerator.ParserLexerException;
-import aletheia.parsergenerator.tokens.Location;
+import aletheia.parsergenerator.symbols.Symbol;
+import aletheia.parsergenerator.tokens.Token;
 
 public class SemanticException extends ParserLexerException
 {
 	private static final long serialVersionUID = -292833502687472137L;
 
-	public SemanticException(Location startLocation, Location stopLocation, String message, Throwable cause)
+	public SemanticException(List<Token<? extends Symbol>> tokens, String message, Throwable cause)
 	{
-		super(startLocation, stopLocation, message, cause);
+		super(Token.startLocationFromList(tokens), Token.stopLocationFromList(tokens), message, cause);
 	}
 
-	public SemanticException(Location startLocation, Location stopLocation, String message)
+	public SemanticException(List<Token<? extends Symbol>> tokens, String message)
 	{
-		super(startLocation, stopLocation, message);
+		super(Token.startLocationFromList(tokens), Token.stopLocationFromList(tokens), message);
 	}
 
-	public SemanticException(Location startLocation, Location stopLocation, Throwable cause)
+	public SemanticException(List<Token<? extends Symbol>> tokens, Throwable cause)
 	{
-		super(startLocation, stopLocation, cause);
+		super(Token.startLocationFromList(tokens), Token.stopLocationFromList(tokens), cause);
 	}
 
-	public SemanticException(Location startLocation, Location stopLocation)
+	public SemanticException(List<Token<? extends Symbol>> tokens)
 	{
-		super(startLocation, stopLocation);
+		super(Token.startLocationFromList(tokens), Token.stopLocationFromList(tokens));
+	}
+
+	public SemanticException(Token<? extends Symbol> token, String message, Throwable cause)
+	{
+		super(token.getStartLocation(), token.getStopLocation(), message, cause);
+	}
+
+	public SemanticException(Token<? extends Symbol> token, String message)
+	{
+		super(token.getStartLocation(), token.getStopLocation(), message);
+	}
+
+	public SemanticException(Token<? extends Symbol> token, Throwable cause)
+	{
+		super(token.getStartLocation(), token.getStopLocation(), cause);
+	}
+
+	public SemanticException(Token<? extends Symbol> token)
+	{
+		super(token.getStartLocation(), token.getStopLocation());
 	}
 
 }
