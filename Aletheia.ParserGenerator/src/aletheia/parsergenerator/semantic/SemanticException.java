@@ -1,6 +1,7 @@
-package aletheia.parsergenerator.tokens;
+package aletheia.parsergenerator.semantic;
 
 import aletheia.parsergenerator.ParserLexerException;
+import aletheia.parsergenerator.tokens.Location;
 
 public class SemanticException extends ParserLexerException
 {

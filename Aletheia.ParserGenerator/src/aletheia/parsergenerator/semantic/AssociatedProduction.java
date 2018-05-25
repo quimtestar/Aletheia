@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.parsergenerator.tokens;
+package aletheia.parsergenerator.semantic;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

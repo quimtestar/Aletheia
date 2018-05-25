@@ -1,9 +1,11 @@
-package aletheia.parsergenerator.tokens;
+package aletheia.parsergenerator.semantic;
 
 import java.util.List;
 
 import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.symbols.Symbol;
+import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.Token;
 
 public abstract class TokenReducer<T extends NonTerminalToken>
 {

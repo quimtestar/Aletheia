@@ -6,12 +6,12 @@ import java.util.List;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.parsergenerator.parser.Production;
+import aletheia.parsergenerator.semantic.AssociatedProduction;
+import aletheia.parsergenerator.semantic.ProductionManagedTokenReducer;
+import aletheia.parsergenerator.semantic.ProductionReducer;
+import aletheia.parsergenerator.semantic.ProductionReducerFactory;
+import aletheia.parsergenerator.semantic.SemanticException;
 import aletheia.parsergenerator.symbols.Symbol;
-import aletheia.parsergenerator.tokens.AssociatedProduction;
-import aletheia.parsergenerator.tokens.ProductionManagedTokenReducer;
-import aletheia.parsergenerator.tokens.ProductionReducer;
-import aletheia.parsergenerator.tokens.ProductionReducerFactory;
-import aletheia.parsergenerator.tokens.SemanticException;
 import aletheia.parsergenerator.tokens.TaggedTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
 

@@ -1,4 +1,4 @@
-package aletheia.parsergenerator.tokens;
+package aletheia.parsergenerator.semantic;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -9,6 +9,7 @@ import java.util.Map;
 
 import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.symbols.Symbol;
+import aletheia.parsergenerator.tokens.NonTerminalToken;
 
 public class ProductionReducerFactory<T extends NonTerminalToken, R extends ProductionManagedTokenReducer<T>>
 {

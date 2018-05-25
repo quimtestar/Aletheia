@@ -35,14 +35,14 @@ import java.util.Stack;
 import aletheia.parsergenerator.ParserLexerException;
 import aletheia.parsergenerator.lexer.Lexer;
 import aletheia.parsergenerator.parser.TransitionTable.State;
+import aletheia.parsergenerator.semantic.ParseTreeTokenReducer;
+import aletheia.parsergenerator.semantic.TokenReducer;
 import aletheia.parsergenerator.symbols.EndTerminalSymbol;
 import aletheia.parsergenerator.tokens.Location;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.ParseTreeToken;
-import aletheia.parsergenerator.tokens.ParseTreeTokenReducer;
 import aletheia.parsergenerator.tokens.TerminalToken;
 import aletheia.parsergenerator.tokens.Token;
-import aletheia.parsergenerator.tokens.TokenReducer;
 
 /**
  * A class that parses. That is, use a {@link TransitionTable} for converting
