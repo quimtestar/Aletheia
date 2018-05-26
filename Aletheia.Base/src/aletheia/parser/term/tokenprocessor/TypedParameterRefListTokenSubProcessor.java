@@ -19,9 +19,9 @@
  ******************************************************************************/
 package aletheia.parser.term.tokenprocessor;
 
-import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefList;
+import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefListOld;
 
-public abstract class TypedParameterRefListTokenSubProcessor extends TermLikeTokenSubProcessor<TypedParameterRefList>
+public abstract class TypedParameterRefListTokenSubProcessor extends TermLikeTokenSubProcessor<TypedParameterRefListOld>
 {
 	protected TypedParameterRefListTokenSubProcessor(TokenProcessor processor)
 	{

@@ -21,6 +21,7 @@ package aletheia.utilities.collections;
 
 import java.util.AbstractList;
 import java.util.List;
+import java.util.ListIterator;
 
 /**
  * A view of a {@link List} that reverts it.
@@ -55,6 +56,12 @@ public class ReverseList<E> extends AbstractList<E>
 	public int size()
 	{
 		return inner.size();
+	}
+
+	@Override
+	public ListIterator<E> listIterator(int index)
+	{
+		return new ReverseListIterator<>(inner.listIterator(inner.size() - index));
 	}
 
 }

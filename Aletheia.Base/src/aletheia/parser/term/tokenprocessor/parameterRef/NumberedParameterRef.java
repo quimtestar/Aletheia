@@ -63,4 +63,10 @@ public class NumberedParameterRef extends ParameterRef
 		return true;
 	}
 
+	@Override
+	public String toString()
+	{
+		return atParam;
+	}
+
 }

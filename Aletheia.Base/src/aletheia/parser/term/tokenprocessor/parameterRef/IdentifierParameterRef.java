@@ -64,4 +64,11 @@ public class IdentifierParameterRef extends ParameterRef
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString()
+	{
+		return identifier.toString();
+	}
+
 }

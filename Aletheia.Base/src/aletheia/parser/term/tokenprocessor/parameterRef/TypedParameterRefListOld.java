@@ -20,50 +20,50 @@
 package aletheia.parser.term.tokenprocessor.parameterRef;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import aletheia.model.identifier.Identifier;
 import aletheia.model.term.ParameterVariableTerm;
-import aletheia.model.term.VariableTerm;
-import aletheia.utilities.collections.AdaptedMap;
-import aletheia.utilities.collections.CombinedMap;
 
-public class TypedParameterRefList
+@Deprecated
+public class TypedParameterRefListOld
 {
-	private final Map<ParameterRef, VariableTerm> backParameterTable;
 	private final List<TypedParameterRef> list;
-	private final Map<ParameterRef, ParameterVariableTerm> frontParameterTable;
+	private final Map<ParameterRef, ParameterVariableTerm> oldParameterTable;
 
-	public TypedParameterRefList(Map<ParameterRef, VariableTerm> backParameterTable)
+	public TypedParameterRefListOld()
 	{
 		super();
-		this.backParameterTable = backParameterTable;
-		this.frontParameterTable = new HashMap<>();
 		this.list = new ArrayList<>();
+		this.oldParameterTable = new HashMap<>();
 	}
 
-	public List<TypedParameterRef> list()
+	public List<TypedParameterRef> getList()
 	{
-		return Collections.unmodifiableList(list);
+		return list;
 	}
 
-	public Map<ParameterRef, VariableTerm> parameterTable()
+	public Map<ParameterRef, ParameterVariableTerm> getOldParameterTable()
 	{
-		return new CombinedMap<>(new AdaptedMap<>(frontParameterTable), backParameterTable);
+		return oldParameterTable;
 	}
 
-	public void addTypedParameterRef(TypedParameterRef typedParameterRef)
+	public void addTypedParameterRef(TypedParameterRef typedParameterRef, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
+			Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 	{
-		list.add(typedParameterRef);
-		frontParameterTable.put(typedParameterRef.getParameterRef(), typedParameterRef.getParameter());
-	}
-
-	@Override
-	public String toString()
-	{
-		return list.toString();
+		getList().add(typedParameterRef);
+		ParameterRef parameterRef = typedParameterRef.getParameterRef();
+		if (parameterRef != null)
+		{
+			ParameterVariableTerm parameter = typedParameterRef.getParameter();
+			if (parameterIdentifiers != null && parameterRef instanceof IdentifierParameterRef)
+				parameterIdentifiers.put(parameter, ((IdentifierParameterRef) parameterRef).getIdentifier());
+			ParameterVariableTerm oldpar = tempParameterTable.put(parameterRef, parameter);
+			if (!getOldParameterTable().containsKey(parameterRef))
+				getOldParameterTable().put(parameterRef, oldpar);
+		}
 	}
 
 }

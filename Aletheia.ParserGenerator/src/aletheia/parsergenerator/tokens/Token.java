@@ -20,8 +20,11 @@
 package aletheia.parsergenerator.tokens;
 
 import java.util.List;
+import java.util.ListIterator;
+
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.utilities.MiscUtilities;
+import aletheia.utilities.collections.ReverseListIterator;
 
 /**
  * A token is a part of the input that has been processed with the lexer/parser
@@ -112,6 +115,28 @@ public abstract class Token<S extends Symbol>
 	public static Location stopLocationFromList(List<Token<? extends Symbol>> list)
 	{
 		return list.isEmpty() ? null : MiscUtilities.lastFromList(list).getStopLocation();
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <S extends Symbol, T extends Token<? extends S>> T findFirstInListIterator(ListIterator<Token<? extends Symbol>> iterator, S symbol)
+	{
+		while (iterator.hasNext())
+		{
+			Token<? extends Symbol> token = iterator.next();
+			if (token.getSymbol().equals(symbol))
+				return (T) token;
+		}
+		return null;
+	}
+
+	public static <S extends Symbol, T extends Token<? extends S>> T findFirstInList(List<Token<? extends Symbol>> list, S symbol)
+	{
+		return findFirstInListIterator(list.listIterator(), symbol);
+	}
+
+	public static <S extends Symbol, T extends Token<? extends S>> T findLastInList(List<Token<? extends Symbol>> list, S symbol)
+	{
+		return findFirstInListIterator(new ReverseListIterator<>(list.listIterator(list.size())), symbol);
 	}
 
 }

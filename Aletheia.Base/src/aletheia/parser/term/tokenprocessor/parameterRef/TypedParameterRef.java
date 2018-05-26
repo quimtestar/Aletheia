@@ -80,4 +80,10 @@ public class TypedParameterRef
 		return true;
 	}
 
+	@Override
+	public String toString()
+	{
+		return parameterRef.toString() + ":" + parameter.getType();
+	}
+
 }

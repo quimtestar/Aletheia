@@ -31,20 +31,28 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
+import aletheia.model.term.VariableTerm;
 import aletheia.parser.AletheiaParserConstants;
 import aletheia.parser.AletheiaParserException;
 import aletheia.parser.AletheiaParserGenerator;
+import aletheia.parser.term.semantic.A__F_TokenReducer;
 import aletheia.parser.term.semantic.A__I_TokenReducer;
 import aletheia.parser.term.semantic.A__tau_TokenReducer;
 import aletheia.parser.term.semantic.B__Q_TokenReducer;
 import aletheia.parser.term.semantic.C__A_MP_TokenReducer;
+import aletheia.parser.term.semantic.F__openfun_TPL_arrow_T_closefun_TokenReducer;
 import aletheia.parser.term.semantic.I__I_dot_id_TokenReducer;
 import aletheia.parser.term.semantic.I__id_TokenReducer;
 import aletheia.parser.term.semantic.MP___TokenReducer;
 import aletheia.parser.term.semantic.P__I_TokenReducer;
 import aletheia.parser.term.semantic.Q__C_TokenReducer;
+import aletheia.parser.term.semantic.TPL__TP_TokenReducer;
+import aletheia.parser.term.semantic.TP__P_colon_T_TokenReducer;
 import aletheia.parser.term.semantic.T__B_TokenReducer;
 import aletheia.parser.term.semantic.T__T_B_TokenReducer;
+import aletheia.parser.term.tokenprocessor.parameterRef.IdentifierParameterRef;
+import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
+import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefList;
 import aletheia.parsergenerator.ParserLexerException;
 import aletheia.parsergenerator.lexer.AutomatonSet;
 import aletheia.parsergenerator.lexer.AutomatonSetLexer;
@@ -54,10 +62,15 @@ import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.parser.TransitionTable;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer;
 import aletheia.parsergenerator.semantic.SemanticException;
+import aletheia.parsergenerator.symbols.NonTerminalSymbol;
 import aletheia.parsergenerator.symbols.Symbol;
+import aletheia.parsergenerator.symbols.TaggedNonTerminalSymbol;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.collections.AdaptedMap;
+import aletheia.utilities.collections.Bijection;
+import aletheia.utilities.collections.BijectionKeyMap;
 
 /**
  * Implementation of the term parser for the aletheia system. This
@@ -91,6 +104,32 @@ public class TermParser extends Parser
 
 	public static abstract class ProductionTokenPayloadReducer<P> extends ProductionManagedTokenPayloadReducer.ProductionTokenPayloadReducer<Globals, P>
 	{
+		protected static Map<ParameterRef, VariableTerm> antecedentReferenceMap(Context context, Transaction transaction,
+				List<Token<? extends Symbol>> antecedents)
+		{
+			NonTerminalToken<?, TypedParameterRefList> lastTPLToken = Token
+					.<NonTerminalSymbol, NonTerminalToken<?, TypedParameterRefList>> findLastInList(antecedents, new TaggedNonTerminalSymbol("TPL"));
+			if (lastTPLToken == null)
+			{
+				return new AdaptedMap<>(new BijectionKeyMap<>(new Bijection<Identifier, ParameterRef>()
+				{
+
+					@Override
+					public ParameterRef forward(Identifier identifier)
+					{
+						return new IdentifierParameterRef(identifier);
+					}
+
+					@Override
+					public Identifier backward(ParameterRef parameterRef)
+					{
+						return ((IdentifierParameterRef) parameterRef).getIdentifier();
+					}
+				}, context.identifierToVariable(transaction)));
+			}
+			else
+				return lastTPLToken.getPayload().parameterTable();
+		}
 
 		@Override
 		public final P reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
@@ -139,7 +178,11 @@ public class TermParser extends Parser
 					T__B_TokenReducer.class,
 					T__T_B_TokenReducer.class,
 					A__tau_TokenReducer.class,
-					P__I_TokenReducer.class);
+					P__I_TokenReducer.class,
+					TP__P_colon_T_TokenReducer.class,
+					TPL__TP_TokenReducer.class,
+					F__openfun_TPL_arrow_T_closefun_TokenReducer.class,
+					A__F_TokenReducer.class);
 	//@formatter:on
 
 	private final static TermParser instance = new TermParser();

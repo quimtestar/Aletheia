@@ -26,7 +26,7 @@ import aletheia.model.statement.Context;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
-import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefList;
+import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefListOld;
 import aletheia.parsergenerator.semantic.ParseTree;
 import aletheia.persistence.Transaction;
 
@@ -40,11 +40,11 @@ public class TPL_ParameterRefListTokenSubProcessor extends TypedParameterRefList
 	}
 
 	@Override
-	protected TypedParameterRefList subProcess(ParseTree token, Context context, Transaction transaction,
+	protected TypedParameterRefListOld subProcess(ParseTree token, Context context, Transaction transaction,
 			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 			throws TokenProcessorException
 	{
-		return new TypedParameterRefList();
+		return new TypedParameterRefListOld();
 	}
 
 }

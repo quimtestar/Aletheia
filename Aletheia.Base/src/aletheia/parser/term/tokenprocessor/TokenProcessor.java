@@ -35,7 +35,7 @@ import aletheia.model.term.Term;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRef;
-import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefList;
+import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefListOld;
 import aletheia.parsergenerator.parser.Grammar;
 import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.semantic.ParseTree;
@@ -274,7 +274,7 @@ public class TokenProcessor
 		return processor.subProcess(token, context, transaction, tempParameterTable);
 	}
 
-	protected TypedParameterRefList processTypedParameterRefList(ParseTree token, Context context, Transaction transaction,
+	protected TypedParameterRefListOld processTypedParameterRefList(ParseTree token, Context context, Transaction transaction,
 			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 			throws TokenProcessorException
 	{

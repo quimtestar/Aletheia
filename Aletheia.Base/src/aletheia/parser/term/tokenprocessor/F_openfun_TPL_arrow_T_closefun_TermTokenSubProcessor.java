@@ -31,7 +31,7 @@ import aletheia.model.term.Term.ComposeTypeException;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRef;
-import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefList;
+import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefListOld;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefWithValue;
 import aletheia.parsergenerator.semantic.ParseTree;
 import aletheia.persistence.Transaction;
@@ -50,8 +50,8 @@ public class F_openfun_TPL_arrow_T_closefun_TermTokenSubProcessor extends TermTo
 	protected Term subProcess(ParseTree token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
 			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TokenProcessorException
 	{
-		TypedParameterRefList typedParameterRefList = getProcessor().processTypedParameterRefList((ParseTree) token.getChildren().get(1), context, transaction,
-				tempParameterTable, parameterIdentifiers);
+		TypedParameterRefListOld typedParameterRefList = getProcessor().processTypedParameterRefList((ParseTree) token.getChildren().get(1), context,
+				transaction, tempParameterTable, parameterIdentifiers);
 		Term term = getProcessor().processTerm((ParseTree) token.getChildren().get(3), context, transaction, tempParameterTable, parameterIdentifiers);
 		for (TypedParameterRef typedParameterRef : new ReverseList<>(typedParameterRefList.getList()))
 		{
