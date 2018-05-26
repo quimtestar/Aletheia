@@ -79,46 +79,15 @@ public class BijectionKeyMap<I, O, V> extends AbstractMap<O, V>
 		return inner.isEmpty();
 	}
 
-	protected static class ExtractionClassException extends Exception
-	{
-		private static final long serialVersionUID = -4258536611129607689L;
-
-		public ExtractionClassException(ClassCastException e)
-		{
-			super(e);
-		}
-	}
-
-	/**
-	 * Casts an object to the output type of the bijection. If it's not possible
-	 * throws an {@link ExtractionClassException}.
-	 *
-	 * @param o
-	 *            The object to cast.
-	 * @return The casted object.
-	 * @throws ExtractionClassException
-	 */
 	@SuppressWarnings("unchecked")
-	protected static <O> O extracted(Object o) throws ExtractionClassException
-	{
-		try
-		{
-			return (O) o;
-		}
-		catch (ClassCastException e)
-		{
-			throw new ExtractionClassException(e);
-		}
-	}
-
 	@Override
 	public boolean containsKey(Object key)
 	{
 		try
 		{
-			return inner.containsKey(bijection.backward(BijectionKeyMap.<O> extracted(key)));
+			return inner.containsKey(bijection.backward((O) key));
 		}
-		catch (ExtractionClassException e)
+		catch (ClassCastException e)
 		{
 			return false;
 		}
@@ -130,14 +99,15 @@ public class BijectionKeyMap<I, O, V> extends AbstractMap<O, V>
 		return inner.containsValue(value);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public V get(Object key)
 	{
 		try
 		{
-			return inner.get(bijection.backward(BijectionKeyMap.<O> extracted(key)));
+			return inner.get(bijection.backward((O) key));
 		}
-		catch (ExtractionClassException e)
+		catch (ClassCastException e)
 		{
 			return null;
 		}
@@ -226,14 +196,15 @@ public class BijectionKeyMap<I, O, V> extends AbstractMap<O, V>
 		return inner.put(bijection.backward(key), value);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public V remove(Object key)
 	{
 		try
 		{
-			return inner.remove(bijection.backward(BijectionKeyMap.<O> extracted((key))));
+			return inner.remove(bijection.backward((O) key));
 		}
-		catch (ExtractionClassException e)
+		catch (ClassCastException e)
 		{
 			return null;
 		}
