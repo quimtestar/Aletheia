@@ -35,19 +35,27 @@ import aletheia.model.term.VariableTerm;
 import aletheia.parser.AletheiaParserConstants;
 import aletheia.parser.AletheiaParserException;
 import aletheia.parser.AletheiaParserGenerator;
+import aletheia.parser.term.semantic.AN__asterisk_TokenReducer;
+import aletheia.parser.term.semantic.AN__asterisk_number_TokenReducer;
 import aletheia.parser.term.semantic.A__F_TokenReducer;
 import aletheia.parser.term.semantic.A__I_TokenReducer;
+import aletheia.parser.term.semantic.A__atparam_TokenReducer;
 import aletheia.parser.term.semantic.A__tau_TokenReducer;
 import aletheia.parser.term.semantic.B__Q_TokenReducer;
 import aletheia.parser.term.semantic.C__A_MP_TokenReducer;
 import aletheia.parser.term.semantic.F__openfun_TPL_arrow_T_closefun_TokenReducer;
 import aletheia.parser.term.semantic.I__I_dot_id_TokenReducer;
 import aletheia.parser.term.semantic.I__id_TokenReducer;
+import aletheia.parser.term.semantic.MP__MP_AN_TokenReducer;
 import aletheia.parser.term.semantic.MP___TokenReducer;
 import aletheia.parser.term.semantic.P__I_TokenReducer;
+import aletheia.parser.term.semantic.P__atparam_TokenReducer;
 import aletheia.parser.term.semantic.Q__C_TokenReducer;
+import aletheia.parser.term.semantic.TPL__TPL_comma_TP_TokenReducer;
 import aletheia.parser.term.semantic.TPL__TP_TokenReducer;
+import aletheia.parser.term.semantic.TPL___TokenReducer;
 import aletheia.parser.term.semantic.TP__P_colon_T_TokenReducer;
+import aletheia.parser.term.semantic.TP__T_TokenReducer;
 import aletheia.parser.term.semantic.T__B_TokenReducer;
 import aletheia.parser.term.semantic.T__T_B_TokenReducer;
 import aletheia.parser.term.tokenprocessor.parameterRef.IdentifierParameterRef;
@@ -111,19 +119,19 @@ public class TermParser extends Parser
 					.<NonTerminalSymbol, NonTerminalToken<?, TypedParameterRefList>> findLastInList(antecedents, new TaggedNonTerminalSymbol("TPL"));
 			if (lastTPLToken == null)
 			{
-				return new AdaptedMap<>(new BijectionKeyMap<>(new Bijection<Identifier, ParameterRef>()
+				return new AdaptedMap<>(new BijectionKeyMap<>(new Bijection<Identifier, IdentifierParameterRef>()
 				{
 
 					@Override
-					public ParameterRef forward(Identifier identifier)
+					public IdentifierParameterRef forward(Identifier identifier)
 					{
 						return new IdentifierParameterRef(identifier);
 					}
 
 					@Override
-					public Identifier backward(ParameterRef parameterRef)
+					public Identifier backward(IdentifierParameterRef parameterRef)
 					{
-						return ((IdentifierParameterRef) parameterRef).getIdentifier();
+						return parameterRef.getIdentifier();
 					}
 				}, context.identifierToVariable(transaction)));
 			}
@@ -168,21 +176,29 @@ public class TermParser extends Parser
 	//@formatter:off
 	private final static Collection<Class<? extends ProductionTokenPayloadReducer<?>>> reducerClasses =
 			Arrays.asList(
-					I__id_TokenReducer.class,
-					I__I_dot_id_TokenReducer.class,
-					A__I_TokenReducer.class,
-					MP___TokenReducer.class,
-					C__A_MP_TokenReducer.class,
-					Q__C_TokenReducer.class,
-					B__Q_TokenReducer.class,
-					T__B_TokenReducer.class,
 					T__T_B_TokenReducer.class,
+					T__B_TokenReducer.class,
+					B__Q_TokenReducer.class,
+					Q__C_TokenReducer.class,
+					C__A_MP_TokenReducer.class,
 					A__tau_TokenReducer.class,
-					P__I_TokenReducer.class,
-					TP__P_colon_T_TokenReducer.class,
-					TPL__TP_TokenReducer.class,
+					A__I_TokenReducer.class,
+					A__atparam_TokenReducer.class,
+					A__F_TokenReducer.class,
 					F__openfun_TPL_arrow_T_closefun_TokenReducer.class,
-					A__F_TokenReducer.class);
+					TPL___TokenReducer.class,
+					TPL__TP_TokenReducer.class,
+					TPL__TPL_comma_TP_TokenReducer.class,
+					TP__P_colon_T_TokenReducer.class,
+					TP__T_TokenReducer.class,
+					P__I_TokenReducer.class,
+					P__atparam_TokenReducer.class,
+					I__I_dot_id_TokenReducer.class,
+					I__id_TokenReducer.class,
+					MP___TokenReducer.class,
+					MP__MP_AN_TokenReducer.class,
+					AN__asterisk_TokenReducer.class,
+					AN__asterisk_number_TokenReducer.class);
 	//@formatter:on
 
 	private final static TermParser instance = new TermParser();
