@@ -28,7 +28,7 @@ import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefList;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 import aletheia.persistence.Transaction;
 
 @ProcessorProduction(left = "TPL", right =
@@ -42,13 +42,13 @@ public class TPL_TPL_comma_TP_ParameterRefListTokenSubProcessor extends TypedPar
 	}
 
 	@Override
-	protected TypedParameterRefList subProcess(ParseTreeToken token, Context context, Transaction transaction,
+	protected TypedParameterRefList subProcess(ParseTree token, Context context, Transaction transaction,
 			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 			throws TokenProcessorException
 	{
-		TypedParameterRefList typedParameterRefList = getProcessor().processTypedParameterRefList((ParseTreeToken) token.getChildren().get(0), context,
-				transaction, tempParameterTable, parameterIdentifiers);
-		TypedParameterRef typedParameterRef = getProcessor().processTypedParameterRef((ParseTreeToken) token.getChildren().get(2), context, transaction,
+		TypedParameterRefList typedParameterRefList = getProcessor().processTypedParameterRefList((ParseTree) token.getChildren().get(0), context, transaction,
+				tempParameterTable, parameterIdentifiers);
+		TypedParameterRef typedParameterRef = getProcessor().processTypedParameterRef((ParseTree) token.getChildren().get(2), context, transaction,
 				tempParameterTable);
 		typedParameterRefList.addTypedParameterRef(typedParameterRef, tempParameterTable, parameterIdentifiers);
 		return typedParameterRefList;

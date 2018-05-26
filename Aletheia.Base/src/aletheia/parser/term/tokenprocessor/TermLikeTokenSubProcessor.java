@@ -26,7 +26,7 @@ import aletheia.model.statement.Context;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 import aletheia.persistence.Transaction;
 
 public abstract class TermLikeTokenSubProcessor<R> extends TokenSubProcessor<R, TermLikeTokenSubProcessor.Parameter>
@@ -57,15 +57,15 @@ public abstract class TermLikeTokenSubProcessor<R> extends TokenSubProcessor<R, 
 	}
 
 	@Override
-	protected R subProcess(ParseTreeToken token, Parameter parameter) throws TokenProcessorException
+	protected R subProcess(ParseTree token, Parameter parameter) throws TokenProcessorException
 	{
 		return subProcess(token, parameter.context, parameter.transaction, parameter.tempParameterTable, parameter.parameterIdentifiers);
 	}
 
-	protected abstract R subProcess(ParseTreeToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
+	protected abstract R subProcess(ParseTree token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
 			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TokenProcessorException;
 
-	protected R subProcess(ParseTreeToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable)
+	protected R subProcess(ParseTree token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable)
 			throws TokenProcessorException
 	{
 		return subProcess(token, context, transaction, tempParameterTable, null);

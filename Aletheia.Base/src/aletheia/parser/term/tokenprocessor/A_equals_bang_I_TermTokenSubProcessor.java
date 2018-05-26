@@ -29,7 +29,7 @@ import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 import aletheia.persistence.Transaction;
 
 @ProcessorProduction(left = "A", right =
@@ -43,10 +43,10 @@ public class A_equals_bang_I_TermTokenSubProcessor extends TermTokenSubProcessor
 	}
 
 	@Override
-	protected Term subProcess(ParseTreeToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
+	protected Term subProcess(ParseTree token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
 			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TokenProcessorException
 	{
-		Identifier identifier = getProcessor().processIdentifier((ParseTreeToken) token.getChildren().get(2));
+		Identifier identifier = getProcessor().processIdentifier((ParseTree) token.getChildren().get(2));
 		Statement statement = context.identifierToStatement(transaction).get(identifier);
 		if (statement instanceof Declaration)
 			return ((Declaration) statement).getValue();

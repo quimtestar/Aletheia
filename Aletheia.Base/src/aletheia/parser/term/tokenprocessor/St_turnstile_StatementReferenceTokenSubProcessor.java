@@ -22,7 +22,7 @@ package aletheia.parser.term.tokenprocessor;
 import aletheia.model.statement.Context;
 import aletheia.model.term.Term;
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 import aletheia.persistence.Transaction;
 
 @ProcessorProduction(left = "S_t", right =
@@ -36,7 +36,7 @@ public class St_turnstile_StatementReferenceTokenSubProcessor extends StatementR
 	}
 
 	@Override
-	public Term subProcess(ParseTreeToken token, Context context, Transaction transaction, ReferenceType referenceType) throws TokenProcessorException
+	public Term subProcess(ParseTree token, Context context, Transaction transaction, ReferenceType referenceType) throws TokenProcessorException
 	{
 		if (context == null)
 			throw new TokenProcessorException("Cannot refer to the consequent without a context", token.getChildren().get(0).getStartLocation(),

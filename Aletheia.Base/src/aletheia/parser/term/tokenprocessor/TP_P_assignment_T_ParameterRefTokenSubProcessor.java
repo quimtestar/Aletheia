@@ -29,7 +29,7 @@ import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefWithValue;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 import aletheia.persistence.Transaction;
 
 @ProcessorProduction(left = "TP", right =
@@ -43,16 +43,16 @@ public class TP_P_assignment_T_ParameterRefTokenSubProcessor extends TypedParame
 	}
 
 	@Override
-	protected TypedParameterRef subProcess(ParseTreeToken token, Context context, Transaction transaction,
+	protected TypedParameterRef subProcess(ParseTree token, Context context, Transaction transaction,
 			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 			throws TokenProcessorException
 	{
-		ParameterRef parameterRef = getProcessor().processParameterRef((ParseTreeToken) token.getChildren().get(0));
-		Term value = getProcessor().processTerm((ParseTreeToken) token.getChildren().get(2), context, transaction, tempParameterTable);
+		ParameterRef parameterRef = getProcessor().processParameterRef((ParseTree) token.getChildren().get(0));
+		Term value = getProcessor().processTerm((ParseTree) token.getChildren().get(2), context, transaction, tempParameterTable);
 		Term type = value.getType();
 		if (type == null)
 		{
-			ParseTreeToken t = (ParseTreeToken) token.getChildren().get(2);
+			ParseTree t = (ParseTree) token.getChildren().get(2);
 			throw new TokenProcessorException("Typeless substitution term", t.getStartLocation(), t.getStopLocation());
 		}
 		ParameterVariableTerm parameter = new ParameterVariableTerm(type);

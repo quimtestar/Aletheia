@@ -23,7 +23,7 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.collections.statement.GenericRootContextsMap;
 import aletheia.utilities.MiscUtilities;
@@ -38,9 +38,9 @@ public class S_I_StatementTokenSubProcessor extends StatementTokenSubProcessor
 	}
 
 	@Override
-	public Statement subProcess(ParseTreeToken token, Context context, Transaction transaction) throws TokenProcessorException
+	public Statement subProcess(ParseTree token, Context context, Transaction transaction) throws TokenProcessorException
 	{
-		Identifier identifier = getProcessor().processIdentifier((ParseTreeToken) token.getChildren().get(0));
+		Identifier identifier = getProcessor().processIdentifier((ParseTree) token.getChildren().get(0));
 		if (context == null)
 		{
 			GenericRootContextsMap rcm = transaction.getPersistenceManager().identifierToRootContexts(transaction).get(identifier);

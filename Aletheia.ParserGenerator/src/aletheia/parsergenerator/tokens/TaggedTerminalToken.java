@@ -19,6 +19,9 @@
  ******************************************************************************/
 package aletheia.parsergenerator.tokens;
 
+import java.util.List;
+
+import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.symbols.TaggedTerminalSymbol;
 
 /**
@@ -61,6 +64,11 @@ public class TaggedTerminalToken extends TerminalToken
 	public String getText()
 	{
 		return text;
+	}
+
+	public static String getTextFromTokenList(List<Token<? extends Symbol>> list, int i)
+	{
+		return ((TaggedTerminalToken) list.get(i)).getText();
 	}
 
 	@Override

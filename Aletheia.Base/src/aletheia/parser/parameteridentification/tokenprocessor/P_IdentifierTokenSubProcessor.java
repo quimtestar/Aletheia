@@ -21,7 +21,7 @@ package aletheia.parser.parameteridentification.tokenprocessor;
 
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.parameteridentification.tokenprocessor.TokenProcessor.ParameterWithType;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 
 @ProcessorProduction(left = "P", right = {})
 public class P_IdentifierTokenSubProcessor extends ParameterWithTypeTokenSubProcessor
@@ -33,7 +33,7 @@ public class P_IdentifierTokenSubProcessor extends ParameterWithTypeTokenSubProc
 	}
 
 	@Override
-	protected ParameterWithType subProcess(ParseTreeToken token) throws TokenProcessorException
+	protected ParameterWithType subProcess(ParseTree token) throws TokenProcessorException
 	{
 		return new ParameterWithType(null, null);
 	}

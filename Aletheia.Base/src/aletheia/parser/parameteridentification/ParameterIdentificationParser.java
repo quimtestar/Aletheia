@@ -32,7 +32,7 @@ import aletheia.parsergenerator.lexer.AutomatonSet;
 import aletheia.parsergenerator.lexer.AutomatonSetLexer;
 import aletheia.parsergenerator.parser.Parser;
 import aletheia.parsergenerator.parser.TransitionTable;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 
 public class ParameterIdentificationParser extends Parser
 {
@@ -85,7 +85,7 @@ public class ParameterIdentificationParser extends Parser
 	{
 		try
 		{
-			ParseTreeToken token = parseToken(new AutomatonSetLexer(automatonSet, reader));
+			ParseTree token = parseToken(new AutomatonSetLexer(automatonSet, reader));
 			return tokenProcessor.process(token);
 		}
 		catch (ParserLexerException e)

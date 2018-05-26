@@ -38,7 +38,7 @@ import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefList;
 import aletheia.parsergenerator.parser.Grammar;
 import aletheia.parsergenerator.parser.Production;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.tokens.TaggedTerminalToken;
 import aletheia.parsergenerator.tokens.TerminalToken;
@@ -233,13 +233,13 @@ public class TokenProcessor
 		return subProcessorClass.cast(subProcessor);
 	}
 
-	public Term process(ParseTreeToken token, Context context, Transaction transaction, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+	public Term process(ParseTree token, Context context, Transaction transaction, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 			throws TokenProcessorException
 	{
 		return processTerm(token, context, transaction, new HashMap<>(), parameterIdentifiers);
 	}
 
-	protected Term processTerm(ParseTreeToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
+	protected Term processTerm(ParseTree token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
 			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TokenProcessorException
 	{
 		TermTokenSubProcessor processor = getProcessor(TermTokenSubProcessor.class, token.getProduction());
@@ -248,7 +248,7 @@ public class TokenProcessor
 		return processor.subProcess(token, context, transaction, tempParameterTable, parameterIdentifiers);
 	}
 
-	protected Term processTerm(ParseTreeToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable)
+	protected Term processTerm(ParseTree token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable)
 			throws TokenProcessorException
 	{
 		TermTokenSubProcessor processor = getProcessor(TermTokenSubProcessor.class, token.getProduction());
@@ -257,7 +257,7 @@ public class TokenProcessor
 		return processor.subProcess(token, context, transaction, tempParameterTable);
 	}
 
-	protected ParameterRef processParameterRef(ParseTreeToken token) throws TokenProcessorException
+	protected ParameterRef processParameterRef(ParseTree token) throws TokenProcessorException
 	{
 		ParameterRefTokenSubProcessor processor = getProcessor(ParameterRefTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
@@ -265,7 +265,7 @@ public class TokenProcessor
 		return processor.subProcess(token);
 	}
 
-	protected TypedParameterRef processTypedParameterRef(ParseTreeToken token, Context context, Transaction transaction,
+	protected TypedParameterRef processTypedParameterRef(ParseTree token, Context context, Transaction transaction,
 			Map<ParameterRef, ParameterVariableTerm> tempParameterTable) throws TokenProcessorException
 	{
 		TypedParameterRefTokenSubProcessor processor = getProcessor(TypedParameterRefTokenSubProcessor.class, token.getProduction());
@@ -274,7 +274,7 @@ public class TokenProcessor
 		return processor.subProcess(token, context, transaction, tempParameterTable);
 	}
 
-	protected TypedParameterRefList processTypedParameterRefList(ParseTreeToken token, Context context, Transaction transaction,
+	protected TypedParameterRefList processTypedParameterRefList(ParseTree token, Context context, Transaction transaction,
 			Map<ParameterRef, ParameterVariableTerm> tempParameterTable, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 			throws TokenProcessorException
 	{
@@ -284,7 +284,7 @@ public class TokenProcessor
 		return processor.subProcess(token, context, transaction, tempParameterTable, parameterIdentifiers);
 	}
 
-	protected Identifier processIdentifier(ParseTreeToken token) throws TokenProcessorException
+	protected Identifier processIdentifier(ParseTree token) throws TokenProcessorException
 	{
 		IdentifierTokenSubProcessor processor = getProcessor(IdentifierTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
@@ -292,7 +292,7 @@ public class TokenProcessor
 		return processor.subProcess(token);
 	}
 
-	protected Term processReference(ParseTreeToken token, Context context, Transaction transaction) throws TokenProcessorException
+	protected Term processReference(ParseTree token, Context context, Transaction transaction) throws TokenProcessorException
 	{
 		ReferenceTokenSubProcessor processor = getProcessor(ReferenceTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
@@ -300,7 +300,7 @@ public class TokenProcessor
 		return processor.subProcess(token, context, transaction);
 	}
 
-	protected ReferenceType processReferenceType(ParseTreeToken token)
+	protected ReferenceType processReferenceType(ParseTree token)
 	{
 		ReferenceTypeTokenSubProcessor processor = getProcessor(ReferenceTypeTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
@@ -320,7 +320,7 @@ public class TokenProcessor
 		}
 	}
 
-	protected Term processStatementReference(ParseTreeToken token, Context context, Transaction transaction, ReferenceType referenceType)
+	protected Term processStatementReference(ParseTree token, Context context, Transaction transaction, ReferenceType referenceType)
 			throws TokenProcessorException
 	{
 		StatementReferenceTokenSubProcessor processor = getProcessor(StatementReferenceTokenSubProcessor.class, token.getProduction());
@@ -329,7 +329,7 @@ public class TokenProcessor
 		return processor.subProcess(token, context, transaction, referenceType);
 	}
 
-	protected Statement processStatement(ParseTreeToken token, Context context, Transaction transaction) throws TokenProcessorException
+	protected Statement processStatement(ParseTree token, Context context, Transaction transaction) throws TokenProcessorException
 	{
 		StatementTokenSubProcessor processor = getProcessor(StatementTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
@@ -337,7 +337,7 @@ public class TokenProcessor
 		return processor.subProcess(token, context, transaction);
 	}
 
-	protected boolean processBoolean(ParseTreeToken token) throws TokenProcessorException
+	protected boolean processBoolean(ParseTree token) throws TokenProcessorException
 	{
 		BooleanTokenSubProcessor processor = getProcessor(BooleanTokenSubProcessor.class, token.getProduction());
 		if (processor == null)
@@ -345,7 +345,7 @@ public class TokenProcessor
 		return processor.subProcess(token);
 	}
 
-	protected int processInteger(ParseTreeToken token) throws TokenProcessorException
+	protected int processInteger(ParseTree token) throws TokenProcessorException
 	{
 		IntegerTokenSubProcessor processor = getProcessor(IntegerTokenSubProcessor.class, token.getProduction());
 		if (processor == null)

@@ -22,7 +22,7 @@ package aletheia.parser.parameteridentification.tokenprocessor;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 import aletheia.parsergenerator.tokens.TaggedTerminalToken;
 
 @ProcessorProduction(left = "I", right =
@@ -36,7 +36,7 @@ public class I_id_IdentifierTokenSubProcessor extends IdentifierTokenSubProcesso
 	}
 
 	@Override
-	protected Identifier subProcess(ParseTreeToken token) throws TokenProcessorException
+	protected Identifier subProcess(ParseTree token) throws TokenProcessorException
 	{
 		String name = ((TaggedTerminalToken) token.getChildren().get(0)).getText();
 		try

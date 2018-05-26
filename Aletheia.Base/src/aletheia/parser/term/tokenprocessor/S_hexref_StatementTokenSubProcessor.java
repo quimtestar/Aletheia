@@ -22,7 +22,7 @@ package aletheia.parser.term.tokenprocessor;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 import aletheia.parsergenerator.tokens.TaggedTerminalToken;
 import aletheia.persistence.Transaction;
 
@@ -36,7 +36,7 @@ public class S_hexref_StatementTokenSubProcessor extends StatementTokenSubProces
 	}
 
 	@Override
-	public Statement subProcess(ParseTreeToken token, Context context, Transaction transaction) throws TokenProcessorException
+	public Statement subProcess(ParseTree token, Context context, Transaction transaction) throws TokenProcessorException
 	{
 		String hexRef = ((TaggedTerminalToken) token.getChildren().get(0)).getText();
 		if (context == null)

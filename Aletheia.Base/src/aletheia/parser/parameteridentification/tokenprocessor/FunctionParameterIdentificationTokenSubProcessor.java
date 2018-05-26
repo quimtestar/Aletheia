@@ -25,7 +25,7 @@ import aletheia.model.term.Term.ParameterIdentification;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.parameteridentification.tokenprocessor.TokenProcessor.ParameterWithType;
 import aletheia.parser.parameteridentification.tokenprocessor.TokenProcessor.ParameterWithTypeList;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 import aletheia.utilities.collections.ReverseList;
 
 public abstract class FunctionParameterIdentificationTokenSubProcessor extends ParameterIdentificationTokenSubProcessor
@@ -55,6 +55,6 @@ public abstract class FunctionParameterIdentificationTokenSubProcessor extends P
 	}
 
 	@Override
-	protected abstract FunctionParameterIdentification subProcess(ParseTreeToken token) throws TokenProcessorException;
+	protected abstract FunctionParameterIdentification subProcess(ParseTree token) throws TokenProcessorException;
 
 }

@@ -23,7 +23,7 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.term.Term.ParameterIdentification;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.parameteridentification.tokenprocessor.TokenProcessor.ParameterWithType;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 
 @ProcessorProduction(left = "P", right =
 { "I", "colon", "T" })
@@ -36,10 +36,10 @@ public class P_I_colon_T_IdentifierTokenSubProcessor extends ParameterWithTypeTo
 	}
 
 	@Override
-	protected ParameterWithType subProcess(ParseTreeToken token) throws TokenProcessorException
+	protected ParameterWithType subProcess(ParseTree token) throws TokenProcessorException
 	{
-		Identifier identifier = getProcessor().processIdentifier((ParseTreeToken) token.getChildren().get(0));
-		ParameterIdentification parameterType = getProcessor().processParameterIdentification((ParseTreeToken) token.getChildren().get(2));
+		Identifier identifier = getProcessor().processIdentifier((ParseTree) token.getChildren().get(0));
+		ParameterIdentification parameterType = getProcessor().processParameterIdentification((ParseTree) token.getChildren().get(2));
 		return new ParameterWithType(identifier, parameterType);
 	}
 

@@ -21,7 +21,7 @@ package aletheia.parser.parameteridentification.tokenprocessor;
 
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.parameteridentification.tokenprocessor.TokenProcessor.ParameterWithTypeList;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 
 @ProcessorProduction(left = "M", right =
 { "P" })
@@ -34,10 +34,10 @@ public class M_P_ParameterIdentificationTokenSubProcessor extends ParameterWithT
 	}
 
 	@Override
-	protected ParameterWithTypeList subProcess(ParseTreeToken token) throws TokenProcessorException
+	protected ParameterWithTypeList subProcess(ParseTree token) throws TokenProcessorException
 	{
 		ParameterWithTypeList list = new ParameterWithTypeList();
-		list.add(getProcessor().processParameterWithType((ParseTreeToken) token.getChildren().get(0)));
+		list.add(getProcessor().processParameterWithType((ParseTree) token.getChildren().get(0)));
 		return list;
 	}
 

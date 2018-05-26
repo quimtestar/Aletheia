@@ -22,7 +22,7 @@ package aletheia.parser.term.tokenprocessor;
 import aletheia.model.statement.Context;
 import aletheia.model.term.Term;
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 import aletheia.persistence.Transaction;
 
 public abstract class ReferenceTokenSubProcessor extends TokenSubProcessor<Term, ReferenceTokenSubProcessor.Parameter>
@@ -47,11 +47,11 @@ public abstract class ReferenceTokenSubProcessor extends TokenSubProcessor<Term,
 	}
 
 	@Override
-	protected Term subProcess(ParseTreeToken token, Parameter parameter) throws TokenProcessorException
+	protected Term subProcess(ParseTree token, Parameter parameter) throws TokenProcessorException
 	{
 		return subProcess(token, parameter.context, parameter.transaction);
 	}
 
-	protected abstract Term subProcess(ParseTreeToken token, Context context, Transaction transaction) throws TokenProcessorException;
+	protected abstract Term subProcess(ParseTree token, Context context, Transaction transaction) throws TokenProcessorException;
 
 }

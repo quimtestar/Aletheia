@@ -19,14 +19,9 @@
  ******************************************************************************/
 package aletheia.parsergenerator.tokens;
 
-import java.io.PrintStream;
 import java.util.List;
-import java.util.Stack;
-
-import aletheia.parsergenerator.semantic.ParseTreeToken;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.utilities.MiscUtilities;
-import aletheia.utilities.collections.ReverseList;
 
 /**
  * A token is a part of the input that has been processed with the lexer/parser
@@ -117,53 +112,6 @@ public abstract class Token<S extends Symbol>
 	public static Location stopLocationFromList(List<Token<? extends Symbol>> list)
 	{
 		return list.isEmpty() ? null : MiscUtilities.lastFromList(list).getStopLocation();
-	}
-
-	public void trace(PrintStream out)
-	{
-		class StackEntry
-		{
-			public final Token<?> token;
-			public final String indent;
-
-			public StackEntry(Token<?> token, String indent)
-			{
-				super();
-				this.token = token;
-				this.indent = indent;
-			}
-		}
-		;
-
-		Stack<StackEntry> stack = new Stack<>();
-		stack.push(new StackEntry(this, ""));
-		while (!stack.isEmpty())
-		{
-			StackEntry se = stack.pop();
-			out.print(se.indent + se.token.getSymbol());
-			if (se.token instanceof TerminalToken)
-			{
-				TerminalToken ttok = (TerminalToken) se.token;
-				if (ttok instanceof TaggedTerminalToken)
-				{
-					TaggedTerminalToken tagtok = (TaggedTerminalToken) ttok;
-					out.println(": " + tagtok.toString());
-				}
-				else
-					out.println();
-			}
-			else if (se.token instanceof ParseTreeToken)
-			{
-				ParseTreeToken nttok = (ParseTreeToken) se.token;
-				out.println(": " + nttok.getProduction().getRight());
-				String indent = se.indent + " ";
-				for (Token<?> c : new ReverseList<>(nttok.getChildren()))
-					stack.push(new StackEntry(c, indent));
-			}
-			else
-				throw new Error();
-		}
-
 	}
 
 }

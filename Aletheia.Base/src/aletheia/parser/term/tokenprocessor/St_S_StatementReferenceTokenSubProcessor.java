@@ -23,7 +23,7 @@ import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 import aletheia.persistence.Transaction;
 
 @ProcessorProduction(left = "S_t", right =
@@ -37,9 +37,9 @@ public class St_S_StatementReferenceTokenSubProcessor extends StatementReference
 	}
 
 	@Override
-	public Term subProcess(ParseTreeToken token, Context context, Transaction transaction, ReferenceType referenceType) throws TokenProcessorException
+	public Term subProcess(ParseTree token, Context context, Transaction transaction, ReferenceType referenceType) throws TokenProcessorException
 	{
-		Statement statement = getProcessor().processStatement((ParseTreeToken) token.getChildren().get(0), context, transaction);
+		Statement statement = getProcessor().processStatement((ParseTree) token.getChildren().get(0), context, transaction);
 		return dereferenceStatement(statement, referenceType, token.getChildren().get(0).getStartLocation(), token.getChildren().get(0).getStopLocation());
 	}
 

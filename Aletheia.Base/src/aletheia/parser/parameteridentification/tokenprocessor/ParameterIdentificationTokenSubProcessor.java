@@ -21,7 +21,7 @@ package aletheia.parser.parameteridentification.tokenprocessor;
 
 import aletheia.model.term.Term.ParameterIdentification;
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 
 public abstract class ParameterIdentificationTokenSubProcessor extends TokenSubProcessor<ParameterIdentification, Void>
 {
@@ -32,11 +32,11 @@ public abstract class ParameterIdentificationTokenSubProcessor extends TokenSubP
 	}
 
 	@Override
-	protected ParameterIdentification subProcess(ParseTreeToken token, Void parameter) throws TokenProcessorException
+	protected ParameterIdentification subProcess(ParseTree token, Void parameter) throws TokenProcessorException
 	{
 		return subProcess(token);
 	}
 
-	protected abstract ParameterIdentification subProcess(ParseTreeToken token) throws TokenProcessorException;
+	protected abstract ParameterIdentification subProcess(ParseTree token) throws TokenProcessorException;
 
 }

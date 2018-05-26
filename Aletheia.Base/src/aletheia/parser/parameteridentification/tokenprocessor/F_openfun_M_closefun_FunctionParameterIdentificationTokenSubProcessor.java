@@ -22,7 +22,7 @@ package aletheia.parser.parameteridentification.tokenprocessor;
 import aletheia.model.term.FunctionTerm.FunctionParameterIdentification;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.parameteridentification.tokenprocessor.TokenProcessor.ParameterWithTypeList;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 
 @ProcessorProduction(left = "F", right =
 { "openfun", "M", "closefun" })
@@ -35,9 +35,9 @@ public class F_openfun_M_closefun_FunctionParameterIdentificationTokenSubProcess
 	}
 
 	@Override
-	protected FunctionParameterIdentification subProcess(ParseTreeToken token) throws TokenProcessorException
+	protected FunctionParameterIdentification subProcess(ParseTree token) throws TokenProcessorException
 	{
-		ParameterWithTypeList parameterWithTypeList = getProcessor().processParameterWithTypeList((ParseTreeToken) token.getChildren().get(1));
+		ParameterWithTypeList parameterWithTypeList = getProcessor().processParameterWithTypeList((ParseTree) token.getChildren().get(1));
 		return subProcess(parameterWithTypeList, null);
 	}
 

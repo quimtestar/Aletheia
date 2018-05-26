@@ -45,7 +45,6 @@ import aletheia.parser.term.semantic.P__I_TokenReducer;
 import aletheia.parser.term.semantic.Q__C_TokenReducer;
 import aletheia.parser.term.semantic.T__B_TokenReducer;
 import aletheia.parser.term.semantic.T__T_B_TokenReducer;
-import aletheia.parser.term.tokens.TermToken;
 import aletheia.parsergenerator.ParserLexerException;
 import aletheia.parsergenerator.lexer.AutomatonSet;
 import aletheia.parsergenerator.lexer.AutomatonSetLexer;
@@ -53,9 +52,8 @@ import aletheia.parsergenerator.lexer.Lexer;
 import aletheia.parsergenerator.parser.Parser;
 import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.parser.TransitionTable;
-import aletheia.parsergenerator.semantic.ProductionManagedTokenReducer;
+import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer;
 import aletheia.parsergenerator.semantic.SemanticException;
-import aletheia.parsergenerator.semantic.ValuedNonTerminalToken;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
@@ -91,59 +89,45 @@ public class TermParser extends Parser
 
 	}
 
-	public static abstract class ProductionTokenReducer<T extends NonTerminalToken> extends ProductionManagedTokenReducer.ProductionTokenReducer<Globals, T>
+	public static abstract class ProductionTokenPayloadReducer<P> extends ProductionManagedTokenPayloadReducer.ProductionTokenPayloadReducer<Globals, P>
 	{
 
 		@Override
-		public final T reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+		public final P reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
 				throws SemanticException
 		{
 			return reduce(globals.context, globals.transaction, antecedents, production, reducees);
 		}
 
-		public abstract T reduce(Context context, Transaction transaction, List<Token<? extends Symbol>> antecedents, Production production,
+		public abstract P reduce(Context context, Transaction transaction, List<Token<? extends Symbol>> antecedents, Production production,
 				List<Token<? extends Symbol>> reducees) throws SemanticException;
-
 	}
 
-	public static abstract class TrivialProductionTokenReducer<V, T extends ValuedNonTerminalToken<V>> extends ProductionTokenReducer<T>
+	public static abstract class TrivialProductionTokenPayloadReducer<P> extends ProductionTokenPayloadReducer<P>
 	{
 		private final int position;
 
-		public TrivialProductionTokenReducer(int position)
+		public TrivialProductionTokenPayloadReducer(int position)
 		{
 			this.position = position;
 		}
 
-		public TrivialProductionTokenReducer()
+		public TrivialProductionTokenPayloadReducer()
 		{
 			this(0);
 		}
 
-		@SuppressWarnings("unchecked")
 		@Override
-		public T reduce(Context context, Transaction transaction, List<Token<? extends Symbol>> antecedents, Production production,
+		public P reduce(Context context, Transaction transaction, List<Token<? extends Symbol>> antecedents, Production production,
 				List<Token<? extends Symbol>> reducees) throws SemanticException
 		{
-			return makeToken(production, reducees, ((ValuedNonTerminalToken<V>) reducees.get(position)).getValue());
-		}
-
-		public abstract T makeToken(Production production, List<Token<? extends Symbol>> reducees, V value);
-	}
-
-	public static abstract class TermTrivialProductionTokenReducer extends TrivialProductionTokenReducer<Term, TermToken>
-	{
-
-		@Override
-		public TermToken makeToken(Production production, List<Token<? extends Symbol>> reducees, Term term)
-		{
-			return new TermToken(production, reducees, term);
+			return NonTerminalToken.getPayloadFromTokenList(reducees, position);
 		}
 
 	}
 
 	//@formatter:off
-	private final static Collection<Class<? extends ProductionTokenReducer<? extends NonTerminalToken>>> reducerClasses =
+	private final static Collection<Class<? extends ProductionTokenPayloadReducer<?>>> reducerClasses =
 			Arrays.asList(
 					I__id_TokenReducer.class,
 					I__I_dot_id_TokenReducer.class,
@@ -161,7 +145,7 @@ public class TermParser extends Parser
 	private final static TermParser instance = new TermParser();
 
 	private final AutomatonSet automatonSet;
-	private final ProductionManagedTokenReducer<Globals, NonTerminalToken> tokenReducer;
+	private final ProductionManagedTokenPayloadReducer<Globals, ?> tokenPayloadReducer;
 
 	private static TransitionTable loadTransitionTable()
 	{
@@ -218,7 +202,7 @@ public class TermParser extends Parser
 		{
 			throw new Error(e);
 		}
-		this.tokenReducer = new ProductionManagedTokenReducer<>(reducerClasses);
+		this.tokenPayloadReducer = new ProductionManagedTokenPayloadReducer<>(reducerClasses);
 	}
 
 	public static Term parseTerm(Context context, Transaction transaction, Reader reader, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
@@ -237,8 +221,7 @@ public class TermParser extends Parser
 	{
 		try
 		{
-			TermToken token = (TermToken) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenReducer, new Globals(context, transaction));
-			return token.getTerm();
+			return (Term) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenPayloadReducer, new Globals(context, transaction));
 		}
 		catch (ParserLexerException e)
 		{

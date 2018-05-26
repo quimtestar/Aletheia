@@ -29,7 +29,7 @@ import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 import aletheia.parsergenerator.tokens.TaggedTerminalToken;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.BufferedList;
@@ -44,14 +44,14 @@ public class A_A_semicolon_number_M_TermTokenSubProcessor extends TermTokenSubPr
 	}
 
 	@Override
-	protected Term subProcess(ParseTreeToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
+	protected Term subProcess(ParseTree token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
 			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TokenProcessorException
 	{
-		Term term = getProcessor().processTerm((ParseTreeToken) token.getChildren().get(0), context, transaction, tempParameterTable);
+		Term term = getProcessor().processTerm((ParseTree) token.getChildren().get(0), context, transaction, tempParameterTable);
 		if (term instanceof CompositionTerm)
 		{
 			List<Term> components;
-			if (getProcessor().processBoolean((ParseTreeToken) token.getChildren().get(3)))
+			if (getProcessor().processBoolean((ParseTree) token.getChildren().get(3)))
 				components = new BufferedList<>(((CompositionTerm) term).aggregateComponents());
 			else
 				components = new BufferedList<>(((CompositionTerm) term).components());

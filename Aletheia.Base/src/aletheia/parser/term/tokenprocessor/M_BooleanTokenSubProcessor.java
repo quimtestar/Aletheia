@@ -20,7 +20,7 @@
 package aletheia.parser.term.tokenprocessor;
 
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 
 @ProcessorProduction(left = "M", right = {})
 public class M_BooleanTokenSubProcessor extends BooleanTokenSubProcessor
@@ -32,7 +32,7 @@ public class M_BooleanTokenSubProcessor extends BooleanTokenSubProcessor
 	}
 
 	@Override
-	protected boolean subProcess(ParseTreeToken token) throws TokenProcessorException
+	protected boolean subProcess(ParseTree token) throws TokenProcessorException
 	{
 		return false;
 	}

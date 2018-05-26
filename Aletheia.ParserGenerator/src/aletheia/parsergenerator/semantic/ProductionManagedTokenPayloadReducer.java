@@ -12,10 +12,9 @@ import java.util.Map;
 
 import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.symbols.Symbol;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
 
-public class ProductionManagedTokenReducer<G, T extends NonTerminalToken> extends TokenReducer<G, T>
+public class ProductionManagedTokenPayloadReducer<G, P> extends TokenPayloadReducer<G, P>
 {
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.TYPE)
@@ -95,73 +94,75 @@ public class ProductionManagedTokenReducer<G, T extends NonTerminalToken> extend
 		}
 	}
 
-	public static class ProductionManagedTokenReducerException extends RuntimeException
+	public static class ProductionManagedTokenPayloadReducerException extends RuntimeException
 	{
 		private static final long serialVersionUID = -7943873023809664017L;
 
-		private ProductionManagedTokenReducerException()
+		private ProductionManagedTokenPayloadReducerException()
 		{
 			super();
 		}
 
-		private ProductionManagedTokenReducerException(String message, Throwable cause)
+		private ProductionManagedTokenPayloadReducerException(String message, Throwable cause)
 		{
 			super(message, cause);
 		}
 
-		private ProductionManagedTokenReducerException(String message)
+		private ProductionManagedTokenPayloadReducerException(String message)
 		{
 			super(message);
 		}
 
-		private ProductionManagedTokenReducerException(Throwable cause)
+		private ProductionManagedTokenPayloadReducerException(Throwable cause)
 		{
 			super(cause);
 		}
 
 	}
 
-	public static abstract class ProductionTokenReducer<G, T extends NonTerminalToken>
+	public static abstract class ProductionTokenPayloadReducer<G, P>
 	{
-		public abstract T reduce(G globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+		public abstract P reduce(G globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
 				throws SemanticException;
 	}
 
-	private final Map<AssociatedProductionKey, ProductionTokenReducer<G, ? extends T>> productionTokenReducerMap;
+	private final Map<AssociatedProductionKey, ProductionTokenPayloadReducer<G, ? extends P>> productionTokenPayloadReducerMap;
 
-	public ProductionManagedTokenReducer(Collection<? extends Class<? extends ProductionTokenReducer<G, ? extends T>>> productionTokenReducerClasses)
-			throws ProductionManagedTokenReducerException
+	public ProductionManagedTokenPayloadReducer(
+			Collection<? extends Class<? extends ProductionTokenPayloadReducer<G, ? extends P>>> productionTokenPayloadReducerClasses)
+			throws ProductionManagedTokenPayloadReducerException
 	{
 		super();
-		this.productionTokenReducerMap = new HashMap<>();
-		for (Class<? extends ProductionTokenReducer<G, ? extends T>> productionTokenReducerClass : productionTokenReducerClasses)
+		this.productionTokenPayloadReducerMap = new HashMap<>();
+		for (Class<? extends ProductionTokenPayloadReducer<G, ? extends P>> productionTokenPayloadReducerClass : productionTokenPayloadReducerClasses)
 		{
-			AssociatedProduction associatedProduction = productionTokenReducerClass.getAnnotation(AssociatedProduction.class);
+			AssociatedProduction associatedProduction = productionTokenPayloadReducerClass.getAnnotation(AssociatedProduction.class);
 			if (associatedProduction == null)
-				throw new ProductionManagedTokenReducerException(
-						"A ProductionTokenReducer class must be annotated with an AssociatedProduction: " + productionTokenReducerClass.getName());
+				throw new ProductionManagedTokenPayloadReducerException("A ProductionTokenPayloadReducer class must be annotated with an AssociatedProduction: "
+						+ productionTokenPayloadReducerClass.getName());
 			AssociatedProductionKey associatedProductionKey = new AssociatedProductionKey(associatedProduction);
 			try
 			{
-				ProductionTokenReducer<G, ? extends T> old = productionTokenReducerMap.put(associatedProductionKey, productionTokenReducerClass.newInstance());
+				ProductionTokenPayloadReducer<G, ? extends P> old = productionTokenPayloadReducerMap.put(associatedProductionKey,
+						productionTokenPayloadReducerClass.newInstance());
 				if (old != null)
-					throw new ProductionManagedTokenReducerException("Production collision for classes " + productionTokenReducerClass.getName() + " and "
-							+ old.getClass().getName() + " (" + associatedProductionKey + ")");
+					throw new ProductionManagedTokenPayloadReducerException("Production collision for classes " + productionTokenPayloadReducerClass.getName()
+							+ " and " + old.getClass().getName() + " (" + associatedProductionKey + ")");
 			}
 			catch (SecurityException | InstantiationException | IllegalAccessException e)
 			{
-				throw new ProductionManagedTokenReducerException(e);
+				throw new ProductionManagedTokenPayloadReducerException(e);
 			}
 		}
 	}
 
 	@Override
-	public T reduce(G globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+	public P reduce(G globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
 			throws SemanticException
 	{
-		ProductionTokenReducer<G, ? extends T> reducer = productionTokenReducerMap.get(new AssociatedProductionKey(production));
+		ProductionTokenPayloadReducer<G, ? extends P> reducer = productionTokenPayloadReducerMap.get(new AssociatedProductionKey(production));
 		if (reducer == null)
-			throw new ProductionManagedTokenReducerException("No token class declared for production: " + production);
+			throw new ProductionManagedTokenPayloadReducerException("No token class declared for production: " + production);
 		return reducer.reduce(globals, antecedents, production, reducees);
 	}
 

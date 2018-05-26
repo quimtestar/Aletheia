@@ -29,7 +29,7 @@ import aletheia.model.term.Term;
 import aletheia.model.term.Term.ReplaceTypeException;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 import aletheia.persistence.Transaction;
 
 @ProcessorProduction(left = "B", right =
@@ -43,11 +43,11 @@ public class B_B_bar_Q_TermTokenSubProcessor extends TermTokenSubProcessor
 	}
 
 	@Override
-	protected Term subProcess(ParseTreeToken token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
+	protected Term subProcess(ParseTree token, Context context, Transaction transaction, Map<ParameterRef, ParameterVariableTerm> tempParameterTable,
 			Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws TokenProcessorException
 	{
-		Term term = getProcessor().processTerm((ParseTreeToken) token.getChildren().get(0), context, transaction, tempParameterTable);
-		Term oldTerm = getProcessor().processTerm((ParseTreeToken) token.getChildren().get(2), context, transaction, tempParameterTable);
+		Term term = getProcessor().processTerm((ParseTree) token.getChildren().get(0), context, transaction, tempParameterTable);
+		Term oldTerm = getProcessor().processTerm((ParseTree) token.getChildren().get(2), context, transaction, tempParameterTable);
 		ParameterVariableTerm param = new ParameterVariableTerm(oldTerm.getType());
 		try
 		{

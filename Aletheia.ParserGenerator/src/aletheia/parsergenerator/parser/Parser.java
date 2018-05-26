@@ -35,9 +35,9 @@ import java.util.Stack;
 import aletheia.parsergenerator.ParserLexerException;
 import aletheia.parsergenerator.lexer.Lexer;
 import aletheia.parsergenerator.parser.TransitionTable.State;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
-import aletheia.parsergenerator.semantic.ParseTreeTokenReducer;
-import aletheia.parsergenerator.semantic.TokenReducer;
+import aletheia.parsergenerator.semantic.ParseTree;
+import aletheia.parsergenerator.semantic.ParseTreeReducer;
+import aletheia.parsergenerator.semantic.TokenPayloadReducer;
 import aletheia.parsergenerator.symbols.EndTerminalSymbol;
 import aletheia.parsergenerator.tokens.Location;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
@@ -47,12 +47,12 @@ import aletheia.parsergenerator.tokens.Token;
 /**
  * A class that parses. That is, use a {@link TransitionTable} for converting
  * the flow of {@link TerminalToken}s produced by a {@link Lexer} to a
- * {@link ParseTreeToken} object according to the {@link Grammar} rules. Once
+ * {@link ParseTree} object according to the {@link Grammar} rules. Once
  * generated, a parser might be saved to a file for further use skipping the
  * generation phase.
  *
  * This class is abstract; his subclasses will typically implement a method that
- * builds the useful parsed objects by converting the {@link ParseTreeToken}
+ * builds the useful parsed objects by converting the {@link ParseTree}
  * structure returned by the {@link #parseToken(Lexer)} method.
  *
  */
@@ -202,7 +202,7 @@ public abstract class Parser implements Serializable
 	 *
 	 * @param lexer
 	 *            The lexer.
-	 * @param tokenReducer
+	 * @param reducer
 	 *            The token reducer.
 	 * @param globals
 	 *            Global data needed for parsing.
@@ -210,7 +210,7 @@ public abstract class Parser implements Serializable
 	 * @return The {@link Token} containing the parsed structure.
 	 * @throws ParserLexerException
 	 */
-	protected <G, T extends NonTerminalToken> T parseToken(Lexer lexer, TokenReducer<G, T> tokenReducer, G globals) throws ParserLexerException
+	protected <G, P> P parseToken(Lexer lexer, TokenPayloadReducer<G, P> reducer, G globals) throws ParserLexerException
 	{
 		Stack<State> stateStack = new Stack<>();
 		Stack<Token<?>> inputStack = new Stack<>();
@@ -224,8 +224,8 @@ public abstract class Parser implements Serializable
 			if (state.equals(transitionTable.getAcceptState()) && inputStack.peek().getSymbol().equals(EndTerminalSymbol.instance))
 			{
 				@SuppressWarnings("unchecked")
-				T pop = (T) outputStack.pop();
-				return pop;
+				NonTerminalToken<G, P> pop = (NonTerminalToken<G, P>) outputStack.pop();
+				return pop.getPayload();
 			}
 			State shiftTo = transitionTable.getTransitions().get(state).get(inputStack.peek().getSymbol());
 			if (shiftTo != null)
@@ -240,7 +240,7 @@ public abstract class Parser implements Serializable
 					throw new UnexpectedTokenException(inputStack.peek(), state);
 				List<Token<?>> antecedents = Collections.unmodifiableList(outputStack.subList(0, outputStack.size() - prod.getRight().size()));
 				List<Token<?>> reducees = Collections.unmodifiableList(outputStack.subList(outputStack.size() - prod.getRight().size(), outputStack.size()));
-				inputStack.push(tokenReducer.reduce(globals, antecedents, prod, reducees));
+				inputStack.push(new NonTerminalToken<>(globals, antecedents, prod, reducees, reducer));
 				outputStack.setSize(outputStack.size() - prod.getRight().size());
 				stateStack.setSize(stateStack.size() - prod.getRight().size());
 			}
@@ -248,14 +248,14 @@ public abstract class Parser implements Serializable
 		throw new RuntimeException();
 	}
 
-	protected <T extends NonTerminalToken> T parseToken(Lexer lexer, TokenReducer<Void, T> tokenReducer) throws ParserLexerException
+	protected <P> P parseToken(Lexer lexer, TokenPayloadReducer<Void, P> tokenReducer) throws ParserLexerException
 	{
 		return parseToken(lexer, tokenReducer, null);
 	}
 
-	protected ParseTreeToken parseToken(Lexer lexer) throws ParserLexerException
+	protected ParseTree parseToken(Lexer lexer) throws ParserLexerException
 	{
-		return parseToken(lexer, new ParseTreeTokenReducer());
+		return parseToken(lexer, new ParseTreeReducer());
 	}
 
 	/**

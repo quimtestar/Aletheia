@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.parser.term.tokenprocessor;
 
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 
 @ProcessorProduction(left = "R_t", right =
 { "ampersand", "caret" })
@@ -32,7 +32,7 @@ public class Rt_ampersand_caret_ReferenceTokenSubProcessor extends ReferenceType
 	}
 
 	@Override
-	protected ReferenceType subProcess(ParseTreeToken token)
+	protected ReferenceType subProcess(ParseTree token)
 	{
 		return ReferenceType.INSTANCE;
 	}

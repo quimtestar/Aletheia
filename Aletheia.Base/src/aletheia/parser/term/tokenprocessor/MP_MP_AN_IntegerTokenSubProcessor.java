@@ -20,7 +20,7 @@
 package aletheia.parser.term.tokenprocessor;
 
 import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.semantic.ParseTreeToken;
+import aletheia.parsergenerator.semantic.ParseTree;
 
 @ProcessorProduction(left = "MP", right =
 { "MP", "AN" })
@@ -33,10 +33,10 @@ public class MP_MP_AN_IntegerTokenSubProcessor extends IntegerTokenSubProcessor
 	}
 
 	@Override
-	protected int subProcess(ParseTreeToken token) throws TokenProcessorException
+	protected int subProcess(ParseTree token) throws TokenProcessorException
 	{
-		int nMP = getProcessor().processInteger((ParseTreeToken) token.getChildren().get(0));
-		int nAN = getProcessor().processInteger((ParseTreeToken) token.getChildren().get(1));
+		int nMP = getProcessor().processInteger((ParseTree) token.getChildren().get(0));
+		int nAN = getProcessor().processInteger((ParseTree) token.getChildren().get(1));
 		return nMP + nAN;
 	}
 
