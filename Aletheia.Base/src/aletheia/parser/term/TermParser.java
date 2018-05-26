@@ -35,12 +35,16 @@ import aletheia.parser.AletheiaParserConstants;
 import aletheia.parser.AletheiaParserException;
 import aletheia.parser.AletheiaParserGenerator;
 import aletheia.parser.term.semantic.A__I_TokenReducer;
+import aletheia.parser.term.semantic.A__tau_TokenReducer;
 import aletheia.parser.term.semantic.B__Q_TokenReducer;
 import aletheia.parser.term.semantic.C__A_MP_TokenReducer;
+import aletheia.parser.term.semantic.I__I_dot_id_TokenReducer;
 import aletheia.parser.term.semantic.I__id_TokenReducer;
 import aletheia.parser.term.semantic.MP___TokenReducer;
+import aletheia.parser.term.semantic.P__I_TokenReducer;
 import aletheia.parser.term.semantic.Q__C_TokenReducer;
 import aletheia.parser.term.semantic.T__B_TokenReducer;
+import aletheia.parser.term.semantic.T__T_B_TokenReducer;
 import aletheia.parser.term.tokens.TermToken;
 import aletheia.parsergenerator.ParserLexerException;
 import aletheia.parsergenerator.lexer.AutomatonSet;
@@ -142,12 +146,16 @@ public class TermParser extends Parser
 	private final static Collection<Class<? extends ProductionTokenReducer<? extends NonTerminalToken>>> reducerClasses =
 			Arrays.asList(
 					I__id_TokenReducer.class,
+					I__I_dot_id_TokenReducer.class,
 					A__I_TokenReducer.class,
 					MP___TokenReducer.class,
 					C__A_MP_TokenReducer.class,
 					Q__C_TokenReducer.class,
 					B__Q_TokenReducer.class,
-					T__B_TokenReducer.class);
+					T__B_TokenReducer.class,
+					T__T_B_TokenReducer.class,
+					A__tau_TokenReducer.class,
+					P__I_TokenReducer.class);
 	//@formatter:on
 
 	private final static TermParser instance = new TermParser();

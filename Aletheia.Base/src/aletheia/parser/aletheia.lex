@@ -27,7 +27,7 @@
 '\('															: openpar;			# Open parentheses.
 '\)'															: closepar;			# Close patentheses.
 '\.'															: dot;				# Separate the identifier qualifying components.
-'Tau'															: ttype;			# "Tau" is the reserved word for the primitive.
+'Tau'															: tau;				# "Tau" is the reserved word for the primitive.
 '&'																: ampersand;		# Begins a reference.
 '\^'															: caret;			# Refers to the instance of a specialization statement. 
 '\,'															: comma;			# Parameter list separator in functions

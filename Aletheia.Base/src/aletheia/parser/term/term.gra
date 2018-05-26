@@ -36,7 +36,7 @@ Q -> C;							# Just a (possibly) multiprojected atom.
 C -> A MP;						# An atom projected zero or more times: "<p:t->b>*"
 
 # An atom might be:
-A -> ttype;						# The primitive type "Tau".
+A -> tau;						# The primitive type "Tau".
 A -> I;							# An identifier.
 A -> atparam;					# An 'at' parameter of the form "@n" where n is a natural number. 
 A -> F;							# A function term : "<parameter:type -> body>".
