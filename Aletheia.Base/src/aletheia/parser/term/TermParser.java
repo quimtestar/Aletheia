@@ -39,8 +39,11 @@ import aletheia.parser.term.semantic.AN__asterisk_TokenReducer;
 import aletheia.parser.term.semantic.AN__asterisk_number_TokenReducer;
 import aletheia.parser.term.semantic.A__F_TokenReducer;
 import aletheia.parser.term.semantic.A__I_TokenReducer;
+import aletheia.parser.term.semantic.A__R_TokenReducer;
 import aletheia.parser.term.semantic.A__atparam_TokenReducer;
+import aletheia.parser.term.semantic.A__openpar_T_closepar_TokenReducer;
 import aletheia.parser.term.semantic.A__tau_TokenReducer;
+import aletheia.parser.term.semantic.B__B_bar_Q_TokenReducer;
 import aletheia.parser.term.semantic.B__Q_TokenReducer;
 import aletheia.parser.term.semantic.C__A_MP_TokenReducer;
 import aletheia.parser.term.semantic.F__openfun_TPL_arrow_T_closefun_TokenReducer;
@@ -51,9 +54,15 @@ import aletheia.parser.term.semantic.MP___TokenReducer;
 import aletheia.parser.term.semantic.P__I_TokenReducer;
 import aletheia.parser.term.semantic.P__atparam_TokenReducer;
 import aletheia.parser.term.semantic.Q__C_TokenReducer;
+import aletheia.parser.term.semantic.R__Rt_Sts_TokenReducer;
+import aletheia.parser.term.semantic.Rt__ampersand_TokenReducer;
+import aletheia.parser.term.semantic.S__I_TokenReducer;
+import aletheia.parser.term.semantic.St__S_TokenReducer;
+import aletheia.parser.term.semantic.Sts__St_TokenReducer;
 import aletheia.parser.term.semantic.TPL__TPL_comma_TP_TokenReducer;
 import aletheia.parser.term.semantic.TPL__TP_TokenReducer;
 import aletheia.parser.term.semantic.TPL___TokenReducer;
+import aletheia.parser.term.semantic.TP__P_assignment_T_TokenReducer;
 import aletheia.parser.term.semantic.TP__P_colon_T_TokenReducer;
 import aletheia.parser.term.semantic.TP__T_TokenReducer;
 import aletheia.parser.term.semantic.T__B_TokenReducer;
@@ -70,7 +79,6 @@ import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.parser.TransitionTable;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer;
 import aletheia.parsergenerator.semantic.SemanticException;
-import aletheia.parsergenerator.symbols.NonTerminalSymbol;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.symbols.TaggedNonTerminalSymbol;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
@@ -115,10 +123,10 @@ public class TermParser extends Parser
 		protected static Map<ParameterRef, VariableTerm> antecedentReferenceMap(Context context, Transaction transaction,
 				List<Token<? extends Symbol>> antecedents)
 		{
-			NonTerminalToken<?, TypedParameterRefList> lastTPLToken = Token
-					.<NonTerminalSymbol, NonTerminalToken<?, TypedParameterRefList>> findLastInList(antecedents, new TaggedNonTerminalSymbol("TPL"));
-			if (lastTPLToken == null)
+			TypedParameterRefList tprl = NonTerminalToken.findLastPayloadInList(antecedents, new TaggedNonTerminalSymbol("TPL"));
+			if (tprl == null)
 			{
+				//TODO This might be computed only once per parse call
 				return new AdaptedMap<>(new BijectionKeyMap<>(new Bijection<Identifier, IdentifierParameterRef>()
 				{
 
@@ -133,10 +141,10 @@ public class TermParser extends Parser
 					{
 						return parameterRef.getIdentifier();
 					}
-				}, context.identifierToVariable(transaction)));
+				}, context.identifierToVariable(transaction))); //slow if not counting on database cacheing.
 			}
 			else
-				return lastTPLToken.getPayload().parameterTable();
+				return tprl.parameterTable();
 		}
 
 		@Override
@@ -178,6 +186,7 @@ public class TermParser extends Parser
 			Arrays.asList(
 					T__T_B_TokenReducer.class,
 					T__B_TokenReducer.class,
+					B__B_bar_Q_TokenReducer.class,
 					B__Q_TokenReducer.class,
 					Q__C_TokenReducer.class,
 					C__A_MP_TokenReducer.class,
@@ -185,16 +194,26 @@ public class TermParser extends Parser
 					A__I_TokenReducer.class,
 					A__atparam_TokenReducer.class,
 					A__F_TokenReducer.class,
+					A__R_TokenReducer.class,
+					A__openpar_T_closepar_TokenReducer.class,
 					F__openfun_TPL_arrow_T_closefun_TokenReducer.class,
 					TPL___TokenReducer.class,
 					TPL__TP_TokenReducer.class,
 					TPL__TPL_comma_TP_TokenReducer.class,
 					TP__P_colon_T_TokenReducer.class,
 					TP__T_TokenReducer.class,
+					TP__P_assignment_T_TokenReducer.class,
 					P__I_TokenReducer.class,
 					P__atparam_TokenReducer.class,
 					I__I_dot_id_TokenReducer.class,
 					I__id_TokenReducer.class,
+					
+					R__Rt_Sts_TokenReducer.class,
+					Rt__ampersand_TokenReducer.class,
+					Sts__St_TokenReducer.class,
+					St__S_TokenReducer.class,
+					S__I_TokenReducer.class,
+					
 					MP___TokenReducer.class,
 					MP__MP_AN_TokenReducer.class,
 					AN__asterisk_TokenReducer.class,

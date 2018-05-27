@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.parser.term.tokenprocessor;
 
+import aletheia.parser.term.ReferenceType;
 import aletheia.parsergenerator.semantic.ParseTree;
 
 @ProcessorProduction(left = "R_t", right =

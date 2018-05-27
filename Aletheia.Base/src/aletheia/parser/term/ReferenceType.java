@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.parser.term.tokenprocessor;
+package aletheia.parser.term;
 
 public enum ReferenceType
 {
