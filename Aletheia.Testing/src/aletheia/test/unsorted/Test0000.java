@@ -39,8 +39,8 @@ public class Test0000 extends TransactionalBerkeleyDBPersistenceManagerTest
 	@Override
 	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws AletheiaParserException
 	{
-		Context context = persistenceManager.getContext(transaction, UUID.fromString("42cc8199-8159-5567-b65c-db023f95eaa3"));
-		Term term = context.parseTerm(transaction, "&Natural.sum.th.comm");
+		Context context = persistenceManager.getContext(transaction, UUID.fromString("8bf0bf35-c253-5257-b3ef-49b59beabc77"));
+		Term term = context.parseTerm(transaction, "&(s002.sub_00/s096.sub_00/s098.sub_00/s100)");
 		System.out.println(context.unparseTerm(transaction, term));
 	}
 

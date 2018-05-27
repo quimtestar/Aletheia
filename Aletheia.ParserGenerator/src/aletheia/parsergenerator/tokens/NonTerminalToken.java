@@ -36,25 +36,25 @@ public class NonTerminalToken<G, P> extends Token<NonTerminalSymbol>
 		return ((NonTerminalToken<?, ? extends P>) list.get(i)).getPayload();
 	}
 
-	public static <P, T extends NonTerminalToken<?, P>> T findFirstInList(List<Token<? extends Symbol>> list, NonTerminalSymbol symbol)
-	{
-		return Token.findFirstInList(list, symbol);
-	}
-
 	public static <P, T extends NonTerminalToken<?, P>> T findLastInList(List<Token<? extends Symbol>> list, NonTerminalSymbol symbol)
 	{
 		return Token.findLastInList(list, symbol);
 	}
 
-	public static <P, T extends NonTerminalToken<?, P>> P findFirstPayloadInList(List<Token<? extends Symbol>> list, NonTerminalSymbol symbol)
+	public static <P, T extends NonTerminalToken<?, P>> T findLastInList(List<Token<? extends Symbol>> list, NonTerminalSymbol target, Symbol stopper)
 	{
-		T token = NonTerminalToken.<P, T> findFirstInList(list, symbol);
-		return token == null ? null : token.getPayload();
+		return Token.findLastInList(list, target, stopper);
 	}
 
 	public static <P, T extends NonTerminalToken<?, P>> P findLastPayloadInList(List<Token<? extends Symbol>> list, NonTerminalSymbol symbol)
 	{
 		T token = NonTerminalToken.<P, T> findLastInList(list, symbol);
+		return token == null ? null : token.getPayload();
+	}
+
+	public static <P, T extends NonTerminalToken<?, P>> P findLastPayloadInList(List<Token<? extends Symbol>> list, NonTerminalSymbol target, Symbol stopper)
+	{
+		T token = NonTerminalToken.<P, T> findLastInList(list, target, stopper);
 		return token == null ? null : token.getPayload();
 	}
 

@@ -19,6 +19,8 @@
  ******************************************************************************/
 package aletheia.parsergenerator.tokens;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -118,25 +120,39 @@ public abstract class Token<S extends Symbol>
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <S extends Symbol, T extends Token<? extends S>> T findFirstInListIterator(ListIterator<Token<? extends Symbol>> iterator, S symbol)
+	public static <S extends Symbol, T extends Token<? extends S>> T findFirstInListIterator(ListIterator<Token<? extends Symbol>> iterator,
+			Collection<? extends S> targets, Collection<? extends Symbol> stoppers)
 	{
 		while (iterator.hasNext())
 		{
 			Token<? extends Symbol> token = iterator.next();
-			if (token.getSymbol().equals(symbol))
+			if (stoppers.contains(token.getSymbol()))
+				return null;
+			if (targets.contains(token.getSymbol()))
 				return (T) token;
 		}
 		return null;
 	}
 
-	public static <S extends Symbol, T extends Token<? extends S>> T findFirstInList(List<Token<? extends Symbol>> list, S symbol)
+	public static <S extends Symbol, T extends Token<? extends S>> T findFirstInListIterator(ListIterator<Token<? extends Symbol>> iterator, S symbol)
 	{
-		return findFirstInListIterator(list.listIterator(), symbol);
+		return findFirstInListIterator(iterator, Collections.singleton(symbol), Collections.emptyList());
+	}
+
+	public static <S extends Symbol, T extends Token<? extends S>> T findFirstInListIterator(ListIterator<Token<? extends Symbol>> iterator, S target,
+			Symbol stopper)
+	{
+		return findFirstInListIterator(iterator, Collections.singleton(target), Collections.singleton(stopper));
 	}
 
 	public static <S extends Symbol, T extends Token<? extends S>> T findLastInList(List<Token<? extends Symbol>> list, S symbol)
 	{
 		return findFirstInListIterator(new ReverseListIterator<>(list.listIterator(list.size())), symbol);
+	}
+
+	public static <S extends Symbol, T extends Token<? extends S>> T findLastInList(List<Token<? extends Symbol>> list, S target, Symbol stopper)
+	{
+		return findFirstInListIterator(new ReverseListIterator<>(list.listIterator(list.size())), target, stopper);
 	}
 
 }
