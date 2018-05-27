@@ -51,7 +51,10 @@ public class TypedParameterRefList
 
 	public Map<ParameterRef, VariableTerm> parameterTable()
 	{
-		return new CombinedMap<>(new AdaptedMap<>(frontParameterTable), backParameterTable);
+		if (backParameterTable == null)
+			return new AdaptedMap<>(frontParameterTable);
+		else
+			return new CombinedMap<>(new AdaptedMap<>(frontParameterTable), backParameterTable);
 	}
 
 	public void addTypedParameterRef(TypedParameterRef typedParameterRef)

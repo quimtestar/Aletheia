@@ -997,12 +997,12 @@ public class Context extends Statement
 	 */
 	public Term parseTerm(Transaction transaction, String s, Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws AletheiaParserException
 	{
-		return TermParser.parseTerm(this, transaction, new StringReader(s), parameterIdentifiers);
+		return TermParser.parseTerm(transaction, this, new StringReader(s), parameterIdentifiers);
 	}
 
 	public Term parseTerm(Transaction transaction, String s) throws AletheiaParserException
 	{
-		return TermParser.parseTerm(this, transaction, new StringReader(s));
+		return TermParser.parseTerm(transaction, this, new StringReader(s));
 	}
 
 	public String unparseTerm(Transaction transaction, Term term)
@@ -1973,8 +1973,6 @@ public class Context extends Statement
 	/**
 	 * Creates a {@link Catalog} for this context.
 	 *
-	 * @param transaction
-	 *            The transaction to be used in the operations on the catalog.
 	 * @return The catalog.
 	 *
 	 * @see Catalog

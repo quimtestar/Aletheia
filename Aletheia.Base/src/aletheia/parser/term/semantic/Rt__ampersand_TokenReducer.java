@@ -2,7 +2,7 @@ package aletheia.parser.term.semantic;
 
 import java.util.List;
 
-import aletheia.model.statement.Context;
+import aletheia.parser.term.TermParser.Globals;
 import aletheia.parser.term.TermParser.ProductionTokenPayloadReducer;
 import aletheia.parser.term.TermParser.ProductionTokenPayloadReducer.ReferenceType;
 import aletheia.parsergenerator.parser.Production;
@@ -10,7 +10,6 @@ import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.As
 import aletheia.parsergenerator.semantic.SemanticException;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.tokens.Token;
-import aletheia.persistence.Transaction;
 
 @AssociatedProduction(left = "R_t", right =
 { "ampersand" })
@@ -18,8 +17,8 @@ public class Rt__ampersand_TokenReducer extends ProductionTokenPayloadReducer<Re
 {
 
 	@Override
-	public ReferenceType reduce(Context context, Transaction transaction, List<Token<? extends Symbol>> antecedents, Production production,
-			List<Token<? extends Symbol>> reducees) throws SemanticException
+	public ReferenceType reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+			throws SemanticException
 	{
 		return ReferenceType.TYPE;
 	}

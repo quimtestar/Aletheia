@@ -20,7 +20,6 @@
 package aletheia.parser.term.tokenprocessor;
 
 import aletheia.parser.TokenProcessorException;
-import aletheia.parser.term.ReferenceType;
 import aletheia.parsergenerator.semantic.ParseTree;
 
 public abstract class ReferenceTypeTokenSubProcessor extends TokenSubProcessor<ReferenceType, Void>

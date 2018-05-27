@@ -58,8 +58,6 @@ public abstract class Catalog
 	 * context.
 	 *
 	 * @param persistenceManager
-	 * @param transaction
-	 *            The transaction.
 	 * @param context
 	 *            The context.
 	 */

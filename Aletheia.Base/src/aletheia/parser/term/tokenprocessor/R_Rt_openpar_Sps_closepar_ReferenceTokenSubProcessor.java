@@ -23,7 +23,6 @@ import aletheia.model.statement.Context;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.parser.TokenProcessorException;
-import aletheia.parser.term.ReferenceType;
 import aletheia.parsergenerator.semantic.ParseTree;
 import aletheia.persistence.Transaction;
 

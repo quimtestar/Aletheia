@@ -2,9 +2,9 @@ package aletheia.parser.term.semantic;
 
 import java.util.List;
 
-import aletheia.model.statement.Context;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
+import aletheia.parser.term.TermParser.Globals;
 import aletheia.parser.term.TermParser.ProductionTokenPayloadReducer;
 import aletheia.parser.term.tokenprocessor.parameterRef.ParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefWithValue;
@@ -14,7 +14,6 @@ import aletheia.parsergenerator.semantic.SemanticException;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
-import aletheia.persistence.Transaction;
 
 @AssociatedProduction(left = "TP", right =
 { "P", "assignment", "T" })
@@ -22,7 +21,7 @@ public class TP__P_assignment_T_TokenReducer extends ProductionTokenPayloadReduc
 {
 
 	@Override
-	public TypedParameterRefWithValue reduce(Context context, Transaction transaction, List<Token<? extends Symbol>> antecedents, Production production,
+	public TypedParameterRefWithValue reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production,
 			List<Token<? extends Symbol>> reducees) throws SemanticException
 	{
 		ParameterRef parameterRef = NonTerminalToken.getPayloadFromTokenList(reducees, 0);

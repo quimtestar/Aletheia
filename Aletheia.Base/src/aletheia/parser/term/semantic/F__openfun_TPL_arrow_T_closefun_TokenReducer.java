@@ -2,10 +2,10 @@ package aletheia.parser.term.semantic;
 
 import java.util.List;
 
-import aletheia.model.statement.Context;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.ComposeTypeException;
+import aletheia.parser.term.TermParser.Globals;
 import aletheia.parser.term.TermParser.ProductionTokenPayloadReducer;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRef;
 import aletheia.parser.term.tokenprocessor.parameterRef.TypedParameterRefList;
@@ -16,7 +16,6 @@ import aletheia.parsergenerator.semantic.SemanticException;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
-import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.ReverseList;
 
 @AssociatedProduction(left = "F", right =
@@ -25,8 +24,8 @@ public class F__openfun_TPL_arrow_T_closefun_TokenReducer extends ProductionToke
 {
 
 	@Override
-	public Term reduce(Context context, Transaction transaction, List<Token<? extends Symbol>> antecedents, Production production,
-			List<Token<? extends Symbol>> reducees) throws SemanticException
+	public Term reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+			throws SemanticException
 	{
 		TypedParameterRefList typedParameterRefList = NonTerminalToken.getPayloadFromTokenList(reducees, 1);
 		Term term = NonTerminalToken.getPayloadFromTokenList(reducees, 3);

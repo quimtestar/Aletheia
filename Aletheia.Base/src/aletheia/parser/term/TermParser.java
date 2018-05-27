@@ -83,6 +83,7 @@ import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.symbols.TaggedNonTerminalSymbol;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
+import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.AdaptedMap;
 import aletheia.utilities.collections.Bijection;
@@ -105,36 +106,21 @@ public class TermParser extends Parser
 {
 	private static final long serialVersionUID = -4016748422579759655L;
 
-	private final static class Globals
+	public final static class Globals
 	{
-		final Context context;
-		final Transaction transaction;
+		private final PersistenceManager persistenceManager;
+		private final Transaction transaction;
+		private final Context context;
+		private final Map<ParameterRef, VariableTerm> baseReferenceMap;
 
-		Globals(Context context, Transaction transaction)
+		private Globals(Transaction transaction, Context context)
 		{
-			this.context = context;
+			this.persistenceManager = transaction.getPersistenceManager();
 			this.transaction = transaction;
-		}
-
-	}
-
-	public static abstract class ProductionTokenPayloadReducer<P> extends ProductionManagedTokenPayloadReducer.ProductionTokenPayloadReducer<Globals, P>
-	{
-		public enum ReferenceType
-		{
-			TYPE, INSTANCE, VALUE,
-		}
-
-		protected static Map<ParameterRef, VariableTerm> antecedentReferenceMap(Context context, Transaction transaction,
-				List<Token<? extends Symbol>> antecedents)
-		{
-			TypedParameterRefList tprl = NonTerminalToken.findLastPayloadInList(antecedents, new TaggedNonTerminalSymbol("TPL"));
-			if (tprl == null)
-			{
-				//TODO This might be computed only once per parse call
-				return new AdaptedMap<>(new BijectionKeyMap<>(new Bijection<Identifier, IdentifierParameterRef>()
+			this.context = context;
+			if (context != null)
+				this.baseReferenceMap = new AdaptedMap<>(new BijectionKeyMap<>(new Bijection<Identifier, IdentifierParameterRef>()
 				{
-
 					@Override
 					public IdentifierParameterRef forward(Identifier identifier)
 					{
@@ -146,21 +132,58 @@ public class TermParser extends Parser
 					{
 						return parameterRef.getIdentifier();
 					}
-				}, context.identifierToVariable(transaction))); //slow if not counting on database cacheing.
-			}
+				}, context.identifierToVariable(transaction)));
+			else
+				this.baseReferenceMap = null;
+		}
+
+		public PersistenceManager getPersistenceManager()
+		{
+			return persistenceManager;
+		}
+
+		public Context getContext()
+		{
+			return context;
+		}
+
+		public Transaction getTransaction()
+		{
+			return transaction;
+		}
+
+		public Map<ParameterRef, VariableTerm> getBaseReferenceMap()
+		{
+			return baseReferenceMap;
+		}
+
+	}
+
+	public static abstract class ProductionTokenPayloadReducer<P> extends ProductionManagedTokenPayloadReducer.ProductionTokenPayloadReducer<Globals, P>
+	{
+		public enum ReferenceType
+		{
+			TYPE, INSTANCE, VALUE,
+		}
+
+		protected Map<ParameterRef, VariableTerm> antecedentReferenceMap(Globals globals, List<Token<? extends Symbol>> antecedents)
+		{
+			TypedParameterRefList tprl = NonTerminalToken.findLastPayloadInList(antecedents, new TaggedNonTerminalSymbol("TPL"));
+			if (tprl == null)
+				return globals.getBaseReferenceMap();
 			else
 				return tprl.parameterTable();
 		}
 
-		@Override
-		public final P reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
-				throws SemanticException
+		protected VariableTerm resolveReference(Globals globals, List<Token<? extends Symbol>> antecedents, ParameterRef reference)
 		{
-			return reduce(globals.context, globals.transaction, antecedents, production, reducees);
+			Map<ParameterRef, VariableTerm> arm = antecedentReferenceMap(globals, antecedents);
+			if (arm == null)
+				return null;
+			else
+				return arm.get(reference);
 		}
 
-		public abstract P reduce(Context context, Transaction transaction, List<Token<? extends Symbol>> antecedents, Production production,
-				List<Token<? extends Symbol>> reducees) throws SemanticException;
 	}
 
 	public static abstract class TrivialProductionTokenPayloadReducer<P> extends ProductionTokenPayloadReducer<P>
@@ -178,8 +201,8 @@ public class TermParser extends Parser
 		}
 
 		@Override
-		public P reduce(Context context, Transaction transaction, List<Token<? extends Symbol>> antecedents, Production production,
-				List<Token<? extends Symbol>> reducees) throws SemanticException
+		public P reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
 		{
 			return NonTerminalToken.getPayloadFromTokenList(reducees, position);
 		}
@@ -288,23 +311,23 @@ public class TermParser extends Parser
 		this.tokenPayloadReducer = new ProductionManagedTokenPayloadReducer<>(reducerClasses);
 	}
 
-	public static Term parseTerm(Context context, Transaction transaction, Reader reader, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+	public static Term parseTerm(Transaction transaction, Context context, Reader reader, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 			throws AletheiaParserException
 	{
-		return instance.parse(context, transaction, reader, parameterIdentifiers);
+		return instance.parse(transaction, context, reader, parameterIdentifiers);
 	}
 
-	public static Term parseTerm(Context context, Transaction transaction, Reader reader) throws AletheiaParserException
+	public static Term parseTerm(Transaction transaction, Context context, Reader reader) throws AletheiaParserException
 	{
-		return parseTerm(context, transaction, reader, null);
+		return parseTerm(transaction, context, reader, null);
 	}
 
-	private Term parse(Context context, Transaction transaction, Reader reader, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+	private Term parse(Transaction transaction, Context context, Reader reader, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 			throws AletheiaParserException
 	{
 		try
 		{
-			return (Term) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenPayloadReducer, new Globals(context, transaction));
+			return (Term) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenPayloadReducer, new Globals(transaction, context));
 		}
 		catch (ParserLexerException e)
 		{
