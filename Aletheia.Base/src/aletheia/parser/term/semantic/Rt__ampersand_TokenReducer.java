@@ -3,8 +3,8 @@ package aletheia.parser.term.semantic;
 import java.util.List;
 
 import aletheia.model.statement.Context;
-import aletheia.parser.term.ReferenceType;
 import aletheia.parser.term.TermParser.ProductionTokenPayloadReducer;
+import aletheia.parser.term.TermParser.ProductionTokenPayloadReducer.ReferenceType;
 import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
 import aletheia.parsergenerator.semantic.SemanticException;

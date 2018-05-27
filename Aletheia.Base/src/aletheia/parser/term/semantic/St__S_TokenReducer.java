@@ -7,7 +7,6 @@ import aletheia.model.statement.Declaration;
 import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
-import aletheia.parser.term.ReferenceType;
 import aletheia.parser.term.TermParser.ProductionTokenPayloadReducer;
 import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;

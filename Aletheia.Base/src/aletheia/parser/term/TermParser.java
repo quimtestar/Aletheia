@@ -120,6 +120,11 @@ public class TermParser extends Parser
 
 	public static abstract class ProductionTokenPayloadReducer<P> extends ProductionManagedTokenPayloadReducer.ProductionTokenPayloadReducer<Globals, P>
 	{
+		public enum ReferenceType
+		{
+			TYPE, INSTANCE, VALUE,
+		}
+
 		protected static Map<ParameterRef, VariableTerm> antecedentReferenceMap(Context context, Transaction transaction,
 				List<Token<? extends Symbol>> antecedents)
 		{
