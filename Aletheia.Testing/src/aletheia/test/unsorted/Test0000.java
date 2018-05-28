@@ -19,9 +19,13 @@
  ******************************************************************************/
 package aletheia.test.unsorted;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
+import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
+import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.parser.AletheiaParserException;
 import aletheia.persistence.Transaction;
@@ -40,7 +44,9 @@ public class Test0000 extends TransactionalBerkeleyDBPersistenceManagerTest
 	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws AletheiaParserException
 	{
 		Context context = persistenceManager.getContext(transaction, UUID.fromString("43563284-7976-5d48-b212-b27b556c5a30"));
-		Term term = context.parseTerm(transaction, "&s094 1;1-");
+		Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<>();
+		Term term = context.parseTerm(transaction, "<x:Set,y:Set -> Set.Equal x y>", parameterIdentifiers);
+		System.out.println(parameterIdentifiers);
 		System.out.println(context.unparseTerm(transaction, term));
 	}
 

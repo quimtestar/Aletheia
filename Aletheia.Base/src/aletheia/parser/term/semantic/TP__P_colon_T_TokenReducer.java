@@ -6,6 +6,7 @@ import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.parser.term.TermParser.Globals;
 import aletheia.parser.term.TermParser.ProductionTokenPayloadReducer;
+import aletheia.parser.term.parameterRef.IdentifierParameterRef;
 import aletheia.parser.term.parameterRef.ParameterRef;
 import aletheia.parser.term.parameterRef.TypedParameterRef;
 import aletheia.parsergenerator.parser.Production;
@@ -27,6 +28,8 @@ public class TP__P_colon_T_TokenReducer extends ProductionTokenPayloadReducer<Ty
 		ParameterRef parameterRef = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
 		Term type = NonTerminalToken.getPayloadFromTokenList(reducees, 2);
 		ParameterVariableTerm parameter = new ParameterVariableTerm(type);
+		if (globals.getParameterIdentifiers() != null && parameterRef instanceof IdentifierParameterRef)
+			globals.getParameterIdentifiers().put(parameter, ((IdentifierParameterRef) parameterRef).getIdentifier());
 		return new TypedParameterRef(parameterRef, parameter);
 	}
 

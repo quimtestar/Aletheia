@@ -144,8 +144,9 @@ public class TermParser extends Parser
 		private final Transaction transaction;
 		private final Context context;
 		private final Map<ParameterRef, VariableTerm> baseReferenceMap;
+		private final Map<ParameterVariableTerm, Identifier> parameterIdentifiers;
 
-		private Globals(Transaction transaction, Context context)
+		private Globals(Transaction transaction, Context context, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 		{
 			this.persistenceManager = transaction.getPersistenceManager();
 			this.transaction = transaction;
@@ -167,6 +168,7 @@ public class TermParser extends Parser
 				}, context.identifierToVariable(transaction)));
 			else
 				this.baseReferenceMap = null;
+			this.parameterIdentifiers = parameterIdentifiers;
 		}
 
 		public PersistenceManager getPersistenceManager()
@@ -187,6 +189,11 @@ public class TermParser extends Parser
 		public Map<ParameterRef, VariableTerm> getBaseReferenceMap()
 		{
 			return baseReferenceMap;
+		}
+
+		public Map<ParameterVariableTerm, Identifier> getParameterIdentifiers()
+		{
+			return parameterIdentifiers;
 		}
 
 	}
@@ -482,7 +489,7 @@ public class TermParser extends Parser
 	{
 		try
 		{
-			return (Term) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenPayloadReducer, new Globals(transaction, context));
+			return (Term) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenPayloadReducer, new Globals(transaction, context, parameterIdentifiers));
 		}
 		catch (ParserLexerException e)
 		{
