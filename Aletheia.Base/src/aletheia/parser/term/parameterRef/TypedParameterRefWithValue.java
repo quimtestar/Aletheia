@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017 Quim Testar.
+ * Copyright (c) 2017 Quim Testar
  * 
  * This file is part of the Aletheia Proof Assistant.
  * 
@@ -17,41 +17,54 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.parser.term.tokenprocessor;
+package aletheia.parser.term.parameterRef;
 
-import aletheia.model.statement.Context;
+import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.semantic.ParseTree;
-import aletheia.persistence.Transaction;
 
-public abstract class ReferenceTokenSubProcessor extends TokenSubProcessor<Term, ReferenceTokenSubProcessor.Parameter>
+public class TypedParameterRefWithValue extends TypedParameterRef
 {
-	public static class Parameter
+
+	private final Term value;
+
+	public TypedParameterRefWithValue(ParameterRef parameterRef, ParameterVariableTerm parameter, Term value)
 	{
-		private final Context context;
-		private final Transaction transaction;
-
-		private Parameter(Context context, Transaction transaction)
-		{
-			super();
-			this.context = context;
-			this.transaction = transaction;
-		}
-
+		super(parameterRef, parameter);
+		this.value = value;
 	}
 
-	protected ReferenceTokenSubProcessor(TokenProcessor processor)
+	public Term getValue()
 	{
-		super(processor);
+		return value;
 	}
 
 	@Override
-	protected Term subProcess(ParseTree token, Parameter parameter) throws TokenProcessorException
+	public int hashCode()
 	{
-		return subProcess(token, parameter.context, parameter.transaction);
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		return result;
 	}
 
-	protected abstract Term subProcess(ParseTree token, Context context, Transaction transaction) throws TokenProcessorException;
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		TypedParameterRefWithValue other = (TypedParameterRefWithValue) obj;
+		if (value == null)
+		{
+			if (other.value != null)
+				return false;
+		}
+		else if (!value.equals(other.value))
+			return false;
+		return true;
+	}
 
 }

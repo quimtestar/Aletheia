@@ -17,25 +17,58 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.parser.term.tokenprocessor;
+package aletheia.parser.term.parameterRef;
 
-import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.semantic.ParseTree;
+import aletheia.model.identifier.Identifier;
 
-public abstract class IntegerTokenSubProcessor extends TokenSubProcessor<Integer, Void>
+public class IdentifierParameterRef extends ParameterRef
 {
+	private final Identifier identifier;
 
-	protected IntegerTokenSubProcessor(TokenProcessor processor)
+	public IdentifierParameterRef(Identifier identifier)
 	{
-		super(processor);
+		super();
+		this.identifier = identifier;
+	}
+
+	public Identifier getIdentifier()
+	{
+		return identifier;
 	}
 
 	@Override
-	protected Integer subProcess(ParseTree token, Void parameter) throws TokenProcessorException
+	public int hashCode()
 	{
-		return subProcess(token);
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((identifier == null) ? 0 : identifier.hashCode());
+		return result;
 	}
 
-	protected abstract int subProcess(ParseTree token) throws TokenProcessorException;
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		IdentifierParameterRef other = (IdentifierParameterRef) obj;
+		if (identifier == null)
+		{
+			if (other.identifier != null)
+				return false;
+		}
+		else if (!identifier.equals(other.identifier))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString()
+	{
+		return identifier.toString();
+	}
 
 }

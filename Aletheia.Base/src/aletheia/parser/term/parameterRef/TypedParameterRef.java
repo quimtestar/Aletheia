@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.parser.term.tokenprocessor.parameterRef;
+package aletheia.parser.term.parameterRef;
 
 import aletheia.model.term.ParameterVariableTerm;
 

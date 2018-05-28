@@ -17,28 +17,27 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.parser.term.tokenprocessor;
+package aletheia.parser.term.parameterRef;
 
-import aletheia.model.statement.Context;
-import aletheia.model.term.Term;
-import aletheia.parser.TokenProcessorException;
-import aletheia.parsergenerator.semantic.ParseTree;
-import aletheia.persistence.Transaction;
-
-@ProcessorProduction(left = "S_p", right =
-{ "S_t" })
-public class Sp_St_StatementReferenceTokenSubProcessor extends StatementReferenceTokenSubProcessor
+public abstract class ParameterRef
 {
 
-	protected Sp_St_StatementReferenceTokenSubProcessor(TokenProcessor processor)
+	@Override
+	public int hashCode()
 	{
-		super(processor);
+		return 1;
 	}
 
 	@Override
-	public Term subProcess(ParseTree token, Context context, Transaction transaction, ReferenceType referenceType) throws TokenProcessorException
+	public boolean equals(Object obj)
 	{
-		return getProcessor().processStatementReference((ParseTree) token.getChildren().get(0), context, transaction, referenceType);
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		return true;
 	}
 
 }

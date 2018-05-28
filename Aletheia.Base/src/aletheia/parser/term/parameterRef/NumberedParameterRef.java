@@ -17,24 +17,56 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.parser.term.tokenprocessor;
+package aletheia.parser.term.parameterRef;
 
-import aletheia.parsergenerator.semantic.ParseTree;
-
-@ProcessorProduction(left = "R_t", right =
-{ "ampersand" })
-public class Rt_ampersand_ReferenceTokenSubProcessor extends ReferenceTypeTokenSubProcessor
+public class NumberedParameterRef extends ParameterRef
 {
+	private final String atParam;
 
-	protected Rt_ampersand_ReferenceTokenSubProcessor(TokenProcessor processor)
+	public NumberedParameterRef(String atParam)
 	{
-		super(processor);
+		super();
+		this.atParam = atParam;
+	}
+
+	public String getAtParam()
+	{
+		return atParam;
 	}
 
 	@Override
-	protected ReferenceType subProcess(ParseTree token)
+	public int hashCode()
 	{
-		return ReferenceType.TYPE;
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((atParam == null) ? 0 : atParam.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		NumberedParameterRef other = (NumberedParameterRef) obj;
+		if (atParam == null)
+		{
+			if (other.atParam != null)
+				return false;
+		}
+		else if (!atParam.equals(other.atParam))
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString()
+	{
+		return atParam;
 	}
 
 }
