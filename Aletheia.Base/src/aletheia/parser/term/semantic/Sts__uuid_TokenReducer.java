@@ -1,6 +1,7 @@
 package aletheia.parser.term.semantic;
 
 import java.util.List;
+import java.util.UUID;
 
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
@@ -12,11 +13,12 @@ import aletheia.parsergenerator.semantic.SemanticException;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.symbols.TaggedNonTerminalSymbol;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.TaggedTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
 
-@AssociatedProduction(left = "S_t", right =
-{ "S" })
-public class St__S_TokenReducer extends ProductionTokenPayloadReducer<Term>
+@AssociatedProduction(left = "S_ts", right =
+{ "uuid" })
+public class Sts__uuid_TokenReducer extends ProductionTokenPayloadReducer<Term>
 {
 
 	@Override
@@ -24,7 +26,10 @@ public class St__S_TokenReducer extends ProductionTokenPayloadReducer<Term>
 			throws SemanticException
 	{
 		ReferenceType referenceType = NonTerminalToken.findLastPayloadInList(antecedents, new TaggedNonTerminalSymbol("R_t"));
-		Statement statement = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
+		UUID uuid = UUID.fromString(TaggedTerminalToken.getTextFromTokenList(reducees, 0));
+		Statement statement = globals.getPersistenceManager().getStatement(globals.getTransaction(), uuid);
+		if (statement == null)
+			throw new SemanticException(reducees.get(0), "Statement not found with UUID: " + uuid);
 		try
 		{
 			return dereferenceStatement(statement, referenceType);

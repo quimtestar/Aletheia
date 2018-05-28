@@ -145,6 +145,12 @@ public abstract class Token<S extends Symbol>
 		return findFirstInListIterator(iterator, Collections.singleton(target), Collections.singleton(stopper));
 	}
 
+	public static <S extends Symbol, T extends Token<? extends S>> T findLastInList(List<Token<? extends Symbol>> list, Collection<? extends S> targets,
+			Collection<? extends Symbol> stoppers)
+	{
+		return Token.<S, T> findFirstInListIterator(new ReverseListIterator<>(list.listIterator(list.size())), targets, stoppers);
+	}
+
 	public static <S extends Symbol, T extends Token<? extends S>> T findLastInList(List<Token<? extends Symbol>> list, S symbol)
 	{
 		return findFirstInListIterator(new ReverseListIterator<>(list.listIterator(list.size())), symbol);

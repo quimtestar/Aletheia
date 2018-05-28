@@ -3,13 +3,13 @@ package aletheia.parser.term.semantic;
 import aletheia.parser.term.TermParser.ConstantProductionTokenPayloadReducer;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
 
-@AssociatedProduction(left = "MP", right = {})
-public class MP___TokenReducer extends ConstantProductionTokenPayloadReducer<Integer>
+@AssociatedProduction(left = "M", right = {})
+public class M___TokenReducer extends ConstantProductionTokenPayloadReducer<Boolean>
 {
 
-	public MP___TokenReducer()
+	public M___TokenReducer()
 	{
-		super(0);
+		super(false);
 	}
 
 }

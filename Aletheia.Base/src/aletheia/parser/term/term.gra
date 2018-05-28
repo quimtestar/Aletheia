@@ -49,9 +49,12 @@ A -> A apostrophe;				# The ''' operator resolves to the body of the given funct
 A -> A bang I;					# The '!' operator unfolds the given identified variable as its value as a declaration statement in the active context.  
 A -> equals bang I;				# The '=!' operator is equivalent to a reflexive application of the binary '!': "=!i" ~> "i!i". 
 A -> openpar T closepar;		# A term (list of atoms) between parentheses.
-A -> A number M;				# The 'n' operator resolves to the nth atomic component (starting by zero) of the given term: "(a b c);1" ~> "b".
-A -> A semicolon number M;		# The 'n' operator resolves to the nth atomic component (starting by zero) of the given term: "(a b c);1" ~> "b".
-								# The 'n-' operator resolves to the first n+1 atomic components of the given term: "(a b c);1-" ~> "a b".
+A -> A OS number M;				# The 'n' operator resolves to the nth atomic component (starting by zero) of the given term: "(a b c);1" ~> "b".
+	 							# The 'n-' operator resolves to the first n+1 atomic components of the given term: "(a b c);1-" ~> "a b".
+
+# Optional semicolon to separate 'n[-]' operators. 							
+OS -> semicolon;
+OS -> ;
 
 # An hyphen or nothing for the ',n[-]' operator.
 M -> hyphen;
@@ -83,9 +86,10 @@ S_ts -> uuid;								# Reference by UUID. If used in a path must be at the top: 
 S_ts -> S_t;
 S_t -> S;
 S_t -> turnstile;							# Refers to a context's consequence. If in a reference without path the active context, if with path the previously referenced one: "&|-" or "&(Set.Equal.th.symm/s003/|-)"
-S_ps -> bar S_p;							# Absolute path: begins with "/".
+S_ps -> S_r bar S_p;							# Absolute path: begins with "/".
 S_ps -> uuid bar S_p;						# Path beginning with uuid.
 S_ps -> S_p;
+S_r -> ;
 S_p -> S bar S_p;							# Path separator is "/".
 S_p -> S_t;
 S -> I;										# Path component might be an identifier.
