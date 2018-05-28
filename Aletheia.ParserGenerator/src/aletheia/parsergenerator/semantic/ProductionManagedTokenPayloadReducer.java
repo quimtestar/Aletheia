@@ -12,6 +12,7 @@ import java.util.Map;
 
 import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.symbols.Symbol;
+import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
 
 public class ProductionManagedTokenPayloadReducer<G, P> extends TokenPayloadReducer<G, P>
@@ -124,6 +125,56 @@ public class ProductionManagedTokenPayloadReducer<G, P> extends TokenPayloadRedu
 	{
 		public abstract P reduce(G globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
 				throws SemanticException;
+	}
+
+	public static abstract class TrivialProductionTokenPayloadReducer<G, P> extends ProductionTokenPayloadReducer<G, P>
+	{
+		private final int position;
+
+		public TrivialProductionTokenPayloadReducer(int position)
+		{
+			this.position = position;
+		}
+
+		public TrivialProductionTokenPayloadReducer()
+		{
+			this(0);
+		}
+
+		@Override
+		public P reduce(G globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			return NonTerminalToken.getPayloadFromTokenList(reducees, position);
+		}
+
+	}
+
+	public static abstract class ConstantProductionTokenPayloadReducer<G, P> extends ProductionTokenPayloadReducer<G, P>
+	{
+		private final P value;
+
+		public ConstantProductionTokenPayloadReducer(P value)
+		{
+			super();
+			this.value = value;
+		}
+
+		@Override
+		public P reduce(G globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			return value;
+		}
+
+	}
+
+	public static abstract class NullProductionTokenPayloadReducer<G> extends ConstantProductionTokenPayloadReducer<G, Void>
+	{
+		public NullProductionTokenPayloadReducer()
+		{
+			super(null);
+		}
 	}
 
 	private final Map<AssociatedProductionKey, ProductionTokenPayloadReducer<G, ? extends P>> productionTokenPayloadReducerMap;

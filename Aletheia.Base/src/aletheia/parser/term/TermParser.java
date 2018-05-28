@@ -287,6 +287,7 @@ public class TermParser extends Parser
 
 	}
 
+	//TODO this classes are redundant
 	public static abstract class TrivialProductionTokenPayloadReducer<P> extends ProductionTokenPayloadReducer<P>
 	{
 		private final int position;

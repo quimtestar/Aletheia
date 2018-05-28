@@ -29,6 +29,14 @@ import java.util.List;
 import aletheia.model.term.Term.ParameterIdentification;
 import aletheia.parser.AletheiaParserConstants;
 import aletheia.parser.AletheiaParserException;
+import aletheia.parser.parameteridentification.semantic.F__openfun_M_closefun_TokenReducer;
+import aletheia.parser.parameteridentification.semantic.I__id_TokenReducer;
+import aletheia.parser.parameteridentification.semantic.M__M_comma_P_TokenReducer;
+import aletheia.parser.parameteridentification.semantic.M__P_TokenReducer;
+import aletheia.parser.parameteridentification.semantic.P__I_TokenReducer;
+import aletheia.parser.parameteridentification.semantic.T__T__TokenReducer;
+import aletheia.parser.parameteridentification.semantic.T___T_F_TokenReducer;
+import aletheia.parser.parameteridentification.semantic.T___TokenReducer;
 import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.lexer.AutomatonSet;
 import aletheia.parsergenerator.lexer.AutomatonSetLexer;
@@ -45,11 +53,7 @@ public class ParameterIdentificationParser extends Parser
 {
 	private static final long serialVersionUID = 3547200583493971229L;
 
-	public final static class Globals
-	{
-	}
-
-	public static abstract class ProductionTokenPayloadReducer<P> extends ProductionManagedTokenPayloadReducer.ProductionTokenPayloadReducer<Globals, P>
+	public static abstract class ProductionTokenPayloadReducer<P> extends ProductionManagedTokenPayloadReducer.ProductionTokenPayloadReducer<Void, P>
 	{
 
 	}
@@ -69,7 +73,7 @@ public class ParameterIdentificationParser extends Parser
 		}
 
 		@Override
-		public P reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+		public P reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
 				throws SemanticException
 		{
 			return NonTerminalToken.getPayloadFromTokenList(reducees, position);
@@ -88,7 +92,7 @@ public class ParameterIdentificationParser extends Parser
 		}
 
 		@Override
-		public P reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+		public P reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
 				throws SemanticException
 		{
 			return value;
@@ -106,13 +110,26 @@ public class ParameterIdentificationParser extends Parser
 
 	//@formatter:off
 	private final static Collection<Class<? extends ProductionTokenPayloadReducer<?>>> reducerClasses =
-			Arrays.asList();
+			Arrays.asList(
+					T__T__TokenReducer.class,
+					T___TokenReducer.class,
+					
+					T___T_F_TokenReducer.class,
+					
+					F__openfun_M_closefun_TokenReducer.class,
+					
+					P__I_TokenReducer.class,
+					
+					M__M_comma_P_TokenReducer.class,
+					M__P_TokenReducer.class,
+					
+					I__id_TokenReducer.class);
 	//@formatter:on
 
 	private final static ParameterIdentificationParser instance = new ParameterIdentificationParser();
 
 	private final AutomatonSet automatonSet;
-	private final ProductionManagedTokenPayloadReducer<Globals, ?> tokenPayloadReducer;
+	private final ProductionManagedTokenPayloadReducer<Void, ?> tokenPayloadReducer;
 
 	private static TransitionTable loadTransitionTable()
 	{
@@ -184,7 +201,7 @@ public class ParameterIdentificationParser extends Parser
 	{
 		try
 		{
-			return (ParameterIdentification) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenPayloadReducer, new Globals());
+			return (ParameterIdentification) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenPayloadReducer, null);
 		}
 		catch (ParserBaseException e)
 		{
