@@ -22,27 +22,126 @@ package aletheia.parser.parameteridentification;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
 import aletheia.model.term.Term.ParameterIdentification;
-import aletheia.parser.AletheiaParserException;
-import aletheia.parser.TokenProcessorException;
 import aletheia.parser.AletheiaParserConstants;
-import aletheia.parser.parameteridentification.tokenprocessor.TokenProcessor;
+import aletheia.parser.AletheiaParserException;
 import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.lexer.AutomatonSet;
 import aletheia.parsergenerator.lexer.AutomatonSetLexer;
 import aletheia.parsergenerator.parser.Parser;
+import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.parser.TransitionTable;
-import aletheia.parsergenerator.semantic.ParseTree;
+import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer;
+import aletheia.parsergenerator.semantic.SemanticException;
+import aletheia.parsergenerator.symbols.Symbol;
+import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.Token;
 
 public class ParameterIdentificationParser extends Parser
 {
-
 	private static final long serialVersionUID = 3547200583493971229L;
+
+	public final static class Globals
+	{
+	}
+
+	public static abstract class ProductionTokenPayloadReducer<P> extends ProductionManagedTokenPayloadReducer.ProductionTokenPayloadReducer<Globals, P>
+	{
+
+	}
+
+	public static abstract class TrivialProductionTokenPayloadReducer<P> extends ProductionTokenPayloadReducer<P>
+	{
+		private final int position;
+
+		public TrivialProductionTokenPayloadReducer(int position)
+		{
+			this.position = position;
+		}
+
+		public TrivialProductionTokenPayloadReducer()
+		{
+			this(0);
+		}
+
+		@Override
+		public P reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			return NonTerminalToken.getPayloadFromTokenList(reducees, position);
+		}
+
+	}
+
+	public static abstract class ConstantProductionTokenPayloadReducer<P> extends ProductionTokenPayloadReducer<P>
+	{
+		private final P value;
+
+		public ConstantProductionTokenPayloadReducer(P value)
+		{
+			super();
+			this.value = value;
+		}
+
+		@Override
+		public P reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			return value;
+		}
+
+	}
+
+	public static abstract class NullProductionTokenPayloadReducer extends ConstantProductionTokenPayloadReducer<Void>
+	{
+		public NullProductionTokenPayloadReducer()
+		{
+			super(null);
+		}
+	}
+
+	//@formatter:off
+	private final static Collection<Class<? extends ProductionTokenPayloadReducer<?>>> reducerClasses =
+			Arrays.asList();
+	//@formatter:on
 
 	private final static ParameterIdentificationParser instance = new ParameterIdentificationParser();
 
 	private final AutomatonSet automatonSet;
-	private final TokenProcessor tokenProcessor;
+	private final ProductionManagedTokenPayloadReducer<Globals, ?> tokenPayloadReducer;
+
+	private static TransitionTable loadTransitionTable()
+	{
+		InputStream is = ClassLoader.getSystemResourceAsStream(AletheiaParserConstants.parameterIdentificationTransitionTablePath);
+		try
+		{
+			return TransitionTable.load(is);
+		}
+		catch (ClassNotFoundException e)
+		{
+			throw new Error(e);
+		}
+		catch (IOException e)
+		{
+			throw new Error(e);
+		}
+		finally
+		{
+			try
+			{
+				if (is != null)
+					is.close();
+			}
+			catch (IOException e)
+			{
+				throw new Error(e);
+			}
+		}
+	}
 
 	private ParameterIdentificationParser()
 	{
@@ -73,7 +172,7 @@ public class ParameterIdentificationParser extends Parser
 		finally
 		{
 		}
-		this.tokenProcessor = new TokenProcessor(getGrammar());
+		this.tokenPayloadReducer = new ProductionManagedTokenPayloadReducer<>(reducerClasses);
 	}
 
 	public static ParameterIdentification parseParameterIdentification(Reader reader) throws AletheiaParserException
@@ -85,45 +184,11 @@ public class ParameterIdentificationParser extends Parser
 	{
 		try
 		{
-			ParseTree token = parseToken(new AutomatonSetLexer(automatonSet, reader));
-			return tokenProcessor.process(token);
+			return (ParameterIdentification) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenPayloadReducer, new Globals());
 		}
 		catch (ParserBaseException e)
 		{
 			throw new AletheiaParserException(e);
-		}
-		catch (TokenProcessorException e)
-		{
-			throw new AletheiaParserException(e);
-		}
-	}
-
-	private static TransitionTable loadTransitionTable()
-	{
-		InputStream is = ClassLoader.getSystemResourceAsStream(AletheiaParserConstants.parameterIdentificationTransitionTablePath);
-		try
-		{
-			return TransitionTable.load(is);
-		}
-		catch (ClassNotFoundException e)
-		{
-			throw new Error(e);
-		}
-		catch (IOException e)
-		{
-			throw new Error(e);
-		}
-		finally
-		{
-			try
-			{
-				if (is != null)
-					is.close();
-			}
-			catch (IOException e)
-			{
-				throw new Error(e);
-			}
 		}
 	}
 

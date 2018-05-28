@@ -17,18 +17,26 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.test;
+package aletheia.test.unsorted;
 
-import aletheia.test.unsorted.*;
+import aletheia.model.term.Term;
+import aletheia.model.term.Term.ParameterIdentification;
+import aletheia.parser.AletheiaParserException;
+import aletheia.test.Test;
 
-public abstract class Test
+public class Test0002 extends Test
 {
 
-	public abstract void run() throws Exception;
-
-	public static void main(String[] args) throws Exception
+	public Test0002()
 	{
-		new Test0002().run();
+		super();
+	}
+
+	@Override
+	public void run() throws AletheiaParserException
+	{
+		ParameterIdentification parameterIdentification = Term.parseParameterIdentification("<x,y>");
+		System.out.println(parameterIdentification);
 	}
 
 }
