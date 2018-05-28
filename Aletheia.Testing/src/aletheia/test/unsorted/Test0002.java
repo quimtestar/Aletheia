@@ -35,7 +35,7 @@ public class Test0002 extends Test
 	@Override
 	public void run() throws AletheiaParserException
 	{
-		ParameterIdentification parameterIdentification = Term.parseParameterIdentification("<x,y>");
+		ParameterIdentification parameterIdentification = Term.parseParameterIdentification("<a.b.c>");
 		System.out.println(parameterIdentification);
 	}
 

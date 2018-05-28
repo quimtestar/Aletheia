@@ -5,8 +5,8 @@ import aletheia.parser.parameteridentification.ParameterIdentificationParser.Tri
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
 
 @AssociatedProduction(left = "T", right =
-{ "T_" })
-public class T__T__TokenReducer extends TrivialProductionTokenPayloadReducer<ParameterIdentification>
+{ "Ts" })
+public class T__Ts_TokenReducer extends TrivialProductionTokenPayloadReducer<ParameterIdentification>
 {
 
 }

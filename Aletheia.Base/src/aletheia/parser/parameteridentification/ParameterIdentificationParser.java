@@ -26,16 +26,24 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+import aletheia.model.identifier.Identifier;
+import aletheia.model.term.FunctionTerm.FunctionParameterIdentification;
 import aletheia.model.term.Term.ParameterIdentification;
 import aletheia.parser.AletheiaParserConstants;
 import aletheia.parser.AletheiaParserException;
+import aletheia.parser.parameteridentification.semantic.F__openfun_M_arrow_Ts_closefun_TokenReducer;
 import aletheia.parser.parameteridentification.semantic.F__openfun_M_closefun_TokenReducer;
+import aletheia.parser.parameteridentification.semantic.I__I_dot_id_TokenReducer;
 import aletheia.parser.parameteridentification.semantic.I__id_TokenReducer;
 import aletheia.parser.parameteridentification.semantic.M__M_comma_P_TokenReducer;
 import aletheia.parser.parameteridentification.semantic.M__P_TokenReducer;
 import aletheia.parser.parameteridentification.semantic.P__I_TokenReducer;
-import aletheia.parser.parameteridentification.semantic.T__T__TokenReducer;
-import aletheia.parser.parameteridentification.semantic.T___T_F_TokenReducer;
+import aletheia.parser.parameteridentification.semantic.P__I_colon_T_TokenReducer;
+import aletheia.parser.parameteridentification.semantic.P___TokenReducer;
+import aletheia.parser.parameteridentification.semantic.P__colon_T_TokenReducer;
+import aletheia.parser.parameteridentification.semantic.T__Ts_TokenReducer;
+import aletheia.parser.parameteridentification.semantic.Ts__T_F_TokenReducer;
+import aletheia.parser.parameteridentification.semantic.Ts__T_openpar_T_closepar_TokenReducer;
 import aletheia.parser.parameteridentification.semantic.T___TokenReducer;
 import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.lexer.AutomatonSet;
@@ -48,6 +56,7 @@ import aletheia.parsergenerator.semantic.SemanticException;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
+import aletheia.utilities.collections.ReverseList;
 
 public class ParameterIdentificationParser extends Parser
 {
@@ -55,6 +64,22 @@ public class ParameterIdentificationParser extends Parser
 
 	public static abstract class ProductionTokenPayloadReducer<P> extends ProductionManagedTokenPayloadReducer.ProductionTokenPayloadReducer<Void, P>
 	{
+		protected FunctionParameterIdentification makeFunctioParameterIdentification(ParameterWithTypeList parameterWithTypeList, ParameterIdentification body)
+		{
+			for (ParameterWithType parameterWithType : new ReverseList<>(parameterWithTypeList))
+			{
+				Identifier parameter = null;
+				ParameterIdentification parameterType = null;
+				if (parameterWithType != null)
+				{
+					parameter = parameterWithType.getParameter();
+					parameterType = parameterWithType.getParameterType();
+					if (parameter != null || parameterType != null || body != null)
+						body = new FunctionParameterIdentification(parameter, parameterType, body);
+				}
+			}
+			return (FunctionParameterIdentification) body;
+		}
 
 	}
 
@@ -111,18 +136,24 @@ public class ParameterIdentificationParser extends Parser
 	//@formatter:off
 	private final static Collection<Class<? extends ProductionTokenPayloadReducer<?>>> reducerClasses =
 			Arrays.asList(
-					T__T__TokenReducer.class,
+					T__Ts_TokenReducer.class,
 					T___TokenReducer.class,
 					
-					T___T_F_TokenReducer.class,
-					
+					Ts__T_F_TokenReducer.class,
+					Ts__T_openpar_T_closepar_TokenReducer.class,
+
+					F__openfun_M_arrow_Ts_closefun_TokenReducer.class,
 					F__openfun_M_closefun_TokenReducer.class,
-					
-					P__I_TokenReducer.class,
 					
 					M__M_comma_P_TokenReducer.class,
 					M__P_TokenReducer.class,
-					
+
+					P__I_TokenReducer.class,
+					P___TokenReducer.class,
+					P__I_colon_T_TokenReducer.class,
+					P__colon_T_TokenReducer.class,
+
+					I__I_dot_id_TokenReducer.class,
 					I__id_TokenReducer.class);
 	//@formatter:on
 

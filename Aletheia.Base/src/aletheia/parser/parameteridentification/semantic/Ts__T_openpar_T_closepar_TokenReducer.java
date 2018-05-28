@@ -12,9 +12,9 @@ import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
 
-@AssociatedProduction(left = "T_", right =
-{ "T", "F" })
-public class T___T_F_TokenReducer extends ProductionTokenPayloadReducer<ParameterIdentification>
+@AssociatedProduction(left = "Ts", right =
+{ "T", "openpar", "T", "closepar" })
+public class Ts__T_openpar_T_closepar_TokenReducer extends ProductionTokenPayloadReducer<ParameterIdentification>
 {
 
 	@Override
@@ -22,11 +22,9 @@ public class T___T_F_TokenReducer extends ProductionTokenPayloadReducer<Paramete
 			List<Token<? extends Symbol>> reducees) throws SemanticException
 	{
 		ParameterIdentification head = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
-		ParameterIdentification tail = NonTerminalToken.getPayloadFromTokenList(reducees, 1);
-		if (head instanceof CompositionParameterIdentification)
+		ParameterIdentification tail = NonTerminalToken.getPayloadFromTokenList(reducees, 2);
+		if (head instanceof CompositionParameterIdentification || head == null)
 			return new CompositionParameterIdentification((CompositionParameterIdentification) head, tail);
-		else if (head == null)
-			return tail;
 		else
 			return new CompositionParameterIdentification(null,
 					new CompositionParameterIdentification(new CompositionParameterIdentification(null, head), tail));
