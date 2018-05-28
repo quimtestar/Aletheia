@@ -2,11 +2,11 @@ package aletheia.parsergenerator.semantic;
 
 import java.util.List;
 
-import aletheia.parsergenerator.ParserLexerException;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.tokens.Token;
 
-public class SemanticException extends ParserLexerException
+public class SemanticException extends ParserBaseException
 {
 	private static final long serialVersionUID = -292833502687472137L;
 

@@ -99,7 +99,7 @@ import aletheia.parser.term.semantic.TP__P_colon_T_TokenReducer;
 import aletheia.parser.term.semantic.TP__T_TokenReducer;
 import aletheia.parser.term.semantic.T__B_TokenReducer;
 import aletheia.parser.term.semantic.T__T_B_TokenReducer;
-import aletheia.parsergenerator.ParserLexerException;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.lexer.AutomatonSet;
 import aletheia.parsergenerator.lexer.AutomatonSetLexer;
 import aletheia.parsergenerator.lexer.Lexer;
@@ -491,7 +491,7 @@ public class TermParser extends Parser
 		{
 			return (Term) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenPayloadReducer, new Globals(transaction, context, parameterIdentifiers));
 		}
-		catch (ParserLexerException e)
+		catch (ParserBaseException e)
 		{
 			throw new AletheiaParserException(e);
 		}

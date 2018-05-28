@@ -27,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import aletheia.parsergenerator.ParserLexerException;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.parser.TransitionTable.ConflictException;
 import aletheia.parsergenerator.semantic.ParseTree;
 import aletheia.parsergenerator.symbols.NonTerminalSymbol;
@@ -66,9 +66,9 @@ public class GrammarParser extends Parser
 	 * @param lexer
 	 *            The lexer to extract the tokens.
 	 * @return The parsed grammar.
-	 * @throws ParserLexerException
+	 * @throws ParserBaseException
 	 */
-	protected Grammar parse(GrammarLexer lexer) throws ParserLexerException
+	protected Grammar parse(GrammarLexer lexer) throws ParserBaseException
 	{
 		ParseTree token = parseToken(lexer);
 		Set<String> leftTags = new HashSet<>();
@@ -98,9 +98,9 @@ public class GrammarParser extends Parser
 	 * @param reader
 	 *            The reader to read from.
 	 * @return The parsed grammar.
-	 * @throws ParserLexerException
+	 * @throws ParserBaseException
 	 */
-	public Grammar parse(Reader reader) throws ParserLexerException
+	public Grammar parse(Reader reader) throws ParserBaseException
 	{
 		return parse(new GrammarLexer(reader));
 	}

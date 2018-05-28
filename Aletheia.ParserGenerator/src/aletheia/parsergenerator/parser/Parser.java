@@ -32,7 +32,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
-import aletheia.parsergenerator.ParserLexerException;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.lexer.Lexer;
 import aletheia.parsergenerator.parser.TransitionTable.State;
 import aletheia.parsergenerator.semantic.ParseTree;
@@ -60,7 +60,7 @@ public abstract class Parser implements Serializable
 {
 	private static final long serialVersionUID = 5012002493949683810L;
 
-	public class ParserException extends ParserLexerException
+	public class ParserException extends ParserBaseException
 	{
 		private static final long serialVersionUID = 9168128419101166987L;
 
@@ -208,9 +208,9 @@ public abstract class Parser implements Serializable
 	 *            Global data needed for parsing.
 	 * 
 	 * @return The {@link Token} containing the parsed structure.
-	 * @throws ParserLexerException
+	 * @throws ParserBaseException
 	 */
-	protected <G, P> P parseToken(Lexer lexer, TokenPayloadReducer<G, P> reducer, G globals) throws ParserLexerException
+	protected <G, P> P parseToken(Lexer lexer, TokenPayloadReducer<G, P> reducer, G globals) throws ParserBaseException
 	{
 		Stack<State> stateStack = new Stack<>();
 		Stack<Token<?>> inputStack = new Stack<>();
@@ -248,12 +248,12 @@ public abstract class Parser implements Serializable
 		throw new RuntimeException();
 	}
 
-	protected <P> P parseToken(Lexer lexer, TokenPayloadReducer<Void, P> tokenReducer) throws ParserLexerException
+	protected <P> P parseToken(Lexer lexer, TokenPayloadReducer<Void, P> tokenReducer) throws ParserBaseException
 	{
 		return parseToken(lexer, tokenReducer, null);
 	}
 
-	protected ParseTree parseToken(Lexer lexer) throws ParserLexerException
+	protected ParseTree parseToken(Lexer lexer) throws ParserBaseException
 	{
 		return parseToken(lexer, new ParseTreeReducer());
 	}

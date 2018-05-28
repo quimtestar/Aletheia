@@ -27,7 +27,7 @@ import aletheia.parser.AletheiaParserException;
 import aletheia.parser.TokenProcessorException;
 import aletheia.parser.AletheiaParserConstants;
 import aletheia.parser.parameteridentification.tokenprocessor.TokenProcessor;
-import aletheia.parsergenerator.ParserLexerException;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.lexer.AutomatonSet;
 import aletheia.parsergenerator.lexer.AutomatonSetLexer;
 import aletheia.parsergenerator.parser.Parser;
@@ -88,7 +88,7 @@ public class ParameterIdentificationParser extends Parser
 			ParseTree token = parseToken(new AutomatonSetLexer(automatonSet, reader));
 			return tokenProcessor.process(token);
 		}
-		catch (ParserLexerException e)
+		catch (ParserBaseException e)
 		{
 			throw new AletheiaParserException(e);
 		}

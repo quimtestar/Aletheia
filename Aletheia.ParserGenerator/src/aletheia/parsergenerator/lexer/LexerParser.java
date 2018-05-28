@@ -27,7 +27,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-import aletheia.parsergenerator.ParserLexerException;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.lexer.LexerLexer.CharToken;
 import aletheia.parsergenerator.lexer.LexerLexer.NumberToken;
 import aletheia.parsergenerator.lexer.LexerLexer.TagToken;
@@ -102,9 +102,9 @@ public class LexerParser extends Parser
 	 * @param lexerLexer
 	 *            The lexer of lexers.
 	 * @return The automaton set.
-	 * @throws ParserLexerException
+	 * @throws ParserBaseException
 	 */
-	public AutomatonSet parse(LexerLexer lexerLexer) throws ParserLexerException
+	public AutomatonSet parse(LexerLexer lexerLexer) throws ParserBaseException
 	{
 		ParseTree parseTree = parseToken(lexerLexer);
 		return processTokenLexer(parseTree);
@@ -380,9 +380,9 @@ public class LexerParser extends Parser
 	 * @param reader
 	 *            The reader to read from.
 	 * @return The automaton set.
-	 * @throws ParserLexerException
+	 * @throws ParserBaseException
 	 */
-	public AutomatonSet parse(Reader reader) throws ParserLexerException
+	public AutomatonSet parse(Reader reader) throws ParserBaseException
 	{
 		return parse(new LexerLexer(reader));
 	}

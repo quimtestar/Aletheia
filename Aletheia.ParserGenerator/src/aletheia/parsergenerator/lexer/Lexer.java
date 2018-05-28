@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.parsergenerator.lexer;
 
-import aletheia.parsergenerator.ParserLexerException;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.tokens.EndToken;
 import aletheia.parsergenerator.tokens.Location;
 import aletheia.parsergenerator.tokens.TerminalToken;
@@ -31,7 +31,7 @@ import aletheia.parsergenerator.tokens.TerminalToken;
  */
 public interface Lexer
 {
-	public class LexerException extends ParserLexerException
+	public class LexerException extends ParserBaseException
 	{
 		private static final long serialVersionUID = 9168128419101166987L;
 

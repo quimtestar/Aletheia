@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.parser;
 
-import aletheia.parsergenerator.ParserLexerException;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.tokens.Location;
 
 public class AletheiaParserException extends Exception
@@ -29,7 +29,7 @@ public class AletheiaParserException extends Exception
 	private final Location startLocation;
 	private final Location stopLocation;
 
-	public AletheiaParserException(ParserLexerException e)
+	public AletheiaParserException(ParserBaseException e)
 	{
 		super(e.getMessage(), e);
 		this.startLocation = e.getStartLocation();

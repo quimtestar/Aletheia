@@ -21,7 +21,7 @@ package aletheia.parsergenerator.lexer;
 
 import java.io.StringReader;
 
-import aletheia.parsergenerator.ParserLexerException;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.parser.Grammar;
 import aletheia.parsergenerator.parser.GrammarParser;
 
@@ -73,7 +73,7 @@ public class LexerGrammarFactory
 		{
 			lexerGrammar = gP.parse(new StringReader(sg));
 		}
-		catch (ParserLexerException e)
+		catch (ParserBaseException e)
 		{
 			throw new Error(e);
 		}
