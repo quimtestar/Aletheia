@@ -189,6 +189,20 @@ public class CompositionTerm extends SimpleTerm
 			return tail;
 		}
 
+		@Override
+		public String toString()
+		{
+			StringBuilder builder = new StringBuilder();
+			if (head != null)
+				builder.append(head.toString() + " ");
+			if (tail instanceof CompositionParameterIdentification)
+				builder.append("(");
+			builder.append(tail.toString());
+			if (tail instanceof CompositionParameterIdentification)
+				builder.append(")");
+			return builder.toString();
+		}
+
 	}
 
 	/**

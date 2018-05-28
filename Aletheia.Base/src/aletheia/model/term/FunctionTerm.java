@@ -211,6 +211,31 @@ public class FunctionTerm extends Term
 			return body;
 		}
 
+		@Override
+		public String toString()
+		{
+			StringBuilder builder = new StringBuilder();
+			builder.append("<");
+			ParameterIdentification pi = this;
+			boolean first = true;
+			while (pi instanceof FunctionParameterIdentification)
+			{
+				if (!first)
+					builder.append(", ");
+				first = false;
+				FunctionParameterIdentification fpi = (FunctionParameterIdentification) pi;
+				if (fpi.getParameter() != null)
+					builder.append(fpi.getParameter().toString());
+				if (fpi.getParameterType() != null)
+					builder.append(":" + fpi.getParameterType().toString());
+				pi = fpi.getBody();
+			}
+			if (pi != null)
+				builder.append(" -> " + pi.toString());
+			builder.append(">");
+			return builder.toString();
+		}
+
 	}
 
 	/**
