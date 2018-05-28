@@ -55,14 +55,9 @@ public abstract class BerkeleyDBPersistenceManagerTest extends PersistenceManage
 	@Override
 	public final void run() throws Exception
 	{
-		BerkeleyDBPersistenceManager persistenceManager = new BerkeleyDBPersistenceManager(getConfiguration());
-		try
+		try (BerkeleyDBPersistenceManager persistenceManager = new BerkeleyDBPersistenceManager(getConfiguration()))
 		{
 			run(persistenceManager);
-		}
-		finally
-		{
-			persistenceManager.close();
 		}
 	}
 
