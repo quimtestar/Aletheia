@@ -24,6 +24,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 
+import aletheia.parsergenerator.Location;
+import aletheia.parsergenerator.LocationInterval;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.collections.ReverseListIterator;
@@ -40,44 +42,26 @@ import aletheia.utilities.collections.ReverseListIterator;
 public abstract class Token<S extends Symbol>
 {
 	private final S symbol;
-	private final Location startLocation;
-	private final Location stopLocation;
+
+	private final LocationInterval locationInterval;
 
 	/**
 	 * Creates a new token.
-	 *
-	 * @param symbol
-	 *            The symbol associated to this token.
-	 * @param startLocation
-	 *            The start location.
-	 * @param stopLocation
-	 *            The stop location.
 	 */
-	public Token(S symbol, Location startLocation, Location stopLocation)
+	public Token(S symbol, LocationInterval locationInterval)
 	{
 		this.symbol = symbol;
-		this.startLocation = startLocation;
-		this.stopLocation = stopLocation;
+		this.locationInterval = locationInterval;
 	}
 
 	/**
 	 * Creates a new token with the same start and stop location.
-	 *
-	 * @param symbol
-	 *            The symbol associated to this token.
-	 * @param location
-	 *            The start and stop locations.-
 	 */
 	public Token(S symbol, Location location)
 	{
-		this(symbol, location, location);
+		this(symbol, new LocationInterval(location));
 	}
 
-	/**
-	 * The symbol.
-	 *
-	 * @return The symbol.
-	 */
 	public S getSymbol()
 	{
 		return symbol;
@@ -89,34 +73,21 @@ public abstract class Token<S extends Symbol>
 		return symbol.toString();
 	}
 
-	/**
-	 * The start location. Null if the token is produced from the empty string.
-	 *
-	 * @return The start location.
-	 */
-	public Location getStartLocation()
+	public LocationInterval getLocationInterval()
 	{
-		return startLocation;
+		return locationInterval;
 	}
 
-	/**
-	 * The stop location. Null if the token is produced by the empty string.
-	 *
-	 * @return The stop location.
-	 */
-	public Location getStopLocation()
+	public static LocationInterval locationPairFromAntecedentsReducees(List<Token<? extends Symbol>> antecedents, List<Token<? extends Symbol>> reducees)
 	{
-		return stopLocation;
-	}
-
-	public static Location startLocationFromList(List<Token<? extends Symbol>> list)
-	{
-		return list.isEmpty() ? null : MiscUtilities.firstFromIterable(list).getStartLocation();
-	}
-
-	public static Location stopLocationFromList(List<Token<? extends Symbol>> list)
-	{
-		return list.isEmpty() ? null : MiscUtilities.lastFromList(list).getStopLocation();
+		if (reducees == null || reducees.isEmpty())
+			if (antecedents == null || antecedents.isEmpty())
+				return new LocationInterval(Location.initial);
+			else
+				return new LocationInterval(MiscUtilities.lastFromList(antecedents).getLocationInterval().stop);
+		else
+			return new LocationInterval(MiscUtilities.firstFromIterable(reducees).getLocationInterval().start,
+					MiscUtilities.lastFromList(reducees).getLocationInterval().stop);
 	}
 
 	@SuppressWarnings("unchecked")

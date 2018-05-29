@@ -29,44 +29,64 @@ public class SemanticException extends ParserBaseException
 {
 	private static final long serialVersionUID = -292833502687472137L;
 
-	public SemanticException(List<Token<? extends Symbol>> tokens, String message, Throwable cause)
+	public SemanticException(List<Token<? extends Symbol>> antecedents, List<Token<? extends Symbol>> reducees, String message, Throwable cause)
 	{
-		super(Token.startLocationFromList(tokens), Token.stopLocationFromList(tokens), message, cause);
+		super(Token.locationPairFromAntecedentsReducees(antecedents, reducees), message, cause);
 	}
 
-	public SemanticException(List<Token<? extends Symbol>> tokens, String message)
+	public SemanticException(List<Token<? extends Symbol>> antecedents, List<Token<? extends Symbol>> reducees, String message)
 	{
-		super(Token.startLocationFromList(tokens), Token.stopLocationFromList(tokens), message);
+		super(Token.locationPairFromAntecedentsReducees(antecedents, reducees), message);
 	}
 
-	public SemanticException(List<Token<? extends Symbol>> tokens, Throwable cause)
+	public SemanticException(List<Token<? extends Symbol>> antecedents, List<Token<? extends Symbol>> reducees, Throwable cause)
 	{
-		super(Token.startLocationFromList(tokens), Token.stopLocationFromList(tokens), cause);
+		super(Token.locationPairFromAntecedentsReducees(antecedents, reducees), cause);
 	}
 
-	public SemanticException(List<Token<? extends Symbol>> tokens)
+	public SemanticException(List<Token<? extends Symbol>> antecedents, List<Token<? extends Symbol>> reducees)
 	{
-		super(Token.startLocationFromList(tokens), Token.stopLocationFromList(tokens));
+		super(Token.locationPairFromAntecedentsReducees(antecedents, reducees));
+	}
+
+	public SemanticException(List<Token<? extends Symbol>> reducees, String message, Throwable cause)
+	{
+		super(Token.locationPairFromAntecedentsReducees(null, reducees), message, cause);
+	}
+
+	public SemanticException(List<Token<? extends Symbol>> reducees, String message)
+	{
+		super(Token.locationPairFromAntecedentsReducees(null, reducees), message);
+	}
+
+	public SemanticException(List<Token<? extends Symbol>> reducees, Throwable cause)
+	{
+		super(Token.locationPairFromAntecedentsReducees(null, reducees), cause);
+	}
+
+	public SemanticException(List<Token<? extends Symbol>> reducees)
+	{
+		super(Token.locationPairFromAntecedentsReducees(null, reducees));
 	}
 
 	public SemanticException(Token<? extends Symbol> token, String message, Throwable cause)
 	{
-		super(token.getStartLocation(), token.getStopLocation(), message, cause);
+		super(token.getLocationInterval(), message, cause);
 	}
 
 	public SemanticException(Token<? extends Symbol> token, String message)
 	{
-		super(token.getStartLocation(), token.getStopLocation(), message);
+		super(token.getLocationInterval(), message);
 	}
 
 	public SemanticException(Token<? extends Symbol> token, Throwable cause)
 	{
-		super(token.getStartLocation(), token.getStopLocation(), cause);
+		super(token.getLocationInterval(), cause);
 	}
 
 	public SemanticException(Token<? extends Symbol> token)
 	{
-		super(token.getStartLocation(), token.getStopLocation());
+		super(token.getLocationInterval());
 	}
 
 }

@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
 
+import aletheia.parsergenerator.LocationInterval;
 import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.lexer.Lexer;
 import aletheia.parsergenerator.parser.TransitionTable.State;
@@ -39,7 +40,6 @@ import aletheia.parsergenerator.semantic.ParseTree;
 import aletheia.parsergenerator.semantic.ParseTreeReducer;
 import aletheia.parsergenerator.semantic.TokenPayloadReducer;
 import aletheia.parsergenerator.symbols.EndTerminalSymbol;
-import aletheia.parsergenerator.tokens.Location;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.TerminalToken;
 import aletheia.parsergenerator.tokens.Token;
@@ -64,24 +64,24 @@ public abstract class Parser implements Serializable
 	{
 		private static final long serialVersionUID = 9168128419101166987L;
 
-		public ParserException(Location startLocation, Location stopLocation, String message, Throwable cause)
+		public ParserException(LocationInterval locationInterval, String message, Throwable cause)
 		{
-			super(startLocation, stopLocation, message, cause);
+			super(locationInterval, message, cause);
 		}
 
-		public ParserException(Location startLocation, Location stopLocation, String message)
+		public ParserException(LocationInterval locationInterval, String message)
 		{
-			super(startLocation, stopLocation, message);
+			super(locationInterval, message);
 		}
 
-		public ParserException(Location startLocation, Location stopLocation, Throwable cause)
+		public ParserException(LocationInterval locationInterval, Throwable cause)
 		{
-			super(startLocation, stopLocation, cause);
+			super(locationInterval, cause);
 		}
 
-		public ParserException(Location startLocation, Location stopLocation)
+		public ParserException(LocationInterval locationInterval)
 		{
-			super(startLocation, stopLocation);
+			super(locationInterval);
 		}
 
 		@Override
@@ -98,8 +98,7 @@ public abstract class Parser implements Serializable
 
 		public UnexpectedTokenException(Token<?> token, State state)
 		{
-			super(token.getStartLocation(), token.getStopLocation(),
-					"Unexpected token " + token.toString() + " (expecting:" + transitionTable.nextTerminals(state) + ")");
+			super(token.getLocationInterval(), "Unexpected token " + token.toString() + " (expecting:" + transitionTable.nextTerminals(state) + ")");
 		}
 
 	}

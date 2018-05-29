@@ -25,6 +25,7 @@ import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.statement.NonOperationalCommand;
 import aletheia.log4j.LoggerManager;
 import aletheia.parser.AletheiaParserException;
+import aletheia.parsergenerator.LocationInterval;
 
 public class TraceException extends NonOperationalCommand
 {
@@ -80,16 +81,17 @@ public class TraceException extends NonOperationalCommand
 			{
 				AletheiaParserException tpe = ((CommandParseTermParserException) exception).getCause();
 				String input = ((CommandParseTermParserException) exception).getInput();
-				if (tpe.getStartLocation() != null && tpe.getStopLocation() != null)
+				LocationInterval li = tpe.getLocationInterval();
+				if (li != null && li.start != null && li.stop != null)
 				{
-					getErr().print(input.substring(0, tpe.getStartLocation().positionInText(input) - 1));
+					getErr().print(input.substring(0, li.start.positionInText(input) - 1));
 					getErrB().print("\u00bb");
-					getErrB().print(input.substring(tpe.getStartLocation().positionInText(input) - 1, tpe.getStopLocation().positionInText(input) - 1));
+					getErrB().print(input.substring(li.start.positionInText(input) - 1, li.stop.positionInText(input) - 1));
 					getErrB().print("\u00ab");
-					getErr().println(input.substring(tpe.getStopLocation().positionInText(input) - 1));
+					getErr().println(input.substring(li.stop.positionInText(input) - 1));
 				}
 				else
-					getErr().print(input);
+					getErr().println(input);
 			}
 
 		}

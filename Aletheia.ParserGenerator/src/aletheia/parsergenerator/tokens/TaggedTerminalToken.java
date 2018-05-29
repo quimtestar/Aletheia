@@ -21,6 +21,7 @@ package aletheia.parsergenerator.tokens;
 
 import java.util.List;
 
+import aletheia.parsergenerator.LocationInterval;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.symbols.TaggedTerminalSymbol;
 
@@ -44,9 +45,9 @@ public class TaggedTerminalToken extends TerminalToken
 	 * @param text
 	 *            The text processed.
 	 */
-	public TaggedTerminalToken(TaggedTerminalSymbol symbol, Location startLocation, Location stopLocation, String text)
+	public TaggedTerminalToken(TaggedTerminalSymbol symbol, LocationInterval locationInterval, String text)
 	{
-		super(symbol, startLocation, stopLocation);
+		super(symbol, locationInterval);
 		this.text = text;
 	}
 

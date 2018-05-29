@@ -21,10 +21,11 @@ package aletheia.parsergenerator.lexer;
 
 import java.io.Reader;
 
+import aletheia.parsergenerator.Location;
+import aletheia.parsergenerator.LocationInterval;
 import aletheia.parsergenerator.symbols.TaggedTerminalSymbol;
 import aletheia.parsergenerator.symbols.TerminalSymbol;
 import aletheia.parsergenerator.tokens.EndToken;
-import aletheia.parsergenerator.tokens.Location;
 import aletheia.parsergenerator.tokens.TaggedTerminalToken;
 import aletheia.parsergenerator.tokens.TerminalToken;
 
@@ -244,17 +245,10 @@ public class LexerLexer extends AbstractLexer
 
 		/**
 		 * Creates a new character token with a given character.
-		 *
-		 * @param startLocation
-		 *            The start location.
-		 * @param stopLocation
-		 *            The stop location.
-		 * @param c
-		 *            The char read.
 		 */
-		public CharToken(Location startLocation, Location stopLocation, char c)
+		public CharToken(LocationInterval locationInterval, char c)
 		{
-			super(sChar, startLocation, stopLocation);
+			super(sChar, locationInterval);
 			this.c = c;
 		}
 
@@ -286,17 +280,10 @@ public class LexerLexer extends AbstractLexer
 
 		/**
 		 * Creates a new number token with a given number.
-		 *
-		 * @param startLocation
-		 *            The start location.
-		 * @param stopLocation
-		 *            The stop location.
-		 * @param n
-		 *            The number.
 		 */
-		public NumberToken(Location startLocation, Location stopLocation, int n)
+		public NumberToken(LocationInterval locationInterval, int n)
 		{
-			super(sNumber, startLocation, stopLocation);
+			super(sNumber, locationInterval);
 			this.n = n;
 		}
 
@@ -336,9 +323,9 @@ public class LexerLexer extends AbstractLexer
 		 * @param tag
 		 *            The string tag.
 		 */
-		public TagToken(Location startLocation, Location stopLocation, String tag)
+		public TagToken(LocationInterval locationInterval, String tag)
 		{
-			super(sTag, startLocation, stopLocation);
+			super(sTag, locationInterval);
 			this.tag = tag;
 		}
 
@@ -385,66 +372,66 @@ public class LexerLexer extends AbstractLexer
 				{
 					eat();
 					if (isAtEnd())
-						throw new LexerException(location, getLocation());
+						throw new LexerException(new LocationInterval(location, getLocation()));
 					char c = getNext();
 					eat();
-					return new CharToken(location, getLocation(), c);
+					return new CharToken(new LocationInterval(location, getLocation()), c);
 				}
 				case '\'':
 					eat();
 					inRegExp = false;
-					return new TerminalToken(sQuote, location, getLocation());
+					return new TerminalToken(sQuote, new LocationInterval(location, getLocation()));
 				case '|':
 					eat();
-					return new TerminalToken(sUnion, location, getLocation());
+					return new TerminalToken(sUnion, new LocationInterval(location, getLocation()));
 				case '*':
 					eat();
-					return new TerminalToken(sKleene, location, getLocation());
+					return new TerminalToken(sKleene, new LocationInterval(location, getLocation()));
 				case '+':
 					eat();
-					return new TerminalToken(sPlus, location, getLocation());
+					return new TerminalToken(sPlus, new LocationInterval(location, getLocation()));
 				case '?':
 					eat();
-					return new TerminalToken(sQuestion, location, getLocation());
+					return new TerminalToken(sQuestion, new LocationInterval(location, getLocation()));
 				case '(':
 					eat();
-					return new TerminalToken(sOP, location, getLocation());
+					return new TerminalToken(sOP, new LocationInterval(location, getLocation()));
 				case ')':
 					eat();
-					return new TerminalToken(sCP, location, getLocation());
+					return new TerminalToken(sCP, new LocationInterval(location, getLocation()));
 				case '[':
 					eat();
-					return new TerminalToken(sOB, location, getLocation());
+					return new TerminalToken(sOB, new LocationInterval(location, getLocation()));
 				case ']':
 					eat();
-					return new TerminalToken(sCB, location, getLocation());
+					return new TerminalToken(sCB, new LocationInterval(location, getLocation()));
 				case '{':
 					eat();
-					return new TerminalToken(sOC, location, getLocation());
+					return new TerminalToken(sOC, new LocationInterval(location, getLocation()));
 				case '}':
 					eat();
-					return new TerminalToken(sCC, location, getLocation());
+					return new TerminalToken(sCC, new LocationInterval(location, getLocation()));
 				case '-':
 					eat();
-					return new TerminalToken(sHyphen, location, getLocation());
+					return new TerminalToken(sHyphen, new LocationInterval(location, getLocation()));
 				case ',':
 					eat();
-					return new TerminalToken(sComma, location, getLocation());
+					return new TerminalToken(sComma, new LocationInterval(location, getLocation()));
 				case '_':
 					eat();
-					return new TerminalToken(sBlank, location, getLocation());
+					return new TerminalToken(sBlank, new LocationInterval(location, getLocation()));
 				case '$':
 					eat();
-					return new TerminalToken(sEOL, location, getLocation());
+					return new TerminalToken(sEOL, new LocationInterval(location, getLocation()));
 				case '.':
 					eat();
-					return new TerminalToken(sDot, location, getLocation());
+					return new TerminalToken(sDot, new LocationInterval(location, getLocation()));
 				case '^':
 					eat();
-					return new TerminalToken(sCaret, location, getLocation());
+					return new TerminalToken(sCaret, new LocationInterval(location, getLocation()));
 				case '#':
 					eat();
-					return new TerminalToken(sHash, location, getLocation());
+					return new TerminalToken(sHash, new LocationInterval(location, getLocation()));
 				default:
 				{
 					if (getNext() >= '0' && getNext() <= '9')
@@ -468,7 +455,7 @@ public class LexerLexer extends AbstractLexer
 								num *= 10;
 								num += getNext() - '0';
 								if (num < 0)
-									throw new LexerException(location, getLocation(), "Number overflow");
+									throw new LexerException(new LocationInterval(location, getLocation()), "Number overflow");
 								eat();
 							}
 							break;
@@ -486,20 +473,20 @@ public class LexerLexer extends AbstractLexer
 								else
 									throw new RuntimeException();
 								if (num < 0)
-									throw new LexerException(location, getLocation(), "Number overflow");
+									throw new LexerException(new LocationInterval(location, getLocation()), "Number overflow");
 								eat();
 							}
 							break;
 						default:
 							throw new Error();
 						}
-						return new NumberToken(location, getLocation(), num);
+						return new NumberToken(new LocationInterval(location, getLocation()), num);
 					}
 					else
 					{
 						char c = getNext();
 						eat();
-						return new CharToken(location, getLocation(), c);
+						return new CharToken(new LocationInterval(location, getLocation()), c);
 					}
 				}
 				}
@@ -529,13 +516,13 @@ public class LexerLexer extends AbstractLexer
 				case '\'':
 					eat();
 					inRegExp = true;
-					return new TerminalToken(sQuote, location, getLocation());
+					return new TerminalToken(sQuote, new LocationInterval(location, getLocation()));
 				case ':':
 					eat();
-					return new TerminalToken(sColon, location, getLocation());
+					return new TerminalToken(sColon, new LocationInterval(location, getLocation()));
 				case ';':
 					eat();
-					return new TerminalToken(sSemiColon, location, getLocation());
+					return new TerminalToken(sSemiColon, new LocationInterval(location, getLocation()));
 				default:
 				{
 					if (((getNext() >= 'a') && (getNext() <= 'z')) || ((getNext() >= 'A') && (getNext() <= 'Z')) || (getNext() == '_')
@@ -551,7 +538,7 @@ public class LexerLexer extends AbstractLexer
 							eat();
 						}
 						String text = sb.toString();
-						return new TagToken(location, getLocation(), text);
+						return new TagToken(new LocationInterval(location, getLocation()), text);
 					}
 					else
 						throw e;

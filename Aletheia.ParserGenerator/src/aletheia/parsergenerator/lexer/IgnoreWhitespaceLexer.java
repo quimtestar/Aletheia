@@ -21,6 +21,7 @@ package aletheia.parsergenerator.lexer;
 
 import java.io.Reader;
 
+import aletheia.parsergenerator.LocationInterval;
 import aletheia.parsergenerator.tokens.EndToken;
 import aletheia.parsergenerator.tokens.TerminalToken;
 
@@ -42,7 +43,7 @@ public abstract class IgnoreWhitespaceLexer extends AbstractLexer
 			eat();
 		if (isAtEnd())
 			return new EndToken(getLocation());
-		throw new UnrecognizedInputException(getLocation(), getLocation(), getNext());
+		throw new UnrecognizedInputException(new LocationInterval(getLocation()), getNext());
 	}
 
 }

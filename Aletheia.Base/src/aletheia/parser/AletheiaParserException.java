@@ -19,43 +19,31 @@
  ******************************************************************************/
 package aletheia.parser;
 
+import aletheia.parsergenerator.LocationInterval;
 import aletheia.parsergenerator.ParserBaseException;
-import aletheia.parsergenerator.tokens.Location;
 
+//TODO not necessary anymore. Delete this
+@Deprecated
 public class AletheiaParserException extends Exception
 {
 	private static final long serialVersionUID = 313143433656661210L;
 
-	private final Location startLocation;
-	private final Location stopLocation;
+	private final LocationInterval locationInterval;
 
 	public AletheiaParserException(ParserBaseException e)
 	{
 		super(e.getMessage(), e);
-		this.startLocation = e.getStartLocation();
-		this.stopLocation = e.getStopLocation();
+		this.locationInterval = e.getLocationInterval();
 	}
 
-	public AletheiaParserException(TokenProcessorException e)
+	public LocationInterval getLocationInterval()
 	{
-		super(e.getMessage(), e);
-		this.startLocation = e.getStartLocation();
-		this.stopLocation = e.getStopLocation();
-	}
-
-	public Location getStartLocation()
-	{
-		return startLocation;
-	}
-
-	public Location getStopLocation()
-	{
-		return stopLocation;
+		return locationInterval;
 	}
 
 	public String position()
 	{
-		return startLocation.position();
+		return locationInterval.position();
 	}
 
 	@Override

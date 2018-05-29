@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.parsergenerator.tokens;
 
+import aletheia.parsergenerator.LocationInterval;
 import aletheia.parsergenerator.symbols.TerminalSymbol;
 
 /**
@@ -27,9 +28,9 @@ import aletheia.parsergenerator.symbols.TerminalSymbol;
  */
 public class TerminalToken extends Token<TerminalSymbol>
 {
-	public TerminalToken(TerminalSymbol symbol, Location startLocation, Location stopLocation)
+	public TerminalToken(TerminalSymbol symbol, LocationInterval locationInterval)
 	{
-		super(symbol, startLocation, stopLocation);
+		super(symbol, locationInterval);
 	}
 
 }

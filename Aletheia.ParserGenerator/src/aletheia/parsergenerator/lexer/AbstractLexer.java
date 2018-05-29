@@ -22,8 +22,9 @@ package aletheia.parsergenerator.lexer;
 import java.io.IOException;
 import java.io.Reader;
 
+import aletheia.parsergenerator.Location;
+import aletheia.parsergenerator.LocationInterval;
 import aletheia.parsergenerator.tokens.EndToken;
-import aletheia.parsergenerator.tokens.Location;
 import aletheia.parsergenerator.tokens.TerminalToken;
 
 /**
@@ -59,8 +60,8 @@ public abstract class AbstractLexer implements Lexer
 	{
 		super();
 		this.reader = reader;
-		this.line = 1;
-		this.column = 0;
+		this.line = Location.initial.line;
+		this.column = Location.initial.column;
 		eat();
 	}
 
@@ -87,7 +88,7 @@ public abstract class AbstractLexer implements Lexer
 			}
 			catch (IOException e)
 			{
-				throw new LexerException(getLocation(), getLocation(), e);
+				throw new LexerException(new LocationInterval(getLocation()), e);
 			}
 			if (r >= 0)
 			{
@@ -125,9 +126,9 @@ public abstract class AbstractLexer implements Lexer
 
 		private final char input;
 
-		public UnrecognizedInputException(Location startLocation, Location stopLocation, char input)
+		public UnrecognizedInputException(LocationInterval locationInterval, char input)
 		{
-			super(startLocation, stopLocation, "Unrecognized input: '" + input + "'");
+			super(locationInterval, "Unrecognized input: '" + input + "'");
 			this.input = input;
 		}
 
@@ -142,7 +143,7 @@ public abstract class AbstractLexer implements Lexer
 	{
 		if (atEnd)
 			return new EndToken(new Location(line, column));
-		throw new UnrecognizedInputException(getLocation(), getLocation(), next);
+		throw new UnrecognizedInputException(new LocationInterval(getLocation()), next);
 	}
 
 	@Override

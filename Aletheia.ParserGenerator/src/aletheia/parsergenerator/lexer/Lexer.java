@@ -19,9 +19,10 @@
  ******************************************************************************/
 package aletheia.parsergenerator.lexer;
 
+import aletheia.parsergenerator.Location;
+import aletheia.parsergenerator.LocationInterval;
 import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.tokens.EndToken;
-import aletheia.parsergenerator.tokens.Location;
 import aletheia.parsergenerator.tokens.TerminalToken;
 
 /**
@@ -35,24 +36,24 @@ public interface Lexer
 	{
 		private static final long serialVersionUID = 9168128419101166987L;
 
-		public LexerException(Location startLocation, Location stopLocation, String message, Throwable cause)
+		public LexerException(LocationInterval locationInterval, String message, Throwable cause)
 		{
-			super(startLocation, stopLocation, message, cause);
+			super(locationInterval, message, cause);
 		}
 
-		public LexerException(Location startLocation, Location stopLocation, String message)
+		public LexerException(LocationInterval locationInterval, String message)
 		{
-			super(startLocation, stopLocation, message);
+			super(locationInterval, message);
 		}
 
-		public LexerException(Location startLocation, Location stopLocation, Throwable cause)
+		public LexerException(LocationInterval locationInterval, Throwable cause)
 		{
-			super(startLocation, stopLocation, cause);
+			super(locationInterval, cause);
 		}
 
-		public LexerException(Location startLocation, Location stopLocation)
+		public LexerException(LocationInterval locationInterval)
 		{
-			super(startLocation, stopLocation);
+			super(locationInterval);
 		}
 
 		@Override

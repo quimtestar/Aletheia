@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.parsergenerator.tokens;
+package aletheia.parsergenerator;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -63,5 +63,7 @@ public class Location
 			return matcher.start() + column;
 		}
 	}
+
+	public static final Location initial = new Location(1, 0);
 
 }

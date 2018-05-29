@@ -34,7 +34,7 @@ public class NonTerminalToken<G, P> extends Token<NonTerminalSymbol>
 	public NonTerminalToken(G globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees,
 			TokenPayloadReducer<G, ? extends P> reducer) throws SemanticException
 	{
-		super(production.getLeft(), startLocationFromList(reducees), stopLocationFromList(reducees));
+		super(production.getLeft(), locationPairFromAntecedentsReducees(antecedents, reducees));
 		this.payload = reducer.reduce(globals, antecedents, production, reducees);
 	}
 

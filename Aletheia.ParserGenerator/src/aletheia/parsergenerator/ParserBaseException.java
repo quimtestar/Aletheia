@@ -19,61 +19,49 @@
  ******************************************************************************/
 package aletheia.parsergenerator;
 
-import aletheia.parsergenerator.tokens.Location;
-
-public class ParserBaseException extends Exception
+public abstract class ParserBaseException extends Exception
 {
 	private static final long serialVersionUID = -1338891993034444711L;
 
-	private final Location startLocation;
-	private final Location stopLocation;
+	private final LocationInterval locationInterval;
 
-	public ParserBaseException(Location startLocation, Location stopLocation)
+	public ParserBaseException(LocationInterval locationInterval)
 	{
 		super();
-		this.startLocation = startLocation;
-		this.stopLocation = stopLocation;
+		this.locationInterval = locationInterval;
 	}
 
-	public ParserBaseException(Location startLocation, Location stopLocation, String message, Throwable cause)
+	public ParserBaseException(LocationInterval locationInterval, String message, Throwable cause)
 	{
 		super(message, cause);
-		this.startLocation = startLocation;
-		this.stopLocation = stopLocation;
+		this.locationInterval = locationInterval;
 	}
 
-	public ParserBaseException(Location startLocation, Location stopLocation, String message)
+	public ParserBaseException(LocationInterval locationInterval, String message)
 	{
 		super(message);
-		this.startLocation = startLocation;
-		this.stopLocation = stopLocation;
+		this.locationInterval = locationInterval;
 	}
 
-	public ParserBaseException(Location startLocation, Location stopLocation, Throwable cause)
+	public ParserBaseException(LocationInterval locationInterval, Throwable cause)
 	{
-		super(cause);
-		this.startLocation = startLocation;
-		this.stopLocation = stopLocation;
+		super(cause.getMessage(), cause);
+		this.locationInterval = locationInterval;
 	}
 
-	public Location getStartLocation()
+	public LocationInterval getLocationInterval()
 	{
-		return startLocation;
-	}
-
-	public Location getStopLocation()
-	{
-		return stopLocation;
+		return locationInterval;
 	}
 
 	public String position()
 	{
-		return startLocation.position();
+		return locationInterval.position();
 	}
 
 	public String getGenericMessage()
 	{
-		return "Parser/Lexer error";
+		return "Parsing error";
 	}
 
 	@Override

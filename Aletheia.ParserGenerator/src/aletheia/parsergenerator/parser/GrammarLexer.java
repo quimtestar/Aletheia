@@ -21,10 +21,11 @@ package aletheia.parsergenerator.parser;
 
 import java.io.Reader;
 
+import aletheia.parsergenerator.Location;
+import aletheia.parsergenerator.LocationInterval;
 import aletheia.parsergenerator.lexer.IgnoreWhitespaceLexer;
 import aletheia.parsergenerator.symbols.TaggedTerminalSymbol;
 import aletheia.parsergenerator.tokens.EndToken;
-import aletheia.parsergenerator.tokens.Location;
 import aletheia.parsergenerator.tokens.TerminalToken;
 
 /**
@@ -76,9 +77,9 @@ public class GrammarLexer extends IgnoreWhitespaceLexer
 	{
 		private final String text;
 
-		public IdentifierToken(Location startLocation, Location stopLocation, String text)
+		public IdentifierToken(LocationInterval locationInterval, String text)
 		{
-			super(sIdentifier, startLocation, stopLocation);
+			super(sIdentifier, locationInterval);
 			this.text = text;
 		}
 
@@ -94,9 +95,9 @@ public class GrammarLexer extends IgnoreWhitespaceLexer
 	 */
 	public class ArrowToken extends TerminalToken
 	{
-		public ArrowToken(Location startLocation, Location stopLocation)
+		public ArrowToken(LocationInterval locationInterval)
 		{
-			super(sArrow, startLocation, stopLocation);
+			super(sArrow, locationInterval);
 		}
 	}
 
@@ -106,9 +107,9 @@ public class GrammarLexer extends IgnoreWhitespaceLexer
 	 */
 	public class SemicolonToken extends TerminalToken
 	{
-		public SemicolonToken(Location startLocation, Location stopLocation)
+		public SemicolonToken(LocationInterval locationInterval)
 		{
-			super(sSemicolon, startLocation, stopLocation);
+			super(sSemicolon, locationInterval);
 		}
 	}
 
@@ -153,12 +154,12 @@ public class GrammarLexer extends IgnoreWhitespaceLexer
 					eat();
 				}
 				String text = sb.toString();
-				return new IdentifierToken(location, getLocation(), text);
+				return new IdentifierToken(new LocationInterval(location, getLocation()), text);
 			}
 			else if (getNext() == ';')
 			{
 				eat();
-				return new SemicolonToken(location, getLocation());
+				return new SemicolonToken(new LocationInterval(location, getLocation()));
 			}
 			else if (getNext() == '-')
 			{
@@ -166,13 +167,13 @@ public class GrammarLexer extends IgnoreWhitespaceLexer
 				if (!isAtEnd() && getNext() == '>')
 				{
 					eat();
-					return new ArrowToken(location, getLocation());
+					return new ArrowToken(new LocationInterval(location, getLocation()));
 				}
 				else
-					throw new UnrecognizedInputException(location, getLocation(), getNext());
+					throw new UnrecognizedInputException(new LocationInterval(location, getLocation()), getNext());
 			}
 			else
-				throw new UnrecognizedInputException(location, getLocation(), getNext());
+				throw new UnrecognizedInputException(new LocationInterval(location, getLocation()), getNext());
 		}
 	}
 }
