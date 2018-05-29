@@ -21,12 +21,13 @@ package aletheia.parser.term.semantic;
 
 import aletheia.model.term.TauTerm;
 import aletheia.model.term.Term;
-import aletheia.parser.term.TermParser.ConstantProductionTokenPayloadReducer;
+import aletheia.parser.term.TermParser.Globals;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
+import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.ConstantProductionTokenPayloadReducer;
 
 @AssociatedProduction(left = "A", right =
 { "tau" })
-public class A__tau_TokenReducer extends ConstantProductionTokenPayloadReducer<Term>
+public class A__tau_TokenReducer extends ConstantProductionTokenPayloadReducer<Globals, Term>
 {
 
 	public A__tau_TokenReducer()

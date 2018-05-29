@@ -24,8 +24,6 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
-
 import aletheia.model.identifier.Identifier;
 import aletheia.model.term.FunctionTerm.FunctionParameterIdentification;
 import aletheia.model.term.Term.ParameterIdentification;
@@ -48,13 +46,8 @@ import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.lexer.AutomatonSet;
 import aletheia.parsergenerator.lexer.AutomatonSetLexer;
 import aletheia.parsergenerator.parser.Parser;
-import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.parser.TransitionTable;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer;
-import aletheia.parsergenerator.semantic.SemanticException;
-import aletheia.parsergenerator.symbols.Symbol;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
-import aletheia.parsergenerator.tokens.Token;
 import aletheia.utilities.collections.ReverseList;
 
 public class ParameterIdentificationParser extends Parser
@@ -82,58 +75,8 @@ public class ParameterIdentificationParser extends Parser
 
 	}
 
-	public static abstract class TrivialProductionTokenPayloadReducer<P> extends ProductionTokenPayloadReducer<P>
-	{
-		private final int position;
-
-		public TrivialProductionTokenPayloadReducer(int position)
-		{
-			this.position = position;
-		}
-
-		public TrivialProductionTokenPayloadReducer()
-		{
-			this(0);
-		}
-
-		@Override
-		public P reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
-				throws SemanticException
-		{
-			return NonTerminalToken.getPayloadFromTokenList(reducees, position);
-		}
-
-	}
-
-	public static abstract class ConstantProductionTokenPayloadReducer<P> extends ProductionTokenPayloadReducer<P>
-	{
-		private final P value;
-
-		public ConstantProductionTokenPayloadReducer(P value)
-		{
-			super();
-			this.value = value;
-		}
-
-		@Override
-		public P reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
-				throws SemanticException
-		{
-			return value;
-		}
-
-	}
-
-	public static abstract class NullProductionTokenPayloadReducer extends ConstantProductionTokenPayloadReducer<Void>
-	{
-		public NullProductionTokenPayloadReducer()
-		{
-			super(null);
-		}
-	}
-
 	//@formatter:off
-	private final static Collection<Class<? extends ProductionTokenPayloadReducer<?>>> reducerClasses =
+	private final static Collection<Class<? extends ProductionManagedTokenPayloadReducer.ProductionTokenPayloadReducer<Void, ?>>> reducerClasses =
 			Arrays.asList(
 					T__Ts_TokenReducer.class,
 					T___TokenReducer.class,

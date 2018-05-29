@@ -19,11 +19,12 @@
  ******************************************************************************/
 package aletheia.parser.term.semantic;
 
-import aletheia.parser.term.TermParser.ConstantProductionTokenPayloadReducer;
+import aletheia.parser.term.TermParser.Globals;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
+import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.ConstantProductionTokenPayloadReducer;
 
 @AssociatedProduction(left = "MP", right = {})
-public class MP___TokenReducer extends ConstantProductionTokenPayloadReducer<Integer>
+public class MP___TokenReducer extends ConstantProductionTokenPayloadReducer<Globals, Integer>
 {
 
 	public MP___TokenReducer()

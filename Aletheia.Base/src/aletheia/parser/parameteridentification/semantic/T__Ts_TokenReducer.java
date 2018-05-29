@@ -20,12 +20,12 @@
 package aletheia.parser.parameteridentification.semantic;
 
 import aletheia.model.term.Term.ParameterIdentification;
-import aletheia.parser.parameteridentification.ParameterIdentificationParser.TrivialProductionTokenPayloadReducer;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
+import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.TrivialProductionTokenPayloadReducer;
 
 @AssociatedProduction(left = "T", right =
 { "Ts" })
-public class T__Ts_TokenReducer extends TrivialProductionTokenPayloadReducer<ParameterIdentification>
+public class T__Ts_TokenReducer extends TrivialProductionTokenPayloadReducer<Void, ParameterIdentification>
 {
 
 }

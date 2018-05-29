@@ -103,7 +103,6 @@ import aletheia.parsergenerator.lexer.AutomatonSet;
 import aletheia.parsergenerator.lexer.AutomatonSetLexer;
 import aletheia.parsergenerator.lexer.Lexer;
 import aletheia.parsergenerator.parser.Parser;
-import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.parser.TransitionTable;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer;
 import aletheia.parsergenerator.semantic.SemanticException;
@@ -286,59 +285,8 @@ public class TermParser extends Parser
 
 	}
 
-	//TODO this classes are redundant
-	public static abstract class TrivialProductionTokenPayloadReducer<P> extends ProductionTokenPayloadReducer<P>
-	{
-		private final int position;
-
-		public TrivialProductionTokenPayloadReducer(int position)
-		{
-			this.position = position;
-		}
-
-		public TrivialProductionTokenPayloadReducer()
-		{
-			this(0);
-		}
-
-		@Override
-		public P reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
-				throws SemanticException
-		{
-			return NonTerminalToken.getPayloadFromTokenList(reducees, position);
-		}
-
-	}
-
-	public static abstract class ConstantProductionTokenPayloadReducer<P> extends ProductionTokenPayloadReducer<P>
-	{
-		private final P value;
-
-		public ConstantProductionTokenPayloadReducer(P value)
-		{
-			super();
-			this.value = value;
-		}
-
-		@Override
-		public P reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
-				throws SemanticException
-		{
-			return value;
-		}
-
-	}
-
-	public static abstract class NullProductionTokenPayloadReducer extends ConstantProductionTokenPayloadReducer<Void>
-	{
-		public NullProductionTokenPayloadReducer()
-		{
-			super(null);
-		}
-	}
-
 	//@formatter:off
-	private final static Collection<Class<? extends ProductionTokenPayloadReducer<?>>> reducerClasses =
+	private final static Collection<Class<? extends ProductionManagedTokenPayloadReducer.ProductionTokenPayloadReducer<Globals,?>>> reducerClasses =
 			Arrays.asList(
 					T__T_B_TokenReducer.class,
 					T__B_TokenReducer.class,

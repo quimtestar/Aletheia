@@ -19,12 +19,13 @@
  ******************************************************************************/
 package aletheia.parser.term.semantic;
 
-import aletheia.parser.term.TermParser.ConstantProductionTokenPayloadReducer;
+import aletheia.parser.term.TermParser.Globals;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
+import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.ConstantProductionTokenPayloadReducer;
 
 @AssociatedProduction(left = "M", right =
 { "hyphen" })
-public class M__hyphen_TokenReducer extends ConstantProductionTokenPayloadReducer<Boolean>
+public class M__hyphen_TokenReducer extends ConstantProductionTokenPayloadReducer<Globals, Boolean>
 {
 
 	public M__hyphen_TokenReducer()
