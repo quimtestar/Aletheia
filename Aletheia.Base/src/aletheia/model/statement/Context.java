@@ -70,8 +70,8 @@ import aletheia.model.term.Term;
 import aletheia.model.term.Term.ReplaceTypeException;
 import aletheia.model.term.Term.UnprojectTypeException;
 import aletheia.model.term.VariableTerm;
-import aletheia.parser.AletheiaParserException;
 import aletheia.parser.term.TermParser;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.collections.authority.SignatureRequestContextCreationDateCollection;
@@ -993,14 +993,14 @@ public class Context extends Statement
 	 *            The string to be parsed.
 	 * @param parameterIdentifiers
 	 * @return The resulting term.
-	 * @throws AletheiaParserException
+	 * @throws ParserBaseException
 	 */
-	public Term parseTerm(Transaction transaction, String s, Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws AletheiaParserException
+	public Term parseTerm(Transaction transaction, String s, Map<ParameterVariableTerm, Identifier> parameterIdentifiers) throws ParserBaseException
 	{
 		return TermParser.parseTerm(transaction, this, new StringReader(s), parameterIdentifiers);
 	}
 
-	public Term parseTerm(Transaction transaction, String s) throws AletheiaParserException
+	public Term parseTerm(Transaction transaction, String s) throws ParserBaseException
 	{
 		return TermParser.parseTerm(transaction, this, new StringReader(s));
 	}

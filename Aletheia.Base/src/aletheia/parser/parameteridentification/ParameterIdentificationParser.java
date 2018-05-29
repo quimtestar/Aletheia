@@ -30,7 +30,6 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.term.FunctionTerm.FunctionParameterIdentification;
 import aletheia.model.term.Term.ParameterIdentification;
 import aletheia.parser.AletheiaParserConstants;
-import aletheia.parser.AletheiaParserException;
 import aletheia.parser.parameteridentification.semantic.F__openfun_M_arrow_Ts_closefun_TokenReducer;
 import aletheia.parser.parameteridentification.semantic.F__openfun_M_closefun_TokenReducer;
 import aletheia.parser.parameteridentification.semantic.I__I_dot_id_TokenReducer;
@@ -223,21 +222,14 @@ public class ParameterIdentificationParser extends Parser
 		this.tokenPayloadReducer = new ProductionManagedTokenPayloadReducer<>(reducerClasses);
 	}
 
-	public static ParameterIdentification parseParameterIdentification(Reader reader) throws AletheiaParserException
+	public static ParameterIdentification parseParameterIdentification(Reader reader) throws ParserBaseException
 	{
 		return instance.parse(reader);
 	}
 
-	private ParameterIdentification parse(Reader reader) throws AletheiaParserException
+	private ParameterIdentification parse(Reader reader) throws ParserBaseException
 	{
-		try
-		{
-			return (ParameterIdentification) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenPayloadReducer, null);
-		}
-		catch (ParserBaseException e)
-		{
-			throw new AletheiaParserException(e);
-		}
+		return (ParameterIdentification) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenPayloadReducer, null);
 	}
 
 }

@@ -32,7 +32,7 @@ import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -411,16 +411,16 @@ public abstract class Command
 
 		private final String input;
 
-		public CommandParseTermParserException(AletheiaParserException cause, String input)
+		public CommandParseTermParserException(ParserBaseException cause, String input)
 		{
 			super(cause);
 			this.input = input;
 		}
 
 		@Override
-		public AletheiaParserException getCause()
+		public ParserBaseException getCause()
 		{
-			return (AletheiaParserException) super.getCause();
+			return (ParserBaseException) super.getCause();
 		}
 
 		public String getInput()

@@ -27,7 +27,7 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
@@ -41,7 +41,7 @@ public class Test0000 extends TransactionalBerkeleyDBPersistenceManagerTest
 	}
 
 	@Override
-	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws AletheiaParserException
+	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws ParserBaseException
 	{
 		Context context = persistenceManager.getContext(transaction, UUID.fromString("43563284-7976-5d48-b212-b27b556c5a30"));
 		Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<>();

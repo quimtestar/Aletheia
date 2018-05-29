@@ -21,7 +21,7 @@ package aletheia.test.unsorted;
 
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.ParameterIdentification;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.test.Test;
 
 public class Test0002 extends Test
@@ -33,7 +33,7 @@ public class Test0002 extends Test
 	}
 
 	@Override
-	public void run() throws AletheiaParserException
+	public void run() throws ParserBaseException
 	{
 		ParameterIdentification parameterIdentification = Term.parseParameterIdentification("<a.b.c>");
 		System.out.println(parameterIdentification);

@@ -37,7 +37,6 @@ import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
 import aletheia.parser.AletheiaParserConstants;
-import aletheia.parser.AletheiaParserException;
 import aletheia.parser.AletheiaParserGenerator;
 import aletheia.parser.term.parameterRef.IdentifierParameterRef;
 import aletheia.parser.term.parameterRef.ParameterRef;
@@ -475,27 +474,20 @@ public class TermParser extends Parser
 	}
 
 	public static Term parseTerm(Transaction transaction, Context context, Reader reader, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
-			throws AletheiaParserException
+			throws ParserBaseException
 	{
 		return instance.parse(transaction, context, reader, parameterIdentifiers);
 	}
 
-	public static Term parseTerm(Transaction transaction, Context context, Reader reader) throws AletheiaParserException
+	public static Term parseTerm(Transaction transaction, Context context, Reader reader) throws ParserBaseException
 	{
 		return parseTerm(transaction, context, reader, null);
 	}
 
 	private Term parse(Transaction transaction, Context context, Reader reader, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
-			throws AletheiaParserException
+			throws ParserBaseException
 	{
-		try
-		{
-			return (Term) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenPayloadReducer, new Globals(transaction, context, parameterIdentifiers));
-		}
-		catch (ParserBaseException e)
-		{
-			throw new AletheiaParserException(e);
-		}
+		return (Term) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenPayloadReducer, new Globals(transaction, context, parameterIdentifiers));
 	}
 
 }

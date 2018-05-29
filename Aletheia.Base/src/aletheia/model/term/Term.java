@@ -36,8 +36,8 @@ import java.util.Stack;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
-import aletheia.parser.AletheiaParserException;
 import aletheia.parser.parameteridentification.ParameterIdentificationParser;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.persistence.Transaction;
 import aletheia.protocol.Exportable;
 import aletheia.utilities.collections.BijectionSet;
@@ -289,7 +289,7 @@ public abstract class Term implements Serializable, Exportable
 
 	}
 
-	public static ParameterIdentification parseParameterIdentification(String input) throws AletheiaParserException
+	public static ParameterIdentification parseParameterIdentification(String input) throws ParserBaseException
 	{
 		return ParameterIdentificationParser.parseParameterIdentification(new StringReader(input));
 	}
