@@ -33,7 +33,7 @@ import aletheia.parsergenerator.symbols.TaggedNonTerminalSymbol;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
 
-@AssociatedProduction(left = "S_t", right =
+@AssociatedProduction(left = "St", right =
 { "S" })
 public class St__S_TokenReducer extends ProductionTokenPayloadReducer<Term>
 {
@@ -42,7 +42,7 @@ public class St__S_TokenReducer extends ProductionTokenPayloadReducer<Term>
 	public Term reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
 			throws SemanticException
 	{
-		ReferenceType referenceType = NonTerminalToken.findLastPayloadInList(antecedents, new TaggedNonTerminalSymbol("R_t"));
+		ReferenceType referenceType = NonTerminalToken.findLastPayloadInList(antecedents, new TaggedNonTerminalSymbol("Rt"));
 		Statement statement = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
 		try
 		{

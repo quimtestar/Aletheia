@@ -23,7 +23,7 @@ import aletheia.parser.term.TermParser.Globals;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.NullProductionTokenPayloadReducer;
 
-@AssociatedProduction(left = "S_r", right = {})
+@AssociatedProduction(left = "Sr", right = {})
 public class Sr___TokenReducer extends NullProductionTokenPayloadReducer<Globals>
 {
 

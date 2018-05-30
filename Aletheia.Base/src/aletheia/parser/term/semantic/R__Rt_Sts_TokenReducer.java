@@ -25,7 +25,7 @@ import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.As
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.TrivialProductionTokenPayloadReducer;
 
 @AssociatedProduction(left = "R", right =
-{ "R_t", "S_ts" })
+{ "Rt", "Sts" })
 public class R__Rt_Sts_TokenReducer extends TrivialProductionTokenPayloadReducer<Globals, Term>
 {
 	public R__Rt_Sts_TokenReducer()

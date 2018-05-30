@@ -35,8 +35,8 @@ import aletheia.parsergenerator.tokens.Token;
 import aletheia.utilities.collections.BufferedList;
 
 @AssociatedProduction(left = "A", right =
-{ "A", "OS", "number", "M" })
-public class A__A_OS_number_M_TokenReducer extends ProductionTokenPayloadReducer<Term>
+{ "A", "SCo", "number", "M" })
+public class A__A_SCo_number_M_TokenReducer extends ProductionTokenPayloadReducer<Term>
 {
 
 	@Override

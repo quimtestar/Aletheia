@@ -33,7 +33,7 @@ import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
 
 @AssociatedProduction(left = "R", right =
-{ "R_t", "openpar", "S_ps", "closepar" })
+{ "Rt", "openpar", "Sps", "closepar" })
 public class R__Rt_openpar_Sps_closepar_TokenReducer extends ProductionTokenPayloadReducer<Term>
 {
 	@Override

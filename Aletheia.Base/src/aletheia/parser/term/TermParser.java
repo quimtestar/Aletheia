@@ -46,7 +46,7 @@ import aletheia.parser.term.semantic.AN__asterisk_number_TokenReducer;
 import aletheia.parser.term.semantic.A__A_apostrophe_TokenReducer;
 import aletheia.parser.term.semantic.A__A_bang_I_TokenReducer;
 import aletheia.parser.term.semantic.A__A_percent_TokenReducer;
-import aletheia.parser.term.semantic.A__A_OS_number_M_TokenReducer;
+import aletheia.parser.term.semantic.A__A_SCo_number_M_TokenReducer;
 import aletheia.parser.term.semantic.A__A_sharp_TokenReducer;
 import aletheia.parser.term.semantic.A__A_tilde_TokenReducer;
 import aletheia.parser.term.semantic.A__F_TokenReducer;
@@ -67,8 +67,8 @@ import aletheia.parser.term.semantic.MP__MP_AN_TokenReducer;
 import aletheia.parser.term.semantic.MP___TokenReducer;
 import aletheia.parser.term.semantic.M___TokenReducer;
 import aletheia.parser.term.semantic.M__hyphen_TokenReducer;
-import aletheia.parser.term.semantic.OS___TokenReducer;
-import aletheia.parser.term.semantic.OS__semicolon_TokenReducer;
+import aletheia.parser.term.semantic.SCo___TokenReducer;
+import aletheia.parser.term.semantic.SCo__semicolon_TokenReducer;
 import aletheia.parser.term.semantic.P__I_TokenReducer;
 import aletheia.parser.term.semantic.P__atparam_TokenReducer;
 import aletheia.parser.term.semantic.Q__C_TokenReducer;
@@ -312,10 +312,10 @@ public class TermParser extends Parser
 					A__A_bang_I_TokenReducer.class,
 					A__equals_bang_I_TokenReducer.class,
 					A__openpar_T_closepar_TokenReducer.class,
-					A__A_OS_number_M_TokenReducer.class,
+					A__A_SCo_number_M_TokenReducer.class,
 
-					OS__semicolon_TokenReducer.class,
-					OS___TokenReducer.class,
+					SCo__semicolon_TokenReducer.class,
+					SCo___TokenReducer.class,
 					
 					M___TokenReducer.class,
 					M__hyphen_TokenReducer.class,

@@ -24,8 +24,8 @@ import aletheia.parser.term.TermParser.Globals;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.TrivialProductionTokenPayloadReducer;
 
-@AssociatedProduction(left = "S_ps", right =
-{ "uuid", "bar", "S_p" })
+@AssociatedProduction(left = "Sps", right =
+{ "uuid", "bar", "Sp" })
 public class Sps__uuid_bar_Sp_TokenReducer extends TrivialProductionTokenPayloadReducer<Globals, Term>
 {
 

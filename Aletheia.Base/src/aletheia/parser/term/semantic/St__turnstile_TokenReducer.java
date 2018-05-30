@@ -32,7 +32,7 @@ import aletheia.parsergenerator.symbols.TaggedNonTerminalSymbol;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
 
-@AssociatedProduction(left = "S_t", right =
+@AssociatedProduction(left = "St", right =
 { "turnstile" })
 public class St__turnstile_TokenReducer extends ProductionTokenPayloadReducer<Term>
 {
@@ -41,7 +41,7 @@ public class St__turnstile_TokenReducer extends ProductionTokenPayloadReducer<Te
 	public Term reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
 			throws SemanticException
 	{
-		ReferenceType referenceType = NonTerminalToken.findLastPayloadInList(antecedents, new TaggedNonTerminalSymbol("R_t"));
+		ReferenceType referenceType = NonTerminalToken.findLastPayloadInList(antecedents, new TaggedNonTerminalSymbol("Rt"));
 
 		if (globals.getContext() == null)
 			throw new SemanticException(reducees, "Cannot refer to the consequent without a context");

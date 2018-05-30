@@ -23,9 +23,8 @@ import aletheia.parser.term.TermParser.Globals;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.NullProductionTokenPayloadReducer;
 
-@AssociatedProduction(left = "OS", right =
-{ "semicolon" })
-public class OS__semicolon_TokenReducer extends NullProductionTokenPayloadReducer<Globals>
+@AssociatedProduction(left = "SCo", right = {})
+public class SCo___TokenReducer extends NullProductionTokenPayloadReducer<Globals>
 {
 
 }

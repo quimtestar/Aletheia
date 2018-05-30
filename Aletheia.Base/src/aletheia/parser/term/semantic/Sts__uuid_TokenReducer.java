@@ -35,7 +35,7 @@ import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.TaggedTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
 
-@AssociatedProduction(left = "S_ts", right =
+@AssociatedProduction(left = "Sts", right =
 { "uuid" })
 public class Sts__uuid_TokenReducer extends ProductionTokenPayloadReducer<Term>
 {
@@ -44,7 +44,7 @@ public class Sts__uuid_TokenReducer extends ProductionTokenPayloadReducer<Term>
 	public Term reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
 			throws SemanticException
 	{
-		ReferenceType referenceType = NonTerminalToken.findLastPayloadInList(antecedents, new TaggedNonTerminalSymbol("R_t"));
+		ReferenceType referenceType = NonTerminalToken.findLastPayloadInList(antecedents, new TaggedNonTerminalSymbol("Rt"));
 		UUID uuid = UUID.fromString(TaggedTerminalToken.getTextFromTokenList(reducees, 0));
 		Statement statement = globals.getPersistenceManager().getStatement(globals.getTransaction(), uuid);
 		if (statement == null)

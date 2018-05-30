@@ -30,7 +30,7 @@ import aletheia.parsergenerator.semantic.SemanticException;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.tokens.Token;
 
-@AssociatedProduction(left = "R_t", right =
+@AssociatedProduction(left = "Rt", right =
 { "ampersand", "caret" })
 public class Rt__ampersand_caret_TokenReducer extends ProductionTokenPayloadReducer<ReferenceType>
 {
