@@ -49,7 +49,7 @@ A -> A apostrophe;				# The ''' operator resolves to the body of the given funct
 A -> A bang I;					# The '!' operator unfolds the given identified variable as its value as a declaration statement in the active context.  
 A -> equals bang I;				# The '=!' operator is equivalent to a reflexive application of the binary '!': "=!i" ~> "i!i". 
 A -> openpar T closepar;		# A term (list of atoms) between parentheses.
-A -> A SCo number M;				# The 'n' operator resolves to the nth atomic component (starting by zero) of the given term: "(a b c);1" ~> "b".
+A -> A SCo Number M;				# The 'n' operator resolves to the nth atomic component (starting by zero) of the given term: "(a b c);1" ~> "b".
 	 							# The 'n-' operator resolves to the first n+1 atomic components of the given term: "(a b c);1-" ~> "a b".
 
 # Optional semicolon to separate 'n[-]' operators. 							
@@ -83,13 +83,13 @@ Sr -> openpar Sc St closepar;				# With path.
 Rt -> ampersand;							# References the statement's type.
 Rt -> ampersand caret;						# References the specializations' instance.
 Rt -> ampersand bang;						# References the declarations' value.
-Sts -> uuid;								# Reference by UUID. If used in a path must be at the top: "&2c70597f-966a-4281-9ace-2e161544dbd1" or "&(2c70597f-966a-4281-9ace-2e161544dbd1/s002.sub_00/s003)".
+Sts -> Uuid;								# Reference by UUID. If used in a path must be at the top: "&2c70597f-966a-4281-9ace-2e161544dbd1" or "&(2c70597f-966a-4281-9ace-2e161544dbd1/s002.sub_00/s003)".
 Sts -> St;
 St -> S;
 St -> turnstile;							# Refers to a context's consequence. If in a reference without path the active context, if with path the previously referenced one: "&|-" or "&(Set.Equal.th.symm/s003/|-)"
 Sc -> ;
 Sc -> bar;
-Sc -> uuid bar;
+Sc -> Uuid bar;
 Sc -> Sc S bar;
 S -> I;										# Path component might be an identifier.
 S -> hexref;								# Path component might be an hexadecimal reference.
@@ -98,4 +98,8 @@ S -> hexref;								# Path component might be an hexadecimal reference.
 MP -> ;
 MP -> MP AN;
 AN -> asterisk;
-AN -> asterisk number;
+AN -> asterisk Number;
+
+# Type wrappers
+Number -> number;
+Uuid -> uuid;

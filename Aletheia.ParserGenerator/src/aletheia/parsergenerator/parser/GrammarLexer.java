@@ -75,17 +75,9 @@ public class GrammarLexer extends IgnoreWhitespaceLexer
 	 */
 	public class IdentifierToken extends TerminalToken
 	{
-		private final String text;
-
 		public IdentifierToken(LocationInterval locationInterval, String text)
 		{
-			super(sIdentifier, locationInterval);
-			this.text = text;
-		}
-
-		public String getText()
-		{
-			return text;
+			super(sIdentifier, locationInterval, text);
 		}
 	}
 
@@ -97,7 +89,7 @@ public class GrammarLexer extends IgnoreWhitespaceLexer
 	{
 		public ArrowToken(LocationInterval locationInterval)
 		{
-			super(sArrow, locationInterval);
+			super(sArrow, locationInterval, "->");
 		}
 	}
 
@@ -109,7 +101,7 @@ public class GrammarLexer extends IgnoreWhitespaceLexer
 	{
 		public SemicolonToken(LocationInterval locationInterval)
 		{
-			super(sSemicolon, locationInterval);
+			super(sSemicolon, locationInterval, ";");
 		}
 	}
 

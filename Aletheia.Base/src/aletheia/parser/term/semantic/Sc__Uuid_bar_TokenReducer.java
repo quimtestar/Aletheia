@@ -20,9 +20,9 @@
 package aletheia.parser.term.semantic;
 
 import java.util.List;
+import java.util.UUID;
 
-import aletheia.model.term.CompositionTerm;
-import aletheia.model.term.Term;
+import aletheia.model.statement.Context;
 import aletheia.parser.term.TermParser.Globals;
 import aletheia.parser.term.TermParser.ProductionTokenPayloadReducer;
 import aletheia.parsergenerator.parser.Production;
@@ -30,35 +30,23 @@ import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.As
 import aletheia.parsergenerator.semantic.SemanticException;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
-import aletheia.parsergenerator.tokens.TaggedTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
-import aletheia.utilities.collections.BufferedList;
 
-@AssociatedProduction(left = "A", right =
-{ "A", "SCo", "number", "M" })
-public class A__A_SCo_number_M_TokenReducer extends ProductionTokenPayloadReducer<Term>
+@AssociatedProduction(left = "Sc", right =
+{ "Uuid", "bar" })
+public class Sc__Uuid_bar_TokenReducer extends ProductionTokenPayloadReducer<Context>
 {
 
 	@Override
-	public Term reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+	public Context reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
 			throws SemanticException
 	{
-		Term term = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
-		if (term instanceof CompositionTerm)
-		{
-			List<Term> components;
-			if (NonTerminalToken.<Boolean> getPayloadFromTokenList(reducees, 3))
-				components = new BufferedList<>(((CompositionTerm) term).aggregateComponents());
-			else
-				components = new BufferedList<>(((CompositionTerm) term).components());
-			int n = Integer.parseInt(TaggedTerminalToken.getTextFromTokenList(reducees, 2));
-			if (n < 0 || n >= components.size())
-				throw new SemanticException(reducees.get(2), "Composition coordinate " + n + " out of bounds for term: " + "'"
-						+ term.toString(globals.getTransaction(), globals.getContext()) + "'");
-			return components.get(n);
-		}
-		else
-			throw new SemanticException(reducees.get(0), "Only can use composition coordinates in compositions");
+		UUID uuid = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
+		Context context = globals.getPersistenceManager().getContext(globals.getTransaction(), uuid);
+		if (context == null)
+			throw new SemanticException(reducees.get(0), "Context not found with UUID: " + uuid);
+		return context;
+
 	}
 
 }

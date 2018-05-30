@@ -28,9 +28,28 @@ import aletheia.parsergenerator.symbols.TerminalSymbol;
  */
 public class TerminalToken extends Token<TerminalSymbol>
 {
-	public TerminalToken(TerminalSymbol symbol, LocationInterval locationInterval)
+	private final String text;
+
+	public TerminalToken(TerminalSymbol symbol, LocationInterval locationInterval, String text)
 	{
 		super(symbol, locationInterval);
+		this.text = text;
+	}
+
+	public TerminalToken(TerminalSymbol symbol, LocationInterval locationInterval)
+	{
+		this(symbol, locationInterval, null);
+	}
+
+	public String getText()
+	{
+		return text;
+	}
+
+	@Override
+	public String toString()
+	{
+		return super.toString() + (text == null ? "" : ":[" + text + "]");
 	}
 
 }

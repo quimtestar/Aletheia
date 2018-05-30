@@ -28,10 +28,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.TerminalToken;
 import aletheia.parsergenerator.tokens.Token;
 
 public class ProductionManagedTokenPayloadReducer<G, P> extends TokenPayloadReducer<G, P>
@@ -193,6 +195,84 @@ public class ProductionManagedTokenPayloadReducer<G, P> extends TokenPayloadRedu
 		public NullProductionTokenPayloadReducer()
 		{
 			super(null);
+		}
+	}
+
+	public static abstract class TerminalWrapperProductionTokenPayloadReducer<G, P> extends ProductionTokenPayloadReducer<G, P>
+	{
+		private final int position;
+
+		public TerminalWrapperProductionTokenPayloadReducer(int position)
+		{
+			this.position = position;
+		}
+
+		public TerminalWrapperProductionTokenPayloadReducer()
+		{
+			this(0);
+		}
+
+		@Override
+		public P reduce(G globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			return wrap((TerminalToken) reducees.get(position));
+		}
+
+		public abstract P wrap(TerminalToken token) throws SemanticException;
+	}
+
+	public static class IntegerTerminalWrapperProductionTokenPayloadReducer<G> extends TerminalWrapperProductionTokenPayloadReducer<G, Integer>
+	{
+
+		public IntegerTerminalWrapperProductionTokenPayloadReducer()
+		{
+			super();
+		}
+
+		public IntegerTerminalWrapperProductionTokenPayloadReducer(int position)
+		{
+			super(position);
+		}
+
+		@Override
+		public Integer wrap(TerminalToken token) throws SemanticException
+		{
+			try
+			{
+				return Integer.parseInt(token.getText());
+			}
+			catch (NumberFormatException e)
+			{
+				throw new SemanticException(token, e);
+			}
+		}
+	}
+
+	public static class UUIDTerminalWrapperProductionTokenPayloadReducer<G> extends TerminalWrapperProductionTokenPayloadReducer<G, UUID>
+	{
+
+		public UUIDTerminalWrapperProductionTokenPayloadReducer()
+		{
+			super();
+		}
+
+		public UUIDTerminalWrapperProductionTokenPayloadReducer(int position)
+		{
+			super(position);
+		}
+
+		@Override
+		public UUID wrap(TerminalToken token) throws SemanticException
+		{
+			try
+			{
+				return UUID.fromString(token.getText());
+			}
+			catch (IllegalArgumentException e)
+			{
+				throw new SemanticException(token, e);
+			}
 		}
 	}
 

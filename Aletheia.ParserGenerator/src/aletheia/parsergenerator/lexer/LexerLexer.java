@@ -248,7 +248,7 @@ public class LexerLexer extends AbstractLexer
 		 */
 		public CharToken(LocationInterval locationInterval, char c)
 		{
-			super(sChar, locationInterval);
+			super(sChar, locationInterval, String.valueOf(c));
 			this.c = c;
 		}
 
@@ -262,11 +262,6 @@ public class LexerLexer extends AbstractLexer
 			return c;
 		}
 
-		@Override
-		public String toString()
-		{
-			return super.toString() + ":[" + c + "]";
-		}
 	}
 
 	/**
@@ -283,7 +278,7 @@ public class LexerLexer extends AbstractLexer
 		 */
 		public NumberToken(LocationInterval locationInterval, int n)
 		{
-			super(sNumber, locationInterval);
+			super(sNumber, locationInterval, String.valueOf(n));
 			this.n = n;
 		}
 
@@ -297,11 +292,6 @@ public class LexerLexer extends AbstractLexer
 			return n;
 		}
 
-		@Override
-		public String toString()
-		{
-			return super.toString() + ":[" + n + "]";
-		}
 	}
 
 	/**
@@ -311,8 +301,6 @@ public class LexerLexer extends AbstractLexer
 	 */
 	public class TagToken extends TerminalToken
 	{
-		private final String tag;
-
 		/**
 		 * Creates a new tag token with a given string tag.
 		 *
@@ -325,8 +313,7 @@ public class LexerLexer extends AbstractLexer
 		 */
 		public TagToken(LocationInterval locationInterval, String tag)
 		{
-			super(sTag, locationInterval);
-			this.tag = tag;
+			super(sTag, locationInterval, tag);
 		}
 
 		/**
@@ -336,14 +323,9 @@ public class LexerLexer extends AbstractLexer
 		 */
 		public String getTag()
 		{
-			return tag;
+			return getText();
 		}
 
-		@Override
-		public String toString()
-		{
-			return super.toString() + ":[" + tag + "]";
-		}
 	}
 
 	private boolean inRegExp;

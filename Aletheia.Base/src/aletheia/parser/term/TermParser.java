@@ -40,11 +40,11 @@ import aletheia.parser.term.parameterRef.IdentifierParameterRef;
 import aletheia.parser.term.parameterRef.ParameterRef;
 import aletheia.parser.term.parameterRef.TypedParameterRefList;
 import aletheia.parser.term.semantic.AN__asterisk_TokenReducer;
-import aletheia.parser.term.semantic.AN__asterisk_number_TokenReducer;
+import aletheia.parser.term.semantic.AN__asterisk_Number_TokenReducer;
 import aletheia.parser.term.semantic.A__A_apostrophe_TokenReducer;
 import aletheia.parser.term.semantic.A__A_bang_I_TokenReducer;
 import aletheia.parser.term.semantic.A__A_percent_TokenReducer;
-import aletheia.parser.term.semantic.A__A_SCo_number_M_TokenReducer;
+import aletheia.parser.term.semantic.A__A_SCo_Number_M_TokenReducer;
 import aletheia.parser.term.semantic.A__A_sharp_TokenReducer;
 import aletheia.parser.term.semantic.A__A_tilde_TokenReducer;
 import aletheia.parser.term.semantic.A__F_TokenReducer;
@@ -65,6 +65,7 @@ import aletheia.parser.term.semantic.MP__MP_AN_TokenReducer;
 import aletheia.parser.term.semantic.MP___TokenReducer;
 import aletheia.parser.term.semantic.M___TokenReducer;
 import aletheia.parser.term.semantic.M__hyphen_TokenReducer;
+import aletheia.parser.term.semantic.Number__number_TokenReducer;
 import aletheia.parser.term.semantic.SCo___TokenReducer;
 import aletheia.parser.term.semantic.SCo__semicolon_TokenReducer;
 import aletheia.parser.term.semantic.P__I_TokenReducer;
@@ -80,12 +81,12 @@ import aletheia.parser.term.semantic.S__hexref_TokenReducer;
 import aletheia.parser.term.semantic.Sc__Sc_S_bar_TokenReducer;
 import aletheia.parser.term.semantic.Sc___TokenReducer;
 import aletheia.parser.term.semantic.Sc__bar_TokenReducer;
-import aletheia.parser.term.semantic.Sc__uuid_bar_TokenReducer;
+import aletheia.parser.term.semantic.Sc__Uuid_bar_TokenReducer;
 import aletheia.parser.term.semantic.Sr__Sts_TokenReducer;
 import aletheia.parser.term.semantic.St__S_TokenReducer;
 import aletheia.parser.term.semantic.St__turnstile_TokenReducer;
 import aletheia.parser.term.semantic.Sts__St_TokenReducer;
-import aletheia.parser.term.semantic.Sts__uuid_TokenReducer;
+import aletheia.parser.term.semantic.Sts__Uuid_TokenReducer;
 import aletheia.parser.term.semantic.Sr__openpar_Sc_St_closepar_TokenReducer;
 import aletheia.parser.term.semantic.TPL__TPL_comma_TP_TokenReducer;
 import aletheia.parser.term.semantic.TPL__TP_TokenReducer;
@@ -95,6 +96,7 @@ import aletheia.parser.term.semantic.TP__P_colon_T_TokenReducer;
 import aletheia.parser.term.semantic.TP__T_TokenReducer;
 import aletheia.parser.term.semantic.T__B_TokenReducer;
 import aletheia.parser.term.semantic.T__T_B_TokenReducer;
+import aletheia.parser.term.semantic.Uuid__uuid_TokenReducer;
 import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.lexer.AutomatonSet;
 import aletheia.parsergenerator.lexer.AutomatonSetLexer;
@@ -285,7 +287,7 @@ public class TermParser extends Parser
 					A__A_bang_I_TokenReducer.class,
 					A__equals_bang_I_TokenReducer.class,
 					A__openpar_T_closepar_TokenReducer.class,
-					A__A_SCo_number_M_TokenReducer.class,
+					A__A_SCo_Number_M_TokenReducer.class,
 
 					SCo__semicolon_TokenReducer.class,
 					SCo___TokenReducer.class,
@@ -313,13 +315,13 @@ public class TermParser extends Parser
 					Rt__ampersand_TokenReducer.class,
 					Rt__ampersand_caret_TokenReducer.class,
 					Rt__ampersand_bang_TokenReducer.class,
-					Sts__uuid_TokenReducer.class,
+					Sts__Uuid_TokenReducer.class,
 					Sts__St_TokenReducer.class,
 					St__S_TokenReducer.class,
 					St__turnstile_TokenReducer.class,
 					Sc___TokenReducer.class,
 					Sc__bar_TokenReducer.class,
-					Sc__uuid_bar_TokenReducer.class,
+					Sc__Uuid_bar_TokenReducer.class,
 					Sc__Sc_S_bar_TokenReducer.class,
 					S__I_TokenReducer.class,
 					S__hexref_TokenReducer.class,
@@ -327,7 +329,10 @@ public class TermParser extends Parser
 					MP___TokenReducer.class,
 					MP__MP_AN_TokenReducer.class,
 					AN__asterisk_TokenReducer.class,
-					AN__asterisk_number_TokenReducer.class);
+					AN__asterisk_Number_TokenReducer.class,
+					
+					Number__number_TokenReducer.class,
+					Uuid__uuid_TokenReducer.class);
 	//@formatter:on
 
 	private final static TermParser instance = new TermParser();
