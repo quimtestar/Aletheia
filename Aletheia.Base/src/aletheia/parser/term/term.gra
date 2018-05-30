@@ -77,8 +77,9 @@ I -> I dot id;
 I -> id;
 
 # References.
-R -> Rt Sts;								# Without path.
-R -> Rt openpar Sps closepar;				# With path (must use parentheses to disambiguate): list of components separated by "/".
+R -> Rt Sr;
+Sr -> Sts;									# Without path.
+Sr -> openpar Sc St closepar;				# With path.
 Rt -> ampersand;							# References the statement's type.
 Rt -> ampersand caret;						# References the specializations' instance.
 Rt -> ampersand bang;						# References the declarations' value.
@@ -86,12 +87,10 @@ Sts -> uuid;								# Reference by UUID. If used in a path must be at the top: "
 Sts -> St;
 St -> S;
 St -> turnstile;							# Refers to a context's consequence. If in a reference without path the active context, if with path the previously referenced one: "&|-" or "&(Set.Equal.th.symm/s003/|-)"
-Sps -> Sr bar Sp;							# Absolute path: begins with "/".
-Sps -> uuid bar Sp;							# Path beginning with uuid.
-Sps -> Sp;
-Sr -> ;
-Sp -> S bar Sp;								# Path separator is "/".
-Sp -> St;
+Sc -> ;
+Sc -> bar;
+Sc -> uuid bar;
+Sc -> Sc S bar;
 S -> I;										# Path component might be an identifier.
 S -> hexref;								# Path component might be an hexadecimal reference.
 

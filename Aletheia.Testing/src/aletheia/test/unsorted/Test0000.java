@@ -45,7 +45,7 @@ public class Test0000 extends TransactionalBerkeleyDBPersistenceManagerTest
 	{
 		Context context = persistenceManager.getContext(transaction, UUID.fromString("43563284-7976-5d48-b212-b27b556c5a30"));
 		Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<>();
-		Term term = context.parseTerm(transaction, "<x:Set,y:Set -> Set.Equal x y>", parameterIdentifiers);
+		Term term = context.parseTerm(transaction, "&(c33c255a-b0cd-5504-89ba-5ed95ec870ba/P)", parameterIdentifiers);
 		System.out.println(parameterIdentifiers);
 		System.out.println(context.unparseTerm(transaction, term));
 	}

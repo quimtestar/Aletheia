@@ -19,14 +19,35 @@
  ******************************************************************************/
 package aletheia.parser.term.semantic;
 
-import aletheia.model.term.Term;
-import aletheia.parser.term.TermParser.Globals;
-import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
-import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.TrivialProductionTokenPayloadReducer;
+import java.util.List;
 
-@AssociatedProduction(left = "Sps", right =
-{ "Sp" })
-public class Sps__Sp_TokenReducer extends TrivialProductionTokenPayloadReducer<Globals, Term>
+import aletheia.model.statement.Context;
+import aletheia.parser.term.TermParser.Globals;
+import aletheia.parser.term.TermParser.ProductionTokenPayloadReducer;
+import aletheia.parsergenerator.parser.Production;
+import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
+import aletheia.parsergenerator.semantic.SemanticException;
+import aletheia.parsergenerator.symbols.Symbol;
+import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.Token;
+
+@AssociatedProduction(left = "Sc", right =
+{ "Sc", "S", "bar" })
+public class Sc__Sc_S_bar_TokenReducer extends ProductionTokenPayloadReducer<Context>
 {
+
+	@Override
+	public Context reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+			throws SemanticException
+	{
+		try
+		{
+			return NonTerminalToken.getPayloadFromTokenList(reducees, 1);
+		}
+		catch (ClassCastException e)
+		{
+			throw new SemanticException(reducees.get(1), "Referenced statement in path not a context");
+		}
+	}
 
 }

@@ -19,19 +19,26 @@
  ******************************************************************************/
 package aletheia.parser.term.semantic;
 
-import aletheia.model.term.Term;
-import aletheia.parser.term.TermParser.Globals;
-import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
-import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.TrivialProductionTokenPayloadReducer;
+import java.util.List;
 
-@AssociatedProduction(left = "Sps", right =
-{ "Sr", "bar", "Sp" })
-public class Sps__Sr_bar_Sp_TokenReducer extends TrivialProductionTokenPayloadReducer<Globals, Term>
+import aletheia.model.statement.Context;
+import aletheia.parser.term.TermParser.Globals;
+import aletheia.parser.term.TermParser.ProductionTokenPayloadReducer;
+import aletheia.parsergenerator.parser.Production;
+import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
+import aletheia.parsergenerator.semantic.SemanticException;
+import aletheia.parsergenerator.symbols.Symbol;
+import aletheia.parsergenerator.tokens.Token;
+
+@AssociatedProduction(left = "Sc", right = {})
+public class Sc___TokenReducer extends ProductionTokenPayloadReducer<Context>
 {
 
-	public Sps__Sr_bar_Sp_TokenReducer()
+	@Override
+	public Context reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+			throws SemanticException
 	{
-		super(2);
+		return globals.getContext();
 	}
 
 }

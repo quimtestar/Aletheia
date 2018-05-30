@@ -32,10 +32,11 @@ import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
 
-@AssociatedProduction(left = "R", right =
-{ "Rt", "openpar", "Sps", "closepar" })
-public class R__Rt_openpar_Sps_closepar_TokenReducer extends ProductionTokenPayloadReducer<Term>
+@AssociatedProduction(left = "Sr", right =
+{ "openpar", "Sc", "St", "closepar" })
+public class Sr__openpar_Sc_St_closepar_TokenReducer extends ProductionTokenPayloadReducer<Term>
 {
+
 	@Override
 	public Term reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
 			throws SemanticException
@@ -46,9 +47,7 @@ public class R__Rt_openpar_Sps_closepar_TokenReducer extends ProductionTokenPayl
 			if (globals.getContext() == null)
 				throw new SemanticException(reducees.get(2), "Referenced term contains free variables");
 			else if (!globals.getContext().statements(globals.getTransaction()).containsKey(v))
-			{
 				throw new SemanticException(reducees.get(2), "Referenced term contains free variables not of this context");
-			}
 		}
 		return term;
 	}

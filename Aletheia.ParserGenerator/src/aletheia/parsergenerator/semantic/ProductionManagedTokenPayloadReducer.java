@@ -232,7 +232,7 @@ public class ProductionManagedTokenPayloadReducer<G, P> extends TokenPayloadRedu
 	{
 		ProductionTokenPayloadReducer<G, ? extends P> reducer = productionTokenPayloadReducerMap.get(new AssociatedProductionKey(production));
 		if (reducer == null)
-			throw new ProductionManagedTokenPayloadReducerException("No token class declared for production: " + production);
+			throw new ProductionManagedTokenPayloadReducerException("No token payload reducer class declared for production: " + production);
 		return reducer.reduce(globals, antecedents, production, reducees);
 	}
 

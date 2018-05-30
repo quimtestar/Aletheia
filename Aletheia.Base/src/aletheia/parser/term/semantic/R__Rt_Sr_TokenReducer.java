@@ -24,9 +24,13 @@ import aletheia.parser.term.TermParser.Globals;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.TrivialProductionTokenPayloadReducer;
 
-@AssociatedProduction(left = "Sp", right =
-{ "St" })
-public class Sp__St_TokenReducer extends TrivialProductionTokenPayloadReducer<Globals, Term>
+@AssociatedProduction(left = "R", right =
+{ "Rt", "Sr" })
+public class R__Rt_Sr_TokenReducer extends TrivialProductionTokenPayloadReducer<Globals, Term>
 {
+	public R__Rt_Sr_TokenReducer()
+	{
+		super(1);
+	}
 
 }

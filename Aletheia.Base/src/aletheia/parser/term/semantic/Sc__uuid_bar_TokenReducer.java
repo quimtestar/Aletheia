@@ -19,19 +19,34 @@
  ******************************************************************************/
 package aletheia.parser.term.semantic;
 
-import aletheia.model.term.Term;
-import aletheia.parser.term.TermParser.Globals;
-import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
-import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.TrivialProductionTokenPayloadReducer;
+import java.util.List;
+import java.util.UUID;
 
-@AssociatedProduction(left = "Sp", right =
-{ "S", "bar", "Sp" })
-public class Sp__S_bar_Sp_TokenReducer extends TrivialProductionTokenPayloadReducer<Globals, Term>
+import aletheia.model.statement.Context;
+import aletheia.parser.term.TermParser.Globals;
+import aletheia.parser.term.TermParser.ProductionTokenPayloadReducer;
+import aletheia.parsergenerator.parser.Production;
+import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
+import aletheia.parsergenerator.semantic.SemanticException;
+import aletheia.parsergenerator.symbols.Symbol;
+import aletheia.parsergenerator.tokens.TaggedTerminalToken;
+import aletheia.parsergenerator.tokens.Token;
+
+@AssociatedProduction(left = "Sc", right =
+{ "uuid", "bar" })
+public class Sc__uuid_bar_TokenReducer extends ProductionTokenPayloadReducer<Context>
 {
 
-	public Sp__S_bar_Sp_TokenReducer()
+	@Override
+	public Context reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+			throws SemanticException
 	{
-		super(2);
+		UUID uuid = UUID.fromString(TaggedTerminalToken.getTextFromTokenList(reducees, 0));
+		Context context = globals.getPersistenceManager().getContext(globals.getTransaction(), uuid);
+		if (context == null)
+			throw new SemanticException(reducees.get(0), "Context not found with UUID: " + uuid);
+		return context;
+
 	}
 
 }

@@ -26,8 +26,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
-
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
@@ -73,23 +71,22 @@ import aletheia.parser.term.semantic.P__I_TokenReducer;
 import aletheia.parser.term.semantic.P__atparam_TokenReducer;
 import aletheia.parser.term.semantic.Q__C_TokenReducer;
 import aletheia.parser.term.semantic.Q__C_question_C_TokenReducer;
-import aletheia.parser.term.semantic.R__Rt_Sts_TokenReducer;
-import aletheia.parser.term.semantic.R__Rt_openpar_Sps_closepar_TokenReducer;
+import aletheia.parser.term.semantic.R__Rt_Sr_TokenReducer;
 import aletheia.parser.term.semantic.Rt__ampersand_TokenReducer;
 import aletheia.parser.term.semantic.Rt__ampersand_bang_TokenReducer;
 import aletheia.parser.term.semantic.Rt__ampersand_caret_TokenReducer;
 import aletheia.parser.term.semantic.S__I_TokenReducer;
 import aletheia.parser.term.semantic.S__hexref_TokenReducer;
-import aletheia.parser.term.semantic.Sp__S_bar_Sp_TokenReducer;
-import aletheia.parser.term.semantic.Sp__St_TokenReducer;
-import aletheia.parser.term.semantic.Sps__Sp_TokenReducer;
-import aletheia.parser.term.semantic.Sps__Sr_bar_Sp_TokenReducer;
-import aletheia.parser.term.semantic.Sps__uuid_bar_Sp_TokenReducer;
+import aletheia.parser.term.semantic.Sc__Sc_S_bar_TokenReducer;
+import aletheia.parser.term.semantic.Sc___TokenReducer;
+import aletheia.parser.term.semantic.Sc__bar_TokenReducer;
+import aletheia.parser.term.semantic.Sc__uuid_bar_TokenReducer;
+import aletheia.parser.term.semantic.Sr__Sts_TokenReducer;
 import aletheia.parser.term.semantic.St__S_TokenReducer;
 import aletheia.parser.term.semantic.St__turnstile_TokenReducer;
 import aletheia.parser.term.semantic.Sts__St_TokenReducer;
 import aletheia.parser.term.semantic.Sts__uuid_TokenReducer;
-import aletheia.parser.term.semantic.Sr___TokenReducer;
+import aletheia.parser.term.semantic.Sr__openpar_Sc_St_closepar_TokenReducer;
 import aletheia.parser.term.semantic.TPL__TPL_comma_TP_TokenReducer;
 import aletheia.parser.term.semantic.TPL__TP_TokenReducer;
 import aletheia.parser.term.semantic.TPL___TokenReducer;
@@ -108,10 +105,7 @@ import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer;
 import aletheia.parsergenerator.semantic.SemanticException;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.symbols.TaggedNonTerminalSymbol;
-import aletheia.parsergenerator.symbols.TaggedTerminalSymbol;
-import aletheia.parsergenerator.symbols.TerminalSymbol;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
-import aletheia.parsergenerator.tokens.TaggedTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -257,30 +251,9 @@ public class TermParser extends Parser
 
 		protected Context antecedentContext(Globals globals, List<Token<? extends Symbol>> antecedents) throws SemanticException
 		{
-			//TODO: should find a better way of doing all this.
-			NonTerminalToken<?, Statement> lastS = NonTerminalToken.findLastInList(antecedents, new TaggedNonTerminalSymbol("S"),
+			NonTerminalToken<?, Context> ctxToken = NonTerminalToken.findLastInList(antecedents, new TaggedNonTerminalSymbol("Sc"),
 					new TaggedNonTerminalSymbol("R_t"));
-			if (lastS == null)
-			{
-				TaggedTerminalToken uuidToken = Token.<TerminalSymbol, TaggedTerminalToken> findLastInList(antecedents, new TaggedTerminalSymbol("uuid"),
-						new TaggedNonTerminalSymbol("R_t"));
-				if (uuidToken != null)
-				{
-					UUID uuid = UUID.fromString(uuidToken.getText());
-					Context context = globals.getPersistenceManager().getContext(globals.getTransaction(), uuid);
-					if (context == null)
-						throw new SemanticException(uuidToken, "Context not found with UUID: " + uuid);
-					return context;
-				}
-				else if (NonTerminalToken.findLastInList(antecedents, new TaggedNonTerminalSymbol("S_r"), new TaggedNonTerminalSymbol("R_t")) == null)
-					return globals.getContext();
-				else
-					return null;
-			}
-			else if (lastS.getPayload() instanceof Context)
-				return (Context) lastS.getPayload();
-			else
-				throw new SemanticException(lastS, "Referenced statement in path not a context");
+			return ctxToken == null ? globals.getContext() : ctxToken.getPayload();
 		}
 
 	}
@@ -333,9 +306,10 @@ public class TermParser extends Parser
 					
 					I__I_dot_id_TokenReducer.class,
 					I__id_TokenReducer.class,
-					
-					R__Rt_Sts_TokenReducer.class,
-					R__Rt_openpar_Sps_closepar_TokenReducer.class,
+
+					R__Rt_Sr_TokenReducer.class,
+					Sr__Sts_TokenReducer.class,
+					Sr__openpar_Sc_St_closepar_TokenReducer.class,
 					Rt__ampersand_TokenReducer.class,
 					Rt__ampersand_caret_TokenReducer.class,
 					Rt__ampersand_bang_TokenReducer.class,
@@ -343,12 +317,10 @@ public class TermParser extends Parser
 					Sts__St_TokenReducer.class,
 					St__S_TokenReducer.class,
 					St__turnstile_TokenReducer.class,
-					Sps__Sr_bar_Sp_TokenReducer.class,
-					Sps__uuid_bar_Sp_TokenReducer.class,
-					Sps__Sp_TokenReducer.class,
-					Sr___TokenReducer.class,
-					Sp__S_bar_Sp_TokenReducer.class,
-					Sp__St_TokenReducer.class,
+					Sc___TokenReducer.class,
+					Sc__bar_TokenReducer.class,
+					Sc__uuid_bar_TokenReducer.class,
+					Sc__Sc_S_bar_TokenReducer.class,
 					S__I_TokenReducer.class,
 					S__hexref_TokenReducer.class,
 					
