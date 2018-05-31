@@ -20,21 +20,8 @@
 package aletheia.parsergenerator.parser;
 
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.parser.TransitionTable.ConflictException;
-import aletheia.parsergenerator.semantic.ParseTree;
-import aletheia.parsergenerator.symbols.NonTerminalSymbol;
-import aletheia.parsergenerator.symbols.Symbol;
-import aletheia.parsergenerator.symbols.TaggedNonTerminalSymbol;
-import aletheia.parsergenerator.symbols.TaggedTerminalSymbol;
-import aletheia.parsergenerator.tokens.Token;
 
 /**
  * A parser of grammars.
@@ -43,21 +30,24 @@ public class GrammarParser extends Parser
 {
 	private static final long serialVersionUID = -4943421743994955277L;
 
-	public GrammarParser()
-	{
-		super(grammarTransitionTable());
-	}
-
-	private static GrammarTransitionTable grammarTransitionTable()
+	private static final GrammarTransitionTable grammarTransitionTable;
+	static
 	{
 		try
 		{
-			return new GrammarTransitionTable();
+			grammarTransitionTable = new GrammarTransitionTable();
 		}
 		catch (ConflictException e)
 		{
-			throw new Error(e);
+			throw new RuntimeException(e);
 		}
+	}
+
+	private static final GrammarTokenPayLoadReducer grammarTokenPayloadReducer = new GrammarTokenPayLoadReducer();
+
+	public GrammarParser()
+	{
+		super(grammarTransitionTable);
 	}
 
 	/**
@@ -70,26 +60,7 @@ public class GrammarParser extends Parser
 	 */
 	protected Grammar parse(GrammarLexer lexer) throws ParserBaseException
 	{
-		ParseTree token = parseToken(lexer);
-		Set<String> leftTags = new HashSet<>();
-		leftTags(token, leftTags);
-		Map<String, TaggedNonTerminalSymbol> mapLeft = new HashMap<>();
-		for (String tag : leftTags)
-			mapLeft.put(tag, new TaggedNonTerminalSymbol(tag));
-		Set<String> allTags = new HashSet<>();
-		rightTags(token, allTags);
-		Map<String, Symbol> mapSymbols = new HashMap<>();
-		for (String tag : allTags)
-		{
-			if (!leftTags.contains(tag))
-				mapSymbols.put(tag, new TaggedTerminalSymbol(tag));
-		}
-		mapSymbols.putAll(mapLeft);
-		String startTag = startTag(token);
-		TaggedNonTerminalSymbol startSymbol = mapLeft.get(startTag);
-		Set<Production> productions = new HashSet<>();
-		productions(token, mapSymbols, productions);
-		return new Grammar(productions, startSymbol);
+		return (Grammar) parseToken(lexer, grammarTokenPayloadReducer);
 	}
 
 	/**
@@ -103,84 +74,6 @@ public class GrammarParser extends Parser
 	public Grammar parse(Reader reader) throws ParserBaseException
 	{
 		return parse(new GrammarLexer(reader));
-	}
-
-	private void productions(ParseTree parseTree, Map<String, Symbol> mapSymbols, Set<Production> set)
-	{
-		if (parseTree.getProduction().equals(GrammarGrammar.prodG))
-			productions(parseTree.getChildParseTree(1), mapSymbols, set);
-		else if (parseTree.getProduction().equals(GrammarGrammar.prodQ))
-		{
-			productions(parseTree.getChildParseTree(0), mapSymbols, set);
-			productions(parseTree.getChildParseTree(1), mapSymbols, set);
-		}
-		else if (parseTree.getProduction().equals(GrammarGrammar.prodP))
-		{
-			set.add(production(parseTree, mapSymbols));
-		}
-	}
-
-	private Production production(ParseTree parseTree, Map<String, Symbol> mapSymbols)
-	{
-		NonTerminalSymbol left = (NonTerminalSymbol) mapSymbols.get(((GrammarLexer.IdentifierToken) parseTree.getChildren().get(0)).getText());
-		List<Symbol> right = new ArrayList<>();
-		rightProduction(parseTree.getChildParseTree(2), mapSymbols, right);
-		return new Production(left, right);
-	}
-
-	private void rightProduction(ParseTree parseTree, Map<String, Symbol> mapSymbols, List<Symbol> right)
-	{
-		if (parseTree.getProduction().equals(GrammarGrammar.prodR))
-		{
-			rightProduction(parseTree.getChildParseTree(0), mapSymbols, right);
-			Symbol s = mapSymbols.get(((GrammarLexer.IdentifierToken) parseTree.getChildren().get(1)).getText());
-			right.add(s);
-		}
-	}
-
-	private void leftTags(ParseTree parseTree, Set<String> set)
-	{
-		if (parseTree.getProduction().equals(GrammarGrammar.prodG))
-			leftTags(parseTree.getChildParseTree(1), set);
-		else if (parseTree.getProduction().equals(GrammarGrammar.prodQ))
-		{
-			leftTags(parseTree.getChildParseTree(0), set);
-			leftTags(parseTree.getChildParseTree(1), set);
-		}
-		else if (parseTree.getProduction().equals(GrammarGrammar.prodP))
-		{
-			set.add(((GrammarLexer.IdentifierToken) parseTree.getChildren().get(0)).getText());
-		}
-	}
-
-	private void rightTags(ParseTree token, Set<String> set)
-	{
-		if (token.getProduction().equals(GrammarGrammar.prodG))
-			rightTags(token.getChildParseTree(1), set);
-		else if (token.getProduction().equals(GrammarGrammar.prodQ))
-		{
-			rightTags(token.getChildParseTree(0), set);
-			rightTags(token.getChildParseTree(1), set);
-		}
-		else if (token.getProduction().equals(GrammarGrammar.prodP))
-		{
-			rightTags(token.getChildParseTree(2), set);
-		}
-		else if (token.getProduction().equals(GrammarGrammar.prodR))
-		{
-			rightTags(token.getChildParseTree(0), set);
-			set.add(((GrammarLexer.IdentifierToken) token.getChildren().get(1)).getText());
-		}
-	}
-
-	private String startTag(ParseTree parseTree)
-	{
-		if (!parseTree.getProduction().equals(GrammarGrammar.prodG))
-			throw new Error();
-		Token<?> child = parseTree.getChildren().get(0);
-		if (!(child instanceof GrammarLexer.IdentifierToken))
-			throw new Error();
-		return ((GrammarLexer.IdentifierToken) child).getText();
 	}
 
 }
