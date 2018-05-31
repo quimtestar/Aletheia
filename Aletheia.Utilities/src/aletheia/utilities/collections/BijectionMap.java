@@ -79,52 +79,21 @@ public class BijectionMap<K, I, O> extends AbstractMap<K, O>
 		return inner.isEmpty();
 	}
 
-	protected static class ExtractionClassException extends Exception
-	{
-		private static final long serialVersionUID = -4258536611129607689L;
-
-		public ExtractionClassException(ClassCastException e)
-		{
-			super(e);
-		}
-	}
-
-	/**
-	 * Casts an object to the output type of the bijection. If it's not possible
-	 * throws an {@link ExtractionClassException}.
-	 *
-	 * @param o
-	 *            The object to cast.
-	 * @return The casted object.
-	 * @throws ExtractionClassException
-	 */
-	@SuppressWarnings("unchecked")
-	protected static <O> O extracted(Object o) throws ExtractionClassException
-	{
-		try
-		{
-			return (O) o;
-		}
-		catch (ClassCastException e)
-		{
-			throw new ExtractionClassException(e);
-		}
-	}
-
 	@Override
 	public boolean containsKey(Object key)
 	{
 		return inner.containsKey(key);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean containsValue(Object value)
 	{
 		try
 		{
-			return inner.containsValue(bijection.backward(BijectionMap.<O> extracted(value)));
+			return inner.containsValue(bijection.backward((O) value));
 		}
-		catch (ExtractionClassException e)
+		catch (ClassCastException e)
 		{
 			return false;
 		}

@@ -208,6 +208,25 @@ public class CompositionTerm extends SimpleTerm
 			return tail;
 		}
 
+		@Override
+		public String toString()
+		{
+			String sHead = head == null ? "" : head.toString();
+			boolean parentheses = tail == null || (tail instanceof CompositionParameterIdentification);
+			String sTail = tail == null ? "" : tail.toString();
+			boolean space = !sHead.isEmpty() && (parentheses || !sTail.isEmpty());
+			StringBuilder builder = new StringBuilder();
+			builder.append(sHead);
+			if (space)
+				builder.append(" ");
+			if (parentheses)
+				builder.append("(");
+			builder.append(sTail);
+			if (parentheses)
+				builder.append(")");
+			return builder.toString();
+		}
+
 	}
 
 	/**

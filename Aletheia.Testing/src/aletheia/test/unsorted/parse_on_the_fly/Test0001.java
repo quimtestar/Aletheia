@@ -26,8 +26,8 @@ import java.util.UUID;
 
 import aletheia.model.statement.Context;
 import aletheia.model.term.Term;
-import aletheia.parser.AletheiaParserException;
 import aletheia.parser.term.TermParser;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
@@ -41,10 +41,10 @@ public class Test0001 extends TransactionalBerkeleyDBPersistenceManagerTest
 	}
 
 	@Override
-	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws FileNotFoundException, AletheiaParserException
+	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws FileNotFoundException, ParserBaseException
 	{
 		Context context = persistenceManager.getContext(transaction, UUID.fromString("42cc8199-8159-5567-b65c-db023f95eaa3"));
-		Term term = TermParser.parseTerm(context, transaction, new FileReader("tmp/term.txt"));
+		Term term = TermParser.parseTerm(transaction, context, new FileReader("tmp/term.txt"));
 		try (PrintWriter pw = new PrintWriter(System.out))
 		{
 			term.print(pw, transaction, context);

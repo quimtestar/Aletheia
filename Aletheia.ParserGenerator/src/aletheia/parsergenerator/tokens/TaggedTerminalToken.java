@@ -19,6 +19,10 @@
  ******************************************************************************/
 package aletheia.parsergenerator.tokens;
 
+import java.util.List;
+
+import aletheia.parsergenerator.LocationInterval;
+import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.symbols.TaggedTerminalSymbol;
 
 /**
@@ -27,24 +31,17 @@ import aletheia.parsergenerator.symbols.TaggedTerminalSymbol;
  */
 public class TaggedTerminalToken extends TerminalToken
 {
-	private final String text;
-
 	/**
-	 * Creates a new tagged terminal token.
-	 *
 	 * @param symbol
 	 *            The tagged terminal symbol.
 	 * @param startLocation
 	 *            The start location.
 	 * @param stopLocation
 	 *            The stop location.
-	 * @param text
-	 *            The text processed.
 	 */
-	public TaggedTerminalToken(TaggedTerminalSymbol symbol, Location startLocation, Location stopLocation, String text)
+	public TaggedTerminalToken(TaggedTerminalSymbol symbol, LocationInterval locationInterval, String text)
 	{
-		super(symbol, startLocation, stopLocation);
-		this.text = text;
+		super(symbol, locationInterval, text);
 	}
 
 	@Override
@@ -53,20 +50,9 @@ public class TaggedTerminalToken extends TerminalToken
 		return (TaggedTerminalSymbol) super.getSymbol();
 	}
 
-	/**
-	 * The text of the input processed.
-	 *
-	 * @return The text.
-	 */
-	public String getText()
+	public static String getTextFromTokenList(List<Token<? extends Symbol>> list, int i)
 	{
-		return text;
-	}
-
-	@Override
-	public String toString()
-	{
-		return super.toString() + ":[" + text + "]";
+		return ((TaggedTerminalToken) list.get(i)).getText();
 	}
 
 }

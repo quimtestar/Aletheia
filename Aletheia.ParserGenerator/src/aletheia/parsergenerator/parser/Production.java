@@ -89,15 +89,15 @@ public class Production implements Serializable
 	@Override
 	public String toString()
 	{
-		StringBuffer buf = new StringBuffer();
-		buf.append(left.toString());
-		buf.append(" -> ");
+		StringBuilder builder = new StringBuilder();
+		builder.append(left.toString());
+		builder.append(" -> ");
 		for (Symbol s : right)
 		{
-			buf.append(s.toString());
-			buf.append(" ");
+			builder.append(s.toString());
+			builder.append(" ");
 		}
-		return buf.toString();
+		return builder.toString();
 	}
 
 	@Override

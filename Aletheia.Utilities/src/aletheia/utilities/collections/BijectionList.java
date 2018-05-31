@@ -78,27 +78,29 @@ public class BijectionList<I, O> extends BijectionCollection<I, O> implements Li
 		return getBijection().forward(getInner().remove(index));
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public int indexOf(Object o)
 	{
 		try
 		{
-			return getInner().indexOf(getBijection().backward(BijectionCollection.<O> extracted(o)));
+			return getInner().indexOf(getBijection().backward((O) o));
 		}
-		catch (aletheia.utilities.collections.BijectionCollection.ExtractionClassException e)
+		catch (ClassCastException e)
 		{
 			return -1;
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public int lastIndexOf(Object o)
 	{
 		try
 		{
-			return getInner().lastIndexOf(getBijection().backward(BijectionCollection.<O> extracted(o)));
+			return getInner().lastIndexOf(getBijection().backward((O) o));
 		}
-		catch (aletheia.utilities.collections.BijectionCollection.ExtractionClassException e)
+		catch (ClassCastException e)
 		{
 			return -1;
 		}

@@ -20,21 +20,8 @@
 package aletheia.parsergenerator.parser;
 
 import java.io.Reader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import aletheia.parsergenerator.ParserLexerException;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.parser.TransitionTable.ConflictException;
-import aletheia.parsergenerator.symbols.NonTerminalSymbol;
-import aletheia.parsergenerator.symbols.Symbol;
-import aletheia.parsergenerator.symbols.TaggedNonTerminalSymbol;
-import aletheia.parsergenerator.symbols.TaggedTerminalSymbol;
-import aletheia.parsergenerator.tokens.NonTerminalToken;
-import aletheia.parsergenerator.tokens.Token;
 
 /**
  * A parser of grammars.
@@ -43,21 +30,24 @@ public class GrammarParser extends Parser
 {
 	private static final long serialVersionUID = -4943421743994955277L;
 
-	public GrammarParser()
-	{
-		super(grammarTransitionTable());
-	}
-
-	private static GrammarTransitionTable grammarTransitionTable()
+	private static final GrammarTransitionTable grammarTransitionTable;
+	static
 	{
 		try
 		{
-			return new GrammarTransitionTable();
+			grammarTransitionTable = new GrammarTransitionTable();
 		}
 		catch (ConflictException e)
 		{
-			throw new Error(e);
+			throw new RuntimeException(e);
 		}
+	}
+
+	private static final GrammarTokenPayLoadReducer grammarTokenPayloadReducer = new GrammarTokenPayLoadReducer();
+
+	public GrammarParser()
+	{
+		super(grammarTransitionTable);
 	}
 
 	/**
@@ -66,30 +56,11 @@ public class GrammarParser extends Parser
 	 * @param lexer
 	 *            The lexer to extract the tokens.
 	 * @return The parsed grammar.
-	 * @throws ParserLexerException
+	 * @throws ParserBaseException
 	 */
-	protected Grammar parse(GrammarLexer lexer) throws ParserLexerException
+	protected Grammar parse(GrammarLexer lexer) throws ParserBaseException
 	{
-		NonTerminalToken token = parseToken(lexer);
-		Set<String> leftTags = new HashSet<>();
-		leftTags(token, leftTags);
-		Map<String, TaggedNonTerminalSymbol> mapLeft = new HashMap<>();
-		for (String tag : leftTags)
-			mapLeft.put(tag, new TaggedNonTerminalSymbol(tag));
-		Set<String> allTags = new HashSet<>();
-		rightTags(token, allTags);
-		Map<String, Symbol> mapSymbols = new HashMap<>();
-		for (String tag : allTags)
-		{
-			if (!leftTags.contains(tag))
-				mapSymbols.put(tag, new TaggedTerminalSymbol(tag));
-		}
-		mapSymbols.putAll(mapLeft);
-		String startTag = startTag(token);
-		TaggedNonTerminalSymbol startSymbol = mapLeft.get(startTag);
-		Set<Production> productions = new HashSet<>();
-		productions(token, mapSymbols, productions);
-		return new Grammar(productions, startSymbol);
+		return (Grammar) parseToken(lexer, grammarTokenPayloadReducer);
 	}
 
 	/**
@@ -98,89 +69,11 @@ public class GrammarParser extends Parser
 	 * @param reader
 	 *            The reader to read from.
 	 * @return The parsed grammar.
-	 * @throws ParserLexerException
+	 * @throws ParserBaseException
 	 */
-	public Grammar parse(Reader reader) throws ParserLexerException
+	public Grammar parse(Reader reader) throws ParserBaseException
 	{
 		return parse(new GrammarLexer(reader));
-	}
-
-	private void productions(NonTerminalToken token, Map<String, Symbol> mapSymbols, Set<Production> set)
-	{
-		if (token.getProduction().equals(GrammarGrammar.prodG))
-			productions((NonTerminalToken) token.getChildren().get(1), mapSymbols, set);
-		else if (token.getProduction().equals(GrammarGrammar.prodQ))
-		{
-			productions((NonTerminalToken) token.getChildren().get(0), mapSymbols, set);
-			productions((NonTerminalToken) token.getChildren().get(1), mapSymbols, set);
-		}
-		else if (token.getProduction().equals(GrammarGrammar.prodP))
-		{
-			set.add(production(token, mapSymbols));
-		}
-	}
-
-	private Production production(NonTerminalToken token, Map<String, Symbol> mapSymbols)
-	{
-		NonTerminalSymbol left = (NonTerminalSymbol) mapSymbols.get(((GrammarLexer.IdentifierToken) token.getChildren().get(0)).getText());
-		List<Symbol> right = new ArrayList<>();
-		rightProduction((NonTerminalToken) token.getChildren().get(2), mapSymbols, right);
-		return new Production(left, right);
-	}
-
-	private void rightProduction(NonTerminalToken token, Map<String, Symbol> mapSymbols, List<Symbol> right)
-	{
-		if (token.getProduction().equals(GrammarGrammar.prodR))
-		{
-			rightProduction((NonTerminalToken) token.getChildren().get(0), mapSymbols, right);
-			Symbol s = mapSymbols.get(((GrammarLexer.IdentifierToken) token.getChildren().get(1)).getText());
-			right.add(s);
-		}
-	}
-
-	private void leftTags(NonTerminalToken token, Set<String> set)
-	{
-		if (token.getProduction().equals(GrammarGrammar.prodG))
-			leftTags((NonTerminalToken) token.getChildren().get(1), set);
-		else if (token.getProduction().equals(GrammarGrammar.prodQ))
-		{
-			leftTags((NonTerminalToken) token.getChildren().get(0), set);
-			leftTags((NonTerminalToken) token.getChildren().get(1), set);
-		}
-		else if (token.getProduction().equals(GrammarGrammar.prodP))
-		{
-			set.add(((GrammarLexer.IdentifierToken) token.getChildren().get(0)).getText());
-		}
-	}
-
-	private void rightTags(NonTerminalToken token, Set<String> set)
-	{
-		if (token.getProduction().equals(GrammarGrammar.prodG))
-			rightTags((NonTerminalToken) token.getChildren().get(1), set);
-		else if (token.getProduction().equals(GrammarGrammar.prodQ))
-		{
-			rightTags((NonTerminalToken) token.getChildren().get(0), set);
-			rightTags((NonTerminalToken) token.getChildren().get(1), set);
-		}
-		else if (token.getProduction().equals(GrammarGrammar.prodP))
-		{
-			rightTags((NonTerminalToken) token.getChildren().get(2), set);
-		}
-		else if (token.getProduction().equals(GrammarGrammar.prodR))
-		{
-			rightTags((NonTerminalToken) token.getChildren().get(0), set);
-			set.add(((GrammarLexer.IdentifierToken) token.getChildren().get(1)).getText());
-		}
-	}
-
-	private String startTag(NonTerminalToken token)
-	{
-		if (!token.getProduction().equals(GrammarGrammar.prodG))
-			throw new Error();
-		Token<?> child = token.getChildren().get(0);
-		if (!(child instanceof GrammarLexer.IdentifierToken))
-			throw new Error();
-		return ((GrammarLexer.IdentifierToken) child).getText();
 	}
 
 }

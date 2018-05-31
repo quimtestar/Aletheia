@@ -29,7 +29,7 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "strip", factory = NewStrip.Factory.class)
@@ -61,7 +61,7 @@ public class NewStrip extends NewAuto
 					hints.add(ctx.parseTerm(transaction, s));
 				return new NewStrip(from, transaction, identifier, statement, hints);
 			}
-			catch (NotActiveContextException | AletheiaParserException e)
+			catch (NotActiveContextException | ParserBaseException e)
 			{
 				throw CommandParseEmbeddedException.embed(e);
 			}

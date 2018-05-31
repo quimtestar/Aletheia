@@ -19,11 +19,15 @@
  ******************************************************************************/
 package aletheia.test.unsorted;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
+import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
+import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
@@ -37,10 +41,12 @@ public class Test0000 extends TransactionalBerkeleyDBPersistenceManagerTest
 	}
 
 	@Override
-	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws AletheiaParserException
+	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws ParserBaseException
 	{
-		Context context = persistenceManager.getContext(transaction, UUID.fromString("42cc8199-8159-5567-b65c-db023f95eaa3"));
-		Term term = context.parseTerm(transaction, "<x:Set, y:Set, Set.Equal x y -> Set.Equal y x>");
+		Context context = persistenceManager.getContext(transaction, UUID.fromString("43563284-7976-5d48-b212-b27b556c5a30"));
+		Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<>();
+		Term term = context.parseTerm(transaction, "&(c33c255a-b0cd-5504-89ba-5ed95ec870ba/P)", parameterIdentifiers);
+		System.out.println(parameterIdentifiers);
 		System.out.println(context.unparseTerm(transaction, term));
 	}
 

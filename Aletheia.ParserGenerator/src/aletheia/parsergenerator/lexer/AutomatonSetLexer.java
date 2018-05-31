@@ -21,9 +21,10 @@ package aletheia.parsergenerator.lexer;
 
 import java.io.Reader;
 
+import aletheia.parsergenerator.Location;
+import aletheia.parsergenerator.LocationInterval;
 import aletheia.parsergenerator.symbols.TaggedTerminalSymbol;
 import aletheia.parsergenerator.tokens.EndToken;
-import aletheia.parsergenerator.tokens.Location;
 import aletheia.parsergenerator.tokens.TaggedTerminalToken;
 import aletheia.parsergenerator.tokens.TerminalToken;
 
@@ -56,9 +57,9 @@ public class AutomatonSetLexer extends AbstractLexer
 
 		private final String text;
 
-		public NoMatchException(Location startLocation, Location stopLocation, String text)
+		public NoMatchException(LocationInterval locationInterval, String text)
 		{
-			super(startLocation, stopLocation);
+			super(locationInterval);
 			this.text = text;
 		}
 
@@ -101,9 +102,9 @@ public class AutomatonSetLexer extends AbstractLexer
 						if (!isAtEnd())
 							txt = txt + getNext();
 						eat();
-						throw new NoMatchException(location, getLocation(), txt);
+						throw new NoMatchException(new LocationInterval(location, getLocation()), txt);
 					}
-					return new TaggedTerminalToken((TaggedTerminalSymbol) state.getChosen(), location, getLocation(), state.getText());
+					return new TaggedTerminalToken((TaggedTerminalSymbol) state.getChosen(), new LocationInterval(location, getLocation()), state.getText());
 				}
 				else
 					location = getLocation();

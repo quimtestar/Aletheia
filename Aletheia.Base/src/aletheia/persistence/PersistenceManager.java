@@ -168,7 +168,7 @@ import aletheia.utilities.collections.CombinedCloseableSet;
  * actual implementation of the persistence environment. Any new implementation
  * of the persistence should start subclassing this class.
  */
-public abstract class PersistenceManager
+public abstract class PersistenceManager implements AutoCloseable
 {
 	@SuppressWarnings("unused")
 	private static final Logger logger = LoggerManager.instance.logger();
@@ -602,6 +602,7 @@ public abstract class PersistenceManager
 	 * Closes this persistence manager. Aborts any pending transaction. Any
 	 * further operations will result in an error.
 	 */
+	@Override
 	public void close()
 	{
 		open = false;

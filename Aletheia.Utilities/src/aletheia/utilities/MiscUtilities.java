@@ -35,6 +35,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Scanner;
@@ -487,6 +488,15 @@ public class MiscUtilities
 		{
 			iterator.close();
 		}
+	}
+
+	public static <E> E lastFromList(List<E> list)
+	{
+		ListIterator<E> iterator = list.listIterator(list.size());
+		if (iterator.hasPrevious())
+			return iterator.previous();
+		else
+			return null;
 	}
 
 	/**

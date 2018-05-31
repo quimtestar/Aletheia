@@ -95,48 +95,17 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 		return inner.isEmpty();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean contains(Object o)
 	{
 		try
 		{
-			return inner.contains(bijection.backward(BijectionCollection.<O> extracted(o)));
-		}
-		catch (ExtractionClassException e)
-		{
-			return false;
-		}
-	}
-
-	protected static class ExtractionClassException extends Exception
-	{
-		private static final long serialVersionUID = -4258536611129607689L;
-
-		public ExtractionClassException(ClassCastException e)
-		{
-			super(e);
-		}
-	}
-
-	/**
-	 * Casts an object to the output type of the bijection. If it's not possible
-	 * throws an {@link ExtractionClassException}.
-	 *
-	 * @param o
-	 *            The object to cast.
-	 * @return The casted object.
-	 * @throws ExtractionClassException
-	 */
-	@SuppressWarnings("unchecked")
-	protected static <O> O extracted(Object o) throws ExtractionClassException
-	{
-		try
-		{
-			return (O) o;
+			return inner.contains(bijection.backward((O) o));
 		}
 		catch (ClassCastException e)
 		{
-			throw new ExtractionClassException(e);
+			return false;
 		}
 	}
 
@@ -170,14 +139,15 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 		inner.clear();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean remove(Object o)
 	{
 		try
 		{
-			return inner.remove(bijection.backward(BijectionCollection.<O> extracted(o)));
+			return inner.remove(bijection.backward((O) o));
 		}
-		catch (ExtractionClassException e)
+		catch (ClassCastException e)
 		{
 			return false;
 		}
@@ -228,6 +198,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 						return iterator.hasNext();
 					}
 
+					@SuppressWarnings("unchecked")
 					@Override
 					public O next()
 					{
@@ -235,9 +206,9 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 						{
 							try
 							{
-								return extracted(iterator.next());
+								return (O) iterator.next();
 							}
-							catch (ExtractionClassException e)
+							catch (ClassCastException e)
 							{
 							}
 						}

@@ -44,7 +44,7 @@ import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.parser.AletheiaParserException;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.collections.authority.StatementAuthoritySignatureMap;
@@ -209,7 +209,7 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 		{
 			return ctx.parseTerm(transaction, s, parameterIdentifiers);
 		}
-		catch (AletheiaParserException e)
+		catch (ParserBaseException e)
 		{
 			throw new CommandParseTermParserException(e, s);
 		}
@@ -226,7 +226,7 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 		{
 			return Term.parseParameterIdentification(s);
 		}
-		catch (AletheiaParserException e)
+		catch (ParserBaseException e)
 		{
 			throw CommandParseEmbeddedException.embed(e);
 		}

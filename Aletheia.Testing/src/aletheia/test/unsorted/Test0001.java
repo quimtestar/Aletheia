@@ -23,7 +23,6 @@ import java.util.UUID;
 
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
-import aletheia.parser.AletheiaParserException;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
@@ -38,7 +37,7 @@ public class Test0001 extends TransactionalBerkeleyDBPersistenceManagerTest
 	}
 
 	@Override
-	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws AletheiaParserException
+	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction)
 	{
 		Context context = persistenceManager.getContext(transaction, UUID.fromString("3e6fc222-aefa-5551-b182-7a736264f03b"));
 		int i = 0;

@@ -20,14 +20,13 @@
 
 T; 							
 
-T -> T_;
+T -> Ts;
 T -> ;
 
-T_ -> T F;
-T_ -> T openpar T closepar;										 
+Ts -> T F;
+Ts -> T openpar T closepar;										 
 
-
-F -> openfun M arrow T_ closefun;
+F -> openfun M arrow Ts closefun;
 F -> openfun M closefun;
 
 M -> M comma P;

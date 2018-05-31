@@ -25,7 +25,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-import aletheia.parsergenerator.ParserLexerException;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.lexer.AutomatonSet;
 import aletheia.parsergenerator.lexer.LexerLexer;
 import aletheia.parsergenerator.lexer.LexerParser;
@@ -43,7 +43,7 @@ import aletheia.parsergenerator.parser.TransitionTable.ConflictException;
 public class AletheiaParserGenerator
 {
 
-	private static AutomatonSet createAutomatonSet() throws ParserLexerException, IOException
+	private static AutomatonSet createAutomatonSet() throws ParserBaseException, IOException
 	{
 		Reader reader = new InputStreamReader(ClassLoader.getSystemResourceAsStream(AletheiaParserConstants.lexerPath));
 		try
@@ -59,7 +59,7 @@ public class AletheiaParserGenerator
 		}
 	}
 
-	private static TransitionTable createTermTransitionTable() throws ConflictException, ParserLexerException, IOException
+	private static TransitionTable createTermTransitionTable() throws ConflictException, ParserBaseException, IOException
 	{
 		Reader reader = new InputStreamReader(ClassLoader.getSystemResourceAsStream(AletheiaParserConstants.termGrammarPath));
 		try
@@ -75,7 +75,7 @@ public class AletheiaParserGenerator
 		}
 	}
 
-	private static TransitionTable createParameterIdentificationTransitionTable() throws ConflictException, ParserLexerException, IOException
+	private static TransitionTable createParameterIdentificationTransitionTable() throws ConflictException, ParserBaseException, IOException
 	{
 		Reader reader = new InputStreamReader(ClassLoader.getSystemResourceAsStream(AletheiaParserConstants.parameterIdentificationGrammarPath));
 		try
@@ -91,7 +91,7 @@ public class AletheiaParserGenerator
 		}
 	}
 
-	private static void generate() throws ParserLexerException, IOException, ConflictException
+	private static void generate() throws ParserBaseException, IOException, ConflictException
 	{
 		AutomatonSet automatonSet = createAutomatonSet();
 		File automatonSetFile = new File("src/" + AletheiaParserConstants.automatonSetPath);
@@ -117,9 +117,9 @@ public class AletheiaParserGenerator
 	 * @throws IOException
 	 * @throws FileNotFoundException
 	 * @throws ConflictException
-	 * @throws ParserLexerException
+	 * @throws ParserBaseException
 	 */
-	public static void main(String[] args) throws ParserLexerException, IOException, ConflictException
+	public static void main(String[] args) throws ParserBaseException, IOException, ConflictException
 	{
 		try
 		{

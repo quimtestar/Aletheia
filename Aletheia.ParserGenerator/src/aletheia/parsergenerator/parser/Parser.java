@@ -28,16 +28,18 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.ListIterator;
+import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
-import aletheia.parsergenerator.ParserLexerException;
+import aletheia.parsergenerator.LocationInterval;
+import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.lexer.Lexer;
 import aletheia.parsergenerator.parser.TransitionTable.State;
+import aletheia.parsergenerator.semantic.ParseTree;
+import aletheia.parsergenerator.semantic.ParseTreeReducer;
+import aletheia.parsergenerator.semantic.TokenPayloadReducer;
 import aletheia.parsergenerator.symbols.EndTerminalSymbol;
-import aletheia.parsergenerator.symbols.Symbol;
-import aletheia.parsergenerator.tokens.Location;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.TerminalToken;
 import aletheia.parsergenerator.tokens.Token;
@@ -45,12 +47,12 @@ import aletheia.parsergenerator.tokens.Token;
 /**
  * A class that parses. That is, use a {@link TransitionTable} for converting
  * the flow of {@link TerminalToken}s produced by a {@link Lexer} to a
- * {@link NonTerminalToken} object according to the {@link Grammar} rules. Once
+ * {@link ParseTree} object according to the {@link Grammar} rules. Once
  * generated, a parser might be saved to a file for further use skipping the
  * generation phase.
  *
  * This class is abstract; his subclasses will typically implement a method that
- * builds the useful parsed objects by converting the {@link NonTerminalToken}
+ * builds the useful parsed objects by converting the {@link ParseTree}
  * structure returned by the {@link #parseToken(Lexer)} method.
  *
  */
@@ -58,28 +60,28 @@ public abstract class Parser implements Serializable
 {
 	private static final long serialVersionUID = 5012002493949683810L;
 
-	public class ParserException extends ParserLexerException
+	public class ParserException extends ParserBaseException
 	{
 		private static final long serialVersionUID = 9168128419101166987L;
 
-		public ParserException(Location startLocation, Location stopLocation, String message, Throwable cause)
+		public ParserException(LocationInterval locationInterval, String message, Throwable cause)
 		{
-			super(startLocation, stopLocation, message, cause);
+			super(locationInterval, message, cause);
 		}
 
-		public ParserException(Location startLocation, Location stopLocation, String message)
+		public ParserException(LocationInterval locationInterval, String message)
 		{
-			super(startLocation, stopLocation, message);
+			super(locationInterval, message);
 		}
 
-		public ParserException(Location startLocation, Location stopLocation, Throwable cause)
+		public ParserException(LocationInterval locationInterval, Throwable cause)
 		{
-			super(startLocation, stopLocation, cause);
+			super(locationInterval, cause);
 		}
 
-		public ParserException(Location startLocation, Location stopLocation)
+		public ParserException(LocationInterval locationInterval)
 		{
-			super(startLocation, stopLocation);
+			super(locationInterval);
 		}
 
 		@Override
@@ -96,8 +98,7 @@ public abstract class Parser implements Serializable
 
 		public UnexpectedTokenException(Token<?> token, State state)
 		{
-			super(token.getStartLocation(), token.getStopLocation(),
-					"Unexpected token " + token.toString() + " (expecting:" + transitionTable.nextTerminals(state) + ")");
+			super(token.getLocationInterval(), "Unexpected token " + token.toString() + " (expecting:" + transitionTable.nextTerminals(state) + ")");
 		}
 
 	}
@@ -195,15 +196,20 @@ public abstract class Parser implements Serializable
 	}
 
 	/**
-	 * Parse the flow of terminal tokens served by a lexer, building a non
-	 * terminal token.
+	 * Parse the flow of terminal tokens served by a lexer, building a output
+	 * token using the given token reducer.
 	 *
 	 * @param lexer
 	 *            The lexer.
-	 * @return The {@link NonTerminalToken} containing the parsed structure.
-	 * @throws ParserLexerException
+	 * @param reducer
+	 *            The token reducer.
+	 * @param globals
+	 *            Global data needed for parsing.
+	 * 
+	 * @return The {@link Token} containing the parsed structure.
+	 * @throws ParserBaseException
 	 */
-	protected NonTerminalToken parseToken(Lexer lexer) throws ParserLexerException
+	protected <G, P> P parseToken(Lexer lexer, TokenPayloadReducer<G, P> reducer, G globals) throws ParserBaseException
 	{
 		Stack<State> stateStack = new Stack<>();
 		Stack<Token<?>> inputStack = new Stack<>();
@@ -216,10 +222,9 @@ public abstract class Parser implements Serializable
 				inputStack.push(lexer.readToken());
 			if (state.equals(transitionTable.getAcceptState()) && inputStack.peek().getSymbol().equals(EndTerminalSymbol.instance))
 			{
-				Token<?> token = outputStack.pop();
-				if (!(token instanceof NonTerminalToken))
-					throw new Error();
-				return (NonTerminalToken) token;
+				@SuppressWarnings("unchecked")
+				NonTerminalToken<G, P> pop = (NonTerminalToken<G, P>) outputStack.pop();
+				return pop.getPayload();
 			}
 			State shiftTo = transitionTable.getTransitions().get(state).get(inputStack.peek().getSymbol());
 			if (shiftTo != null)
@@ -232,26 +237,24 @@ public abstract class Parser implements Serializable
 				Production prod = transitionTable.getReductions().get(state).get(inputStack.peek().getSymbol());
 				if (prod == null)
 					throw new UnexpectedTokenException(inputStack.peek(), state);
-				LinkedList<Token<?>> children = new LinkedList<>();
-				Location startLocation = null;
-				Location stopLocation = null;
-				for (ListIterator<Symbol> i = prod.getRight().listIterator(prod.getRight().size()); i.hasPrevious();)
-				{
-					Symbol s = i.previous();
-					stateStack.pop();
-					Token<? extends Symbol> token = outputStack.pop();
-					if (!token.getSymbol().equals(s))
-						throw new Error();
-					children.addFirst(token);
-					if (token.getStartLocation() != null)
-						startLocation = token.getStartLocation();
-					if (stopLocation == null)
-						stopLocation = token.getStopLocation();
-				}
-				inputStack.push(new NonTerminalToken(prod, startLocation, stopLocation, children));
+				List<Token<?>> antecedents = Collections.unmodifiableList(outputStack.subList(0, outputStack.size() - prod.getRight().size()));
+				List<Token<?>> reducees = Collections.unmodifiableList(outputStack.subList(outputStack.size() - prod.getRight().size(), outputStack.size()));
+				inputStack.push(new NonTerminalToken<>(globals, antecedents, prod, reducees, reducer));
+				outputStack.setSize(outputStack.size() - prod.getRight().size());
+				stateStack.setSize(stateStack.size() - prod.getRight().size());
 			}
 		}
-		throw new Error();
+		throw new RuntimeException();
+	}
+
+	protected <P> P parseToken(Lexer lexer, TokenPayloadReducer<Void, P> tokenReducer) throws ParserBaseException
+	{
+		return parseToken(lexer, tokenReducer, null);
+	}
+
+	protected ParseTree parseToken(Lexer lexer) throws ParserBaseException
+	{
+		return parseToken(lexer, new ParseTreeReducer());
 	}
 
 	/**

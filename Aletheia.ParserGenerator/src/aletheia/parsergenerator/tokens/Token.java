@@ -19,11 +19,16 @@
  ******************************************************************************/
 package aletheia.parsergenerator.tokens;
 
-import java.io.PrintStream;
-import java.util.Stack;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
 
+import aletheia.parsergenerator.Location;
+import aletheia.parsergenerator.LocationInterval;
 import aletheia.parsergenerator.symbols.Symbol;
-import aletheia.utilities.collections.ReverseList;
+import aletheia.utilities.MiscUtilities;
+import aletheia.utilities.collections.ReverseListIterator;
 
 /**
  * A token is a part of the input that has been processed with the lexer/parser
@@ -34,47 +39,29 @@ import aletheia.utilities.collections.ReverseList;
  * @param <S>
  *            The symbol class that is associated to this token class.
  */
-public class Token<S extends Symbol>
+public abstract class Token<S extends Symbol>
 {
 	private final S symbol;
-	private final Location startLocation;
-	private final Location stopLocation;
+
+	private final LocationInterval locationInterval;
 
 	/**
 	 * Creates a new token.
-	 *
-	 * @param symbol
-	 *            The symbol associated to this token.
-	 * @param startLocation
-	 *            The start location.
-	 * @param stopLocation
-	 *            The stop location.
 	 */
-	public Token(S symbol, Location startLocation, Location stopLocation)
+	public Token(S symbol, LocationInterval locationInterval)
 	{
 		this.symbol = symbol;
-		this.startLocation = startLocation;
-		this.stopLocation = stopLocation;
+		this.locationInterval = locationInterval;
 	}
 
 	/**
 	 * Creates a new token with the same start and stop location.
-	 *
-	 * @param symbol
-	 *            The symbol associated to this token.
-	 * @param location
-	 *            The start and stop locations.-
 	 */
 	public Token(S symbol, Location location)
 	{
-		this(symbol, location, location);
+		this(symbol, new LocationInterval(location));
 	}
 
-	/**
-	 * The symbol.
-	 *
-	 * @return The symbol.
-	 */
 	public S getSymbol()
 	{
 		return symbol;
@@ -86,71 +73,63 @@ public class Token<S extends Symbol>
 		return symbol.toString();
 	}
 
-	/**
-	 * The start location. Null if the token is produced from the empty string.
-	 *
-	 * @return The start location.
-	 */
-	public Location getStartLocation()
+	public LocationInterval getLocationInterval()
 	{
-		return startLocation;
+		return locationInterval;
 	}
 
-	/**
-	 * The stop location. Null if the token is produced by the empty string.
-	 *
-	 * @return The stop location.
-	 */
-	public Location getStopLocation()
+	public static LocationInterval locationPairFromAntecedentsReducees(List<Token<? extends Symbol>> antecedents, List<Token<? extends Symbol>> reducees)
 	{
-		return stopLocation;
-	}
-
-	public void trace(PrintStream out)
-	{
-		class StackEntry
-		{
-			public final Token<?> token;
-			public final String indent;
-
-			public StackEntry(Token<?> token, String indent)
-			{
-				super();
-				this.token = token;
-				this.indent = indent;
-			}
-		}
-		;
-
-		Stack<StackEntry> stack = new Stack<>();
-		stack.push(new StackEntry(this, ""));
-		while (!stack.isEmpty())
-		{
-			StackEntry se = stack.pop();
-			out.print(se.indent + se.token.getSymbol());
-			if (se.token instanceof TerminalToken)
-			{
-				TerminalToken ttok = (TerminalToken) se.token;
-				if (ttok instanceof TaggedTerminalToken)
-				{
-					TaggedTerminalToken tagtok = (TaggedTerminalToken) ttok;
-					out.println(": " + tagtok.toString());
-				}
-				else
-					out.println();
-			}
-			else if (se.token instanceof NonTerminalToken)
-			{
-				NonTerminalToken nttok = (NonTerminalToken) se.token;
-				out.println(": " + nttok.getProduction().getRight());
-				String indent = se.indent + " ";
-				for (Token<?> c : new ReverseList<>(nttok.getChildren()))
-					stack.push(new StackEntry(c, indent));
-			}
+		if (reducees == null || reducees.isEmpty())
+			if (antecedents == null || antecedents.isEmpty())
+				return new LocationInterval(Location.initial);
 			else
-				throw new Error();
-		}
+				return new LocationInterval(MiscUtilities.lastFromList(antecedents).getLocationInterval().stop);
+		else
+			return new LocationInterval(MiscUtilities.firstFromIterable(reducees).getLocationInterval().start,
+					MiscUtilities.lastFromList(reducees).getLocationInterval().stop);
+	}
 
+	@SuppressWarnings("unchecked")
+	public static <S extends Symbol, T extends Token<? extends S>> T findFirstInListIterator(ListIterator<Token<? extends Symbol>> iterator,
+			Collection<? extends S> targets, Collection<? extends Symbol> stoppers)
+	{
+		while (iterator.hasNext())
+		{
+			Token<? extends Symbol> token = iterator.next();
+			if (stoppers.contains(token.getSymbol()))
+				return null;
+			if (targets.contains(token.getSymbol()))
+				return (T) token;
+		}
+		return null;
+	}
+
+	public static <S extends Symbol, T extends Token<? extends S>> T findFirstInListIterator(ListIterator<Token<? extends Symbol>> iterator, S symbol)
+	{
+		return findFirstInListIterator(iterator, Collections.singleton(symbol), Collections.emptyList());
+	}
+
+	public static <S extends Symbol, T extends Token<? extends S>> T findFirstInListIterator(ListIterator<Token<? extends Symbol>> iterator, S target,
+			Symbol stopper)
+	{
+		return findFirstInListIterator(iterator, Collections.singleton(target), Collections.singleton(stopper));
+	}
+
+	public static <S extends Symbol, T extends Token<? extends S>> T findLastInList(List<Token<? extends Symbol>> list, Collection<? extends S> targets,
+			Collection<? extends Symbol> stoppers)
+	{
+		return Token.<S, T> findFirstInListIterator(new ReverseListIterator<>(list.listIterator(list.size())), targets, stoppers);
+	}
+
+	public static <S extends Symbol, T extends Token<? extends S>> T findLastInList(List<Token<? extends Symbol>> list, S symbol)
+	{
+		return findFirstInListIterator(new ReverseListIterator<>(list.listIterator(list.size())), symbol);
+	}
+
+	public static <S extends Symbol, T extends Token<? extends S>> T findLastInList(List<Token<? extends Symbol>> list, S target, Symbol stopper)
+	{
+		return findFirstInListIterator(new ReverseListIterator<>(list.listIterator(list.size())), target, stopper);
 	}
 
 }
