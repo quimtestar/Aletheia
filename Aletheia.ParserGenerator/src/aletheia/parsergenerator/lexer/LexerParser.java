@@ -20,24 +20,34 @@
 package aletheia.parsergenerator.lexer;
 
 import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
-
 import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.lexer.LexerLexer.CharToken;
 import aletheia.parsergenerator.lexer.LexerLexer.NumberToken;
 import aletheia.parsergenerator.lexer.LexerLexer.TagToken;
+import aletheia.parsergenerator.parser.Grammar;
+import aletheia.parsergenerator.parser.GrammarParser;
 import aletheia.parsergenerator.parser.Parser;
+import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.parser.TransitionTable;
 import aletheia.parsergenerator.parser.TransitionTable.ConflictException;
-import aletheia.parsergenerator.semantic.ParseTree;
+import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer;
+import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
+import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.ConstantProductionTokenPayloadReducer;
+import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.ProductionTokenPayloadReducer;
+import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.TrivialProductionTokenPayloadReducer;
+import aletheia.parsergenerator.semantic.SemanticException;
 import aletheia.parsergenerator.parser.TransitionTableLalr1;
-import aletheia.parsergenerator.symbols.TaggedNonTerminalSymbol;
+import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.symbols.TaggedTerminalSymbol;
+import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.Token;
 
 /**
  * A parser for lexers.
@@ -46,91 +56,90 @@ public class LexerParser extends Parser
 {
 	private static final long serialVersionUID = -4090653108442737302L;
 
-	//@formatter:off
-	private final static Automaton blankAutomaton=Automaton.charset(Arrays.asList(new Character[]{
-			'\u2028','\u2029',
-			'\u0020','\u1680','\u180e','\u2000','\u2001','\u2002','\u2003','\u2004','\u2005','\u2006','\u2007','\u2008','\u2009',
-			'\u200a','\u202f','\u205f','\u3000',
-			'\u00A0', '\u2007', '\u202F',
-			'\u0009', '\n', '\u000B', '\u000C', '\r', '\u001C', '\u001D', '\u001E', '\u001F',
-	}));
-
-	private final static Collection<Character> eolChars=new HashSet<>(Arrays.asList(new Character[]{
-			'\n','\r','\u000b','\u000c','\u0085',
-			'\u2028','\u2029',
-	}));
-
-	//@formatter:off
-	private final static Automaton eolAutomaton=Automaton.union(
-			Automaton.charset(eolChars),
-			Automaton.string("\r\n"));
-	//@formatter:on
-
-	private final static Automaton dotAutomaton;
-
+	private static final TransitionTable lexerTransitionTable;
 	static
-	{
-		Collection<Character> col = new ArrayList<>();
-		for (char c = 1; c < 128; c++)
-		{
-			if (!eolChars.contains(c))
-				col.add(c);
-		}
-		dotAutomaton = Automaton.charset(col);
-	}
-
-	private static TransitionTable lexerTransitionTable()
 	{
 		try
 		{
-			return new TransitionTableLalr1(LexerGrammarFactory.getLexerGrammar());
+			//@formatter:off
+			String sg = "L;" +
+					"L -> L S SEMICOLON;" +
+					"L -> S SEMICOLON;" +
+					"S -> QUOTE E QUOTE COLON TAG;" +
+					"S -> QUOTE E QUOTE COLON;" +
+					"E -> E UNION T;" +
+					"E -> E CARET T;" +
+					"E -> E HYPHEN T;" +
+					"E -> T;" +
+					"T -> T F;" +
+					"T -> ;" +
+					"F -> CHAR;" +
+					"F -> BLANK;" +
+					"F -> EOL;" +
+					"F -> DOT;" +
+					"F -> F KLEENE;" +
+					"F -> F PLUS;" +
+					"F -> F QUESTION;" +
+					"F -> F R;" +
+					"F -> OP E CP;" +
+					"F -> OB D CB;" +
+					"F -> HASH NUMBER;" +
+					"R -> OC I CC;" +
+					"I -> NUMBER;" +
+					"I -> COMMA NUMBER;" +
+					"I -> NUMBER COMMA;" +
+					"I -> NUMBER COMMA NUMBER;" +
+					"D -> D C;" +
+					"D -> ;" +
+					"C -> CHAR;" +
+					"C -> CHAR HYPHEN CHAR;";
+			//@formatter:on
+			GrammarParser gP = new GrammarParser();
+			Grammar lexerGrammar = gP.parse(new StringReader(sg));
+			lexerTransitionTable = new TransitionTableLalr1(lexerGrammar);
 		}
-		catch (ConflictException e)
+		catch (ConflictException | ParserBaseException e)
 		{
-			throw new Error(e);
+			throw new RuntimeException(e);
 		}
 	}
 
-	public LexerParser()
-	{
-		super(lexerTransitionTable());
-	}
+	//@formatter:off
+	private final static Collection<Class<? extends ProductionManagedTokenPayloadReducer.ProductionTokenPayloadReducer<Void,?>>> reducerClasses =
+			Arrays.asList(
+					L__L_S_SEMICOLON_TokenReducer.class,
+					L__S_SEMICOLON_TokenReducer.class,
+					S__QUOTE_E_QUOTE_COLON_TAG_TokenReducer.class,
+					S__QUOTE_E_QUOTE_COLON_TokenReducer.class,
+					E__E_UNION_T_TokenReducer.class,
+					E__E_CARET_T_TokenReducer.class,
+					E__E_HYPHEN_T_TokenReducer.class,
+					E__T_TokenReducer.class,
+					T__T_F_TokenReducer.class,
+					T___TokenReducer.class,
+					F__CHAR_TokenReducer.class,
+					F__BLANK_TokenReducer.class,
+					F__EOL_TokenReducer.class,
+					F__DOT_TokenReducer.class,
+					F__F_KLEENE_TokenReducer.class,
+					F__F_PLUS_TokenReducer.class,
+					F__F_QUESTION_TokenReducer.class,
+					F__F_R_TokenReducer.class,
+					F__OP_E_CP_TokenReducer.class,
+					F__OB_D_CB_TokenReducer.class,
+					F__HASH_NUMBER_TokenReducer.class,
+					R__OC_I_CC_TokenReducer.class,
+					I__NUMBER_TokenReducer.class,
+					I__COMMA_NUMBER_TokenReducer.class,
+					I__NUMBER_COMMA_TokenReducer.class,
+					I__NUMBER_COMMA_NUMBER_TokenReducer.class,
+					D__D_C_TokenReducer.class,
+					D___TokenReducer.class,
+					C__CHAR_TokenReducer.class,
+					C__CHAR_HYPHEN_CHAR_TokenReducer.class);
+	//@formatter:on
 
-	/**
-	 * Parses an automaton set object from a {@link LexerLexer}
-	 *
-	 * @param lexerLexer
-	 *            The lexer of lexers.
-	 * @return The automaton set.
-	 * @throws ParserBaseException
-	 */
-	public AutomatonSet parse(LexerLexer lexerLexer) throws ParserBaseException
-	{
-		ParseTree parseTree = parseToken(lexerLexer);
-		return processTokenLexer(parseTree);
-	}
-
-	public AutomatonSet processTokenLexer(ParseTree parseTree)
-	{
-		AutomatonSet automatonSet;
-		if (parseTree.getProduction().getRight().size() == 3)
-		{
-			automatonSet = processTokenLexer(parseTree.getChildParseTree(0));
-			AutomatonTag at = processTokenAutomatonTag(parseTree.getChildParseTree(1));
-			automatonSet.addAutomatonTag(at.automaton, at.tag);
-		}
-		else if (parseTree.getProduction().getRight().size() == 2)
-		{
-			automatonSet = new AutomatonSet();
-			AutomatonTag at = processTokenAutomatonTag(parseTree.getChildParseTree(0));
-			automatonSet.addAutomatonTag(at.automaton, at.tag);
-		}
-		else
-			throw new Error();
-		return automatonSet;
-	}
-
-	private class AutomatonTag
+	private static class AutomatonTag
 	{
 		public final DeterministicAutomaton automaton;
 		public final TaggedTerminalSymbol tag;
@@ -143,235 +152,456 @@ public class LexerParser extends Parser
 		}
 	}
 
-	public AutomatonTag processTokenAutomatonTag(ParseTree token)
+	@AssociatedProduction(left = "L", right =
+	{ "L", "S", "SEMICOLON" })
+	public final static class L__L_S_SEMICOLON_TokenReducer extends ProductionTokenPayloadReducer<Void, AutomatonSet>
 	{
-		Automaton a = processTokenRegExp(token.getChildParseTree(1));
-		TaggedTerminalSymbol tag = null;
-		if (token.getProduction().getRight().size() > 4)
-		{
-			TagToken tagToken = (TagToken) token.getChildren().get(4);
-			tag = new TaggedTerminalSymbol(tagToken.getTag());
-		}
-		return new AutomatonTag(a.determinize().minimize(), tag);
-	}
 
-	private class Interval
-	{
-		public final int from;
-		public final int to;
-
-		public Interval(int from, int to)
+		@Override
+		public AutomatonSet reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
 		{
-			this.from = from;
-			this.to = to;
+			AutomatonSet automatonSet = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
+			AutomatonTag at = NonTerminalToken.getPayloadFromTokenList(reducees, 1);
+			automatonSet.addAutomatonTag(at.automaton, at.tag);
+			return automatonSet;
 		}
 	}
 
-	private Automaton processTokenRegExp(ParseTree parseTree)
+	@AssociatedProduction(left = "L", right =
+	{ "S", "SEMICOLON" })
+	public final static class L__S_SEMICOLON_TokenReducer extends ProductionTokenPayloadReducer<Void, AutomatonSet>
 	{
-		if (parseTree.getProduction().getLeft().equals(new TaggedNonTerminalSymbol("E")))
-		{
-			if (parseTree.getProduction().getRight().size() == 1)
-				return processTokenRegExp(parseTree.getChildParseTree(0));
-			else if ((parseTree.getProduction().getRight().size() == 3)
-					&& (parseTree.getProduction().getRight().get(1).equals(new TaggedTerminalSymbol("UNION"))))
-			{
-				Automaton a1 = processTokenRegExp(parseTree.getChildParseTree(0));
-				Automaton a2 = processTokenRegExp(parseTree.getChildParseTree(2));
-				return a1.union(a2);
-			}
-			else if ((parseTree.getProduction().getRight().size() == 3)
-					&& (parseTree.getProduction().getRight().get(1).equals(new TaggedTerminalSymbol("CARET"))))
-			{
-				Automaton a1 = processTokenRegExp(parseTree.getChildParseTree(0));
-				Automaton a2 = processTokenRegExp(parseTree.getChildParseTree(2));
-				return a1.intersection(a2);
-			}
-			else if ((parseTree.getProduction().getRight().size() == 3)
-					&& (parseTree.getProduction().getRight().get(1).equals(new TaggedTerminalSymbol("HYPHEN"))))
-			{
-				Automaton a1 = processTokenRegExp(parseTree.getChildParseTree(0));
-				Automaton a2 = processTokenRegExp(parseTree.getChildParseTree(2));
-				return a1.subtraction(a2);
-			}
-			else
-				throw new Error();
-		}
-		else if (parseTree.getProduction().getLeft().equals(new TaggedNonTerminalSymbol("T")))
-		{
-			if (parseTree.getProduction().getRight().size() == 0)
-				return Automaton.emptyString();
-			else if ((parseTree.getProduction().getRight().size() == 2))
-			{
-				Automaton a1 = processTokenRegExp(parseTree.getChildParseTree(0));
-				Automaton a2 = processTokenRegExp(parseTree.getChildParseTree(1));
-				return a1.concatenate(a2);
-			}
-			else
-				throw new Error();
-		}
-		else if (parseTree.getProduction().getLeft().equals(new TaggedNonTerminalSymbol("F")))
-		{
-			if (parseTree.getProduction().getRight().size() == 1)
-			{
-				if (parseTree.getProduction().getRight().get(0).equals(new TaggedTerminalSymbol("CHAR")))
-				{
-					char c = ((CharToken) parseTree.getChildren().get(0)).getC();
-					return Automaton.singleton(c);
-				}
-				else if (parseTree.getProduction().getRight().get(0).equals(new TaggedTerminalSymbol("BLANK")))
-				{
-					return blankAutomaton;
-				}
-				else if (parseTree.getProduction().getRight().get(0).equals(new TaggedTerminalSymbol("EOL")))
-				{
-					return eolAutomaton;
-				}
-				else if (parseTree.getProduction().getRight().get(0).equals(new TaggedTerminalSymbol("DOT")))
-				{
-					return dotAutomaton;
-				}
-				else
-					throw new Error();
-			}
-			else if ((parseTree.getProduction().getRight().size() == 2))
-			{
-				if (parseTree.getProduction().getRight().get(0).equals(new TaggedNonTerminalSymbol("F")))
-				{
-					if (parseTree.getProduction().getRight().get(1).equals(new TaggedTerminalSymbol("KLEENE")))
-					{
-						Automaton a = processTokenRegExp(parseTree.getChildParseTree(0));
-						return a.kleene();
-					}
-					else if (parseTree.getProduction().getRight().get(1).equals(new TaggedTerminalSymbol("PLUS")))
-					{
-						Automaton a = processTokenRegExp(parseTree.getChildParseTree(0));
-						return a.concatenate(a.kleene());
-					}
-					else if (parseTree.getProduction().getRight().get(1).equals(new TaggedTerminalSymbol("QUESTION")))
-					{
-						Automaton a = processTokenRegExp(parseTree.getChildParseTree(0));
-						return a.union(Automaton.emptyString());
-					}
-					else if (parseTree.getProduction().getRight().get(1).equals(new TaggedNonTerminalSymbol("R")))
-					{
-						Automaton a = processTokenRegExp(parseTree.getChildParseTree(0));
-						Interval i = processTokenInterval(parseTree.getChildParseTree(1));
-						Automaton b = Automaton.emptyString();
-						for (int j = 0; j < i.from; j++)
-							b = b.concatenate(a);
-						if (i.to >= Integer.MAX_VALUE)
-							return b.concatenate(a.kleene());
-						else
-						{
-							Automaton c = Automaton.empty();
-							for (int j = i.from; j <= i.to; j++)
-							{
-								c = c.union(b);
-								b = b.concatenate(a);
-							}
-							return c;
-						}
-					}
-					else
-						throw new Error();
-				}
-				else if (parseTree.getProduction().getRight().get(0).equals(new TaggedTerminalSymbol("HASH")))
-				{
-					int n = ((NumberToken) parseTree.getChildren().get(1)).getN();
-					return Automaton.singleton((char) n);
-				}
-				else
-					throw new Error();
 
-			}
-			else if ((parseTree.getProduction().getRight().size() == 3))
-			{
-				if (parseTree.getProduction().getRight().get(0).equals(new TaggedTerminalSymbol("OP")))
-					return processTokenRegExp(parseTree.getChildParseTree(1));
-				if (parseTree.getProduction().getRight().get(0).equals(new TaggedTerminalSymbol("OB")))
-				{
-					Set<Character> set = new TreeSet<>();
-					processParseTreeCharset(parseTree.getChildParseTree(1), set);
-					return Automaton.charset(set);
-				}
-				else
-					throw new Error();
-
-			}
-			else
-				throw new Error();
+		@Override
+		public AutomatonSet reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			AutomatonSet automatonSet = new AutomatonSet();
+			AutomatonTag at = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
+			automatonSet.addAutomatonTag(at.automaton, at.tag);
+			return automatonSet;
 		}
-		else
-			throw new Error();
 	}
 
-	private Interval processTokenInterval(ParseTree parseTree)
+	@AssociatedProduction(left = "S", right =
+	{ "QUOTE", "E", "QUOTE", "COLON", "TAG" })
+	public final static class S__QUOTE_E_QUOTE_COLON_TAG_TokenReducer extends ProductionTokenPayloadReducer<Void, AutomatonTag>
 	{
-		if (parseTree.getProduction().getLeft().equals(new TaggedNonTerminalSymbol("R")))
+
+		@Override
+		public AutomatonTag reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
 		{
-			return processTokenInterval(parseTree.getChildParseTree(1));
+			Automaton a = NonTerminalToken.getPayloadFromTokenList(reducees, 1);
+			TagToken tagToken = (TagToken) reducees.get(4);
+			TaggedTerminalSymbol tag = new TaggedTerminalSymbol(tagToken.getTag());
+			return new AutomatonTag(a.determinize().minimize(), tag);
 		}
-		else if (parseTree.getProduction().getLeft().equals(new TaggedNonTerminalSymbol("I")))
+	}
+
+	@AssociatedProduction(left = "S", right =
+	{ "QUOTE", "E", "QUOTE", "COLON" })
+	public final static class S__QUOTE_E_QUOTE_COLON_TokenReducer extends ProductionTokenPayloadReducer<Void, AutomatonTag>
+	{
+
+		@Override
+		public AutomatonTag reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
 		{
-			if (parseTree.getProduction().getRight().size() == 1)
-			{
-				int n = ((NumberToken) parseTree.getChildren().get(0)).getN();
-				return new Interval(n, n);
-			}
-			else if (parseTree.getProduction().getRight().size() == 2)
-			{
-				if (parseTree.getProduction().getRight().get(0).equals(new TaggedTerminalSymbol("COMMA")))
-				{
-					int n = ((NumberToken) parseTree.getChildren().get(1)).getN();
-					return new Interval(0, n);
-				}
-				else if (parseTree.getProduction().getRight().get(1).equals(new TaggedTerminalSymbol("COMMA")))
-				{
-					int n = ((NumberToken) parseTree.getChildren().get(0)).getN();
-					return new Interval(n, Integer.MAX_VALUE);
-				}
-				else
-					throw new Error();
-			}
-			else if (parseTree.getProduction().getRight().size() == 3)
-			{
-				int n = ((NumberToken) parseTree.getChildren().get(0)).getN();
-				int m = ((NumberToken) parseTree.getChildren().get(2)).getN();
-				return new Interval(n, m);
-			}
-			else
-				throw new Error();
+			Automaton a = NonTerminalToken.getPayloadFromTokenList(reducees, 1);
+			return new AutomatonTag(a.determinize().minimize(), null);
 		}
-		else
-			throw new Error();
+	}
+
+	@AssociatedProduction(left = "E", right =
+	{ "E", "UNION", "T" })
+	public final static class E__E_UNION_T_TokenReducer extends ProductionTokenPayloadReducer<Void, Automaton>
+	{
+		@Override
+		public Automaton reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			Automaton a1 = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
+			Automaton a2 = NonTerminalToken.getPayloadFromTokenList(reducees, 2);
+			return a1.union(a2);
+		}
+	}
+
+	@AssociatedProduction(left = "E", right =
+	{ "E", "CARET", "T" })
+	public final static class E__E_CARET_T_TokenReducer extends ProductionTokenPayloadReducer<Void, Automaton>
+	{
+		@Override
+		public Automaton reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			Automaton a1 = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
+			Automaton a2 = NonTerminalToken.getPayloadFromTokenList(reducees, 2);
+			return a1.intersection(a2);
+		}
+	}
+
+	@AssociatedProduction(left = "E", right =
+	{ "E", "HYPHEN", "T" })
+	public final static class E__E_HYPHEN_T_TokenReducer extends ProductionTokenPayloadReducer<Void, Automaton>
+	{
+		@Override
+		public Automaton reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			Automaton a1 = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
+			Automaton a2 = NonTerminalToken.getPayloadFromTokenList(reducees, 2);
+			return a1.subtraction(a2);
+		}
+	}
+
+	@AssociatedProduction(left = "E", right =
+	{ "T" })
+	public final static class E__T_TokenReducer extends TrivialProductionTokenPayloadReducer<Void, Automaton>
+	{
+	}
+
+	@AssociatedProduction(left = "T", right =
+	{ "T", "F" })
+	public final static class T__T_F_TokenReducer extends ProductionTokenPayloadReducer<Void, Automaton>
+	{
+
+		@Override
+		public Automaton reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			Automaton a1 = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
+			Automaton a2 = NonTerminalToken.getPayloadFromTokenList(reducees, 1);
+			return a1.concatenate(a2);
+		}
+	}
+
+	@AssociatedProduction(left = "T", right = {})
+	public final static class T___TokenReducer extends ConstantProductionTokenPayloadReducer<Void, Automaton>
+	{
+		public T___TokenReducer()
+		{
+			super(Automaton.emptyString());
+		}
+	}
+
+	@AssociatedProduction(left = "F", right =
+	{ "CHAR" })
+	public final static class F__CHAR_TokenReducer extends ProductionTokenPayloadReducer<Void, Automaton>
+	{
+
+		@Override
+		public Automaton reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			return Automaton.singleton(((CharToken) reducees.get(0)).getC());
+		}
+	}
+
+	@AssociatedProduction(left = "F", right =
+	{ "BLANK" })
+	public final static class F__BLANK_TokenReducer extends ConstantProductionTokenPayloadReducer<Void, Automaton>
+	{
+		private final static Collection<Character> blankChars = Arrays.asList('\u2028', '\u2029', '\u0020', '\u1680', '\u180e', '\u2000', '\u2001', '\u2002',
+				'\u2003', '\u2004', '\u2005', '\u2006', '\u2007', '\u2008', '\u2009', '\u200a', '\u202f', '\u205f', '\u3000', '\u00A0', '\u2007', '\u202F',
+				'\u0009', '\n', '\u000B', '\u000C', '\r', '\u001C', '\u001D', '\u001E', '\u001F');
+		private final static Automaton blankAutomaton = Automaton.charset(blankChars);
+
+		public F__BLANK_TokenReducer()
+		{
+			super(blankAutomaton);
+		}
 
 	}
 
-	private void processParseTreeCharset(ParseTree parseTree, Set<Character> set)
+	@AssociatedProduction(left = "F", right =
+	{ "EOL" })
+	public final static class F__EOL_TokenReducer extends ConstantProductionTokenPayloadReducer<Void, Automaton>
 	{
-		if (parseTree.getProduction().getLeft().equals(new TaggedNonTerminalSymbol("D")))
+		private final static Collection<Character> eolChars = Arrays.asList('\n', '\r', '\u000b', '\u000c', '\u0085', '\u2028', '\u2029');
+		private final static Automaton eolAutomaton = Automaton.charset(eolChars).union(Automaton.string("\r\n"));
+
+		public F__EOL_TokenReducer()
 		{
-			for (ParseTree pt : parseTree.getChildParseTrees())
-				processParseTreeCharset(pt, set);
+			super(eolAutomaton);
 		}
-		else if (parseTree.getProduction().getLeft().equals(new TaggedNonTerminalSymbol("C")))
+
+	}
+
+	@AssociatedProduction(left = "F", right =
+	{ "DOT" })
+	public final static class F__DOT_TokenReducer extends ConstantProductionTokenPayloadReducer<Void, Automaton>
+	{
+		private final static Collection<Character> dotChars = new ArrayList<>();
+		static
 		{
-			if ((parseTree.getProduction().getRight().size() == 1) && (parseTree.getChildren().get(0).getSymbol().equals(new TaggedTerminalSymbol("CHAR"))))
-				set.add(((CharToken) parseTree.getChildren().get(0)).getC());
-			else if ((parseTree.getProduction().getRight().size() == 3)
-					&& (parseTree.getChildren().get(1).getSymbol().equals(new TaggedTerminalSymbol("HYPHEN"))))
-			{
-				char c0 = ((CharToken) parseTree.getChildren().get(0)).getC();
-				char c1 = ((CharToken) parseTree.getChildren().get(2)).getC();
-				for (char c = c0; c <= c1; c++)
-					set.add(c);
-			}
+			for (char c = 1; c < 128; c++)
+				dotChars.add(c);
+		}
+		private final static Automaton dotAutomaton = Automaton.charset(dotChars).subtraction(F__EOL_TokenReducer.eolAutomaton);;
+
+		public F__DOT_TokenReducer()
+		{
+			super(dotAutomaton);
+		}
+
+	}
+
+	@AssociatedProduction(left = "F", right =
+	{ "F", "KLEENE" })
+	public final static class F__F_KLEENE_TokenReducer extends ProductionTokenPayloadReducer<Void, Automaton>
+	{
+
+		@Override
+		public Automaton reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			Automaton a = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
+			return a.kleene();
+		}
+	}
+
+	@AssociatedProduction(left = "F", right =
+	{ "F", "PLUS" })
+	public final static class F__F_PLUS_TokenReducer extends ProductionTokenPayloadReducer<Void, Automaton>
+	{
+
+		@Override
+		public Automaton reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			Automaton a = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
+			return a.concatenate(a.kleene());
+		}
+	}
+
+	@AssociatedProduction(left = "F", right =
+	{ "F", "QUESTION" })
+	public final static class F__F_QUESTION_TokenReducer extends ProductionTokenPayloadReducer<Void, Automaton>
+	{
+
+		@Override
+		public Automaton reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			Automaton a = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
+			return a.union(Automaton.emptyString());
+		}
+	}
+
+	@AssociatedProduction(left = "F", right =
+	{ "F", "R" })
+	public final static class F__F_R_TokenReducer extends ProductionTokenPayloadReducer<Void, Automaton>
+	{
+
+		@Override
+		public Automaton reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			Automaton a = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
+			int[] interval = NonTerminalToken.getPayloadFromTokenList(reducees, 1);
+			Automaton b = Automaton.emptyString();
+			for (int j = 0; j < interval[0]; j++)
+				b = b.concatenate(a);
+			if (interval[1] >= Integer.MAX_VALUE)
+				return b.concatenate(a.kleene());
 			else
-				throw new Error();
+			{
+				Automaton c = Automaton.empty();
+				for (int j = interval[0]; j <= interval[1]; j++)
+				{
+					c = c.union(b);
+					b = b.concatenate(a);
+				}
+				return c;
+			}
 		}
-		else
-			throw new Error();
+	}
+
+	@AssociatedProduction(left = "F", right =
+	{ "OP", "E", "CP" })
+	public final static class F__OP_E_CP_TokenReducer extends TrivialProductionTokenPayloadReducer<Void, Automaton>
+	{
+		public F__OP_E_CP_TokenReducer()
+		{
+			super(1);
+		}
+	}
+
+	@AssociatedProduction(left = "F", right =
+	{ "OB", "D", "CB" })
+	public final static class F__OB_D_CB_TokenReducer extends ProductionTokenPayloadReducer<Void, Automaton>
+	{
+
+		@Override
+		public Automaton reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			Set<Character> set = NonTerminalToken.getPayloadFromTokenList(reducees, 1);
+			return Automaton.charset(set);
+		}
+	}
+
+	@AssociatedProduction(left = "F", right =
+	{ "HASH", "NUMBER" })
+	public final static class F__HASH_NUMBER_TokenReducer extends ProductionTokenPayloadReducer<Void, Automaton>
+	{
+
+		@Override
+		public Automaton reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			int n = ((NumberToken) reducees.get(1)).getN();
+			return Automaton.singleton((char) n);
+		}
+	}
+
+	@AssociatedProduction(left = "R", right =
+	{ "OC", "I", "CC" })
+	public final static class R__OC_I_CC_TokenReducer extends TrivialProductionTokenPayloadReducer<Void, int[]>
+	{
+		public R__OC_I_CC_TokenReducer()
+		{
+			super(1);
+		}
+	}
+
+	@AssociatedProduction(left = "I", right =
+	{ "NUMBER" })
+	public final static class I__NUMBER_TokenReducer extends ProductionTokenPayloadReducer<Void, int[]>
+	{
+		@Override
+		public int[] reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			int n = ((NumberToken) reducees.get(0)).getN();
+			return new int[]
+			{ n, n };
+		}
+	}
+
+	@AssociatedProduction(left = "I", right =
+	{ "COMMA", "NUMBER" })
+	public final static class I__COMMA_NUMBER_TokenReducer extends ProductionTokenPayloadReducer<Void, int[]>
+	{
+		@Override
+		public int[] reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			int n = ((NumberToken) reducees.get(1)).getN();
+			return new int[]
+			{ 0, n };
+		}
+	}
+
+	@AssociatedProduction(left = "I", right =
+	{ "NUMBER", "COMMA" })
+	public final static class I__NUMBER_COMMA_TokenReducer extends ProductionTokenPayloadReducer<Void, int[]>
+	{
+		@Override
+		public int[] reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			int n = ((NumberToken) reducees.get(0)).getN();
+			return new int[]
+			{ n, Integer.MAX_VALUE };
+		}
+	}
+
+	@AssociatedProduction(left = "I", right =
+	{ "NUMBER", "COMMA", "NUMBER" })
+	public final static class I__NUMBER_COMMA_NUMBER_TokenReducer extends ProductionTokenPayloadReducer<Void, int[]>
+	{
+		@Override
+		public int[] reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			int n = ((NumberToken) reducees.get(0)).getN();
+			int m = ((NumberToken) reducees.get(1)).getN();
+			return new int[]
+			{ n, m };
+		}
+	}
+
+	@AssociatedProduction(left = "D", right = {})
+	public final static class D___TokenReducer extends ProductionTokenPayloadReducer<Void, Set<Character>>
+	{
+
+		@Override
+		public Set<Character> reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			return new HashSet<>();
+		}
+	}
+
+	@AssociatedProduction(left = "D", right =
+	{ "D", "C" })
+	public final static class D__D_C_TokenReducer extends ProductionTokenPayloadReducer<Void, Set<Character>>
+	{
+
+		@Override
+		public Set<Character> reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			Set<Character> set = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
+			char[] interval = NonTerminalToken.getPayloadFromTokenList(reducees, 1);
+			for (char c = interval[0]; c <= interval[1]; c++)
+				set.add(c);
+			return set;
+		}
+	}
+
+	@AssociatedProduction(left = "C", right =
+	{ "CHAR" })
+	public final static class C__CHAR_TokenReducer extends ProductionTokenPayloadReducer<Void, char[]>
+	{
+
+		@Override
+		public char[] reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			char c = ((CharToken) reducees.get(0)).getC();
+			return new char[]
+			{ c, c };
+		}
+	}
+
+	@AssociatedProduction(left = "C", right =
+	{ "CHAR", "HYPHEN", "CHAR" })
+	public final static class C__CHAR_HYPHEN_CHAR_TokenReducer extends ProductionTokenPayloadReducer<Void, char[]>
+	{
+
+		@Override
+		public char[] reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)
+				throws SemanticException
+		{
+			char c0 = ((CharToken) reducees.get(0)).getC();
+			char c1 = ((CharToken) reducees.get(2)).getC();
+			return new char[]
+			{ c0, c1 };
+		}
+	}
+
+	private final static ProductionManagedTokenPayloadReducer<Void, ?> tokenPayloadReducer = new ProductionManagedTokenPayloadReducer<>(reducerClasses);
+
+	public LexerParser()
+	{
+		super(lexerTransitionTable);
+	}
+
+	/**
+	 * Parses an automaton set object from a {@link LexerLexer}
+	 *
+	 * @param lexerLexer
+	 *            The lexer of lexers.
+	 * @return The automaton set.
+	 * @throws ParserBaseException
+	 */
+	public AutomatonSet parse(LexerLexer lexerLexer) throws ParserBaseException
+	{
+		return (AutomatonSet) parseToken(lexerLexer, tokenPayloadReducer);
 	}
 
 	/**
