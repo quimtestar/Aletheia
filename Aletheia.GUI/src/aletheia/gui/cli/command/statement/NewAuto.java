@@ -79,10 +79,13 @@ public class NewAuto extends NewStatement
 	private Statement suitable(Context context, Term term)
 	{
 		Statement statement = null;
-		statement = suitableFromHints(context, term);
-		if (statement != null)
-			return statement;
 		statement = context.suitableForInstanceProofStatementByTerm(getTransaction(), term);
+		if (statement != null)
+		{
+			hints.remove(statement.getVariable());
+			return statement;
+		}
+		statement = suitableFromHints(context, term);
 		if (statement != null)
 			return statement;
 		return statement;
