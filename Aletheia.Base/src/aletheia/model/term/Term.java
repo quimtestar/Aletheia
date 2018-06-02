@@ -37,7 +37,9 @@ import java.util.Stack;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
+import aletheia.model.term.ProjectedCastTypeTerm.ProjectedCastTypeException;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
+import aletheia.model.term.UnprojectedCastTypeTerm.UnprojectedCastTypeException;
 import aletheia.parser.parameteridentification.ParameterIdentificationParser;
 import aletheia.parsergenerator.ParserBaseException;
 import aletheia.persistence.Transaction;
@@ -1258,6 +1260,16 @@ public abstract class Term implements Serializable, Exportable
 		if (type == null)
 			throw new DomainTypeException();
 		return type.domain();
+	}
+
+	public Term castToProjectedType() throws ProjectedCastTypeException
+	{
+		return new ProjectedCastTypeTerm(this);
+	}
+
+	public Term castToUnprojectedType() throws UnprojectedCastTypeException
+	{
+		return new UnprojectedCastTypeTerm(this);
 	}
 
 }

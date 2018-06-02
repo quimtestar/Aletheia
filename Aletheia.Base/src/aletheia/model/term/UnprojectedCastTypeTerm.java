@@ -52,6 +52,8 @@ public class UnprojectedCastTypeTerm extends CastTypeTerm
 
 	private static Term computeType(Term term) throws UnprojectedCastTypeException
 	{
+		if (term instanceof ProjectedCastTypeTerm)
+			throw new UnprojectedCastTypeException("Can't cast to unprojected a casted to projected term");
 		Term type = term.getType();
 		if (!(type instanceof ProjectionTerm))
 			throw new UnprojectedCastTypeException("Type is not a projection");
@@ -83,9 +85,9 @@ public class UnprojectedCastTypeTerm extends CastTypeTerm
 	}
 
 	@Override
-	protected UnprojectedCastTypeTerm makeCastTypeTerm(Term term) throws UnprojectedCastTypeException
+	protected Term castToType(Term term) throws UnprojectedCastTypeException
 	{
-		return new UnprojectedCastTypeTerm(term);
+		return term.castToUnprojectedType();
 	}
 
 	@Override
@@ -98,6 +100,12 @@ public class UnprojectedCastTypeTerm extends CastTypeTerm
 	protected String symbolClose()
 	{
 		return "}";
+	}
+
+	@Override
+	public Term castToProjectedType()
+	{
+		return getTerm();
 	}
 
 }

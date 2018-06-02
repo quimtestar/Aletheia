@@ -21,7 +21,6 @@ package aletheia.parser.term.semantic;
 
 import java.util.List;
 
-import aletheia.model.term.ProjectedCastTypeTerm;
 import aletheia.model.term.ProjectedCastTypeTerm.ProjectedCastTypeException;
 import aletheia.model.term.Term;
 import aletheia.parser.term.TermParser.Globals;
@@ -44,7 +43,7 @@ public class A__opensq_T_closesq_TokenReducer extends ProductionTokenPayloadRedu
 	{
 		try
 		{
-			return new ProjectedCastTypeTerm(NonTerminalToken.getPayloadFromTokenList(reducees, 1));
+			return ((Term) NonTerminalToken.getPayloadFromTokenList(reducees, 1)).castToProjectedType();
 		}
 		catch (ProjectedCastTypeException e)
 		{

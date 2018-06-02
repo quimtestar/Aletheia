@@ -92,7 +92,7 @@ public abstract class CastTypeTerm extends AtomicTerm
 		return true;
 	}
 
-	protected abstract CastTypeTerm makeCastTypeTerm(Term term) throws CastTypeException;
+	protected abstract Term castToType(Term term) throws CastTypeException;
 
 	public static class NotCasteableException extends CastTypeException
 	{
@@ -126,7 +126,6 @@ public abstract class CastTypeTerm extends AtomicTerm
 						Term castedBody = castToType(composedPar, targetBody);
 						Term casted = new FunctionTerm(targetParameter, castedBody);
 						return casted;
-						//return new FunctionTerm(targetParameter,castToType(term.compose(castToType(targetParameter,((FunctionTerm) type).getParameter().getType())),targetBody));
 					}
 					catch (ComposeTypeException e)
 					{
@@ -135,7 +134,7 @@ public abstract class CastTypeTerm extends AtomicTerm
 
 				}
 				else if (targetType instanceof ProjectionTerm)
-					return new ProjectedCastTypeTerm(castToType(term, ((ProjectionTerm) targetType).getFunction()));
+					return castToType(term, ((ProjectionTerm) targetType).getFunction()).castToProjectedType();
 				else
 					throw new NotCasteableException();
 			}
@@ -147,7 +146,7 @@ public abstract class CastTypeTerm extends AtomicTerm
 					Term targetBody = ((FunctionTerm) targetType).getBody();
 					try
 					{
-						Term unprojected = new UnprojectedCastTypeTerm(term);
+						Term unprojected = term.castToUnprojectedType();
 						Term composedPar = unprojected.compose(targetParameter);
 						Term castedBody = castToType(composedPar, targetBody);
 						Term casted = new FunctionTerm(targetParameter, castedBody);
@@ -159,7 +158,7 @@ public abstract class CastTypeTerm extends AtomicTerm
 					}
 				}
 				else if (targetType instanceof ProjectionTerm)
-					return new ProjectedCastTypeTerm(castToType(new UnprojectedCastTypeTerm(term), ((ProjectionTerm) targetType).getFunction()));
+					return castToType(term.castToUnprojectedType(), ((ProjectionTerm) targetType).getFunction()).castToProjectedType();
 				else
 					throw new NotCasteableException();
 			}
@@ -192,7 +191,7 @@ public abstract class CastTypeTerm extends AtomicTerm
 	{
 		try
 		{
-			return makeCastTypeTerm(term.replace(replaces, exclude));
+			return castToType(term.replace(replaces, exclude));
 		}
 		catch (CastTypeException e)
 		{
@@ -205,7 +204,7 @@ public abstract class CastTypeTerm extends AtomicTerm
 	{
 		try
 		{
-			return makeCastTypeTerm(term.replace(replaces));
+			return castToType(term.replace(replaces));
 		}
 		catch (CastTypeException e)
 		{

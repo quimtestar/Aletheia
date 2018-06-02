@@ -60,6 +60,9 @@ import aletheia.model.nomenclator.Nomenclator;
 import aletheia.model.nomenclator.Nomenclator.AlreadyUsedIdentifierException;
 import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
 import aletheia.model.nomenclator.SubNomenclator;
+import aletheia.model.term.CastTypeTerm;
+import aletheia.model.term.CastTypeTerm.CastTypeException;
+import aletheia.model.term.CompositionTerm;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
@@ -2487,6 +2490,81 @@ public class Context extends Statement
 			return parent;
 		else
 			return new CombinedMap<>(parent, new AdaptedMap<>(parameter));
+	}
+
+	public class FromProofTermStatementException extends StatementException
+	{
+		private static final long serialVersionUID = -2927058115270567663L;
+
+		private FromProofTermStatementException()
+		{
+			super();
+		}
+
+		private FromProofTermStatementException(String message, Throwable cause)
+		{
+			super(message, cause);
+		}
+
+		private FromProofTermStatementException(String message)
+		{
+			super(message);
+		}
+
+		private FromProofTermStatementException(Throwable cause)
+		{
+			super(cause);
+		}
+	}
+
+	public Statement fromProofTerm(Transaction transaction, Term term) throws FromProofTermStatementException
+	{
+		try
+		{
+			if (term instanceof FunctionTerm)
+			{
+				Context ctx = openSubContext(transaction, term.getType());
+				List<ParameterVariableTerm> parameters = new ArrayList<>();
+				SimpleTerm consequent = term.consequent(parameters);
+				List<Term.Replace> replaces = new ArrayList<>();
+				for (int i = 0; i < parameters.size(); i++)
+				{
+					ParameterVariableTerm parameter = parameters.get(i);
+					IdentifiableVariableTerm assumptionVar = ctx.getAssumptionList(transaction).get(i).getVariable();
+					replaces.add(new Term.Replace(parameter, CastTypeTerm.castToType(assumptionVar, parameter.getType().replace(replaces))));
+				}
+				Statement statement = ctx.fromProofTerm(transaction, consequent.replace(replaces));
+				for (Assumption ass : ctx.getAssumptionList(transaction).subList(parameters.size(), ctx.getAssumptionList(transaction).size()))
+					statement = ctx.specialize(transaction, statement, ass.getVariable(), ass);
+				return ctx;
+			}
+			else if (term instanceof CompositionTerm)
+			{
+				Term head = ((CompositionTerm) term).getHead();
+				Term tail = ((CompositionTerm) term).getTail();
+				Statement general = fromProofTerm(transaction, head);
+				Term instance;
+				Statement instanceProof = suitableForInstanceProofStatementByTerm(transaction, tail.getType());
+				if (instanceProof == null)
+				{
+					instanceProof = fromProofTerm(transaction, tail);
+					instance = instanceProof.getVariable();
+				}
+				else
+					instance = tail;
+				return specialize(transaction, general, instance, instanceProof);
+			}
+			else if (term instanceof VariableTerm)
+				return statements(transaction).get(term);
+			else if (term instanceof CastTypeTerm)
+				return fromProofTerm(transaction, ((CastTypeTerm) term).getTerm());
+			else
+				throw new FromProofTermStatementException("Can't generate a proof statement from this term");
+		}
+		catch (StatementException | CastTypeException | ReplaceTypeException e)
+		{
+			throw new FromProofTermStatementException(e);
+		}
 	}
 
 }

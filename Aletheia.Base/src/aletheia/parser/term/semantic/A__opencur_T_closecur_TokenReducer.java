@@ -22,7 +22,6 @@ package aletheia.parser.term.semantic;
 import java.util.List;
 
 import aletheia.model.term.Term;
-import aletheia.model.term.UnprojectedCastTypeTerm;
 import aletheia.model.term.UnprojectedCastTypeTerm.UnprojectedCastTypeException;
 import aletheia.parser.term.TermParser.Globals;
 import aletheia.parser.term.TermParser.ProductionTokenPayloadReducer;
@@ -44,7 +43,7 @@ public class A__opencur_T_closecur_TokenReducer extends ProductionTokenPayloadRe
 	{
 		try
 		{
-			return new UnprojectedCastTypeTerm(NonTerminalToken.getPayloadFromTokenList(reducees, 1));
+			return ((Term) NonTerminalToken.getPayloadFromTokenList(reducees, 1)).castToUnprojectedType();
 		}
 		catch (UnprojectedCastTypeException e)
 		{
