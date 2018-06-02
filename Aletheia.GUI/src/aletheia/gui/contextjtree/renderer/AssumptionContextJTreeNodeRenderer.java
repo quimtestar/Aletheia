@@ -31,11 +31,11 @@ public class AssumptionContextJTreeNodeRenderer extends ProperStatementContextJT
 		super(contextJTree, assumption);
 		setActiveFont(getItalicFont());
 		addSpaceLabel();
-		addOpenBracket();
+		addOpenSquareBracket();
 		addAssumptionLabel();
 		addColonLabel();
 		addIntLabel(assumption.getOrder());
-		addCloseBracket();
+		addCloseSquareBracket();
 	}
 
 	protected Assumption getAssumption()
