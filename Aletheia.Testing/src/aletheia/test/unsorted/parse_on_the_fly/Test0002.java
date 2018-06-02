@@ -20,28 +20,28 @@
 package aletheia.test.unsorted.parse_on_the_fly;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.UUID;
 
-import aletheia.model.identifier.Identifier;
+import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
+import aletheia.model.nomenclator.Nomenclator.AlreadyUsedIdentifierException;
 import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
+import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.statement.Statement.StatementException;
 import aletheia.model.term.CastTypeTerm.CastTypeException;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.ReplaceTypeException;
-import aletheia.parser.term.TermParser;
 import aletheia.parsergenerator.ParserBaseException;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
 
-public class Test0001 extends TransactionalBerkeleyDBPersistenceManagerTest
+public class Test0002 extends TransactionalBerkeleyDBPersistenceManagerTest
 {
 
-	public Test0001()
+	public Test0002()
 	{
 		super(false);
 	}
@@ -50,10 +50,35 @@ public class Test0001 extends TransactionalBerkeleyDBPersistenceManagerTest
 	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws FileNotFoundException, ParserBaseException,
 			ReplaceTypeException, StatementException, NomenclatorException, InvalidNameException, CastTypeException
 	{
-		Context context = persistenceManager.getContext(transaction, UUID.fromString("42cc8199-8159-5567-b65c-db023f95eaa3"));
-		Term term = TermParser.parseTerm(transaction, context, new FileReader("tmp/term.txt"));
-		Statement statement = context.fromProofTerm(transaction, term);
-		statement.identify(transaction, Identifier.parse("kk"));
+		UUID uuid = UUID.fromString("8bf0bf35-c253-5257-b3ef-49b59beabc77"); // Set.th.epsilon_induction
+		//UUID uuid = UUID.fromString("e7a380b5-3b72-5341-b868-56226e163779");		// Prop.And.th.symm/s001
+		//UUID uuid = UUID.fromString("360e41c6-2713-50ba-a22f-1f9d69dd1143");		// Set
+		//UUID uuid = UUID.fromString("db8546ce-ab3b-5441-98ca-b2fed77e695d"); 		// Set.Equal.def
+		//UUID uuid = UUID.fromString("9209090d-fc0c-5e24-b1e4-1d509857a328"); 		// Natural.two.th.sum.one
+		//UUID uuid = UUID.fromString("ac179280-c294-5812-b653-8bdc1dd9f24e"); 		// Natural.th.fundamental.arithmetic
+		//UUID uuid = UUID.fromString("13401716-ea4c-542e-9951-e69241578080"); 		// Real.e.th.summation.factorial
+		//UUID uuid = UUID.fromString("364e564f-db9f-53a9-985e-0c5d25d0f5a9"); 		// Prop.And.th.symm
+		//UUID uuid = UUID.fromString("2b66f167-352b-5c3e-b6d8-1d4bfee45635"); 		// Natural.zero.th.Not_Prime
+		Statement statement = persistenceManager.getStatement(transaction, uuid);
+		Term term = statement.proofTerm(transaction);
+		Context context = statement.getContext(transaction);
+		context = context.openSubContext(transaction, term.getType());
+		if (statement.getIdentifier() != null)
+			for (int i = 0;; i++)
+			{
+				try
+				{
+					context.identify(transaction, statement.getIdentifier().concat(Namespace.parse(String.format("kk_%02d", i))));
+					break;
+				}
+				catch (AlreadyUsedIdentifierException e)
+				{
+				}
+			}
+		Statement statementKk = context.fromProofTerm(transaction, term);
+		for (Assumption ass : context.assumptions(transaction))
+			statementKk = context.specialize(transaction, statementKk, ass.getVariable(), ass);
+		System.out.println(" ---> " + context.getUuid());
 	}
 
 }
