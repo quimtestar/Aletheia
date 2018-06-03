@@ -2546,7 +2546,7 @@ public class Context extends Statement
 				Term tail = ((CompositionTerm) term).getTail();
 				Statement general = fromProofTerm(transaction, head);
 				Term instance;
-				Statement instanceProof = suitableForInstanceProofStatementByTerm(transaction, tail.getType());
+				Statement instanceProof = tail.castFree() ? suitableForInstanceProofStatementByTerm(transaction, tail.getType()) : null;
 				if (instanceProof == null)
 				{
 					instanceProof = fromProofTerm(transaction, tail);
@@ -2565,7 +2565,10 @@ public class Context extends Statement
 		}
 		catch (StatementException | CastTypeException | ReplaceTypeException e)
 		{
-			throw new FromProofTermStatementException(e);
+			if (e instanceof FromProofTermStatementException)
+				throw (FromProofTermStatementException) e;
+			else
+				throw new FromProofTermStatementException(e);
 		}
 	}
 
