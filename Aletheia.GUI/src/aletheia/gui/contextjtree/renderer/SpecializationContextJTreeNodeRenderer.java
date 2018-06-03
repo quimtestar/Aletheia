@@ -35,7 +35,7 @@ public class SpecializationContextJTreeNodeRenderer extends ProperStatementConte
 		{
 			setActiveFont(getItalicFont());
 			addSpaceLabel();
-			addOpenBracket();
+			addOpenSquareBracket();
 			addSpecializationLabel();
 			addColonLabel();
 			addTerm(specialization.parentVariableToIdentifier(transaction), specialization.getGeneral(transaction).getVariable());
@@ -50,7 +50,7 @@ public class SpecializationContextJTreeNodeRenderer extends ProperStatementConte
 				addSpaceLabel();
 				addTerm(specialization.parentVariableToIdentifier(transaction), specialization.getInstanceProof(transaction).getVariable());
 			}
-			addCloseBracket();
+			addCloseSquareBracket();
 		}
 		finally
 		{

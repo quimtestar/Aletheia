@@ -17,34 +17,35 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.contextjtree.renderer;
+package aletheia.pdfexport.term;
 
-import aletheia.gui.contextjtree.ContextJTree;
-import aletheia.model.statement.UnfoldingContext;
+import java.util.Map;
+
+import aletheia.model.identifier.Identifier;
+import aletheia.model.term.ProjectedCastTypeTerm;
+import aletheia.model.term.Term;
+import aletheia.model.term.VariableTerm;
+import aletheia.pdfexport.SimpleChunk;
+import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 
-public class UnfoldingContextContextJTreeNodeRenderer extends ContextContextJTreeNodeRenderer<UnfoldingContext>
+public class ProjectedCastTypeTermPhrase extends TermPhrase
 {
-	private static final long serialVersionUID = 5051767441682012846L;
+	private static final long serialVersionUID = 4487221289844310777L;
 
-	protected UnfoldingContextContextJTreeNodeRenderer(ContextJTree contextJTree, UnfoldingContext context)
+	protected ProjectedCastTypeTermPhrase(PersistenceManager persistenceManager, Transaction transaction,
+			Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator, ProjectedCastTypeTerm term)
 	{
-		super(contextJTree, context);
-		Transaction transaction = contextJTree.getModel().beginTransaction();
-		try
-		{
-			setActiveFont(getItalicFont());
-			addSpaceLabel();
-			addOpenSquareBracket();
-			addUnfoldingLabel();
-			addColonLabel();
-			addTerm(context.parentVariableToIdentifier(transaction), context.getDeclaration(transaction).getVariable());
-			addCloseSquareBracket();
-		}
-		finally
-		{
-			transaction.abort();
-		}
+		super(term);
+		addSimpleChunk(new SimpleChunk("["));
+		addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term.getTerm()));
+		addSimpleChunk(new SimpleChunk("]"));
+	}
+
+	@Override
+	public ProjectedCastTypeTerm getTerm()
+	{
+		return (ProjectedCastTypeTerm) super.getTerm();
 	}
 
 }

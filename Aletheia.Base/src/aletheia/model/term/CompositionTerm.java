@@ -49,22 +49,22 @@ public class CompositionTerm extends SimpleTerm
 	{
 		private static final long serialVersionUID = 8530964165091126355L;
 
-		public CompositionTypeException()
+		protected CompositionTypeException()
 		{
 			super();
 		}
 
-		public CompositionTypeException(String message, Throwable cause)
+		protected CompositionTypeException(String message, Throwable cause)
 		{
 			super(message, cause);
 		}
 
-		public CompositionTypeException(String message)
+		protected CompositionTypeException(String message)
 		{
 			super(message);
 		}
 
-		public CompositionTypeException(Throwable cause)
+		protected CompositionTypeException(Throwable cause)
 		{
 			super(cause);
 		}
@@ -125,6 +125,12 @@ public class CompositionTerm extends SimpleTerm
 		return tail;
 	}
 
+	@Override
+	public int size()
+	{
+		return head.size() + tail.size();
+	}
+
 	/**
 	 * A term is replaced simply composing the replacement of the parts (head
 	 * and tail).
@@ -139,6 +145,19 @@ public class CompositionTerm extends SimpleTerm
 		try
 		{
 			return headRep.compose(tailRep);
+		}
+		catch (ComposeTypeException e)
+		{
+			throw new ReplaceTypeException(e);
+		}
+	}
+
+	@Override
+	public Term replace(Map<VariableTerm, Term> replaces) throws ReplaceTypeException
+	{
+		try
+		{
+			return head.replace(replaces).compose(tail.replace(replaces));
 		}
 		catch (ComposeTypeException e)
 		{
@@ -222,8 +241,8 @@ public class CompositionTerm extends SimpleTerm
 	 *
 	 */
 	@Override
-	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
-			ParameterIdentification parameterIdentification)
+	protected void stringAppend(StringAppender stringAppend, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
 		CompositionParameterIdentification headParameterIdentification = null;
 		ParameterIdentification tailParameterIdentification = null;
@@ -232,10 +251,15 @@ public class CompositionTerm extends SimpleTerm
 			headParameterIdentification = ((CompositionParameterIdentification) parameterIdentification).getHead();
 			tailParameterIdentification = ((CompositionParameterIdentification) parameterIdentification).getTail();
 		}
-		String sHead = head.toString(variableToIdentifier, parameterNumerator, headParameterIdentification);
-		String sTail_ = tail.toString(variableToIdentifier, parameterNumerator, tailParameterIdentification);
-		String sTail = tail instanceof CompositionTerm ? "(" + sTail_ + ")" : sTail_;
-		return sHead + " " + sTail;
+		head.stringAppend(stringAppend, variableToIdentifier, parameterNumerator, headParameterIdentification);
+		stringAppend.append(" ");
+		stringAppend.openSub();
+		if (tail instanceof CompositionTerm)
+			stringAppend.append("(");
+		tail.stringAppend(stringAppend, variableToIdentifier, parameterNumerator, tailParameterIdentification);
+		if (tail instanceof CompositionTerm)
+			stringAppend.append(")");
+		stringAppend.closeSub();
 	}
 
 	/**
@@ -358,6 +382,12 @@ public class CompositionTerm extends SimpleTerm
 	public List<Term> aggregateComponents()
 	{
 		return new TailList<>(head.aggregateComponents(), this);
+	}
+
+	@Override
+	public boolean castFree()
+	{
+		return getHead().castFree() && getTail().castFree();
 	}
 
 }

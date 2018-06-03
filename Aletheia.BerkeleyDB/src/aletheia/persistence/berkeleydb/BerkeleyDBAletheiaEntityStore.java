@@ -82,10 +82,12 @@ import aletheia.persistence.berkeleydb.proxies.term.CompositionTermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.FunctionTermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.IdentifiableVariableTermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.ParameterVariableTermProxy;
+import aletheia.persistence.berkeleydb.proxies.term.ProjectedCastTypeTermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.ProjectionTermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.SimpleTermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.TauTermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.TermProxy;
+import aletheia.persistence.berkeleydb.proxies.term.UnprojectedCastTypeTermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.VariableTermProxy;
 import aletheia.persistence.berkeleydb.upgrade.EntityStoreUpgrade;
 import aletheia.persistence.berkeleydb.upgrade.EntityStoreUpgrade.UpgradeException;
@@ -99,8 +101,8 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 {
 	private static final Logger logger = LoggerManager.instance.logger();
 
-	private static final int storeVersion = 25;
-	private static final int minimalStoreVersion = 25;
+	private static final int storeVersion = 26;
+	private static final int minimalStoreVersion = 26;
 
 	private static final Collection<Class<?>> registerClasses = Arrays.<Class<?>> asList(
 	// @formatter:off
@@ -111,6 +113,8 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 			SimpleTermProxy.class,
 			CompositionTermProxy.class,
 			VariableTermProxy.class,
+			ProjectedCastTypeTermProxy.class,
+			UnprojectedCastTypeTermProxy.class,
 			ParameterVariableTermProxy.class,
 			IdentifiableVariableTermProxy.class,
 			UUIDProxy.class,
@@ -193,9 +197,9 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 	public static BerkeleyDBAletheiaEntityStore open(BerkeleyDBAletheiaEnvironment environment, String storeName, boolean allowUpgrade, boolean bulkLoad)
 			throws UpgradeException
 	{
-		int storeVersion = environment.getStoreVersion(storeName);
-		if (storeVersion > BerkeleyDBAletheiaEntityStore.storeVersion)
-			throw new UnsupportedEntityStoreVersionException(storeVersion, BerkeleyDBAletheiaEntityStore.storeVersion);
+		int currentStoreVersion = environment.getStoreVersion(storeName);
+		if (currentStoreVersion >= 0 && (currentStoreVersion < minimalStoreVersion || currentStoreVersion > storeVersion))
+			throw new UnsupportedEntityStoreVersionException(currentStoreVersion, storeVersion);
 		try
 		{
 			return new BerkeleyDBAletheiaEntityStore(environment, storeName, bulkLoad);
@@ -203,12 +207,12 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 		catch (Exception e)
 		{
 			logger.error("Error caught opening store", e);
-			EntityStoreUpgrade upgrade = EntityStoreUpgrade.getEntityStoreUpgrade(storeVersion);
+			EntityStoreUpgrade upgrade = EntityStoreUpgrade.getEntityStoreUpgrade(currentStoreVersion);
 			if (upgrade == null)
 				throw e;
 			if (environment.getConfig().getReadOnly() || !allowUpgrade)
-				throw new EntityStoreVersionException(e, storeVersion, BerkeleyDBAletheiaEntityStore.storeVersion);
-			logger.info("Trying to upgrade from store version:" + storeVersion);
+				throw new EntityStoreVersionException(e, currentStoreVersion, storeVersion);
+			logger.info("Trying to upgrade from store version:" + currentStoreVersion);
 			upgrade.upgrade(environment, storeName);
 			logger.info("Upgrade success!!! :D");
 			return new BerkeleyDBAletheiaEntityStore(environment, storeName);

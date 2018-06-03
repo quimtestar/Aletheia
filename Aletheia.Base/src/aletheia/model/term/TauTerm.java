@@ -46,6 +46,12 @@ public class TauTerm extends AtomicTerm
 		super(null);
 	}
 
+	@Override
+	public int size()
+	{
+		return 0;
+	}
+
 	/**
 	 * The unique instance of this class.
 	 */
@@ -55,14 +61,20 @@ public class TauTerm extends AtomicTerm
 	 * The primitive type is represented with the String <b>"Tau"</b>.
 	 */
 	@Override
-	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
-			ParameterIdentification parameterIdentification)
+	protected void stringAppend(StringAppender stringAppender, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
-		return "Tau";
+		stringAppender.append("Tau");
 	}
 
 	@Override
 	protected TauTerm replace(Deque<Replace> replaces, Set<VariableTerm> exclude)
+	{
+		return this;
+	}
+
+	@Override
+	public Term replace(Map<VariableTerm, Term> replaces)
 	{
 		return this;
 	}
@@ -119,6 +131,12 @@ public class TauTerm extends AtomicTerm
 		if (!(term instanceof TauTerm))
 			return new DiffInfoNotEqual(term);
 		return new DiffInfoEqual(term);
+	}
+
+	@Override
+	public boolean castFree()
+	{
+		return true;
 	}
 
 }

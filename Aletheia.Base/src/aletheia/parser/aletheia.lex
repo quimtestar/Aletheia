@@ -26,6 +26,10 @@
 '~'																: tilde;			# Unproject a projected function.
 '\('															: openpar;			# Open parentheses.
 '\)'															: closepar;			# Close patentheses.
+'\['															: opensq;			# Open square bracket.
+'\]'															: closesq;			# Close square bracket.
+'\{'															: opencur;			# Open curly bracket.
+'\}'															: closecur;			# Close curly bracket.
 '\.'															: dot;				# Separate the identifier qualifying components.
 'Tau'															: tau;				# "Tau" is the reserved word for the primitive.
 '&'																: ampersand;		# Begins a reference.

@@ -59,19 +59,24 @@ public class ParameterVariableTerm extends VariableTerm
 		return "?" + String.format("%08x", hashCode());
 	}
 
+	public String numRef(int num)
+	{
+		return "@" + num;
+	}
+
 	public String numRef(ParameterNumerator parameterNumerator)
 	{
-		return "@" + parameterNumerator.parameterNumber(this);
+		return numRef(parameterNumerator.parameterNumber(this));
 	}
 
 	@Override
-	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
-			ParameterIdentification parameterIdentification)
+	protected void stringAppend(StringAppender stringAppend, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
 		if (parameterNumerator.isNumbered(this))
-			return numRef(parameterNumerator);
+			stringAppend.append(numRef(parameterNumerator));
 		else
-			return super.toString(variableToIdentifier, parameterNumerator, parameterIdentification);
+			super.stringAppend(stringAppend, variableToIdentifier, parameterNumerator, parameterIdentification);
 	}
 
 }

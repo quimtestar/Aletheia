@@ -31,7 +31,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -40,7 +39,6 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.Stack;
 import java.util.UUID;
-
 import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
@@ -62,6 +60,9 @@ import aletheia.model.nomenclator.Nomenclator;
 import aletheia.model.nomenclator.Nomenclator.AlreadyUsedIdentifierException;
 import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
 import aletheia.model.nomenclator.SubNomenclator;
+import aletheia.model.term.CastTypeTerm;
+import aletheia.model.term.CastTypeTerm.CastTypeException;
+import aletheia.model.term.CompositionTerm;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
@@ -88,7 +89,9 @@ import aletheia.utilities.collections.AdaptedMap;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCloseableSet;
 import aletheia.utilities.collections.BijectionCollection;
+import aletheia.utilities.collections.BijectionKeyMap;
 import aletheia.utilities.collections.BijectionList;
+import aletheia.utilities.collections.BijectionMap;
 import aletheia.utilities.collections.BufferedList;
 import aletheia.utilities.collections.CastBijection;
 import aletheia.utilities.collections.CloseableCollection;
@@ -265,6 +268,8 @@ public class Context extends Statement
 			Term term, Term innerTerm) throws StatementException
 	{
 		super(persistenceManager, transaction, entityClass, uuid, context, term);
+		if (!innerTerm.castFree())
+			throw new NonCastFreeStatementException();
 		persistenceUpdate(transaction);
 		int i = 0;
 		Term innerTerm_;
@@ -1555,9 +1560,35 @@ public class Context extends Statement
 			Set<Statement> excludeFromIdentify) throws CopyStatementException
 	{
 		Map<Statement, Statement> map = new HashMap<>(initMap);
-		List<Term.Replace> replaces = new LinkedList<>(); //TODO change this to replace with map when branch proof_term is merged
-		for (Map.Entry<Statement, Statement> e : map.entrySet())
-			replaces.add(new Term.Replace(e.getKey().getVariable(), e.getValue().getVariable()));
+		Map<VariableTerm, Term> termReplaceMap = new BijectionKeyMap<>(new Bijection<Statement, VariableTerm>()
+		{
+
+			@Override
+			public VariableTerm forward(Statement statement)
+			{
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public Statement backward(VariableTerm variable)
+			{
+				return transaction.getPersistenceManager().statements(transaction).get(variable);
+			}
+		}, new BijectionMap<>(new Bijection<Statement, Term>()
+		{
+
+			@Override
+			public Term forward(Statement statement)
+			{
+				return statement == null ? null : statement.getVariable();
+			}
+
+			@Override
+			public Statement backward(Term term)
+			{
+				throw new UnsupportedOperationException();
+			}
+		}, map));
 		Set<Statement> copied = new HashSet<>(initMap.values());
 		Queue<Statement> queue = new ArrayDeque<>();
 		queue.addAll(statements);
@@ -1584,7 +1615,7 @@ public class Context extends Statement
 				Specialization specDest;
 				try
 				{
-					specDest = ctxParentDest.specialize(transaction, map.getOrDefault(generalOrig, generalOrig), specOrig.getInstance().replace(replaces),
+					specDest = ctxParentDest.specialize(transaction, map.getOrDefault(generalOrig, generalOrig), specOrig.getInstance().replace(termReplaceMap),
 							map.getOrDefault(instanceProofOrig, instanceProofOrig));
 				}
 				catch (ReplaceTypeException | StatementException e)
@@ -1600,7 +1631,7 @@ public class Context extends Statement
 				Declaration decDest;
 				try
 				{
-					decDest = ctxParentDest.declare(transaction, decOrig.getValue().replace(replaces), map.getOrDefault(valueProofOrig, valueProofOrig));
+					decDest = ctxParentDest.declare(transaction, decOrig.getValue().replace(termReplaceMap), map.getOrDefault(valueProofOrig, valueProofOrig));
 				}
 				catch (ReplaceTypeException e)
 				{
@@ -1618,13 +1649,12 @@ public class Context extends Statement
 				if (ctxOrig instanceof UnfoldingContext)
 				{
 					UnfoldingContext unfOrig = (UnfoldingContext) ctxOrig;
-					Declaration decDest = (Declaration) map.get(unfOrig.getDeclaration(transaction));
-					if (decDest == null)
-						decDest = unfOrig.getDeclaration(transaction);
+					Declaration decOrig = unfOrig.getDeclaration(transaction);
 					UnfoldingContext unfDest;
 					try
 					{
-						unfDest = ctxParentDest.openUnfoldingSubContext(transaction, unfOrig.getTerm().replace(replaces), decDest);
+						unfDest = ctxParentDest.openUnfoldingSubContext(transaction, unfOrig.getTerm().replace(termReplaceMap),
+								(Declaration) map.getOrDefault(decOrig, decOrig));
 					}
 					catch (ReplaceTypeException e)
 					{
@@ -1643,7 +1673,7 @@ public class Context extends Statement
 					Context ctxDest;
 					try
 					{
-						ctxDest = ctxParentDest.openSubContext(transaction, ctxOrig.getTerm().replace(replaces));
+						ctxDest = ctxParentDest.openSubContext(transaction, ctxOrig.getTerm().replace(termReplaceMap));
 					}
 					catch (ReplaceTypeException e)
 					{
@@ -1660,7 +1690,6 @@ public class Context extends Statement
 			else
 				throw new Error();
 			map.put(stOrig, stDest);
-			replaces.add(new Term.Replace(stOrig.getVariable(), stDest.getVariable()));
 			copied.add(stDest);
 			if (!excludeFromIdentify.contains(stOrig))
 			{
@@ -2463,6 +2492,84 @@ public class Context extends Statement
 			return parent;
 		else
 			return new CombinedMap<>(parent, new AdaptedMap<>(parameter));
+	}
+
+	public class FromProofTermStatementException extends StatementException
+	{
+		private static final long serialVersionUID = -2927058115270567663L;
+
+		private FromProofTermStatementException()
+		{
+			super();
+		}
+
+		private FromProofTermStatementException(String message, Throwable cause)
+		{
+			super(message, cause);
+		}
+
+		private FromProofTermStatementException(String message)
+		{
+			super(message);
+		}
+
+		private FromProofTermStatementException(Throwable cause)
+		{
+			super(cause);
+		}
+	}
+
+	public Statement fromProofTerm(Transaction transaction, Term term) throws FromProofTermStatementException
+	{
+		try
+		{
+			if (term instanceof FunctionTerm)
+			{
+				Context ctx = openSubContext(transaction, term.getType());
+				List<ParameterVariableTerm> parameters = new ArrayList<>();
+				SimpleTerm consequent = term.consequent(parameters);
+				List<Term.Replace> replaces = new ArrayList<>();
+				for (int i = 0; i < parameters.size(); i++)
+				{
+					ParameterVariableTerm parameter = parameters.get(i);
+					IdentifiableVariableTerm assumptionVar = ctx.getAssumptionList(transaction).get(i).getVariable();
+					replaces.add(new Term.Replace(parameter, CastTypeTerm.castToType(assumptionVar, parameter.getType().replace(replaces))));
+				}
+				Statement statement = ctx.fromProofTerm(transaction, consequent.replace(replaces));
+				for (Assumption ass : ctx.getAssumptionList(transaction).subList(parameters.size(), ctx.getAssumptionList(transaction).size()))
+					statement = ctx.specialize(transaction, statement, ass.getVariable(), ass);
+				return ctx;
+			}
+			else if (term instanceof CompositionTerm)
+			{
+				Term head = ((CompositionTerm) term).getHead();
+				Term tail = ((CompositionTerm) term).getTail();
+				Statement general = fromProofTerm(transaction, head);
+				Term instance;
+				Statement instanceProof = tail.castFree() ? suitableForInstanceProofStatementByTerm(transaction, tail.getType()) : null;
+				if (instanceProof == null)
+				{
+					instanceProof = fromProofTerm(transaction, tail);
+					instance = instanceProof.getVariable();
+				}
+				else
+					instance = tail;
+				return specialize(transaction, general, instance, instanceProof);
+			}
+			else if (term instanceof VariableTerm)
+				return statements(transaction).get(term);
+			else if (term instanceof CastTypeTerm)
+				return fromProofTerm(transaction, ((CastTypeTerm) term).getTerm());
+			else
+				throw new FromProofTermStatementException("Can't generate a proof statement from this term");
+		}
+		catch (StatementException | CastTypeException | ReplaceTypeException e)
+		{
+			if (e instanceof FromProofTermStatementException)
+				throw (FromProofTermStatementException) e;
+			else
+				throw new FromProofTermStatementException(e);
+		}
 	}
 
 }

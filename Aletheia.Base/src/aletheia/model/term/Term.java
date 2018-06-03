@@ -19,6 +19,8 @@
  ******************************************************************************/
 package aletheia.model.term;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -35,7 +37,9 @@ import java.util.Stack;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
+import aletheia.model.term.ProjectedCastTypeTerm.ProjectedCastTypeException;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
+import aletheia.model.term.UnprojectedCastTypeTerm.UnprojectedCastTypeException;
 import aletheia.parser.parameteridentification.ParameterIdentificationParser;
 import aletheia.parsergenerator.ParserBaseException;
 import aletheia.persistence.Transaction;
@@ -113,6 +117,15 @@ public abstract class Term implements Serializable, Exportable
 	}
 
 	/**
+	 * The size of a term is defined to be as the total number of variable
+	 * instances it contains.
+	 *
+	 * @return The size.
+	 */
+
+	public abstract int size();
+
+	/**
 	 *
 	 * Exception related with the non-matching types of the replacing terms.
 	 *
@@ -121,22 +134,22 @@ public abstract class Term implements Serializable, Exportable
 	{
 		private static final long serialVersionUID = 8300442083665283294L;
 
-		public ReplaceTypeException()
+		protected ReplaceTypeException()
 		{
 			super();
 		}
 
-		public ReplaceTypeException(String message, Throwable cause)
+		protected ReplaceTypeException(String message, Throwable cause)
 		{
 			super(message, cause);
 		}
 
-		public ReplaceTypeException(String message)
+		protected ReplaceTypeException(String message)
 		{
 			super(message);
 		}
 
-		public ReplaceTypeException(Throwable cause)
+		protected ReplaceTypeException(Throwable cause)
 		{
 			super(cause);
 		}
@@ -209,6 +222,8 @@ public abstract class Term implements Serializable, Exportable
 	 * method).
 	 */
 	protected abstract Term replace(Deque<Replace> replaces, Set<VariableTerm> exclude) throws ReplaceTypeException;
+
+	public abstract Term replace(Map<VariableTerm, Term> replaces) throws ReplaceTypeException;
 
 	/**
 	 * Two terms are equal by default.
@@ -294,10 +309,65 @@ public abstract class Term implements Serializable, Exportable
 		return ParameterIdentificationParser.parseParameterIdentification(new StringReader(input));
 	}
 
-	public abstract String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
-			ParameterIdentification parameterIdentification);
+	protected abstract class StringAppender
+	{
+		protected StringAppender()
+		{
+			super();
+		}
 
-	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+		protected void openSub()
+		{
+		}
+
+		protected void closeSub()
+		{
+		}
+
+		protected abstract void append(String s);
+
+		protected void append(Object obj)
+		{
+			append(obj.toString());
+		}
+
+	}
+
+	protected abstract void stringAppend(StringAppender stringAppender, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification);
+
+	private class BasicStringAppender extends StringAppender
+	{
+		private final StringBuilder stringBuilder;
+
+		protected BasicStringAppender()
+		{
+			super();
+			this.stringBuilder = new StringBuilder();
+		}
+
+		@Override
+		protected void append(String s)
+		{
+			stringBuilder.append(s);
+		}
+
+		protected String string()
+		{
+			return stringBuilder.toString();
+		}
+
+	}
+
+	protected final String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
+			ParameterIdentification parameterIdentification)
+	{
+		BasicStringAppender stringConverter = new BasicStringAppender();
+		stringAppend(stringConverter, variableToIdentifier, parameterNumerator, parameterIdentification);
+		return stringConverter.string();
+	}
+
+	public final String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
 	{
 		return toString(variableToIdentifier, parameterNumerator, null);
 	}
@@ -311,37 +381,38 @@ public abstract class Term implements Serializable, Exportable
 	 *            conversion.
 	 * @return this term converted to a String.
 	 */
-	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier)
+	public final String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier)
 	{
 		return toString(variableToIdentifier, parameterNumerator());
 	}
 
-	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterIdentification parameterIdentification)
+	public final String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterIdentification parameterIdentification)
 	{
 		return toString(variableToIdentifier, parameterNumerator(), parameterIdentification);
 	}
 
-	public String toString(Transaction transaction, Context context, ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
+	public final String toString(Transaction transaction, Context context, ParameterNumerator parameterNumerator,
+			ParameterIdentification parameterIdentification)
 	{
 		return toString(context != null ? context.variableToIdentifier(transaction) : null, parameterNumerator, parameterIdentification);
 	}
 
-	public String toString(Transaction transaction, Context context, ParameterIdentification parameterIdentification)
+	public final String toString(Transaction transaction, Context context, ParameterIdentification parameterIdentification)
 	{
 		return toString(transaction, context, parameterNumerator(), parameterIdentification);
 	}
 
-	public String toString(Transaction transaction, Context context, ParameterNumerator parameterNumerator)
+	public final String toString(Transaction transaction, Context context, ParameterNumerator parameterNumerator)
 	{
 		return toString(transaction, context, parameterNumerator, null);
 	}
 
-	public String toString(Transaction transaction, Context context)
+	public final String toString(Transaction transaction, Context context)
 	{
 		return toString(transaction, context, parameterNumerator());
 	}
 
-	public String toString(ParameterIdentification parameterIdentification)
+	public final String toString(ParameterIdentification parameterIdentification)
 	{
 		return toString(null, parameterIdentification);
 	}
@@ -352,9 +423,173 @@ public abstract class Term implements Serializable, Exportable
 	 * @see #toString(Map)
 	 */
 	@Override
-	public String toString()
+	public final String toString()
 	{
 		return toString((Map<? extends VariableTerm, Identifier>) null);
+	}
+
+	private class IndentedStringAppender extends StringAppender
+	{
+
+		private final int minLength;
+		private final int maxLength;
+		private final int pageWidth;
+		private final String indentString;
+		private final int indentLength;
+
+		abstract class Node
+		{
+			final InternalNode parent;
+			int length;
+
+			protected Node(InternalNode parent)
+			{
+				super();
+				this.parent = parent;
+				this.length = 0;
+			}
+
+			protected abstract void print(PrintWriter printWriter, int indent, int pos);
+
+			@Override
+			public String toString()
+			{
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				PrintWriter pw = new PrintWriter(baos);
+				print(pw, 0, Integer.MIN_VALUE);
+				pw.close();
+				return baos.toString();
+			}
+
+		}
+
+		class InternalNode extends Node
+		{
+			final List<Node> children;
+
+			protected InternalNode(InternalNode parent)
+			{
+				super(parent);
+				this.children = new ArrayList<>();
+			}
+
+			protected void appendChild(Node node)
+			{
+				children.add(node);
+				if (node.length != 0)
+					for (InternalNode n = this; n != null; n = n.parent)
+						n.length += node.length;
+			}
+
+			@Override
+			protected void print(PrintWriter printWriter, int indent, int pos)
+			{
+				if ((length <= minLength || indent * indentLength + pos + length <= pageWidth) && length < maxLength)
+				{
+					int pos_ = pos;
+					for (Node node : children)
+					{
+						node.print(printWriter, indent, pos_);
+						pos_ += node.length;
+					}
+				}
+				else
+				{
+					if (indent > 0)
+						printWriter.println();
+					for (int i = 0; i < indent; i++)
+						printWriter.print(indentString);
+					int pos_ = 0;
+					for (Node node : children)
+					{
+						node.print(printWriter, indent + 1, pos_);
+						pos_ += node.length;
+					}
+				}
+			}
+		}
+
+		class LeafNode extends Node
+		{
+			final String string;
+
+			protected LeafNode(InternalNode parent, String string)
+			{
+				super(parent);
+				this.string = string;
+				this.length = string.length();
+			}
+
+			@Override
+			protected void print(PrintWriter printWriter, int indent, int pos)
+			{
+				printWriter.print(string);
+			}
+
+		}
+
+		private final InternalNode rootNode;
+		private InternalNode current;
+
+		protected IndentedStringAppender(int minLength, int maxLength, int pageWidth, String indentString, int indentLength)
+		{
+			super();
+			this.minLength = minLength;
+			this.maxLength = maxLength;
+			this.pageWidth = pageWidth;
+			this.indentString = indentString;
+			this.indentLength = indentLength;
+
+			this.rootNode = new InternalNode(null);
+
+			this.current = rootNode;
+		}
+
+		@Override
+		protected void openSub()
+		{
+			super.openSub();
+			InternalNode node = new InternalNode(current);
+			current.appendChild(node);
+			current = node;
+		}
+
+		@Override
+		protected void closeSub()
+		{
+			super.closeSub();
+			current = current.parent;
+		}
+
+		@Override
+		protected void append(String s)
+		{
+			current.appendChild(new LeafNode(current, s));
+		}
+
+		protected void print(PrintWriter printWriter)
+		{
+			rootNode.print(printWriter, 0, 0);
+			printWriter.println();
+		}
+
+	}
+
+	public final void print(PrintWriter printWriter, Transaction transaction, Context context)
+	{
+		IndentedStringAppender stringAppender = new IndentedStringAppender(16, 64, Integer.MAX_VALUE, "\t", 4);
+		stringAppend(stringAppender, context.variableToIdentifier(transaction), new ParameterNumerator(), null);
+		stringAppender.print(printWriter);
+	}
+
+	public final String toIndentedString(Transaction transaction, Context context)
+	{
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		PrintWriter pw = new PrintWriter(baos);
+		print(pw, transaction, context);
+		pw.close();
+		return baos.toString();
+
 	}
 
 	public Map<ParameterVariableTerm, Identifier> parameterVariableToIdentifier(ParameterIdentification parameterIdentification)
@@ -524,28 +759,28 @@ public abstract class Term implements Serializable, Exportable
 		private final Term head;
 		private final Term tail;
 
-		public ComposeTypeException(Term head, Term tail)
+		protected ComposeTypeException(Term head, Term tail)
 		{
 			super();
 			this.head = head;
 			this.tail = tail;
 		}
 
-		public ComposeTypeException(String message, Throwable cause, Term head, Term tail)
+		protected ComposeTypeException(String message, Throwable cause, Term head, Term tail)
 		{
 			super(message, cause);
 			this.head = head;
 			this.tail = tail;
 		}
 
-		public ComposeTypeException(String message, Term head, Term tail)
+		protected ComposeTypeException(String message, Term head, Term tail)
 		{
 			super(message);
 			this.head = head;
 			this.tail = tail;
 		}
 
-		public ComposeTypeException(Throwable cause, Term head, Term tail)
+		protected ComposeTypeException(Throwable cause, Term head, Term tail)
 		{
 			super(cause);
 			this.head = head;
@@ -632,22 +867,22 @@ public abstract class Term implements Serializable, Exportable
 	{
 		private static final long serialVersionUID = 6702315755038199240L;
 
-		public UnprojectTypeException()
+		protected UnprojectTypeException()
 		{
 			super();
 		}
 
-		public UnprojectTypeException(String message, Throwable cause)
+		protected UnprojectTypeException(String message, Throwable cause)
 		{
 			super(message, cause);
 		}
 
-		public UnprojectTypeException(String message)
+		protected UnprojectTypeException(String message)
 		{
 			super(message);
 		}
 
-		public UnprojectTypeException(Throwable cause)
+		protected UnprojectTypeException(Throwable cause)
 		{
 			super(cause);
 		}
@@ -993,5 +1228,50 @@ public abstract class Term implements Serializable, Exportable
 		return new Match(assignMapLeft, assignMapRight);
 
 	}
+
+	public class DomainTypeException extends TypeException
+	{
+		private static final long serialVersionUID = -3844170094945165916L;
+
+		protected DomainTypeException()
+		{
+			super();
+		}
+
+		protected DomainTypeException(String message, Throwable cause)
+		{
+			super(message, cause);
+		}
+
+		protected DomainTypeException(String message)
+		{
+			super(message);
+		}
+
+		protected DomainTypeException(Throwable cause)
+		{
+			super(cause);
+		}
+
+	}
+
+	public Term domain() throws DomainTypeException
+	{
+		if (type == null)
+			throw new DomainTypeException();
+		return type.domain();
+	}
+
+	public Term castToProjectedType() throws ProjectedCastTypeException
+	{
+		return new ProjectedCastTypeTerm(this);
+	}
+
+	public Term castToUnprojectedType() throws UnprojectedCastTypeException
+	{
+		return new UnprojectedCastTypeTerm(this);
+	}
+
+	public abstract boolean castFree();
 
 }

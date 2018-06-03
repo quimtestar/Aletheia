@@ -37,6 +37,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.Stack;
 import java.util.UUID;
+import java.util.function.Function;
 
 import org.apache.logging.log4j.Logger;
 
@@ -59,12 +60,17 @@ import aletheia.model.nomenclator.Nomenclator.UnknownIdentifierException;
 import aletheia.model.statement.Context.CantDeleteAssumptionException;
 import aletheia.model.statement.Context.StatementHasDependentsException;
 import aletheia.model.statement.Context.StatementNotInContextException;
+import aletheia.model.term.CastTypeTerm;
+import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.SimpleTerm;
 import aletheia.model.term.Term;
+import aletheia.model.term.Term.ComposeTypeException;
+import aletheia.model.term.Term.ReplaceTypeException;
 import aletheia.model.term.Term.UnprojectTypeException;
 import aletheia.model.term.VariableTerm;
+import aletheia.model.term.CastTypeTerm.CastTypeException;
 import aletheia.persistence.PersistenceListener;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -78,6 +84,7 @@ import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCloseableCollection;
 import aletheia.utilities.collections.BijectionCloseableSet;
 import aletheia.utilities.collections.BijectionCollection;
+import aletheia.utilities.collections.BijectionKeyMap;
 import aletheia.utilities.collections.BijectionSet;
 import aletheia.utilities.collections.CloseableCollection;
 import aletheia.utilities.collections.CloseableIterator;
@@ -89,6 +96,7 @@ import aletheia.utilities.collections.FilteredCloseableSet;
 import aletheia.utilities.collections.FilteredCollection;
 import aletheia.utilities.collections.FilteredSet;
 import aletheia.utilities.collections.NotNullFilter;
+import aletheia.utilities.collections.ReverseList;
 import aletheia.utilities.collections.TrivialCloseableCollection;
 import aletheia.utilities.collections.UnionCloseableCollection;
 
@@ -250,6 +258,16 @@ public abstract class Statement implements Exportable
 		}
 	}
 
+	public class NonCastFreeStatementException extends StatementException
+	{
+		private static final long serialVersionUID = 2233812895735149173L;
+
+		protected NonCastFreeStatementException()
+		{
+			super("Term is not cast-free");
+		}
+	}
+
 	/**
 	 * Creates a new statement from scratch.
 	 *
@@ -283,6 +301,8 @@ public abstract class Statement implements Exportable
 			Context context, Term term) throws StatementException
 	{
 		super();
+		if (!term.castFree())
+			throw new NonCastFreeStatementException();
 		Set<VariableTerm> undefined = (context == null ? term.freeVariables() : context.undefinedVariables(transaction, term));
 		if (!undefined.isEmpty())
 			throw new UndefinedVariableStatementException(context, transaction, undefined);
@@ -632,6 +652,11 @@ public abstract class Statement implements Exportable
 	public Term getTerm()
 	{
 		return getVariable().getType();
+	}
+
+	public Term getInnerTerm(Transaction transaction)
+	{
+		return getTerm();
 	}
 
 	/**
@@ -1842,6 +1867,155 @@ public abstract class Statement implements Exportable
 		};
 
 		return new FilteredCloseableCollection<>(new NotNullFilter<Match>(), new BijectionCloseableCollection<>(bijection, statements));
+	}
+
+	private Map<Statement, Term> proofTermDescendentMap(Transaction transaction)
+	{
+		Map<Statement, Term> map = new HashMap<>();
+
+		Map<VariableTerm, Term> replaceMap = new BijectionKeyMap<>(new Bijection<Statement, VariableTerm>()
+		{
+
+			@Override
+			public VariableTerm forward(Statement statement)
+			{
+				return statement.getVariable();
+			}
+
+			@Override
+			public Statement backward(VariableTerm variable)
+			{
+				if (variable instanceof IdentifiableVariableTerm)
+					return transaction.getPersistenceManager().getStatement(transaction, ((IdentifiableVariableTerm) variable).getUuid());
+				else
+					return null;
+			}
+		}, map);
+
+		Function<Statement, Term> stTermFunction = st -> (isDescendent(transaction, st)) ? map.get(st) : st.getVariable();
+		Stack<Statement> stack = new Stack<>();
+		stack.push(this);
+		Set<Statement> visited = new HashSet<>();
+		while (!stack.isEmpty())
+		{
+			Statement st = stack.pop();
+			deploop: while (true)
+			{
+				for (Statement dep : st.dependencies(transaction))
+					if (isDescendent(transaction, dep) && !map.containsKey(dep))
+					{
+						st = dep;
+						continue deploop;
+					}
+				if (st instanceof Context)
+					for (Assumption ass : ((Context) st).assumptions(transaction))
+						if (!map.containsKey(ass))
+						{
+							st = ass;
+							continue deploop;
+						}
+				break;
+			}
+			if (!visited.contains(st))
+			{
+				visited.add(st);
+				try
+				{
+					Term term;
+					if (st instanceof Assumption)
+					{
+						Term type = st.getTerm().replace(replaceMap);
+						Term old = map.get(st);
+						Term oldType = old == null ? null : old.getType();
+						term = type.equals(oldType) ? old : new ParameterVariableTerm(st.getTerm().replace(replaceMap));
+					}
+					else if (st instanceof Specialization)
+					{
+						Specialization spc = (Specialization) st;
+						Statement general = spc.getGeneral(transaction);
+						Term termGeneral = stTermFunction.apply(general);
+						Term instance = spc.getInstance().replace(replaceMap);
+						term = termGeneral.compose(instance);
+					}
+					else if (st instanceof Declaration)
+					{
+						Declaration dec = (Declaration) st;
+						term = dec.getValue().replace(replaceMap);
+					}
+					else if (st instanceof Context)
+					{
+						Context ctx = (Context) st;
+						term = null;
+						int size = Integer.MAX_VALUE;
+						for (Statement solver : ctx.solvers(transaction))
+						{
+							if (solver.isProved())
+							{
+								Term term_ = stTermFunction.apply(solver);
+								if (term_ != null)
+								{
+									int size_ = term_.size();
+									if (size_ < size)
+									{
+										term = term_;
+										size = size_;
+									}
+								}
+								else if (isDescendent(transaction, solver))
+									stack.push(solver);
+							}
+						}
+						if (term != null)
+							for (Assumption a : new ReverseList<>(ctx.assumptions(transaction)))
+								term = new FunctionTerm((ParameterVariableTerm) map.get(a), term);
+					}
+					else
+						throw new Error();
+					if (term != null)
+					{
+						term = CastTypeTerm.castToType(term, st.getInnerTerm(transaction).replace(replaceMap));
+						Term old = map.put(st, term);
+						if (!equals(st) && !term.equals(old))
+						{
+							for (Statement dep : st.dependents(transaction))
+								if (isDescendent(transaction, dep))
+								{
+									visited.remove(dep);
+									stack.push(dep);
+								}
+							for (Statement dep : st.getContext(transaction).descendantContextsByConsequent(transaction, st.getTerm()))
+							{
+								if (!dep.equals(st))
+								{
+									visited.remove(dep);
+									stack.push(dep);
+								}
+							}
+							if (st instanceof Assumption)
+							{
+								Statement dep = st.getContext(transaction);
+								visited.remove(dep);
+								stack.push(dep);
+							}
+						}
+					}
+				}
+				catch (ReplaceTypeException | ComposeTypeException | CastTypeException e)
+				{
+					throw new RuntimeException(e);
+				}
+				finally
+				{
+
+				}
+			}
+		}
+		return map;
+	}
+
+	public Term proofTerm(Transaction transaction)
+	{
+		return proofTermDescendentMap(transaction).get(this);
 	}
 
 }

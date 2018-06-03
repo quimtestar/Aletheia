@@ -35,7 +35,7 @@ public class DeclarationContextJTreeNodeRenderer extends ProperStatementContextJ
 		{
 			setActiveFont(getItalicFont());
 			addSpaceLabel();
-			addOpenBracket();
+			addOpenSquareBracket();
 			addDeclarationLabel();
 			addColonLabel();
 			addTerm(transaction, declaration, declaration.getValue());
@@ -46,7 +46,7 @@ public class DeclarationContextJTreeNodeRenderer extends ProperStatementContextJ
 				addSpaceLabel();
 				addTerm(declaration.parentVariableToIdentifier(transaction), declaration.getValueProof(transaction).getVariable());
 			}
-			addCloseBracket();
+			addCloseSquareBracket();
 		}
 		finally
 		{

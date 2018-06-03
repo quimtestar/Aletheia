@@ -43,13 +43,13 @@ public class PackedRequestSignatureRequestTreeNodeRenderer extends RequestSignat
 			if (packedSignatureRequest != null)
 			{
 				addSpaceLabel();
-				addOpenBracket(defaultColor);
+				addOpenSquareBracket(defaultColor);
 				addSpaceLabel();
 				addDateLabel(packedSignatureRequest.getPackingDate(), defaultColor);
 				addSpaceLabel();
 				addByteSize(packedSignatureRequest.getData().length, defaultColor);
 				addSpaceLabel();
-				addCloseBracket(defaultColor);
+				addCloseSquareBracket(defaultColor);
 			}
 		}
 		finally

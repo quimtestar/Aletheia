@@ -54,6 +54,12 @@ public abstract class VariableTerm extends AtomicTerm
 		super(type);
 	}
 
+	@Override
+	public int size()
+	{
+		return 1;
+	}
+
 	/**
 	 * Replacing a variable term is quite trivial. If the variable to be
 	 * replaced equals this, then the result is the term to replace; else the
@@ -72,6 +78,16 @@ public abstract class VariableTerm extends AtomicTerm
 			}
 		}
 		return term;
+	}
+
+	@Override
+	public Term replace(Map<VariableTerm, Term> replaces) throws ReplaceTypeException
+	{
+		Term term = replaces.get(this);
+		if (term == null)
+			return this;
+		else
+			return term;
 	}
 
 	/**
@@ -130,14 +146,20 @@ public abstract class VariableTerm extends AtomicTerm
 	public abstract String hexRef();
 
 	@Override
-	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
-			ParameterIdentification parameterIdentification)
+	protected void stringAppend(StringAppender stringAppender, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
 		Identifier identifier = variableToIdentifier != null ? variableToIdentifier.get(this) : null;
 		if (identifier != null)
-			return identifier.toString();
+			stringAppender.append(identifier);
 		else
-			return hexRef();
+			stringAppender.append(hexRef());
+	}
+
+	@Override
+	public boolean castFree()
+	{
+		return true;
 	}
 
 }

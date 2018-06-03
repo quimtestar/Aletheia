@@ -133,7 +133,7 @@ public class ConsequentContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
 			addTerm(context.variableToIdentifier(transaction), context.getConsequent());
 			setActiveFont(getItalicFont());
 			addSpaceLabel();
-			addOpenBracket();
+			addOpenSquareBracket();
 			boolean first = true;
 			for (Statement st : context.solvers(transaction))
 			{
@@ -146,7 +146,7 @@ public class ConsequentContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
 					first = false;
 				addTerm(context.variableToIdentifier(transaction), st.getVariable());
 			}
-			addCloseBracket();
+			addCloseSquareBracket();
 			Listener listener = new Listener();
 			addKeyListener(listener);
 			addMouseListener(listener);
