@@ -133,4 +133,10 @@ public class TauTerm extends AtomicTerm
 		return new DiffInfoEqual(term);
 	}
 
+	@Override
+	public boolean castFree()
+	{
+		return true;
+	}
+
 }

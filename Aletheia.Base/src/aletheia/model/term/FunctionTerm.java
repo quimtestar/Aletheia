@@ -629,4 +629,10 @@ public class FunctionTerm extends Term
 		return getParameter().getType();
 	}
 
+	@Override
+	public boolean castFree()
+	{
+		return domain().castFree() && getBody().castFree();
+	}
+
 }

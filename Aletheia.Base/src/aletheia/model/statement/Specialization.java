@@ -80,6 +80,8 @@ public class Specialization extends Statement
 			Statement instanceProof) throws StatementException
 	{
 		super(persistenceManager, transaction, SpecializationEntity.class, uuid, context, computeTerm(transaction, context, general, instance, instanceProof));
+		if (!instance.castFree())
+			throw new NonCastFreeStatementException();
 		getEntity().setGeneralUuid(general.getUuid());
 		getEntity().setInstance(instance);
 		getEntity().setInstanceProofUuid(instanceProof.getUuid());

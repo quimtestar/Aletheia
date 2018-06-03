@@ -268,6 +268,8 @@ public class Context extends Statement
 			Term term, Term innerTerm) throws StatementException
 	{
 		super(persistenceManager, transaction, entityClass, uuid, context, term);
+		if (!innerTerm.castFree())
+			throw new NonCastFreeStatementException();
 		persistenceUpdate(transaction);
 		int i = 0;
 		Term innerTerm_;

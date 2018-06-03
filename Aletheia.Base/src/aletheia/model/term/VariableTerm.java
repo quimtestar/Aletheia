@@ -156,4 +156,10 @@ public abstract class VariableTerm extends AtomicTerm
 			stringAppender.append(hexRef());
 	}
 
+	@Override
+	public boolean castFree()
+	{
+		return true;
+	}
+
 }

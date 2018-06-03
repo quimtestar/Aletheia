@@ -1272,4 +1272,6 @@ public abstract class Term implements Serializable, Exportable
 		return new UnprojectedCastTypeTerm(this);
 	}
 
+	public abstract boolean castFree();
+
 }

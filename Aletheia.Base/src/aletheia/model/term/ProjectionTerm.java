@@ -353,4 +353,10 @@ public class ProjectionTerm extends AtomicTerm
 		return new DiffInfoProjection(proj, diffFunction);
 	}
 
+	@Override
+	public boolean castFree()
+	{
+		return getFunction().castFree();
+	}
+
 }

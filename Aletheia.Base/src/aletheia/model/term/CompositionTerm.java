@@ -384,4 +384,10 @@ public class CompositionTerm extends SimpleTerm
 		return new TailList<>(head.aggregateComponents(), this);
 	}
 
+	@Override
+	public boolean castFree()
+	{
+		return getHead().castFree() && getTail().castFree();
+	}
+
 }

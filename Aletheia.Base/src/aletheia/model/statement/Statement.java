@@ -258,6 +258,16 @@ public abstract class Statement implements Exportable
 		}
 	}
 
+	public class NonCastFreeStatementException extends StatementException
+	{
+		private static final long serialVersionUID = 2233812895735149173L;
+
+		protected NonCastFreeStatementException()
+		{
+			super("Term is not cast-free");
+		}
+	}
+
 	/**
 	 * Creates a new statement from scratch.
 	 *
@@ -291,6 +301,8 @@ public abstract class Statement implements Exportable
 			Context context, Term term) throws StatementException
 	{
 		super();
+		if (!term.castFree())
+			throw new NonCastFreeStatementException();
 		Set<VariableTerm> undefined = (context == null ? term.freeVariables() : context.undefinedVariables(transaction, term));
 		if (!undefined.isEmpty())
 			throw new UndefinedVariableStatementException(context, transaction, undefined);

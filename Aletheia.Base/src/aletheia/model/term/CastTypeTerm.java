@@ -225,4 +225,10 @@ public abstract class CastTypeTerm extends AtomicTerm
 		stringAppend.append(symbolClose());
 	}
 
+	@Override
+	public boolean castFree()
+	{
+		return false;
+	}
+
 }
