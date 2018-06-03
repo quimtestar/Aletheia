@@ -26,10 +26,12 @@ import aletheia.model.term.CompositionTerm;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
+import aletheia.model.term.ProjectedCastTypeTerm;
 import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.SimpleTerm;
 import aletheia.model.term.TauTerm;
 import aletheia.model.term.Term;
+import aletheia.model.term.UnprojectedCastTypeTerm;
 import aletheia.model.term.VariableTerm;
 import aletheia.pdfexport.BasePhrase;
 import aletheia.persistence.PersistenceManager;
@@ -78,6 +80,11 @@ public abstract class TermPhrase extends BasePhrase
 				return new TauTermPhrase((TauTerm) term);
 			else if (term instanceof ProjectionTerm)
 				return new ProjectionTermPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, (ProjectionTerm) term);
+			else if (term instanceof ProjectedCastTypeTerm)
+				return new ProjectedCastTypeTermPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, (ProjectedCastTypeTerm) term);
+			else if (term instanceof UnprojectedCastTypeTerm)
+				return new UnprojectedCastTypeTermPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator,
+						(UnprojectedCastTypeTerm) term);
 			else
 				throw new Error();
 		}
