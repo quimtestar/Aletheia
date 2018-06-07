@@ -22,7 +22,6 @@ package aletheia.gui.cli.command.statement;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
@@ -35,7 +34,8 @@ import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
-import aletheia.utilities.collections.CloseableIterator;
+import aletheia.utilities.collections.Filter;
+import aletheia.utilities.collections.FilteredSet;
 import aletheia.utilities.collections.ReverseList;
 
 @TaggedCommand(tag = "useless", groupPath = "/statement", factory = Useless.Factory.class)
@@ -55,71 +55,24 @@ public class Useless extends TransactionalCommand
 
 	private void processProved(Context context)
 	{
-		Set<Statement> unused = new HashSet<>();
-		Stack<Statement> stack = new Stack<>();
-		for (Statement st : context.descendentStatements(getTransaction()))
-			stack.push(st);
-		loop: while (!stack.isEmpty())
+		Set<Statement> useless = new FilteredSet<>(new Filter<Statement>()
 		{
-			Statement st = stack.pop();
-			if (unused.contains(st))
-				continue loop;
-			if (st instanceof Assumption && !context.equals(st.getContext(getTransaction())))
-				continue loop;
-			if (st.isProved())
+
+			@Override
+			public boolean filter(Statement st)
 			{
-				{
-					CloseableIterator<Statement> it = st.dependents(getTransaction()).iterator();
-					try
-					{
-						while (it.hasNext())
-						{
-							Statement dep = it.next();
-							if (!unused.contains(dep))
-								continue loop;
-						}
-					}
-					finally
-					{
-						it.close();
-					}
-				}
-				{
-					CloseableIterator<Context> it = st.getContext(getTransaction()).descendantContextsByConsequent(getTransaction(), st.getTerm()).iterator();
-					try
-					{
-						while (it.hasNext())
-						{
-							Context sol = it.next();
-							if (!st.isDescendent(getTransaction(), sol) && !unused.contains(sol))
-								continue loop;
-						}
-					}
-					finally
-					{
-						it.close();
-					}
-				}
+				return !(st instanceof Assumption) || st.getContext(getTransaction()).equals(context);
 			}
-			unused.add(st);
-			for (Statement dep : st.dependencies(getTransaction()))
-				if (context.isDescendent(getTransaction(), dep))
-					stack.push(dep);
-			if (st instanceof Context)
-			{
-				for (Statement sol : ((Context) st).solvers(getTransaction()))
-					if (context.isDescendent(getTransaction(), sol))
-						stack.push(sol);
-			}
-		}
-		if (!unused.isEmpty())
+		}, context.uselessDescendents(getTransaction()));
+		if (!useless.isEmpty())
 		{
-			ArrayList<Statement> list = new ArrayList<>(unused);
+			ArrayList<Statement> list = new ArrayList<>(useless);
 			Collections.sort(list, pathComparator);
 			Statement last = null;
 			for (Statement st : list)
 			{
-				if (last == null || !last.isDescendent(getTransaction(), st))
+				if ((!(st instanceof Assumption) || st.getContext(getTransaction()).equals(context))
+						&& (last == null || !last.isDescendent(getTransaction(), st)))
 				{
 					getOut().println(" -> " + st.statementPathString(getTransaction(), getActiveContext()) + " " + (st.isProved() ? "\u2713" : ""));
 					last = st;
