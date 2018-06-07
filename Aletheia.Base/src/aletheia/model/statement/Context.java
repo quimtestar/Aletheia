@@ -39,6 +39,10 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.Stack;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
 import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
@@ -2570,6 +2574,31 @@ public class Context extends Statement
 			else
 				throw new FromProofTermStatementException(e);
 		}
+	}
+
+	public Set<Statement> uselessDescendents(Transaction transaction)
+	{
+		Map<Context, Statement> solvers = descendentProofTermsAndSolvers(transaction).solvers;
+		Set<Statement> useless = Stream.concat(Stream.of(this), StreamSupport.stream(descendentStatements(transaction).spliterator(), false))
+				.collect(Collectors.toCollection(() -> new HashSet<>()));
+		Stack<Statement> stack = new Stack<>();
+		stack.push(this);
+		while (!stack.isEmpty())
+		{
+			Statement st = stack.pop();
+			if (useless.contains(st))
+			{
+				useless.remove(st);
+				Collection<Statement> dependencies = st.dependencies(transaction);
+				Statement solver = solvers.get(st);
+				if (solver != null)
+					dependencies = new CombinedCollection<>(dependencies, Collections.singleton(solver));
+				for (Statement dep : dependencies)
+					if (isDescendent(transaction, dep))
+						stack.push(dep);
+			}
+		}
+		return useless;
 	}
 
 }
