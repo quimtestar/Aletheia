@@ -8,4 +8,5 @@
 </listAttribute>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="aletheia.test.Test"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Aletheia.Testing"/>
+<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-ea"/>
 </launchConfiguration>
