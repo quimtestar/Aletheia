@@ -17,18 +17,31 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.test;
+package aletheia.test.unsorted.parse_on_the_fly;
 
-import aletheia.test.unsorted.parse_on_the_fly.*;
+import java.io.FileNotFoundException;
+import java.util.UUID;
 
-public abstract class Test
+import aletheia.model.statement.Statement;
+import aletheia.persistence.Transaction;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
+import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
+
+public class Test0005 extends TransactionalBerkeleyDBPersistenceManagerTest
 {
 
-	public abstract void run() throws Exception;
-
-	public static void main(String[] args) throws Exception
+	public Test0005()
 	{
-		new Test0005().run();
+		super();
+	}
+
+	@Override
+	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws FileNotFoundException
+	{
+		UUID uuid = UUID.fromString("0da139ab-6335-5606-894b-0f19edd88398");
+		Statement statement = persistenceManager.getStatement(transaction, uuid);
+		System.out.println(statement.getContext(transaction).unparseTerm(transaction, statement.getTerm()));
+		System.out.println(statement.getTerm().hashCode(1));
 	}
 
 }
