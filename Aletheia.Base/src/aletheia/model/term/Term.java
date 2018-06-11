@@ -215,6 +215,12 @@ public abstract class Term implements Serializable, Exportable
 			this.term = term;
 		}
 
+		@Override
+		public String toString()
+		{
+			return variable + " -> " + term;
+		}
+
 	}
 
 	/**

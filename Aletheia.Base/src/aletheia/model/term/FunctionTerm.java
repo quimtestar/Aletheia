@@ -121,8 +121,6 @@ public class FunctionTerm extends Term
 			return body;
 		if (parameter.getType().equals(term.getType()))
 		{
-			if (term.isFreeVariable(parameter))
-				throw new ComposeTypeException("Invalid composition: function parameter is free in instance", this, term);
 			try
 			{
 				return body.replace(parameter, term);
@@ -144,26 +142,11 @@ public class FunctionTerm extends Term
 	{
 		Term partype = parameter.getType();
 		Term rpartype = partype.replace(replaces, exclude);
-		Term rparam;
-		if (!partype.equals(rpartype))
-			rparam = new ParameterVariableTerm(rpartype);
-		else
-			rparam = parameter;
-		boolean added = false;
-		boolean exadd = false;
-		if (!rparam.equals(parameter))
-			added = replaces.add(new Replace(parameter, rparam));
-		else
-			exadd = exclude.add(parameter);
+		Term rparam = new ParameterVariableTerm(rpartype);
+		replaces.addFirst(new Replace(parameter, rparam));
 		Term body_ = body.replace(replaces, exclude);
-		if (exadd)
-			exclude.remove(parameter);
-		if (added)
-			replaces.removeLast();
-		if (rparam.equals(parameter) && body_.equals(body))
-			return this;
-		else
-			return new FunctionTerm((ParameterVariableTerm) rparam, body_);
+		replaces.removeFirst();
+		return new FunctionTerm((ParameterVariableTerm) rparam, body_);
 	}
 
 	@Override
@@ -172,16 +155,8 @@ public class FunctionTerm extends Term
 		Term parType = getParameter().getType().replace(replaces);
 		ParameterVariableTerm parameter;
 		Map<VariableTerm, Term> bodyReplaces;
-		if (parType.equals(getParameter().getType()))
-		{
-			parameter = getParameter();
-			bodyReplaces = replaces;
-		}
-		else
-		{
-			parameter = new ParameterVariableTerm(parType);
-			bodyReplaces = new CombinedMap<>(Collections.singletonMap(getParameter(), parameter), replaces);
-		}
+		parameter = new ParameterVariableTerm(parType);
+		bodyReplaces = new CombinedMap<>(Collections.singletonMap(getParameter(), parameter), replaces);
 		Term body = getBody().replace(bodyReplaces);
 		return new FunctionTerm(parameter, body);
 	}
@@ -417,7 +392,8 @@ public class FunctionTerm extends Term
 		};
 		try
 		{
-			ret = ret * hashPrime + body.replace(parameter, vthasher).hashCode(hasher *= hashPrime);
+			Term rbody = body.replace(parameter, vthasher);
+			ret = ret * hashPrime + rbody.hashCode(hasher *= hashPrime);
 		}
 		catch (ReplaceTypeException e)
 		{
