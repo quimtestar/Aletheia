@@ -17,18 +17,32 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.test;
+package aletheia.test.unsorted.parse_on_the_fly;
 
-import aletheia.test.unsorted.parse_on_the_fly.*;
+import java.util.UUID;
 
-public abstract class Test
+import aletheia.gui.app.AletheiaCliConsole;
+import aletheia.gui.cli.command.statement.Useless;
+import aletheia.model.statement.Context;
+import aletheia.persistence.Transaction;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
+import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
+
+public class Test0006 extends TransactionalBerkeleyDBPersistenceManagerTest
 {
 
-	public abstract void run() throws Exception;
-
-	public static void main(String[] args) throws Exception
+	public Test0006()
 	{
-		new Test0006().run();
+		super();
+	}
+
+	@Override
+	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws Exception
+	{
+		UUID uuid = UUID.fromString("75130b32-91fa-5da5-af6c-744cb4463f64");
+		Context context = persistenceManager.getContext(transaction, uuid);
+		Useless useless = new Useless(AletheiaCliConsole.cliConsole(persistenceManager), transaction, context, false);
+		useless.run();
 	}
 
 }
