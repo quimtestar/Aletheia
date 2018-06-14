@@ -390,4 +390,10 @@ public class CompositionTerm extends SimpleTerm
 		return getHead().castFree() && getTail().castFree();
 	}
 
+	@Override
+	protected AtomicTerm atom()
+	{
+		return getHead().atom();
+	}
+
 }

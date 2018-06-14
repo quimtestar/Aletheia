@@ -176,4 +176,6 @@ public abstract class SimpleTerm extends Term
 		}
 	}
 
+	protected abstract AtomicTerm atom();
+
 }
