@@ -21,7 +21,7 @@ package aletheia.model.term;
 
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 
-public class ProjectedCastTypeTerm extends CastTypeTerm
+public class ProjectedCastTypeTerm extends ProjectionCastTypeTerm
 {
 	private static final long serialVersionUID = -36509166031613827L;
 	private final static int hashPrime = 2963923;

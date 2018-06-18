@@ -51,8 +51,9 @@ A -> equals bang I;				# The '=!' operator is equivalent to a reflexive applicat
 A -> openpar T closepar;		# A term (list of atoms) between parentheses.
 A -> A SCo Number M;			# The 'n' operator resolves to the nth atomic component (starting by zero) of the given term: "(a b c);1" ~> "b".
 	 							# The 'n-' operator resolves to the first n+1 atomic components of the given term: "(a b c);1-" ~> "a b".
-A -> opensq T closesq;			# A term between square brackets. 
-A -> opencur T closecur;		# A term between curly brackets.
+A -> opensq T closesq;			# Projected cast type: a term between square brackets. 
+A -> opencur T closecur;		# Unfojected cast type: a term between curly brackets.
+A -> A pipe T leftarrow I;		# Folding cast type. 
 
 # Optional semicolon to separate 'n[-]' operators. 							
 SCo -> semicolon;

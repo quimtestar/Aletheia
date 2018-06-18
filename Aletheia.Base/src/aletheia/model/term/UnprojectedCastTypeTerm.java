@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.model.term;
 
-public class UnprojectedCastTypeTerm extends CastTypeTerm
+public class UnprojectedCastTypeTerm extends ProjectionCastTypeTerm
 {
 	private static final long serialVersionUID = 8127173784394913752L;
 	private final static int hashPrime = 2963951;

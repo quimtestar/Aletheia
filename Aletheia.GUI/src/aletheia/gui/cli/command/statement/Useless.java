@@ -55,6 +55,7 @@ public class Useless extends TransactionalCommand
 
 	private void processProved(Context context)
 	{
+		System.out.println(context.getUuid() + ": " + context);
 		Set<Statement> useless = new FilteredSet<>(new Filter<Statement>()
 		{
 

@@ -64,7 +64,7 @@ import aletheia.model.nomenclator.Nomenclator;
 import aletheia.model.nomenclator.Nomenclator.AlreadyUsedIdentifierException;
 import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
 import aletheia.model.nomenclator.SubNomenclator;
-import aletheia.model.term.CastTypeTerm;
+import aletheia.model.term.ProjectionCastTypeTerm;
 import aletheia.model.term.CastTypeTerm.CastTypeException;
 import aletheia.model.term.CompositionTerm;
 import aletheia.model.term.FunctionTerm;
@@ -2537,7 +2537,7 @@ public class Context extends Statement
 				{
 					ParameterVariableTerm parameter = parameters.get(i);
 					IdentifiableVariableTerm assumptionVar = ctx.getAssumptionList(transaction).get(i).getVariable();
-					replaces.add(new Term.Replace(parameter, CastTypeTerm.castToType(assumptionVar, parameter.getType().replace(replaces))));
+					replaces.add(new Term.Replace(parameter, ProjectionCastTypeTerm.castToType(assumptionVar, parameter.getType().replace(replaces))));
 				}
 				Statement statement = ctx.fromProofTerm(transaction, consequent.replace(replaces));
 				for (Assumption ass : ctx.getAssumptionList(transaction).subList(parameters.size(), ctx.getAssumptionList(transaction).size()))
@@ -2562,8 +2562,8 @@ public class Context extends Statement
 			}
 			else if (term instanceof VariableTerm)
 				return statements(transaction).get(term);
-			else if (term instanceof CastTypeTerm)
-				return fromProofTerm(transaction, ((CastTypeTerm) term).getTerm());
+			else if (term instanceof ProjectionCastTypeTerm)
+				return fromProofTerm(transaction, ((ProjectionCastTypeTerm) term).getTerm());
 			else
 				throw new FromProofTermStatementException("Can't generate a proof statement from this term");
 		}

@@ -24,8 +24,8 @@ import com.sleepycat.persist.model.Persistent;
 import aletheia.model.term.ProjectedCastTypeTerm;
 import aletheia.model.term.ProjectedCastTypeTerm.ProjectedCastTypeException;
 
-@Persistent(proxyFor = ProjectedCastTypeTerm.class, version = 0)
-public class ProjectedCastTypeTermProxy extends CastTypeTermProxy<ProjectedCastTypeTerm>
+@Persistent(proxyFor = ProjectedCastTypeTerm.class, version = 1)
+public class ProjectedCastTypeTermProxy extends ProjectionCastTypeTermProxy<ProjectedCastTypeTerm>
 {
 
 	@Override

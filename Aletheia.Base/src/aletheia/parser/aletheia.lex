@@ -46,7 +46,8 @@
 '\?'															: question;			# Term matching operator.
 '\''															: apostrophe;		# Function body operator.
 ':='															: assignment;		# Separates the variable from it's assigned value in an assignment term.
-'\|'															: pipe;				# Unused.
+'\|'															: pipe;				# For the folding cast type term.
+'<\-'															: leftarrow;		# For the folding cast type term.
 '[\0-\9]+'														: number;			# For the component number operator.
 '[a-zA-Z\_][a-zA-Z\_\0-\9]*'									: id;				# Identifier unqualified components. 
 '@[\0-\9]+'														: atparam;			# Alternative to identifiers just for function parameters.

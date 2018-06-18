@@ -60,7 +60,9 @@ import aletheia.model.nomenclator.Nomenclator.UnknownIdentifierException;
 import aletheia.model.statement.Context.CantDeleteAssumptionException;
 import aletheia.model.statement.Context.StatementHasDependentsException;
 import aletheia.model.statement.Context.StatementNotInContextException;
-import aletheia.model.term.CastTypeTerm;
+import aletheia.model.term.ProjectionCastTypeTerm;
+import aletheia.model.term.CastTypeTerm.CastTypeException;
+import aletheia.model.term.FoldingCastTypeTerm;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
@@ -70,7 +72,6 @@ import aletheia.model.term.Term.ComposeTypeException;
 import aletheia.model.term.Term.ReplaceTypeException;
 import aletheia.model.term.Term.UnprojectTypeException;
 import aletheia.model.term.VariableTerm;
-import aletheia.model.term.CastTypeTerm.CastTypeException;
 import aletheia.persistence.PersistenceListener;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -1989,7 +1990,12 @@ public abstract class Statement implements Exportable
 						throw new Error();
 					if (term != null)
 					{
-						term = CastTypeTerm.castToType(term, st.getInnerTerm(transaction).replace(replaceMap));
+						term = ProjectionCastTypeTerm.castToType(term, st.getInnerTerm(transaction).replace(replaceMap));
+						if (st instanceof UnfoldingContext)
+						{
+							Declaration dec = ((UnfoldingContext) st).getDeclaration(transaction);
+							term = FoldingCastTypeTerm.castToType(term, st.getTerm().replace(replaceMap), dec.getValue(), dec.getVariable());
+						}
 						Term old = descendentProofTermsAndSolvers.proofs.put(st, term);
 						if (!equals(st) && !term.equals(old))
 						{

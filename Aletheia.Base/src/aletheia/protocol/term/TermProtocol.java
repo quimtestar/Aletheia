@@ -26,7 +26,7 @@ import java.util.Stack;
 import java.util.UUID;
 
 import aletheia.model.statement.Statement;
-import aletheia.model.term.CastTypeTerm;
+import aletheia.model.term.ProjectionCastTypeTerm;
 import aletheia.model.term.CastTypeTerm.CastTypeException;
 import aletheia.model.term.CompositionTerm;
 import aletheia.model.term.CompositionTerm.CompositionTypeException;
@@ -144,7 +144,7 @@ public class TermProtocol extends PersistentExportableProtocol<Term>
 			break;
 		case _ProjectedCastTypeTerm:
 		case _UnprojectedCastTypeTerm:
-			sendCastTypeTerm(out, parameterNumerator, (CastTypeTerm) term);
+			sendCastTypeTerm(out, parameterNumerator, (ProjectionCastTypeTerm) term);
 			break;
 		default:
 			throw new Error();
@@ -275,12 +275,12 @@ public class TermProtocol extends PersistentExportableProtocol<Term>
 		}
 	}
 
-	private void sendCastTypeTerm(DataOutput out, Term.ParameterNumerator parameterNumerator, CastTypeTerm castTypeTerm) throws IOException
+	private void sendCastTypeTerm(DataOutput out, Term.ParameterNumerator parameterNumerator, ProjectionCastTypeTerm castTypeTerm) throws IOException
 	{
 		send(out, parameterNumerator, castTypeTerm.getTerm());
 	}
 
-	private CastTypeTerm recvCastTypeTerm(DataInput in, Stack<VariableTerm> varStack, TermCode termCode) throws IOException, ProtocolException
+	private ProjectionCastTypeTerm recvCastTypeTerm(DataInput in, Stack<VariableTerm> varStack, TermCode termCode) throws IOException, ProtocolException
 	{
 		try
 		{

@@ -21,28 +21,10 @@ package aletheia.persistence.berkeleydb.proxies.term;
 
 import com.sleepycat.persist.model.Persistent;
 
-import aletheia.model.term.CastTypeTerm;
 import aletheia.model.term.ProjectionCastTypeTerm;
-import aletheia.model.term.Term;
 
-@Persistent(proxyFor = CastTypeTerm.class, version = 0)
-public abstract class CastTypeTermProxy<T extends ProjectionCastTypeTerm> extends AtomicTermProxy<T>
+@Persistent(proxyFor = ProjectionCastTypeTerm.class, version = 1)
+public abstract class ProjectionCastTypeTermProxy<T extends ProjectionCastTypeTerm> extends CastTypeTermProxy<T>
 {
-	private Term term;
-
-	protected Term getTerm()
-	{
-		return term;
-	}
-
-	@Override
-	public void initializeProxy(T castTypeTerm)
-	{
-		super.initializeProxy(castTypeTerm);
-		term = castTypeTerm.getTerm();
-	}
-
-	@Override
-	public abstract T convertProxy();
 
 }
