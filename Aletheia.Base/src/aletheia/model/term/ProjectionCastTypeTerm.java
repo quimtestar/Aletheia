@@ -56,7 +56,7 @@ public abstract class ProjectionCastTypeTerm extends CastTypeTerm
 
 	protected abstract Term castToType(Term term) throws CastTypeException;
 
-	public static Term castToType(Term term, Term targetType) throws CastTypeException
+	public static Term castToTargetType(Term term, Term targetType) throws CastTypeException
 	{
 		Term type = term.getType();
 		if (type.equals(targetType))
@@ -72,9 +72,9 @@ public abstract class ProjectionCastTypeTerm extends CastTypeTerm
 					try
 					{
 						Term parType = ((FunctionTerm) type).getParameter().getType();
-						Term castedPar = castToType(targetParameter, parType);
+						Term castedPar = castToTargetType(targetParameter, parType);
 						Term composedPar = term.compose(castedPar);
-						Term castedBody = castToType(composedPar, targetBody);
+						Term castedBody = castToTargetType(composedPar, targetBody);
 						Term casted = new FunctionTerm(targetParameter, castedBody);
 						return casted;
 					}
@@ -85,7 +85,7 @@ public abstract class ProjectionCastTypeTerm extends CastTypeTerm
 
 				}
 				else if (targetType instanceof ProjectionTerm)
-					return castToType(term, ((ProjectionTerm) targetType).getFunction()).castToProjectedType();
+					return castToTargetType(term, ((ProjectionTerm) targetType).getFunction()).castToProjectedType();
 				else
 					throw new NotCasteableException();
 			}
@@ -99,7 +99,7 @@ public abstract class ProjectionCastTypeTerm extends CastTypeTerm
 					{
 						Term unprojected = term.castToUnprojectedType();
 						Term composedPar = unprojected.compose(targetParameter);
-						Term castedBody = castToType(composedPar, targetBody);
+						Term castedBody = castToTargetType(composedPar, targetBody);
 						Term casted = new FunctionTerm(targetParameter, castedBody);
 						return casted;
 					}
@@ -109,7 +109,7 @@ public abstract class ProjectionCastTypeTerm extends CastTypeTerm
 					}
 				}
 				else if (targetType instanceof ProjectionTerm)
-					return castToType(term.castToUnprojectedType(), ((ProjectionTerm) targetType).getFunction()).castToProjectedType();
+					return castToTargetType(term.castToUnprojectedType(), ((ProjectionTerm) targetType).getFunction()).castToProjectedType();
 				else
 					throw new NotCasteableException();
 			}

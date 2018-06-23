@@ -1990,11 +1990,11 @@ public abstract class Statement implements Exportable
 						throw new Error();
 					if (term != null)
 					{
-						term = ProjectionCastTypeTerm.castToType(term, st.getInnerTerm(transaction).replace(replaceMap));
+						term = ProjectionCastTypeTerm.castToTargetType(term, st.getInnerTerm(transaction).replace(replaceMap));
 						if (st instanceof UnfoldingContext)
 						{
 							Declaration dec = ((UnfoldingContext) st).getDeclaration(transaction);
-							term = FoldingCastTypeTerm.castToType(term, st.getTerm().replace(replaceMap), dec.getValue(), dec.getVariable());
+							term = FoldingCastTypeTerm.castToTargetType(term, st.getTerm().replace(replaceMap), dec.getValue(), dec.getVariable());
 						}
 						Term old = descendentProofTermsAndSolvers.proofs.put(st, term);
 						if (!equals(st) && !term.equals(old))

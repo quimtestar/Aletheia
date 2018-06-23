@@ -2537,7 +2537,7 @@ public class Context extends Statement
 				{
 					ParameterVariableTerm parameter = parameters.get(i);
 					IdentifiableVariableTerm assumptionVar = ctx.getAssumptionList(transaction).get(i).getVariable();
-					replaces.add(new Term.Replace(parameter, ProjectionCastTypeTerm.castToType(assumptionVar, parameter.getType().replace(replaces))));
+					replaces.add(new Term.Replace(parameter, ProjectionCastTypeTerm.castToTargetType(assumptionVar, parameter.getType().replace(replaces))));
 				}
 				Statement statement = ctx.fromProofTerm(transaction, consequent.replace(replaces));
 				for (Assumption ass : ctx.getAssumptionList(transaction).subList(parameters.size(), ctx.getAssumptionList(transaction).size()))

@@ -139,8 +139,8 @@ public class FoldingCastTypeTerm extends CastTypeTerm
 		variable.stringAppend(stringAppender, variableToIdentifier, parameterNumerator, parameterIdentification);
 	}
 
-	//TODO: Make it work
-	public static Term castToType(Term term, Term targetType, Term value, IdentifiableVariableTerm variable) throws CastTypeException
+	// TODO: Still doesn't work 
+	public static Term castToTargetType(Term term, Term targetType, Term value, IdentifiableVariableTerm variable) throws CastTypeException
 	{
 		Term type = term.getType();
 		if (type.equals(targetType))
@@ -149,47 +149,32 @@ public class FoldingCastTypeTerm extends CastTypeTerm
 			return new FoldingCastTypeTerm(term, value, variable);
 		if (term instanceof FunctionTerm)
 		{
-			ParameterVariableTerm parameter = ((FunctionTerm) term).getParameter();
-			Term parType = parameter.getType();
-			Term body = ((FunctionTerm) term).getBody();
-			if (targetType instanceof FunctionTerm)
+			try
 			{
-				Term targetTypeParType = ((FunctionTerm) targetType).getParameter().getType();
-				Term targetTypeBody = ((FunctionTerm) targetType).getBody();
-				parType = castToType(parType, targetTypeParType, value, variable);
-				ParameterVariableTerm newParameter = new ParameterVariableTerm(parType);
-				try
-				{
-					body = castToType(body.replace(parameter, newParameter), targetTypeBody, value, variable);
-				}
-				catch (ReplaceTypeException e)
-				{
-					throw new CastTypeException(e);
-				}
-				return new FunctionTerm(parameter, newParameter);
+				ParameterVariableTerm parameter = ((FunctionTerm) term).getParameter();
+				Term body = ((FunctionTerm) term).getBody();
+				ParameterVariableTerm parameter_ = new ParameterVariableTerm(castToTargetType(parameter.getType(), targetType.domain(), value, variable));
+				Term body_ = castToTargetType(body.replace(parameter, parameter_), targetType.compose(parameter_), value, variable);
+				return new FunctionTerm(parameter_, body_);
 			}
-			else
-				throw new CastTypeException();
+			catch (DomainTypeException | ReplaceTypeException | ComposeTypeException e)
+			{
+				throw new CastTypeException(e);
+			}
 		}
 		else if (term instanceof CompositionTerm)
 		{
-			Term head = ((CompositionTerm) term).getHead();
-			Term tail = ((CompositionTerm) term).getTail();
-			if (targetType instanceof CompositionTerm)
+			try
 			{
-				head = castToType(head, ((CompositionTerm) targetType).getHead(), value, variable);
-				tail = castToType(tail, ((CompositionTerm) targetType).getTail(), value, variable);
-				try
-				{
-					return head.compose(tail);
-				}
-				catch (ComposeTypeException e)
-				{
-					throw new CastTypeException(e);
-				}
+				SimpleTerm head = ((CompositionTerm) term).getHead();
+				Term tail = ((CompositionTerm) term).getTail();
+				Term head_ = castToTargetType(head, new FunctionTerm(new ParameterVariableTerm(tail.getType()), targetType), value, variable);
+				return head_.compose(tail);
 			}
-			else
-				throw new CastTypeException();
+			catch (ComposeTypeException e)
+			{
+				throw new CastTypeException(e);
+			}
 		}
 		else if (term instanceof VariableTerm)
 			return term;
