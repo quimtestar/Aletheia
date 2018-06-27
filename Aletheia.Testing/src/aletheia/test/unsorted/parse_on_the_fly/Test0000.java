@@ -47,7 +47,8 @@ public class Test0000 extends TransactionalBerkeleyDBPersistenceManagerTest
 		//UUID uuid = UUID.fromString("9209090d-fc0c-5e24-b1e4-1d509857a328"); 		// Natural.two.th.sum.one
 		//UUID uuid = UUID.fromString("ac179280-c294-5812-b653-8bdc1dd9f24e"); 		// Natural.th.fundamental.arithmetic
 		//UUID uuid = UUID.fromString("13401716-ea4c-542e-9951-e69241578080"); 		// Real.e.th.summation.factorial
-		UUID uuid = UUID.fromString("6f7ec943-8027-5ed0-b727-ebea5ac7cb0d"); // Integer.gcd.th.product
+		//UUID uuid = UUID.fromString("6f7ec943-8027-5ed0-b727-ebea5ac7cb0d"); 		// Integer.gcd.th.product
+		UUID uuid = UUID.fromString("148f0fea-c933-5fad-8742-cb80d75cfaac"); // Prop.Iff.th.symm
 
 		Statement statement = persistenceManager.getStatement(transaction, uuid);
 		Term term = statement.proofTerm(transaction);
@@ -56,6 +57,7 @@ public class Test0000 extends TransactionalBerkeleyDBPersistenceManagerTest
 			System.out.println("     : " + term.getType().toString(transaction, statement.getContext(transaction)));
 			System.out.println("     : " + statement.getInnerTerm(transaction).toString(transaction, statement.getContext(transaction)));
 			assert term.getType().equals(statement.getInnerTerm(transaction));
+			assert statement.getContext(transaction).statements(transaction).keySet().containsAll(term.freeVariables());
 
 			PrintWriter printWriter = new PrintWriter("tmp/term.txt");
 			term.print(printWriter, transaction, statement.getContext(transaction));
