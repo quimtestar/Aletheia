@@ -40,7 +40,6 @@ import java.util.UUID;
 import java.util.function.Function;
 
 import org.apache.logging.log4j.Logger;
-
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.AuthorityException;
 import aletheia.model.authority.Person;
@@ -1994,7 +1993,8 @@ public abstract class Statement implements Exportable
 						if (st instanceof UnfoldingContext)
 						{
 							Declaration dec = ((UnfoldingContext) st).getDeclaration(transaction);
-							term = FoldingCastTypeTerm.castToTargetType(term, st.getTerm().replace(replaceMap), dec.getValue(), dec.getVariable());
+							if (getContext(transaction).statements(transaction).containsKey(dec.getVariable()))
+								term = new FoldingCastTypeTerm(term, st.getTerm().replace(replaceMap), dec.getVariable(), dec.getValue());
 						}
 						Term old = descendentProofTermsAndSolvers.proofs.put(st, term);
 						if (!equals(st) && !term.equals(old))

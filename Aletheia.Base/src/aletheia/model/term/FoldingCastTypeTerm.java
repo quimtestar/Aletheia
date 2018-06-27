@@ -11,8 +11,8 @@ public class FoldingCastTypeTerm extends CastTypeTerm
 	private static final long serialVersionUID = -9215582833035602649L;
 	private final static int hashPrime = 2964509;
 
-	private final Term value;
 	private final IdentifiableVariableTerm variable;
+	private final Term value;
 
 	public static class FoldingCastTypeException extends CastTypeException
 	{
@@ -39,35 +39,20 @@ public class FoldingCastTypeTerm extends CastTypeTerm
 		}
 	}
 
-	private static Term computeType(Term term, Term value, IdentifiableVariableTerm variable) throws FoldingCastTypeException
+	public FoldingCastTypeTerm(Term term, Term type, IdentifiableVariableTerm variable, Term value) throws FoldingCastTypeException
 	{
-		Term oldType = term.getType();
-		Term.Match match = value.match(value.parameters(), oldType);
-		if (match == null)
-			throw new FoldingCastTypeException("No match");
-		Term type = variable;
-		for (ParameterVariableTerm parameter : value.parameters())
-			try
-			{
-				type = type.compose(match.getAssignMapLeft().get(parameter));
-			}
-			catch (ComposeTypeException e)
-			{
-				throw new FoldingCastTypeException(e);
-			}
-		return type;
-	}
-
-	public FoldingCastTypeTerm(Term term, Term value, IdentifiableVariableTerm variable) throws FoldingCastTypeException
-	{
-		super(computeType(term, value, variable), term);
-		this.value = value;
+		super(type, term);
 		this.variable = variable;
-	}
-
-	public Term getValue()
-	{
-		return value;
+		this.value = value;
+		try
+		{
+			if (!type.replace(variable, value).equals(term.getType()))
+				throw new FoldingCastTypeException();
+		}
+		catch (ReplaceTypeException e)
+		{
+			throw new FoldingCastTypeException(e);
+		}
 	}
 
 	public IdentifiableVariableTerm getVariable()
@@ -75,12 +60,17 @@ public class FoldingCastTypeTerm extends CastTypeTerm
 		return variable;
 	}
 
+	public Term getValue()
+	{
+		return value;
+	}
+
 	@Override
 	public int hashCode(int hasher)
 	{
 		int ret = super.hashCode(hasher *= hashPrime);
-		ret = ret * hashPrime + value.hashCode(hasher *= hashPrime);
 		ret = ret * hashPrime + variable.hashCode(hasher *= hashPrime);
+		ret = ret * hashPrime + value.hashCode(hasher *= hashPrime);
 		return ret;
 	}
 
@@ -94,9 +84,9 @@ public class FoldingCastTypeTerm extends CastTypeTerm
 		if (!super.equals(obj))
 			return false;
 		FoldingCastTypeTerm castTypeTerm = (FoldingCastTypeTerm) obj;
-		if (!value.equals(castTypeTerm.value))
-			return false;
 		if (!variable.equals(castTypeTerm.variable))
+			return false;
+		if (!value.equals(castTypeTerm.value))
 			return false;
 		return true;
 	}
@@ -106,7 +96,7 @@ public class FoldingCastTypeTerm extends CastTypeTerm
 	{
 		try
 		{
-			return new FoldingCastTypeTerm(getTerm().replace(replaces, exclude), value, variable);
+			return new FoldingCastTypeTerm(getTerm().replace(replaces, exclude), getType().replace(replaces, exclude), variable, value);
 		}
 		catch (FoldingCastTypeException e)
 		{
@@ -119,7 +109,7 @@ public class FoldingCastTypeTerm extends CastTypeTerm
 	{
 		try
 		{
-			return new FoldingCastTypeTerm(getTerm().replace(replaces), value, variable);
+			return new FoldingCastTypeTerm(getTerm().replace(replaces), getType().replace(replaces), variable, value);
 		}
 		catch (FoldingCastTypeException e)
 		{
@@ -132,55 +122,30 @@ public class FoldingCastTypeTerm extends CastTypeTerm
 	protected void stringAppend(StringAppender stringAppender, Map<? extends VariableTerm, Identifier> variableToIdentifier,
 			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
+		stringAppender.append("( ");
 		getTerm().stringAppend(stringAppender, variableToIdentifier, parameterNumerator, parameterIdentification);
+		stringAppender.append(": ");
+		getType().stringAppend(stringAppender, variableToIdentifier, parameterNumerator, parameterIdentification);
 		stringAppender.append(" | ");
 		value.stringAppend(stringAppender, variableToIdentifier, parameterNumerator, parameterIdentification);
 		stringAppender.append(" <- ");
 		variable.stringAppend(stringAppender, variableToIdentifier, parameterNumerator, parameterIdentification);
+		stringAppender.append(" )");
 	}
 
-	// TODO: Still doesn't work 
-	public static Term castToTargetType(Term term, Term targetType, Term value, IdentifiableVariableTerm variable) throws CastTypeException
+	@Override
+	protected void freeVariables(Set<VariableTerm> freeVars, Set<VariableTerm> localVars)
 	{
-		Term type = term.getType();
-		if (type.equals(targetType))
-			return term;
-		if (targetType.equals(variable))
-			return new FoldingCastTypeTerm(term, value, variable);
-		if (term instanceof FunctionTerm)
-		{
-			try
-			{
-				ParameterVariableTerm parameter = ((FunctionTerm) term).getParameter();
-				Term body = ((FunctionTerm) term).getBody();
-				ParameterVariableTerm parameter_ = new ParameterVariableTerm(castToTargetType(parameter.getType(), targetType.domain(), value, variable));
-				Term body_ = castToTargetType(body.replace(parameter, parameter_), targetType.compose(parameter_), value, variable);
-				return new FunctionTerm(parameter_, body_);
-			}
-			catch (DomainTypeException | ReplaceTypeException | ComposeTypeException e)
-			{
-				throw new CastTypeException(e);
-			}
-		}
-		else if (term instanceof CompositionTerm)
-		{
-			try
-			{
-				SimpleTerm head = ((CompositionTerm) term).getHead();
-				Term tail = ((CompositionTerm) term).getTail();
-				Term head_ = castToTargetType(head, new FunctionTerm(new ParameterVariableTerm(tail.getType()), targetType), value, variable);
-				return head_.compose(tail);
-			}
-			catch (ComposeTypeException e)
-			{
-				throw new CastTypeException(e);
-			}
-		}
-		else if (term instanceof VariableTerm)
-			return term;
-		else
-			throw new CastTypeException();
+		super.freeVariables(freeVars, localVars);
+		if (!localVars.contains(variable))
+			freeVars.add(variable);
 
+	}
+
+	@Override
+	public boolean isFreeVariable(VariableTerm variable)
+	{
+		return super.isFreeVariable(variable) || this.variable.equals(variable);
 	}
 
 }
