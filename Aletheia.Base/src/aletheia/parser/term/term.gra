@@ -53,7 +53,7 @@ A -> A SCo Number M;			# The 'n' operator resolves to the nth atomic component (
 	 							# The 'n-' operator resolves to the first n+1 atomic components of the given term: "(a b c);1-" ~> "a b".
 A -> opensq T closesq;			# Projected cast type: a term between square brackets. 
 A -> opencur T closecur;		# Unfojected cast type: a term between curly brackets.
-A -> A pipe T leftarrow I;		# Folding cast type. 
+A -> openpar T colon T pipe T leftarrow I closepar;		# Folding cast type. 
 
 # Optional semicolon to separate 'n[-]' operators. 							
 SCo -> semicolon;
