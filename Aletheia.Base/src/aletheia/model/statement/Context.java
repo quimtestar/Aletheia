@@ -67,6 +67,7 @@ import aletheia.model.nomenclator.SubNomenclator;
 import aletheia.model.term.ProjectionCastTypeTerm;
 import aletheia.model.term.CastTypeTerm.CastTypeException;
 import aletheia.model.term.CompositionTerm;
+import aletheia.model.term.FoldingCastTypeTerm;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
@@ -2564,6 +2565,19 @@ public class Context extends Statement
 				return statements(transaction).get(term);
 			else if (term instanceof ProjectionCastTypeTerm)
 				return fromProofTerm(transaction, ((ProjectionCastTypeTerm) term).getTerm());
+			else if (term instanceof FoldingCastTypeTerm)
+			{
+				Statement stVariable = statements(transaction).get(((FoldingCastTypeTerm) term).getVariable());
+				if (stVariable instanceof Declaration)
+				{
+					Declaration declaration = (Declaration) stVariable;
+					UnfoldingContext ctx = openUnfoldingSubContext(transaction, term.getType(), declaration);
+					ctx.fromProofTerm(transaction, ((FoldingCastTypeTerm) term).getTerm());
+					return ctx;
+				}
+				else
+					throw new FromProofTermStatementException();
+			}
 			else
 				throw new FromProofTermStatementException("Can't generate a proof statement from this term");
 		}
