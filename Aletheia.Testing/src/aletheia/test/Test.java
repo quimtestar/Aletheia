@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.test;
 
-import aletheia.test.unsorted.parse_on_the_fly.*;
+import aletheia.test.unsorted.proof_term.*;
 
 public abstract class Test
 {

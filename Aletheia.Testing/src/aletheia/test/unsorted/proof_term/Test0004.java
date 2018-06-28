@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.test.unsorted.parse_on_the_fly;
+package aletheia.test.unsorted.proof_term;
 
 import java.io.FileNotFoundException;
 import java.util.Collection;
