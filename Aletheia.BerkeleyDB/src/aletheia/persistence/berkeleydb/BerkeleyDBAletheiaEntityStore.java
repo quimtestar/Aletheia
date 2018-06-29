@@ -78,11 +78,14 @@ import aletheia.persistence.berkeleydb.proxies.security.MessageDigestDataProxy;
 import aletheia.persistence.berkeleydb.proxies.security.PrivateKeyProxy;
 import aletheia.persistence.berkeleydb.proxies.security.PublicKeyProxy;
 import aletheia.persistence.berkeleydb.proxies.security.SignatureDataProxy;
+import aletheia.persistence.berkeleydb.proxies.term.CastTypeTermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.CompositionTermProxy;
+import aletheia.persistence.berkeleydb.proxies.term.FoldingCastTypeTermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.FunctionTermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.IdentifiableVariableTermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.ParameterVariableTermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.ProjectedCastTypeTermProxy;
+import aletheia.persistence.berkeleydb.proxies.term.ProjectionCastTypeTermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.ProjectionTermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.SimpleTermProxy;
 import aletheia.persistence.berkeleydb.proxies.term.TauTermProxy;
@@ -113,10 +116,13 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 			SimpleTermProxy.class,
 			CompositionTermProxy.class,
 			VariableTermProxy.class,
-			ProjectedCastTypeTermProxy.class,
-			UnprojectedCastTypeTermProxy.class,
 			ParameterVariableTermProxy.class,
 			IdentifiableVariableTermProxy.class,
+			CastTypeTermProxy.class,
+			ProjectionCastTypeTermProxy.class,
+			ProjectedCastTypeTermProxy.class,
+			UnprojectedCastTypeTermProxy.class,
+			FoldingCastTypeTermProxy.class,
 			UUIDProxy.class,
 
 			NamespaceProxy.class,

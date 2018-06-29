@@ -21,27 +21,53 @@ package aletheia.persistence.berkeleydb.proxies.term;
 
 import com.sleepycat.persist.model.Persistent;
 
-import aletheia.model.term.CastTypeTerm;
+import aletheia.model.term.FoldingCastTypeTerm;
+import aletheia.model.term.FoldingCastTypeTerm.FoldingCastTypeException;
+import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.Term;
 
-@Persistent(proxyFor = CastTypeTerm.class, version = 1)
-public abstract class CastTypeTermProxy<T extends CastTypeTerm> extends AtomicTermProxy<T>
+@Persistent(proxyFor = FoldingCastTypeTerm.class, version = 0)
+public class FoldingCastTypeTermProxy extends CastTypeTermProxy<FoldingCastTypeTerm>
 {
-	private Term term;
+	private Term type;
+	private IdentifiableVariableTerm variable;
+	private Term value;
 
-	protected Term getTerm()
+	protected Term getType()
 	{
-		return term;
+		return type;
+	}
+
+	protected IdentifiableVariableTerm getVariable()
+	{
+		return variable;
+	}
+
+	protected Term getValue()
+	{
+		return value;
 	}
 
 	@Override
-	public void initializeProxy(T castTypeTerm)
+	public FoldingCastTypeTerm convertProxy()
 	{
-		super.initializeProxy(castTypeTerm);
-		term = castTypeTerm.getTerm();
+		try
+		{
+			return new FoldingCastTypeTerm(getTerm(), getType(), getVariable(), getValue());
+		}
+		catch (FoldingCastTypeException e)
+		{
+			throw new ProxyConversionException(e);
+		}
 	}
 
 	@Override
-	public abstract T convertProxy();
+	public void initializeProxy(FoldingCastTypeTerm foldingCastTypeTerm)
+	{
+		super.initializeProxy(foldingCastTypeTerm);
+		type = foldingCastTypeTerm.getType();
+		variable = foldingCastTypeTerm.getVariable();
+		value = foldingCastTypeTerm.getValue();
+	}
 
 }
