@@ -44,6 +44,7 @@ import javax.swing.JTextField;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.CompositionTerm;
+import aletheia.model.term.FoldingCastTypeTerm;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
@@ -352,6 +353,8 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 			addProjectedCastTypeTerm(variableToIdentifier, parameterNumerator, (ProjectedCastTypeTerm) term);
 		else if (term instanceof UnprojectedCastTypeTerm)
 			addUnprojectedCastTypeTerm(variableToIdentifier, parameterNumerator, (UnprojectedCastTypeTerm) term);
+		else if (term instanceof FoldingCastTypeTerm)
+			addFoldingCastTypeTerm(variableToIdentifier, parameterNumerator, (FoldingCastTypeTerm) term);
 		else
 			throw new Error();
 	}
@@ -477,6 +480,26 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 		addOpenCurlyBracket();
 		addTerm(variableToIdentifier, parameterNumerator, term.getTerm());
 		addCloseCurlyBracket();
+	}
+
+	protected void addFoldingCastTypeTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+			FoldingCastTypeTerm term)
+	{
+		addOpenParLabel();
+		addSpaceLabel();
+		addTerm(variableToIdentifier, parameterNumerator, term.getTerm());
+		addColonLabel();
+		addSpaceLabel();
+		addTerm(variableToIdentifier, parameterNumerator, term.getType());
+		addSpaceLabel();
+		addPipeLabel();
+		addSpaceLabel();
+		addTerm(variableToIdentifier, parameterNumerator, term.getValue());
+		addLeftArrowLabel();
+		addSpaceLabel();
+		addTerm(variableToIdentifier, parameterNumerator, term.getVariable());
+		addSpaceLabel();
+		addCloseParLabel();
 	}
 
 }

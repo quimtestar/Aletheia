@@ -296,6 +296,11 @@ public abstract class AbstractRenderer extends JPanel
 		return addTextLabel(";");
 	}
 
+	protected JLabel addPipeLabel()
+	{
+		return addTextLabel("|");
+	}
+
 	protected JLabel addAlmostEqualLabel()
 	{
 		return addTextLabel("\u2248");
@@ -304,6 +309,11 @@ public abstract class AbstractRenderer extends JPanel
 	protected JLabel addArrowLabel()
 	{
 		return addTextLabel("\u2192");
+	}
+
+	protected JLabel addLeftArrowLabel()
+	{
+		return addTextLabel("\u2190");
 	}
 
 	protected JLabel addCloseFunLabel()
