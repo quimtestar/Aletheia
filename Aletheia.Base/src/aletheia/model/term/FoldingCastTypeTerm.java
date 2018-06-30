@@ -122,15 +122,15 @@ public class FoldingCastTypeTerm extends CastTypeTerm
 	protected void stringAppend(StringAppender stringAppender, Map<? extends VariableTerm, Identifier> variableToIdentifier,
 			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
-		stringAppender.append("( ");
+		stringAppender.append("(");
 		getTerm().stringAppend(stringAppender, variableToIdentifier, parameterNumerator, parameterIdentification);
-		stringAppender.append(": ");
+		stringAppender.append(":");
 		getType().stringAppend(stringAppender, variableToIdentifier, parameterNumerator, parameterIdentification);
 		stringAppender.append(" | ");
 		value.stringAppend(stringAppender, variableToIdentifier, parameterNumerator, parameterIdentification);
 		stringAppender.append(" <- ");
 		variable.stringAppend(stringAppender, variableToIdentifier, parameterNumerator, parameterIdentification);
-		stringAppender.append(" )");
+		stringAppender.append(")");
 	}
 
 	@Override

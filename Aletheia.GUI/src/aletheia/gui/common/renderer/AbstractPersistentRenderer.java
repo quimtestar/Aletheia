@@ -486,19 +486,17 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 			FoldingCastTypeTerm term)
 	{
 		addOpenParLabel();
-		addSpaceLabel();
 		addTerm(variableToIdentifier, parameterNumerator, term.getTerm());
 		addColonLabel();
-		addSpaceLabel();
 		addTerm(variableToIdentifier, parameterNumerator, term.getType());
 		addSpaceLabel();
 		addPipeLabel();
 		addSpaceLabel();
 		addTerm(variableToIdentifier, parameterNumerator, term.getValue());
+		addSpaceLabel();
 		addLeftArrowLabel();
 		addSpaceLabel();
 		addTerm(variableToIdentifier, parameterNumerator, term.getVariable());
-		addSpaceLabel();
 		addCloseParLabel();
 	}
 
