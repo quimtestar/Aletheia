@@ -23,6 +23,7 @@ import java.util.Map;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.term.CompositionTerm;
+import aletheia.model.term.FoldingCastTypeTerm;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
@@ -85,6 +86,8 @@ public abstract class TermPhrase extends BasePhrase
 			else if (term instanceof UnprojectedCastTypeTerm)
 				return new UnprojectedCastTypeTermPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator,
 						(UnprojectedCastTypeTerm) term);
+			else if (term instanceof FoldingCastTypeTerm)
+				return new FoldingCastTypeTermPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, (FoldingCastTypeTerm) term);
 			else
 				throw new Error();
 		}
