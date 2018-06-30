@@ -17,18 +17,27 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.test;
+package aletheia.test.unsorted;
 
-import aletheia.test.unsorted.*;
+import aletheia.model.authority.Signatory;
+import aletheia.persistence.Transaction;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
+import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
 
-public abstract class Test
+public class Test0003 extends TransactionalBerkeleyDBPersistenceManagerTest
 {
 
-	public abstract void run() throws Exception;
-
-	public static void main(String[] args) throws Exception
+	public Test0003()
 	{
-		new Test0003().run();
+		super();
+	}
+
+	@Override
+	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws Exception
+	{
+		System.out.println(persistenceManager.privateSignatories(transaction).size());
+		for (Signatory privateSignatory : persistenceManager.privateSignatories(transaction).values())
+			System.out.println(privateSignatory);
 	}
 
 }
