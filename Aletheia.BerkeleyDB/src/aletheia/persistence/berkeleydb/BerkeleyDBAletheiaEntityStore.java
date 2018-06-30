@@ -105,7 +105,7 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 	private static final Logger logger = LoggerManager.instance.logger();
 
 	private static final int storeVersion = 26;
-	private static final int minimalStoreVersion = 26;
+	private static final int minimalStoreVersion = 25;
 
 	private static final Collection<Class<?>> registerClasses = Arrays.<Class<?>> asList(
 	// @formatter:off
