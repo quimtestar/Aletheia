@@ -32,8 +32,11 @@ import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
+import aletheia.model.statement.Declaration;
+import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.Filter;
 import aletheia.utilities.collections.FilteredSet;
 import aletheia.utilities.collections.ReverseList;
@@ -53,6 +56,29 @@ public class Useless extends TransactionalCommand
 		this.unsigned = unsigned;
 	}
 
+	private boolean isOmega(Context context)
+	{
+		CloseableIterator<Statement> iterator = context.dependents(getTransaction()).iterator();
+		try
+		{
+			while (iterator.hasNext())
+			{
+				Statement dpd = iterator.next();
+				if (dpd instanceof Declaration)
+					if (((Declaration) dpd).getValueProofUuid().equals(context.getUuid()))
+						return true;
+					else if (dpd instanceof Specialization)
+						if (((Specialization) dpd).getInstanceProofUuid().equals(context.getUuid()))
+							return true;
+			}
+			return false;
+		}
+		finally
+		{
+			iterator.close();
+		}
+	}
+
 	private void processProved(Context context)
 	{
 		Set<Statement> useless = new FilteredSet<>(new Filter<Statement>()
@@ -66,19 +92,23 @@ public class Useless extends TransactionalCommand
 		}, context.uselessDescendents(getTransaction()));
 		if (!useless.isEmpty())
 		{
+			boolean omega = isOmega(context);
 			ArrayList<Statement> list = new ArrayList<>(useless);
 			Collections.sort(list, pathComparator);
 			Statement last = null;
+			boolean some = false;
 			for (Statement st : list)
 			{
-				if ((!(st instanceof Assumption) || st.getContext(getTransaction()).equals(context))
+				if ((!(st instanceof Assumption) || (st.getContext(getTransaction()).equals(context) && !omega))
 						&& (last == null || !last.isDescendent(getTransaction(), st)))
 				{
 					getOut().println(" -> " + st.statementPathString(getTransaction(), getActiveContext()) + " " + (st.isProved() ? "\u2713" : ""));
+					some = true;
 					last = st;
 				}
 			}
-			getOut().println();
+			if (some)
+				getOut().println();
 		}
 	}
 
