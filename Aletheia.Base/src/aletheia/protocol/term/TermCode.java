@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Set;
 
 import aletheia.model.term.CompositionTerm;
+import aletheia.model.term.FoldingCastTypeTerm;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
@@ -52,6 +53,7 @@ public enum TermCode implements ByteExportableEnum<TermCode>
 	_ProjectionTerm((byte)'P', ProjectionTerm.class),
 	_ProjectedCastTypeTerm((byte)'[', ProjectedCastTypeTerm.class),
 	_UnprojectedCastTypeTerm((byte)'{', UnprojectedCastTypeTerm.class),
+	_FoldingCastTypeTerm((byte)'(', FoldingCastTypeTerm.class)
 	;
 	//@formatter:on
 

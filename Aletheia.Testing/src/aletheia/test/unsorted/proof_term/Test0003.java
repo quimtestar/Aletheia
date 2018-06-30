@@ -47,12 +47,13 @@ public class Test0003 extends TransactionalBerkeleyDBPersistenceManagerTest
 		//UUID uuid = UUID.fromString("360e41c6-2713-50ba-a22f-1f9d69dd1143");		// Set
 		//UUID uuid = UUID.fromString("db8546ce-ab3b-5441-98ca-b2fed77e695d"); 		// Set.Equal.def
 		//UUID uuid = UUID.fromString("9209090d-fc0c-5e24-b1e4-1d509857a328"); 		// Natural.two.th.sum.one
-		//UUID uuid = UUID.fromString("ac179280-c294-5812-b653-8bdc1dd9f24e"); // Natural.th.fundamental.arithmetic
+		//UUID uuid = UUID.fromString("ac179280-c294-5812-b653-8bdc1dd9f24e"); 		// Natural.th.fundamental.arithmetic
 		//UUID uuid = UUID.fromString("13401716-ea4c-542e-9951-e69241578080"); 		// Real.e.th.summation.factorial
 		//UUID uuid = UUID.fromString("364e564f-db9f-53a9-985e-0c5d25d0f5a9"); 		// Prop.And.th.symm
 		//UUID uuid = UUID.fromString("2b66f167-352b-5c3e-b6d8-1d4bfee45635"); 		// Natural.zero.th.Not_Prime
 		//UUID uuid = UUID.fromString("f9fadbad-9052-48e6-8c4a-714b8f9e4cf3");		// Set.th.epsilon_induction.bis
-		UUID uuid = UUID.fromString("f7395384-078f-4727-80c5-58779528b176"); // Set.th.epsilon_induction.bis
+		//UUID uuid = UUID.fromString("f7395384-078f-4727-80c5-58779528b176"); 		// Set.th.epsilon_induction.bis
+		UUID uuid = UUID.fromString("148f0fea-c933-5fad-8742-cb80d75cfaac"); // Prop.Iff.th.symm
 
 		Statement statement = persistenceManager.getStatement(transaction, uuid);
 		Term term = statement.proofTerm(transaction);

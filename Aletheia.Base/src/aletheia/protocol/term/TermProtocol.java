@@ -27,9 +27,11 @@ import java.util.UUID;
 
 import aletheia.model.statement.Statement;
 import aletheia.model.term.ProjectionCastTypeTerm;
+import aletheia.model.term.CastTypeTerm;
 import aletheia.model.term.CastTypeTerm.CastTypeException;
 import aletheia.model.term.CompositionTerm;
 import aletheia.model.term.CompositionTerm.CompositionTypeException;
+import aletheia.model.term.FoldingCastTypeTerm;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
@@ -144,7 +146,10 @@ public class TermProtocol extends PersistentExportableProtocol<Term>
 			break;
 		case _ProjectedCastTypeTerm:
 		case _UnprojectedCastTypeTerm:
-			sendCastTypeTerm(out, parameterNumerator, (ProjectionCastTypeTerm) term);
+			sendProjectionCastTypeTerm(out, parameterNumerator, (ProjectionCastTypeTerm) term);
+			break;
+		case _FoldingCastTypeTerm:
+			sendFoldingCastTypeTerm(out, parameterNumerator, (FoldingCastTypeTerm) term);
 			break;
 		default:
 			throw new Error();
@@ -170,7 +175,9 @@ public class TermProtocol extends PersistentExportableProtocol<Term>
 			return recvProjectionTerm(in, varStack);
 		case _ProjectedCastTypeTerm:
 		case _UnprojectedCastTypeTerm:
-			return recvCastTypeTerm(in, varStack, termCode);
+			return recvProjectionCastTypeTerm(in, varStack, termCode);
+		case _FoldingCastTypeTerm:
+			return recvFoldingCastTypeTerm(in, varStack);
 		default:
 			throw new ProtocolException();
 
@@ -275,12 +282,19 @@ public class TermProtocol extends PersistentExportableProtocol<Term>
 		}
 	}
 
-	private void sendCastTypeTerm(DataOutput out, Term.ParameterNumerator parameterNumerator, ProjectionCastTypeTerm castTypeTerm) throws IOException
+	private void sendCastTypeTerm(DataOutput out, Term.ParameterNumerator parameterNumerator, CastTypeTerm castTypeTerm) throws IOException
 	{
 		send(out, parameterNumerator, castTypeTerm.getTerm());
 	}
 
-	private ProjectionCastTypeTerm recvCastTypeTerm(DataInput in, Stack<VariableTerm> varStack, TermCode termCode) throws IOException, ProtocolException
+	private void sendProjectionCastTypeTerm(DataOutput out, Term.ParameterNumerator parameterNumerator, ProjectionCastTypeTerm projectionCastTypeTerm)
+			throws IOException
+	{
+		sendCastTypeTerm(out, parameterNumerator, projectionCastTypeTerm);
+	}
+
+	private ProjectionCastTypeTerm recvProjectionCastTypeTerm(DataInput in, Stack<VariableTerm> varStack, TermCode termCode)
+			throws IOException, ProtocolException
 	{
 		try
 		{
@@ -294,6 +308,30 @@ public class TermProtocol extends PersistentExportableProtocol<Term>
 			default:
 				throw new ProtocolException();
 			}
+		}
+		catch (CastTypeException e)
+		{
+			throw new ProtocolException(e);
+		}
+	}
+
+	private void sendFoldingCastTypeTerm(DataOutput out, Term.ParameterNumerator parameterNumerator, FoldingCastTypeTerm foldingCastTypeTerm) throws IOException
+	{
+		sendCastTypeTerm(out, parameterNumerator, foldingCastTypeTerm);
+		send(out, parameterNumerator, foldingCastTypeTerm.getType());
+		sendIdentifiableVariableTerm(out, foldingCastTypeTerm.getVariable());
+		send(out, parameterNumerator, foldingCastTypeTerm.getValue());
+	}
+
+	private FoldingCastTypeTerm recvFoldingCastTypeTerm(DataInput in, Stack<VariableTerm> varStack) throws IOException, ProtocolException
+	{
+		Term term = recv(in, varStack);
+		Term type = recv(in, varStack);
+		IdentifiableVariableTerm variable = recvIdentifiableVariableTerm(in);
+		Term value = recv(in, varStack);
+		try
+		{
+			return new FoldingCastTypeTerm(term, type, variable, value);
 		}
 		catch (CastTypeException e)
 		{
@@ -327,7 +365,9 @@ public class TermProtocol extends PersistentExportableProtocol<Term>
 			break;
 		case _ProjectedCastTypeTerm:
 		case _UnprojectedCastTypeTerm:
-			skipCastTypeTerm(in);
+			skipProjectionCastTypeTerm(in);
+		case _FoldingCastTypeTerm:
+			skipFoldingCastTypeTerm(in);
 		default:
 			throw new ProtocolException();
 
@@ -368,6 +408,19 @@ public class TermProtocol extends PersistentExportableProtocol<Term>
 
 	private void skipCastTypeTerm(DataInput in) throws IOException, ProtocolException
 	{
+		skip(in);
+	}
+
+	private void skipProjectionCastTypeTerm(DataInput in) throws IOException, ProtocolException
+	{
+		skipCastTypeTerm(in);
+	}
+
+	private void skipFoldingCastTypeTerm(DataInput in) throws IOException, ProtocolException
+	{
+		skipCastTypeTerm(in);
+		skip(in);
+		skipIdentifiableVariableTerm(in);
 		skip(in);
 	}
 
