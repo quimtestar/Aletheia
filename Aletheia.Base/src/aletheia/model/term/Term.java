@@ -581,11 +581,17 @@ public abstract class Term implements Serializable, Exportable
 
 	}
 
-	public final void print(PrintWriter printWriter, Transaction transaction, Context context)
+	public final void print(PrintWriter printWriter, Transaction transaction, Context context, int minLength, int maxLength, int pageWidth, String indentString,
+			int indentLength)
 	{
-		IndentedStringAppender stringAppender = new IndentedStringAppender(16, 64, Integer.MAX_VALUE, "\t", 4);
+		IndentedStringAppender stringAppender = new IndentedStringAppender(minLength, maxLength, pageWidth, indentString, indentLength);
 		stringAppend(stringAppender, context.variableToIdentifier(transaction), new ParameterNumerator(), null);
 		stringAppender.print(printWriter);
+	}
+
+	public final void print(PrintWriter printWriter, Transaction transaction, Context context)
+	{
+		print(printWriter, transaction, context, 16, 64, Integer.MAX_VALUE, "\t", 4);
 	}
 
 	public final String toIndentedString(Transaction transaction, Context context)
