@@ -123,13 +123,21 @@ public class FoldingCastTypeTerm extends CastTypeTerm
 			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
 		stringAppender.append("(");
+		stringAppender.openSub();
 		getTerm().stringAppend(stringAppender, variableToIdentifier, parameterNumerator, parameterIdentification);
+		stringAppender.closeSub();
+		stringAppender.openSub();
 		stringAppender.append(":");
 		getType().stringAppend(stringAppender, variableToIdentifier, parameterNumerator, parameterIdentification);
+		stringAppender.closeSub();
 		stringAppender.append(" | ");
+		stringAppender.openSub();
 		value.stringAppend(stringAppender, variableToIdentifier, parameterNumerator, parameterIdentification);
+		stringAppender.closeSub();
+		stringAppender.openSub();
 		stringAppender.append(" <- ");
 		variable.stringAppend(stringAppender, variableToIdentifier, parameterNumerator, parameterIdentification);
+		stringAppender.closeSub();
 		stringAppender.append(")");
 	}
 
