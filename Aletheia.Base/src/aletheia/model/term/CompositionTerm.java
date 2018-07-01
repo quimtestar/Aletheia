@@ -241,7 +241,7 @@ public class CompositionTerm extends SimpleTerm
 	 *
 	 */
 	@Override
-	protected void stringAppend(StringAppender stringAppend, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+	protected void stringAppend(StringAppender stringAppender, Map<? extends VariableTerm, Identifier> variableToIdentifier,
 			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
 		CompositionParameterIdentification headParameterIdentification = null;
@@ -251,15 +251,15 @@ public class CompositionTerm extends SimpleTerm
 			headParameterIdentification = ((CompositionParameterIdentification) parameterIdentification).getHead();
 			tailParameterIdentification = ((CompositionParameterIdentification) parameterIdentification).getTail();
 		}
-		head.stringAppend(stringAppend, variableToIdentifier, parameterNumerator, headParameterIdentification);
-		stringAppend.append(" ");
-		stringAppend.openSub();
+		head.stringAppend(stringAppender, variableToIdentifier, parameterNumerator, headParameterIdentification);
+		stringAppender.append(" ");
+		stringAppender.openSub();
 		if (tail instanceof CompositionTerm)
-			stringAppend.append("(");
-		tail.stringAppend(stringAppend, variableToIdentifier, parameterNumerator, tailParameterIdentification);
+			stringAppender.append("(");
+		tail.stringAppend(stringAppender, variableToIdentifier, parameterNumerator, tailParameterIdentification);
 		if (tail instanceof CompositionTerm)
-			stringAppend.append(")");
-		stringAppend.closeSub();
+			stringAppender.append(")");
+		stringAppender.closeSub();
 	}
 
 	/**

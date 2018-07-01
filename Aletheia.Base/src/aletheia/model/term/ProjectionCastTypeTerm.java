@@ -150,12 +150,12 @@ public abstract class ProjectionCastTypeTerm extends CastTypeTerm
 	protected abstract String symbolClose();
 
 	@Override
-	protected void stringAppend(StringAppender stringAppend, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+	protected void stringAppend(StringAppender stringAppender, Map<? extends VariableTerm, Identifier> variableToIdentifier,
 			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
-		stringAppend.append(symbolOpen());
-		getTerm().stringAppend(stringAppend, variableToIdentifier, parameterNumerator, parameterIdentification);
-		stringAppend.append(symbolClose());
+		stringAppender.append(symbolOpen());
+		getTerm().stringAppend(stringAppender, variableToIdentifier, parameterNumerator, parameterIdentification);
+		stringAppender.append(symbolClose());
 	}
 
 	@Override
