@@ -20,9 +20,10 @@
 package aletheia.gui.cli.command.statement;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
@@ -33,7 +34,12 @@ import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
+import aletheia.model.statement.Declaration;
+import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
+import aletheia.model.term.FunctionTerm;
+import aletheia.model.term.ParameterVariableTerm;
+import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.ReverseList;
@@ -53,79 +59,73 @@ public class Useless extends TransactionalCommand
 		this.unsigned = unsigned;
 	}
 
+	private boolean isOmega(Context context)
+	{
+		CloseableIterator<Statement> iterator = context.dependents(getTransaction()).iterator();
+		try
+		{
+			while (iterator.hasNext())
+			{
+				Statement dpd = iterator.next();
+				if (dpd instanceof Declaration)
+				{
+					if (((Declaration) dpd).getValueProofUuid().equals(context.getUuid()))
+						return true;
+				}
+				else if (dpd instanceof Specialization)
+				{
+					if (((Specialization) dpd).getInstanceProofUuid().equals(context.getUuid()))
+						return true;
+				}
+			}
+			return false;
+		}
+		finally
+		{
+			iterator.close();
+		}
+	}
+
+	private Collection<Assumption> checkableAssumptions(Context context)
+	{
+		Collection<Assumption> checkable = new ArrayList<>();
+		Iterator<Assumption> iterator = context.assumptions(getTransaction()).iterator();
+		Term term = context.getTerm();
+		while (term instanceof FunctionTerm)
+		{
+			Assumption assumption = iterator.next();
+			ParameterVariableTerm parameter = ((FunctionTerm) term).getParameter();
+			Term body = ((FunctionTerm) term).getBody();
+			if (!body.isFreeVariable(parameter))
+				checkable.add(assumption);
+			term = body;
+		}
+		return checkable;
+	}
+
 	private void processProved(Context context)
 	{
-		Set<Statement> unused = new HashSet<>();
-		Stack<Statement> stack = new Stack<>();
-		for (Statement st : context.descendentStatements(getTransaction()))
-			stack.push(st);
-		loop: while (!stack.isEmpty())
+		Set<Statement> useless = context.uselessDescendents(getTransaction());
+		if (!useless.isEmpty())
 		{
-			Statement st = stack.pop();
-			if (unused.contains(st))
-				continue loop;
-			if (st instanceof Assumption && !context.equals(st.getContext(getTransaction())))
-				continue loop;
-			if (st.isProved())
-			{
-				{
-					CloseableIterator<Statement> it = st.dependents(getTransaction()).iterator();
-					try
-					{
-						while (it.hasNext())
-						{
-							Statement dep = it.next();
-							if (!unused.contains(dep))
-								continue loop;
-						}
-					}
-					finally
-					{
-						it.close();
-					}
-				}
-				{
-					CloseableIterator<Context> it = st.getContext(getTransaction()).descendantContextsByConsequent(getTransaction(), st.getTerm()).iterator();
-					try
-					{
-						while (it.hasNext())
-						{
-							Context sol = it.next();
-							if (!st.isDescendent(getTransaction(), sol) && !unused.contains(sol))
-								continue loop;
-						}
-					}
-					finally
-					{
-						it.close();
-					}
-				}
-			}
-			unused.add(st);
-			for (Statement dep : st.dependencies(getTransaction()))
-				if (context.isDescendent(getTransaction(), dep))
-					stack.push(dep);
-			if (st instanceof Context)
-			{
-				for (Statement sol : ((Context) st).solvers(getTransaction()))
-					if (context.isDescendent(getTransaction(), sol))
-						stack.push(sol);
-			}
-		}
-		if (!unused.isEmpty())
-		{
-			ArrayList<Statement> list = new ArrayList<>(unused);
+			boolean omega = isOmega(context);
+			Collection<Assumption> checkableAssumptions = omega ? Collections.emptyList() : checkableAssumptions(context);
+			ArrayList<Statement> list = new ArrayList<>(useless);
 			Collections.sort(list, pathComparator);
 			Statement last = null;
+			boolean some = false;
 			for (Statement st : list)
 			{
-				if (last == null || !last.isDescendent(getTransaction(), st))
+				if ((!(st instanceof Assumption) || (st.getContext(getTransaction()).equals(context) && checkableAssumptions.contains(st)))
+						&& (last == null || !last.isDescendent(getTransaction(), st)))
 				{
 					getOut().println(" -> " + st.statementPathString(getTransaction(), getActiveContext()) + " " + (st.isProved() ? "\u2713" : ""));
+					some = true;
 					last = st;
 				}
 			}
-			getOut().println();
+			if (some)
+				getOut().println();
 		}
 	}
 

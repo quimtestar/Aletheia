@@ -26,10 +26,13 @@ import java.util.Map;
 import java.util.Set;
 
 import aletheia.model.term.CompositionTerm;
+import aletheia.model.term.FoldingCastTypeTerm;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectionTerm;
+import aletheia.model.term.ProjectedCastTypeTerm;
+import aletheia.model.term.UnprojectedCastTypeTerm;
 import aletheia.model.term.TauTerm;
 import aletheia.model.term.Term;
 import aletheia.protocol.enumerate.ByteExportableEnum;
@@ -48,6 +51,9 @@ public enum TermCode implements ByteExportableEnum<TermCode>
 	_CompositionTerm((byte)'C', CompositionTerm.class),
 	_FunctionTerm((byte)'F', FunctionTerm.class),
 	_ProjectionTerm((byte)'P', ProjectionTerm.class),
+	_ProjectedCastTypeTerm((byte)'[', ProjectedCastTypeTerm.class),
+	_UnprojectedCastTypeTerm((byte)'{', UnprojectedCastTypeTerm.class),
+	_FoldingCastTypeTerm((byte)'(', FoldingCastTypeTerm.class)
 	;
 	//@formatter:on
 

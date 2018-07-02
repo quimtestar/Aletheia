@@ -49,8 +49,11 @@ A -> A apostrophe;				# The ''' operator resolves to the body of the given funct
 A -> A bang I;					# The '!' operator unfolds the given identified variable as its value as a declaration statement in the active context.  
 A -> equals bang I;				# The '=!' operator is equivalent to a reflexive application of the binary '!': "=!i" ~> "i!i". 
 A -> openpar T closepar;		# A term (list of atoms) between parentheses.
-A -> A SCo Number M;				# The 'n' operator resolves to the nth atomic component (starting by zero) of the given term: "(a b c);1" ~> "b".
+A -> A SCo Number M;			# The 'n' operator resolves to the nth atomic component (starting by zero) of the given term: "(a b c);1" ~> "b".
 	 							# The 'n-' operator resolves to the first n+1 atomic components of the given term: "(a b c);1-" ~> "a b".
+A -> opensq T closesq;			# Projected cast type: a term between square brackets. 
+A -> opencur T closecur;		# Unfojected cast type: a term between curly brackets.
+A -> openpar T colon T pipe T leftarrow I closepar;		# Folding cast type. 
 
 # Optional semicolon to separate 'n[-]' operators. 							
 SCo -> semicolon;

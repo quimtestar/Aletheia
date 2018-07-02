@@ -296,6 +296,11 @@ public abstract class AbstractRenderer extends JPanel
 		return addTextLabel(";");
 	}
 
+	protected JLabel addPipeLabel()
+	{
+		return addTextLabel("|");
+	}
+
 	protected JLabel addAlmostEqualLabel()
 	{
 		return addTextLabel("\u2248");
@@ -304,6 +309,11 @@ public abstract class AbstractRenderer extends JPanel
 	protected JLabel addArrowLabel()
 	{
 		return addTextLabel("\u2192");
+	}
+
+	protected JLabel addLeftArrowLabel()
+	{
+		return addTextLabel("\u2190");
 	}
 
 	protected JLabel addCloseFunLabel()
@@ -339,24 +349,44 @@ public abstract class AbstractRenderer extends JPanel
 		return addSpaceLabel(1);
 	}
 
-	protected JLabel addOpenBracket()
+	protected JLabel addOpenSquareBracket()
 	{
-		return addOpenBracket(defaultColor);
+		return addOpenSquareBracket(defaultColor);
 	}
 
-	protected JLabel addOpenBracket(Color color)
+	protected JLabel addOpenSquareBracket(Color color)
 	{
 		return addTextLabel("[", color);
 	}
 
-	protected JLabel addCloseBracket()
+	protected JLabel addCloseSquareBracket()
 	{
-		return addCloseBracket(defaultColor);
+		return addCloseSquareBracket(defaultColor);
 	}
 
-	protected JLabel addCloseBracket(Color color)
+	protected JLabel addCloseSquareBracket(Color color)
 	{
 		return addTextLabel("]", color);
+	}
+
+	protected JLabel addOpenCurlyBracket()
+	{
+		return addOpenCurlyBracket(defaultColor);
+	}
+
+	protected JLabel addOpenCurlyBracket(Color color)
+	{
+		return addTextLabel("{", color);
+	}
+
+	protected JLabel addCloseCurlyBracket()
+	{
+		return addCloseCurlyBracket(defaultColor);
+	}
+
+	protected JLabel addCloseCurlyBracket(Color color)
+	{
+		return addTextLabel("}", color);
 	}
 
 	protected JLabel addReverseArrowLabel()

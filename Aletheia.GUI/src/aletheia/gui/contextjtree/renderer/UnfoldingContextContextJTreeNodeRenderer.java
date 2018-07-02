@@ -35,11 +35,11 @@ public class UnfoldingContextContextJTreeNodeRenderer extends ContextContextJTre
 		{
 			setActiveFont(getItalicFont());
 			addSpaceLabel();
-			addOpenBracket();
+			addOpenSquareBracket();
 			addUnfoldingLabel();
 			addColonLabel();
 			addTerm(context.parentVariableToIdentifier(transaction), context.getDeclaration(transaction).getVariable());
-			addCloseBracket();
+			addCloseSquareBracket();
 		}
 		finally
 		{

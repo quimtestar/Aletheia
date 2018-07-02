@@ -50,22 +50,22 @@ public class ProjectionTerm extends AtomicTerm
 	{
 		private static final long serialVersionUID = -1123291437628030140L;
 
-		public ProjectionTypeException()
+		protected ProjectionTypeException()
 		{
 			super();
 		}
 
-		public ProjectionTypeException(String message, Throwable cause)
+		protected ProjectionTypeException(String message, Throwable cause)
 		{
 			super(message, cause);
 		}
 
-		public ProjectionTypeException(String message)
+		protected ProjectionTypeException(String message)
 		{
 			super(message);
 		}
 
-		public ProjectionTypeException(Throwable cause)
+		protected ProjectionTypeException(Throwable cause)
 		{
 			super(cause);
 		}
@@ -101,6 +101,12 @@ public class ProjectionTerm extends AtomicTerm
 		return function;
 	}
 
+	@Override
+	public int size()
+	{
+		return function.size();
+	}
+
 	/**
 	 * Performs a series of replacements on this projection. The replacements
 	 * are first performed on the function and then the resulting function is
@@ -115,6 +121,19 @@ public class ProjectionTerm extends AtomicTerm
 		try
 		{
 			return new ProjectionTerm(function.replace(replaces, exclude));
+		}
+		catch (ProjectionTypeException e)
+		{
+			throw new ReplaceTypeException(e);
+		}
+	}
+
+	@Override
+	public Term replace(Map<VariableTerm, Term> replaces) throws ReplaceTypeException
+	{
+		try
+		{
+			return function.replace(replaces).project();
 		}
 		catch (ProjectionTypeException e)
 		{
@@ -160,8 +179,8 @@ public class ProjectionTerm extends AtomicTerm
 	}
 
 	@Override
-	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
-			ParameterIdentification parameterIdentification)
+	protected void stringAppend(StringAppender stringAppender, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
 		Term term = this;
 		Stack<ParameterVariableTerm> stack = new Stack<>();
@@ -176,21 +195,21 @@ public class ProjectionTerm extends AtomicTerm
 		{
 			term = new FunctionTerm(stack.pop(), term);
 		}
-		String sTerm = term.toString(variableToIdentifier, parameterNumerator, parameterIdentification);
+		term.stringAppend(stringAppender, variableToIdentifier, parameterNumerator, parameterIdentification);
 		if (nProjections <= 3)
 		{
-			StringBuilder stringBuilder = new StringBuilder(sTerm);
 			for (int i = 0; i < nProjections; i++)
-				stringBuilder.append("*");
-			return stringBuilder.toString();
+				stringAppender.append("*");
 		}
 		else
-			return sTerm + "*" + nProjections;
+			stringAppender.append("*" + nProjections);
 	}
 
 	/**
 	 * A projection unprojected is the unprojection of the function. The
 	 * "projection element" recursively disappears.
+	 * 
+	 * @throws UnprojectTypeException
 	 */
 	@Override
 	public Term unproject() throws UnprojectTypeException
@@ -332,6 +351,12 @@ public class ProjectionTerm extends AtomicTerm
 		if (diffFunction instanceof DiffInfoEqual)
 			return new DiffInfoEqual(proj);
 		return new DiffInfoProjection(proj, diffFunction);
+	}
+
+	@Override
+	public boolean castFree()
+	{
+		return getFunction().castFree();
 	}
 
 }

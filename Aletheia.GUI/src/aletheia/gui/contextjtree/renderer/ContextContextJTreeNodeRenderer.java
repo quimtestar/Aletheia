@@ -33,9 +33,9 @@ public abstract class ContextContextJTreeNodeRenderer<C extends Context> extends
 		super(contextJTree, context);
 		setActiveFont(getItalicFont());
 		addSpaceLabel();
-		addOpenBracket();
+		addOpenSquareBracket();
 		addContextLabel();
-		addCloseBracket();
+		addCloseSquareBracket();
 	}
 
 	public static ContextContextJTreeNodeRenderer<?> renderer(ContextJTree contextJTree, Context statement)

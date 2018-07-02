@@ -101,6 +101,12 @@ public class FunctionTerm extends Term
 		return body;
 	}
 
+	@Override
+	public int size()
+	{
+		return parameter.getType().size() + body.size();
+	}
+
 	/**
 	 * In the case of a function, the composition is performed replacing the
 	 * parameter with the term in the body. A function can only be composed if
@@ -111,10 +117,10 @@ public class FunctionTerm extends Term
 	@Override
 	public Term compose(Term term) throws ComposeTypeException
 	{
+		if (parameter.equals(term))
+			return body;
 		if (parameter.getType().equals(term.getType()))
 		{
-			if (term.isFreeVariable(parameter))
-				throw new ComposeTypeException("Invalid composition: function parameter is free in instance", this, term);
 			try
 			{
 				return body.replace(parameter, term);
@@ -136,26 +142,23 @@ public class FunctionTerm extends Term
 	{
 		Term partype = parameter.getType();
 		Term rpartype = partype.replace(replaces, exclude);
-		Term rparam;
-		if (!partype.equals(rpartype))
-			rparam = new ParameterVariableTerm(rpartype);
-		else
-			rparam = parameter;
-		boolean added = false;
-		boolean exadd = false;
-		if (!rparam.equals(parameter))
-			added = replaces.add(new Replace(parameter, rparam));
-		else
-			exadd = exclude.add(parameter);
+		Term rparam = new ParameterVariableTerm(rpartype);
+		replaces.addFirst(new Replace(parameter, rparam));
 		Term body_ = body.replace(replaces, exclude);
-		if (exadd)
-			exclude.remove(parameter);
-		if (added)
-			replaces.removeLast();
-		if (rparam.equals(parameter) && body_.equals(body))
-			return this;
-		else
-			return new FunctionTerm((ParameterVariableTerm) rparam, body_);
+		replaces.removeFirst();
+		return new FunctionTerm((ParameterVariableTerm) rparam, body_);
+	}
+
+	@Override
+	public Term replace(Map<VariableTerm, Term> replaces) throws ReplaceTypeException
+	{
+		Term parType = getParameter().getType().replace(replaces);
+		ParameterVariableTerm parameter;
+		Map<VariableTerm, Term> bodyReplaces;
+		parameter = new ParameterVariableTerm(parType);
+		bodyReplaces = new CombinedMap<>(Collections.singletonMap(getParameter(), parameter), replaces);
+		Term body = getBody().replace(bodyReplaces);
+		return new FunctionTerm(parameter, body);
 	}
 
 	@Override
@@ -243,18 +246,27 @@ public class FunctionTerm extends Term
 	 * "<<i>parameter</i>:<i>type</i> -> <i>body</i>>"</b>.
 	 */
 	@Override
-	public String toString(Map<? extends VariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator,
-			ParameterIdentification parameterIdentification)
+	protected void stringAppend(StringAppender stringAppender, Map<? extends VariableTerm, Identifier> variableToIdentifier,
+			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification)
 	{
 		Term term = this;
 		Map<ParameterVariableTerm, Identifier> localVariableToIdentifier = new HashMap<>();
 		Map<VariableTerm, Identifier> totalVariableToIdentifier = variableToIdentifier == null ? new AdaptedMap<>(localVariableToIdentifier)
 				: new CombinedMap<>(new AdaptedMap<>(localVariableToIdentifier), new AdaptedMap<>(variableToIdentifier));
-		StringBuilder parameterListStringBuilder = new StringBuilder();
+		stringAppender.append("<");
+		stringAppender.openSub();
 		boolean first = true;
 		int numberedParameters = 0;
 		while (term instanceof FunctionTerm)
 		{
+			if (!first)
+			{
+				stringAppender.append(", ");
+				stringAppender.closeSub();
+				stringAppender.openSub();
+			}
+			first = false;
+
 			ParameterVariableTerm parameter = ((FunctionTerm) term).getParameter();
 			Term body = ((FunctionTerm) term).getBody();
 
@@ -267,38 +279,45 @@ public class FunctionTerm extends Term
 				parameterTypeParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getParameterType();
 				bodyParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getBody();
 			}
-			String sType = parameter.getType().toString(totalVariableToIdentifier, parameterNumerator, parameterTypeParameterIdentification);
-
-			String sParameter = null;
+			boolean numberedParameter = false;
 			if (body.isFreeVariable(parameter))
 			{
 				if (parameterIdentifier != null)
 				{
-					sParameter = parameterIdentifier.toString();
+					stringAppender.append(parameterIdentifier);
 					localVariableToIdentifier.put(parameter, parameterIdentifier);
 				}
 				else
 				{
-					if (!totalVariableToIdentifier.containsKey(parameter))
+					Identifier id = totalVariableToIdentifier.get(parameter);
+					if (id != null)
+						stringAppender.append(id);
+					else
 					{
-						parameterNumerator.numberParameter(parameter);
-						numberedParameters++;
+						stringAppender.append(parameter.numRef(parameterNumerator.nextNumber()));
+						numberedParameter = true;
 					}
-					sParameter = parameter.toString(totalVariableToIdentifier, parameterNumerator);
 				}
+				stringAppender.append(":");
 			}
+			parameter.getType().stringAppend(stringAppender, totalVariableToIdentifier, parameterNumerator, parameterTypeParameterIdentification);
 
-			if (!first)
-				parameterListStringBuilder.append(", ");
-			parameterListStringBuilder.append((sParameter != null ? (sParameter + ":") : "") + sType);
-			first = false;
+			if (numberedParameter)
+			{
+				parameterNumerator.numberParameter(parameter);
+				numberedParameters++;
+			}
 
 			parameterIdentification = bodyParameterIdentification;
 			term = body;
 		}
-		String sBody = term.toString(totalVariableToIdentifier, parameterNumerator, parameterIdentification);
+		stringAppender.closeSub();
+		stringAppender.openSub();
+		stringAppender.append(" -> ");
+		term.stringAppend(stringAppender, totalVariableToIdentifier, parameterNumerator, parameterIdentification);
 		parameterNumerator.unNumberParameters(numberedParameters);
-		return "<" + parameterListStringBuilder + " -> " + sBody + ">";
+		stringAppender.append(">");
+		stringAppender.closeSub();
 	}
 
 	@Override
@@ -373,7 +392,8 @@ public class FunctionTerm extends Term
 		};
 		try
 		{
-			ret = ret * hashPrime + body.replace(parameter, vthasher).hashCode(hasher *= hashPrime);
+			Term rbody = body.replace(parameter, vthasher);
+			ret = ret * hashPrime + rbody.hashCode(hasher *= hashPrime);
 		}
 		catch (ReplaceTypeException e)
 		{
@@ -546,6 +566,8 @@ public class FunctionTerm extends Term
 	 * with the unprojection of the body. A new and different parameter variable
 	 * might be generated if the unprojection of the parameter type results in a
 	 * different term than the original parameter type itself.
+	 * 
+	 * @throws UnprojectTypeException
 	 */
 	@Override
 	public Term unproject() throws UnprojectTypeException
@@ -555,9 +577,9 @@ public class FunctionTerm extends Term
 		Term pbody = body.unproject();
 		if (!partype.equals(ppartype))
 		{
+			ParameterVariableTerm pparam = new ParameterVariableTerm(ppartype);
 			try
 			{
-				ParameterVariableTerm pparam = new ParameterVariableTerm(ppartype);
 				return new FunctionTerm(pparam, pbody.replace(parameter, pparam));
 			}
 			catch (ReplaceTypeException e)
@@ -566,14 +588,27 @@ public class FunctionTerm extends Term
 			}
 		}
 		else
+		{
 			return new FunctionTerm(parameter, pbody);
-
+		}
 	}
 
 	@Override
 	public ProjectionTerm project() throws ProjectionTypeException
 	{
 		return new ProjectionTerm(this);
+	}
+
+	@Override
+	public Term domain()
+	{
+		return getParameter().getType();
+	}
+
+	@Override
+	public boolean castFree()
+	{
+		return domain().castFree() && getBody().castFree();
 	}
 
 }

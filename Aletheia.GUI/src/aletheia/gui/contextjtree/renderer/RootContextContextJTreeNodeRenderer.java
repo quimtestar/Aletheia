@@ -31,9 +31,9 @@ public class RootContextContextJTreeNodeRenderer extends ContextContextJTreeNode
 		super(contextJTree, rootContext);
 		setActiveFont(getItalicFont());
 		addSpaceLabel();
-		addOpenBracket();
+		addOpenSquareBracket();
 		addRootLabel();
-		addCloseBracket();
+		addCloseSquareBracket();
 	}
 
 }

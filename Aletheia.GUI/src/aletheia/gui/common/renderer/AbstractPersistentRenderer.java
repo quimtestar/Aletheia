@@ -44,12 +44,15 @@ import javax.swing.JTextField;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.CompositionTerm;
+import aletheia.model.term.FoldingCastTypeTerm;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
+import aletheia.model.term.ProjectedCastTypeTerm;
 import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.TauTerm;
 import aletheia.model.term.Term;
+import aletheia.model.term.UnprojectedCastTypeTerm;
 import aletheia.model.term.VariableTerm;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -346,6 +349,12 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 			addTauTerm(variableToIdentifier, parameterNumerator, (TauTerm) term);
 		else if (term instanceof ProjectionTerm)
 			addProjectionTerm(variableToIdentifier, parameterNumerator, (ProjectionTerm) term);
+		else if (term instanceof ProjectedCastTypeTerm)
+			addProjectedCastTypeTerm(variableToIdentifier, parameterNumerator, (ProjectedCastTypeTerm) term);
+		else if (term instanceof UnprojectedCastTypeTerm)
+			addUnprojectedCastTypeTerm(variableToIdentifier, parameterNumerator, (UnprojectedCastTypeTerm) term);
+		else if (term instanceof FoldingCastTypeTerm)
+			addFoldingCastTypeTerm(variableToIdentifier, parameterNumerator, (FoldingCastTypeTerm) term);
 		else
 			throw new Error();
 	}
@@ -455,6 +464,40 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 	protected void addTauTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator, TauTerm term)
 	{
 		addTauTermLabel();
+	}
+
+	protected void addProjectedCastTypeTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+			ProjectedCastTypeTerm term)
+	{
+		addOpenSquareBracket();
+		addTerm(variableToIdentifier, parameterNumerator, term.getTerm());
+		addCloseSquareBracket();
+	}
+
+	protected void addUnprojectedCastTypeTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+			UnprojectedCastTypeTerm term)
+	{
+		addOpenCurlyBracket();
+		addTerm(variableToIdentifier, parameterNumerator, term.getTerm());
+		addCloseCurlyBracket();
+	}
+
+	protected void addFoldingCastTypeTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+			FoldingCastTypeTerm term)
+	{
+		addOpenParLabel();
+		addTerm(variableToIdentifier, parameterNumerator, term.getTerm());
+		addColonLabel();
+		addTerm(variableToIdentifier, parameterNumerator, term.getType());
+		addSpaceLabel();
+		addPipeLabel();
+		addSpaceLabel();
+		addTerm(variableToIdentifier, parameterNumerator, term.getValue());
+		addSpaceLabel();
+		addLeftArrowLabel();
+		addSpaceLabel();
+		addTerm(variableToIdentifier, parameterNumerator, term.getVariable());
+		addCloseParLabel();
 	}
 
 }

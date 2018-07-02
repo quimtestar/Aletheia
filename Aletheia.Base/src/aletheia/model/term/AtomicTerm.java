@@ -67,4 +67,10 @@ public abstract class AtomicTerm extends SimpleTerm
 		return Collections.<Term> singletonList(this);
 	}
 
+	@Override
+	protected AtomicTerm atom()
+	{
+		return this;
+	}
+
 }

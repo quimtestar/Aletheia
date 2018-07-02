@@ -75,6 +75,8 @@ public class Declaration extends Statement
 			throws StatementException
 	{
 		super(persistenceManager, transaction, DeclarationEntity.class, uuid, context, computeTerm(transaction, context, value, valueProof));
+		if (!value.castFree())
+			throw new NonCastFreeStatementException();
 		Set<VariableTerm> undefined = context.undefinedVariables(transaction, value);
 		if (!undefined.isEmpty())
 			throw new UndefinedVariableStatementException(context, transaction, undefined);
