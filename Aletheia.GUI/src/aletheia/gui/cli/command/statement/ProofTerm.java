@@ -46,6 +46,8 @@ public class ProofTerm extends TransactionalCommand
 	{
 		if (statement instanceof Assumption)
 			throw new Exception("Statement is a assumption");
+		if (!statement.isProved())
+			throw new Exception("Not proven");
 		Term proofTerm = statement.proofTerm(getTransaction());
 		if (proofTerm == null)
 			throw new Exception("No proof");
