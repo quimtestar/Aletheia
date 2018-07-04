@@ -28,10 +28,13 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
+import org.apache.logging.log4j.Logger;
+
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
+import aletheia.log4j.LoggerManager;
 import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
@@ -47,6 +50,8 @@ import aletheia.utilities.collections.ReverseList;
 @TaggedCommand(tag = "useless", groupPath = "/statement", factory = Useless.Factory.class)
 public class Useless extends TransactionalCommand
 {
+	private static final Logger logger = LoggerManager.instance.logger();
+
 	private final Context context;
 	private final Comparator<Statement> pathComparator;
 	private final boolean unsigned;
@@ -105,6 +110,7 @@ public class Useless extends TransactionalCommand
 
 	private void processProved(Context context)
 	{
+		logger.trace("Processing: " + context.getUuid() + ": " + context.statementPathString(getTransaction()));
 		Set<Statement> useless = context.uselessDescendents(getTransaction());
 		if (!useless.isEmpty())
 		{
