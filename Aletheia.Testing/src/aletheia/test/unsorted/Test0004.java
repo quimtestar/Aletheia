@@ -48,7 +48,8 @@ public class Test0004 extends TransactionalBerkeleyDBPersistenceManagerTest
 		//UUID uuid = UUID.fromString("ac179280-c294-5812-b653-8bdc1dd9f24e"); 		// Natural.th.fundamental.arithmetic
 		//UUID uuid = UUID.fromString("13401716-ea4c-542e-9951-e69241578080"); 		// Real.e.th.summation.factorial
 		//UUID uuid = UUID.fromString("6f7ec943-8027-5ed0-b727-ebea5ac7cb0d"); 		// Integer.gcd.th.product
-		UUID uuid = UUID.fromString("148f0fea-c933-5fad-8742-cb80d75cfaac"); // Prop.Iff.th.symm
+		//UUID uuid = UUID.fromString("148f0fea-c933-5fad-8742-cb80d75cfaac"); 		// Prop.Iff.th.symm
+		UUID uuid = UUID.fromString("e32c201b-a0b8-490e-b232-a477f97ae139"); // Category.Arrow.Universal.Initial.th.Isomorphism
 
 		Statement statement = persistenceManager.getStatement(transaction, uuid);
 		Term term = statement.proofTerm(transaction);
