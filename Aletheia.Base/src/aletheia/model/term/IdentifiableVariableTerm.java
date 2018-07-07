@@ -66,7 +66,7 @@ public class IdentifiableVariableTerm extends VariableTerm
 	}
 
 	@Override
-	public int hashCode(int hasher)
+	protected int hashCode(int hasher)
 	{
 		int ret = 0;
 		ret = ret * hashPrime + uuid.hashCode();

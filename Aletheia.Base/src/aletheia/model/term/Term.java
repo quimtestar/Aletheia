@@ -254,7 +254,7 @@ public abstract class Term implements Serializable, Exportable
 		return hashCode;
 	}
 
-	public int hashCode(int hasher)
+	protected int hashCode(int hasher)
 	{
 		int ret = hasher * hashPrime;
 		return ret;

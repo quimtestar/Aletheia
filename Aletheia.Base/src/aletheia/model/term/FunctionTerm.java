@@ -376,7 +376,7 @@ public class FunctionTerm extends Term
 	}
 
 	@Override
-	public int hashCode(int hasher)
+	protected int hashCode(int hasher)
 	{
 		int ret = super.hashCode(hasher *= hashPrime);
 		ret = ret * hashPrime + parameter.getType().hashCode(hasher *= hashPrime);
@@ -385,8 +385,9 @@ public class FunctionTerm extends Term
 		{
 			private static final long serialVersionUID = -8390284352572376476L;
 
+			@Deprecated
 			@Override
-			public int hashCode(int hasher_)
+			protected int hashCode(int hasher_)
 			{
 				return fhasher;
 			}

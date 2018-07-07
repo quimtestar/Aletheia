@@ -23,7 +23,6 @@ import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
 import aletheia.model.statement.Context;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.SimpleTerm;
@@ -305,10 +304,11 @@ public abstract class QueueSubEntry implements Comparable<QueueSubEntry>
 				private static final long serialVersionUID = 2765761103803061198L;
 
 				@Override
-				public int hashCode(int hasher)
+				protected int hashCode(int hasher)
 				{
 					return hashCode;
 				}
+
 			};
 			subs.add(new SubEntry(v0, vhash));
 			result = prime * result + vhash.getType().hashCode();

@@ -68,7 +68,7 @@ public class UnprojectedCastTypeTerm extends ProjectionCastTypeTerm
 	}
 
 	@Override
-	public int hashCode(int hasher)
+	protected int hashCode(int hasher)
 	{
 		int ret = super.hashCode(hasher *= hashPrime);
 		return ret;

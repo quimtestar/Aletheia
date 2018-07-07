@@ -279,7 +279,7 @@ public class CompositionTerm extends SimpleTerm
 	}
 
 	@Override
-	public int hashCode(int hasher)
+	protected int hashCode(int hasher)
 	{
 		int ret = super.hashCode(hasher *= hashPrime);
 		ret = ret * hashPrime + head.hashCode(hasher *= hashPrime);
