@@ -21,7 +21,6 @@ package aletheia.model.term;
 
 import java.util.Collection;
 import java.util.List;
-
 import aletheia.model.term.CompositionTerm.CompositionTypeException;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 
@@ -41,7 +40,7 @@ public abstract class SimpleTerm extends Term
 	}
 
 	@Override
-	public int hashCode(int hasher)
+	protected int hashCode(int hasher)
 	{
 		int ret = super.hashCode(hasher *= hashPrime);
 		return ret;

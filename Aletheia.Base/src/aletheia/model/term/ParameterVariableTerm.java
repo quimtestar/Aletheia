@@ -46,7 +46,7 @@ public class ParameterVariableTerm extends VariableTerm
 	}
 
 	@Override
-	public int hashCode(int hasher)
+	protected int hashCode(int hasher)
 	{
 		int ret = 0;
 		ret = ret * hashPrime + System.identityHashCode(this);

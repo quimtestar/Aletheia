@@ -41,7 +41,6 @@ public class Test0009 extends TransactionalBerkeleyDBPersistenceManagerTest
 		UUID uuid = UUID.fromString("0da139ab-6335-5606-894b-0f19edd88398");
 		Statement statement = persistenceManager.getStatement(transaction, uuid);
 		System.out.println(statement.getContext(transaction).unparseTerm(transaction, statement.getTerm()));
-		System.out.println(statement.getTerm().hashCode(1));
 	}
 
 }
