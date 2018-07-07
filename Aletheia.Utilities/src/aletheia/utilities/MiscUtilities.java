@@ -685,6 +685,28 @@ public class MiscUtilities
 	}
 
 	/**
+	 * Iterate across an iterator counting its elements.
+	 */
+	public static int countIterator(Iterator<?> iterator)
+	{
+		int count = 0;
+		while (iterator.hasNext())
+		{
+			iterator.next();
+			count++;
+		}
+		return count;
+	}
+
+	/**
+	 * Iterable's element count.
+	 */
+	public static int countIterable(Iterable<?> iterable)
+	{
+		return countIterator(iterable.iterator());
+	}
+
+	/**
 	 * The remote {@link InetAddress} associated to a {@link SocketChannel}.
 	 *
 	 * @see SocketChannel#getRemoteAddress()
