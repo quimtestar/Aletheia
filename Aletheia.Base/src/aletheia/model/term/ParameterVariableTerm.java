@@ -38,11 +38,11 @@ public class ParameterVariableTerm extends VariableTerm
 	}
 
 	@Override
-	public boolean equals(Object obj)
+	protected boolean equals(Term term, Map<ParameterVariableTerm, ParameterVariableTerm> parameterMap)
 	{
-		if (this == obj)
-			return true;
-		return false;
+		if (!(term instanceof ParameterVariableTerm))
+			return false;
+		return parameterMap.getOrDefault(this, this) == term;
 	}
 
 	@Override

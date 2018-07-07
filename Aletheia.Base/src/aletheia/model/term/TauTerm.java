@@ -83,13 +83,9 @@ public class TauTerm extends AtomicTerm
 	 * The primitive type is equals to the primitive type itself.
 	 */
 	@Override
-	public boolean equals(Object obj)
+	protected boolean equals(Term term, Map<ParameterVariableTerm, ParameterVariableTerm> parameterMap)
 	{
-		if (this == obj)
-			return true;
-		if (!(obj instanceof TauTerm))
-			return false;
-		if (!super.equals(obj))
+		if (!(term instanceof TauTerm))
 			return false;
 		return true;
 	}

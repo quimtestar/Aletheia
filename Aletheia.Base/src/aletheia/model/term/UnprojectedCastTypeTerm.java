@@ -19,6 +19,8 @@
  ******************************************************************************/
 package aletheia.model.term;
 
+import java.util.Map;
+
 public class UnprojectedCastTypeTerm extends ProjectionCastTypeTerm
 {
 	private static final long serialVersionUID = 8127173784394913752L;
@@ -73,13 +75,11 @@ public class UnprojectedCastTypeTerm extends ProjectionCastTypeTerm
 	}
 
 	@Override
-	public boolean equals(Object obj)
+	protected boolean equals(Term term, Map<ParameterVariableTerm, ParameterVariableTerm> parameterMap)
 	{
-		if (this == obj)
-			return true;
-		if (!(obj instanceof UnprojectedCastTypeTerm))
+		if (!super.equals(term, parameterMap))
 			return false;
-		if (!super.equals(obj))
+		if (!(term instanceof UnprojectedCastTypeTerm))
 			return false;
 		return true;
 	}

@@ -41,18 +41,6 @@ public abstract class SimpleTerm extends Term
 	}
 
 	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
-			return true;
-		if (!(obj instanceof SimpleTerm))
-			return false;
-		if (!super.equals(obj))
-			return false;
-		return true;
-	}
-
-	@Override
 	public int hashCode(int hasher)
 	{
 		int ret = super.hashCode(hasher *= hashPrime);

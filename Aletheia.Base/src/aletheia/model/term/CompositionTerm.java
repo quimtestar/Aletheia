@@ -266,18 +266,14 @@ public class CompositionTerm extends SimpleTerm
 	 * Both the head and the tail must be equal.
 	 */
 	@Override
-	public boolean equals(Object obj)
+	protected boolean equals(Term term, Map<ParameterVariableTerm, ParameterVariableTerm> parameterMap)
 	{
-		if (this == obj)
-			return true;
-		if (!(obj instanceof CompositionTerm))
+		if (!(term instanceof CompositionTerm))
 			return false;
-		if (!super.equals(obj))
+		CompositionTerm compositionTerm = (CompositionTerm) term;
+		if (!head.equals(compositionTerm.head, parameterMap))
 			return false;
-		CompositionTerm compositionTerm = (CompositionTerm) obj;
-		if (!head.equals(compositionTerm.head))
-			return false;
-		if (!tail.equals(compositionTerm.tail))
+		if (!tail.equals(compositionTerm.tail, parameterMap))
 			return false;
 		return true;
 	}

@@ -42,18 +42,6 @@ public abstract class ProjectionCastTypeTerm extends CastTypeTerm
 		return ret;
 	}
 
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
-			return true;
-		if (!(obj instanceof ProjectionCastTypeTerm))
-			return false;
-		if (!super.equals(obj))
-			return false;
-		return true;
-	}
-
 	protected abstract Term castToType(Term term) throws CastTypeException;
 
 	public static Term castToTargetType(Term term, Term targetType) throws CastTypeException

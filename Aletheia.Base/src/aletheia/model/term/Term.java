@@ -231,21 +231,17 @@ public abstract class Term implements Serializable, Exportable
 
 	public abstract Term replace(Map<VariableTerm, Term> replaces) throws ReplaceTypeException;
 
-	/**
-	 * Two terms are equal by default.
-	 *
-	 * Must be overridden by subclasses.
-	 *
-	 */
 	@Override
-	public boolean equals(Object obj)
+	public final boolean equals(Object obj)
 	{
 		if (this == obj)
 			return true;
 		if (!(obj instanceof Term))
 			return false;
-		return true;
+		return equals((Term) obj, new HashMap<ParameterVariableTerm, ParameterVariableTerm>());
 	}
+
+	protected abstract boolean equals(Term term, Map<ParameterVariableTerm, ParameterVariableTerm> parameterMap);
 
 	@Override
 	public final int hashCode()

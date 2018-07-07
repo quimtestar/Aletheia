@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.model.term;
 
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -54,17 +55,14 @@ public class IdentifiableVariableTerm extends VariableTerm
 	}
 
 	@Override
-	public boolean equals(Object obj)
+	protected boolean equals(Term term, Map<ParameterVariableTerm, ParameterVariableTerm> parameterMap)
 	{
-		if (this == obj)
-			return true;
-		if (!(obj instanceof IdentifiableVariableTerm))
+		if (!(term instanceof IdentifiableVariableTerm))
 			return false;
-		IdentifiableVariableTerm variableTerm = (IdentifiableVariableTerm) obj;
+		IdentifiableVariableTerm variableTerm = (IdentifiableVariableTerm) term;
 		if (!uuid.equals(variableTerm.uuid))
 			return false;
 		return true;
-
 	}
 
 	@Override

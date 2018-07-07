@@ -19,6 +19,8 @@
  ******************************************************************************/
 package aletheia.model.term;
 
+import java.util.Map;
+
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 
 public class ProjectedCastTypeTerm extends ProjectionCastTypeTerm
@@ -83,13 +85,11 @@ public class ProjectedCastTypeTerm extends ProjectionCastTypeTerm
 	}
 
 	@Override
-	public boolean equals(Object obj)
+	protected boolean equals(Term term, Map<ParameterVariableTerm, ParameterVariableTerm> parameterMap)
 	{
-		if (this == obj)
-			return true;
-		if (!(obj instanceof ProjectedCastTypeTerm))
+		if (!super.equals(term, parameterMap))
 			return false;
-		if (!super.equals(obj))
+		if (!(term instanceof ProjectedCastTypeTerm))
 			return false;
 		return true;
 	}

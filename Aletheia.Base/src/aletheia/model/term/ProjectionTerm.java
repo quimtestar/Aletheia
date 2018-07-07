@@ -224,14 +224,12 @@ public class ProjectionTerm extends AtomicTerm
 	}
 
 	@Override
-	public boolean equals(Object obj)
+	protected boolean equals(Term term, Map<ParameterVariableTerm, ParameterVariableTerm> parameterMap)
 	{
-		if (this == obj)
-			return true;
-		if (!(obj instanceof ProjectionTerm))
+		if (!(term instanceof ProjectionTerm))
 			return false;
-		ProjectionTerm projectionTerm = (ProjectionTerm) obj;
-		if (!function.equals(projectionTerm.function))
+		ProjectionTerm projectionTerm = (ProjectionTerm) term;
+		if (!function.equals(projectionTerm.function, parameterMap))
 			return false;
 		return true;
 	}

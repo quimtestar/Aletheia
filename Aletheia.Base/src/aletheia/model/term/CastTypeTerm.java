@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.model.term;
 
+import java.util.Map;
 import java.util.Set;
 
 public abstract class CastTypeTerm extends AtomicTerm
@@ -74,16 +75,12 @@ public abstract class CastTypeTerm extends AtomicTerm
 	}
 
 	@Override
-	public boolean equals(Object obj)
+	protected boolean equals(Term term, Map<ParameterVariableTerm, ParameterVariableTerm> parameterMap)
 	{
-		if (this == obj)
-			return true;
-		if (!(obj instanceof CastTypeTerm))
+		if (!(term instanceof CastTypeTerm))
 			return false;
-		if (!super.equals(obj))
-			return false;
-		CastTypeTerm castTypeTerm = (CastTypeTerm) obj;
-		if (!term.equals(castTypeTerm.term))
+		CastTypeTerm castTypeTerm = (CastTypeTerm) term;
+		if (!this.term.equals(castTypeTerm.term))
 			return false;
 		return true;
 	}

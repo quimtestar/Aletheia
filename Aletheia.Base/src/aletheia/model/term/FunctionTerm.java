@@ -348,29 +348,31 @@ public class FunctionTerm extends Term
 
 	/**
 	 * Two functions are equal when the parameters are of the same type and when
-	 * replacing one parameter with another in one body results to the other
+	 * replacing one parameter with another in one's body results to the other's
 	 * body.
 	 */
 	@Override
-	public boolean equals(Object obj)
+	protected boolean equals(Term term, Map<ParameterVariableTerm, ParameterVariableTerm> parameterMap)
 	{
-		if (this == obj)
-			return true;
-		if (!(obj instanceof FunctionTerm))
+		if (!(term instanceof FunctionTerm))
 			return false;
-		FunctionTerm functionTerm = (FunctionTerm) obj;
-		if (!parameter.getType().equals(functionTerm.parameter.getType()))
+		FunctionTerm functionTerm = (FunctionTerm) term;
+		if (!parameter.getType().equals(functionTerm.parameter.getType(), parameterMap))
 			return false;
+		ParameterVariableTerm oldParameter = parameterMap.put(parameter, functionTerm.parameter);
 		try
 		{
-			if (!body.replace(parameter, functionTerm.parameter).equals(functionTerm.body))
+			if (!body.equals(functionTerm.body, parameterMap))
 				return false;
+			return true;
 		}
-		catch (ReplaceTypeException e)
+		finally
 		{
-			throw new Error(e);
+			if (oldParameter == null)
+				parameterMap.remove(parameter);
+			else
+				parameterMap.put(parameter, oldParameter);
 		}
-		return true;
 	}
 
 	@Override

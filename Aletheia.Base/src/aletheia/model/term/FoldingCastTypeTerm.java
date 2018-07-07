@@ -94,15 +94,15 @@ public class FoldingCastTypeTerm extends CastTypeTerm
 	}
 
 	@Override
-	public boolean equals(Object obj)
+	protected boolean equals(Term term, Map<ParameterVariableTerm, ParameterVariableTerm> parameterMap)
 	{
-		if (this == obj)
+		if (this == term)
 			return true;
-		if (!(obj instanceof FoldingCastTypeTerm))
+		if (!(term instanceof FoldingCastTypeTerm))
 			return false;
-		if (!super.equals(obj))
+		if (!super.equals(term, parameterMap))
 			return false;
-		FoldingCastTypeTerm castTypeTerm = (FoldingCastTypeTerm) obj;
+		FoldingCastTypeTerm castTypeTerm = (FoldingCastTypeTerm) term;
 		if (!variable.equals(castTypeTerm.variable))
 			return false;
 		if (!value.equals(castTypeTerm.value))
