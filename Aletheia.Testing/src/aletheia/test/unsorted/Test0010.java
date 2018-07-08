@@ -39,7 +39,7 @@ public class Test0010 extends TransactionalBerkeleyDBPersistenceManagerTest
 	@Override
 	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws Exception
 	{
-		UUID uuid = UUID.fromString("75130b32-91fa-5da5-af6c-744cb4463f64");
+		UUID uuid = UUID.fromString("e1380e12-44c7-59e6-9985-33eae7c2a3ff");
 		Context context = persistenceManager.getContext(transaction, uuid);
 		Useless useless = new Useless(AletheiaCliConsole.cliConsole(persistenceManager), transaction, context, false);
 		useless.run();

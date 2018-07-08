@@ -1958,9 +1958,18 @@ public abstract class Statement implements Exportable
 					else if (st instanceof Context)
 					{
 						Context ctx = (Context) st;
-						term = null;
-						int size = Integer.MAX_VALUE;
-						Statement solver = null;
+						Statement solver = descendentProofTermsAndSolvers.solvers.get(ctx);
+						int size;
+						if (solver == null)
+						{
+							term = null;
+							size = Integer.MAX_VALUE;
+						}
+						else
+						{
+							term = stTermFunction.apply(solver);
+							size = term.size();
+						}
 						for (Statement solver_ : ctx.solvers(transaction))
 						{
 							if (solver_.isProved())

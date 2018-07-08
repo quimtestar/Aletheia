@@ -28,7 +28,7 @@ public abstract class Test
 
 	public static void main(String[] args) throws Exception
 	{
-		new Test0004().run();
+		new Test0010().run();
 	}
 
 }
