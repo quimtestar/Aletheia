@@ -84,12 +84,13 @@ public class CliController extends Thread
 					{
 						String message = "Memory overhead factor:" + f;
 						logger.warn(message);
-						//cliJPanelsMessage("Warning: " + message);
 						if (cancelActiveCommand)
 						{
 							logger.info("Cancelling active command (if any)");
 							cancelActiveCommand("by memory monitor");
 						}
+						else
+							cliJPanelsMessage("Warning: " + message);
 					}
 				}
 				catch (InterruptedException e)
