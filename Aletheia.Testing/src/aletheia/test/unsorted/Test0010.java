@@ -27,6 +27,7 @@ import aletheia.model.statement.Context;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
+import aletheia.utilities.MiscUtilities;
 
 public class Test0010 extends TransactionalBerkeleyDBPersistenceManagerTest
 {
@@ -39,8 +40,10 @@ public class Test0010 extends TransactionalBerkeleyDBPersistenceManagerTest
 	@Override
 	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws Exception
 	{
-		UUID uuid = UUID.fromString("e1380e12-44c7-59e6-9985-33eae7c2a3ff");
+		UUID uuid = UUID.fromString("4af25548-f878-59c9-9e62-01bb7a2355df");
 		Context context = persistenceManager.getContext(transaction, uuid);
+		int count = MiscUtilities.countIterable(context.descendentStatements(transaction));
+		System.out.println("Count: " + count);
 		Useless useless = new Useless(AletheiaCliConsole.cliConsole(persistenceManager), transaction, context, false);
 		useless.run();
 	}
