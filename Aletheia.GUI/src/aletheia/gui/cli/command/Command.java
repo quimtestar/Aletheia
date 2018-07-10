@@ -314,6 +314,11 @@ public abstract class Command
 
 	}
 
+	public void lowMemoryWarn()
+	{
+		cancel("on low memory");
+	}
+
 	public static class CancelledCommandException extends CommandException
 	{
 		private static final long serialVersionUID = -4773388121782670211L;
