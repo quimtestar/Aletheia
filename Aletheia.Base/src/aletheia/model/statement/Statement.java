@@ -77,6 +77,8 @@ import aletheia.persistence.Transaction;
 import aletheia.persistence.collections.statement.DependentsSet;
 import aletheia.persistence.entities.statement.StatementEntity;
 import aletheia.protocol.Exportable;
+import aletheia.utilities.aborter.Aborter;
+import aletheia.utilities.aborter.Aborter.AbortException;
 import aletheia.utilities.collections.AbstractCloseableCollection;
 import aletheia.utilities.collections.AdaptedCollection;
 import aletheia.utilities.collections.AdaptedMap;
@@ -1882,7 +1884,7 @@ public abstract class Statement implements Exportable
 		}
 	}
 
-	protected DescendentProofTermsAndSolvers descendentProofTermsAndSolvers(Transaction transaction)
+	protected DescendentProofTermsAndSolvers descendentProofTermsAndSolvers(Transaction transaction, Aborter aborter) throws AbortException
 	{
 		DescendentProofTermsAndSolvers descendentProofTermsAndSolvers = new DescendentProofTermsAndSolvers();
 
@@ -1911,6 +1913,8 @@ public abstract class Statement implements Exportable
 		Set<Statement> visited = new HashSet<>();
 		while (!stack.isEmpty())
 		{
+			if (aborter != null)
+				aborter.checkAbort();
 			Statement st = stack.pop();
 			deploop: while (true)
 			{
@@ -2044,9 +2048,33 @@ public abstract class Statement implements Exportable
 		return descendentProofTermsAndSolvers;
 	}
 
+	protected DescendentProofTermsAndSolvers descendentProofTermsAndSolvers(Transaction transaction)
+	{
+		try
+		{
+			return descendentProofTermsAndSolvers(transaction, null);
+		}
+		catch (AbortException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+	public Term proofTerm(Transaction transaction, Aborter aborter) throws AbortException
+	{
+		return descendentProofTermsAndSolvers(transaction, aborter).proofs.get(this);
+	}
+
 	public Term proofTerm(Transaction transaction)
 	{
-		return descendentProofTermsAndSolvers(transaction).proofs.get(this);
+		try
+		{
+			return proofTerm(transaction, null);
+		}
+		catch (AbortException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 
 }

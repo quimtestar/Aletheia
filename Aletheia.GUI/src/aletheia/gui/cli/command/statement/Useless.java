@@ -44,6 +44,8 @@ import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.aborter.Aborter.AbortException;
+import aletheia.utilities.aborter.SimpleAborter;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.ReverseList;
 
@@ -55,6 +57,7 @@ public class Useless extends TransactionalCommand
 	private final Context context;
 	private final Comparator<Statement> pathComparator;
 	private final boolean unsigned;
+	private SimpleAborter aborter;
 
 	public Useless(CommandSource from, Transaction transaction, Context context, boolean unsigned)
 	{
@@ -62,6 +65,7 @@ public class Useless extends TransactionalCommand
 		this.context = context;
 		this.pathComparator = Statement.pathComparator(getTransaction());
 		this.unsigned = unsigned;
+		this.aborter = null;
 	}
 
 	private boolean isOmega(Context context)
@@ -108,10 +112,11 @@ public class Useless extends TransactionalCommand
 		return checkable;
 	}
 
-	private void processProved(Context context)
+	private void processProved(Context context) throws AbortException
 	{
 		logger.trace("Processing: " + context.getUuid() + ": " + context.statementPathString(getTransaction()));
-		Set<Statement> useless = context.uselessDescendents(getTransaction());
+		this.aborter = new SimpleAborter();
+		Set<Statement> useless = context.uselessDescendents(getTransaction(), aborter);
 		if (!useless.isEmpty())
 		{
 			boolean omega = isOmega(context);
@@ -146,7 +151,15 @@ public class Useless extends TransactionalCommand
 			if (ctx.isProved())
 			{
 				if (!unsigned || !ctx.isValidSignature(getTransaction()))
-					processProved(ctx);
+					try
+					{
+						processProved(ctx);
+					}
+					catch (AbortException e)
+					{
+						getErr().println("Aborted due to low memory: " + context.statementPathString(getTransaction(), getActiveContext()));
+						logger.trace("Aborted due to low memory: " + context.getUuid() + ": " + context.statementPathString(getTransaction()));
+					}
 			}
 			else
 			{
@@ -157,6 +170,13 @@ public class Useless extends TransactionalCommand
 		}
 		getOut().println("end.");
 		return null;
+	}
+
+	@Override
+	public void lowMemoryWarn()
+	{
+		if (aborter != null)
+			aborter.abort(new AbortException());
 	}
 
 	public static class Factory extends AbstractVoidCommandFactory<Useless>
