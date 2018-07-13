@@ -17,30 +17,22 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.test.unsorted;
+package aletheia.utilities.aborter;
 
-import java.io.FileNotFoundException;
-import java.util.UUID;
-
-import aletheia.model.statement.Statement;
-import aletheia.persistence.Transaction;
-import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
-import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
-
-public class Test0009 extends TransactionalBerkeleyDBPersistenceManagerTest
+public class SimpleAborter implements Aborter
 {
+	private AbortException abortException = null;
 
-	public Test0009()
+	public void abort(AbortException abortException)
 	{
-		super();
+		this.abortException = abortException;
 	}
 
 	@Override
-	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws FileNotFoundException
+	public void checkAbort() throws AbortException
 	{
-		UUID uuid = UUID.fromString("0da139ab-6335-5606-894b-0f19edd88398");
-		Statement statement = persistenceManager.getStatement(transaction, uuid);
-		System.out.println(statement.getContext(transaction).unparseTerm(transaction, statement.getTerm()));
+		if (abortException != null)
+			throw abortException;
 	}
 
 }

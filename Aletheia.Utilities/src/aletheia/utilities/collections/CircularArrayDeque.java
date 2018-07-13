@@ -17,30 +17,46 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.test.unsorted;
+package aletheia.utilities.collections;
 
-import java.io.FileNotFoundException;
-import java.util.UUID;
+import java.util.ArrayDeque;
 
-import aletheia.model.statement.Statement;
-import aletheia.persistence.Transaction;
-import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
-import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
-
-public class Test0009 extends TransactionalBerkeleyDBPersistenceManagerTest
+public class CircularArrayDeque<E> extends ArrayDeque<E>
 {
+	private static final long serialVersionUID = -2872282921978440975L;
 
-	public Test0009()
+	private final int numElements;
+
+	public CircularArrayDeque(int numElements)
 	{
-		super();
+		super(numElements);
+		this.numElements = numElements;
+	}
+
+	public int getNumElements()
+	{
+		return numElements;
 	}
 
 	@Override
-	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws FileNotFoundException
+	public void addFirst(E e)
 	{
-		UUID uuid = UUID.fromString("0da139ab-6335-5606-894b-0f19edd88398");
-		Statement statement = persistenceManager.getStatement(transaction, uuid);
-		System.out.println(statement.getContext(transaction).unparseTerm(transaction, statement.getTerm()));
+		while (size() >= numElements)
+			removeLast();
+		super.addFirst(e);
+	}
+
+	@Override
+	public void addLast(E e)
+	{
+		while (size() >= numElements)
+			removeFirst();
+		super.addLast(e);
+	}
+
+	public boolean isFull()
+	{
+		return size() >= numElements;
 	}
 
 }

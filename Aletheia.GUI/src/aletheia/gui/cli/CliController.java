@@ -44,7 +44,7 @@ public class CliController extends Thread
 	{
 		private static final int interval = 60;
 		private static final double threshold = 1;
-		private static final boolean cancelActiveCommand = true;
+		private static final boolean warnActiveCommand = true;
 
 		private boolean shutdown;
 
@@ -84,12 +84,13 @@ public class CliController extends Thread
 					{
 						String message = "Memory overhead factor:" + f;
 						logger.warn(message);
-						//cliJPanelsMessage("Warning: " + message);
-						if (cancelActiveCommand)
+						if (warnActiveCommand)
 						{
-							logger.info("Cancelling active command (if any)");
-							cancelActiveCommand("by memory monitor");
+							logger.info("Warning active command (if any) on low memory");
+							lowMemoryWarnActiveCommand();
 						}
+						else
+							cliJPanelsMessage("Warning: " + message);
 					}
 				}
 				catch (InterruptedException e)
@@ -190,6 +191,12 @@ public class CliController extends Thread
 	{
 		if (activeCommand != null)
 			activeCommand.cancel(cause);
+	}
+
+	public synchronized void lowMemoryWarnActiveCommand()
+	{
+		if (activeCommand != null)
+			activeCommand.lowMemoryWarn();
 	}
 
 	public synchronized void cliJPanelsMessage(String message)

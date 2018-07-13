@@ -89,6 +89,8 @@ import aletheia.persistence.collections.statement.LocalStatementsByTerm;
 import aletheia.persistence.collections.statement.LocalStatementsMap;
 import aletheia.persistence.collections.statement.SubContextsSet;
 import aletheia.persistence.entities.statement.ContextEntity;
+import aletheia.utilities.aborter.Aborter;
+import aletheia.utilities.aborter.Aborter.AbortException;
 import aletheia.utilities.collections.AdaptedList;
 import aletheia.utilities.collections.AdaptedMap;
 import aletheia.utilities.collections.Bijection;
@@ -2590,9 +2592,9 @@ public class Context extends Statement
 		}
 	}
 
-	public Set<Statement> uselessDescendents(Transaction transaction)
+	public Set<Statement> uselessDescendents(Transaction transaction, Aborter aborter) throws AbortException
 	{
-		Map<Context, Statement> solvers = descendentProofTermsAndSolvers(transaction).solvers;
+		Map<Context, Statement> solvers = descendentProofTermsAndSolvers(transaction, aborter).solvers;
 		Set<Statement> useless = Stream.concat(Stream.of(this), StreamSupport.stream(descendentStatements(transaction).spliterator(), false))
 				.collect(Collectors.toCollection(() -> new HashSet<>()));
 		Stack<Statement> stack = new Stack<>();
@@ -2613,6 +2615,18 @@ public class Context extends Statement
 			}
 		}
 		return useless;
+	}
+
+	public Set<Statement> uselessDescendents(Transaction transaction)
+	{
+		try
+		{
+			return uselessDescendents(transaction, null);
+		}
+		catch (AbortException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 
 }
