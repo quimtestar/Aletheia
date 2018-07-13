@@ -46,6 +46,7 @@ import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.aborter.Aborter.AbortException;
 import aletheia.utilities.aborter.SimpleAborter;
+import aletheia.utilities.collections.CircularArrayDeque;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.ReverseList;
 
@@ -54,9 +55,14 @@ public class Useless extends TransactionalCommand
 {
 	private static final Logger logger = LoggerManager.instance.logger();
 
+	private static final int numLowMemoryWarnings = 5;
+	private static final float minLowMemoryWarningTime = 2 * 60;
+	private static final float maxLowMemoryWarningTime = 15 * 60;
+
 	private final Context context;
 	private final Comparator<Statement> pathComparator;
 	private final boolean unsigned;
+	private final CircularArrayDeque<Long> lowMemoryWarnings;
 	private SimpleAborter aborter;
 
 	public Useless(CommandSource from, Transaction transaction, Context context, boolean unsigned)
@@ -65,6 +71,7 @@ public class Useless extends TransactionalCommand
 		this.context = context;
 		this.pathComparator = Statement.pathComparator(getTransaction());
 		this.unsigned = unsigned;
+		this.lowMemoryWarnings = new CircularArrayDeque<>(numLowMemoryWarnings);
 		this.aborter = null;
 	}
 
@@ -157,8 +164,9 @@ public class Useless extends TransactionalCommand
 					}
 					catch (AbortException e)
 					{
-						getErr().println("Aborted due to low memory: " + context.statementPathString(getTransaction(), getActiveContext()));
-						logger.trace("Aborted due to low memory: " + context.getUuid() + ": " + context.statementPathString(getTransaction()));
+						String relPath = ctx.statementPathString(getTransaction(), getActiveContext());
+						getErr().println("Aborted due to low memory" + (relPath.isEmpty() ? "" : ": " + relPath));
+						logger.trace("Aborted due to low memory: " + ctx.getUuid() + ": " + ctx.statementPathString(getTransaction()));
 					}
 			}
 			else
@@ -175,8 +183,22 @@ public class Useless extends TransactionalCommand
 	@Override
 	public void lowMemoryWarn()
 	{
+		long now = System.nanoTime();
+		if (!lowMemoryWarnings.isEmpty())
+		{
+			long fromLast = now - lowMemoryWarnings.getLast();
+			if (fromLast < minLowMemoryWarningTime * 1e9)
+				return;
+		}
+		lowMemoryWarnings.add(now);
 		if (aborter != null)
 			aborter.abort(new AbortException());
+		if (lowMemoryWarnings.isFull())
+		{
+			long fromFirst = now - lowMemoryWarnings.getFirst();
+			if (fromFirst < maxLowMemoryWarningTime * 1e9)
+				cancel("due to too many low memory warnings");
+		}
 	}
 
 	public static class Factory extends AbstractVoidCommandFactory<Useless>
