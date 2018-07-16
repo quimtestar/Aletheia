@@ -321,6 +321,11 @@ public class AuthorityJPanel extends JPanel
 			headerJScrollPane.setViewportView(null);
 			authorityHeaderJPanel = null;
 		}
+		if (authorityHeaderJPanelLayerUI != null)
+		{
+			authorityHeaderJPanelLayerUI.close();
+			authorityHeaderJPanelLayerUI = null;
+		}
 	}
 
 	private synchronized void removeAuthoritySignatureJTable()
@@ -334,6 +339,31 @@ public class AuthorityJPanel extends JPanel
 		{
 			authoritySignatureTableFocusBorderManager.close();
 			authoritySignatureTableFocusBorderManager = null;
+		}
+		if (authoritySignatureJTableLayerUI != null)
+		{
+			authoritySignatureJTableLayerUI.close();
+			authoritySignatureJTableLayerUI = null;
+		}
+	}
+
+	private synchronized void removeDelegateTreeJTree()
+	{
+		if (delegateTreeJTree != null)
+		{
+			delegateTreeJTree.close();
+			delegateTreeJScrollPane.setViewportView(null);
+			delegateTreeJTree = null;
+		}
+		if (delegateTreeFocusBorderManager != null)
+		{
+			delegateTreeFocusBorderManager.close();
+			delegateTreeFocusBorderManager = null;
+		}
+		if (delegateTreeJTreeLayerUI != null)
+		{
+			delegateTreeJTreeLayerUI.close();
+			delegateTreeJTreeLayerUI = null;
 		}
 	}
 
@@ -375,6 +405,7 @@ public class AuthorityJPanel extends JPanel
 
 		removeAuthorityHeaderJPanel();
 		removeAuthoritySignatureJTable();
+		removeDelegateTreeJTree();
 		if (statementAuthority != null)
 		{
 			authorityHeaderJPanel = new AuthorityHeaderJPanel(this, statementAuthority);
@@ -387,10 +418,6 @@ public class AuthorityJPanel extends JPanel
 			authoritySignatureJTableLayerUI = new PersistentJTreeLayerUI<>(getAletheiaJFrame(), authoritySignatureJTable);
 			authoritySignatureTableJScrollPane.setViewportView(authoritySignatureJTableLayerUI.getJLayer());
 			authoritySignatureTableFocusBorderManager = new FocusBorderManager(authoritySignatureTableJScrollPane, authoritySignatureJTable);
-			if (delegateTreeJTree != null)
-				delegateTreeJTree.close();
-			if (delegateTreeFocusBorderManager != null)
-				delegateTreeFocusBorderManager.close();
 			delegateTreeJTree = new DelegateTreeJTree(this, statementAuthority);
 			delegateTreeJTreeLayerUI = new PersistentJTreeLayerUI<>(getAletheiaJFrame(), delegateTreeJTree);
 			delegateTreeJScrollPane.setViewportView(delegateTreeJTreeLayerUI.getJLayer());

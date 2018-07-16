@@ -253,4 +253,11 @@ public class PersistentJTreeLayerUI<T extends JComponent> extends LayerUI<T>
 		lockTransactionManager.lock(owners);
 	}
 
+	public synchronized void close()
+	{
+		if (jLayer != null)
+			jLayer.setUI(null);
+		jLayer = null;
+	}
+
 }

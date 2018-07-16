@@ -166,7 +166,9 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 			cliJPanel.close();
 			cliController.shutdown(cliJPanel);
 			contextJTreeJPanel.close();
+			contextJTreeLayerUI.close();
 			signatureRequestJTree.close();
+			signatureRequestJTreeLayerUI.close();
 			signatureRequestFocusBorderManager.close();
 			proofFinder.shutdown();
 		}
