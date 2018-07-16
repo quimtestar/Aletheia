@@ -27,6 +27,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.WeakHashMap;
 
 public class AletheiaEventQueue extends EventQueue
 {
@@ -35,11 +36,11 @@ public class AletheiaEventQueue extends EventQueue
 		public boolean processThrowable(C component, T e);
 	}
 
-	private final Map<Component, Map<Class<Throwable>, Set<ThrowableProcessor<Component, Throwable>>>> processorMap;
+	private final WeakHashMap<Component, Map<Class<Throwable>, Set<ThrowableProcessor<Component, Throwable>>>> processorMap;
 
 	public AletheiaEventQueue()
 	{
-		this.processorMap = new HashMap<>();
+		this.processorMap = new WeakHashMap<>();
 	}
 
 	@SuppressWarnings("unchecked")
@@ -70,7 +71,19 @@ public class AletheiaEventQueue extends EventQueue
 		Set<ThrowableProcessor<Component, Throwable>> processors = throwableMap.get(throwableClass);
 		if (processors == null)
 			return false;
-		return processors.remove(processor);
+		try
+		{
+			return processors.remove(processor);
+		}
+		finally
+		{
+			if (processors.isEmpty())
+			{
+				throwableMap.remove(throwableClass);
+				if (throwableMap.isEmpty())
+					processorMap.remove(component);
+			}
+		}
 	}
 
 	@Override
