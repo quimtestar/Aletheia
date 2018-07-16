@@ -49,7 +49,8 @@ public class Test0008 extends TransactionalBerkeleyDBPersistenceManagerTest
 		//UUID uuid = UUID.fromString("13401716-ea4c-542e-9951-e69241578080"); 		// Real.e.th.summation.factorial
 		//UUID uuid = UUID.fromString("f9fadbad-9052-48e6-8c4a-714b8f9e4cf3");		// Set.th.epsilon_induction.bis
 		//UUID uuid = UUID.fromString("f7395384-078f-4727-80c5-58779528b176"); 		// Set.th.epsilon_induction.bis
-		UUID uuid = UUID.fromString("148f0fea-c933-5fad-8742-cb80d75cfaac"); // Prop.Iff.th.symm
+		//UUID uuid = UUID.fromString("148f0fea-c933-5fad-8742-cb80d75cfaac"); 		// Prop.Iff.th.symm
+		UUID uuid = UUID.fromString("c81983c1-ad6e-5c9b-9f7a-675705b8b032"); // Rational.exponentiation.th.succ: Useless statement "ecd90cd2-213a-5131-8be2-8afa2efde445" goes undetected
 
 		Context context = persistenceManager.getContext(transaction, uuid);
 		Collection<Statement> useless = context.uselessDescendents(transaction);
