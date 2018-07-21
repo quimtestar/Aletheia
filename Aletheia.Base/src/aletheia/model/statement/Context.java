@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -726,41 +725,7 @@ public class Context extends Statement
 		for (Context ctx : statementPath(transaction))
 		{
 			List<Statement> candidates = new BufferedList<>(ctx.localStatementsByTerm(transaction).get(term));
-			Collections.sort(candidates, new Comparator<Statement>()
-			{
-
-				private int compareClasses(Statement st1, Statement st2)
-				{
-					int c;
-					c = -Boolean.compare(st1 instanceof Assumption, st2 instanceof Assumption);
-					if (c != 0)
-						return c;
-					c = Boolean.compare(st1 instanceof Declaration, st2 instanceof Declaration);
-					if (c != 0)
-						return c;
-					return c;
-				}
-
-				@Override
-				public int compare(Statement st1, Statement st2)
-				{
-					Identifier id1 = st1.getIdentifier();
-					Identifier id2 = st2.getIdentifier();
-					int c;
-					c = compareClasses(st1, st2);
-					if (c != 0)
-						return c;
-					c = Boolean.compare(id1 == null, id2 == null);
-					if (c != 0)
-						return c;
-					if (id1 == null || id2 == null)
-						return 0;
-					c = Integer.compare(id1.length(), id2.length());
-					if (c != 0)
-						return c;
-					return c;
-				}
-			});
+			Collections.sort(candidates, solverStatementComparator());
 			for (Statement c : candidates)
 				if (!higherProved || c.isProved() || equals(ctx))
 					return c;

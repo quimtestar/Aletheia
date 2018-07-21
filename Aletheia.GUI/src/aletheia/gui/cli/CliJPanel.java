@@ -1344,6 +1344,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		synchronized (this)
 		{
 			catalogJTree.close();
+			catalogJTreeLayerUI.close();
 			catalogJTreeFocusBorderManager.close();
 			if (consolePrintWriter != null)
 				consolePrintWriter.close();
@@ -2555,6 +2556,7 @@ public class CliJPanel extends JPanel implements CommandSource
 			this.catalogJTree.setRootCatalog(null);
 		if (selected != null)
 			selectPrefix(selected);
+		catalogJTreeLayerUI.close();
 		catalogJTreeLayerUI = new PersistentJTreeLayerUI<>(aletheiaJPanel.getAletheiaJFrame(), catalogJTree);
 		catalogJTreeScrollPane = new JScrollPane(catalogJTreeLayerUI.getJLayer());
 		catalogJTreeFocusBorderManager = new FocusBorderManager(catalogJTreeScrollPane, catalogJTree);
