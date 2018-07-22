@@ -146,7 +146,7 @@ public class PersistentJTreeLayerUI<T extends JComponent> extends LayerUI<T>
 
 		private synchronized void lock(Collection<? extends Transaction> transactions)
 		{
-			lockJLayer(jLayer);
+			lockJLayer();
 			for (Transaction transaction : transactions)
 			{
 				pending.add(transaction);
@@ -158,7 +158,7 @@ public class PersistentJTreeLayerUI<T extends JComponent> extends LayerUI<T>
 		{
 			pending.remove(transaction);
 			if (pending.isEmpty())
-				unlockJLayer(jLayer);
+				unlockJLayer();
 		}
 
 	}
@@ -233,19 +233,24 @@ public class PersistentJTreeLayerUI<T extends JComponent> extends LayerUI<T>
 		if (jLayer != c)
 			throw new RuntimeException();
 		aletheiaJFrame.getAletheiaEventQueue().removeThrowableProcessor(jLayer.getView(), PersistenceLockTimeoutException.class, myThrowableProcessor);
-		jLayer = null;
 	}
 
-	private synchronized void lockJLayer(JLayer<T> jLayer)
+	private synchronized void lockJLayer()
 	{
-		jLayer.getGlassPane().setVisible(true);
-		jLayer.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		if (jLayer != null)
+		{
+			jLayer.getGlassPane().setVisible(true);
+			jLayer.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		}
 	}
 
-	private synchronized void unlockJLayer(JLayer<T> jLayer)
+	private synchronized void unlockJLayer()
 	{
-		jLayer.getGlassPane().setVisible(false);
-		jLayer.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		if (jLayer != null)
+		{
+			jLayer.getGlassPane().setVisible(false);
+			jLayer.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		}
 	}
 
 	public synchronized void lock(Collection<? extends Transaction> owners)
@@ -257,7 +262,6 @@ public class PersistentJTreeLayerUI<T extends JComponent> extends LayerUI<T>
 	{
 		if (jLayer != null)
 			jLayer.setUI(null);
-		jLayer = null;
 	}
 
 }

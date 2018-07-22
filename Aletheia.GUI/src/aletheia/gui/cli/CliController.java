@@ -244,6 +244,7 @@ public class CliController extends Thread
 					}
 					catch (Exception e)
 					{
+						logger.trace("Captured exception", e);
 						try
 						{
 							queue.put(new TraceException(activeCommand.getFrom(), e));

@@ -22,10 +22,13 @@ package aletheia.gui.cli.command.statement;
 import java.util.List;
 import java.util.Stack;
 
+import org.apache.logging.log4j.Logger;
+
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
+import aletheia.log4j.LoggerManager;
 import aletheia.model.local.ContextLocal;
 import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
@@ -35,6 +38,8 @@ import aletheia.persistence.Transaction;
 @TaggedCommand(tag = "shc", groupPath = "/statement", factory = SubscribedHighestContext.Factory.class)
 public class SubscribedHighestContext extends TransactionalCommand
 {
+	private static final Logger logger = LoggerManager.instance.logger();
+
 	private final Context context;
 	private final boolean unsigned;
 
@@ -68,6 +73,7 @@ public class SubscribedHighestContext extends TransactionalCommand
 				}
 				if (!pushed && statement.isProved() && !(statement instanceof Assumption) && (!unsigned || !statement.isValidSignature(getTransaction())))
 				{
+					logger.trace("Processing: " + statement.getUuid() + ": " + statement.statementPathString(getTransaction()));
 					Context ctx_ = statement.highestContext(getTransaction());
 					if (!ctx_.equals(ctx))
 						getOut().println(statement.statementPathString(getTransaction(), context) + " -> " + ctx_.label());
