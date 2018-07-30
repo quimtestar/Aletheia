@@ -52,6 +52,18 @@ import aletheia.utilities.collections.CloseableIterator;
 public class MiscUtilities
 {
 
+	private MiscUtilities()
+	{
+	}
+
+	/**
+	 * Dummy method just to make the class loader to load this class. Necessary
+	 * for the Eclipse IDE to use it in the detail formatters.
+	 */
+	public static void dummy()
+	{
+	}
+
 	/**
 	 * Wrap a text with a number of columns.
 	 *
@@ -715,6 +727,61 @@ public class MiscUtilities
 	public static InetAddress socketChannelRemoteInetAddress(SocketChannel socketChannel) throws IOException
 	{
 		return ((InetSocketAddress) socketChannel.getRemoteAddress()).getAddress();
+	}
+
+	/**
+	 * Detail formatter just for eclipse debugging. Just the default collection
+	 * toString method with a time limit of two seconds.
+	 */
+	public static String collectionDetailFormatter(Collection<?> collection)
+	{
+		Iterator<?> it = collection.iterator();
+		if (!it.hasNext())
+			return "[]";
+
+		StringBuilder sb = new StringBuilder();
+		sb.append('[');
+		long t0 = System.currentTimeMillis();
+		for (;;)
+		{
+			if (System.currentTimeMillis() - t0 >= 2000)
+				return sb.append("...").toString();
+			Object e = it.next();
+			sb.append(e == collection ? "(this Collection)" : e);
+			if (!it.hasNext())
+				return sb.append(']').toString();
+			sb.append(',').append(' ');
+		}
+	}
+
+	/**
+	 * Detail formatter just for eclipse debugging. Just the default map
+	 * toString method with a time limit of two seconds.
+	 */
+	public static String mapDetailFormatter(Map<?, ?> map)
+	{
+		Iterator<? extends Entry<?, ?>> i = map.entrySet().iterator();
+		if (!i.hasNext())
+			return "{}";
+
+		StringBuilder sb = new StringBuilder();
+		sb.append('{');
+		long t0 = System.currentTimeMillis();
+		for (;;)
+		{
+			if (System.currentTimeMillis() - t0 >= 2000)
+				return sb.append("...").toString();
+			Entry<?, ?> e = i.next();
+			Object key = e.getKey();
+			Object value = e.getValue();
+			sb.append(key == map ? "(this Map)" : key);
+			sb.append('=');
+			sb.append(value == map ? "(this Map)" : value);
+			if (!i.hasNext())
+				return sb.append('}').toString();
+			sb.append(',').append(' ');
+		}
+
 	}
 
 }
