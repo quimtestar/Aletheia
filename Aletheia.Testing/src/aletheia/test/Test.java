@@ -20,15 +20,20 @@
 package aletheia.test;
 
 import aletheia.test.unsorted.*;
+import aletheia.utilities.MiscUtilities;
 
 public abstract class Test
 {
+	static
+	{
+		MiscUtilities.dummy();
+	}
 
 	public abstract void run() throws Exception;
 
 	public static void main(String[] args) throws Exception
 	{
-		new Test0008().run();
+		new Test0011().run();
 	}
 
 }
