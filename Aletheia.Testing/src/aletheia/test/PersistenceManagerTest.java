@@ -19,9 +19,11 @@
  ******************************************************************************/
 package aletheia.test;
 
+import aletheia.gui.app.AletheiaCliConsole;
 import aletheia.persistence.PersistenceManager;
+import aletheia.persistence.PersistenceSecretKeyManager.PersistenceSecretKeyException;
 
-public abstract class PersistenceManagerTest extends Test
+public abstract class PersistenceManagerTest<P extends PersistenceManager> extends Test
 {
 	private final PersistenceManager.Configuration configuration;
 
@@ -33,6 +35,25 @@ public abstract class PersistenceManagerTest extends Test
 	public PersistenceManager.Configuration getConfiguration()
 	{
 		return configuration;
+	}
+
+	@Override
+	public final void run() throws Exception
+	{
+		try (P persistenceManager = createPersistenceManager())
+		{
+			run(persistenceManager);
+		}
+	}
+
+	protected abstract P createPersistenceManager();
+
+	protected abstract void run(P persistenceManager) throws Exception;
+
+	protected void enterPassphrase(P persistenceManager) throws PersistenceSecretKeyException
+	{
+		char[] passphrase = AletheiaCliConsole.cliConsole(persistenceManager).passphrase(false);
+		persistenceManager.getSecretKeyManager().enterPassphrase(passphrase);
 	}
 
 }

@@ -24,7 +24,7 @@ import java.io.File;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager.Configuration;
 
-public abstract class BerkeleyDBPersistenceManagerTest extends PersistenceManagerTest
+public abstract class BerkeleyDBPersistenceManagerTest extends PersistenceManagerTest<BerkeleyDBPersistenceManager>
 {
 	public BerkeleyDBPersistenceManagerTest(boolean readOnly)
 	{
@@ -53,14 +53,9 @@ public abstract class BerkeleyDBPersistenceManagerTest extends PersistenceManage
 	}
 
 	@Override
-	public final void run() throws Exception
+	protected BerkeleyDBPersistenceManager createPersistenceManager()
 	{
-		try (BerkeleyDBPersistenceManager persistenceManager = new BerkeleyDBPersistenceManager(getConfiguration()))
-		{
-			run(persistenceManager);
-		}
+		return new BerkeleyDBPersistenceManager(getConfiguration());
 	}
-
-	protected abstract void run(BerkeleyDBPersistenceManager persistenceManager) throws Exception;
 
 }
