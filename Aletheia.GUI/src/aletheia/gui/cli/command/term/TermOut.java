@@ -34,18 +34,23 @@ public class TermOut extends TransactionalCommand
 {
 	private final Term term;
 	private final ParameterIdentification parameterIdentification;
+	private final boolean indent;
 
-	public TermOut(CommandSource from, Transaction transaction, Term term, ParameterIdentification parameterIdentification)
+	public TermOut(CommandSource from, Transaction transaction, Term term, ParameterIdentification parameterIdentification, boolean indent)
 	{
 		super(from, transaction);
 		this.term = term;
 		this.parameterIdentification = parameterIdentification;
+		this.indent = indent;
 	}
 
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws NotActiveContextException
 	{
-		getOut().println(termToString(getActiveContext(), getTransaction(), term, parameterIdentification));
+		if (indent)
+			printTerm(getActiveContext(), getTransaction(), term, parameterIdentification);
+		else
+			getOut().println(termToString(getActiveContext(), getTransaction(), term, parameterIdentification));
 		return null;
 	}
 
@@ -56,6 +61,7 @@ public class TermOut extends TransactionalCommand
 		public TermOut parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
+			boolean indent = split.remove("-indent");
 			Term term;
 			ParameterIdentification parameterIdentification = null;
 			if (split.size() < 1)
@@ -70,7 +76,7 @@ public class TermOut extends TransactionalCommand
 				if (split.size() >= 2)
 					parameterIdentification = parseParameterIdentification(split.get(1));
 			}
-			return new TermOut(from, transaction, term, parameterIdentification);
+			return new TermOut(from, transaction, term, parameterIdentification, indent);
 		}
 
 		@Override
@@ -82,7 +88,7 @@ public class TermOut extends TransactionalCommand
 		@Override
 		protected String paramSpec()
 		{
-			return "[<term> [<parameter identification>]]";
+			return "[<term> [<parameter identification>]] [-indent]";
 		}
 
 		@Override
