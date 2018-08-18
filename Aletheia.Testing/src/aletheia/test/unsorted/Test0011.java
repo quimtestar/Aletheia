@@ -62,17 +62,29 @@ public class Test0011 extends TransactionalBerkeleyDBPersistenceManagerTest
 
 		};
 		Map<UUID, UUID> uuidStatementMap = new HashMap<>();
-		Map<Statement, Statement> statementMap = new BijectionKeyMap<>(uuidBijection,
-				new BijectionMap<>(uuidBijection, uuidStatementMap));
+		Map<Statement, Statement> statementMap = new BijectionKeyMap<>(uuidBijection, new BijectionMap<>(uuidBijection, uuidStatementMap));
 		{
 			Map<String, String> stringMap = new HashMap<>();
-			stringMap.put("Aletheia.Term.freeVars", "Aletheia.Term.freeVarsNew");
-			stringMap.put("Aletheia.Term.freeVars.def", "Aletheia.Term.freeVarsNew.th.def.old");
-			stringMap.put("Aletheia.Term.freeVars.th.tau", "Aletheia.Term.freeVarsNew.th.tau");
-			stringMap.put("Aletheia.Term.freeVars.th.variable", "Aletheia.Term.freeVarsNew.th.variable");
-			stringMap.put("Aletheia.Term.freeVars.th.composition", "Aletheia.Term.freeVarsNew.th.composition");
-			stringMap.put("Aletheia.Term.freeVars.th.function", "Aletheia.Term.freeVarsNew.th.function.subtraction_singleton");
-			stringMap.put("Aletheia.Term.freeVars.th.projection", "Aletheia.Term.freeVarsNew.th.projection");
+
+			/*
+			stringMap.put("Aletheia.Term.type.freeVars.variant", "Aletheia.Term.type.freeVars.variant.new");
+			stringMap.put("Aletheia.Term.type.freeVars.variant.def", "Aletheia.Term.type.freeVars.variant.new.def.old");
+			stringMap.put("Aletheia.Term.type.freeVars.variant.th.tau", "Aletheia.Term.type.freeVars.variant.new.th.tau");
+			stringMap.put("Aletheia.Term.type.freeVars.variant.th.variable", "Aletheia.Term.type.freeVars.variant.new.th.variable");
+			stringMap.put("Aletheia.Term.type.freeVars.variant.th.composition", "Aletheia.Term.type.freeVars.variant.new.th.composition");
+			stringMap.put("Aletheia.Term.type.freeVars.variant.th.function", "Aletheia.Term.type.freeVars.variant.new.th.function.subtraction_singleton");
+			stringMap.put("Aletheia.Term.type.freeVars.variant.th.projection", "Aletheia.Term.type.freeVars.variant.new.th.projection");
+			*/
+
+			stringMap.put("Aletheia.Term.type.freeVars.invariant", "Aletheia.Term.type.freeVars.invariant.new");
+			stringMap.put("Aletheia.Term.type.freeVars.invariant.def", "Aletheia.Term.type.freeVars.invariant.new.def.old");
+			stringMap.put("Aletheia.Term.type.freeVars.invariant.th.tau", "Aletheia.Term.type.freeVars.invariant.new.th.tau");
+			stringMap.put("Aletheia.Term.type.freeVars.invariant.th.variable", "Aletheia.Term.type.freeVars.invariant.new.th.variable");
+			stringMap.put("Aletheia.Term.type.freeVars.invariant.th.composition", "Aletheia.Term.type.freeVars.invariant.new.th.composition");
+			stringMap.put("Aletheia.Term.type.freeVars.invariant.th.function", "Aletheia.Term.type.freeVars.invariant.new.th.function.subtraction_singleton");
+			stringMap.put("Aletheia.Term.type.freeVars.invariant.th.projection.function",
+					"Aletheia.Term.type.freeVars.invariant.new.th.projection.function.subtraction_singleton");
+
 			Context choiceCtx = persistenceManager.getContext(transaction, UUID.fromString("75130b32-91fa-5da5-af6c-744cb4463f64"));
 			for (Map.Entry<String, String> e : stringMap.entrySet())
 			{
@@ -104,8 +116,7 @@ public class Test0011 extends TransactionalBerkeleyDBPersistenceManagerTest
 					}
 					stack.addAll(new BijectionCollection<>(new InverseBijection<>(uuidBijection), st.dependents(transaction)));
 					if (st instanceof Context)
-						stack.addAll(new BijectionCollection<>(new InverseBijection<>(uuidBijection),
-								((Context) st).localStatements(transaction).values()));
+						stack.addAll(new BijectionCollection<>(new InverseBijection<>(uuidBijection), ((Context) st).localStatements(transaction).values()));
 				}
 			}
 			System.out.println("loading: " + stack.size() + ": " + dependents.size());
@@ -137,8 +148,7 @@ public class Test0011 extends TransactionalBerkeleyDBPersistenceManagerTest
 					return persistenceManager.getStatement(transaction, variable.getUuid());
 			}
 		};
-		Map<VariableTerm, Term> variableMap = new AdaptedMap<>(new BijectionKeyMap<>(
-				statementBijection, new BijectionMap<>(statementBijection, statementMap)));
+		Map<VariableTerm, Term> variableMap = new AdaptedMap<>(new BijectionKeyMap<>(statementBijection, new BijectionMap<>(statementBijection, statementMap)));
 
 		Stack<UUID> stack = new Stack<>();
 		stack.addAll(uuidDependents);
@@ -206,8 +216,15 @@ public class Test0011 extends TransactionalBerkeleyDBPersistenceManagerTest
 					Statement general = ((Specialization) oldSt).getGeneral(transaction);
 					Term instance = ((Specialization) oldSt).getInstance();
 					Statement instanceProof = ((Specialization) oldSt).getInstanceProof(transaction);
-					newSt = newCtx.specialize(transaction, statementMap.getOrDefault(general, general), instance.replace(variableMap),
-							statementMap.getOrDefault(instanceProof, instanceProof));
+					try
+					{
+						newSt = newCtx.specialize(transaction, statementMap.getOrDefault(general, general), instance.replace(variableMap),
+								statementMap.getOrDefault(instanceProof, instanceProof));
+					}
+					catch (Exception e)
+					{
+						throw e;
+					}
 				}
 				else
 					throw new Error();
