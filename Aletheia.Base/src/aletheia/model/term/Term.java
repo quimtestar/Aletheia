@@ -578,26 +578,41 @@ public abstract class Term implements Serializable, Exportable
 	}
 
 	public final void print(PrintWriter printWriter, Transaction transaction, Context context, int minLength, int maxLength, int pageWidth, String indentString,
-			int indentLength)
+			int indentLength, ParameterIdentification parameterIdentification)
 	{
 		IndentedStringAppender stringAppender = new IndentedStringAppender(minLength, maxLength, pageWidth, indentString, indentLength);
-		stringAppend(stringAppender, context.variableToIdentifier(transaction), new ParameterNumerator(), null);
+		stringAppend(stringAppender, context.variableToIdentifier(transaction), new ParameterNumerator(), parameterIdentification);
 		stringAppender.print(printWriter);
+	}
+
+	public final void print(PrintWriter printWriter, Transaction transaction, Context context, int minLength, int maxLength, int pageWidth, String indentString,
+			int indentLength)
+	{
+		print(printWriter, transaction, context, minLength, maxLength, pageWidth, indentString, indentLength, null);
+	}
+
+	public final void print(PrintWriter printWriter, Transaction transaction, Context context, ParameterIdentification parameterIdentification)
+	{
+		print(printWriter, transaction, context, 16, 64, Integer.MAX_VALUE, "\t", 4, parameterIdentification);
 	}
 
 	public final void print(PrintWriter printWriter, Transaction transaction, Context context)
 	{
-		print(printWriter, transaction, context, 16, 64, Integer.MAX_VALUE, "\t", 4);
+		print(printWriter, transaction, context, null);
+	}
+
+	public final String toIndentedString(Transaction transaction, Context context, ParameterIdentification parameterIdentification)
+	{
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		PrintWriter pw = new PrintWriter(baos);
+		print(pw, transaction, context, parameterIdentification);
+		pw.close();
+		return baos.toString();
 	}
 
 	public final String toIndentedString(Transaction transaction, Context context)
 	{
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		PrintWriter pw = new PrintWriter(baos);
-		print(pw, transaction, context);
-		pw.close();
-		return baos.toString();
-
+		return toIndentedString(transaction, context, null);
 	}
 
 	public Map<ParameterVariableTerm, Identifier> parameterVariableToIdentifier(ParameterIdentification parameterIdentification)

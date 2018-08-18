@@ -19,7 +19,6 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.statement;
 
-import java.io.PrintWriter;
 import java.util.List;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
@@ -51,9 +50,7 @@ public class ProofTerm extends TransactionalCommand
 		Term proofTerm = statement.proofTerm(getTransaction());
 		if (proofTerm == null)
 			throw new Exception("No proof");
-		PrintWriter pw = new PrintWriter(getOut());
-		proofTerm.print(pw, getTransaction(), getActiveContext(), 16, 64, 128, "   ", 3);
-		pw.flush();
+		printTerm(getActiveContext(), getTransaction(), proofTerm);
 		return null;
 	}
 

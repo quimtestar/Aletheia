@@ -22,6 +22,7 @@ package aletheia.gui.cli.command;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Collections;
 import aletheia.gui.app.AletheiaJFrame;
@@ -292,6 +293,11 @@ public abstract class Command
 
 	}
 
+	public static Command parse(CommandSource from, Transaction transaction, String command) throws CommandParseException
+	{
+		return factory.parse(from, transaction, command);
+	}
+
 	protected static String termToString(Context ctx, Transaction transaction, Term term, Term.ParameterIdentification parameterIdentification)
 	{
 		return term.toString(ctx != null ? ctx.variableToIdentifier(transaction) : null, parameterIdentification);
@@ -302,9 +308,16 @@ public abstract class Command
 		return termToString(ctx, transaction, term, (Term.ParameterIdentification) null);
 	}
 
-	public static Command parse(CommandSource from, Transaction transaction, String command) throws CommandParseException
+	protected void printTerm(Context ctx, Transaction transaction, Term term, Term.ParameterIdentification parameterIdentification)
 	{
-		return factory.parse(from, transaction, command);
+		PrintWriter pw = new PrintWriter(getOut());
+		term.print(pw, transaction, ctx, 16, 64, 128, "   ", 3, parameterIdentification);
+		pw.flush();
+	}
+
+	protected void printTerm(Context ctx, Transaction transaction, Term term)
+	{
+		printTerm(ctx, transaction, term, null);
 	}
 
 	public abstract void run() throws Exception;
