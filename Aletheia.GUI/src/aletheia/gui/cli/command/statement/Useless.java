@@ -40,8 +40,8 @@ import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
 import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
-import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.ParameterVariableTerm;
+import aletheia.model.term.SimpleTerm;
 import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.aborter.Aborter.AbortException;
@@ -107,14 +107,13 @@ public class Useless extends TransactionalCommand
 		Collection<Assumption> checkable = new ArrayList<>();
 		Iterator<Assumption> iterator = context.assumptions(getTransaction()).iterator();
 		Term term = context.getTerm();
-		while (term instanceof FunctionTerm)
+		List<ParameterVariableTerm> parameters = new ArrayList<>();
+		SimpleTerm consequent = term.consequent(parameters);
+		for (ParameterVariableTerm parameter : parameters)
 		{
 			Assumption assumption = iterator.next();
-			ParameterVariableTerm parameter = ((FunctionTerm) term).getParameter();
-			Term body = ((FunctionTerm) term).getBody();
-			if (!body.isFreeVariable(parameter))
+			if (!consequent.isFreeVariable(parameter))
 				checkable.add(assumption);
-			term = body;
 		}
 		return checkable;
 	}
