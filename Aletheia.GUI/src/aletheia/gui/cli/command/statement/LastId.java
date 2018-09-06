@@ -123,7 +123,7 @@ public class LastId extends TransactionalCommand
 		public LastId parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Statement statement = null;
+			Statement statement;
 			if (split.size() > 1)
 			{
 				statement = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(1));
@@ -132,6 +132,8 @@ public class LastId extends TransactionalCommand
 				if (!statement.statementPath(transaction).contains(statement))
 					throw new CommandParseException("Top statement not in path");
 			}
+			else
+				statement = from.getActiveContext();
 			return new LastId(from, transaction, split.get(0), statement);
 		}
 
@@ -144,7 +146,7 @@ public class LastId extends TransactionalCommand
 		@Override
 		public String shortHelp()
 		{
-			return "Finds the last identifier (in the identifier lexicographical order) used in the active context (and supercontexts and recursivelly-unproved subcontexts) that match a particular pattern (with wildcards '?' (one char), '#' (one digit) and '*' (any string)).";
+			return "Finds the last identifier (in the identifier lexicographical order) used in the active context (and recursivelly-unproved subcontexts) that match a particular pattern (with wildcards '?' (one char), '#' (one digit) and '*' (any string)).";
 		}
 
 	}
