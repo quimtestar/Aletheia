@@ -63,12 +63,13 @@ public class TermTree extends TransactionalCommand
 			getOutB().print("\u250c ");
 		else
 			getOutB().print("\u2022 ");
-		showTree("", "", term, term.parameterNumerator());
+		showTree("", "", "?", false, term, term.parameterNumerator());
 	}
 
-	private void showTree(String prefixA, String prefixB, Term term, Term.ParameterNumerator numerator)
+	private void showTree(String prefixA, String prefixB, String label, boolean compLabel, Term term, Term.ParameterNumerator numerator)
 	{
 		getOut().println(term.toString(getTransaction(), getActiveContext(), numerator));
+		String atomicLabel = compLabel ? "(" + label + ")" : label;
 		if (term instanceof CompositionTerm)
 		{
 			ListIterator<Term> iterator = ((CompositionTerm) term).components().listIterator();
@@ -93,45 +94,56 @@ public class TermTree extends TransactionalCommand
 						prefixA_ = prefixB + "\u2514\u2500\u2500";
 					prefixB_ = prefixB + "  ";
 				}
-
-				getOutB().format("%s%3s: ", prefixA_, "," + i);
-				showTree(prefixA_, prefixB_, component, numerator);
+				String label_ = atomicLabel + (";" + i);
+				getOutB().format("%s %s: ", prefixA_, label_);
+				showTree(prefixA_, prefixB_, label_, false, component, numerator);
 			}
 		}
-		while (term instanceof ProjectionTerm)
-			term = ((ProjectionTerm) term).getFunction();
-		if (term instanceof FunctionTerm)
+		else
 		{
-			FunctionTerm functionTerm = (FunctionTerm) term;
-			ParameterVariableTerm param = functionTerm.getParameter();
-			Term body = functionTerm.getBody();
+			while (term instanceof ProjectionTerm)
+				term = ((ProjectionTerm) term).getFunction();
+			if (term instanceof FunctionTerm)
 			{
-				Term parType = param.getType();
-				String prefixA_;
-				if (hasChildren(parType))
-					prefixA_ = prefixB + "\u251c\u2500\u252c";
-				else
-					prefixA_ = prefixB + "\u251c\u2500\u2500";
-				String prefixB_ = prefixB + "\u2502 ";
-				getOutB().format("%s  %%: ", prefixA_);
-				showTree(prefixA_, prefixB_, parType, numerator);
-			}
-			{
-				int parNum = numerator.numberParameter(param);
-				String prefixA_;
-				if (hasChildren(body))
-					prefixA_ = prefixB + "\u2514\u2500\u252c";
-				else
-					prefixA_ = prefixB + "\u2514\u2500\u2500";
-				String prefixB_ = prefixB + "  ";
-				String tag;
-				if (body.isFreeVariable(functionTerm.getParameter()))
-					tag = String.format("%3s", "@" + parNum);
-				else
-					tag = "  '";
-				getOutB().format("%s%s: ", prefixA_, tag);
-				showTree(prefixA_, prefixB_, body, numerator);
-				numerator.unNumberParameter();
+				FunctionTerm functionTerm = (FunctionTerm) term;
+				ParameterVariableTerm param = functionTerm.getParameter();
+				Term body = functionTerm.getBody();
+				{
+					Term parType = param.getType();
+					String prefixA_;
+					if (hasChildren(parType))
+						prefixA_ = prefixB + "\u251c\u2500\u252c";
+					else
+						prefixA_ = prefixB + "\u251c\u2500\u2500";
+					String prefixB_ = prefixB + "\u2502 ";
+					String label_ = atomicLabel + "%";
+					getOutB().format("%s %s: ", prefixA_, label_);
+					showTree(prefixA_, prefixB_, label_, false, parType, numerator);
+				}
+				{
+					int parNum = numerator.numberParameter(param);
+					String prefixA_;
+					if (hasChildren(body))
+						prefixA_ = prefixB + "\u2514\u2500\u252c";
+					else
+						prefixA_ = prefixB + "\u2514\u2500\u2500";
+					String prefixB_ = prefixB + "  ";
+					String label_;
+					boolean compLabel_;
+					if (body.isFreeVariable(functionTerm.getParameter()))
+					{
+						label_ = label + " @" + parNum;
+						compLabel_ = true;
+					}
+					else
+					{
+						label_ = atomicLabel + "'";
+						compLabel_ = false;
+					}
+					getOutB().format("%s %s: ", prefixA_, label_);
+					showTree(prefixA_, prefixB_, label_, compLabel_, body, numerator);
+					numerator.unNumberParameter();
+				}
 			}
 		}
 	}
