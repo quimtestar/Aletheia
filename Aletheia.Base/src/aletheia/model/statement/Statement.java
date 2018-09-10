@@ -952,7 +952,8 @@ public abstract class Statement implements Exportable
 	}
 
 	/**
-	 * Compares this statement's path to another one for sorting.
+	 * Compares this statement's path to another one for sorting. Assumptions
+	 * first.
 	 */
 	public int pathCompare(Transaction transaction, Statement st)
 	{
@@ -960,19 +961,28 @@ public abstract class Statement implements Exportable
 		Iterator<? extends Statement> i2 = st.statementPath(transaction).iterator();
 		while (i1.hasNext() && i2.hasNext())
 		{
+			int c;
 			Statement cp1 = i1.next();
 			Statement cp2 = i2.next();
-			Identifier id1 = cp1.getIdentifier();
-			Identifier id2 = cp2.getIdentifier();
-			int c;
-			c = Boolean.compare(id1 == null, id2 == null);
-			if (c != 0)
-				return c;
-			if (id1 != null)
+			if (!cp1.equals(cp2))
 			{
-				c = id1.compareTo(id2);
+				Function<Statement, Integer> ord = (Statement cp) -> (cp instanceof Assumption) ? ((Assumption) cp).getOrder() : Integer.MAX_VALUE;
+				int ord1 = ord.apply(cp1);
+				int ord2 = ord.apply(cp2);
+				c = Integer.compare(ord1, ord2);
 				if (c != 0)
 					return c;
+				Identifier id1 = cp1.getIdentifier();
+				Identifier id2 = cp2.getIdentifier();
+				c = Boolean.compare(id1 == null, id2 == null);
+				if (c != 0)
+					return c;
+				if (id1 != null)
+				{
+					c = id1.compareTo(id2);
+					if (c != 0)
+						return c;
+				}
 			}
 		}
 		return Boolean.compare(i1.hasNext(), i2.hasNext());
