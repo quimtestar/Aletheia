@@ -27,7 +27,7 @@ public class AletheiaConstants
 	/**
 	 * 'Aletheia' in the greek alphabet for use as a window title.
 	 */
-	private static final String TITLE_default = "\u1f08\u03bb\u03ae\u03b8\u03b5\u03b9\u03b1 identified_parameters";
+	private static final String TITLE_default = "\u1f08\u03bb\u03ae\u03b8\u03b5\u03b9\u03b1";
 	public static final String TITLE;
 
 	/**
@@ -36,7 +36,7 @@ public class AletheiaConstants
 	 *
 	 * @see java.util.prefs
 	 */
-	private static final String PREFERENCES_NODE_PATH_default = "aletheia_identified_parameters";
+	private static final String PREFERENCES_NODE_PATH_default = "aletheia";
 	public static final String PREFERENCES_NODE_PATH;
 
 	static
