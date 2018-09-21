@@ -27,7 +27,7 @@ public class AppearanceAletheiaPreferences extends NodeAletheiaPreferences
 
 	private final static String FONT_SIZE = "font_size";
 
-	private final static int defaultFontSize = 12;
+	private final static int defaultFontSize = 14;
 
 	private final AletheiaJFrameBoundsPreferences aletheiaJFrameBoundsPreferences;
 
