@@ -1548,25 +1548,37 @@ public class CliJPanel extends JPanel implements CommandSource
 
 		}
 
-		private final AttributeSet activeAS;
-		private final AttributeSet errorAS;
-		private final AttributeSet warningAS;
+		private final static boolean BOLD = false;
+		private final static boolean UNDERLINE = true;
+		private final Color OK_COLOR = Color.BLUE;
+		private final Color WARNING_COLOR = Color.CYAN.darker().darker();
+		private final Color ERROR_COLOR = Color.RED;
+
+		private final SimpleAttributeSet okAS;
+		private final SimpleAttributeSet warningAS;
+		private final SimpleAttributeSet errorAS;
 		private final Set<HighLight> highLights;
 
 		public BracketHighLightManager()
 		{
-			this.activeAS = new SimpleAttributeSet();
-			StyleConstants.setForeground((MutableAttributeSet) this.activeAS, Color.BLUE);
-			StyleConstants.setBold((MutableAttributeSet) this.activeAS, true);
-			StyleConstants.setUnderline((MutableAttributeSet) this.activeAS, true);
-			this.errorAS = new SimpleAttributeSet();
-			StyleConstants.setForeground((MutableAttributeSet) this.errorAS, Color.RED);
-			StyleConstants.setBold((MutableAttributeSet) this.errorAS, true);
-			StyleConstants.setUnderline((MutableAttributeSet) this.errorAS, true);
+			this.okAS = new SimpleAttributeSet();
 			this.warningAS = new SimpleAttributeSet();
-			StyleConstants.setForeground((MutableAttributeSet) this.warningAS, Color.ORANGE.darker().darker());
-			StyleConstants.setBold((MutableAttributeSet) this.warningAS, true);
-			StyleConstants.setUnderline((MutableAttributeSet) this.warningAS, true);
+			this.errorAS = new SimpleAttributeSet();
+			StyleConstants.setForeground(this.okAS, OK_COLOR);
+			StyleConstants.setForeground(this.warningAS, WARNING_COLOR);
+			StyleConstants.setForeground(this.errorAS, ERROR_COLOR);
+			if (BOLD)
+			{
+				StyleConstants.setBold(this.okAS, true);
+				StyleConstants.setBold(this.warningAS, true);
+				StyleConstants.setBold(this.errorAS, true);
+			}
+			if (UNDERLINE)
+			{
+				StyleConstants.setUnderline(this.okAS, true);
+				StyleConstants.setUnderline(this.warningAS, true);
+				StyleConstants.setUnderline(this.errorAS, true);
+			}
 			this.highLights = new HashSet<>();
 		}
 
@@ -1806,8 +1818,9 @@ public class CliJPanel extends JPanel implements CommandSource
 					if ((p < 0) || (f < 0) || (a < 0))
 						break;
 				}
-				boolean ok = (token.type == BHLMTokenType.CloseQuote) && (p == 0) && (f == 0) & (a == 0);
-				AttributeSet as = ok ? activeAS : errorAS;
+				boolean warning = (token.type == BHLMTokenType.CloseQuote) && (p == 0) && (f == 0) && (a >= 0);
+				boolean ok = warning && (a == 0);
+				AttributeSet as = ok ? okAS : warning ? warningAS : errorAS;
 				createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
 				if (token.type != BHLMTokenType.Out)
 					createHighLight(as, token.absBegin(), token.absEnd());
@@ -1850,8 +1863,9 @@ public class CliJPanel extends JPanel implements CommandSource
 					if ((p < 0) || (f < 0) || (a < 0))
 						break;
 				}
-				boolean ok = (token.type == BHLMTokenType.OpenQuote) && (p == 0) && (f == 0) & (a == 0);
-				AttributeSet as = ok ? activeAS : errorAS;
+				boolean warning = (token.type == BHLMTokenType.OpenQuote) && (p == 0) && (f == 0) && (a >= 0);
+				boolean ok = warning && (a == 0);
+				AttributeSet as = ok ? okAS : warning ? warningAS : errorAS;
 				createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
 				if (token.type != BHLMTokenType.Out)
 					createHighLight(as, token.absBegin(), token.absEnd());
@@ -1894,8 +1908,9 @@ public class CliJPanel extends JPanel implements CommandSource
 					if ((p <= 0) || (f < 0) || (a < 0))
 						break;
 				}
-				boolean ok = (p == 0) && (f == 0) & (a == 0);
-				AttributeSet as = ok ? activeAS : errorAS;
+				boolean warning = (p == 0) && (f == 0) && (a >= 0);
+				boolean ok = warning && (a == 0);
+				AttributeSet as = ok ? okAS : warning ? warningAS : errorAS;
 				createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
 				if (token.type != BHLMTokenType.Out)
 					createHighLight(as, token.absBegin(), token.absEnd());
@@ -1938,8 +1953,9 @@ public class CliJPanel extends JPanel implements CommandSource
 					if ((p <= 0) || (f < 0) || (a < 0))
 						break;
 				}
-				boolean ok = (p == 0) && (f == 0) & (a == 0);
-				AttributeSet as = ok ? activeAS : errorAS;
+				boolean warning = (p == 0) && (f == 0) && (a >= 0);
+				boolean ok = warning && (a == 0);
+				AttributeSet as = ok ? okAS : warning ? warningAS : errorAS;
 				createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
 				if (token.type != BHLMTokenType.Out)
 					createHighLight(as, token.absBegin(), token.absEnd());
@@ -1992,8 +2008,9 @@ public class CliJPanel extends JPanel implements CommandSource
 					if ((f <= 0) || (p < 0) || (a < 0))
 						break;
 				}
-				boolean ok = (p == 0) && (f == 0) & (a == 0);
-				AttributeSet as = ok ? activeAS : errorAS;
+				boolean warning = (p == 0) && (f == 0) && (a >= 0);
+				boolean ok = warning && (a == 0);
+				AttributeSet as = ok ? okAS : warning ? warningAS : errorAS;
 				createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
 				if (token.type != BHLMTokenType.Out)
 					createHighLight(as, token.absBegin(), token.absEnd());
@@ -2062,8 +2079,9 @@ public class CliJPanel extends JPanel implements CommandSource
 					if ((f <= 0) || (p < 0) || (a < 0))
 						break;
 				}
-				boolean ok = (p == 0) && (f == 0) & (a == 0);
-				AttributeSet as = ok ? activeAS : errorAS;
+				boolean warning = (p == 0) && (f == 0) && (a >= 0);
+				boolean ok = warning && (a == 0);
+				AttributeSet as = ok ? okAS : warning ? warningAS : errorAS;
 				createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
 				if (token.type != BHLMTokenType.Out)
 					createHighLight(as, token.absBegin(), token.absEnd());
@@ -2113,7 +2131,8 @@ public class CliJPanel extends JPanel implements CommandSource
 					if ((f <= 0) || (p < 0) || (a < 0))
 						break;
 				}
-				boolean ok = (p == 0) && (f == 0) & (a == 0);
+				boolean warning = (p == 0) && (f == 0) && (a >= 0);
+				boolean ok = warning && (a == 0);
 				ArrayList<Token> stars = new ArrayList<>();
 				for (Token tstar = cursor.forward(false); tstar.type.equals(BHLMTokenType.Star); tstar = cursor.forward(false))
 					stars.add(tstar);
@@ -2155,8 +2174,9 @@ public class CliJPanel extends JPanel implements CommandSource
 					if ((f <= 0) || (p < 0) || (a < 0))
 						break;
 				}
-				ok = ok && (p == 0) && (f == 0) & (a == 0);
-				AttributeSet as = ok ? activeAS : errorAS;
+				warning = (p == 0) && (f == 0) && (a >= 0);
+				ok = warning && (a == 0);
+				AttributeSet as = ok ? okAS : warning ? warningAS : errorAS;
 				createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
 				if (token.type != BHLMTokenType.Out)
 					createHighLight(as, token.absBegin(), token.absEnd());
@@ -2215,7 +2235,8 @@ public class CliJPanel extends JPanel implements CommandSource
 					if ((f <= 0) || (p < 0) || (a < 0))
 						break;
 				}
-				boolean ok = (p == 0) && (f == 0) & (a == 0);
+				boolean warning = (p == 0) && (f == 0) && (a >= 0);
+				boolean ok = warning && (a == 0);
 				ArrayList<Token> stars = new ArrayList<>();
 				for (Token tstar = cursor.forward(false); tstar.type.equals(BHLMTokenType.Star); tstar = cursor.forward(false))
 					stars.add(tstar);
@@ -2257,8 +2278,9 @@ public class CliJPanel extends JPanel implements CommandSource
 					if ((f <= 0) || (p < 0) || (a < 0))
 						break;
 				}
-				ok = ok && (p == 0) && (f == 0) & (a == 0);
-				AttributeSet as = ok ? activeAS : errorAS;
+				warning = warning && (p == 0) && (f == 0) && (a >= 0);
+				ok = ok && warning && (a == 0);
+				AttributeSet as = ok ? okAS : warning ? warningAS : errorAS;
 				createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
 				if (token.type != BHLMTokenType.Out)
 					createHighLight(as, token.absBegin(), token.absEnd());
@@ -2327,8 +2349,9 @@ public class CliJPanel extends JPanel implements CommandSource
 						if ((f <= 0) || (p < 0) || (a < 0))
 							break;
 					}
-					boolean ok = (p == 0) && (f == 0) & (a == 0);
-					AttributeSet as = ok ? activeAS : errorAS;
+					boolean warning = (p == 0) && (f == 0) && (a >= 0);
+					boolean ok = warning && (a == 0);
+					AttributeSet as = ok ? okAS : warning ? warningAS : errorAS;
 					createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
 					if (token.type != BHLMTokenType.Out)
 						createHighLight(as, token.absBegin(), token.absEnd());
