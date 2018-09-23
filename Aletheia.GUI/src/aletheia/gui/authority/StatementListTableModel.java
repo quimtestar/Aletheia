@@ -28,13 +28,7 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 
-import aletheia.model.authority.Person;
-import aletheia.model.authority.Signatory;
 import aletheia.model.authority.StatementAuthority;
-import aletheia.model.authority.StatementAuthoritySignature;
-import aletheia.model.identifier.Identifier;
-import aletheia.model.identifier.Namespace;
-import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 
@@ -66,39 +60,9 @@ public class StatementListTableModel implements TableModel
 		}
 
 		@Override
-		public void signatureAdded(Transaction transaction, StatementAuthority statementAuthority, StatementAuthoritySignature statementAuthoritySignature)
-		{
-		}
-
-		@Override
-		public void signatureDeleted(Transaction transaction, StatementAuthority statementAuthority, StatementAuthoritySignature statementAuthoritySignature)
-		{
-		}
-
-		@Override
-		public void delegateTreeChanged(Transaction transaction, StatementAuthority statementAuthority)
-		{
-		}
-
-		@Override
-		public void successorEntriesChanged(Transaction transaction, StatementAuthority statementAuthority)
-		{
-		}
-
-		@Override
 		public void provedStateChanged(Transaction transaction, Statement statement, boolean proved)
 		{
 			statementChanged(transaction, statement);
-		}
-
-		@Override
-		public void statementAddedToContext(Transaction transaction, Context context, Statement statement)
-		{
-		}
-
-		@Override
-		public void statementDeletedFromContext(Transaction transaction, Context context, Statement statement, Identifier identifier)
-		{
 		}
 
 		@Override
@@ -111,12 +75,6 @@ public class StatementListTableModel implements TableModel
 		public void statementAuthorityDeleted(Transaction transaction, Statement statement, StatementAuthority statementAuthority)
 		{
 			statementChanged(transaction, statement);
-		}
-
-		@Override
-		public void delegateAuthorizerChanged(Transaction transaction, StatementAuthority statementAuthority, Namespace prefix, Person delegate,
-				Signatory authorizer)
-		{
 		}
 
 	}

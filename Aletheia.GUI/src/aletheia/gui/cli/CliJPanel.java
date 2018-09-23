@@ -115,7 +115,6 @@ import aletheia.gui.common.datatransfer.TermParameterIdentificationDataFlavor;
 import aletheia.gui.common.datatransfer.UUIDDataFlavor;
 import aletheia.gui.font.FontManager;
 import aletheia.log4j.LoggerManager;
-import aletheia.model.authority.StatementAuthority;
 import aletheia.model.authority.UnpackedSignatureRequest;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
@@ -830,16 +829,6 @@ public class CliJPanel extends JPanel implements CommandSource
 		}
 
 		@Override
-		public void provedStateChanged(Transaction transaction, Statement statement, boolean proved)
-		{
-		}
-
-		@Override
-		public void statementAddedToContext(Transaction transaction, Context context, Statement statement)
-		{
-		}
-
-		@Override
 		public void statementDeletedFromContext(Transaction transaction, final Context context, Statement statement, Identifier identifier)
 		{
 			if (this.context != null && (this.context.equals(statement) || ancestorContexts.contains(statement)))
@@ -879,21 +868,6 @@ public class CliJPanel extends JPanel implements CommandSource
 				}
 				context = activeContext;
 			}
-		}
-
-		@Override
-		public void statementAuthorityCreated(Transaction transaction, Statement statement, StatementAuthority statementAuthority)
-		{
-		}
-
-		@Override
-		public void statementAuthorityDeleted(Transaction transaction, Statement statement, StatementAuthority statementAuthority)
-		{
-		}
-
-		@Override
-		public void rootContextAdded(Transaction transaction, RootContext rootContext)
-		{
 		}
 
 		@Override

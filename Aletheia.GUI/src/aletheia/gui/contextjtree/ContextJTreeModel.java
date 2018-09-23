@@ -45,12 +45,8 @@ import aletheia.gui.contextjtree.node.StatementContextJTreeNode;
 import aletheia.gui.contextjtree.node.TopGroupSorterContextJTreeNode;
 import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.log4j.LoggerManager;
-import aletheia.model.authority.Person;
-import aletheia.model.authority.Signatory;
 import aletheia.model.authority.StatementAuthority;
-import aletheia.model.authority.StatementAuthoritySignature;
 import aletheia.model.identifier.Identifier;
-import aletheia.model.identifier.Namespace;
 import aletheia.model.local.ContextLocal;
 import aletheia.model.local.RootContextLocal;
 import aletheia.model.local.StatementLocal;
@@ -688,32 +684,6 @@ public class ContextJTreeModel extends PersistentTreeModel
 			{
 				logger.error(e.getMessage(), e);
 			}
-		}
-
-		@Override
-		public void signatureAdded(Transaction transaction, StatementAuthority statementAuthority, StatementAuthoritySignature statementAuthoritySignature)
-		{
-		}
-
-		@Override
-		public void signatureDeleted(Transaction transaction, StatementAuthority statementAuthority, StatementAuthoritySignature statementAuthoritySignature)
-		{
-		}
-
-		@Override
-		public void delegateTreeChanged(Transaction transaction, StatementAuthority statementAuthority)
-		{
-		}
-
-		@Override
-		public void successorEntriesChanged(Transaction transaction, StatementAuthority statementAuthority)
-		{
-		}
-
-		@Override
-		public void delegateAuthorizerChanged(Transaction transaction, StatementAuthority statementAuthority, Namespace prefix, Person delegate,
-				Signatory authorizer)
-		{
 		}
 
 	}

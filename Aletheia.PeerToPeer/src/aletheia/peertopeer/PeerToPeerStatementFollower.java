@@ -24,13 +24,10 @@ import java.util.Collection;
 import java.util.Stack;
 import java.util.UUID;
 
-import aletheia.model.authority.Person;
 import aletheia.model.authority.RootContextAuthority;
-import aletheia.model.authority.Signatory;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.authority.StatementAuthoritySignature;
 import aletheia.model.identifier.Identifier;
-import aletheia.model.identifier.Namespace;
 import aletheia.model.local.ContextLocal;
 import aletheia.model.local.RootContextLocal;
 import aletheia.model.local.StatementLocal;
@@ -109,11 +106,6 @@ public class PeerToPeerStatementFollower extends PeerToPeerFollower
 		}
 
 		@Override
-		public void provedStateChanged(Transaction transaction, Statement statement, boolean proved)
-		{
-		}
-
-		@Override
 		public void statementAddedToContext(Transaction transaction, Context context, final Statement statement)
 		{
 			ContextLocal contextLocal = context.getLocal(transaction);
@@ -176,16 +168,6 @@ public class PeerToPeerStatementFollower extends PeerToPeerFollower
 		}
 
 		@Override
-		public void validSignatureStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean validSignature)
-		{
-		}
-
-		@Override
-		public void signedDependenciesStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean signedDependencies)
-		{
-		}
-
-		@Override
 		public void signedProofStateChanged(Transaction transaction, final StatementAuthority statementAuthority, final boolean signedProof)
 		{
 			transaction.runWhenCommit(new Transaction.Hook()
@@ -227,22 +209,6 @@ public class PeerToPeerStatementFollower extends PeerToPeerFollower
 		{
 			if (statementAuthority instanceof RootContextAuthority)
 				rootContextSignatureUpdated(transaction, (RootContextAuthority) statementAuthority);
-		}
-
-		@Override
-		public void delegateTreeChanged(Transaction transaction, StatementAuthority statementAuthority)
-		{
-		}
-
-		@Override
-		public void successorEntriesChanged(Transaction transaction, StatementAuthority statementAuthority)
-		{
-		}
-
-		@Override
-		public void delegateAuthorizerChanged(Transaction transaction, StatementAuthority statementAuthority, Namespace prefix, Person delegate,
-				Signatory authorizer)
-		{
 		}
 
 		@Override

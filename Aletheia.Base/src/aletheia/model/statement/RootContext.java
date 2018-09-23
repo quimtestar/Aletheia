@@ -69,9 +69,13 @@ public class RootContext extends Context
 
 	public static interface TopStateListener extends PersistenceListener
 	{
-		public void rootContextAdded(Transaction transaction, RootContext rootContext);
+		public default void rootContextAdded(Transaction transaction, RootContext rootContext)
+		{
+		}
 
-		public void rootContextDeleted(Transaction transaction, RootContext rootContext, Identifier identifier);
+		public default void rootContextDeleted(Transaction transaction, RootContext rootContext, Identifier identifier)
+		{
+		}
 
 	}
 

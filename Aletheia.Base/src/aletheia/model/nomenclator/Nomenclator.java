@@ -98,9 +98,13 @@ public abstract class Nomenclator implements Serializable, Exportable
 
 	public interface Listener extends PersistenceListener
 	{
-		public void statementIdentified(Transaction transaction, Statement statement, Identifier identifier);
+		public default void statementIdentified(Transaction transaction, Statement statement, Identifier identifier)
+		{
+		}
 
-		public void statementUnidentified(Transaction transaction, Statement statement, Identifier identifier);
+		public default void statementUnidentified(Transaction transaction, Statement statement, Identifier identifier)
+		{
+		}
 	}
 
 	/**

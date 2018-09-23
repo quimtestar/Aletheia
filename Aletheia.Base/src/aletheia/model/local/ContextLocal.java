@@ -113,9 +113,13 @@ public class ContextLocal extends StatementLocal
 
 	public interface StateListener extends PersistenceListener
 	{
-		public void subscribeProofChanged(Transaction transaction, ContextLocal contextLocal, StatementLocal statementLocal, boolean subscribed);
+		public default void subscribeProofChanged(Transaction transaction, ContextLocal contextLocal, StatementLocal statementLocal, boolean subscribed)
+		{
+		}
 
-		public void subscribeStatementsChanged(Transaction transaction, ContextLocal contextLocal, ContextLocal contextLocal_, boolean subscribed);
+		public default void subscribeStatementsChanged(Transaction transaction, ContextLocal contextLocal, ContextLocal contextLocal_, boolean subscribed)
+		{
+		}
 	}
 
 	public void addStateListener(StateListener stateListener)

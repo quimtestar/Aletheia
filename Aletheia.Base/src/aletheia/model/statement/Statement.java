@@ -1095,7 +1095,9 @@ public abstract class Statement implements Exportable
 		 *
 		 * @see Statement#addStateListener(StateListener)
 		 */
-		public void provedStateChanged(Transaction transaction, Statement statement, boolean proved);
+		public default void provedStateChanged(Transaction transaction, Statement statement, boolean proved)
+		{
+		}
 
 		/**
 		 * A statement has been added to a listened context.
@@ -1109,7 +1111,9 @@ public abstract class Statement implements Exportable
 		 * @param statement
 		 *            The added statement
 		 */
-		public void statementAddedToContext(Transaction transaction, Context context, Statement statement);
+		public default void statementAddedToContext(Transaction transaction, Context context, Statement statement)
+		{
+		}
 
 		/**
 		 * A statement has been deleted from a listened context.
@@ -1126,16 +1130,18 @@ public abstract class Statement implements Exportable
 		 *            The identifier that the deleted statement had on this
 		 *            context, or null if it was an unidentified statement.
 		 */
-		public void statementDeletedFromContext(Transaction transaction, Context context, Statement statement, Identifier identifier);
+		public default void statementDeletedFromContext(Transaction transaction, Context context, Statement statement, Identifier identifier)
+		{
+		}
 
-		/**
-		 * @param transaction
-		 * @param statement
-		 * @param statementAuthority
-		 */
-		public void statementAuthorityCreated(Transaction transaction, Statement statement, StatementAuthority statementAuthority);
+		public default void statementAuthorityCreated(Transaction transaction, Statement statement, StatementAuthority statementAuthority)
+		{
+		}
 
-		public void statementAuthorityDeleted(Transaction transaction, Statement statement, StatementAuthority statementAuthority);
+		public default void statementAuthorityDeleted(Transaction transaction, Statement statement, StatementAuthority statementAuthority)
+		{
+		}
+
 	}
 
 	/**

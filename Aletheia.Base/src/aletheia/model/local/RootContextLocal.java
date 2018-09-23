@@ -66,9 +66,13 @@ public class RootContextLocal extends ContextLocal
 
 	public interface StateListener extends PersistenceListener
 	{
-		public void subscribeProofChanged(Transaction transaction, RootContextLocal rootContextLocal, boolean subscribed);
+		public default void subscribeProofChanged(Transaction transaction, RootContextLocal rootContextLocal, boolean subscribed)
+		{
+		}
 
-		public void subscribeStatementsChanged(Transaction transaction, RootContextLocal rootContextLocal, boolean subscribed);
+		public default void subscribeStatementsChanged(Transaction transaction, RootContextLocal rootContextLocal, boolean subscribed)
+		{
+		}
 	}
 
 	@Override

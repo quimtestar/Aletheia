@@ -33,14 +33,10 @@ import javax.swing.tree.TreePath;
 
 import aletheia.gui.common.PersistentTreeModel;
 import aletheia.model.authority.PackedSignatureRequest;
-import aletheia.model.authority.Person;
-import aletheia.model.authority.Signatory;
 import aletheia.model.authority.SignatureRequest;
 import aletheia.model.authority.StatementAuthority;
-import aletheia.model.authority.StatementAuthoritySignature;
 import aletheia.model.authority.UnpackedSignatureRequest;
 import aletheia.model.identifier.Identifier;
-import aletheia.model.identifier.Namespace;
 import aletheia.model.nomenclator.Nomenclator;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
@@ -286,16 +282,6 @@ public class SignatureRequestTreeModel extends PersistentTreeModel
 		}
 
 		@Override
-		public void statementAuthorityCreated(Transaction transaction, Statement statement, StatementAuthority statementAuthority)
-		{
-		}
-
-		@Override
-		public void statementAuthorityDeleted(Transaction transaction, Statement statement, StatementAuthority statementAuthority)
-		{
-		}
-
-		@Override
 		public void validSignatureStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean validSignature)
 		{
 			clearStatementRenderers(transaction, statementAuthority.getStatement(transaction));
@@ -311,32 +297,6 @@ public class SignatureRequestTreeModel extends PersistentTreeModel
 		public void signedProofStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean signedProof)
 		{
 			clearStatementRenderers(transaction, statementAuthority.getStatement(transaction));
-		}
-
-		@Override
-		public void signatureAdded(Transaction transaction, StatementAuthority statementAuthority, StatementAuthoritySignature statementAuthoritySignature)
-		{
-		}
-
-		@Override
-		public void signatureDeleted(Transaction transaction, StatementAuthority statementAuthority, StatementAuthoritySignature statementAuthoritySignature)
-		{
-		}
-
-		@Override
-		public void delegateTreeChanged(Transaction transaction, StatementAuthority statementAuthority)
-		{
-		}
-
-		@Override
-		public void successorEntriesChanged(Transaction transaction, StatementAuthority statementAuthority)
-		{
-		}
-
-		@Override
-		public void delegateAuthorizerChanged(Transaction transaction, StatementAuthority statementAuthority, Namespace prefix, Person delegate,
-				Signatory authorizer)
-		{
 		}
 
 		@Override

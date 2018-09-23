@@ -37,7 +37,6 @@ import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.common.PersistentTreeModel;
 import aletheia.log4j.LoggerManager;
-import aletheia.model.authority.StatementAuthority;
 import aletheia.model.catalog.RootCatalog;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
@@ -409,16 +408,6 @@ public class CatalogTreeModel extends PersistentTreeModel
 			{
 				logger.error(e.getMessage(), e);
 			}
-		}
-
-		@Override
-		public void statementAuthorityCreated(Transaction transaction, Statement statement, StatementAuthority statementAuthority)
-		{
-		}
-
-		@Override
-		public void statementAuthorityDeleted(Transaction transaction, Statement statement, StatementAuthority statementAuthority)
-		{
 		}
 
 		@Override

@@ -29,7 +29,6 @@ import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.Signatory;
 import aletheia.model.authority.StatementAuthority;
-import aletheia.model.authority.StatementAuthoritySignature;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.local.ContextLocal;
@@ -130,11 +129,6 @@ public class LoopStatementPhase extends StatementSubPhase
 		{
 
 			@Override
-			public void validSignatureStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean validSignature)
-			{
-			}
-
-			@Override
 			public void signedDependenciesStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean signedDependencies)
 			{
 				if (signedDependencies)
@@ -222,48 +216,6 @@ public class LoopStatementPhase extends StatementSubPhase
 				}
 			}
 
-			@Override
-			public void signatureAdded(Transaction transaction, StatementAuthority statementAuthority, StatementAuthoritySignature statementAuthoritySignature)
-			{
-			}
-
-			@Override
-			public void signatureDeleted(Transaction transaction, StatementAuthority statementAuthority,
-					StatementAuthoritySignature statementAuthoritySignature)
-			{
-			}
-
-			@Override
-			public void provedStateChanged(Transaction transaction, Statement statement, boolean proved)
-			{
-			}
-
-			@Override
-			public void statementAddedToContext(Transaction transaction, Context context, Statement statement)
-			{
-			}
-
-			@Override
-			public void statementDeletedFromContext(Transaction transaction, Context context, Statement statement, Identifier identifier)
-			{
-			}
-
-			@Override
-			public void delegateTreeChanged(Transaction transaction, StatementAuthority statementAuthority)
-			{
-			}
-
-			@Override
-			public void successorEntriesChanged(Transaction transaction, StatementAuthority statementAuthority)
-			{
-			}
-
-			@Override
-			public void delegateAuthorizerChanged(Transaction transaction, StatementAuthority statementAuthority, Namespace prefix, Person delegate,
-					Signatory authorizer)
-			{
-			}
-
 		}
 
 		private final StatementStateListener statementStateListener;
@@ -311,11 +263,6 @@ public class LoopStatementPhase extends StatementSubPhase
 			}
 
 			@Override
-			public void provedStateChanged(Transaction transaction, Statement statement, boolean proved)
-			{
-			}
-
-			@Override
 			public void statementAddedToContext(Transaction transaction, Context context, Statement statement)
 			{
 				statementStateListenTo(transaction, statement);
@@ -325,42 +272,6 @@ public class LoopStatementPhase extends StatementSubPhase
 			public void statementDeletedFromContext(Transaction transaction, Context context, Statement statement, Identifier identifier)
 			{
 				statementStateUnlisten(transaction, statement);
-			}
-
-			@Override
-			public void statementAuthorityCreated(Transaction transaction, Statement statement, StatementAuthority statementAuthority)
-			{
-			}
-
-			@Override
-			public void statementAuthorityDeleted(Transaction transaction, Statement statement, StatementAuthority statementAuthority)
-			{
-			}
-
-			@Override
-			public void validSignatureStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean validSignature)
-			{
-			}
-
-			@Override
-			public void signedDependenciesStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean signedDependencies)
-			{
-			}
-
-			@Override
-			public void signedProofStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean signedProof)
-			{
-			}
-
-			@Override
-			public void signatureAdded(Transaction transaction, StatementAuthority statementAuthority, StatementAuthoritySignature statementAuthoritySignature)
-			{
-			}
-
-			@Override
-			public void signatureDeleted(Transaction transaction, StatementAuthority statementAuthority,
-					StatementAuthoritySignature statementAuthoritySignature)
-			{
 			}
 
 			@Override

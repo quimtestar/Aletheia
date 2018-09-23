@@ -34,12 +34,8 @@ import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeJPanel;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
 import aletheia.gui.delegatejtree.DelegateTreeJTree;
-import aletheia.model.authority.Person;
-import aletheia.model.authority.Signatory;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.authority.StatementAuthoritySignature;
-import aletheia.model.identifier.Identifier;
-import aletheia.model.identifier.Namespace;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
@@ -146,21 +142,6 @@ public class AuthorityJPanel extends JPanel
 		}
 
 		@Override
-		public void provedStateChanged(Transaction transaction, Statement statement, boolean proved)
-		{
-		}
-
-		@Override
-		public void statementAddedToContext(Transaction transaction, Context context, Statement statement)
-		{
-		}
-
-		@Override
-		public void statementDeletedFromContext(Transaction transaction, Context context, Statement statement, Identifier identifier)
-		{
-		}
-
-		@Override
 		public void delegateTreeChanged(Transaction transaction, StatementAuthority statementAuthority)
 		{
 			transaction.runWhenCommit(new SetStatementAuthorityTransactionHook(statement, statementAuthority));
@@ -170,12 +151,6 @@ public class AuthorityJPanel extends JPanel
 		public void successorEntriesChanged(Transaction transaction, StatementAuthority statementAuthority)
 		{
 			delegateTreeChanged(transaction, statementAuthority);
-		}
-
-		@Override
-		public void delegateAuthorizerChanged(Transaction transaction, StatementAuthority statementAuthority, Namespace prefix, Person delegate,
-				Signatory authorizer)
-		{
 		}
 
 	}

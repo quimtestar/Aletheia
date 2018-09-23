@@ -1228,22 +1228,40 @@ public class StatementAuthority implements Exportable
 
 	public static interface StateListener extends PersistenceListener
 	{
-		public void validSignatureStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean validSignature);
+		public default void validSignatureStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean validSignature)
+		{
+		}
 
-		public void signedDependenciesStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean signedDependencies);
+		public default void signedDependenciesStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean signedDependencies)
+		{
+		}
 
-		public void signedProofStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean signedProof);
+		public default void signedProofStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean signedProof)
+		{
+		}
 
-		public void signatureAdded(Transaction transaction, StatementAuthority statementAuthority, StatementAuthoritySignature statementAuthoritySignature);
+		public default void signatureAdded(Transaction transaction, StatementAuthority statementAuthority,
+				StatementAuthoritySignature statementAuthoritySignature)
+		{
+		}
 
-		public void signatureDeleted(Transaction transaction, StatementAuthority statementAuthority, StatementAuthoritySignature statementAuthoritySignature);
+		public default void signatureDeleted(Transaction transaction, StatementAuthority statementAuthority,
+				StatementAuthoritySignature statementAuthoritySignature)
+		{
+		}
 
-		public void delegateTreeChanged(Transaction transaction, StatementAuthority statementAuthority);
+		public default void delegateTreeChanged(Transaction transaction, StatementAuthority statementAuthority)
+		{
+		}
 
-		public void successorEntriesChanged(Transaction transaction, StatementAuthority statementAuthority);
+		public default void successorEntriesChanged(Transaction transaction, StatementAuthority statementAuthority)
+		{
+		}
 
-		public void delegateAuthorizerChanged(Transaction transaction, StatementAuthority statementAuthority, Namespace prefix, Person delegate,
-				Signatory authorizer);
+		public default void delegateAuthorizerChanged(Transaction transaction, StatementAuthority statementAuthority, Namespace prefix, Person delegate,
+				Signatory authorizer)
+		{
+		}
 	}
 
 	public void addStateListener(StateListener stateListener)

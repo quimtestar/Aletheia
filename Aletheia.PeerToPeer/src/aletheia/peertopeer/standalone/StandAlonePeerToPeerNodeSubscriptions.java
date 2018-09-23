@@ -28,13 +28,10 @@ import java.util.Map;
 import java.util.Stack;
 import java.util.UUID;
 
-import aletheia.model.authority.Person;
 import aletheia.model.authority.RootContextAuthority;
-import aletheia.model.authority.Signatory;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.authority.StatementAuthoritySignature;
 import aletheia.model.identifier.Identifier;
-import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.nomenclator.Nomenclator;
 import aletheia.model.statement.Context;
@@ -305,11 +302,6 @@ public class StandAlonePeerToPeerNodeSubscriptions
 
 		}
 
-		@Override
-		public void provedStateChanged(Transaction transaction, Statement statement, boolean proved)
-		{
-		}
-
 		private void listenToContext(final ValidConfigurationTreeNode validConfigurationTreeNode, final Context context)
 		{
 			AsynchronousInvoker.instance.invoke(new AsynchronousInvoker.Invokable()
@@ -468,16 +460,6 @@ public class StandAlonePeerToPeerNodeSubscriptions
 			statementAddedToContext(transaction, statement.getContext(transaction), statement);
 		}
 
-		@Override
-		public void statementUnidentified(Transaction transaction, Statement statement, Identifier identifier)
-		{
-		}
-
-		@Override
-		public void validSignatureStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean validSignature)
-		{
-		}
-
 		private void rootContextAuthoritySignatureUuidChanged(Transaction transaction, RootContextAuthority rootContextAuthority)
 		{
 			final RootContext rootContext = rootContextAuthority.getRootContext(transaction);
@@ -505,11 +487,6 @@ public class StandAlonePeerToPeerNodeSubscriptions
 		}
 
 		@Override
-		public void signedProofStateChanged(Transaction transaction, StatementAuthority statementAuthority, boolean signedProof)
-		{
-		}
-
-		@Override
 		public void signatureAdded(Transaction transaction, StatementAuthority statementAuthority, StatementAuthoritySignature statementAuthoritySignature)
 		{
 			if (statementAuthority instanceof RootContextAuthority)
@@ -521,22 +498,6 @@ public class StandAlonePeerToPeerNodeSubscriptions
 		{
 			if (statementAuthority instanceof RootContextAuthority)
 				rootContextAuthoritySignatureUuidChanged(transaction, (RootContextAuthority) statementAuthority);
-		}
-
-		@Override
-		public void delegateTreeChanged(Transaction transaction, StatementAuthority statementAuthority)
-		{
-		}
-
-		@Override
-		public void successorEntriesChanged(Transaction transaction, StatementAuthority statementAuthority)
-		{
-		}
-
-		@Override
-		public void delegateAuthorizerChanged(Transaction transaction, StatementAuthority statementAuthority, Namespace prefix, Person delegate,
-				Signatory authorizer)
-		{
 		}
 
 	}
