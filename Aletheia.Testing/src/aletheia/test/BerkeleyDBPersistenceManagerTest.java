@@ -33,6 +33,7 @@ public abstract class BerkeleyDBPersistenceManagerTest extends PersistenceManage
 		if (dbFile == null)
 			throw new RuntimeException("No db file configured");
 		getConfiguration().setDbFile(dbFile);
+		getConfiguration().setCachePercent(TestingAletheiaPreferences.instance.getCachePercent());
 		getConfiguration().setReadOnly(readOnly);
 	}
 

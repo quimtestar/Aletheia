@@ -31,6 +31,9 @@ public class TestingAletheiaPreferences extends NodeAletheiaPreferences
 	private final static String NODE_PATH = "Testing";
 
 	private final static String DB_FILE_NAME = "db_file_name";
+	private final static String CACHE_PERCENT = "cache_percent";
+
+	private final static int defaultCachePercent = 50;
 
 	public final static TestingAletheiaPreferences instance = new TestingAletheiaPreferences();
 
@@ -55,14 +58,51 @@ public class TestingAletheiaPreferences extends NodeAletheiaPreferences
 			getPreferences().remove(DB_FILE_NAME);
 	}
 
+	public int getCachePercent()
+	{
+		return getPreferences().getInt(CACHE_PERCENT, defaultCachePercent);
+	}
+
+	public void setCachePercent(int cachePercent)
+	{
+		getPreferences().putInt(CACHE_PERCENT, cachePercent);
+	}
+
 	public void configure() throws BackingStoreException
 	{
 		Console console = System.console();
 		if (console == null)
 			throw new RuntimeException("Can't access to console");
 		String dbFileName = getDbFile() != null ? getDbFile().toString() : "";
-		dbFileName = console.readLine("Db file path [%s]:", dbFileName).trim();
-		setDbFile((dbFileName != null && !dbFileName.isEmpty()) ? new File(dbFileName) : getDbFile());
+		dbFileName = console.readLine("Db file path [%s]:", dbFileName);
+		if (dbFileName == null)
+			return;
+		dbFileName = dbFileName.trim();
+		setDbFile((!dbFileName.isEmpty()) ? new File(dbFileName) : getDbFile());
+		while (true)
+		{
+			String strCachePercent = console.readLine("Cache percent [%d]:", getCachePercent());
+			if (strCachePercent == null)
+				return;
+			strCachePercent = strCachePercent.trim();
+			if (!strCachePercent.isEmpty())
+			{
+				try
+				{
+					int cachePercent = Integer.parseInt(strCachePercent);
+					if (cachePercent >= 0 && cachePercent <= 100)
+					{
+						setCachePercent(Integer.parseInt(strCachePercent));
+						break;
+					}
+				}
+				catch (NumberFormatException e)
+				{
+				}
+			}
+			else
+				break;
+		}
 	}
 
 	public static class Configure
