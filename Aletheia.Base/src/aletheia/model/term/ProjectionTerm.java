@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.Stack;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.FunctionTerm.DiffInfoFunction;
 
 /**

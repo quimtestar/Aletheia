@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.common.datatransfer;
 
-import aletheia.model.term.Term;
+import aletheia.model.parameteridentification.ParameterIdentification;
 
 public class TermParameterIdentificationDataFlavor extends AletheiaDataFlavor
 {
@@ -27,7 +27,7 @@ public class TermParameterIdentificationDataFlavor extends AletheiaDataFlavor
 
 	private TermParameterIdentificationDataFlavor()
 	{
-		super(Term.ParameterIdentification.class);
+		super(ParameterIdentification.class);
 	}
 
 }

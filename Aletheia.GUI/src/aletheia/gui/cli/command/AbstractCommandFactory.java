@@ -40,6 +40,7 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.ParameterVariableTerm;
@@ -220,11 +221,11 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 		return parseTerm(ctx, transaction, s, null);
 	}
 
-	protected static Term.ParameterIdentification parseParameterIdentification(String s) throws CommandParseException
+	protected static ParameterIdentification parseParameterIdentification(String s) throws CommandParseException
 	{
 		try
 		{
-			return Term.parseParameterIdentification(s);
+			return ParameterIdentification.parse(s);
 		}
 		catch (ParserBaseException e)
 		{

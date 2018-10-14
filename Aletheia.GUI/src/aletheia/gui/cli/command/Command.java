@@ -30,6 +30,7 @@ import aletheia.gui.cli.command.CommandSource;
 import aletheia.model.authority.UnpackedSignatureRequest;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
@@ -298,17 +299,17 @@ public abstract class Command
 		return factory.parse(from, transaction, command);
 	}
 
-	protected static String termToString(Context ctx, Transaction transaction, Term term, Term.ParameterIdentification parameterIdentification)
+	protected static String termToString(Context ctx, Transaction transaction, Term term, ParameterIdentification parameterIdentification)
 	{
 		return term.toString(ctx != null ? ctx.variableToIdentifier(transaction) : null, parameterIdentification);
 	}
 
 	protected static String termToString(Context ctx, Transaction transaction, Term term)
 	{
-		return termToString(ctx, transaction, term, (Term.ParameterIdentification) null);
+		return termToString(ctx, transaction, term, (ParameterIdentification) null);
 	}
 
-	protected void printTerm(Context ctx, Transaction transaction, Term term, Term.ParameterIdentification parameterIdentification)
+	protected void printTerm(Context ctx, Transaction transaction, Term term, ParameterIdentification parameterIdentification)
 	{
 		PrintWriter pw = new PrintWriter(getOut());
 		term.print(pw, transaction, ctx, 16, 64, 128, "   ", 3, parameterIdentification);

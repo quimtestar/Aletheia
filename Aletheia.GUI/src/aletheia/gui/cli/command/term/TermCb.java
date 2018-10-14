@@ -27,8 +27,8 @@ import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.gui.common.datatransfer.TermTransferable;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.Term;
-import aletheia.model.term.Term.ParameterIdentification;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "tcb", groupPath = "/term", factory = TermCb.Factory.class)

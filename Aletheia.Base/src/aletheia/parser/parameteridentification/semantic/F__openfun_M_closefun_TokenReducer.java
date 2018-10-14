@@ -21,8 +21,8 @@ package aletheia.parser.parameteridentification.semantic;
 
 import java.util.List;
 
-import aletheia.model.term.FunctionTerm.FunctionParameterIdentification;
 import aletheia.parser.parameteridentification.ParameterIdentificationParser.ProductionTokenPayloadReducer;
+import aletheia.model.parameteridentification.FunctionParameterIdentification;
 import aletheia.parser.parameteridentification.ParameterWithTypeList;
 import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.semantic.SemanticException;

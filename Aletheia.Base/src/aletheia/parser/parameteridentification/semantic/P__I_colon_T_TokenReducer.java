@@ -22,7 +22,7 @@ package aletheia.parser.parameteridentification.semantic;
 import java.util.List;
 
 import aletheia.model.identifier.Identifier;
-import aletheia.model.term.Term.ParameterIdentification;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.parser.parameteridentification.ParameterIdentificationParser.ProductionTokenPayloadReducer;
 import aletheia.parser.parameteridentification.ParameterWithType;
 import aletheia.parsergenerator.parser.Production;

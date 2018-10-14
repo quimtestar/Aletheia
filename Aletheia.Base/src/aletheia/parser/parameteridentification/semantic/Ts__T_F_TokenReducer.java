@@ -21,8 +21,8 @@ package aletheia.parser.parameteridentification.semantic;
 
 import java.util.List;
 
-import aletheia.model.term.CompositionTerm.CompositionParameterIdentification;
-import aletheia.model.term.Term.ParameterIdentification;
+import aletheia.model.parameteridentification.CompositionParameterIdentification;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.parser.parameteridentification.ParameterIdentificationParser.ProductionTokenPayloadReducer;
 import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;

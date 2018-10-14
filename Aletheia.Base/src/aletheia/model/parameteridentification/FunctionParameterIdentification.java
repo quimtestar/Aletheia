@@ -17,21 +17,22 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.parser.parameteridentification;
+package aletheia.model.parameteridentification;
 
 import aletheia.model.identifier.Identifier;
-import aletheia.model.parameteridentification.ParameterIdentification;
 
-public class ParameterWithType
+public class FunctionParameterIdentification extends ParameterIdentification
 {
 	private final Identifier parameter;
 	private final ParameterIdentification parameterType;
+	private final ParameterIdentification body;
 
-	public ParameterWithType(Identifier parameter, ParameterIdentification parameterType)
+	public FunctionParameterIdentification(Identifier parameter, ParameterIdentification parameterType, ParameterIdentification body)
 	{
 		super();
 		this.parameter = parameter;
 		this.parameterType = parameterType;
+		this.body = body;
 	}
 
 	public Identifier getParameter()
@@ -42,6 +43,36 @@ public class ParameterWithType
 	public ParameterIdentification getParameterType()
 	{
 		return parameterType;
+	}
+
+	public ParameterIdentification getBody()
+	{
+		return body;
+	}
+
+	@Override
+	public String toString()
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.append("<");
+		ParameterIdentification pi = this;
+		boolean first = true;
+		while (pi instanceof FunctionParameterIdentification)
+		{
+			if (!first)
+				builder.append(", ");
+			first = false;
+			FunctionParameterIdentification fpi = (FunctionParameterIdentification) pi;
+			if (fpi.getParameter() != null)
+				builder.append(fpi.getParameter().toString());
+			if (fpi.getParameterType() != null)
+				builder.append(":" + fpi.getParameterType().toString());
+			pi = fpi.getBody();
+		}
+		if (pi != null)
+			builder.append(" -> " + pi.toString());
+		builder.append(">");
+		return builder.toString();
 	}
 
 }

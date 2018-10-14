@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.parser.parameteridentification.semantic;
 
-import aletheia.model.term.Term.ParameterIdentification;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.TrivialProductionTokenPayloadReducer;
 

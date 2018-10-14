@@ -22,7 +22,6 @@ package aletheia.model.term;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -36,12 +35,11 @@ import java.util.Set;
 import java.util.Stack;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Context;
 import aletheia.model.term.ProjectedCastTypeTerm.ProjectedCastTypeException;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 import aletheia.model.term.UnprojectedCastTypeTerm.UnprojectedCastTypeException;
-import aletheia.parser.parameteridentification.ParameterIdentificationParser;
-import aletheia.parsergenerator.ParserBaseException;
 import aletheia.persistence.Transaction;
 import aletheia.protocol.Exportable;
 import aletheia.utilities.collections.BijectionSet;
@@ -299,16 +297,6 @@ public abstract class Term implements Serializable, Exportable
 	public Set<IdentifiableVariableTerm> freeIdentifiableVariables()
 	{
 		return new BijectionSet<>(new CastBijection<VariableTerm, IdentifiableVariableTerm>(), freeVariables());
-	}
-
-	public static abstract class ParameterIdentification
-	{
-
-	}
-
-	public static ParameterIdentification parseParameterIdentification(String input) throws ParserBaseException
-	{
-		return ParameterIdentificationParser.parseParameterIdentification(new StringReader(input));
 	}
 
 	protected abstract class StringAppender

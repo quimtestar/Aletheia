@@ -27,9 +27,9 @@ import java.util.Arrays;
 import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Context;
 import aletheia.model.term.Term;
-import aletheia.model.term.Term.ParameterIdentification;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.exceptions.PersistenceException;
 

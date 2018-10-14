@@ -27,6 +27,8 @@ import java.util.Map;
 import java.util.Set;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.FunctionParameterIdentification;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 import aletheia.utilities.collections.AdaptedMap;
 import aletheia.utilities.collections.CombinedMap;
@@ -183,62 +185,6 @@ public class FunctionTerm extends Term
 			return this;
 		else
 			return new FunctionTerm((ParameterVariableTerm) rparam, body_);
-	}
-
-	public static class FunctionParameterIdentification extends ParameterIdentification
-	{
-		private final Identifier parameter;
-		private final ParameterIdentification parameterType;
-		private final ParameterIdentification body;
-
-		public FunctionParameterIdentification(Identifier parameter, ParameterIdentification parameterType, ParameterIdentification body)
-		{
-			super();
-			this.parameter = parameter;
-			this.parameterType = parameterType;
-			this.body = body;
-		}
-
-		public Identifier getParameter()
-		{
-			return parameter;
-		}
-
-		public ParameterIdentification getParameterType()
-		{
-			return parameterType;
-		}
-
-		public ParameterIdentification getBody()
-		{
-			return body;
-		}
-
-		@Override
-		public String toString()
-		{
-			StringBuilder builder = new StringBuilder();
-			builder.append("<");
-			ParameterIdentification pi = this;
-			boolean first = true;
-			while (pi instanceof FunctionParameterIdentification)
-			{
-				if (!first)
-					builder.append(", ");
-				first = false;
-				FunctionParameterIdentification fpi = (FunctionParameterIdentification) pi;
-				if (fpi.getParameter() != null)
-					builder.append(fpi.getParameter().toString());
-				if (fpi.getParameterType() != null)
-					builder.append(":" + fpi.getParameterType().toString());
-				pi = fpi.getBody();
-			}
-			if (pi != null)
-				builder.append(" -> " + pi.toString());
-			builder.append(">");
-			return builder.toString();
-		}
-
 	}
 
 	/**

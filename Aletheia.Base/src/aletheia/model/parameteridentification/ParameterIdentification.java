@@ -17,25 +17,19 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.test.unsorted;
+package aletheia.model.parameteridentification;
 
-import aletheia.model.parameteridentification.ParameterIdentification;
+import java.io.StringReader;
+
+import aletheia.parser.parameteridentification.ParameterIdentificationParser;
 import aletheia.parsergenerator.ParserBaseException;
-import aletheia.test.Test;
 
-public class Test0002 extends Test
+public abstract class ParameterIdentification
 {
 
-	public Test0002()
+	public static ParameterIdentification parse(String input) throws ParserBaseException
 	{
-		super();
-	}
-
-	@Override
-	public void run() throws ParserBaseException
-	{
-		ParameterIdentification parameterIdentification = ParameterIdentification.parse("<a.b.c>");
-		System.out.println(parameterIdentification);
+		return ParameterIdentificationParser.parseParameterIdentification(new StringReader(input));
 	}
 
 }

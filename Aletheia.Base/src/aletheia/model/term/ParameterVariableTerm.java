@@ -22,6 +22,7 @@ package aletheia.model.term;
 import java.util.Map;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.ParameterIdentification;
 
 /**
  * A {@link VariableTerm} that can be used as a parameter of a

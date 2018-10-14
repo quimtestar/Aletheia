@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.ParameterIdentification;
 
 public class FoldingCastTypeTerm extends CastTypeTerm
 {

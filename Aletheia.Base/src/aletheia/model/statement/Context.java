@@ -62,6 +62,8 @@ import aletheia.model.local.StatementLocal;
 import aletheia.model.nomenclator.Nomenclator;
 import aletheia.model.nomenclator.Nomenclator.AlreadyUsedIdentifierException;
 import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
+import aletheia.model.parameteridentification.FunctionParameterIdentification;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.nomenclator.SubNomenclator;
 import aletheia.model.term.ProjectionCastTypeTerm;
 import aletheia.model.term.CastTypeTerm.CastTypeException;
@@ -2417,7 +2419,7 @@ public class Context extends Statement
 		return subCtx;
 	}
 
-	public Term.ParameterIdentification makeParameterIdentification(Transaction transaction, Term term)
+	public ParameterIdentification makeParameterIdentification(Transaction transaction, Term term)
 	{
 		Stack<Identifier> stack = new Stack<>();
 		Term body = term;
@@ -2434,13 +2436,13 @@ public class Context extends Statement
 				stack.push(null);
 			body = function.getBody();
 		}
-		Term.ParameterIdentification parameterIdentification = null;
+		ParameterIdentification parameterIdentification = null;
 		while (!stack.isEmpty())
-			parameterIdentification = new FunctionTerm.FunctionParameterIdentification(stack.pop(), null, parameterIdentification);
+			parameterIdentification = new FunctionParameterIdentification(stack.pop(), null, parameterIdentification);
 		return parameterIdentification;
 	}
 
-	public Term.ParameterIdentification makeParameterIdentification(Transaction transaction)
+	public ParameterIdentification makeParameterIdentification(Transaction transaction)
 	{
 		return makeParameterIdentification(transaction, getTerm());
 	}

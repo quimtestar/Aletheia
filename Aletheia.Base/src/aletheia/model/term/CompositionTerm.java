@@ -25,6 +25,8 @@ import java.util.Map;
 import java.util.Set;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.CompositionParameterIdentification;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.utilities.collections.TailList;
 
 /**
@@ -184,49 +186,6 @@ public class CompositionTerm extends SimpleTerm
 		{
 			throw new ReplaceTypeException(e);
 		}
-	}
-
-	public static class CompositionParameterIdentification extends ParameterIdentification
-	{
-		private final CompositionParameterIdentification head;
-		private final ParameterIdentification tail;
-
-		public CompositionParameterIdentification(CompositionParameterIdentification head, ParameterIdentification tail)
-		{
-			super();
-			this.head = head;
-			this.tail = tail;
-		}
-
-		public CompositionParameterIdentification getHead()
-		{
-			return head;
-		}
-
-		public ParameterIdentification getTail()
-		{
-			return tail;
-		}
-
-		@Override
-		public String toString()
-		{
-			String sHead = head == null ? "" : head.toString();
-			boolean parentheses = tail == null || (tail instanceof CompositionParameterIdentification);
-			String sTail = tail == null ? "" : tail.toString();
-			boolean space = !sHead.isEmpty() && (parentheses || !sTail.isEmpty());
-			StringBuilder builder = new StringBuilder();
-			builder.append(sHead);
-			if (space)
-				builder.append(" ");
-			if (parentheses)
-				builder.append("(");
-			builder.append(sTail);
-			if (parentheses)
-				builder.append(")");
-			return builder.toString();
-		}
-
 	}
 
 	/**
