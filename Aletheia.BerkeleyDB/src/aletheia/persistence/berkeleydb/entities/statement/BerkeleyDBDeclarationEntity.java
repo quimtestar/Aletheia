@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.entities.statement;
 
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.Term;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.entities.statement.DeclarationEntity;
@@ -29,10 +30,12 @@ import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
 
-@Persistent(version = 3)
+@Persistent(version = 4)
 public class BerkeleyDBDeclarationEntity extends BerkeleyDBStatementEntity implements DeclarationEntity
 {
 	private Term value;
+
+	private ParameterIdentification valueParameterIdentification;
 
 	public static final String uuidKeyInstanceProof_FieldName = "uuidKeyValueProof";
 	@SecondaryKey(name = uuidKeyInstanceProof_FieldName, relatedEntity = BerkeleyDBStatementEntity.class, relate = Relationship.MANY_TO_ONE)
@@ -53,6 +56,18 @@ public class BerkeleyDBDeclarationEntity extends BerkeleyDBStatementEntity imple
 	public void setValue(Term value)
 	{
 		this.value = value;
+	}
+
+	@Override
+	public ParameterIdentification getValueParameterIdentification()
+	{
+		return valueParameterIdentification;
+	}
+
+	@Override
+	public void setValueParameterIdentification(ParameterIdentification valueParameterIdentification)
+	{
+		this.valueParameterIdentification = valueParameterIdentification;
 	}
 
 	public UUIDKey getUuidKeyValueProof()

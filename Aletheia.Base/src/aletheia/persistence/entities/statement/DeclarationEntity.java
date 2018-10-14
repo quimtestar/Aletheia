@@ -21,6 +21,7 @@ package aletheia.persistence.entities.statement;
 
 import java.util.UUID;
 
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Declaration;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
@@ -44,6 +45,16 @@ public interface DeclarationEntity extends StatementEntity
 	 *            The value.
 	 */
 	public void setValue(Term value);
+
+	/**
+	 * Gets the {@link ParameterIdentification} associated to the value term
+	 */
+	public ParameterIdentification getValueParameterIdentification();
+
+	/**
+	 * Sets the {@link ParameterIdentification} associated to the value term
+	 */
+	public void setValueParameterIdentification(ParameterIdentification valueParameterIdentification);
 
 	/**
 	 * Gets the UUID of the value proof {@link Statement} of this

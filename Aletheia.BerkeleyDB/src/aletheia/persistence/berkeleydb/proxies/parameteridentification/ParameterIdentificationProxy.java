@@ -17,23 +17,20 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.test;
+package aletheia.persistence.berkeleydb.proxies.parameteridentification;
 
-import aletheia.test.unsorted.*;
-import aletheia.utilities.MiscUtilities;
+import aletheia.model.parameteridentification.ParameterIdentification;
+import aletheia.persistence.berkeleydb.proxies.AletheiaPersistentProxy;
 
-public abstract class Test
+import com.sleepycat.persist.model.Persistent;
+
+@Persistent(proxyFor = ParameterIdentification.class, version = 0)
+public abstract class ParameterIdentificationProxy<P extends ParameterIdentification> implements AletheiaPersistentProxy<P>
 {
-	static
-	{
-		MiscUtilities.dummy();
-	}
 
-	public abstract void run() throws Exception;
-
-	public static void main(String[] args) throws Exception
+	@Override
+	public void initializeProxy(P parameterIdentification)
 	{
-		new Test0015().run();
 	}
 
 }

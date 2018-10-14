@@ -74,6 +74,9 @@ import aletheia.persistence.berkeleydb.proxies.identifier.NodeNamespaceProxy;
 import aletheia.persistence.berkeleydb.proxies.identifier.RootNamespaceProxy;
 import aletheia.persistence.berkeleydb.proxies.net.InetAddressProxy;
 import aletheia.persistence.berkeleydb.proxies.net.InetSocketAddressProxy;
+import aletheia.persistence.berkeleydb.proxies.parameteridentification.CompositionParameterIdentificationProxy;
+import aletheia.persistence.berkeleydb.proxies.parameteridentification.FunctionParameterIdentificationProxy;
+import aletheia.persistence.berkeleydb.proxies.parameteridentification.ParameterIdentificationProxy;
 import aletheia.persistence.berkeleydb.proxies.security.MessageDigestDataProxy;
 import aletheia.persistence.berkeleydb.proxies.security.PrivateKeyProxy;
 import aletheia.persistence.berkeleydb.proxies.security.PublicKeyProxy;
@@ -124,6 +127,10 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 			UnprojectedCastTypeTermProxy.class,
 			FoldingCastTypeTermProxy.class,
 			UUIDProxy.class,
+			
+			ParameterIdentificationProxy.class,
+			CompositionParameterIdentificationProxy.class,
+			FunctionParameterIdentificationProxy.class,
 
 			NamespaceProxy.class,
 			RootNamespaceProxy.class,
