@@ -58,16 +58,16 @@ public class ParameterIdentificationParser extends Parser
 	{
 		protected FunctionParameterIdentification makeFunctioParameterIdentification(ParameterWithTypeList parameterWithTypeList, ParameterIdentification body)
 		{
-			for (ParameterWithType parameterWithType : new ReverseList<>(parameterWithTypeList))
+			for (ParameterWithDomain parameterWithType : new ReverseList<>(parameterWithTypeList))
 			{
 				Identifier parameter = null;
-				ParameterIdentification parameterType = null;
+				ParameterIdentification domain = null;
 				if (parameterWithType != null)
 				{
 					parameter = parameterWithType.getParameter();
-					parameterType = parameterWithType.getParameterType();
-					if (parameter != null || parameterType != null || body != null)
-						body = new FunctionParameterIdentification(parameter, parameterType, body);
+					domain = parameterWithType.getDomain();
+					if (parameter != null || domain != null || body != null)
+						body = new FunctionParameterIdentification(parameter, domain, body);
 				}
 			}
 			return (FunctionParameterIdentification) body;

@@ -24,14 +24,14 @@ import aletheia.model.identifier.Identifier;
 public class FunctionParameterIdentification extends ParameterIdentification
 {
 	private final Identifier parameter;
-	private final ParameterIdentification parameterType;
+	private final ParameterIdentification domain;
 	private final ParameterIdentification body;
 
-	public FunctionParameterIdentification(Identifier parameter, ParameterIdentification parameterType, ParameterIdentification body)
+	public FunctionParameterIdentification(Identifier parameter, ParameterIdentification domain, ParameterIdentification body)
 	{
 		super();
 		this.parameter = parameter;
-		this.parameterType = parameterType;
+		this.domain = domain;
 		this.body = body;
 	}
 
@@ -40,9 +40,9 @@ public class FunctionParameterIdentification extends ParameterIdentification
 		return parameter;
 	}
 
-	public ParameterIdentification getParameterType()
+	public ParameterIdentification getDomain()
 	{
-		return parameterType;
+		return domain;
 	}
 
 	public ParameterIdentification getBody()
@@ -65,8 +65,8 @@ public class FunctionParameterIdentification extends ParameterIdentification
 			FunctionParameterIdentification fpi = (FunctionParameterIdentification) pi;
 			if (fpi.getParameter() != null)
 				builder.append(fpi.getParameter().toString());
-			if (fpi.getParameterType() != null)
-				builder.append(":" + fpi.getParameterType().toString());
+			if (fpi.getDomain() != null)
+				builder.append(":" + fpi.getDomain().toString());
 			pi = fpi.getBody();
 		}
 		if (pi != null)

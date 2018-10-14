@@ -217,12 +217,12 @@ public class FunctionTerm extends Term
 			Term body = ((FunctionTerm) term).getBody();
 
 			Identifier parameterIdentifier = null;
-			ParameterIdentification parameterTypeParameterIdentification = null;
+			ParameterIdentification domainParameterIdentification = null;
 			ParameterIdentification bodyParameterIdentification = null;
 			if (parameterIdentification instanceof FunctionParameterIdentification)
 			{
 				parameterIdentifier = ((FunctionParameterIdentification) parameterIdentification).getParameter();
-				parameterTypeParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getParameterType();
+				domainParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getDomain();
 				bodyParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getBody();
 			}
 			boolean numberedParameter = false;
@@ -246,7 +246,7 @@ public class FunctionTerm extends Term
 				}
 				stringAppender.append(":");
 			}
-			parameter.getType().stringAppend(stringAppender, totalVariableToIdentifier, parameterNumerator, parameterTypeParameterIdentification);
+			parameter.getType().stringAppend(stringAppender, totalVariableToIdentifier, parameterNumerator, domainParameterIdentification);
 
 			if (numberedParameter)
 			{

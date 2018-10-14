@@ -19,15 +19,15 @@
  ******************************************************************************/
 package aletheia.parser.parameteridentification.semantic;
 
-import aletheia.parser.parameteridentification.ParameterWithType;
+import aletheia.parser.parameteridentification.ParameterWithDomain;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.ConstantProductionTokenPayloadReducer;
 
 @AssociatedProduction(left = "P", right = {})
-public class P___TokenReducer extends ConstantProductionTokenPayloadReducer<Void, ParameterWithType>
+public class P___TokenReducer extends ConstantProductionTokenPayloadReducer<Void, ParameterWithDomain>
 {
 	public P___TokenReducer()
 	{
-		super(new ParameterWithType(null, null));
+		super(new ParameterWithDomain(null, null));
 	}
 }

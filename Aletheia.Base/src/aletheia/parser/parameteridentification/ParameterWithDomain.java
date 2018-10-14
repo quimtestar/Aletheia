@@ -22,16 +22,16 @@ package aletheia.parser.parameteridentification;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.parameteridentification.ParameterIdentification;
 
-public class ParameterWithType
+public class ParameterWithDomain
 {
 	private final Identifier parameter;
-	private final ParameterIdentification parameterType;
+	private final ParameterIdentification domain;
 
-	public ParameterWithType(Identifier parameter, ParameterIdentification parameterType)
+	public ParameterWithDomain(Identifier parameter, ParameterIdentification domain)
 	{
 		super();
 		this.parameter = parameter;
-		this.parameterType = parameterType;
+		this.domain = domain;
 	}
 
 	public Identifier getParameter()
@@ -39,9 +39,9 @@ public class ParameterWithType
 		return parameter;
 	}
 
-	public ParameterIdentification getParameterType()
+	public ParameterIdentification getDomain()
 	{
-		return parameterType;
+		return domain;
 	}
 
 }
