@@ -41,7 +41,7 @@ public class Test0015 extends TransactionalBerkeleyDBPersistenceManagerTest
 		Declaration decAnd = persistenceManager.getDeclaration(transaction, UUID.fromString("9de69905-7e01-5827-bc6c-e7a6a576b58f"));
 		ParameterIdentification pi_ = decAnd.getEntity().getValueParameterIdentification();
 		System.out.println(pi_);
-		ParameterIdentification pi = ParameterIdentification.parse("<P,Q>");
+		ParameterIdentification pi = null;
 		decAnd.getEntity().setValueParameterIdentification(pi);
 		persistenceManager.putStatement(transaction, decAnd);
 	}

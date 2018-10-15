@@ -51,6 +51,7 @@ import aletheia.model.local.ContextLocal;
 import aletheia.model.local.RootContextLocal;
 import aletheia.model.local.StatementLocal;
 import aletheia.model.nomenclator.Nomenclator;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
 import aletheia.model.statement.RootContext;
@@ -474,6 +475,15 @@ public class ContextJTreeModel extends PersistentTreeModel
 		}
 	}
 
+	private class ParameterIdentificationChange extends StatementStateChange
+	{
+		public ParameterIdentificationChange(Transaction transaction, Statement statement)
+		{
+			super(transaction, statement);
+		}
+
+	}
+
 	private class StatementListener implements Statement.StateListener, Nomenclator.Listener, RootContext.TopStateListener, ContextLocal.StateListener,
 			RootContextLocal.StateListener, StatementAuthority.StateListener
 	{
@@ -686,6 +696,18 @@ public class ContextJTreeModel extends PersistentTreeModel
 			}
 		}
 
+		@Override
+		public void valueParameterIdentificationUpdated(Transaction transaction, Declaration declaration, ParameterIdentification valueParameterIdentification)
+		{
+			try
+			{
+				statementStateChangeQueue.put(new ParameterIdentificationChange(transaction, declaration));
+			}
+			catch (InterruptedException e)
+			{
+				logger.error(e.getMessage(), e);
+			}
+		}
 	}
 
 	public void pushSelectStatement(Transaction transaction, Statement statement, ContextJTree contextJTree)
@@ -791,6 +813,8 @@ public class ContextJTreeModel extends PersistentTreeModel
 									authorityStateChange((AuthorityStateChange) c, transaction);
 								else if (c instanceof SetActiveContextStateChange)
 									setActiveContextStateChange((SetActiveContextStateChange) c, transaction);
+								else if (c instanceof ParameterIdentificationChange)
+									parameterIdentificationChange((ParameterIdentificationChange) c, transaction);
 								else
 									throw new Error();
 							}
@@ -1358,6 +1382,21 @@ public class ContextJTreeModel extends PersistentTreeModel
 			}
 		}
 
+	}
+
+	private void parameterIdentificationChange(ParameterIdentificationChange c, Transaction transaction)
+	{
+		parameterIdentificationChange(c.getStatement(), transaction);
+	}
+
+	private void parameterIdentificationChange(Statement statement, Transaction transaction)
+	{
+		statement = statement.refresh(transaction);
+		if (statement != null)
+		{
+			StatementContextJTreeNode node = nodeMap.getByStatement(statement);
+			nodeChanged((ContextJTreeNode) node);
+		}
 	}
 
 	@Override

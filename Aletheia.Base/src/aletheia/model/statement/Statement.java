@@ -56,6 +56,7 @@ import aletheia.model.nomenclator.Nomenclator.AlreadyUsedIdentifierException;
 import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
 import aletheia.model.nomenclator.Nomenclator.SignatureIsValidNomenclatorException;
 import aletheia.model.nomenclator.Nomenclator.UnknownIdentifierException;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Context.CantDeleteAssumptionException;
 import aletheia.model.statement.Context.StatementHasDependentsException;
 import aletheia.model.statement.Context.StatementNotInContextException;
@@ -1142,6 +1143,11 @@ public abstract class Statement implements Exportable
 		{
 		}
 
+		public default void valueParameterIdentificationUpdated(Transaction transaction, Declaration declaration,
+				ParameterIdentification valueParameterIdentification)
+		{
+		}
+
 	}
 
 	/**
@@ -1307,7 +1313,7 @@ public abstract class Statement implements Exportable
 	{
 		private static final long serialVersionUID = 6776102696391059941L;
 
-		private SignatureIsValidException(String message)
+		protected SignatureIsValidException(String message)
 		{
 			super(message);
 		}

@@ -22,6 +22,8 @@ package aletheia.model.statement;
 import java.util.Set;
 import java.util.UUID;
 
+import aletheia.model.authority.StatementAuthority;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
@@ -239,6 +241,43 @@ public class Declaration extends Statement
 	public Term getValue()
 	{
 		return getEntity().getValue();
+	}
+
+	public ParameterIdentification getValueParameterIdentification()
+	{
+		return getEntity().getValueParameterIdentification();
+	}
+
+	private void setValueParameterIdentification(ParameterIdentification valueParameterIdentification)
+	{
+		getEntity().setValueParameterIdentification(valueParameterIdentification);
+	}
+
+	public void setValueParameterIdentification(Transaction transaction, ParameterIdentification valueParameterIdentification, boolean force)
+			throws SignatureIsValidException
+	{
+		lockAuthority(transaction);
+		StatementAuthority statementAuthority = getAuthority(transaction);
+		if (statementAuthority != null)
+		{
+			if (force)
+				statementAuthority.clearSignatures(transaction);
+			else if (statementAuthority.isValidSignature())
+				throw new SignatureIsValidException("Can't update parameter identifications with valid signatures");
+		}
+		setValueParameterIdentification(valueParameterIdentification);
+		persistenceUpdate(transaction);
+		Iterable<StateListener> listeners = stateListeners();
+		synchronized (listeners)
+		{
+			for (StateListener listener : listeners)
+				listener.valueParameterIdentificationUpdated(transaction, this, valueParameterIdentification);
+		}
+	}
+
+	public void setValueParameterIdentification(Transaction transaction, ParameterIdentification valueParameterIdentification) throws SignatureIsValidException
+	{
+		setValueParameterIdentification(transaction, valueParameterIdentification, false);
 	}
 
 	/**

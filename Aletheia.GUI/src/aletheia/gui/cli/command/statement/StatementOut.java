@@ -26,6 +26,7 @@ import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
 import aletheia.model.statement.RootContext;
@@ -100,8 +101,9 @@ public class StatementOut extends TransactionalCommand
 		{
 			Declaration dec = (Declaration) statement;
 			Term value = dec.getValue();
+			ParameterIdentification valueParameterIdentification = dec.getValueParameterIdentification();
+			String svalue = termToString(activeContext, getTransaction(), value, valueParameterIdentification);
 			Statement valueProof = dec.getValueProof(getTransaction());
-			String svalue = termToString(activeContext, getTransaction(), value);
 			Identifier idValueProof = statementToIdentifier(activeContext, valueProof);
 			if (idValueProof == null)
 				throw new Exception("Value proof is not identified");

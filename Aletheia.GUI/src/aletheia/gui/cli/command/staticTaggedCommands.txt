@@ -110,6 +110,8 @@ aletheia.gui.cli.command.statement.Unproved
 aletheia.gui.cli.command.statement.Unused
 aletheia.gui.cli.command.statement.ProofTerm
 
+aletheia.gui.cli.command.parameteridentification.UpdateParameterIdentification
+
 aletheia.gui.cli.command.term.TermDiff
 aletheia.gui.cli.command.term.TermOut
 aletheia.gui.cli.command.term.TermCb
