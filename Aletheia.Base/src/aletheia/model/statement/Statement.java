@@ -82,7 +82,6 @@ import aletheia.utilities.aborter.Aborter;
 import aletheia.utilities.aborter.Aborter.AbortException;
 import aletheia.utilities.collections.AbstractCloseableCollection;
 import aletheia.utilities.collections.AdaptedCollection;
-import aletheia.utilities.collections.AdaptedMap;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCloseableCollection;
 import aletheia.utilities.collections.BijectionCloseableSet;
@@ -810,16 +809,6 @@ public abstract class Statement implements Exportable
 	public Map<IdentifiableVariableTerm, Identifier> parentVariableToIdentifier(Transaction transaction)
 	{
 		return getParentNomenclator(transaction).variableToIdentifier();
-	}
-
-	public Map<VariableTerm, Identifier> parentVariableToIdentifierWithParameters(Transaction transaction, Term term)
-	{
-		return new AdaptedMap<>(parentVariableToIdentifier(transaction));
-	}
-
-	public Map<VariableTerm, Identifier> parentVariableToIdentifierWithParameters(Transaction transaction)
-	{
-		return parentVariableToIdentifierWithParameters(transaction, getTerm());
 	}
 
 	/**
@@ -2148,6 +2137,11 @@ public abstract class Statement implements Exportable
 				return c;
 			}
 		};
+	}
+
+	public ParameterIdentification makeTermParameterIdentification(Transaction transaction)
+	{
+		return null;
 	}
 
 }

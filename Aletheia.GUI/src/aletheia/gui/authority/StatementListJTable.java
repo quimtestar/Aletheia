@@ -190,7 +190,7 @@ public class StatementListJTable extends JTable
 						this.statementAuthority = this.statement.getAuthority(transaction);
 						addAuthorityLabel();
 						addSpaceLabel();
-						addVariableReferenceComponent(this.statement.parentVariableToIdentifier(transaction), null, this.statement.getVariable());
+						addVariableReferenceComponent(this.statement.parentVariableToIdentifier(transaction), this.statement.getVariable());
 					}
 				}
 				finally

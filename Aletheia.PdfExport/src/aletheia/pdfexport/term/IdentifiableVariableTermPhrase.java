@@ -23,13 +23,12 @@ import java.util.Map;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.term.IdentifiableVariableTerm;
-import aletheia.model.term.VariableTerm;
 
 public abstract class IdentifiableVariableTermPhrase extends VariableTermPhrase
 {
 	private static final long serialVersionUID = -1035132395440023184L;
 
-	protected IdentifiableVariableTermPhrase(Map<? extends VariableTerm, Identifier> variableToIdentifier, IdentifiableVariableTerm term)
+	protected IdentifiableVariableTermPhrase(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, IdentifiableVariableTerm term)
 	{
 		super(term, variableToIdentifier);
 	}

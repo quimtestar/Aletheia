@@ -22,6 +22,7 @@ package aletheia.pdfexport.term;
 import java.util.Map;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.CompositionTerm;
 import aletheia.model.term.FoldingCastTypeTerm;
 import aletheia.model.term.FunctionTerm;
@@ -56,43 +57,55 @@ public abstract class TermPhrase extends BasePhrase
 	}
 
 	public static TermPhrase termPhrase(PersistenceManager persistenceManager, Transaction transaction,
-			Map<? extends VariableTerm, Identifier> variableToIdentifier, Term term)
+			Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterIdentification parameterIdentification, Term term)
 	{
-		return termPhrase(persistenceManager, transaction, variableToIdentifier, term.parameterNumerator(), term);
+		return termPhrase(persistenceManager, transaction, variableToIdentifier, term.parameterNumerator(), parameterIdentification, null, term);
+	}
+
+	public static TermPhrase termPhrase(PersistenceManager persistenceManager, Transaction transaction,
+			Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term term)
+	{
+		return termPhrase(persistenceManager, transaction, variableToIdentifier, term.parameterNumerator(), null, null, term);
 	}
 
 	protected static TermPhrase termPhrase(PersistenceManager persistenceManager, Transaction transaction,
-			Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator, Term term)
+			Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+			ParameterIdentification parameterIdentification, Map<ParameterVariableTerm, Identifier> parameterToIdentifier, Term term)
 	{
 		if (term instanceof SimpleTerm)
 		{
 			if (term instanceof CompositionTerm)
-				return new CompositionTermPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, (CompositionTerm) term);
+				return new CompositionTermPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, parameterIdentification,
+						parameterToIdentifier, (CompositionTerm) term);
 			else if (term instanceof VariableTerm)
 			{
 				if (term instanceof IdentifiableVariableTerm)
 					return new IdentifiableVariableTermReferencePhrase(persistenceManager, transaction, variableToIdentifier, (IdentifiableVariableTerm) term);
 				else if (term instanceof ParameterVariableTerm)
-					return new ParameterVariableTermPhrase((VariableTerm) term, variableToIdentifier, parameterNumerator);
+					return new ParameterVariableTermPhrase((VariableTerm) term, parameterToIdentifier, parameterNumerator);
 				else
 					throw new Error();
 			}
 			else if (term instanceof TauTerm)
 				return new TauTermPhrase((TauTerm) term);
 			else if (term instanceof ProjectionTerm)
-				return new ProjectionTermPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, (ProjectionTerm) term);
+				return new ProjectionTermPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, parameterIdentification,
+						parameterToIdentifier, (ProjectionTerm) term);
 			else if (term instanceof ProjectedCastTypeTerm)
-				return new ProjectedCastTypeTermPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, (ProjectedCastTypeTerm) term);
+				return new ProjectedCastTypeTermPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, parameterIdentification,
+						parameterToIdentifier, (ProjectedCastTypeTerm) term);
 			else if (term instanceof UnprojectedCastTypeTerm)
-				return new UnprojectedCastTypeTermPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator,
-						(UnprojectedCastTypeTerm) term);
+				return new UnprojectedCastTypeTermPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, parameterIdentification,
+						parameterToIdentifier, (UnprojectedCastTypeTerm) term);
 			else if (term instanceof FoldingCastTypeTerm)
-				return new FoldingCastTypeTermPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, (FoldingCastTypeTerm) term);
+				return new FoldingCastTypeTermPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, parameterIdentification,
+						parameterToIdentifier, (FoldingCastTypeTerm) term);
 			else
 				throw new Error();
 		}
 		else if (term instanceof FunctionTerm)
-			return new FunctionTermPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, (FunctionTerm) term);
+			return new FunctionTermPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, parameterIdentification,
+					parameterToIdentifier, (FunctionTerm) term);
 		else
 			throw new Error();
 	}

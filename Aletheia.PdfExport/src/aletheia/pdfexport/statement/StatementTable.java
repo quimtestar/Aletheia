@@ -26,7 +26,7 @@ import aletheia.model.statement.Declaration;
 import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
 import aletheia.model.statement.UnfoldingContext;
-import aletheia.model.term.VariableTerm;
+import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.pdfexport.BasePhrase;
 import aletheia.pdfexport.SimpleChunk;
 import aletheia.pdfexport.font.FontManager;
@@ -72,7 +72,8 @@ public abstract class StatementTable extends StatementOrConsequentTable
 		public TermCellPhrase()
 		{
 			super();
-			TermPhrase termPhrase = TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier(), statement.getTerm());
+			TermPhrase termPhrase = TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier(),
+					statement.makeTermParameterIdentification(transaction), statement.getTerm());
 			addSimpleChunk(new SimpleChunk(":"));
 			addBasePhrase(termPhrase);
 		}
@@ -154,9 +155,9 @@ public abstract class StatementTable extends StatementOrConsequentTable
 	}
 
 	@Override
-	protected Map<? extends VariableTerm, Identifier> variableToIdentifier()
+	protected Map<IdentifiableVariableTerm, Identifier> variableToIdentifier()
 	{
-		return statement.parentVariableToIdentifierWithParameters(transaction);
+		return statement.parentVariableToIdentifier(transaction);
 	}
 
 	public static StatementTable statementTable(Document doc, int depth, Transaction transaction, Statement statement)

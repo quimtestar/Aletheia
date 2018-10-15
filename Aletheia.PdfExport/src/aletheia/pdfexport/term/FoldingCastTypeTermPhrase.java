@@ -22,10 +22,12 @@ package aletheia.pdfexport.term;
 import java.util.Map;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.FoldingCastTypeTerm;
+import aletheia.model.term.IdentifiableVariableTerm;
+import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectedCastTypeTerm;
 import aletheia.model.term.Term;
-import aletheia.model.term.VariableTerm;
 import aletheia.pdfexport.SimpleChunk;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -36,17 +38,22 @@ public class FoldingCastTypeTermPhrase extends TermPhrase
 	private static final long serialVersionUID = -2400360424262052815L;
 
 	protected FoldingCastTypeTermPhrase(PersistenceManager persistenceManager, Transaction transaction,
-			Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator, FoldingCastTypeTerm term)
+			Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+			ParameterIdentification parameterIdentification, Map<ParameterVariableTerm, Identifier> parameterToIdentifier, FoldingCastTypeTerm term)
 	{
 		super(term);
 		addSimpleChunk(new SimpleChunk("("));
-		addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term.getTerm()));
+		addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, parameterIdentification,
+				parameterToIdentifier, term.getTerm()));
 		addSimpleChunk(new SimpleChunk(":"));
-		addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term.getType()));
+		addBasePhrase(
+				TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, null, parameterToIdentifier, term.getType()));
 		addSimpleChunk(new SimpleChunk(" | "));
-		addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term.getValue()));
+		addBasePhrase(
+				TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, null, parameterToIdentifier, term.getValue()));
 		addSimpleChunk(new SimpleChunk(" \u2190 "));
-		addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term.getVariable()));
+		addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, null, parameterToIdentifier,
+				term.getVariable()));
 		addSimpleChunk(new SimpleChunk(")"));
 	}
 

@@ -23,7 +23,6 @@ import java.util.Map;
 
 import aletheia.model.identifier.Identifier;
 import aletheia.model.term.IdentifiableVariableTerm;
-import aletheia.model.term.VariableTerm;
 import aletheia.pdfexport.SimpleChunk;
 import aletheia.pdfexport.font.FontManager;
 import aletheia.persistence.PersistenceManager;
@@ -44,7 +43,7 @@ public class IdentifiableVariableTermReferencePhrase extends IdentifiableVariabl
 	}
 
 	protected IdentifiableVariableTermReferencePhrase(PersistenceManager persistenceManager, Transaction transaction,
-			Map<? extends VariableTerm, Identifier> variableToIdentifier, IdentifiableVariableTerm term)
+			Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, IdentifiableVariableTerm term)
 	{
 		super(variableToIdentifier, term);
 		SimpleChunk c = new SimpleChunk(getText(), FontManager.instance.getFont(fontSize, color(persistenceManager, transaction, term)));

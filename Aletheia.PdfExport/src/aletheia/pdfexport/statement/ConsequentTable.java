@@ -22,7 +22,7 @@ package aletheia.pdfexport.statement;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
-import aletheia.model.term.VariableTerm;
+import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.pdfexport.BasePhrase;
 import aletheia.pdfexport.SimpleChunk;
 import aletheia.pdfexport.font.FontManager;
@@ -150,7 +150,7 @@ public class ConsequentTable extends StatementOrConsequentTable
 	}
 
 	@Override
-	protected Map<? extends VariableTerm, Identifier> variableToIdentifier()
+	protected Map<IdentifiableVariableTerm, Identifier> variableToIdentifier()
 	{
 		return context.variableToIdentifier(transaction);
 	}

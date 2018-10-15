@@ -22,10 +22,12 @@ package aletheia.pdfexport.term;
 import java.util.Map;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.ParameterIdentification;
+import aletheia.model.term.IdentifiableVariableTerm;
+import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectedCastTypeTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.UnprojectedCastTypeTerm;
-import aletheia.model.term.VariableTerm;
 import aletheia.pdfexport.SimpleChunk;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -35,11 +37,13 @@ public class UnprojectedCastTypeTermPhrase extends TermPhrase
 	private static final long serialVersionUID = 4487221289844310777L;
 
 	protected UnprojectedCastTypeTermPhrase(PersistenceManager persistenceManager, Transaction transaction,
-			Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator, UnprojectedCastTypeTerm term)
+			Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+			ParameterIdentification parameterIdentification, Map<ParameterVariableTerm, Identifier> parameterToIdentifier, UnprojectedCastTypeTerm term)
 	{
 		super(term);
 		addSimpleChunk(new SimpleChunk("{"));
-		addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term.getTerm()));
+		addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, parameterIdentification,
+				parameterToIdentifier, term.getTerm()));
 		addSimpleChunk(new SimpleChunk("}"));
 	}
 

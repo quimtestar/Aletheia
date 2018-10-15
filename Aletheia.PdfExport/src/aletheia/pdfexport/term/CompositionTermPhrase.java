@@ -22,9 +22,12 @@ package aletheia.pdfexport.term;
 import java.util.Map;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.CompositionParameterIdentification;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.CompositionTerm;
+import aletheia.model.term.IdentifiableVariableTerm;
+import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.model.term.VariableTerm;
 import aletheia.pdfexport.SimpleChunk;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -34,14 +37,24 @@ public class CompositionTermPhrase extends TermPhrase
 	private static final long serialVersionUID = 4487221289844310777L;
 
 	protected CompositionTermPhrase(PersistenceManager persistenceManager, Transaction transaction,
-			Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator, CompositionTerm term)
+			Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+			ParameterIdentification parameterIdentification, Map<ParameterVariableTerm, Identifier> parameterToIdentifier, CompositionTerm term)
 	{
 		super(term);
-		addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term.getHead()));
+		ParameterIdentification headParameterIdentification = null;
+		ParameterIdentification tailParameterIdentification = null;
+		if (parameterIdentification instanceof CompositionParameterIdentification)
+		{
+			headParameterIdentification = ((CompositionParameterIdentification) parameterIdentification).getHead();
+			tailParameterIdentification = ((CompositionParameterIdentification) parameterIdentification).getTail();
+		}
+		addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, headParameterIdentification,
+				parameterToIdentifier, term.getHead()));
 		addSimpleChunk(new SimpleChunk(" "));
 		if (term.getTail() instanceof CompositionTerm)
 			addSimpleChunk(new SimpleChunk("("));
-		addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term.getTail()));
+		addBasePhrase(TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, tailParameterIdentification,
+				parameterToIdentifier, term.getTail()));
 		if (term.getTail() instanceof CompositionTerm)
 			addSimpleChunk(new SimpleChunk(")"));
 	}

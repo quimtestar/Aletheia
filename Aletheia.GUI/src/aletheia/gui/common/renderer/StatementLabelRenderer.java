@@ -34,7 +34,7 @@ public class StatementLabelRenderer extends AbstractPersistentRenderer
 		Transaction transaction = beginTransaction();
 		try
 		{
-			addVariableReferenceComponent(statement.parentVariableToIdentifier(transaction), null, statement.getVariable());
+			addVariableReferenceComponent(statement.parentVariableToIdentifier(transaction), statement.getVariable());
 		}
 		finally
 		{

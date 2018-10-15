@@ -19,26 +19,34 @@
  ******************************************************************************/
 package aletheia.pdfexport.term;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.FunctionParameterIdentification;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.FunctionTerm;
+import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.ParameterNumerator;
-import aletheia.model.term.VariableTerm;
 import aletheia.pdfexport.SimpleChunk;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.collections.CombinedMap;
 
 public class FunctionTermPhrase extends TermPhrase
 {
 	private static final long serialVersionUID = -357818252943847397L;
 
-	protected FunctionTermPhrase(PersistenceManager persistenceManager, Transaction transaction, Map<? extends VariableTerm, Identifier> variableToIdentifier,
-			ParameterNumerator parameterNumerator, FunctionTerm functionTerm)
+	protected FunctionTermPhrase(PersistenceManager persistenceManager, Transaction transaction, Map<IdentifiableVariableTerm, Identifier> variableToIdentifier,
+			ParameterNumerator parameterNumerator, ParameterIdentification parameterIdentification,
+			Map<ParameterVariableTerm, Identifier> parameterToIdentifier, FunctionTerm functionTerm)
 	{
 		super(functionTerm);
+		Map<ParameterVariableTerm, Identifier> localParameterToIdentifier = new HashMap<>();
+		Map<ParameterVariableTerm, Identifier> totalParameterToIdentifier = parameterToIdentifier == null ? localParameterToIdentifier
+				: new CombinedMap<>(localParameterToIdentifier, parameterToIdentifier);
 		addSimpleChunk(new SimpleChunk("<"));
 		Term term = functionTerm;
 		boolean first = true;
@@ -47,25 +55,39 @@ public class FunctionTermPhrase extends TermPhrase
 		{
 			ParameterVariableTerm parameter = ((FunctionTerm) term).getParameter();
 			Term body = ((FunctionTerm) term).getBody();
+			Identifier parameterParameterIdentification = null;
+			ParameterIdentification domainParameterIdentification = null;
+			ParameterIdentification bodyParameterIdentification = null;
+			if (parameterIdentification instanceof FunctionParameterIdentification)
+			{
+				parameterParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getParameter();
+				domainParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getDomain();
+				bodyParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getBody();
+			}
 			if (!first)
 				addSimpleChunk(new SimpleChunk(", "));
-			TermPhrase parameterTypePhrase = termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, parameter.getType());
+			TermPhrase parameterTypePhrase = termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator,
+					domainParameterIdentification, totalParameterToIdentifier, parameter.getType());
 			if (body.isFreeVariable(parameter))
 			{
-				if (!variableToIdentifier.containsKey(parameter))
+				if (parameterParameterIdentification == null)
 				{
 					parameterNumerator.numberParameter(parameter);
 					numberedParameters++;
 				}
-				addBasePhrase(termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, parameter));
+				else
+					localParameterToIdentifier.put(parameter, parameterParameterIdentification);
+				addBasePhrase(new ParameterVariableTermPhrase(parameter, localParameterToIdentifier, parameterNumerator));
 				addSimpleChunk(new SimpleChunk(":"));
 			}
 			addBasePhrase(parameterTypePhrase);
 			first = false;
 			term = body;
+			parameterIdentification = bodyParameterIdentification;
 		}
 		addSimpleChunk(new SimpleChunk(" \u2192 "));
-		addBasePhrase(termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, term));
+		addBasePhrase(termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator, parameterIdentification, totalParameterToIdentifier,
+				term));
 		parameterNumerator.unNumberParameters(numberedParameters);
 		addSimpleChunk(new SimpleChunk(">"));
 	}

@@ -93,7 +93,6 @@ import aletheia.persistence.entities.statement.ContextEntity;
 import aletheia.utilities.aborter.Aborter;
 import aletheia.utilities.aborter.Aborter.AbortException;
 import aletheia.utilities.collections.AdaptedList;
-import aletheia.utilities.collections.AdaptedMap;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCloseableSet;
 import aletheia.utilities.collections.BijectionCollection;
@@ -111,7 +110,6 @@ import aletheia.utilities.collections.CloseableSortedMap;
 import aletheia.utilities.collections.CombinedCloseableMap;
 import aletheia.utilities.collections.CombinedCloseableMultimap;
 import aletheia.utilities.collections.CombinedCollection;
-import aletheia.utilities.collections.CombinedMap;
 import aletheia.utilities.collections.CombinedSet;
 import aletheia.utilities.collections.EmptyCloseableSet;
 import aletheia.utilities.collections.FilteredCloseableSet;
@@ -2419,10 +2417,22 @@ public class Context extends Statement
 		return subCtx;
 	}
 
-	public ParameterIdentification makeParameterIdentification(Transaction transaction, Term term)
+	@Override
+	public ParameterIdentification makeTermParameterIdentification(Transaction transaction)
 	{
-		Stack<Identifier> stack = new Stack<>();
-		Term body = term;
+		class StackEntry
+		{
+			final Identifier parameter;
+			final ParameterIdentification domain;
+
+			StackEntry(Identifier parameter, ParameterIdentification domain)
+			{
+				this.parameter = parameter;
+				this.domain = domain;
+			}
+		}
+		Stack<StackEntry> stack = new Stack<>();
+		Term body = getTerm();
 		Iterator<Assumption> assumptionIterator = assumptions(transaction).iterator();
 		while (body instanceof FunctionTerm)
 		{
@@ -2430,42 +2440,23 @@ public class Context extends Statement
 			Assumption assumption = null;
 			if (assumptionIterator.hasNext())
 				assumption = assumptionIterator.next();
-			if (function.getBody().isFreeVariable(function.getParameter()) && assumption != null && assumption.getIdentifier() != null)
-				stack.push(assumption.getIdentifier());
-			else
-				stack.push(null);
+			Identifier parameter = null;
+			if (function.getBody().isFreeVariable(function.getParameter()) && assumption != null)
+				parameter = assumption.getIdentifier();
+			ParameterIdentification domain = null;
+			if (assumption != null)
+				domain = assumption.makeTermParameterIdentification(transaction);
+			stack.push(new StackEntry(parameter, domain));
 			body = function.getBody();
 		}
 		ParameterIdentification parameterIdentification = null;
 		while (!stack.isEmpty())
-			parameterIdentification = new FunctionParameterIdentification(stack.pop(), null, parameterIdentification);
+		{
+			StackEntry se = stack.pop();
+			if (se.parameter != null || se.domain != null || parameterIdentification != null)
+				parameterIdentification = new FunctionParameterIdentification(se.parameter, se.domain, parameterIdentification);
+		}
 		return parameterIdentification;
-	}
-
-	public ParameterIdentification makeParameterIdentification(Transaction transaction)
-	{
-		return makeParameterIdentification(transaction, getTerm());
-	}
-
-	public Map<ParameterVariableTerm, Identifier> parameterVariableToIdentifier(Transaction transaction, Term term)
-	{
-		return getTerm().parameterVariableToIdentifier(makeParameterIdentification(transaction, term));
-	}
-
-	public Map<ParameterVariableTerm, Identifier> parameterVariableToIdentifier(Transaction transaction)
-	{
-		return parameterVariableToIdentifier(transaction, getTerm());
-	}
-
-	@Override
-	public Map<VariableTerm, Identifier> parentVariableToIdentifierWithParameters(Transaction transaction, Term term)
-	{
-		Map<VariableTerm, Identifier> parent = super.parentVariableToIdentifierWithParameters(transaction, term);
-		Map<ParameterVariableTerm, Identifier> parameter = parameterVariableToIdentifier(transaction, term);
-		if (parameter == null)
-			return parent;
-		else
-			return new CombinedMap<>(parent, new AdaptedMap<>(parameter));
 	}
 
 	public class FromProofTermStatementException extends StatementException

@@ -62,7 +62,7 @@ public class StatementOut extends TransactionalCommand
 		{
 			Context context = (Context) statement;
 			Term term = context.getTerm();
-			String sterm = termToString(activeContext, getTransaction(), term, context.makeParameterIdentification(getTransaction()));
+			String sterm = termToString(activeContext, getTransaction(), term, context.makeTermParameterIdentification(getTransaction()));
 			if (context instanceof UnfoldingContext)
 			{
 				UnfoldingContext unfoldingContext = (UnfoldingContext) context;

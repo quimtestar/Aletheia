@@ -33,6 +33,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -42,6 +43,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.CompositionParameterIdentification;
+import aletheia.model.parameteridentification.FunctionParameterIdentification;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.CompositionTerm;
 import aletheia.model.term.FoldingCastTypeTerm;
@@ -56,6 +60,7 @@ import aletheia.model.term.UnprojectedCastTypeTerm;
 import aletheia.model.term.VariableTerm;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
+import aletheia.utilities.collections.CombinedMap;
 
 public abstract class AbstractPersistentRenderer extends AbstractRenderer
 {
@@ -153,12 +158,11 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 
 		private final VariableTerm variable;
 
-		public VariableReferenceComponent(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
-				IdentifiableVariableTerm variable)
+		public VariableReferenceComponent(Map<? extends VariableTerm, Identifier> variableToIdentifier, IdentifiableVariableTerm variable)
 		{
 			super();
 			this.variable = variable;
-			setText(variable.toString(variableToIdentifier, parameterNumerator));
+			setText(variable.toString(variableToIdentifier));
 			setForeground(labelDefaultColor());
 			setFont(getActiveFont());
 			if (clickableVariableReferences)
@@ -200,9 +204,9 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 	}
 
 	protected VariableReferenceComponent addVariableReferenceComponent(Map<? extends VariableTerm, Identifier> variableToIdentifier,
-			Term.ParameterNumerator parameterNumerator, IdentifiableVariableTerm variable)
+			IdentifiableVariableTerm variable)
 	{
-		VariableReferenceComponent c = new VariableReferenceComponent(variableToIdentifier, parameterNumerator, variable);
+		VariableReferenceComponent c = new VariableReferenceComponent(variableToIdentifier, variable);
 		addEditableComponent(c);
 		add(c);
 		return c;
@@ -210,7 +214,7 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 
 	protected void addStatementReference(Transaction transaction, Statement statement)
 	{
-		addVariableReferenceComponent(statement.parentVariableToIdentifier(transaction), null, statement.getVariable());
+		addVariableReferenceComponent(statement.parentVariableToIdentifier(transaction), statement.getVariable());
 	}
 
 	protected abstract class EditableTextLabelComponent extends JPanel implements EditableComponent
@@ -330,38 +334,50 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 
 	}
 
-	protected void addTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term term)
+	protected void addTerm(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term term)
 	{
-		addTerm(variableToIdentifier, term.parameterNumerator(), term);
+		addTerm(variableToIdentifier, null, term);
 	}
 
-	protected void addTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator, Term term)
+	protected void addTerm(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterIdentification parameterIdentification, Term term)
+	{
+		addTerm(variableToIdentifier, term.parameterNumerator(), parameterIdentification, null, term);
+	}
+
+	protected void addTerm(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+			ParameterIdentification parameterIdentification, Map<ParameterVariableTerm, Identifier> parameterToIdentifier, Term term)
 	{
 		if (term instanceof ParameterVariableTerm)
-			addParameterVariableTerm(variableToIdentifier, parameterNumerator, (ParameterVariableTerm) term);
+			addParameterVariableTerm(parameterNumerator, parameterToIdentifier, (ParameterVariableTerm) term);
 		else if (term instanceof IdentifiableVariableTerm)
-			addIdentifiableVariableTerm(variableToIdentifier, parameterNumerator, (IdentifiableVariableTerm) term);
+			addIdentifiableVariableTerm(variableToIdentifier, (IdentifiableVariableTerm) term);
 		else if (term instanceof CompositionTerm)
-			addCompositionTerm(variableToIdentifier, parameterNumerator, (CompositionTerm) term);
+			addCompositionTerm(variableToIdentifier, parameterNumerator, parameterIdentification, parameterToIdentifier, (CompositionTerm) term);
 		else if (term instanceof FunctionTerm)
-			addFunctionTerm(variableToIdentifier, parameterNumerator, (FunctionTerm) term);
+			addFunctionTerm(variableToIdentifier, parameterNumerator, parameterIdentification, parameterToIdentifier, (FunctionTerm) term);
 		else if (term instanceof TauTerm)
-			addTauTerm(variableToIdentifier, parameterNumerator, (TauTerm) term);
+			addTauTerm();
 		else if (term instanceof ProjectionTerm)
-			addProjectionTerm(variableToIdentifier, parameterNumerator, (ProjectionTerm) term);
+			addProjectionTerm(variableToIdentifier, parameterNumerator, parameterIdentification, parameterToIdentifier, (ProjectionTerm) term);
 		else if (term instanceof ProjectedCastTypeTerm)
-			addProjectedCastTypeTerm(variableToIdentifier, parameterNumerator, (ProjectedCastTypeTerm) term);
+			addProjectedCastTypeTerm(variableToIdentifier, parameterNumerator, parameterIdentification, parameterToIdentifier, (ProjectedCastTypeTerm) term);
 		else if (term instanceof UnprojectedCastTypeTerm)
-			addUnprojectedCastTypeTerm(variableToIdentifier, parameterNumerator, (UnprojectedCastTypeTerm) term);
+			addUnprojectedCastTypeTerm(variableToIdentifier, parameterNumerator, parameterIdentification, parameterToIdentifier,
+					(UnprojectedCastTypeTerm) term);
 		else if (term instanceof FoldingCastTypeTerm)
-			addFoldingCastTypeTerm(variableToIdentifier, parameterNumerator, (FoldingCastTypeTerm) term);
+			addFoldingCastTypeTerm(variableToIdentifier, parameterNumerator, parameterIdentification, parameterToIdentifier, (FoldingCastTypeTerm) term);
 		else
 			throw new Error();
 	}
 
+	protected void addTerm(Transaction transaction, Statement statement, ParameterIdentification parameterIdentification, Term term)
+	{
+		addTerm(statement.parentVariableToIdentifier(transaction), parameterIdentification, term);
+	}
+
 	protected void addTerm(Transaction transaction, Statement statement, Term term)
 	{
-		addTerm(statement.parentVariableToIdentifierWithParameters(transaction, term), term);
+		addTerm(statement.parentVariableToIdentifier(transaction), statement.makeTermParameterIdentification(transaction), term);
 	}
 
 	protected void addTerm(Transaction transaction, Statement statement)
@@ -369,33 +385,42 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 		addTerm(transaction, statement, statement.getTerm());
 	}
 
-	protected void addParameterVariableTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+	protected void addParameterVariableTerm(Term.ParameterNumerator parameterNumerator, Map<ParameterVariableTerm, Identifier> parameterToIdentifier,
 			ParameterVariableTerm parameterVariableTerm)
 	{
-		addTextLabel(parameterVariableTerm.toString(variableToIdentifier, parameterNumerator));
+		addTextLabel(parameterVariableTerm.toString(parameterToIdentifier, parameterNumerator));
 	}
 
-	protected void addIdentifiableVariableTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
-			IdentifiableVariableTerm identifiableVariableTerm)
+	protected void addIdentifiableVariableTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, IdentifiableVariableTerm identifiableVariableTerm)
 	{
-		addVariableReferenceComponent(variableToIdentifier, parameterNumerator, identifiableVariableTerm);
+		addVariableReferenceComponent(variableToIdentifier, identifiableVariableTerm);
 	}
 
-	protected void addCompositionTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
-			CompositionTerm compositionTerm)
+	protected void addCompositionTerm(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+			ParameterIdentification parameterIdentification, Map<ParameterVariableTerm, Identifier> parameterToIdentifier, CompositionTerm compositionTerm)
 	{
-		addTerm(variableToIdentifier, parameterNumerator, compositionTerm.getHead());
+		ParameterIdentification headParameterIdentification = null;
+		ParameterIdentification tailParameterIdentification = null;
+		if (parameterIdentification instanceof CompositionParameterIdentification)
+		{
+			headParameterIdentification = ((CompositionParameterIdentification) parameterIdentification).getHead();
+			tailParameterIdentification = ((CompositionParameterIdentification) parameterIdentification).getTail();
+		}
+		addTerm(variableToIdentifier, parameterNumerator, headParameterIdentification, parameterToIdentifier, compositionTerm.getHead());
 		addSpaceLabel();
 		if (compositionTerm.getTail() instanceof CompositionTerm)
 			addOpenParLabel();
-		addTerm(variableToIdentifier, parameterNumerator, compositionTerm.getTail());
+		addTerm(variableToIdentifier, parameterNumerator, tailParameterIdentification, parameterToIdentifier, compositionTerm.getTail());
 		if (compositionTerm.getTail() instanceof CompositionTerm)
 			addCloseParLabel();
 	}
 
-	protected void addFunctionTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
-			FunctionTerm functionTerm)
+	protected void addFunctionTerm(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+			ParameterIdentification parameterIdentification, Map<ParameterVariableTerm, Identifier> parameterToIdentifier, FunctionTerm functionTerm)
 	{
+		Map<ParameterVariableTerm, Identifier> localParameterToIdentifier = new HashMap<>();
+		Map<ParameterVariableTerm, Identifier> totalParameterToIdentifier = parameterToIdentifier == null ? localParameterToIdentifier
+				: new CombinedMap<>(localParameterToIdentifier, parameterToIdentifier);
 		addOpenFunLabel();
 		Term term = functionTerm;
 		boolean first = true;
@@ -404,38 +429,50 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 		{
 			ParameterVariableTerm parameter = ((FunctionTerm) term).getParameter();
 			Term body = ((FunctionTerm) term).getBody();
+			Identifier parameterParameterIdentification = null;
+			ParameterIdentification domainParameterIdentification = null;
+			ParameterIdentification bodyParameterIdentification = null;
+			if (parameterIdentification instanceof FunctionParameterIdentification)
+			{
+				parameterParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getParameter();
+				domainParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getDomain();
+				bodyParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getBody();
+			}
 			if (!first)
 			{
 				addCommaLabel();
 				addSpaceLabel();
 			}
 			pushComponentList();
-			addTerm(variableToIdentifier, parameterNumerator, parameter.getType());
+			addTerm(variableToIdentifier, parameterNumerator, domainParameterIdentification, totalParameterToIdentifier, parameter.getType());
 			List<Component> parameterTypeComponentList = popComponentList();
 			if (body.isFreeVariable(parameter))
 			{
-				if (!variableToIdentifier.containsKey(parameter))
+				if (parameterParameterIdentification == null)
 				{
 					parameterNumerator.numberParameter(parameter);
 					numberedParameters++;
 				}
-				addParameterVariableTerm(variableToIdentifier, parameterNumerator, parameter);
+				else
+					localParameterToIdentifier.put(parameter, parameterParameterIdentification);
+				addParameterVariableTerm(parameterNumerator, localParameterToIdentifier, parameter);
 				addColonLabel();
 			}
 			add(parameterTypeComponentList);
 			first = false;
 			term = body;
+			parameterIdentification = bodyParameterIdentification;
 		}
 		addSpaceLabel();
 		addArrowLabel();
 		addSpaceLabel();
-		addTerm(variableToIdentifier, parameterNumerator, term);
+		addTerm(variableToIdentifier, parameterNumerator, parameterIdentification, totalParameterToIdentifier, term);
 		parameterNumerator.unNumberParameters(numberedParameters);
 		addCloseFunLabel();
 	}
 
-	protected void addProjectionTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
-			ProjectionTerm projectionTerm)
+	protected void addProjectionTerm(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+			ParameterIdentification parameterIdentification, Map<ParameterVariableTerm, Identifier> parameterToIdentifier, ProjectionTerm projectionTerm)
 	{
 		Term term = projectionTerm;
 		Stack<ParameterVariableTerm> stack = new Stack<>();
@@ -450,7 +487,7 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 		{
 			term = new FunctionTerm(stack.pop(), term);
 		}
-		addFunctionTerm(variableToIdentifier, parameterNumerator, (FunctionTerm) term);
+		addFunctionTerm(variableToIdentifier, parameterNumerator, parameterIdentification, parameterToIdentifier, (FunctionTerm) term);
 		if (nProjections <= 3)
 			for (int i = 0; i < nProjections; i++)
 				addProjectionTermLabel();
@@ -461,42 +498,42 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 		}
 	}
 
-	protected void addTauTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator, TauTerm term)
+	protected void addTauTerm()
 	{
 		addTauTermLabel();
 	}
 
-	protected void addProjectedCastTypeTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
-			ProjectedCastTypeTerm term)
+	protected void addProjectedCastTypeTerm(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+			ParameterIdentification parameterIdentification, Map<ParameterVariableTerm, Identifier> parameterToIdentifier, ProjectedCastTypeTerm term)
 	{
 		addOpenSquareBracket();
-		addTerm(variableToIdentifier, parameterNumerator, term.getTerm());
+		addTerm(variableToIdentifier, parameterNumerator, parameterIdentification, parameterToIdentifier, term.getTerm());
 		addCloseSquareBracket();
 	}
 
-	protected void addUnprojectedCastTypeTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
-			UnprojectedCastTypeTerm term)
+	protected void addUnprojectedCastTypeTerm(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+			ParameterIdentification parameterIdentification, Map<ParameterVariableTerm, Identifier> parameterToIdentifier, UnprojectedCastTypeTerm term)
 	{
 		addOpenCurlyBracket();
-		addTerm(variableToIdentifier, parameterNumerator, term.getTerm());
+		addTerm(variableToIdentifier, parameterNumerator, parameterIdentification, parameterToIdentifier, term.getTerm());
 		addCloseCurlyBracket();
 	}
 
-	protected void addFoldingCastTypeTerm(Map<? extends VariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
-			FoldingCastTypeTerm term)
+	protected void addFoldingCastTypeTerm(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, Term.ParameterNumerator parameterNumerator,
+			ParameterIdentification parameterIdentification, Map<ParameterVariableTerm, Identifier> parameterToIdentifier, FoldingCastTypeTerm term)
 	{
 		addOpenParLabel();
-		addTerm(variableToIdentifier, parameterNumerator, term.getTerm());
+		addTerm(variableToIdentifier, parameterNumerator, parameterIdentification, parameterToIdentifier, term.getTerm());
 		addColonLabel();
-		addTerm(variableToIdentifier, parameterNumerator, term.getType());
+		addTerm(variableToIdentifier, parameterNumerator, null, parameterToIdentifier, term.getType());
 		addSpaceLabel();
 		addPipeLabel();
 		addSpaceLabel();
-		addTerm(variableToIdentifier, parameterNumerator, term.getValue());
+		addTerm(variableToIdentifier, parameterNumerator, null, parameterToIdentifier, term.getValue());
 		addSpaceLabel();
 		addLeftArrowLabel();
 		addSpaceLabel();
-		addTerm(variableToIdentifier, parameterNumerator, term.getVariable());
+		addIdentifiableVariableTerm(variableToIdentifier, term.getVariable());
 		addCloseParLabel();
 	}
 
