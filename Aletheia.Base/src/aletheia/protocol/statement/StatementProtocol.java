@@ -553,11 +553,13 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 	{
 		uuidProtocol.skip(in);
 		termProtocol.skip(in);
+		uuidProtocol.skip(in);
 	}
 
 	private void skipDeclaration(DataInput in) throws IOException, ProtocolException
 	{
 		termProtocol.skip(in);
+		uuidProtocol.skip(in);
 	}
 
 	private void skipContext(DataInput in) throws IOException, ProtocolException
