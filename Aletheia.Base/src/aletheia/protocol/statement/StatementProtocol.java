@@ -197,7 +197,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 				if (oldId != null)
 					try
 					{
-						statement.unidentify(getTransaction(), true);
+						statement.unidentify(getTransaction());
 					}
 					catch (SignatureIsValidNomenclatorException e)
 					{
@@ -210,8 +210,8 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 				{
 					Nomenclator nomenclator = statement.getParentNomenclator(getTransaction());
 					if (nomenclator.isLocalIdentifier(identifier))
-						nomenclator.unidentifyStatement(identifier, true);
-					statement.identify(getTransaction(), identifier, true);
+						nomenclator.unidentifyStatement(identifier);
+					statement.identify(getTransaction(), identifier);
 				}
 				catch (NomenclatorException e)
 				{
@@ -567,12 +567,14 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 	{
 		uuidProtocol.skip(in);
 		termProtocol.skip(in);
+		uuidProtocol.skip(in);
 	}
 
 	private void skipDeclaration(DataInput in) throws IOException, ProtocolException
 	{
 		termProtocol.skip(in);
 		parameterIdentificationProtocol.skip(in);
+		uuidProtocol.skip(in);
 	}
 
 	private void skipContext(DataInput in) throws IOException, ProtocolException
