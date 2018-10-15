@@ -23,8 +23,9 @@ import java.io.StringReader;
 
 import aletheia.parser.parameteridentification.ParameterIdentificationParser;
 import aletheia.parsergenerator.ParserBaseException;
+import aletheia.protocol.Exportable;
 
-public abstract class ParameterIdentification
+public abstract class ParameterIdentification implements Exportable
 {
 
 	public static ParameterIdentification parse(String input) throws ParserBaseException

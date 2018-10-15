@@ -17,23 +17,19 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.test;
+package aletheia.protocol.parameteridentification;
 
-import aletheia.test.unsorted.*;
-import aletheia.utilities.MiscUtilities;
+import aletheia.protocol.ProtocolInfo;
+import aletheia.protocol.enumerate.ByteExportableEnumProtocol;
 
-public abstract class Test
+@ProtocolInfo(availableVersions = 0)
+public class ParameterIdentificationCodeProtocol extends ByteExportableEnumProtocol<ParameterIdentificationCode>
 {
-	static
-	{
-		MiscUtilities.dummy();
-	}
 
-	public abstract void run() throws Exception;
-
-	public static void main(String[] args) throws Exception
+	public ParameterIdentificationCodeProtocol(int requiredVersion)
 	{
-		new Test0016().run();
+		super(0, ParameterIdentificationCode.class, 0);
+		checkVersionAvailability(ParameterIdentificationCodeProtocol.class, requiredVersion);
 	}
 
 }
