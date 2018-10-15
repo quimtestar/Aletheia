@@ -324,7 +324,7 @@ public class StatementAuthority implements Exportable
 		{
 			UUIDProtocol uuidProtocol = new UUIDProtocol(0);
 			DateProtocol dateProtocol = new DateProtocol(0);
-			StatementProtocol statementProtocol = new StatementProtocol(3, persistenceManager, transaction);
+			StatementProtocol statementProtocol = new StatementProtocol(4, persistenceManager, transaction);
 			Statement statement = getStatement(transaction);
 			statementProtocol.send(out, statement);
 			uuidProtocol.send(out, getAuthorUuid());

@@ -99,7 +99,7 @@ public abstract class UpdateParameterIdentification extends TransactionalCommand
 		@Override
 		protected void updateParameterIdentification() throws SignatureIsValidException
 		{
-			getStatement().setValueParameterIdentification(getTransaction(), getParameterIdentification());
+			getStatement().updateValueParameterIdentification(getTransaction(), getParameterIdentification());
 		}
 
 	}

@@ -28,12 +28,14 @@ import aletheia.model.identifier.Namespace;
 import aletheia.model.nomenclator.Nomenclator;
 import aletheia.model.nomenclator.Nomenclator.NomenclatorException;
 import aletheia.model.nomenclator.Nomenclator.SignatureIsValidNomenclatorException;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
+import aletheia.model.statement.Statement.SignatureIsValidException;
 import aletheia.model.statement.Statement.StatementException;
 import aletheia.model.statement.UnfoldingContext;
 import aletheia.model.term.Term;
@@ -45,6 +47,7 @@ import aletheia.protocol.Protocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.namespace.NamespaceProtocol;
+import aletheia.protocol.parameteridentification.ParameterIdentificationProtocol;
 import aletheia.protocol.primitive.IntegerProtocol;
 import aletheia.protocol.primitive.NullableProtocol;
 import aletheia.protocol.primitive.UUIDProtocol;
@@ -79,7 +82,7 @@ import aletheia.protocol.term.TermProtocol;
  * </ul>
  */
 @ProtocolInfo(availableVersions =
-{ 3 })
+{ 4 })
 public class StatementProtocol extends PersistentExportableProtocol<Statement>
 {
 	private final IntegerProtocol integerProtocol;
@@ -88,6 +91,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 	private final TermProtocol termProtocol;
 	private final NamespaceProtocol namespaceProtocol;
 	private final NullableProtocol<Namespace> nullableNamespaceProtocol;
+	private final ParameterIdentificationProtocol parameterIdentificationProtocol;
 
 	public StatementProtocol(int requiredVersion, PersistenceManager persistenceManager, Transaction transaction)
 	{
@@ -99,6 +103,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		termProtocol = new TermProtocol(0, persistenceManager, transaction);
 		namespaceProtocol = new NamespaceProtocol(0);
 		nullableNamespaceProtocol = new NullableProtocol<>(0, namespaceProtocol);
+		parameterIdentificationProtocol = new ParameterIdentificationProtocol(0);
 	}
 
 	@Override
@@ -305,6 +310,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 	private void sendDeclaration(DataOutput out, Declaration declaration) throws IOException
 	{
 		termProtocol.send(out, declaration.getValue());
+		parameterIdentificationProtocol.send(out, declaration.getValueParameterIdentification());
 		uuidProtocol.send(out, declaration.getValueProofUuid());
 	}
 
@@ -316,13 +322,15 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 			return null;
 		}
 		Term value = termProtocol.recv(in);
+		ParameterIdentification valueParameterIdentification = parameterIdentificationProtocol.recv(in);
 		UUID uuidValueProof = uuidProtocol.recv(in);
 		Statement valueProof = getPersistenceManager().getStatement(getTransaction(), uuidValueProof);
 		if (valueProof == null)
 			throw new ProtocolException();
+		Declaration declaration;
 		if (old == null)
 		{
-			Declaration declaration;
+
 			try
 			{
 				declaration = context.declare(getTransaction(), uuid, value, valueProof);
@@ -335,18 +343,24 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 			{
 
 			}
-			return declaration;
 		}
 		else
 		{
 			if (!(old instanceof Declaration))
 				throw new ProtocolException();
-			Declaration declaration = (Declaration) old;
+			declaration = (Declaration) old;
 			if (!declaration.getValue().equals(value))
 				throw new ProtocolException();
-			return declaration;
 		}
-
+		try
+		{
+			declaration.updateValueParameterIdentification(getTransaction(), valueParameterIdentification); //TODO: force? (why it is forced in identification updates?)
+		}
+		catch (SignatureIsValidException e)
+		{
+			throw new ProtocolException(e);
+		}
+		return declaration;
 	}
 
 	private void sendSpecialization(DataOutput out, Specialization specialization) throws IOException
@@ -558,6 +572,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 	private void skipDeclaration(DataInput in) throws IOException, ProtocolException
 	{
 		termProtocol.skip(in);
+		parameterIdentificationProtocol.skip(in);
 	}
 
 	private void skipContext(DataInput in) throws IOException, ProtocolException

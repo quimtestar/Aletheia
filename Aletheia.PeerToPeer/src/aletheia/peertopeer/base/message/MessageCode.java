@@ -110,7 +110,7 @@ public enum MessageCode implements ShortExportableEnum<MessageCode>
 	_ContextStatementSignaturesResponse((short)0x0006, ContextStatementSignaturesResponseMessage.class, 1, 1),
 	_StatementRequisite((short)0x0007, StatementRequisiteMessage.class, 0, 0),
 	_StatementRequest((short)0x0008, StatementRequestMessage.class, 0, 0),
-	_StatementResponse((short)0x0009, StatementResponseMessage.class, 2, 2),
+	_StatementResponse((short)0x0009, StatementResponseMessage.class, 2, 3),
 	_PersonRequisite((short)0x000a, PersonRequisiteMessage.class, 0, 0),
 	_PersonRequest((short)0x000b, PersonRequestMessage.class, 0, 0),
 	_PersonResponse((short)0x000c, PersonResponseMessage.class, 0, 0),

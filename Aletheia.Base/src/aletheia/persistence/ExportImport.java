@@ -60,7 +60,7 @@ import aletheia.utilities.aborter.ListenableAborter;
 class ExportImport
 {
 	private static final Logger logger = LoggerManager.instance.logger();
-	private static final int exportVersion = 3;
+	private static final int exportVersion = 4;
 	private static final long transactionTimeout = 10000;
 
 	private final PersistenceManager persistenceManager;
@@ -248,7 +248,7 @@ class ExportImport
 			}
 		}
 
-		StatementProtocol statementProtocol = new StatementProtocol(3, persistenceManager, transaction);
+		StatementProtocol statementProtocol = new StatementProtocol(4, persistenceManager, transaction);
 		StatementAuthorityDelegateTreeProtocol statementAuthorityProtocol = new StatementAuthorityDelegateTreeProtocol(0, persistenceManager, transaction);
 		PersonProtocol personProtocol = new PersonProtocol(0, persistenceManager, transaction);
 
@@ -384,7 +384,7 @@ class ExportImport
 		int version = versionProtocol.recv(in);
 		if (version != exportVersion)
 			throw new VersionException(version);
-		import_(in, aborter, 3, 0, 0);
+		import_(in, aborter, 4, 0, 0);
 	}
 
 }

@@ -253,7 +253,7 @@ public class Declaration extends Statement
 		getEntity().setValueParameterIdentification(valueParameterIdentification);
 	}
 
-	public void setValueParameterIdentification(Transaction transaction, ParameterIdentification valueParameterIdentification, boolean force)
+	private void setValueParameterIdentification(Transaction transaction, ParameterIdentification valueParameterIdentification, boolean force)
 			throws SignatureIsValidException
 	{
 		lockAuthority(transaction);
@@ -275,9 +275,19 @@ public class Declaration extends Statement
 		}
 	}
 
-	public void setValueParameterIdentification(Transaction transaction, ParameterIdentification valueParameterIdentification) throws SignatureIsValidException
+	public void updateValueParameterIdentification(Transaction transaction, ParameterIdentification valueParameterIdentification, boolean force)
+			throws SignatureIsValidException
 	{
-		setValueParameterIdentification(transaction, valueParameterIdentification, false);
+		Declaration declaration = refresh(transaction);
+		if (declaration != null)
+			declaration.setValueParameterIdentification(transaction, valueParameterIdentification, force);
+
+	}
+
+	public void updateValueParameterIdentification(Transaction transaction, ParameterIdentification valueParameterIdentification)
+			throws SignatureIsValidException
+	{
+		updateValueParameterIdentification(transaction, valueParameterIdentification, false);
 	}
 
 	/**
