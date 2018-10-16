@@ -9,5 +9,6 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.Security"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.log4j"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.ProofFinder"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Aletheia.ParserGenerator"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

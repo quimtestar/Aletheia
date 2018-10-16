@@ -24,9 +24,11 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
 import aletheia.model.statement.Specialization;
@@ -407,7 +409,7 @@ public class TermParser extends Parser
 	public static Term parseTerm(Transaction transaction, Context context, Reader reader, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 			throws ParserBaseException
 	{
-		return instance.parse(transaction, context, reader, parameterIdentifiers);
+		return instance._parseTerm(transaction, context, reader, parameterIdentifiers);
 	}
 
 	public static Term parseTerm(Transaction transaction, Context context, Reader reader) throws ParserBaseException
@@ -415,10 +417,46 @@ public class TermParser extends Parser
 		return parseTerm(transaction, context, reader, null);
 	}
 
-	private Term parse(Transaction transaction, Context context, Reader reader, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+	private Term _parseTerm(Transaction transaction, Context context, Reader reader, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
 			throws ParserBaseException
 	{
 		return (Term) parseToken(new AutomatonSetLexer(automatonSet, reader), tokenPayloadReducer, new Globals(transaction, context, parameterIdentifiers));
+	}
+
+	public static class ParameterIdentifiedTerm
+	{
+		private final Term term;
+		private final ParameterIdentification parameterIdentification;
+
+		private ParameterIdentifiedTerm(Term term, ParameterIdentification parameterIdentification)
+		{
+			super();
+			this.term = term;
+			this.parameterIdentification = parameterIdentification;
+		}
+
+		public Term getTerm()
+		{
+			return term;
+		}
+
+		public ParameterIdentification getParameterIdentification()
+		{
+			return parameterIdentification;
+		}
+	}
+
+	public static ParameterIdentifiedTerm parseParameterIdentifiedTerm(Transaction transaction, Context context, Reader reader) throws ParserBaseException
+	{
+		return instance._parseParameterIdentifiedTerm(transaction, context, reader);
+	}
+
+	private ParameterIdentifiedTerm _parseParameterIdentifiedTerm(Transaction transaction, Context context, Reader reader) throws ParserBaseException
+	{
+		Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<>();
+		Term term = _parseTerm(transaction, context, reader, parameterIdentifiers);
+		ParameterIdentification parameterIdentification = term.makeParameterIdentification(parameterIdentifiers);
+		return new ParameterIdentifiedTerm(term, parameterIdentification);
 	}
 
 }

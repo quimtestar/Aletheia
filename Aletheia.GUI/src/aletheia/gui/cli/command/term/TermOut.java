@@ -27,6 +27,7 @@ import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.Term;
+import aletheia.parser.term.TermParser;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "term", groupPath = "/term", factory = TermOut.Factory.class)
@@ -72,9 +73,18 @@ public class TermOut extends TransactionalCommand
 			}
 			else
 			{
-				term = parseTerm(from.getActiveContext(), transaction, split.get(0));
-				if (split.size() >= 2)
+				if (split.size() < 2)
+				{
+					TermParser.ParameterIdentifiedTerm parameterIdentifiedTerm = parseParameterIdentifiedTerm(from.getActiveContext(), transaction,
+							split.get(0));
+					term = parameterIdentifiedTerm.getTerm();
+					parameterIdentification = parameterIdentifiedTerm.getParameterIdentification();
+				}
+				else
+				{
+					term = parseTerm(from.getActiveContext(), transaction, split.get(0));
 					parameterIdentification = parseParameterIdentification(split.get(1));
+				}
 			}
 			return new TermOut(from, transaction, term, parameterIdentification, indent);
 		}

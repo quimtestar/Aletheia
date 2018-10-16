@@ -987,6 +987,11 @@ public class Context extends Statement
 		return term.toString(transaction, this);
 	}
 
+	public TermParser.ParameterIdentifiedTerm parseParameterIdentifiedTerm(Transaction transaction, String s) throws ParserBaseException
+	{
+		return TermParser.parseParameterIdentifiedTerm(transaction, this, new StringReader(s));
+	}
+
 	public class StatementNotInContextException extends ContextException
 	{
 		private static final long serialVersionUID = 8332873787690492305L;

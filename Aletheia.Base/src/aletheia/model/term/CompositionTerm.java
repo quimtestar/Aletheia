@@ -351,4 +351,17 @@ public class CompositionTerm extends SimpleTerm
 		return getHead().atom();
 	}
 
+	@Override
+	public CompositionParameterIdentification makeParameterIdentification(Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+	{
+		ParameterIdentification preHeadParameterIdentification = getHead().makeParameterIdentification(parameterIdentifiers);
+		CompositionParameterIdentification headParameterIdentification;
+		if (preHeadParameterIdentification instanceof CompositionParameterIdentification)
+			headParameterIdentification = (CompositionParameterIdentification) preHeadParameterIdentification;
+		else
+			headParameterIdentification = new CompositionParameterIdentification(null, preHeadParameterIdentification);
+		ParameterIdentification tailParameterIdentification = getTail().makeParameterIdentification(parameterIdentifiers);
+		return new CompositionParameterIdentification(headParameterIdentification, tailParameterIdentification);
+	}
+
 }

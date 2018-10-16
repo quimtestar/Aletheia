@@ -1285,4 +1285,9 @@ public abstract class Term implements Serializable, Exportable
 
 	public abstract boolean castFree();
 
+	public ParameterIdentification makeParameterIdentification(Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+	{
+		return null;
+	}
+
 }

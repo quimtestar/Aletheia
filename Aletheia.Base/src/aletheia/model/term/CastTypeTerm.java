@@ -22,6 +22,9 @@ package aletheia.model.term;
 import java.util.Map;
 import java.util.Set;
 
+import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.ParameterIdentification;
+
 public abstract class CastTypeTerm extends AtomicTerm
 {
 	private static final long serialVersionUID = -1639688625397660727L;
@@ -118,6 +121,12 @@ public abstract class CastTypeTerm extends AtomicTerm
 	public boolean castFree()
 	{
 		return false;
+	}
+
+	@Override
+	public ParameterIdentification makeParameterIdentification(Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+	{
+		return getTerm().makeParameterIdentification(parameterIdentifiers);
 	}
 
 }

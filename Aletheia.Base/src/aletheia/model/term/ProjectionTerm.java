@@ -25,6 +25,7 @@ import java.util.Set;
 import java.util.Stack;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.FunctionParameterIdentification;
 import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.FunctionTerm.DiffInfoFunction;
 
@@ -356,6 +357,12 @@ public class ProjectionTerm extends AtomicTerm
 	public boolean castFree()
 	{
 		return getFunction().castFree();
+	}
+
+	@Override
+	public FunctionParameterIdentification makeParameterIdentification(Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+	{
+		return getFunction().makeParameterIdentification(parameterIdentifiers);
 	}
 
 }

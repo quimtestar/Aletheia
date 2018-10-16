@@ -20,7 +20,6 @@
 package aletheia.model.parameteridentification;
 
 import java.io.StringReader;
-
 import aletheia.parser.parameteridentification.ParameterIdentificationParser;
 import aletheia.parsergenerator.ParserBaseException;
 import aletheia.protocol.Exportable;
