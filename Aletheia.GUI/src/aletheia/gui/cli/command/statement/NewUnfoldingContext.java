@@ -19,10 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.statement;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
@@ -30,8 +27,7 @@ import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
 import aletheia.model.statement.Statement.StatementException;
-import aletheia.model.term.ParameterVariableTerm;
-import aletheia.model.term.Term;
+import aletheia.parser.term.TermParser;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "unf", factory = NewUnfoldingContext.Factory.class)
@@ -39,10 +35,10 @@ public class NewUnfoldingContext extends NewContext
 {
 	private final Declaration declaration;
 
-	private NewUnfoldingContext(CommandSource from, Transaction transaction, Identifier identifier, Term term,
-			Map<ParameterVariableTerm, Identifier> parameterIdentifiers, Declaration declaration)
+	private NewUnfoldingContext(CommandSource from, Transaction transaction, Identifier identifier, TermParser.ParameterIdentifiedTerm parameterIdentifiedTerm,
+			Declaration declaration)
 	{
-		super(from, transaction, identifier, term, parameterIdentifiers);
+		super(from, transaction, identifier, parameterIdentifiedTerm);
 		this.declaration = declaration;
 	}
 
@@ -57,7 +53,7 @@ public class NewUnfoldingContext extends NewContext
 		Context ctx = getActiveContext();
 		if (ctx == null)
 			throw new NotActiveContextException();
-		return ctx.openUnfoldingSubContext(getTransaction(), getTerm(), declaration);
+		return ctx.openUnfoldingSubContext(getTransaction(), getParameterIdentifiedTerm().getTerm(), declaration);
 	}
 
 	public static class Factory extends AbstractNewStatementFactory<NewUnfoldingContext>
@@ -71,12 +67,11 @@ public class NewUnfoldingContext extends NewContext
 			{
 				if (from.getActiveContext() == null)
 					throw new NotActiveContextException();
-				Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<>();
-				Term term = parseTerm(from.getActiveContext(), transaction, split.get(0), parameterIdentifiers);
+				TermParser.ParameterIdentifiedTerm parameterIdentifiedTerm = parseParameterIdentifiedTerm(from.getActiveContext(), transaction, split.get(0));
 				Declaration declaration = (Declaration) from.getActiveContext().identifierToStatement(transaction).get(Identifier.parse(split.get(1)));
 				if (declaration == null)
 					throw new CommandParseException("Bad unfolding statement:" + split.get(1));
-				return new NewUnfoldingContext(from, transaction, identifier, term, parameterIdentifiers, declaration);
+				return new NewUnfoldingContext(from, transaction, identifier, parameterIdentifiedTerm, declaration);
 			}
 			catch (NotActiveContextException | InvalidNameException e)
 			{

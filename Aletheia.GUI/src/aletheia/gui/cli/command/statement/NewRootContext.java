@@ -19,33 +19,28 @@
  ******************************************************************************/
 package aletheia.gui.cli.command.statement;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement.StatementException;
-import aletheia.model.term.ParameterVariableTerm;
-import aletheia.model.term.Term;
+import aletheia.parser.term.TermParser;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "root", factory = NewRootContext.Factory.class)
 public class NewRootContext extends NewContext
 {
-	private NewRootContext(CommandSource from, Transaction transaction, Identifier identifier, Term term,
-			Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+	private NewRootContext(CommandSource from, Transaction transaction, Identifier identifier, TermParser.ParameterIdentifiedTerm parameterIdentifiedTerm)
 	{
-		super(from, transaction, identifier, term, parameterIdentifiers);
+		super(from, transaction, identifier, parameterIdentifiedTerm);
 	}
 
 	@Override
 	protected Context openSubContext() throws StatementException
 	{
-		return RootContext.create(getPersistenceManager(), getTransaction(), getTerm());
+		return RootContext.create(getPersistenceManager(), getTransaction(), getParameterIdentifiedTerm().getTerm());
 	}
 
 	public static class Factory extends AbstractNewStatementFactory<NewRootContext>
@@ -55,9 +50,8 @@ public class NewRootContext extends NewContext
 		public NewRootContext parse(CommandSource from, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<>();
-			Term term = parseTerm(from.getActiveContext(), transaction, split.get(0), parameterIdentifiers);
-			return new NewRootContext(from, transaction, identifier, term, parameterIdentifiers);
+			TermParser.ParameterIdentifiedTerm parameterIdentifiedTerm = parseParameterIdentifiedTerm(from.getActiveContext(), transaction, split.get(0));
+			return new NewRootContext(from, transaction, identifier, parameterIdentifiedTerm);
 		}
 
 		@Override

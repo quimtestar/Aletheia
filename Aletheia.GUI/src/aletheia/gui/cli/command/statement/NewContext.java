@@ -28,31 +28,28 @@ import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
+import aletheia.model.parameteridentification.FunctionParameterIdentification;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement.StatementException;
-import aletheia.model.term.FunctionTerm;
-import aletheia.model.term.ParameterVariableTerm;
-import aletheia.model.term.Term;
+import aletheia.parser.term.TermParser;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "ctx", factory = NewContext.Factory.class)
 public class NewContext extends NewStatement
 {
-	private final Term term;
-	private final Map<ParameterVariableTerm, Identifier> parameterIdentifiers;
+	private final TermParser.ParameterIdentifiedTerm parameterIdentifiedTerm;
 
-	public NewContext(CommandSource from, Transaction transaction, Identifier identifier, Term term,
-			Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+	public NewContext(CommandSource from, Transaction transaction, Identifier identifier, TermParser.ParameterIdentifiedTerm parameterIdentifiedTerm)
 	{
 		super(from, transaction, identifier);
-		this.term = term;
-		this.parameterIdentifiers = parameterIdentifiers;
+		this.parameterIdentifiedTerm = parameterIdentifiedTerm;
 	}
 
-	protected Term getTerm()
+	protected TermParser.ParameterIdentifiedTerm getParameterIdentifiedTerm()
 	{
-		return term;
+		return parameterIdentifiedTerm;
 	}
 
 	protected Context openSubContext() throws StatementException, NotActiveContextException
@@ -60,7 +57,7 @@ public class NewContext extends NewStatement
 		Context ctx = getActiveContext();
 		if (ctx == null)
 			throw new NotActiveContextException();
-		return ctx.openSubContext(getTransaction(), term);
+		return ctx.openSubContext(getTransaction(), parameterIdentifiedTerm.getTerm());
 	}
 
 	private static final Identifier underscore;
@@ -81,19 +78,19 @@ public class NewContext extends NewStatement
 	protected RunNewStatementReturnData runNewStatement() throws Exception
 	{
 		Context context = openSubContext();
-		Term body = term;
+		ParameterIdentification parameterIdentification = parameterIdentifiedTerm.getParameterIdentification();
 		Iterator<Assumption> assumptionIterator = context.assumptions(getTransaction()).iterator();
 		Map<Identifier, Assumption> identifyAssumptions = new HashMap<>();
-		while (body instanceof FunctionTerm)
+		while (parameterIdentification instanceof FunctionParameterIdentification)
 		{
 			if (!assumptionIterator.hasNext())
 				break;
 			Assumption assumption = assumptionIterator.next();
-			FunctionTerm function = (FunctionTerm) body;
-			Identifier identifier = parameterIdentifiers.get(function.getParameter());
+			FunctionParameterIdentification functionParameterIdentification = (FunctionParameterIdentification) parameterIdentification;
+			Identifier identifier = functionParameterIdentification.getParameter();
 			if (identifier != null && !identifier.equals(underscore))
 				identifyAssumptions.put(identifier, assumption);
-			body = function.getBody();
+			parameterIdentification = functionParameterIdentification.getBody();
 		}
 		for (Map.Entry<Identifier, Assumption> e : identifyAssumptions.entrySet())
 			e.getValue().identify(getTransaction(), e.getKey());
@@ -107,9 +104,8 @@ public class NewContext extends NewStatement
 		public NewContext parse(CommandSource from, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Map<ParameterVariableTerm, Identifier> parameterIdentifiers = new HashMap<>();
-			Term term = parseTerm(from.getActiveContext(), transaction, split.get(0), parameterIdentifiers);
-			return new NewContext(from, transaction, identifier, term, parameterIdentifiers);
+			TermParser.ParameterIdentifiedTerm parameterIdentifiedTerm = parseParameterIdentifiedTerm(from.getActiveContext(), transaction, split.get(0));
+			return new NewContext(from, transaction, identifier, parameterIdentifiedTerm);
 		}
 
 		@Override
