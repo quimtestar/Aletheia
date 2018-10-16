@@ -27,24 +27,26 @@ import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
+import aletheia.parser.term.TermParser;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "dec", factory = NewDeclaration.Factory.class)
 public class NewDeclaration extends NewStatement
 {
-	private final Term value;
+	private final TermParser.ParameterIdentifiedTerm parameterIdentifiedValue;
 	private final Statement valueProof;
 
-	public NewDeclaration(CommandSource from, Transaction transaction, Identifier identifier, Term value, Statement valueProof)
+	public NewDeclaration(CommandSource from, Transaction transaction, Identifier identifier, TermParser.ParameterIdentifiedTerm parameterIdentifiedValue,
+			Statement valueProof)
 	{
 		super(from, transaction, identifier);
-		this.value = value;
+		this.parameterIdentifiedValue = parameterIdentifiedValue;
 		this.valueProof = valueProof;
 	}
 
-	protected Term getValue()
+	protected TermParser.ParameterIdentifiedTerm getParameterIdentifiedValue()
 	{
-		return value;
+		return parameterIdentifiedValue;
 	}
 
 	protected Statement getValueProof()
@@ -59,6 +61,7 @@ public class NewDeclaration extends NewStatement
 		if (ctx == null)
 			throw new NotActiveContextException();
 
+		Term value = parameterIdentifiedValue.getTerm();
 		Statement valueProof_ = valueProof;
 		if (valueProof_ == null)
 			valueProof_ = ctx.statements(getTransaction()).get(value);
@@ -68,6 +71,7 @@ public class NewDeclaration extends NewStatement
 			throw new Exception("Value proof missing for type: " + value.getType().toString(getTransaction(), ctx));
 
 		Declaration declaration = ctx.declare(getTransaction(), value, valueProof_);
+		declaration.updateValueParameterIdentification(getTransaction(), parameterIdentifiedValue.getParameterIdentification());
 		return new RunNewStatementReturnData(declaration);
 	}
 
@@ -78,7 +82,7 @@ public class NewDeclaration extends NewStatement
 		public NewDeclaration parse(CommandSource from, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			Term value = parseTerm(from.getActiveContext(), transaction, split.get(0));
+			TermParser.ParameterIdentifiedTerm parameterIdentifiedValue = parseParameterIdentifiedTerm(from.getActiveContext(), transaction, split.get(0));
 			Statement valueProof = null;
 			if (1 < split.size())
 			{
@@ -87,7 +91,7 @@ public class NewDeclaration extends NewStatement
 					throw new CommandParseException("Instance proof statement not found: " + split.get(1));
 
 			}
-			return new NewDeclaration(from, transaction, identifier, value, valueProof);
+			return new NewDeclaration(from, transaction, identifier, parameterIdentifiedValue, valueProof);
 		}
 
 		@Override
