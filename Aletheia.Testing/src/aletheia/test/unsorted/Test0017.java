@@ -17,23 +17,30 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.test;
+package aletheia.test.unsorted;
 
-import aletheia.test.unsorted.*;
-import aletheia.utilities.MiscUtilities;
+import java.util.UUID;
 
-public abstract class Test
+import aletheia.model.parameteridentification.ParameterIdentification;
+import aletheia.model.statement.Declaration;
+import aletheia.persistence.Transaction;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
+import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
+
+public class Test0017 extends TransactionalBerkeleyDBPersistenceManagerTest
 {
-	static
+
+	public Test0017()
 	{
-		MiscUtilities.dummy();
+		super();
 	}
 
-	public abstract void run() throws Exception;
-
-	public static void main(String[] args) throws Exception
+	@Override
+	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws Exception
 	{
-		new Test0018().run();
+		Declaration decAnd = persistenceManager.getDeclaration(transaction, UUID.fromString("9de69905-7e01-5827-bc6c-e7a6a576b58f"));
+		ParameterIdentification parameterIdentification = decAnd.makeValueParameterIdentification(transaction);
+		System.out.println(parameterIdentification);
 	}
 
 }

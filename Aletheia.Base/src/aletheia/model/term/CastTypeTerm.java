@@ -129,4 +129,11 @@ public abstract class CastTypeTerm extends AtomicTerm
 		return getTerm().makeParameterIdentification(parameterIdentifiers);
 	}
 
+	@Override
+	protected void populateDomainParameterIdentificationMap(ParameterIdentification parameterIdentification,
+			Map<ParameterVariableTerm, DomainParameterIdentification> domainParameterIdentificationMap)
+	{
+		getTerm().populateDomainParameterIdentificationMap(parameterIdentification, domainParameterIdentificationMap);
+	}
+
 }

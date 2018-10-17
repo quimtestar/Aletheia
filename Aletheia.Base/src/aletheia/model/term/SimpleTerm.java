@@ -165,4 +165,21 @@ public abstract class SimpleTerm extends Term
 
 	protected abstract AtomicTerm atom();
 
+	@Override
+	protected void findSimpleTermByAtom(AtomicTerm atom, Collection<SimpleTerm> results)
+	{
+		boolean first = true;
+		for (Term component : components())
+		{
+			if (first)
+			{
+				if (component.equals(atom))
+					results.add(this);
+			}
+			else
+				component.findSimpleTermByAtom(atom, results);
+			first = false;
+		}
+	}
+
 }

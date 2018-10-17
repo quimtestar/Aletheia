@@ -19,18 +19,29 @@
  ******************************************************************************/
 package aletheia.model.statement;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.Vector;
 
 import aletheia.model.authority.StatementAuthority;
+import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.FunctionParameterIdentification;
 import aletheia.model.parameteridentification.ParameterIdentification;
+import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
+import aletheia.model.term.ParameterVariableTerm;
+import aletheia.model.term.SimpleTerm;
 import aletheia.model.term.Term;
+import aletheia.model.term.Term.DomainParameterIdentification;
 import aletheia.model.term.VariableTerm;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.collections.statement.UnfoldingContextsByDeclaration;
 import aletheia.persistence.entities.statement.DeclarationEntity;
+import aletheia.utilities.collections.ReverseList;
 
 /**
  * <p>
@@ -373,6 +384,74 @@ public class Declaration extends Statement
 		{
 			throw new UndeleteStatementException(e);
 		}
+	}
+
+	public ParameterIdentification makeValueParameterIdentification(Transaction transaction)
+	{
+		List<ParameterVariableTerm> parameters = getValue().parameters();
+		class ListEntry
+		{
+			Identifier parameter;
+			ParameterIdentification domain;
+		}
+		Vector<ListEntry> identifierList = new Vector<>();
+		identifierList.setSize(parameters.size());
+		for (UnfoldingContext unf : unfoldingContexts(transaction))
+		{
+			Term term = unf.getTerm();
+			Map<ParameterVariableTerm, DomainParameterIdentification> domainParameterIdentificationMap = term
+					.domainParameterIdentificationMap(unf.makeTermParameterIdentification(transaction));
+			for (SimpleTerm result : term.findSimpleTermByAtom(getVariable()))
+			{
+				Term body = getValue();
+				int i = 0;
+				Iterator<Term> itComponents = result.components().iterator();
+				itComponents.next();
+				while ((body instanceof FunctionTerm) && itComponents.hasNext())
+				{
+					FunctionTerm function = (FunctionTerm) body;
+					Term c = itComponents.next();
+					if ((c instanceof ParameterVariableTerm) && function.getBody().isFreeVariable(function.getParameter()))
+					{
+						ParameterVariableTerm p = (ParameterVariableTerm) c;
+						DomainParameterIdentification domainParameterIdentifiation = domainParameterIdentificationMap.get(p);
+						if (domainParameterIdentifiation != null)
+						{
+							Identifier parameter = domainParameterIdentifiation.getParameter();
+							ParameterIdentification domain = domainParameterIdentifiation.getDomain();
+							if (parameter != null || domain != null)
+							{
+								ListEntry e = identifierList.get(i);
+								if (e == null)
+								{
+									e = new ListEntry();
+									identifierList.set(i, e);
+								}
+								if (e.parameter == null)
+									e.parameter = parameter;
+								if (e.domain == null)
+									e.domain = domain;
+							}
+						}
+					}
+					body = function.getBody();
+					i++;
+				}
+			}
+		}
+		ParameterIdentification parameterIdentification = null;
+		for (ListEntry e : new ReverseList<>(identifierList))
+			if (e == null)
+			{
+				if (parameterIdentification != null)
+					parameterIdentification = new FunctionParameterIdentification(null, null, parameterIdentification);
+			}
+			else
+			{
+				if (e.parameter != null || e.domain != null || parameterIdentification != null)
+					parameterIdentification = new FunctionParameterIdentification(e.parameter, e.domain, parameterIdentification);
+			}
+		return parameterIdentification;
 	}
 
 }

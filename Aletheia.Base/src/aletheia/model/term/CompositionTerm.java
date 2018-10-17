@@ -364,4 +364,16 @@ public class CompositionTerm extends SimpleTerm
 		return new CompositionParameterIdentification(headParameterIdentification, tailParameterIdentification);
 	}
 
+	@Override
+	protected void populateDomainParameterIdentificationMap(ParameterIdentification parameterIdentification,
+			Map<ParameterVariableTerm, DomainParameterIdentification> domainParameterIdentificationMap)
+	{
+		if (parameterIdentification instanceof CompositionParameterIdentification)
+		{
+			CompositionParameterIdentification compositionParameterIdentification = (CompositionParameterIdentification) parameterIdentification;
+			getTail().populateDomainParameterIdentificationMap(compositionParameterIdentification.getTail(), domainParameterIdentificationMap);
+			getHead().populateDomainParameterIdentificationMap(compositionParameterIdentification.getHead(), domainParameterIdentificationMap);
+		}
+	}
+
 }

@@ -572,4 +572,25 @@ public class FunctionTerm extends Term
 			return new FunctionParameterIdentification(parameterIdentifier, domainParameterIdentification, bodyParameterIdentification);
 	}
 
+	@Override
+	protected void populateDomainParameterIdentificationMap(ParameterIdentification parameterIdentification,
+			Map<ParameterVariableTerm, DomainParameterIdentification> domainParameterIdentificationMap)
+	{
+		if (parameterIdentification instanceof FunctionParameterIdentification)
+		{
+			FunctionParameterIdentification functionParameterIdentification = (FunctionParameterIdentification) parameterIdentification;
+			getBody().populateDomainParameterIdentificationMap(functionParameterIdentification.getBody(), domainParameterIdentificationMap);
+			domain().populateDomainParameterIdentificationMap(functionParameterIdentification.getDomain(), domainParameterIdentificationMap);
+			domainParameterIdentificationMap.put(getParameter(),
+					new DomainParameterIdentification(functionParameterIdentification.getParameter(), functionParameterIdentification.getDomain()));
+		}
+	}
+
+	@Override
+	protected void findSimpleTermByAtom(AtomicTerm atom, Collection<SimpleTerm> results)
+	{
+		domain().findSimpleTermByAtom(atom, results);
+		body.findSimpleTermByAtom(atom, results);
+	}
+
 }

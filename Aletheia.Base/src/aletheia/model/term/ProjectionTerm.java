@@ -365,4 +365,11 @@ public class ProjectionTerm extends AtomicTerm
 		return getFunction().makeParameterIdentification(parameterIdentifiers);
 	}
 
+	@Override
+	protected void populateDomainParameterIdentificationMap(ParameterIdentification parameterIdentification,
+			Map<ParameterVariableTerm, DomainParameterIdentification> domainParameterIdentificationMap)
+	{
+		getFunction().populateDomainParameterIdentificationMap(parameterIdentification, domainParameterIdentificationMap);
+	}
+
 }

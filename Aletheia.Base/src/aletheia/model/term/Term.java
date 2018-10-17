@@ -1290,4 +1290,49 @@ public abstract class Term implements Serializable, Exportable
 		return null;
 	}
 
+	public static class DomainParameterIdentification
+	{
+		private final Identifier parameter;
+		private final ParameterIdentification domain;
+
+		protected DomainParameterIdentification(Identifier parameter, ParameterIdentification domain)
+		{
+			super();
+			this.parameter = parameter;
+			this.domain = domain;
+		}
+
+		public Identifier getParameter()
+		{
+			return parameter;
+		}
+
+		public ParameterIdentification getDomain()
+		{
+			return domain;
+		}
+
+	}
+
+	public final Map<ParameterVariableTerm, DomainParameterIdentification> domainParameterIdentificationMap(ParameterIdentification parameterIdentification)
+	{
+		Map<ParameterVariableTerm, DomainParameterIdentification> domainParameterIdentificationMap = new HashMap<>();
+		populateDomainParameterIdentificationMap(parameterIdentification, domainParameterIdentificationMap);
+		return domainParameterIdentificationMap;
+	}
+
+	protected void populateDomainParameterIdentificationMap(ParameterIdentification parameterIdentification,
+			Map<ParameterVariableTerm, DomainParameterIdentification> domainParameterIdentificationMap)
+	{
+	}
+
+	public final Collection<SimpleTerm> findSimpleTermByAtom(AtomicTerm atom)
+	{
+		ArrayList<SimpleTerm> results = new ArrayList<>();
+		findSimpleTermByAtom(atom, results);
+		return results;
+	}
+
+	protected abstract void findSimpleTermByAtom(AtomicTerm atom, Collection<SimpleTerm> results);
+
 }

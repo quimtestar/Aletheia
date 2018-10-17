@@ -987,6 +987,11 @@ public class Context extends Statement
 		return term.toString(transaction, this);
 	}
 
+	public String unparseTerm(Transaction transaction, Term term, ParameterIdentification parameterIdentification)
+	{
+		return term.toString(transaction, this, parameterIdentification);
+	}
+
 	public TermParser.ParameterIdentifiedTerm parseParameterIdentifiedTerm(Transaction transaction, String s) throws ParserBaseException
 	{
 		return TermParser.parseParameterIdentifiedTerm(transaction, this, new StringReader(s));
