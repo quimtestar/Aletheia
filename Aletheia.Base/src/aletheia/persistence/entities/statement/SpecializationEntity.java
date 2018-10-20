@@ -21,6 +21,7 @@ package aletheia.persistence.entities.statement;
 
 import java.util.UUID;
 
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
@@ -62,6 +63,16 @@ public interface SpecializationEntity extends StatementEntity
 	 *            The instance.
 	 */
 	public void setInstance(Term instance);
+
+	/**
+	 * Gets the {@link ParameterIdentification} associated to the instance term
+	 */
+	public ParameterIdentification getInstanceParameterIdentification();
+
+	/**
+	 * Sets the {@link ParameterIdentification} associated to the instance term
+	 */
+	public void setInstanceParameterIdentification(ParameterIdentification instanceParameterIdentification);
 
 	/**
 	 * Gets the UUID of the instance proof {@link Statement} of this

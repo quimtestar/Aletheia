@@ -122,8 +122,7 @@ public abstract class UpdateParameterIdentification extends TransactionalCommand
 		@Override
 		protected void updateParameterIdentification() throws SignatureIsValidException
 		{
-			//TODO
-			throw new UnsupportedOperationException();
+			getStatement().updateInstanceParameterIdentification(getTransaction(), getParameterIdentification());
 		}
 
 	}

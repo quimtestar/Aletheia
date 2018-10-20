@@ -55,6 +55,7 @@ import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
 import aletheia.model.statement.RootContext;
+import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
 import aletheia.model.statement.UnfoldingContext;
 import aletheia.model.term.SimpleTerm;
@@ -708,6 +709,21 @@ public class ContextJTreeModel extends PersistentTreeModel
 				logger.error(e.getMessage(), e);
 			}
 		}
+
+		@Override
+		public void instanceParameterIdentificationUpdated(Transaction transaction, Specialization specialization,
+				ParameterIdentification instanceParameterIdentification)
+		{
+			try
+			{
+				statementStateChangeQueue.put(new ParameterIdentificationChange(transaction, specialization));
+			}
+			catch (InterruptedException e)
+			{
+				logger.error(e.getMessage(), e);
+			}
+		}
+
 	}
 
 	public void pushSelectStatement(Transaction transaction, Statement statement, ContextJTree contextJTree)

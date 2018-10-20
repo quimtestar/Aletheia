@@ -1137,6 +1137,11 @@ public abstract class Statement implements Exportable
 		{
 		}
 
+		public default void instanceParameterIdentificationUpdated(Transaction transaction, Specialization specialization,
+				ParameterIdentification instanceParameterIdentification)
+		{
+		}
+
 	}
 
 	/**

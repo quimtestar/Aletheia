@@ -21,6 +21,7 @@ package aletheia.persistence.berkeleydb.entities.statement;
 
 import java.util.UUID;
 
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.Term;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.entities.statement.SpecializationEntity;
@@ -29,7 +30,7 @@ import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
 
-@Persistent(version = 1)
+@Persistent(version = 2)
 public class BerkeleyDBSpecializationEntity extends BerkeleyDBStatementEntity implements SpecializationEntity
 {
 	public static final String uuidKeyGeneral_FieldName = "uuidKeyGeneral";
@@ -37,6 +38,8 @@ public class BerkeleyDBSpecializationEntity extends BerkeleyDBStatementEntity im
 	private UUIDKey uuidKeyGeneral;
 
 	private Term instance;
+
+	private ParameterIdentification instanceParameterIdentification;
 
 	public static final String uuidKeyInstanceProof_FieldName = "uuidKeyInstanceProof";
 	@SecondaryKey(name = uuidKeyInstanceProof_FieldName, relatedEntity = BerkeleyDBStatementEntity.class, relate = Relationship.MANY_TO_ONE)
@@ -67,6 +70,18 @@ public class BerkeleyDBSpecializationEntity extends BerkeleyDBStatementEntity im
 	public void setInstance(Term instance)
 	{
 		this.instance = instance;
+	}
+
+	@Override
+	public ParameterIdentification getInstanceParameterIdentification()
+	{
+		return instanceParameterIdentification;
+	}
+
+	@Override
+	public void setInstanceParameterIdentification(ParameterIdentification instanceParameterIdentification)
+	{
+		this.instanceParameterIdentification = instanceParameterIdentification;
 	}
 
 	public UUIDKey getUuidKeyInstanceProof()

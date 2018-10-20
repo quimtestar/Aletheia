@@ -339,10 +339,6 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 			{
 				throw new ProtocolException(e);
 			}
-			finally
-			{
-
-			}
 		}
 		else
 		{
@@ -354,7 +350,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		}
 		try
 		{
-			declaration.updateValueParameterIdentification(getTransaction(), valueParameterIdentification); //TODO: force? (why it is forced in identification updates?)
+			declaration.updateValueParameterIdentification(getTransaction(), valueParameterIdentification);
 		}
 		catch (SignatureIsValidException e)
 		{
@@ -367,6 +363,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 	{
 		uuidProtocol.send(out, specialization.getGeneralUuid());
 		termProtocol.send(out, specialization.getInstance());
+		parameterIdentificationProtocol.send(out, specialization.getInstanceParameterIdentification());
 		uuidProtocol.send(out, specialization.getInstanceProofUuid());
 	}
 
@@ -382,14 +379,15 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		if (general == null)
 			throw new ProtocolException();
 		Term instance = termProtocol.recv(in);
+		ParameterIdentification instanceParameterIdentification = parameterIdentificationProtocol.recv(in);
 		UUID uuidInstanceProof = uuidProtocol.recv(in);
 		Statement instanceProof = getPersistenceManager().getStatement(getTransaction(), uuidInstanceProof);
 		if (instanceProof == null)
 			throw new ProtocolException();
 
+		Specialization specialization;
 		if (old == null)
 		{
-			Specialization specialization;
 			try
 			{
 				specialization = context.specialize(getTransaction(), uuid, general, instance, instanceProof);
@@ -398,25 +396,28 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 			{
 				throw new ProtocolException(e);
 			}
-			finally
-			{
-
-			}
-			return specialization;
 		}
 		else
 		{
 			if (!(old instanceof Specialization))
 				throw new ProtocolException();
-			Specialization specialization = (Specialization) old;
+			specialization = (Specialization) old;
 			if (!specialization.getGeneral(getTransaction()).equals(general))
 				throw new ProtocolException();
 			if (!specialization.getInstance().equals(instance))
 				throw new ProtocolException();
 			if (!specialization.getInstanceProof(getTransaction()).equals(instanceProof))
 				throw new ProtocolException();
-			return specialization;
 		}
+		try
+		{
+			specialization.updateInstanceParameterIdentification(getTransaction(), instanceParameterIdentification);
+		}
+		catch (SignatureIsValidException e)
+		{
+			throw new ProtocolException(e);
+		}
+		return specialization;
 	}
 
 	private void sendUnfoldingContext(DataOutput out, UnfoldingContext unfoldingContext) throws IOException
@@ -567,6 +568,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 	{
 		uuidProtocol.skip(in);
 		termProtocol.skip(in);
+		parameterIdentificationProtocol.skip(in);
 		uuidProtocol.skip(in);
 	}
 

@@ -23,7 +23,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import aletheia.model.authority.StatementAuthority;
 import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.TypeException;
@@ -412,6 +414,53 @@ public class Specialization extends Statement
 	public Term getInstance()
 	{
 		return getEntity().getInstance();
+	}
+
+	public ParameterIdentification getInstanceParameterIdentification()
+	{
+		return getEntity().getInstanceParameterIdentification();
+	}
+
+	private void setInstanceParameterIdentification(ParameterIdentification instanceParameterIdentification)
+	{
+		getEntity().setInstanceParameterIdentification(instanceParameterIdentification);
+	}
+
+	private void setInstanceParameterIdentification(Transaction transaction, ParameterIdentification instanceParameterIdentification, boolean force)
+			throws SignatureIsValidException
+	{
+		lockAuthority(transaction);
+		StatementAuthority statementAuthority = getAuthority(transaction);
+		if (statementAuthority != null)
+		{
+			if (force)
+				statementAuthority.clearSignatures(transaction);
+			else if (statementAuthority.isValidSignature())
+				throw new SignatureIsValidException("Can't update parameter identifications with valid signatures");
+		}
+		setInstanceParameterIdentification(instanceParameterIdentification);
+		persistenceUpdate(transaction);
+		Iterable<StateListener> listeners = stateListeners();
+		synchronized (listeners)
+		{
+			for (StateListener listener : listeners)
+				listener.instanceParameterIdentificationUpdated(transaction, this, instanceParameterIdentification);
+		}
+	}
+
+	public void updateInstanceParameterIdentification(Transaction transaction, ParameterIdentification instanceParameterIdentification, boolean force)
+			throws SignatureIsValidException
+	{
+		Specialization specialization = refresh(transaction);
+		if (specialization != null)
+			specialization.setInstanceParameterIdentification(transaction, instanceParameterIdentification, force);
+
+	}
+
+	public void updateInstanceParameterIdentification(Transaction transaction, ParameterIdentification instanceParameterIdentification)
+			throws SignatureIsValidException
+	{
+		updateInstanceParameterIdentification(transaction, instanceParameterIdentification, false);
 	}
 
 	/**
