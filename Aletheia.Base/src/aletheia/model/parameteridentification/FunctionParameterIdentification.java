@@ -75,4 +75,49 @@ public class FunctionParameterIdentification extends ParameterIdentification
 		return builder.toString();
 	}
 
+	@Override
+	public int hashCode()
+	{
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((body == null) ? 0 : body.hashCode());
+		result = prime * result + ((domain == null) ? 0 : domain.hashCode());
+		result = prime * result + ((parameter == null) ? 0 : parameter.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FunctionParameterIdentification other = (FunctionParameterIdentification) obj;
+		if (body == null)
+		{
+			if (other.body != null)
+				return false;
+		}
+		else if (!body.equals(other.body))
+			return false;
+		if (domain == null)
+		{
+			if (other.domain != null)
+				return false;
+		}
+		else if (!domain.equals(other.domain))
+			return false;
+		if (parameter == null)
+		{
+			if (other.parameter != null)
+				return false;
+		}
+		else if (!parameter.equals(other.parameter))
+			return false;
+		return true;
+	}
+
 }

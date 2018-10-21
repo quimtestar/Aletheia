@@ -58,7 +58,7 @@ public class NewStrip extends NewAuto
 					throw new CommandParseException("Statement not found: " + split.get(0));
 				List<Term> hints = new LinkedList<>();
 				for (String s : split.subList(1, split.size()))
-					hints.add(ctx.parseTerm(transaction, s));
+					hints.add(ctx.parseTerm(transaction, s)); //TODO: ParameterIdentification
 				return new NewStrip(from, transaction, identifier, statement, hints);
 			}
 			catch (NotActiveContextException | ParserBaseException e)

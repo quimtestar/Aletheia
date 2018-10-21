@@ -26,10 +26,27 @@ import aletheia.protocol.Exportable;
 
 public abstract class ParameterIdentification implements Exportable
 {
-
 	public static ParameterIdentification parse(String input) throws ParserBaseException
 	{
 		return ParameterIdentificationParser.parseParameterIdentification(new StringReader(input));
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return 1;
+	}
+
+	@Override
+	public boolean equals(Object obj)
+	{
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		return true;
 	}
 
 }

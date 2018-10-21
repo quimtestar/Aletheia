@@ -24,6 +24,9 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.util.UUID;
 
+import aletheia.model.authority.StatementAuthority;
+import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.Term;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -175,6 +178,47 @@ public class Assumption extends Statement
 	protected Assumption undeleteStatement(Transaction transaction, Context context) throws UndeleteStatementException
 	{
 		return context.assumptions(transaction).get(getOrder());
+	}
+
+	@Override
+	public void setIdentifier(Transaction transaction, Identifier identifier, boolean force) throws SignatureIsValidException
+	{
+		Identifier old = identifier(transaction);
+		super.setIdentifier(transaction, identifier, force);
+		if ((old == null) != (identifier == null) || (old != null && !old.equals(identifier)))
+			getContext(transaction).checkTermParameterIdentification(transaction);
+	}
+
+	protected void setTermParameterIdentification(Transaction transaction, ParameterIdentification termParameterIdentification, boolean force)
+			throws SignatureIsValidException
+	{
+		lockAuthority(transaction);
+		StatementAuthority statementAuthority = getAuthority(transaction);
+		if (statementAuthority != null)
+		{
+			if (force)
+				statementAuthority.clearSignatures(transaction);
+			else if (statementAuthority.isValidSignature())
+				throw new SignatureIsValidException("Can't update parameter identifications with valid signatures");
+		}
+		super.setTermParameterIdentification(transaction, termParameterIdentification);
+	}
+
+	public void updateTermParameterIdentification(Transaction transaction, ParameterIdentification termParameterIdentification, boolean force)
+			throws SignatureIsValidException
+	{
+		Assumption assumption = refresh(transaction);
+		if (assumption != null)
+		{
+			assumption.setTermParameterIdentification(transaction, termParameterIdentification, force);
+			assumption.getContext(transaction).checkTermParameterIdentification(transaction);
+		}
+
+	}
+
+	public void updateTermParameterIdentification(Transaction transaction, ParameterIdentification termParameterIdentification) throws SignatureIsValidException
+	{
+		updateTermParameterIdentification(transaction, termParameterIdentification, false);
 	}
 
 }

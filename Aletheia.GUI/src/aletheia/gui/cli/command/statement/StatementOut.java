@@ -26,7 +26,6 @@ import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
-import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
 import aletheia.model.statement.RootContext;
@@ -62,7 +61,7 @@ public class StatementOut extends TransactionalCommand
 		{
 			Context context = (Context) statement;
 			Term term = context.getTerm();
-			String sterm = termToString(activeContext, getTransaction(), term, context.makeTermParameterIdentification(getTransaction()));
+			String sterm = termToString(activeContext, getTransaction(), term, context.getTermParameterIdentification());
 			if (context instanceof UnfoldingContext)
 			{
 				UnfoldingContext unfoldingContext = (UnfoldingContext) context;
@@ -90,7 +89,7 @@ public class StatementOut extends TransactionalCommand
 			if (idgeneral == null)
 				throw new Exception("General is not identified");
 			String sgeneral = idgeneral.toString();
-			String sinstance = termToString(activeContext, getTransaction(), instance);
+			String sinstance = termToString(activeContext, getTransaction(), instance, spec.getInstanceParameterIdentification());
 			Identifier idInstanceProof = statementToIdentifier(activeContext, instanceProof);
 			if (idInstanceProof == null)
 				throw new Exception("Instance proof is not identified");
@@ -101,8 +100,7 @@ public class StatementOut extends TransactionalCommand
 		{
 			Declaration dec = (Declaration) statement;
 			Term value = dec.getValue();
-			ParameterIdentification valueParameterIdentification = dec.getValueParameterIdentification();
-			String svalue = termToString(activeContext, getTransaction(), value, valueParameterIdentification);
+			String svalue = termToString(activeContext, getTransaction(), value, dec.getValueParameterIdentification());
 			Statement valueProof = dec.getValueProof(getTransaction());
 			Identifier idValueProof = statementToIdentifier(activeContext, valueProof);
 			if (idValueProof == null)

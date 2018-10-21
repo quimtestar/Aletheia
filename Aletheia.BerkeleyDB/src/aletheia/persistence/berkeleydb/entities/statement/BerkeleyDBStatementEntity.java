@@ -27,6 +27,7 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.identifier.RootNamespace;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
@@ -43,7 +44,7 @@ import com.sleepycat.persist.model.PrimaryKey;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
 
-@Entity(version = 1)
+@Entity(version = 2)
 public abstract class BerkeleyDBStatementEntity implements StatementEntity
 {
 	@PrimaryKey
@@ -128,6 +129,8 @@ public abstract class BerkeleyDBStatementEntity implements StatementEntity
 	private UUIDKeyTermHash uuidKeyTermHash;
 
 	private IdentifiableVariableTerm variable;
+
+	private ParameterIdentification termParameterIdentification;
 
 	public static final String uuidKeyDependencies_FieldName = "uuidKeyDependencies";
 	@SecondaryKey(name = uuidKeyDependencies_FieldName, relatedEntity = BerkeleyDBStatementEntity.class, relate = Relationship.MANY_TO_MANY)
@@ -539,6 +542,18 @@ public abstract class BerkeleyDBStatementEntity implements StatementEntity
 		this.variable = variable;
 		if (uuidKeyTermHash != null)
 			uuidKeyTermHash.setTermHash(variable.getType().hashCode());
+	}
+
+	@Override
+	public ParameterIdentification getTermParameterIdentification()
+	{
+		return termParameterIdentification;
+	}
+
+	@Override
+	public void setTermParameterIdentification(ParameterIdentification termParameterIdentification)
+	{
+		this.termParameterIdentification = termParameterIdentification;
 	}
 
 	public Set<UUIDKey> getUuidKeyDependencies()

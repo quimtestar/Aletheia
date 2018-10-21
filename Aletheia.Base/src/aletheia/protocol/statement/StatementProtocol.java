@@ -227,8 +227,42 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		return statement;
 	}
 
+	@Override
+	public void skip(DataInput in) throws IOException, ProtocolException
+	{
+		StatementCode statementCode = statementCodeProtocol.recv(in);
+		if (statementCode != StatementCode._RootContext)
+			uuidProtocol.skip(in);
+		uuidProtocol.skip(in);
+		switch (statementCode)
+		{
+		case _Assumption:
+			skipAssumption(in);
+			break;
+		case _Context:
+			skipContext(in);
+			break;
+		case _Declaration:
+			skipDeclaration(in);
+			break;
+		case _Specialization:
+			skipSpecialization(in);
+			break;
+		case _UnfoldingContext:
+			skipUnfoldingContext(in);
+			break;
+		case _RootContext:
+			skipRootContext(in);
+			break;
+		default:
+			throw new ProtocolException();
+		}
+		nullableNamespaceProtocol.skip(in);
+	}
+
 	private void sendAssumption(DataOutput out, Assumption assumption) throws IOException
 	{
+		parameterIdentificationProtocol.send(out, assumption.getTermParameterIdentification());
 		integerProtocol.send(out, assumption.getOrder());
 	}
 
@@ -239,15 +273,16 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 			skipAssumption(in);
 			return null;
 		}
+		ParameterIdentification termParameterIdentification = parameterIdentificationProtocol.recv(in);
 		int order = integerProtocol.recv(in);
+		Assumption assumption;
 		if (old == null)
 		{
 			try
 			{
-				Assumption assumption = context.assumptions(getTransaction()).get(order);
+				assumption = context.assumptions(getTransaction()).get(order);
 				if (!assumption.getUuid().equals(uuid))
 					throw new ProtocolException();
-				return assumption;
 			}
 			catch (IndexOutOfBoundsException e)
 			{
@@ -258,11 +293,25 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		{
 			if (!(old instanceof Assumption))
 				throw new ProtocolException();
-			Assumption assumption = (Assumption) old;
+			assumption = (Assumption) old;
 			if (assumption.getOrder() != order)
 				throw new ProtocolException();
-			return assumption;
 		}
+		try
+		{
+			assumption.updateTermParameterIdentification(getTransaction(), termParameterIdentification);
+		}
+		catch (SignatureIsValidException e)
+		{
+			throw new ProtocolException(e);
+		}
+		return assumption;
+	}
+
+	private void skipAssumption(DataInput in) throws IOException, ProtocolException
+	{
+		parameterIdentificationProtocol.skip(in);
+		integerProtocol.skip(in);
 	}
 
 	private void sendContext(DataOutput out, Context context) throws IOException
@@ -305,6 +354,14 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 			return ctx;
 
 		}
+	}
+
+	private void skipContext(DataInput in) throws IOException, ProtocolException
+	{
+		termProtocol.skip(in);
+		int numAssumptions = integerProtocol.recv(in);
+		for (int i = 0; i < numAssumptions; i++)
+			uuidProtocol.skip(in);
 	}
 
 	private void sendDeclaration(DataOutput out, Declaration declaration) throws IOException
@@ -357,6 +414,13 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 			throw new ProtocolException(e);
 		}
 		return declaration;
+	}
+
+	private void skipDeclaration(DataInput in) throws IOException, ProtocolException
+	{
+		termProtocol.skip(in);
+		parameterIdentificationProtocol.skip(in);
+		uuidProtocol.skip(in);
 	}
 
 	private void sendSpecialization(DataOutput out, Specialization specialization) throws IOException
@@ -420,6 +484,14 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		return specialization;
 	}
 
+	private void skipSpecialization(DataInput in) throws IOException, ProtocolException
+	{
+		uuidProtocol.skip(in);
+		termProtocol.skip(in);
+		parameterIdentificationProtocol.skip(in);
+		uuidProtocol.skip(in);
+	}
+
 	private void sendUnfoldingContext(DataOutput out, UnfoldingContext unfoldingContext) throws IOException
 	{
 		sendContext(out, unfoldingContext);
@@ -477,6 +549,15 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		}
 	}
 
+	private void skipUnfoldingContext(DataInput in) throws IOException, ProtocolException
+	{
+		termProtocol.skip(in);
+		int numAssumptions = in.readInt();
+		for (int i = 0; i < numAssumptions; i++)
+			uuidProtocol.skip(in);
+		uuidProtocol.skip(in);
+	}
+
 	private void sendRootContext(DataOutput out, RootContext rootContext) throws IOException
 	{
 		sendContext(out, rootContext);
@@ -514,82 +595,12 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		}
 	}
 
-	@Override
-	public void skip(DataInput in) throws IOException, ProtocolException
-	{
-		StatementCode statementCode = statementCodeProtocol.recv(in);
-		if (statementCode != StatementCode._RootContext)
-			uuidProtocol.skip(in);
-		uuidProtocol.skip(in);
-		switch (statementCode)
-		{
-		case _Assumption:
-			skipAssumption(in);
-			break;
-		case _Context:
-			skipContext(in);
-			break;
-		case _Declaration:
-			skipDeclaration(in);
-			break;
-		case _Specialization:
-			skipSpecialization(in);
-			break;
-		case _UnfoldingContext:
-			skipUnfoldingContext(in);
-			break;
-		case _RootContext:
-			skipRootContext(in);
-			break;
-		default:
-			throw new ProtocolException();
-		}
-		nullableNamespaceProtocol.skip(in);
-	}
-
 	private void skipRootContext(DataInput in) throws IOException, ProtocolException
 	{
 		termProtocol.skip(in);
 		int numAssumptions = in.readInt();
 		for (int i = 0; i < numAssumptions; i++)
 			uuidProtocol.skip(in);
-	}
-
-	private void skipUnfoldingContext(DataInput in) throws IOException, ProtocolException
-	{
-		termProtocol.skip(in);
-		int numAssumptions = in.readInt();
-		for (int i = 0; i < numAssumptions; i++)
-			uuidProtocol.skip(in);
-		uuidProtocol.skip(in);
-	}
-
-	private void skipSpecialization(DataInput in) throws IOException, ProtocolException
-	{
-		uuidProtocol.skip(in);
-		termProtocol.skip(in);
-		parameterIdentificationProtocol.skip(in);
-		uuidProtocol.skip(in);
-	}
-
-	private void skipDeclaration(DataInput in) throws IOException, ProtocolException
-	{
-		termProtocol.skip(in);
-		parameterIdentificationProtocol.skip(in);
-		uuidProtocol.skip(in);
-	}
-
-	private void skipContext(DataInput in) throws IOException, ProtocolException
-	{
-		termProtocol.skip(in);
-		int numAssumptions = integerProtocol.recv(in);
-		for (int i = 0; i < numAssumptions; i++)
-			uuidProtocol.skip(in);
-	}
-
-	private void skipAssumption(DataInput in) throws IOException
-	{
-		integerProtocol.skip(in);
 	}
 
 }

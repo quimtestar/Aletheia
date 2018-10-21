@@ -39,7 +39,7 @@ public class Test0017 extends TransactionalBerkeleyDBPersistenceManagerTest
 	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws Exception
 	{
 		Declaration decAnd = persistenceManager.getDeclaration(transaction, UUID.fromString("9de69905-7e01-5827-bc6c-e7a6a576b58f"));
-		ParameterIdentification parameterIdentification = decAnd.makeValueParameterIdentification(transaction);
+		ParameterIdentification parameterIdentification = decAnd.inferValueParameterIdentification(transaction);
 		System.out.println(parameterIdentification);
 	}
 

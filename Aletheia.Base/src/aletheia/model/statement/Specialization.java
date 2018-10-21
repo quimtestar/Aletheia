@@ -25,6 +25,7 @@ import java.util.UUID;
 
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.FunctionParameterIdentification;
 import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.Term;
@@ -453,8 +454,10 @@ public class Specialization extends Statement
 	{
 		Specialization specialization = refresh(transaction);
 		if (specialization != null)
+		{
 			specialization.setInstanceParameterIdentification(transaction, instanceParameterIdentification, force);
-
+			specialization.checkTermParameterIdentification(transaction);
+		}
 	}
 
 	public void updateInstanceParameterIdentification(Transaction transaction, ParameterIdentification instanceParameterIdentification)
@@ -533,6 +536,16 @@ public class Specialization extends Statement
 		{
 			throw new UndeleteStatementException(e);
 		}
+	}
+
+	@Override
+	protected ParameterIdentification calcTermParameterIdentification(Transaction transaction)
+	{
+		ParameterIdentification general = getGeneral(transaction).getTermParameterIdentification();
+		if (general instanceof FunctionParameterIdentification)
+			return ((FunctionParameterIdentification) general).getBody();
+		else
+			return null;
 	}
 
 }

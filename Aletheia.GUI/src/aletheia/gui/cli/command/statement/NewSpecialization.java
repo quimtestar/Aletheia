@@ -115,7 +115,7 @@ public class NewSpecialization extends NewStatement
 				List<ProvedInstance> provedInstances = new ArrayList<>();
 				for (int i = 1; i < split.size(); i += 2)
 				{
-					Term instance = parseTerm(from.getActiveContext(), transaction, split.get(i));
+					Term instance = parseTerm(from.getActiveContext(), transaction, split.get(i)); //TODO: parameterIdentification
 					Statement instanceProof = null;
 					if (i + 1 < split.size())
 					{

@@ -72,8 +72,8 @@ public abstract class StatementTable extends StatementOrConsequentTable
 		public TermCellPhrase()
 		{
 			super();
-			TermPhrase termPhrase = TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier(),
-					statement.makeTermParameterIdentification(transaction), statement.getTerm());
+			TermPhrase termPhrase = TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier(), statement.getTermParameterIdentification(),
+					statement.getTerm());
 			addSimpleChunk(new SimpleChunk(":"));
 			addBasePhrase(termPhrase);
 		}

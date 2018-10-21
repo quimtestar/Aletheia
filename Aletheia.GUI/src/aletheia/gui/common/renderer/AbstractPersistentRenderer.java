@@ -375,14 +375,9 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 		addTerm(statement.parentVariableToIdentifier(transaction), parameterIdentification, term);
 	}
 
-	protected void addTerm(Transaction transaction, Statement statement, Term term)
-	{
-		addTerm(statement.parentVariableToIdentifier(transaction), statement.makeTermParameterIdentification(transaction), term);
-	}
-
 	protected void addTerm(Transaction transaction, Statement statement)
 	{
-		addTerm(transaction, statement, statement.getTerm());
+		addTerm(transaction, statement, statement.getTermParameterIdentification(), statement.getTerm());
 	}
 
 	protected void addParameterVariableTerm(Term.ParameterNumerator parameterNumerator, Map<ParameterVariableTerm, Identifier> parameterToIdentifier,

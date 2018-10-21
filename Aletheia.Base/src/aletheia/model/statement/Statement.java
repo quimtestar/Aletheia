@@ -661,6 +661,28 @@ public abstract class Statement implements Exportable
 		return getTerm();
 	}
 
+	public ParameterIdentification getTermParameterIdentification()
+	{
+		return getEntity().getTermParameterIdentification();
+	}
+
+	private void setTermParameterIdentification(ParameterIdentification termParameterIdentification)
+	{
+		getEntity().setTermParameterIdentification(termParameterIdentification);
+	}
+
+	protected void setTermParameterIdentification(Transaction transaction, ParameterIdentification termParameterIdentification)
+	{
+		setTermParameterIdentification(termParameterIdentification);
+		persistenceUpdate(transaction);
+		Iterable<StateListener> listeners = stateListeners();
+		synchronized (listeners)
+		{
+			for (StateListener listener : listeners)
+				listener.termParameterIdentificationUpdated(transaction, this, termParameterIdentification);
+		}
+	}
+
 	/**
 	 * @return The proven status of this statement (might be unsynchronized with
 	 *         the persistence layer, if the actual present value is needed, the
@@ -714,7 +736,7 @@ public abstract class Statement implements Exportable
 	public void setIdentifier(Transaction transaction, Identifier identifier, boolean force) throws SignatureIsValidException
 	{
 		Identifier old = identifier(transaction);
-		if ((old == null) != (identifier == null) || (!old.equals(identifier)))
+		if ((old == null) != (identifier == null) || (old != null && !old.equals(identifier)))
 		{
 			lockAuthority(transaction);
 			StatementAuthority statementAuthority = getAuthority(transaction);
@@ -1129,6 +1151,11 @@ public abstract class Statement implements Exportable
 		}
 
 		public default void statementAuthorityDeleted(Transaction transaction, Statement statement, StatementAuthority statementAuthority)
+		{
+		}
+
+		public default void termParameterIdentificationUpdated(Transaction transaction, Statement statement,
+				ParameterIdentification termParameterIdentification)
 		{
 		}
 
@@ -2144,9 +2171,28 @@ public abstract class Statement implements Exportable
 		};
 	}
 
-	public ParameterIdentification makeTermParameterIdentification(Transaction transaction)
+	protected ParameterIdentification calcTermParameterIdentification(Transaction transaction)
 	{
 		return null;
+	}
+
+	protected void checkTermParameterIdentification(Transaction transaction)
+	{
+		Stack<Statement> stack = new Stack<>();
+		stack.push(refresh(transaction));
+		while (!stack.isEmpty())
+		{
+			Statement st = stack.pop();
+			ParameterIdentification oldTermParameterIdentification = st.getTermParameterIdentification();
+			ParameterIdentification newTermParameterIdentification = st.calcTermParameterIdentification(transaction);
+
+			if ((oldTermParameterIdentification == null) != (newTermParameterIdentification == null)
+					|| (oldTermParameterIdentification != null && !oldTermParameterIdentification.equals(newTermParameterIdentification)))
+			{
+				setTermParameterIdentification(transaction, newTermParameterIdentification);
+				stack.addAll(st.dependents(transaction));
+			}
+		}
 	}
 
 }

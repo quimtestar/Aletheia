@@ -724,6 +724,19 @@ public class ContextJTreeModel extends PersistentTreeModel
 			}
 		}
 
+		@Override
+		public void termParameterIdentificationUpdated(Transaction transaction, Statement statement, ParameterIdentification termParameterIdentification)
+		{
+			try
+			{
+				statementStateChangeQueue.put(new ParameterIdentificationChange(transaction, statement));
+			}
+			catch (InterruptedException e)
+			{
+				logger.error(e.getMessage(), e);
+			}
+		}
+
 	}
 
 	public void pushSelectStatement(Transaction transaction, Statement statement, ContextJTree contextJTree)

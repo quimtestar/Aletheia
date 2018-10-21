@@ -38,7 +38,7 @@ public class DeclarationContextJTreeNodeRenderer extends ProperStatementContextJ
 			addOpenSquareBracket();
 			addDeclarationLabel();
 			addColonLabel();
-			addTerm(transaction, declaration, declaration.getValueParameterIdentification(), declaration.getValue());
+			addTerm(declaration.parentVariableToIdentifier(transaction), declaration.getValueParameterIdentification(), declaration.getValue());
 			if (!declaration.getValueProof(transaction).getVariable().equals(declaration.getValue()))
 			{
 				addSpaceLabel();

@@ -2428,7 +2428,7 @@ public class Context extends Statement
 	}
 
 	@Override
-	public ParameterIdentification makeTermParameterIdentification(Transaction transaction)
+	protected ParameterIdentification calcTermParameterIdentification(Transaction transaction)
 	{
 		class StackEntry
 		{
@@ -2455,7 +2455,7 @@ public class Context extends Statement
 				parameter = assumption.getIdentifier();
 			ParameterIdentification domain = null;
 			if (assumption != null)
-				domain = assumption.makeTermParameterIdentification(transaction);
+				domain = assumption.getTermParameterIdentification();
 			stack.push(new StackEntry(parameter, domain));
 			body = function.getBody();
 		}

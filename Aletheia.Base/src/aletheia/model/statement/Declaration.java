@@ -291,7 +291,10 @@ public class Declaration extends Statement
 	{
 		Declaration declaration = refresh(transaction);
 		if (declaration != null)
+		{
 			declaration.setValueParameterIdentification(transaction, valueParameterIdentification, force);
+			declaration.checkTermParameterIdentification(transaction);
+		}
 
 	}
 
@@ -386,7 +389,7 @@ public class Declaration extends Statement
 		}
 	}
 
-	public ParameterIdentification makeValueParameterIdentification(Transaction transaction)
+	public ParameterIdentification inferValueParameterIdentification(Transaction transaction)
 	{
 		List<ParameterVariableTerm> parameters = getValue().parameters();
 		class ListEntry
@@ -400,7 +403,7 @@ public class Declaration extends Statement
 		{
 			Term term = unf.getTerm();
 			Map<ParameterVariableTerm, DomainParameterIdentification> domainParameterIdentificationMap = term
-					.domainParameterIdentificationMap(unf.makeTermParameterIdentification(transaction));
+					.domainParameterIdentificationMap(unf.calcTermParameterIdentification(transaction));
 			for (SimpleTerm result : term.findSimpleTermByAtom(getVariable()))
 			{
 				Term body = getValue();
@@ -452,6 +455,12 @@ public class Declaration extends Statement
 					parameterIdentification = new FunctionParameterIdentification(e.parameter, e.domain, parameterIdentification);
 			}
 		return parameterIdentification;
+	}
+
+	@Override
+	protected ParameterIdentification calcTermParameterIdentification(Transaction transaction)
+	{
+		return getValueParameterIdentification();
 	}
 
 }

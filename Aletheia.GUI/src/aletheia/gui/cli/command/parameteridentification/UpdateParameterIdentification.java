@@ -25,6 +25,7 @@ import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.parameteridentification.ParameterIdentification;
+import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Declaration;
 import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
@@ -66,17 +67,22 @@ public abstract class UpdateParameterIdentification extends TransactionalCommand
 	public static class UpdateTermParameterIdentification extends UpdateParameterIdentification
 	{
 
-		public UpdateTermParameterIdentification(CommandSource from, Transaction transaction, Statement statement,
+		public UpdateTermParameterIdentification(CommandSource from, Transaction transaction, Assumption assumption,
 				ParameterIdentification parameterIdentification)
 		{
-			super(from, transaction, statement, parameterIdentification);
+			super(from, transaction, assumption, parameterIdentification);
+		}
+
+		@Override
+		protected Assumption getStatement()
+		{
+			return (Assumption) super.getStatement();
 		}
 
 		@Override
 		protected void updateParameterIdentification() throws SignatureIsValidException
 		{
-			//TODO
-			throw new UnsupportedOperationException();
+			getStatement().updateTermParameterIdentification(getTransaction(), getParameterIdentification());
 		}
 
 	}
@@ -161,7 +167,11 @@ public abstract class UpdateParameterIdentification extends TransactionalCommand
 				return new UpdateInstanceParameterIdentification(from, transaction, (Specialization) statement, parameterIdentification);
 			}
 			else
-				return new UpdateTermParameterIdentification(from, transaction, statement, parameterIdentification);
+			{
+				if (!(statement instanceof Assumption))
+					throw new CommandParseException("Statement not a assumption");
+				return new UpdateTermParameterIdentification(from, transaction, (Assumption) statement, parameterIdentification);
+			}
 		}
 
 		@Override

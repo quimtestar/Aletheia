@@ -90,6 +90,7 @@ public class NewContext extends NewStatement
 			Identifier identifier = functionParameterIdentification.getParameter();
 			if (identifier != null && !identifier.equals(underscore))
 				identifyAssumptions.put(identifier, assumption);
+			assumption.updateTermParameterIdentification(getTransaction(), functionParameterIdentification.getDomain());
 			parameterIdentification = functionParameterIdentification.getBody();
 		}
 		for (Map.Entry<Identifier, Assumption> e : identifyAssumptions.entrySet())

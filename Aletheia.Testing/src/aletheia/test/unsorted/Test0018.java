@@ -42,7 +42,7 @@ public class Test0018 extends TransactionalBerkeleyDBPersistenceManagerTest
 			if (st instanceof Declaration)
 			{
 				Declaration dec = (Declaration) st;
-				ParameterIdentification pi = dec.makeValueParameterIdentification(transaction);
+				ParameterIdentification pi = dec.inferValueParameterIdentification(transaction);
 				System.out.println(dec.label() + ": " + pi + ": " + dec.getValue().toString(transaction, dec.getContext(transaction), pi));
 				dec.updateValueParameterIdentification(transaction, pi);
 			}

@@ -23,6 +23,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
@@ -92,6 +93,16 @@ public interface StatementEntity extends Entity
 	 *            The variable.
 	 */
 	public void setVariable(IdentifiableVariableTerm variable);
+
+	/**
+	 * Gets the {@link ParameterIdentification} associated to the statement term
+	 */
+	public ParameterIdentification getTermParameterIdentification();
+
+	/**
+	 * Sets the {@link ParameterIdentification} associated to the statement term
+	 */
+	public void setTermParameterIdentification(ParameterIdentification ParameterIdentification);
 
 	/**
 	 * Gets the set of the {@link UUID}s of the {@link Statement}s that this
