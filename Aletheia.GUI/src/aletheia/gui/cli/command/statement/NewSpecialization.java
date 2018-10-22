@@ -26,8 +26,9 @@ import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
+import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
-import aletheia.model.term.Term;
+import aletheia.parser.term.TermParser.ParameterIdentifiedTerm;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "spc", factory = NewSpecialization.Factory.class)
@@ -37,13 +38,13 @@ public class NewSpecialization extends NewStatement
 
 	protected static class ProvedInstance
 	{
-		final Term instance;
+		final ParameterIdentifiedTerm parameterIdentifidedInstance;
 		final Statement instanceProof;
 
-		protected ProvedInstance(Term instance, Statement instanceProof)
+		protected ProvedInstance(ParameterIdentifiedTerm parameterIdentifidedInstance, Statement instanceProof)
 		{
 			super();
-			this.instance = instance;
+			this.parameterIdentifidedInstance = parameterIdentifidedInstance;
 			this.instanceProof = instanceProof;
 		}
 	}
@@ -87,13 +88,16 @@ public class NewSpecialization extends NewStatement
 
 			Statement instanceProof_ = provedInstance.instanceProof;
 			if (instanceProof_ == null)
-				instanceProof_ = ctx.statements(getTransaction()).get(provedInstance.instance);
+				instanceProof_ = ctx.statements(getTransaction()).get(provedInstance.parameterIdentifidedInstance.getTerm());
 			if (instanceProof_ == null)
-				instanceProof_ = ctx.suitableForInstanceProofStatementByTerm(getTransaction(), provedInstance.instance.getType());
+				instanceProof_ = ctx.suitableForInstanceProofStatementByTerm(getTransaction(), provedInstance.parameterIdentifidedInstance.getTerm().getType());
 			if (instanceProof_ == null)
-				throw new Exception("Value proof missing for type: " + provedInstance.instance.getType().toString(getTransaction(), ctx));
+				throw new Exception(
+						"Value proof missing for type: " + provedInstance.parameterIdentifidedInstance.getTerm().getType().toString(getTransaction(), ctx));
 
-			statement = ctx.specialize(getTransaction(), statement, provedInstance.instance, instanceProof_);
+			Specialization specialization = ctx.specialize(getTransaction(), statement, provedInstance.parameterIdentifidedInstance.getTerm(), instanceProof_);
+			specialization.updateInstanceParameterIdentification(getTransaction(), provedInstance.parameterIdentifidedInstance.getParameterIdentification());
+			statement = specialization;
 		}
 		return new RunNewStatementReturnData(statement);
 	}
@@ -115,7 +119,7 @@ public class NewSpecialization extends NewStatement
 				List<ProvedInstance> provedInstances = new ArrayList<>();
 				for (int i = 1; i < split.size(); i += 2)
 				{
-					Term instance = parseTerm(from.getActiveContext(), transaction, split.get(i)); //TODO: parameterIdentification
+					ParameterIdentifiedTerm parameterIdentifiedInstance = parseParameterIdentifiedTerm(from.getActiveContext(), transaction, split.get(i));
 					Statement instanceProof = null;
 					if (i + 1 < split.size())
 					{
@@ -123,7 +127,7 @@ public class NewSpecialization extends NewStatement
 						if (instanceProof == null)
 							throw new CommandParseException("Instance proof statement not found: " + split.get(i + 1));
 					}
-					provedInstances.add(new ProvedInstance(instance, instanceProof));
+					provedInstances.add(new ProvedInstance(parameterIdentifiedInstance, instanceProof));
 				}
 				return new NewSpecialization(from, transaction, identifier, general, provedInstances);
 			}

@@ -28,7 +28,7 @@ import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
-import aletheia.model.term.Term;
+import aletheia.parser.term.TermParser.ParameterIdentifiedTerm;
 import aletheia.parsergenerator.ParserBaseException;
 import aletheia.persistence.Transaction;
 
@@ -36,7 +36,7 @@ import aletheia.persistence.Transaction;
 public class NewStrip extends NewAuto
 {
 
-	public NewStrip(CommandSource from, Transaction transaction, Identifier identifier, Statement statement, List<Term> hints)
+	public NewStrip(CommandSource from, Transaction transaction, Identifier identifier, Statement statement, List<ParameterIdentifiedTerm> hints)
 	{
 		super(from, transaction, identifier, statement, null, hints);
 	}
@@ -56,9 +56,11 @@ public class NewStrip extends NewAuto
 				Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, ctx, split.get(0));
 				if (statement == null)
 					throw new CommandParseException("Statement not found: " + split.get(0));
-				List<Term> hints = new LinkedList<>();
+				List<ParameterIdentifiedTerm> hints = new LinkedList<>();
 				for (String s : split.subList(1, split.size()))
-					hints.add(ctx.parseTerm(transaction, s)); //TODO: ParameterIdentification
+				{
+					hints.add(ctx.parseParameterIdentifiedTerm(transaction, s));
+				}
 				return new NewStrip(from, transaction, identifier, statement, hints);
 			}
 			catch (NotActiveContextException | ParserBaseException e)

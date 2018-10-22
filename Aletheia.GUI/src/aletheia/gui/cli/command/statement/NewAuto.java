@@ -31,7 +31,9 @@ import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.nomenclator.Nomenclator.AlreadyUsedIdentifierException;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Context;
+import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
@@ -39,6 +41,7 @@ import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
+import aletheia.parser.term.TermParser.ParameterIdentifiedTerm;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "auto", factory = NewAuto.Factory.class)
@@ -46,9 +49,9 @@ public class NewAuto extends NewStatement
 {
 	private final Statement general;
 	private final Term target;
-	private final List<Term> hints;
+	private final List<ParameterIdentifiedTerm> hints;
 
-	public NewAuto(CommandSource from, Transaction transaction, Identifier identifier, Statement general, Term target, List<Term> hints)
+	public NewAuto(CommandSource from, Transaction transaction, Identifier identifier, Statement general, Term target, List<ParameterIdentifiedTerm> hints)
 	{
 		super(from, transaction, identifier);
 		this.general = general;
@@ -59,13 +62,13 @@ public class NewAuto extends NewStatement
 	private Statement suitableFromHints(Context context, Term term)
 	{
 		Statement statement = null;
-		Iterator<Term> hi = hints.iterator();
+		Iterator<ParameterIdentifiedTerm> hi = hints.iterator();
 		while (hi.hasNext())
 		{
-			Term hint = hi.next();
-			if ((hint instanceof IdentifiableVariableTerm) && hint.getType().equals(term))
+			ParameterIdentifiedTerm hint = hi.next();
+			if ((hint.getTerm() instanceof IdentifiableVariableTerm) && hint.getTerm().getType().equals(term))
 			{
-				statement = context.statements(getTransaction()).get(hint);
+				statement = context.statements(getTransaction()).get(hint.getTerm());
 				if (statement != null)
 				{
 					hi.remove();
@@ -76,13 +79,23 @@ public class NewAuto extends NewStatement
 		return statement;
 	}
 
+	private void removeIdentifiableVariableTermFromHints(IdentifiableVariableTerm variable)
+	{
+		for (Iterator<ParameterIdentifiedTerm> iterator = hints.iterator(); iterator.hasNext();)
+			if (iterator.next().getTerm().equals(variable))
+			{
+				iterator.remove();
+				break;
+			}
+	}
+
 	private Statement suitable(Context context, Term term)
 	{
 		Statement statement = null;
 		statement = context.suitableForInstanceProofStatementByTerm(getTransaction(), term);
 		if (statement != null)
 		{
-			hints.remove(statement.getVariable());
+			removeIdentifiableVariableTermFromHints(statement.getVariable());
 			return statement;
 		}
 		statement = suitableFromHints(context, term);
@@ -126,16 +139,18 @@ public class NewAuto extends NewStatement
 			Term type = parameter.getType();
 			Term body = functionTerm.getBody();
 			Term t = m != null && oParamIt.hasNext() ? m.getTermMatch().getAssignMapLeft().get(oParamIt.next()) : null;
+			ParameterIdentification pi = null;
 			if (t == null && body.isFreeVariable(parameter))
 			{
 				{
-					Iterator<Term> hi = hints.iterator();
+					Iterator<ParameterIdentifiedTerm> hi = hints.iterator();
 					while (hi.hasNext())
 					{
-						Term hint = hi.next();
-						if (hint.getType().equals(type))
+						ParameterIdentifiedTerm hint = hi.next();
+						if (hint.getTerm().getType().equals(type))
 						{
-							t = hint;
+							t = hint.getTerm();
+							pi = hint.getParameterIdentification();
 							hi.remove();
 							break;
 						}
@@ -147,11 +162,11 @@ public class NewAuto extends NewStatement
 					assignable.add(parameter);
 					l: for (ParameterVariableTerm p : body.parameters())
 					{
-						for (Term hi : hints)
+						for (ParameterIdentifiedTerm hi : hints)
 						{
-							if (hi instanceof VariableTerm)
+							if (hi.getTerm() instanceof VariableTerm)
 							{
-								Statement sthi = context.statements(getTransaction()).get(hi);
+								Statement sthi = context.statements(getTransaction()).get(hi.getTerm());
 								if (sthi != null)
 								{
 									Term.Match m2 = p.getType().match(assignable, sthi.getTerm());
@@ -224,10 +239,11 @@ public class NewAuto extends NewStatement
 					}
 				}
 			}
-			Statement st_;
+			Specialization st_;
 			if (t != null)
 			{
 				st_ = context.specialize(getTransaction(), statement, t, instanceProof);
+				st_.updateInstanceParameterIdentification(getTransaction(), pi);
 				body = body.replace(parameter, t);
 			}
 			else
@@ -242,8 +258,8 @@ public class NewAuto extends NewStatement
 		if (!hints.isEmpty())
 		{
 			getErr().println("Warning: unused hints.");
-			for (Term h : hints)
-				getErr().println(" -> " + termToString(context, getTransaction(), h));
+			for (ParameterIdentifiedTerm h : hints)
+				getErr().println(" -> " + termToString(context, getTransaction(), h.getTerm(), h.getParameterIdentification()));
 		}
 		if (unidentified != null)
 			getErr().println("Warning: Previously existing statement has been re-identified to '" + unidentified.refresh(getTransaction()).label() + "'.");
@@ -269,12 +285,12 @@ public class NewAuto extends NewStatement
 			if (statement == null)
 				throw new CommandParseException("Statement not found: " + split.get(0));
 			Term term = null;
-			List<Term> hints = new LinkedList<>();
+			List<ParameterIdentifiedTerm> hints = new LinkedList<>();
 			if (split.size() > 1)
 			{
 				term = parseTerm(ctx, transaction, split.get(1));
 				for (String s : split.subList(2, split.size()))
-					hints.add(parseTerm(ctx, transaction, s));
+					hints.add(parseParameterIdentifiedTerm(ctx, transaction, s));
 			}
 			else
 				term = ctx.getConsequent();
