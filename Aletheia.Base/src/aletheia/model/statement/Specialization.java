@@ -455,8 +455,12 @@ public class Specialization extends Statement
 		Specialization specialization = refresh(transaction);
 		if (specialization != null)
 		{
-			specialization.setInstanceParameterIdentification(transaction, instanceParameterIdentification, force);
-			specialization.checkTermParameterIdentification(transaction);
+			ParameterIdentification old = specialization.getTermParameterIdentification();
+			if ((old == null) != (instanceParameterIdentification == null) || (old != null && !old.equals(instanceParameterIdentification)))
+			{
+				specialization.setInstanceParameterIdentification(transaction, instanceParameterIdentification, force);
+				specialization.checkTermParameterIdentification(transaction);
+			}
 		}
 	}
 

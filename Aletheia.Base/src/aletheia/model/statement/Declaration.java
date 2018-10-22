@@ -292,8 +292,12 @@ public class Declaration extends Statement
 		Declaration declaration = refresh(transaction);
 		if (declaration != null)
 		{
-			declaration.setValueParameterIdentification(transaction, valueParameterIdentification, force);
-			declaration.checkTermParameterIdentification(transaction);
+			ParameterIdentification old = declaration.getValueParameterIdentification();
+			if ((old == null) != (valueParameterIdentification == null) || (old != null && !old.equals(valueParameterIdentification)))
+			{
+				declaration.setValueParameterIdentification(transaction, valueParameterIdentification, force);
+				declaration.checkTermParameterIdentification(transaction);
+			}
 		}
 
 	}

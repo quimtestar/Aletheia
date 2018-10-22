@@ -2176,23 +2176,65 @@ public abstract class Statement implements Exportable
 		return null;
 	}
 
-	protected void checkTermParameterIdentification(Transaction transaction)
+	private static void checkTermParameterIdentificationUuids(Transaction transaction, Collection<UUID> statementUuids)
 	{
-		Stack<Statement> stack = new Stack<>();
-		stack.push(refresh(transaction));
+		PersistenceManager persistenceManager = transaction.getPersistenceManager();
+		Stack<UUID> stack = new Stack<>();
+		stack.addAll(statementUuids);
 		while (!stack.isEmpty())
 		{
-			Statement st = stack.pop();
+			logger.trace("--> checkTermParameterIdentification:" + stack.size());
+			UUID uuid = stack.pop();
+			Statement st = persistenceManager.getStatement(transaction, uuid);
 			ParameterIdentification oldTermParameterIdentification = st.getTermParameterIdentification();
 			ParameterIdentification newTermParameterIdentification = st.calcTermParameterIdentification(transaction);
 
 			if ((oldTermParameterIdentification == null) != (newTermParameterIdentification == null)
 					|| (oldTermParameterIdentification != null && !oldTermParameterIdentification.equals(newTermParameterIdentification)))
 			{
-				setTermParameterIdentification(transaction, newTermParameterIdentification);
-				stack.addAll(st.dependents(transaction));
+				st.setTermParameterIdentification(transaction, newTermParameterIdentification);
+				stack.addAll(new BijectionCollection<>(new Bijection<Statement, UUID>()
+				{
+
+					@Override
+					public UUID forward(Statement statement)
+					{
+						return statement.getUuid();
+					}
+
+					@Override
+					public Statement backward(UUID uuid)
+					{
+						throw new UnsupportedOperationException();
+					}
+				}, st.dependents(transaction)));
 			}
 		}
+
+	}
+
+	protected void checkTermParameterIdentification(Transaction transaction)
+	{
+		checkTermParameterIdentificationUuids(transaction, Collections.singleton(getUuid()));
+	}
+
+	public static void checkTermParameterIdentifications(Transaction transaction, Collection<Statement> statements)
+	{
+		checkTermParameterIdentificationUuids(transaction, new BijectionCollection<>(new Bijection<Statement, UUID>()
+		{
+
+			@Override
+			public UUID forward(Statement statement)
+			{
+				return statement.getUuid();
+			}
+
+			@Override
+			public Statement backward(UUID uuid)
+			{
+				throw new UnsupportedOperationException();
+			}
+		}, statements));
 	}
 
 }

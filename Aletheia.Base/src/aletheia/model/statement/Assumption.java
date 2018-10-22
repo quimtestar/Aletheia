@@ -210,8 +210,12 @@ public class Assumption extends Statement
 		Assumption assumption = refresh(transaction);
 		if (assumption != null)
 		{
-			assumption.setTermParameterIdentification(transaction, termParameterIdentification, force);
-			assumption.getContext(transaction).checkTermParameterIdentification(transaction);
+			ParameterIdentification old = assumption.getTermParameterIdentification();
+			if ((old == null) != (termParameterIdentification == null) || (old != null && !old.equals(termParameterIdentification)))
+			{
+				assumption.setTermParameterIdentification(transaction, termParameterIdentification, force);
+				assumption.getContext(transaction).checkTermParameterIdentification(transaction);
+			}
 		}
 
 	}
