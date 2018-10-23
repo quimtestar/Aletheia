@@ -243,11 +243,11 @@ public class NewAuto extends NewStatement
 			if (t != null)
 			{
 				st_ = context.specialize(getTransaction(), statement, t, instanceProof);
-				st_.updateInstanceParameterIdentification(getTransaction(), pi);
 				body = body.replace(parameter, t);
 			}
 			else
 				st_ = context.specialize(getTransaction(), statement, instanceProof.getVariable(), instanceProof);
+			st_.updateInstanceParameterIdentification(getTransaction(), pi);
 			statement = st_;
 			term = body;
 			if (term instanceof ProjectionTerm)
