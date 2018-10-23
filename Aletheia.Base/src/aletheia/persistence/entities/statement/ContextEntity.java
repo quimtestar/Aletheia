@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.persistence.entities.statement;
 
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Context;
 import aletheia.model.term.SimpleTerm;
 
@@ -41,5 +42,9 @@ public interface ContextEntity extends StatementEntity
 	 *            The consequent.
 	 */
 	public void setConsequent(SimpleTerm consequent);
+
+	public ParameterIdentification getConsequentParameterIdentification();
+
+	public void setConsequentParameterIdentification(ParameterIdentification consequentParameterIdentification);
 
 }

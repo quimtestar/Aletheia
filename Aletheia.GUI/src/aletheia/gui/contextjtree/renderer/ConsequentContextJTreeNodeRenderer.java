@@ -130,7 +130,7 @@ public class ConsequentContextJTreeNodeRenderer extends ContextJTreeNodeRenderer
 			this.context = context;
 			this.turnstile = addTurnstileLabel();
 			addSpaceLabel();
-			addTerm(context.variableToIdentifier(transaction), context.getConsequent());
+			addTerm(context.variableToIdentifier(transaction), context.consequentParameterIdentification(transaction), context.getConsequent());
 			setActiveFont(getItalicFont());
 			addSpaceLabel();
 			addOpenSquareBracket();

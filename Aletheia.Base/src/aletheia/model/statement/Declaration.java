@@ -259,6 +259,14 @@ public class Declaration extends Statement
 		return getEntity().getValueParameterIdentification();
 	}
 
+	public ParameterIdentification valueParameterIdentification(Transaction transaction)
+	{
+		Declaration dec = refresh(transaction);
+		if (dec == null)
+			return null;
+		return dec.getValueParameterIdentification();
+	}
+
 	private void setValueParameterIdentification(ParameterIdentification valueParameterIdentification)
 	{
 		getEntity().setValueParameterIdentification(valueParameterIdentification);

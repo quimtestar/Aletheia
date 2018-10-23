@@ -2460,7 +2460,7 @@ public class Context extends Statement
 			stack.push(new StackEntry(parameter, domain));
 			body = function.getBody();
 		}
-		ParameterIdentification parameterIdentification = null;
+		ParameterIdentification parameterIdentification = getConsequentParameterIdentification();
 		while (!stack.isEmpty())
 		{
 			StackEntry se = stack.pop();
@@ -2596,6 +2596,68 @@ public class Context extends Statement
 		{
 			throw new RuntimeException(e);
 		}
+	}
+
+	public ParameterIdentification getConsequentParameterIdentification()
+	{
+		return getEntity().getConsequentParameterIdentification();
+	}
+
+	public ParameterIdentification consequentParameterIdentification(Transaction transaction)
+	{
+		Context ctx = refresh(transaction);
+		if (ctx == null)
+			return null;
+		return ctx.getConsequentParameterIdentification();
+	}
+
+	private void setConsequentParameterIdentification(ParameterIdentification consequentParameterIdentification)
+	{
+		getEntity().setConsequentParameterIdentification(consequentParameterIdentification);
+	}
+
+	private void setConsequentParameterIdentification(Transaction transaction, ParameterIdentification consequentParameterIdentification, boolean force)
+			throws SignatureIsValidException
+	{
+		lockAuthority(transaction);
+		StatementAuthority statementAuthority = getAuthority(transaction);
+		if (statementAuthority != null)
+		{
+			if (force)
+				statementAuthority.clearSignatures(transaction);
+			else if (statementAuthority.isValidSignature())
+				throw new SignatureIsValidException("Can't update parameter identifications with valid signatures");
+		}
+		setConsequentParameterIdentification(consequentParameterIdentification);
+		persistenceUpdate(transaction);
+		Iterable<StateListener> listeners = stateListeners();
+		synchronized (listeners)
+		{
+			for (StateListener listener : listeners)
+				listener.consequentParameterIdentificationUpdated(transaction, this, consequentParameterIdentification);
+		}
+	}
+
+	public void updateConsequentParameterIdentification(Transaction transaction, ParameterIdentification consequentParameterIdentification, boolean force)
+			throws SignatureIsValidException
+	{
+		Context context = refresh(transaction);
+		if (context != null)
+		{
+			ParameterIdentification old = context.getConsequentParameterIdentification();
+			if ((old == null) != (consequentParameterIdentification == null) || (old != null && !old.equals(consequentParameterIdentification)))
+			{
+				context.setConsequentParameterIdentification(transaction, consequentParameterIdentification, force);
+				context.checkTermParameterIdentification(transaction);
+			}
+		}
+
+	}
+
+	public void updateConsequentParameterIdentification(Transaction transaction, ParameterIdentification consequentParameterIdentification)
+			throws SignatureIsValidException
+	{
+		updateConsequentParameterIdentification(transaction, consequentParameterIdentification, false);
 	}
 
 }

@@ -26,6 +26,7 @@ import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Assumption;
+import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
 import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
@@ -133,6 +134,29 @@ public abstract class UpdateParameterIdentification extends TransactionalCommand
 
 	}
 
+	public static class UpdateConsequentParameterIdentification extends UpdateParameterIdentification
+	{
+
+		public UpdateConsequentParameterIdentification(CommandSource from, Transaction transaction, Context context,
+				ParameterIdentification parameterIdentification)
+		{
+			super(from, transaction, context, parameterIdentification);
+		}
+
+		@Override
+		protected Context getStatement()
+		{
+			return (Context) super.getStatement();
+		}
+
+		@Override
+		protected void updateParameterIdentification() throws SignatureIsValidException
+		{
+			getStatement().updateConsequentParameterIdentification(getTransaction(), getParameterIdentification());
+		}
+
+	}
+
 	public static class Factory extends AbstractVoidCommandFactory<UpdateParameterIdentification>
 	{
 
@@ -142,14 +166,24 @@ public abstract class UpdateParameterIdentification extends TransactionalCommand
 			return 2;
 		}
 
+		private int countBooleans(boolean... vs)
+		{
+			int c = 0;
+			for (boolean v : vs)
+				if (v)
+					c++;
+			return c;
+		}
+
 		@Override
 		public UpdateParameterIdentification parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
 			boolean value = split.remove("-v") || split.remove("-value");
 			boolean instance = split.remove("-i") || split.remove("-instance");
-			if (value && instance)
-				throw new CommandParseException("Can't specify both value and instance switches");
+			boolean consequent = split.remove("-c") || split.remove("-consequent");
+			if (countBooleans(value, instance, consequent) > 1)
+				throw new CommandParseException("Can't specify more than one switch in {[v]alue, [i]nstance, [c]onsequent}");
 			Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 			if (statement == null)
 				throw new CommandParseException("Invalid statement");
@@ -166,6 +200,12 @@ public abstract class UpdateParameterIdentification extends TransactionalCommand
 					throw new CommandParseException("Statement not a specialization");
 				return new UpdateInstanceParameterIdentification(from, transaction, (Specialization) statement, parameterIdentification);
 			}
+			else if (consequent)
+			{
+				if (!(statement instanceof Context))
+					throw new CommandParseException("Statement not a context");
+				return new UpdateConsequentParameterIdentification(from, transaction, (Context) statement, parameterIdentification);
+			}
 			else
 			{
 				if (!(statement instanceof Assumption))
@@ -177,13 +217,13 @@ public abstract class UpdateParameterIdentification extends TransactionalCommand
 		@Override
 		protected String paramSpec()
 		{
-			return "([-v[alue]] | [-i[nstance]]) <statement> <parameter identification>";
+			return "([-v[alue]] | [-i[nstance]] | [-c[onsequent]) <statement> <parameter identification>";
 		}
 
 		@Override
 		public String shortHelp()
 		{
-			return "Update the parameter identification of a statement's term (or a declaration's value or a specialization's instance).";
+			return "Update the parameter identification of a statement's term (or a declaration's value or a specialization's instance or a context's consequent).";
 		}
 
 	}

@@ -666,6 +666,14 @@ public abstract class Statement implements Exportable
 		return getEntity().getTermParameterIdentification();
 	}
 
+	public ParameterIdentification termParameterIdentification(Transaction transaction)
+	{
+		Statement st = refresh(transaction);
+		if (st == null)
+			return null;
+		return st.getTermParameterIdentification();
+	}
+
 	private void setTermParameterIdentification(ParameterIdentification termParameterIdentification)
 	{
 		getEntity().setTermParameterIdentification(termParameterIdentification);
@@ -1166,6 +1174,11 @@ public abstract class Statement implements Exportable
 
 		public default void instanceParameterIdentificationUpdated(Transaction transaction, Specialization specialization,
 				ParameterIdentification instanceParameterIdentification)
+		{
+		}
+
+		public default void consequentParameterIdentificationUpdated(Transaction transaction, Context context,
+				ParameterIdentification consequentParameterIdentification)
 		{
 		}
 

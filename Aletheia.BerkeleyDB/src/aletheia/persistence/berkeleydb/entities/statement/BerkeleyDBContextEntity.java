@@ -22,6 +22,7 @@ package aletheia.persistence.berkeleydb.entities.statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.SimpleTerm;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.entities.statement.ContextEntity;
@@ -30,7 +31,7 @@ import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
 
-@Persistent(version = 0)
+@Persistent(version = 1)
 public class BerkeleyDBContextEntity extends BerkeleyDBStatementEntity implements ContextEntity
 {
 	public static final String uuidKeyContext__FieldName = "uuidKeyContext_";
@@ -38,6 +39,8 @@ public class BerkeleyDBContextEntity extends BerkeleyDBStatementEntity implement
 	private UUIDKey uuidKeyContext_;
 
 	private SimpleTerm consequent;
+
+	private ParameterIdentification consequentParameterIdentification;
 
 	public static final String uuidKeyAncestorsConsequentHash_FieldName = "uuidKeyAncestorsConsequentHash";
 	@SecondaryKey(name = uuidKeyAncestorsConsequentHash_FieldName, relate = Relationship.MANY_TO_MANY)
@@ -94,6 +97,18 @@ public class BerkeleyDBContextEntity extends BerkeleyDBStatementEntity implement
 			for (UUIDKeyTermHash uuidKeyTermHash : uuidKeyAncestorsConsequentHash)
 				uuidKeyTermHash.setTermHash(hash);
 		}
+	}
+
+	@Override
+	public ParameterIdentification getConsequentParameterIdentification()
+	{
+		return consequentParameterIdentification;
+	}
+
+	@Override
+	public void setConsequentParameterIdentification(ParameterIdentification consequentParameterIdentification)
+	{
+		this.consequentParameterIdentification = consequentParameterIdentification;
 	}
 
 	@Override

@@ -93,6 +93,7 @@ public class NewContext extends NewStatement
 			assumption.updateTermParameterIdentification(getTransaction(), functionParameterIdentification.getDomain());
 			parameterIdentification = functionParameterIdentification.getBody();
 		}
+		context.updateConsequentParameterIdentification(getTransaction(), parameterIdentification);
 		for (Map.Entry<Identifier, Assumption> e : identifyAssumptions.entrySet())
 			e.getValue().identify(getTransaction(), e.getKey());
 		return new RunNewStatementReturnData(context);

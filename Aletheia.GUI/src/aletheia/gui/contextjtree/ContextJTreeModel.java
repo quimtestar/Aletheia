@@ -482,6 +482,26 @@ public class ContextJTreeModel extends PersistentTreeModel
 		{
 			super(transaction, statement);
 		}
+	}
+
+	private class ConsequentParameterIdentificationChange extends ParameterIdentificationChange
+	{
+
+		public ConsequentParameterIdentificationChange(Transaction transaction, Context context)
+		{
+			super(transaction, context);
+		}
+
+		@Override
+		public Context getStatement()
+		{
+			return (Context) super.getStatement();
+		}
+
+		public Context getContext()
+		{
+			return getStatement();
+		}
 
 	}
 
@@ -730,6 +750,20 @@ public class ContextJTreeModel extends PersistentTreeModel
 			try
 			{
 				statementStateChangeQueue.put(new ParameterIdentificationChange(transaction, statement));
+			}
+			catch (InterruptedException e)
+			{
+				logger.error(e.getMessage(), e);
+			}
+		}
+
+		@Override
+		public void consequentParameterIdentificationUpdated(Transaction transaction, Context context,
+				ParameterIdentification consequentParameterIdentification)
+		{
+			try
+			{
+				statementStateChangeQueue.put(new ConsequentParameterIdentificationChange(transaction, context));
 			}
 			catch (InterruptedException e)
 			{
@@ -1411,21 +1445,35 @@ public class ContextJTreeModel extends PersistentTreeModel
 			}
 		}
 
-	}
-
-	private void parameterIdentificationChange(ParameterIdentificationChange c, Transaction transaction)
-	{
-		parameterIdentificationChange(c.getStatement(), transaction);
-	}
-
-	private void parameterIdentificationChange(Statement statement, Transaction transaction)
-	{
-		statement = statement.refresh(transaction);
-		if (statement != null)
+		private void parameterIdentificationChange(ParameterIdentificationChange c, Transaction transaction)
 		{
-			StatementContextJTreeNode node = nodeMap.getByStatement(statement);
-			nodeChanged((ContextJTreeNode) node);
+			if (c instanceof ConsequentParameterIdentificationChange)
+				consequentParameterIdentificationChange(((ConsequentParameterIdentificationChange) c).getContext(), transaction);
+			else
+				parameterIdentificationChange(c.getStatement(), transaction);
+
 		}
+
+		private void parameterIdentificationChange(Statement statement, Transaction transaction)
+		{
+			statement = statement.refresh(transaction);
+			if (statement != null)
+			{
+				StatementContextJTreeNode node = nodeMap.getByStatement(statement);
+				nodeChangedNoDep((ContextJTreeNode) node);
+			}
+		}
+
+		private void consequentParameterIdentificationChange(Context context, Transaction transaction)
+		{
+			context = context.refresh(transaction);
+			if (context != null)
+			{
+				ContextSorterContextJTreeNode node = (ContextSorterContextJTreeNode) nodeMap.getByStatement(context);
+				nodeChangedNoDep(node.getConsequentNode());
+			}
+		}
+
 	}
 
 	@Override

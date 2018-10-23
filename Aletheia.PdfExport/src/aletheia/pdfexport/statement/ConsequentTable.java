@@ -50,7 +50,8 @@ public class ConsequentTable extends StatementOrConsequentTable
 		public TermCellPhrase()
 		{
 			super();
-			TermPhrase termPhrase = TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier(), context.getConsequent());
+			TermPhrase termPhrase = TermPhrase.termPhrase(persistenceManager, transaction, variableToIdentifier(),
+					context.getConsequentParameterIdentification(), context.getConsequent());
 			addSimpleChunk(new SimpleChunk("\u22a2 ", FontManager.instance.getFont(fontSize, BaseColor.ORANGE)));
 			addBasePhrase(termPhrase);
 		}

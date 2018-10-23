@@ -422,6 +422,14 @@ public class Specialization extends Statement
 		return getEntity().getInstanceParameterIdentification();
 	}
 
+	public ParameterIdentification instanceParameterIdentification(Transaction transaction)
+	{
+		Specialization spc = refresh(transaction);
+		if (spc == null)
+			return null;
+		return spc.getInstanceParameterIdentification();
+	}
+
 	private void setInstanceParameterIdentification(ParameterIdentification instanceParameterIdentification)
 	{
 		getEntity().setInstanceParameterIdentification(instanceParameterIdentification);
