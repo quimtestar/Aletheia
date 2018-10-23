@@ -510,6 +510,7 @@ public class Context extends Statement
 	{
 		statement.persistenceUpdate(transaction);
 		statement.checkProved(transaction, checkContext);
+		statement.checkTermParameterIdentification(transaction);
 		Iterable<StateListener> listeners = stateListeners();
 		synchronized (listeners)
 		{
