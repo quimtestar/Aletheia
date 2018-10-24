@@ -46,6 +46,7 @@ public class Test0018 extends TransactionalBerkeleyDBPersistenceManagerTest
 				System.out.println(dec.label() + ": " + pi + ": " + dec.getValue().toString(transaction, dec.getContext(transaction), pi));
 				dec.updateValueParameterIdentification(transaction, pi);
 			}
+			st.checkTermParameterIdentification(transaction);
 		}
 	}
 
