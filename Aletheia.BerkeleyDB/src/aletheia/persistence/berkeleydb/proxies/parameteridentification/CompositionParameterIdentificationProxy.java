@@ -41,7 +41,7 @@ public class CompositionParameterIdentificationProxy extends ParameterIdentifica
 	@Override
 	public CompositionParameterIdentification convertProxy() throws ProxyConversionException
 	{
-		return new CompositionParameterIdentification(head, tail);
+		return CompositionParameterIdentification.make(head, tail);
 	}
 
 }

@@ -359,9 +359,9 @@ public class CompositionTerm extends SimpleTerm
 		if (preHeadParameterIdentification instanceof CompositionParameterIdentification)
 			headParameterIdentification = (CompositionParameterIdentification) preHeadParameterIdentification;
 		else
-			headParameterIdentification = new CompositionParameterIdentification(null, preHeadParameterIdentification);
+			headParameterIdentification = CompositionParameterIdentification.make(null, preHeadParameterIdentification);
 		ParameterIdentification tailParameterIdentification = getTail().makeParameterIdentification(parameterIdentifiers);
-		return new CompositionParameterIdentification(headParameterIdentification, tailParameterIdentification);
+		return CompositionParameterIdentification.make(headParameterIdentification, tailParameterIdentification);
 	}
 
 	@Override

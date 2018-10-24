@@ -43,12 +43,12 @@ public class Ts__T_F_TokenReducer extends ProductionTokenPayloadReducer<Paramete
 		ParameterIdentification head = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
 		ParameterIdentification tail = NonTerminalToken.getPayloadFromTokenList(reducees, 1);
 		if (head instanceof CompositionParameterIdentification)
-			return new CompositionParameterIdentification((CompositionParameterIdentification) head, tail);
+			return CompositionParameterIdentification.make((CompositionParameterIdentification) head, tail);
 		else if (head == null)
 			return tail;
 		else
-			return new CompositionParameterIdentification(null,
-					new CompositionParameterIdentification(new CompositionParameterIdentification(null, head), tail));
+			return CompositionParameterIdentification.make(null,
+					CompositionParameterIdentification.make(CompositionParameterIdentification.make(null, head), tail));
 	}
 
 }

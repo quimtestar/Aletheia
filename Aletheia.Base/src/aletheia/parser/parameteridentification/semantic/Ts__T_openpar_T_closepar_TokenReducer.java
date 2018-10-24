@@ -43,10 +43,10 @@ public class Ts__T_openpar_T_closepar_TokenReducer extends ProductionTokenPayloa
 		ParameterIdentification head = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
 		ParameterIdentification tail = NonTerminalToken.getPayloadFromTokenList(reducees, 2);
 		if (head instanceof CompositionParameterIdentification || head == null)
-			return new CompositionParameterIdentification((CompositionParameterIdentification) head, tail);
+			return CompositionParameterIdentification.make((CompositionParameterIdentification) head, tail);
 		else
-			return new CompositionParameterIdentification(null,
-					new CompositionParameterIdentification(new CompositionParameterIdentification(null, head), tail));
+			return CompositionParameterIdentification.make(null,
+					CompositionParameterIdentification.make(CompositionParameterIdentification.make(null, head), tail));
 	}
 
 }

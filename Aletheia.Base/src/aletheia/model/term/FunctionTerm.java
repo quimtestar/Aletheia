@@ -566,10 +566,7 @@ public class FunctionTerm extends Term
 		Identifier parameterIdentifier = parameterIdentifiers.get(getParameter());
 		ParameterIdentification domainParameterIdentification = domain().makeParameterIdentification(parameterIdentifiers);
 		ParameterIdentification bodyParameterIdentification = getBody().makeParameterIdentification(parameterIdentifiers);
-		if (parameterIdentifier == null && domainParameterIdentification == null && bodyParameterIdentification == null)
-			return null;
-		else
-			return new FunctionParameterIdentification(parameterIdentifier, domainParameterIdentification, bodyParameterIdentification);
+		return FunctionParameterIdentification.make(parameterIdentifier, domainParameterIdentification, bodyParameterIdentification);
 	}
 
 	@Override

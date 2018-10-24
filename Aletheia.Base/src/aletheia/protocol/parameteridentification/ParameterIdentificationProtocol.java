@@ -115,7 +115,7 @@ public class ParameterIdentificationProtocol extends ExportableProtocol<Paramete
 	{
 		CompositionParameterIdentification head = (CompositionParameterIdentification) recv(in);
 		ParameterIdentification tail = recv(in);
-		return new CompositionParameterIdentification(head, tail);
+		return CompositionParameterIdentification.make(head, tail);
 	}
 
 	private void skipCompositionParameterIdentification(DataInput in) throws IOException, ProtocolException
@@ -136,7 +136,7 @@ public class ParameterIdentificationProtocol extends ExportableProtocol<Paramete
 		Identifier parameter = identifierProtocol.recv(in);
 		ParameterIdentification domain = recv(in);
 		ParameterIdentification body = recv(in);
-		return new FunctionParameterIdentification(parameter, domain, body);
+		return FunctionParameterIdentification.make(parameter, domain, body);
 	}
 
 	private void skipFunctionParameterIdentification(DataInput in) throws IOException, ProtocolException

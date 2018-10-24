@@ -459,13 +459,10 @@ public class Declaration extends Statement
 			if (e == null)
 			{
 				if (parameterIdentification != null)
-					parameterIdentification = new FunctionParameterIdentification(null, null, parameterIdentification);
+					parameterIdentification = FunctionParameterIdentification.make(null, null, parameterIdentification);
 			}
 			else
-			{
-				if (e.parameter != null || e.domain != null || parameterIdentification != null)
-					parameterIdentification = new FunctionParameterIdentification(e.parameter, e.domain, parameterIdentification);
-			}
+				parameterIdentification = FunctionParameterIdentification.make(e.parameter, e.domain, parameterIdentification);
 		return parameterIdentification;
 	}
 

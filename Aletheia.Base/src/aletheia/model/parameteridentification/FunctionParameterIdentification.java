@@ -27,12 +27,18 @@ public class FunctionParameterIdentification extends ParameterIdentification
 	private final ParameterIdentification domain;
 	private final ParameterIdentification body;
 
-	public FunctionParameterIdentification(Identifier parameter, ParameterIdentification domain, ParameterIdentification body)
+	private FunctionParameterIdentification(Identifier parameter, ParameterIdentification domain, ParameterIdentification body)
 	{
-		super();
 		this.parameter = parameter;
 		this.domain = domain;
 		this.body = body;
+	}
+
+	public static FunctionParameterIdentification make(Identifier parameter, ParameterIdentification domain, ParameterIdentification body)
+	{
+		if (parameter == null && domain == null && body == null)
+			return null;
+		return new FunctionParameterIdentification(parameter, domain, body);
 	}
 
 	public Identifier getParameter()

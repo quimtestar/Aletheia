@@ -2464,8 +2464,7 @@ public class Context extends Statement
 		while (!stack.isEmpty())
 		{
 			StackEntry se = stack.pop();
-			if (se.parameter != null || se.domain != null || parameterIdentification != null)
-				parameterIdentification = new FunctionParameterIdentification(se.parameter, se.domain, parameterIdentification);
+			parameterIdentification = FunctionParameterIdentification.make(se.parameter, se.domain, parameterIdentification);
 		}
 		return parameterIdentification;
 	}

@@ -66,8 +66,7 @@ public class ParameterIdentificationParser extends Parser
 				{
 					parameter = parameterWithType.getParameter();
 					domain = parameterWithType.getDomain();
-					if (parameter != null || domain != null || body != null)
-						body = new FunctionParameterIdentification(parameter, domain, body);
+					body = FunctionParameterIdentification.make(parameter, domain, body);
 				}
 			}
 			return (FunctionParameterIdentification) body;
