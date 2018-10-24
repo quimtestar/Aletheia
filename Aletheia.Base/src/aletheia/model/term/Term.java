@@ -42,6 +42,8 @@ import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 import aletheia.model.term.UnprojectedCastTypeTerm.UnprojectedCastTypeException;
 import aletheia.persistence.Transaction;
 import aletheia.protocol.Exportable;
+import aletheia.utilities.collections.Bijection;
+import aletheia.utilities.collections.BijectionMap;
 import aletheia.utilities.collections.BijectionSet;
 import aletheia.utilities.collections.CastBijection;
 import aletheia.utilities.collections.ReverseList;
@@ -1324,6 +1326,25 @@ public abstract class Term implements Serializable, Exportable
 	protected void populateDomainParameterIdentificationMap(ParameterIdentification parameterIdentification,
 			Map<ParameterVariableTerm, DomainParameterIdentification> domainParameterIdentificationMap)
 	{
+	}
+
+	public final Map<ParameterVariableTerm, Identifier> parameterIdentifierMap(ParameterIdentification parameterIdentification)
+	{
+		return new BijectionMap<>(new Bijection<DomainParameterIdentification, Identifier>()
+		{
+
+			@Override
+			public Identifier forward(DomainParameterIdentification input)
+			{
+				return input == null ? null : input.getParameter();
+			}
+
+			@Override
+			public DomainParameterIdentification backward(Identifier output)
+			{
+				throw new UnsupportedOperationException();
+			}
+		}, domainParameterIdentificationMap(parameterIdentification));
 	}
 
 	public final Collection<SimpleTerm> findSimpleTermByAtom(AtomicTerm atom)

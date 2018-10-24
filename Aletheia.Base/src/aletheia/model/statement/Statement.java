@@ -69,6 +69,7 @@ import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.SimpleTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.ComposeTypeException;
+import aletheia.model.term.Term.DomainParameterIdentification;
 import aletheia.model.term.Term.ReplaceTypeException;
 import aletheia.model.term.Term.UnprojectTypeException;
 import aletheia.model.term.VariableTerm;
@@ -2226,7 +2227,7 @@ public abstract class Statement implements Exportable
 
 	}
 
-	protected void checkTermParameterIdentification(Transaction transaction)
+	public void checkTermParameterIdentification(Transaction transaction)
 	{
 		checkTermParameterIdentificationUuids(transaction, Collections.singleton(getUuid()));
 	}
@@ -2248,6 +2249,16 @@ public abstract class Statement implements Exportable
 				throw new UnsupportedOperationException();
 			}
 		}, statements));
+	}
+
+	protected Map<ParameterVariableTerm, DomainParameterIdentification> domainParameterIdentificationMap()
+	{
+		return getTerm().domainParameterIdentificationMap(getTermParameterIdentification());
+	}
+
+	protected Map<ParameterVariableTerm, Identifier> parameterIdentifierMap()
+	{
+		return getTerm().parameterIdentifierMap(getTermParameterIdentification());
 	}
 
 }
