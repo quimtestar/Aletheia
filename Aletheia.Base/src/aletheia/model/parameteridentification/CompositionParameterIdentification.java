@@ -19,6 +19,8 @@
  ******************************************************************************/
 package aletheia.model.parameteridentification;
 
+import aletheia.model.identifier.Identifier;
+
 public class CompositionParameterIdentification extends ParameterIdentification
 {
 	private final CompositionParameterIdentification head;
@@ -101,6 +103,12 @@ public class CompositionParameterIdentification extends ParameterIdentification
 		else if (!tail.equals(other.tail))
 			return false;
 		return true;
+	}
+
+	@Override
+	protected CompositionParameterIdentification clearIdentifier(Identifier identifier)
+	{
+		return make(head == null ? null : head.clearIdentifier(identifier), tail == null ? null : tail.clearIdentifier(identifier));
 	}
 
 }

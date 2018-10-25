@@ -20,6 +20,8 @@
 package aletheia.model.parameteridentification;
 
 import java.io.StringReader;
+
+import aletheia.model.identifier.Identifier;
 import aletheia.parser.parameteridentification.ParameterIdentificationParser;
 import aletheia.parsergenerator.ParserBaseException;
 import aletheia.protocol.Exportable;
@@ -48,5 +50,7 @@ public abstract class ParameterIdentification implements Exportable
 			return false;
 		return true;
 	}
+
+	protected abstract ParameterIdentification clearIdentifier(Identifier identifier);
 
 }

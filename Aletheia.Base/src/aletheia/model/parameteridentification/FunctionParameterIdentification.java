@@ -38,7 +38,7 @@ public class FunctionParameterIdentification extends ParameterIdentification
 	{
 		if (parameter == null && domain == null && body == null)
 			return null;
-		return new FunctionParameterIdentification(parameter, domain, body);
+		return new FunctionParameterIdentification(parameter, domain, body == null ? null : body.clearIdentifier(parameter));
 	}
 
 	public Identifier getParameter()
@@ -124,6 +124,12 @@ public class FunctionParameterIdentification extends ParameterIdentification
 		else if (!parameter.equals(other.parameter))
 			return false;
 		return true;
+	}
+
+	@Override
+	protected ParameterIdentification clearIdentifier(Identifier identifier)
+	{
+		return make((parameter == null || parameter.equals(identifier)) ? null : parameter, domain == null ? null : domain.clearIdentifier(identifier), body);
 	}
 
 }
