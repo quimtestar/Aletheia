@@ -20,6 +20,7 @@
 package aletheia.model.statement;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
@@ -28,12 +29,14 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.parameteridentification.FunctionParameterIdentification;
 import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.IdentifiableVariableTerm;
+import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.TypeException;
 import aletheia.model.term.VariableTerm;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.entities.statement.SpecializationEntity;
+import aletheia.utilities.collections.CombinedMap;
 
 /**
  * <p>
@@ -553,9 +556,16 @@ public class Specialization extends Statement
 	@Override
 	protected ParameterIdentification calcTermParameterIdentification(Transaction transaction)
 	{
-		ParameterIdentification general = getGeneral(transaction).getTermParameterIdentification();
-		if (general instanceof FunctionParameterIdentification)
-			return ((FunctionParameterIdentification) general).getBody();
+		Statement general = getGeneral(transaction);
+		ParameterIdentification generalParameterIdentification = general.getTermParameterIdentification();
+		if (generalParameterIdentification instanceof FunctionParameterIdentification)
+		{
+			ParameterIdentification baseParameterIdentification = ((FunctionParameterIdentification) generalParameterIdentification).getBody();
+			Map<ParameterVariableTerm, Identifier> baseMap = getTerm().parameterIdentifierMap(baseParameterIdentification);
+			Map<ParameterVariableTerm, Identifier> instanceMap = getInstance().parameterIdentifierMap(getInstanceParameterIdentification());
+			ParameterIdentification parameterIdentification = getTerm().makeParameterIdentification(new CombinedMap<>(baseMap, instanceMap));
+			return parameterIdentification;
+		}
 		else
 			return null;
 	}
