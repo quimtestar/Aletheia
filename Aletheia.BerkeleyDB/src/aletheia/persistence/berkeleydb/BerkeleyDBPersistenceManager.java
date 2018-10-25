@@ -108,6 +108,7 @@ import aletheia.persistence.berkeleydb.collections.statement.BerkeleyDBLocalStat
 import aletheia.persistence.berkeleydb.collections.statement.BerkeleyDBRootContextToIdentifier;
 import aletheia.persistence.berkeleydb.collections.statement.BerkeleyDBRootContextsMap;
 import aletheia.persistence.berkeleydb.collections.statement.BerkeleyDBSortedRootContexts;
+import aletheia.persistence.berkeleydb.collections.statement.BerkeleyDBSpecializationsByGeneral;
 import aletheia.persistence.berkeleydb.collections.statement.BerkeleyDBStatementsMap;
 import aletheia.persistence.berkeleydb.collections.statement.BerkeleyDBSubContextsSet;
 import aletheia.persistence.berkeleydb.collections.statement.BerkeleyDBUnfoldingContextsByDeclaration;
@@ -188,6 +189,7 @@ import aletheia.persistence.collections.peertopeer.NodeDeferredMessagesByNodeMap
 import aletheia.persistence.collections.peertopeer.NodeDeferredMessagesByRecipientCollection;
 import aletheia.persistence.collections.peertopeer.NodeDeferredMessagesMap;
 import aletheia.persistence.collections.statement.RootContextToIdentifier;
+import aletheia.persistence.collections.statement.SpecializationsByGeneral;
 import aletheia.persistence.entities.authority.DelegateAuthorizerEntity;
 import aletheia.persistence.entities.authority.DelegateTreeNodeEntity;
 import aletheia.persistence.entities.authority.DelegateTreeRootNodeEntity;
@@ -865,6 +867,12 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 	public BerkeleyDBUnfoldingContextsByDeclaration unfoldingContextsByDeclaration(Transaction transaction, Declaration declaration)
 	{
 		return new BerkeleyDBUnfoldingContextsByDeclaration(this, (BerkeleyDBTransaction) transaction, declaration);
+	}
+
+	@Override
+	public SpecializationsByGeneral specializationsByGeneral(Transaction transaction, Statement general)
+	{
+		return new BerkeleyDBSpecializationsByGeneral(this, (BerkeleyDBTransaction) transaction, general);
 	}
 
 	@Override

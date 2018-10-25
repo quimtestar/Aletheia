@@ -77,6 +77,7 @@ import aletheia.persistence.PersistenceListener;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.collections.statement.DependentsSet;
+import aletheia.persistence.collections.statement.SpecializationsByGeneral;
 import aletheia.persistence.entities.statement.StatementEntity;
 import aletheia.protocol.Exportable;
 import aletheia.utilities.aborter.Aborter;
@@ -2185,6 +2186,11 @@ public abstract class Statement implements Exportable
 		};
 	}
 
+	public SpecializationsByGeneral specializations(Transaction transaction)
+	{
+		return getPersistenceManager().specializationsByGeneral(transaction, this);
+	}
+
 	protected ParameterIdentification calcTermParameterIdentification(Transaction transaction)
 	{
 		return null;
@@ -2207,21 +2213,23 @@ public abstract class Statement implements Exportable
 					|| (oldTermParameterIdentification != null && !oldTermParameterIdentification.equals(newTermParameterIdentification)))
 			{
 				st.setTermParameterIdentification(transaction, newTermParameterIdentification);
-				stack.addAll(new BijectionCollection<>(new Bijection<Statement, UUID>()
+				if (st instanceof Assumption)
+					stack.push(st.getContextUuid());
+				stack.addAll(new BijectionCollection<>(new Bijection<Specialization, UUID>()
 				{
 
 					@Override
-					public UUID forward(Statement statement)
+					public UUID forward(Specialization specialization)
 					{
-						return statement.getUuid();
+						return specialization.getUuid();
 					}
 
 					@Override
-					public Statement backward(UUID uuid)
+					public Specialization backward(UUID uuid)
 					{
 						throw new UnsupportedOperationException();
 					}
-				}, st.dependents(transaction)));
+				}, st.specializations(transaction)));
 			}
 		}
 

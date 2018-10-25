@@ -119,6 +119,7 @@ import aletheia.persistence.collections.statement.LocalStatementsMap;
 import aletheia.persistence.collections.statement.RootContextToIdentifier;
 import aletheia.persistence.collections.statement.RootContextsMap;
 import aletheia.persistence.collections.statement.SortedRootContexts;
+import aletheia.persistence.collections.statement.SpecializationsByGeneral;
 import aletheia.persistence.collections.statement.StatementsMap;
 import aletheia.persistence.collections.statement.SubContextsSet;
 import aletheia.persistence.collections.statement.UnfoldingContextsByDeclaration;
@@ -595,6 +596,8 @@ public abstract class PersistenceManager implements AutoCloseable
 	 * @see UnfoldingContextsByDeclaration
 	 */
 	public abstract UnfoldingContextsByDeclaration unfoldingContextsByDeclaration(Transaction transaction, Declaration declaration);
+
+	public abstract SpecializationsByGeneral specializationsByGeneral(Transaction transaction, Statement general);
 
 	public abstract LocalSortedStatements localSortedStatements(Transaction transaction, Context context);
 

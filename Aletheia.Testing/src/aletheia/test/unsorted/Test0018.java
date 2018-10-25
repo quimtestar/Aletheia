@@ -24,9 +24,9 @@ import aletheia.model.statement.Declaration;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
-import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
+import aletheia.test.BerkeleyDBPersistenceManagerTest;
 
-public class Test0018 extends TransactionalBerkeleyDBPersistenceManagerTest
+public class Test0018 extends BerkeleyDBPersistenceManagerTest
 {
 
 	public Test0018()
@@ -35,18 +35,28 @@ public class Test0018 extends TransactionalBerkeleyDBPersistenceManagerTest
 	}
 
 	@Override
-	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws Exception
+	protected void run(BerkeleyDBPersistenceManager persistenceManager) throws Exception
 	{
-		for (Statement st : persistenceManager.statements(transaction).values())
+		try (Transaction transaction = persistenceManager.beginDirtyTransaction())
 		{
-			if (st instanceof Declaration)
+			for (Statement st : persistenceManager.statements(transaction).values())
 			{
-				Declaration dec = (Declaration) st;
-				ParameterIdentification pi = dec.inferValueParameterIdentification(transaction);
-				System.out.println(dec.label() + ": " + pi + ": " + dec.getValue().toString(transaction, dec.getContext(transaction), pi));
-				dec.updateValueParameterIdentification(transaction, pi);
+				try (Transaction transaction2 = persistenceManager.beginTransaction())
+				{
+					System.out.print(st.getUuid() + ": ");
+					if (st instanceof Declaration)
+					{
+						Declaration dec = (Declaration) st;
+						ParameterIdentification pi = dec.inferValueParameterIdentification(transaction2);
+						System.out.println(dec.label() + ": " + pi + ": " + dec.getValue().toString(transaction2, dec.getContext(transaction2), pi));
+						dec.updateValueParameterIdentification(transaction2, pi);
+					}
+					else
+						System.out.println();
+					st.checkTermParameterIdentification(transaction2);
+					transaction2.commit();
+				}
 			}
-			st.checkTermParameterIdentification(transaction);
 		}
 	}
 

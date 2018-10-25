@@ -340,6 +340,12 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 				BerkeleyDBUnfoldingContextEntity.uuidKeyDeclaration_FieldName);
 	}
 
+	public SecondaryIndex<UUIDKey, UUIDKey, BerkeleyDBSpecializationEntity> specializationEntityGeneralSecondaryIndex() throws DatabaseException
+	{
+		return getSubclassIndex(statementEntityPrimaryIndex(), BerkeleyDBSpecializationEntity.class, UUIDKey.class,
+				BerkeleyDBSpecializationEntity.uuidKeyGeneral_FieldName);
+	}
+
 	public PrimaryIndex<UUIDKey, BerkeleyDBSignatoryEntity> signatoryEntityPrimaryIndex() throws DatabaseException
 	{
 		return getPrimaryIndex(UUIDKey.class, BerkeleyDBSignatoryEntity.class);
