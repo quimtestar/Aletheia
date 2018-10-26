@@ -52,7 +52,7 @@ public class CompositionParameterIdentification extends ParameterIdentification
 	@Override
 	public String toString()
 	{
-		String sHead = head == null ? "" : head.toString();
+		String sHead = head == null ? "()" : head.toString();
 		boolean parentheses = tail == null || (tail instanceof CompositionParameterIdentification);
 		String sTail = tail == null ? "" : tail.toString();
 		boolean space = !sHead.isEmpty() && (parentheses || !sTail.isEmpty());

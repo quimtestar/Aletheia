@@ -23,8 +23,11 @@ T;
 T -> Ts;
 T -> ;
 
-Ts -> T F;
-Ts -> T openpar T closepar;										 
+Ts -> Ts Tk;
+Ts -> Tk;
+
+Tk -> F;
+Tk -> openpar T closepar;										 
 
 F -> openfun M arrow Ts closefun;
 F -> openfun M closefun;

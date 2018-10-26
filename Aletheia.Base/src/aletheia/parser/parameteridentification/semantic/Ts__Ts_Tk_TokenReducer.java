@@ -32,21 +32,22 @@ import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
 
 @AssociatedProduction(left = "Ts", right =
-{ "T", "openpar", "T", "closepar" })
-public class Ts__T_openpar_T_closepar_TokenReducer extends ProductionTokenPayloadReducer<ParameterIdentification>
+{ "Ts", "Tk" })
+public class Ts__Ts_Tk_TokenReducer extends ProductionTokenPayloadReducer<CompositionParameterIdentification>
 {
 
 	@Override
-	public ParameterIdentification reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production,
+	public CompositionParameterIdentification reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production,
 			List<Token<? extends Symbol>> reducees) throws SemanticException
 	{
 		ParameterIdentification head = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
-		ParameterIdentification tail = NonTerminalToken.getPayloadFromTokenList(reducees, 2);
-		if (head instanceof CompositionParameterIdentification || head == null)
-			return CompositionParameterIdentification.make((CompositionParameterIdentification) head, tail);
+		ParameterIdentification tail = NonTerminalToken.getPayloadFromTokenList(reducees, 1);
+		CompositionParameterIdentification head_;
+		if (head == null || head instanceof CompositionParameterIdentification)
+			head_ = (CompositionParameterIdentification) head;
 		else
-			return CompositionParameterIdentification.make(null,
-					CompositionParameterIdentification.make(CompositionParameterIdentification.make(null, head), tail));
+			head_ = CompositionParameterIdentification.make(null, head);
+		return CompositionParameterIdentification.make(head_, tail);
 	}
 
 }

@@ -39,9 +39,11 @@ import aletheia.parser.parameteridentification.semantic.P__I_colon_T_TokenReduce
 import aletheia.parser.parameteridentification.semantic.P___TokenReducer;
 import aletheia.parser.parameteridentification.semantic.P__colon_T_TokenReducer;
 import aletheia.parser.parameteridentification.semantic.T__Ts_TokenReducer;
-import aletheia.parser.parameteridentification.semantic.Ts__T_F_TokenReducer;
-import aletheia.parser.parameteridentification.semantic.Ts__T_openpar_T_closepar_TokenReducer;
+import aletheia.parser.parameteridentification.semantic.Ts__Tk_TokenReducer;
+import aletheia.parser.parameteridentification.semantic.Ts__Ts_Tk_TokenReducer;
 import aletheia.parser.parameteridentification.semantic.T___TokenReducer;
+import aletheia.parser.parameteridentification.semantic.Tk__F_TokenReducer;
+import aletheia.parser.parameteridentification.semantic.Tk__openpar_T_closepar_TokenReducer;
 import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.lexer.AutomatonSet;
 import aletheia.parsergenerator.lexer.AutomatonSetLexer;
@@ -80,9 +82,12 @@ public class ParameterIdentificationParser extends Parser
 					T__Ts_TokenReducer.class,
 					T___TokenReducer.class,
 					
-					Ts__T_F_TokenReducer.class,
-					Ts__T_openpar_T_closepar_TokenReducer.class,
-
+					Ts__Ts_Tk_TokenReducer.class,
+					Ts__Tk_TokenReducer.class,
+					
+					Tk__F_TokenReducer.class,
+					Tk__openpar_T_closepar_TokenReducer.class,
+					
 					F__openfun_M_arrow_Ts_closefun_TokenReducer.class,
 					F__openfun_M_closefun_TokenReducer.class,
 					
