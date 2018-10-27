@@ -26,7 +26,7 @@ import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager.Configuratio
 
 public abstract class BerkeleyDBPersistenceManagerTest extends PersistenceManagerTest<BerkeleyDBPersistenceManager>
 {
-	public BerkeleyDBPersistenceManagerTest(boolean readOnly)
+	public BerkeleyDBPersistenceManagerTest()
 	{
 		super(new Configuration());
 		File dbFile = TestingAletheiaPreferences.instance.getDbFile();
@@ -34,12 +34,6 @@ public abstract class BerkeleyDBPersistenceManagerTest extends PersistenceManage
 			throw new RuntimeException("No db file configured");
 		getConfiguration().setDbFile(dbFile);
 		getConfiguration().setCachePercent(TestingAletheiaPreferences.instance.getCachePercent());
-		getConfiguration().setReadOnly(readOnly);
-	}
-
-	public BerkeleyDBPersistenceManagerTest()
-	{
-		this(true);
 	}
 
 	@Override
@@ -51,6 +45,11 @@ public abstract class BerkeleyDBPersistenceManagerTest extends PersistenceManage
 	public boolean isReadOnly()
 	{
 		return getConfiguration().isReadOnly();
+	}
+
+	public void setReadOnly(boolean readOnly)
+	{
+		getConfiguration().setReadOnly(readOnly);
 	}
 
 	@Override

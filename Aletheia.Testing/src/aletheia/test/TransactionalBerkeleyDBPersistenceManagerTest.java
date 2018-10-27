@@ -24,11 +24,6 @@ import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 
 public abstract class TransactionalBerkeleyDBPersistenceManagerTest extends BerkeleyDBPersistenceManagerTest
 {
-	public TransactionalBerkeleyDBPersistenceManagerTest(boolean readOnly)
-	{
-		super(readOnly);
-	}
-
 	public TransactionalBerkeleyDBPersistenceManagerTest()
 	{
 		super();

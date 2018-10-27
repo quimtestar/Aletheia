@@ -19,36 +19,60 @@
  ******************************************************************************/
 package aletheia.test.unsorted;
 
-import aletheia.model.statement.Declaration;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import aletheia.model.statement.Statement;
+import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
+import aletheia.protocol.ProtocolException;
 import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
-import aletheia.utilities.collections.Filter;
-import aletheia.utilities.collections.FilteredCollection;
+import aletheia.utilities.collections.AdaptedCollection;
 
-public class Test0019 extends TransactionalBerkeleyDBPersistenceManagerTest
+public class Test0022 extends TransactionalBerkeleyDBPersistenceManagerTest
 {
 
-	public Test0019()
+	public Test0022()
 	{
 		super();
-		setReadOnly(false);
+		setReadOnly(true);
+		setDebug(true);
 	}
 
 	@Override
 	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws Exception
 	{
-		Statement.checkTermParameterIdentifications(transaction, new FilteredCollection<>(new Filter<Statement>()
+		PipedOutputStream pos = new PipedOutputStream();
+		PipedInputStream pis = new PipedInputStream(pos);
+		Thread importer = new Thread("Importer")
 		{
 
 			@Override
-			public boolean filter(Statement statement)
+			public void run()
 			{
-				return statement instanceof Declaration;
+				BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
+				configuration.setDbFile(new File("/mnt/vlb0/quim/Aletheia/aletheiadb_identified_parameters2_bis"));
+				configuration.setReadOnly(false);
+				try (PersistenceManager persistenceManager = new BerkeleyDBPersistenceManager(configuration))
+				{
+					persistenceManager.import_(new DataInputStream(pis));
+				}
+				catch (IOException | ProtocolException e)
+				{
+					throw new RuntimeException(e);
+				}
 			}
-
-		}, persistenceManager.statements(transaction).values()));
+		};
+		importer.start();
+		persistenceManager.export(new DataOutputStream(pos), transaction, new AdaptedCollection<Statement>(persistenceManager.sortedRootContexts(transaction)),
+				true, false);
+		pos.close();
+		importer.join();
+		pis.close();
 	}
 
 }

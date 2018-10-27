@@ -37,6 +37,11 @@ public abstract class PersistenceManagerTest<P extends PersistenceManager> exten
 		return configuration;
 	}
 
+	public void setDebug(boolean debug)
+	{
+		getConfiguration().setDebug(debug);
+	}
+
 	@Override
 	public final void run() throws Exception
 	{

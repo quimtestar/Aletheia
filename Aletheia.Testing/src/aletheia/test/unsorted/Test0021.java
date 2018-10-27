@@ -25,21 +25,20 @@ import java.util.UUID;
 
 import aletheia.gui.app.AletheiaCliConsole;
 import aletheia.gui.cli.command.TransactionalCommand;
-import aletheia.gui.cli.command.authority.Auth;
-import aletheia.gui.cli.command.authority.AuthRec;
 import aletheia.gui.cli.command.authority.Sign;
 import aletheia.gui.cli.command.authority.SignRec;
 import aletheia.model.authority.PrivatePerson;
+import aletheia.model.authority.StatementAuthority;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
 
-public class Test0012 extends TransactionalBerkeleyDBPersistenceManagerTest
+public class Test0021 extends TransactionalBerkeleyDBPersistenceManagerTest
 {
 
-	public Test0012()
+	public Test0021()
 	{
 		super();
 		setReadOnly(false);
@@ -76,17 +75,15 @@ public class Test0012 extends TransactionalBerkeleyDBPersistenceManagerTest
 		Context choiceCtx = persistenceManager.getContext(transaction, UUID.fromString("42cc8199-8159-5567-b65c-db023f95eaa3"));
 		for (Statement statement : choiceCtx.statements(transaction).values())
 		{
-			if (!statement.isValidSignature(transaction))
+			StatementAuthority stAuth = statement.getAuthority(transaction);
+			if (stAuth != null && !stAuth.isValidSignature())
 			{
 				if (statement instanceof Context)
 				{
 					Context context = (Context) statement;
-					runTransactionalCommand(new AuthRec(AletheiaCliConsole.cliConsole(persistenceManager), transaction, quimtestar, context));
 					runTransactionalCommand(new SignRec(AletheiaCliConsole.cliConsole(persistenceManager), transaction, context,
 							context.getAuthority(transaction), quimtestar));
 				}
-				else
-					runTransactionalCommand(new Auth(AletheiaCliConsole.cliConsole(persistenceManager), transaction, quimtestar, statement));
 				runTransactionalCommand(
 						new Sign(AletheiaCliConsole.cliConsole(persistenceManager), transaction, statement, statement.getAuthority(transaction), quimtestar));
 			}

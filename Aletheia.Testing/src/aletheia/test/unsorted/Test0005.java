@@ -43,7 +43,8 @@ public class Test0005 extends TransactionalBerkeleyDBPersistenceManagerTest
 
 	public Test0005()
 	{
-		super(false);
+		super();
+		setReadOnly(false);
 	}
 
 	@Override

@@ -31,7 +31,8 @@ public class Test0018 extends BerkeleyDBPersistenceManagerTest
 
 	public Test0018()
 	{
-		super(false);
+		super();
+		setReadOnly(false);
 	}
 
 	@Override

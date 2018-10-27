@@ -33,7 +33,8 @@ public class Test0020 extends TransactionalBerkeleyDBPersistenceManagerTest
 
 	public Test0020()
 	{
-		super(false);
+		super();
+		setReadOnly(false);
 	}
 
 	@Override
