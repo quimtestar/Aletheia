@@ -56,6 +56,7 @@ import aletheia.protocol.primitive.NullableProtocol;
 import aletheia.protocol.statement.StatementProtocol;
 import aletheia.utilities.aborter.Aborter.AbortException;
 import aletheia.utilities.aborter.ListenableAborter;
+import aletheia.utilities.collections.BufferedList;
 
 class ExportImport
 {
@@ -202,7 +203,7 @@ class ExportImport
 
 	private boolean isDescendent(Transaction transaction, Collection<Statement> statements, Statement d)
 	{
-		for (Statement s : statements)
+		for (Statement s : new BufferedList<>(statements))
 			if (s instanceof Context)
 				if (((Context) s).isDescendent(transaction, d))
 					return true;
