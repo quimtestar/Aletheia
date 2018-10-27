@@ -314,62 +314,6 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		integerProtocol.skip(in);
 	}
 
-	private void sendContext(DataOutput out, Context context) throws IOException
-	{
-		termProtocol.send(out, context.getTerm());
-		parameterIdentificationProtocol.send(out, context.getConsequentParameterIdentification());
-	}
-
-	private Context recvContext(DataInput in, Context context, Statement old, UUID uuid) throws IOException, ProtocolException
-	{
-		if (context == null)
-		{
-			skipContext(in);
-			return null;
-		}
-		Term term = termProtocol.recv(in);
-		ParameterIdentification consequentParameterIdentification = parameterIdentificationProtocol.recv(in);
-		Context ctx;
-		if (old == null)
-		{
-			try
-			{
-				ctx = context.openSubContext(getTransaction(), uuid, term);
-			}
-			catch (StatementException e)
-			{
-				throw new ProtocolException(e);
-			}
-			finally
-			{
-
-			}
-		}
-		else
-		{
-			if (!(old instanceof Context))
-				throw new ProtocolException();
-			ctx = (Context) old;
-			if (!ctx.getTerm().equals(term))
-				throw new ProtocolException();
-		}
-		try
-		{
-			ctx.updateConsequentParameterIdentification(getTransaction(), consequentParameterIdentification);
-		}
-		catch (SignatureIsValidException e)
-		{
-			throw new ProtocolException(e);
-		}
-		return ctx;
-	}
-
-	private void skipContext(DataInput in) throws IOException, ProtocolException
-	{
-		termProtocol.skip(in);
-		parameterIdentificationProtocol.skip(in);
-	}
-
 	private void sendDeclaration(DataOutput out, Declaration declaration) throws IOException
 	{
 		termProtocol.send(out, declaration.getValue());
@@ -498,9 +442,62 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		uuidProtocol.skip(in);
 	}
 
+	private void sendContext(DataOutput out, Context context) throws IOException
+	{
+		termProtocol.send(out, context.getTerm());
+		parameterIdentificationProtocol.send(out, context.getConsequentParameterIdentification());
+	}
+
+	private Context recvContext(DataInput in, Context context, Statement old, UUID uuid) throws IOException, ProtocolException
+	{
+		if (context == null)
+		{
+			skipContext(in);
+			return null;
+		}
+		Term term = termProtocol.recv(in);
+		ParameterIdentification consequentParameterIdentification = parameterIdentificationProtocol.recv(in);
+		Context ctx;
+		if (old == null)
+		{
+			try
+			{
+				ctx = context.openSubContext(getTransaction(), uuid, term);
+			}
+			catch (StatementException e)
+			{
+				throw new ProtocolException(e);
+			}
+		}
+		else
+		{
+			if (!(old instanceof Context))
+				throw new ProtocolException();
+			ctx = (Context) old;
+			if (!ctx.getTerm().equals(term))
+				throw new ProtocolException();
+		}
+		try
+		{
+			ctx.updateConsequentParameterIdentification(getTransaction(), consequentParameterIdentification);
+		}
+		catch (SignatureIsValidException e)
+		{
+			throw new ProtocolException(e);
+		}
+		return ctx;
+	}
+
+	private void skipContext(DataInput in) throws IOException, ProtocolException
+	{
+		termProtocol.skip(in);
+		parameterIdentificationProtocol.skip(in);
+	}
+
 	private void sendUnfoldingContext(DataOutput out, UnfoldingContext unfoldingContext) throws IOException
 	{
-		sendContext(out, unfoldingContext);
+		termProtocol.send(out, unfoldingContext.getTerm());
+		parameterIdentificationProtocol.send(out, unfoldingContext.getConsequentParameterIdentification());
 		uuidProtocol.send(out, unfoldingContext.getDeclarationUuid());
 	}
 
@@ -512,6 +509,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 			return null;
 		}
 		Term term = termProtocol.recv(in);
+		ParameterIdentification consequentParameterIdentification = parameterIdentificationProtocol.recv(in);
 		UUID uuidDeclaration = uuidProtocol.recv(in);
 		Declaration declaration;
 		try
@@ -524,57 +522,59 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		{
 			throw new ProtocolException(e);
 		}
+		UnfoldingContext unf;
 		if (old == null)
 		{
-			Context ctx;
 			try
 			{
-				ctx = context.openUnfoldingSubContext(getTransaction(), uuid, term, declaration);
+				unf = context.openUnfoldingSubContext(getTransaction(), uuid, term, declaration);
 			}
 			catch (StatementException e)
 			{
 				throw new ProtocolException(e);
 			}
-			finally
-			{
-
-			}
-			return ctx;
 		}
 		else
 		{
 			if (!(old instanceof UnfoldingContext))
 				throw new ProtocolException();
-			UnfoldingContext ctx = (UnfoldingContext) old;
-			if (!ctx.getTerm().equals(term))
+			unf = (UnfoldingContext) old;
+			if (!unf.getTerm().equals(term))
 				throw new ProtocolException();
-			if (!ctx.getDeclaration(getTransaction()).equals(declaration))
+			if (!unf.getDeclaration(getTransaction()).equals(declaration))
 				throw new ProtocolException();
-			return ctx;
-
 		}
+		try
+		{
+			unf.updateConsequentParameterIdentification(getTransaction(), consequentParameterIdentification);
+		}
+		catch (SignatureIsValidException e)
+		{
+			throw new ProtocolException(e);
+		}
+		return unf;
 	}
 
 	private void skipUnfoldingContext(DataInput in) throws IOException, ProtocolException
 	{
 		termProtocol.skip(in);
-		int numAssumptions = in.readInt();
-		for (int i = 0; i < numAssumptions; i++)
-			uuidProtocol.skip(in);
+		parameterIdentificationProtocol.skip(in);
 		uuidProtocol.skip(in);
 	}
 
 	private void sendRootContext(DataOutput out, RootContext rootContext) throws IOException
 	{
-		sendContext(out, rootContext);
+		termProtocol.send(out, rootContext.getTerm());
+		parameterIdentificationProtocol.send(out, rootContext.getConsequentParameterIdentification());
 	}
 
 	private RootContext recvRootContext(DataInput in, Statement old, UUID uuid) throws IOException, ProtocolException
 	{
 		Term term = termProtocol.recv(in);
+		ParameterIdentification consequentParameterIdentification = parameterIdentificationProtocol.recv(in);
+		RootContext rootCtx;
 		if (old == null)
 		{
-			RootContext rootCtx;
 			try
 			{
 				rootCtx = RootContext.create(getPersistenceManager(), getTransaction(), uuid, term);
@@ -583,30 +583,30 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 			{
 				throw new ProtocolException(e);
 			}
-			finally
-			{
-
-			}
-			return rootCtx;
 		}
 		else
 		{
 			if (!(old instanceof RootContext))
 				throw new ProtocolException();
-			RootContext rootContext = (RootContext) old;
-			if (!rootContext.getTerm().equals(term))
+			rootCtx = (RootContext) old;
+			if (!rootCtx.getTerm().equals(term))
 				throw new ProtocolException();
-			return rootContext;
-
 		}
+		try
+		{
+			rootCtx.updateConsequentParameterIdentification(getTransaction(), consequentParameterIdentification);
+		}
+		catch (SignatureIsValidException e)
+		{
+			throw new ProtocolException(e);
+		}
+		return rootCtx;
 	}
 
 	private void skipRootContext(DataInput in) throws IOException, ProtocolException
 	{
 		termProtocol.skip(in);
-		int numAssumptions = in.readInt();
-		for (int i = 0; i < numAssumptions; i++)
-			uuidProtocol.skip(in);
+		parameterIdentificationProtocol.skip(in);
 	}
 
 }
