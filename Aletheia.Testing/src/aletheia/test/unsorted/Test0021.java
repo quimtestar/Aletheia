@@ -27,6 +27,7 @@ import aletheia.gui.app.AletheiaCliConsole;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.gui.cli.command.authority.Sign;
 import aletheia.gui.cli.command.authority.SignRec;
+import aletheia.model.authority.ContextAuthority;
 import aletheia.model.authority.PrivatePerson;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.statement.Context;
@@ -73,19 +74,25 @@ public class Test0021 extends TransactionalBerkeleyDBPersistenceManagerTest
 		enterPassphrase(persistenceManager);
 		PrivatePerson quimtestar = persistenceManager.privatePersonsByNick(transaction).get("quimtestar");
 		Context choiceCtx = persistenceManager.getContext(transaction, UUID.fromString("42cc8199-8159-5567-b65c-db023f95eaa3"));
-		for (Statement statement : choiceCtx.statements(transaction).values())
+		for (Context ctx : choiceCtx.statementPath(transaction))
 		{
-			StatementAuthority stAuth = statement.getAuthority(transaction);
-			if (stAuth != null && !stAuth.isValidSignature())
+			for (Statement statement : ctx.localStatements(transaction).values())
 			{
-				if (statement instanceof Context)
+				StatementAuthority stAuth = statement.getAuthority(transaction);
+				if (stAuth != null && !stAuth.isValidSignature())
 				{
-					Context context = (Context) statement;
-					runTransactionalCommand(new SignRec(AletheiaCliConsole.cliConsole(persistenceManager), transaction, context,
-							context.getAuthority(transaction), quimtestar));
+					try (Transaction transaction2 = persistenceManager.beginTransaction())
+					{
+						if (statement instanceof Context)
+						{
+							Context context = (Context) statement;
+							runTransactionalCommand(new SignRec(AletheiaCliConsole.cliConsole(persistenceManager), transaction2, context,
+									(ContextAuthority) stAuth, quimtestar));
+						}
+						runTransactionalCommand(new Sign(AletheiaCliConsole.cliConsole(persistenceManager), transaction2, statement, stAuth, quimtestar));
+						transaction2.commit();
+					}
 				}
-				runTransactionalCommand(
-						new Sign(AletheiaCliConsole.cliConsole(persistenceManager), transaction, statement, statement.getAuthority(transaction), quimtestar));
 			}
 		}
 		System.out.println("done!");

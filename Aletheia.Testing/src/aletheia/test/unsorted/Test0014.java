@@ -19,7 +19,6 @@
  ******************************************************************************/
 package aletheia.test.unsorted;
 
-import aletheia.model.authority.DelegateAuthorizer;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.authority.StatementAuthoritySignature;
 import aletheia.persistence.Transaction;
@@ -53,19 +52,13 @@ public class Test0014 extends TransactionalBerkeleyDBPersistenceManagerTest
 				stAuth.getEntity().setSignedDependencies(false);
 				stAuth.getEntity().setSignedProof(false);
 				persistenceManager.putStatementAuthority(transaction1, stAuth);
+				stAuth.deleteDelegateTree(transaction1);
 				transaction1.commit();
 			}
 		}
 
 		StatementAuthority.checkSignedDependencies(transaction, persistenceManager.statementAuthoritySet(transaction));
 		StatementAuthority.checkSignedProof(transaction, persistenceManager.statementAuthoritySet(transaction));
-
-		for (DelegateAuthorizer da : persistenceManager.delegateAuthorizerByAuthorizerMap(transaction).values())
-		{
-			System.out.println(da);
-			da.clearRevokedSignatureUuid();
-			da.persistenceUpdate(transaction);
-		}
 
 		System.out.println("done!");
 	}
