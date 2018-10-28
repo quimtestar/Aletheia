@@ -21,6 +21,7 @@ package aletheia.gui.cli.command.authority;
 
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
+import aletheia.model.authority.ContextAuthority;
 import aletheia.model.authority.DelegateAuthorizer;
 import aletheia.model.authority.PrivatePerson;
 import aletheia.model.authority.PrivateSignatory;
@@ -34,9 +35,9 @@ import aletheia.persistence.Transaction;
 @TaggedCommand(tag = "signrec", groupPath = "/authority", factory = SignRec.Factory.class)
 public class SignRec extends Sign
 {
-	public SignRec(CommandSource from, Transaction transaction, Context context, StatementAuthority statementAuthority, PrivatePerson delegate)
+	public SignRec(CommandSource from, Transaction transaction, Context context, ContextAuthority contextAuthority, PrivatePerson delegate)
 	{
-		super(from, transaction, context, statementAuthority, delegate);
+		super(from, transaction, context, contextAuthority, delegate);
 	}
 
 	@Override
@@ -86,7 +87,7 @@ public class SignRec extends Sign
 		{
 			if (!(statement instanceof Context))
 				throw new CommandParseException("Not a context");
-			return new SignRec(from, transaction, (Context) statement, statementAuthority, delegate);
+			return new SignRec(from, transaction, (Context) statement, (ContextAuthority) statementAuthority, delegate);
 		}
 
 		@Override
