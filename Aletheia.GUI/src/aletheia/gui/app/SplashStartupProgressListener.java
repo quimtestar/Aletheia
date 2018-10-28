@@ -26,6 +26,7 @@ import java.awt.HeadlessException;
 import java.awt.SplashScreen;
 
 import aletheia.persistence.PersistenceManager.StartupProgressListener;
+import aletheia.version.VersionManager;
 
 public class SplashStartupProgressListener implements StartupProgressListener
 {
@@ -42,6 +43,8 @@ public class SplashStartupProgressListener implements StartupProgressListener
 			this.size = splashScreen.getSize();
 			graphics.setBackground(Color.white);
 			graphics.setColor(new Color(0x000054));
+			graphics.drawString("Version " + VersionManager.getVersion(), 12, 492);
+			splashScreen.update();
 		}
 		else
 		{
