@@ -35,7 +35,7 @@ public class BerkeleyDBPersistenceAletheiaPreferences extends PersistenceAlethei
 	private final static String CACHE_PERCENT = "cache_percent";
 
 	private final static boolean defaultReadOnly = false;
-	private final static int defaultCachePercent = 50;
+	private final static int defaultCachePercent = 25;
 
 	public BerkeleyDBPersistenceAletheiaPreferences(AletheiaPreferences parent)
 	{

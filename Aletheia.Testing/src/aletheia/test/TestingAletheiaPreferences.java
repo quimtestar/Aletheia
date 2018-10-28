@@ -33,7 +33,7 @@ public class TestingAletheiaPreferences extends NodeAletheiaPreferences
 	private final static String DB_FILE_NAME = "db_file_name";
 	private final static String CACHE_PERCENT = "cache_percent";
 
-	private final static int defaultCachePercent = 50;
+	private final static int defaultCachePercent = 25;
 
 	public final static TestingAletheiaPreferences instance = new TestingAletheiaPreferences();
 
