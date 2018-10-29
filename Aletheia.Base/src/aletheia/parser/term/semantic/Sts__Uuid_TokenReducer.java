@@ -50,7 +50,7 @@ public class Sts__Uuid_TokenReducer extends ProductionTokenPayloadReducer<Term>
 			throw new SemanticException(reducees.get(0), "Statement not found with UUID: " + uuid);
 		try
 		{
-			return dereferenceStatement(statement, referenceType);
+			return dereferenceStatement(statement, referenceType, globals.getParameterIdentifiers());
 		}
 		catch (DereferenceStatementException e)
 		{

@@ -233,23 +233,38 @@ public class TermParser extends Parser
 
 		}
 
-		protected Term dereferenceStatement(Statement statement, ReferenceType referenceType) throws DereferenceStatementException
+		protected Term dereferenceStatement(Statement statement, ReferenceType referenceType, Map<ParameterVariableTerm, Identifier> parameterIdentifiers)
+				throws DereferenceStatementException
 		{
 			switch (referenceType)
 			{
 			case TYPE:
+				if (parameterIdentifiers != null)
+					parameterIdentifiers.putAll(statement.getTerm().parameterIdentifierMap(statement.getTermParameterIdentification()));
 				return statement.getTerm();
 			case INSTANCE:
 			{
-				if (!(statement instanceof Specialization))
+				if (statement instanceof Specialization)
+				{
+					Specialization specialization = (Specialization) statement;
+					if (parameterIdentifiers != null)
+						parameterIdentifiers.putAll(specialization.getInstance().parameterIdentifierMap(specialization.getInstanceParameterIdentification()));
+					return specialization.getInstance();
+				}
+				else
 					throw new DereferenceStatementException("Cannot reference the instance of a non-specialization statement");
-				return ((Specialization) statement).getInstance();
 			}
 			case VALUE:
 			{
-				if (!(statement instanceof Declaration))
+				if (statement instanceof Declaration)
+				{
+					Declaration declaration = (Declaration) statement;
+					if (parameterIdentifiers != null)
+						parameterIdentifiers.putAll(declaration.getValue().parameterIdentifierMap(declaration.getValueParameterIdentification()));
+					return declaration.getValue();
+				}
+				else
 					throw new DereferenceStatementException("Cannot reference the value of a non-declaration statement");
-				return ((Declaration) statement).getValue();
 			}
 			default:
 				throw new Error();

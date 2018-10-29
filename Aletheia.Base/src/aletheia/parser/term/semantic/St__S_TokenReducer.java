@@ -46,7 +46,7 @@ public class St__S_TokenReducer extends ProductionTokenPayloadReducer<Term>
 		Statement statement = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
 		try
 		{
-			return dereferenceStatement(statement, referenceType);
+			return dereferenceStatement(statement, referenceType, globals.getParameterIdentifiers());
 		}
 		catch (DereferenceStatementException e)
 		{
