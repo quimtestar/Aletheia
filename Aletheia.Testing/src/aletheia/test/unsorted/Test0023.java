@@ -17,23 +17,37 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.test;
+package aletheia.test.unsorted;
 
-import aletheia.test.unsorted.*;
-import aletheia.utilities.MiscUtilities;
+import aletheia.model.statement.Statement;
+import aletheia.persistence.Transaction;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
+import aletheia.test.BerkeleyDBPersistenceManagerTest;
 
-public abstract class Test
+public class Test0023 extends BerkeleyDBPersistenceManagerTest
 {
-	static
+
+	public Test0023()
 	{
-		MiscUtilities.dummy();
+		super();
+		setReadOnly(false);
 	}
 
-	public abstract void run() throws Exception;
-
-	public static void main(String[] args) throws Exception
+	@Override
+	protected void run(BerkeleyDBPersistenceManager persistenceManager) throws Exception
 	{
-		new Test0023().run();
+		try (Transaction transaction = persistenceManager.beginDirtyTransaction())
+		{
+			for (Statement st : persistenceManager.statements(transaction).values())
+			{
+				try (Transaction transaction2 = persistenceManager.beginTransaction())
+				{
+					System.out.println(st.getUuid());
+					st.checkTermParameterIdentification(transaction2);
+					transaction2.commit();
+				}
+			}
+		}
 	}
 
 }
