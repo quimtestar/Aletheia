@@ -129,7 +129,10 @@ public class FunctionParameterIdentification extends ParameterIdentification
 	@Override
 	protected ParameterIdentification clearIdentifier(Identifier identifier)
 	{
-		return make((parameter == null || parameter.equals(identifier)) ? null : parameter, domain == null ? null : domain.clearIdentifier(identifier), body);
+		Identifier parameter_ = (parameter == null || parameter.equals(identifier)) ? null : parameter;
+		ParameterIdentification domain_ = domain == null ? null : domain.clearIdentifier(identifier);
+		ParameterIdentification body_ = (body == null || (parameter != null && parameter.equals(identifier))) ? body : body.clearIdentifier(identifier);
+		return make(parameter_, domain_, body_);
 	}
 
 }
