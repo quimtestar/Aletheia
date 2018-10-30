@@ -197,7 +197,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 				if (oldId != null)
 					try
 					{
-						statement.unidentify(getTransaction());
+						statement.unidentify(getTransaction(), true);
 					}
 					catch (SignatureIsValidNomenclatorException e)
 					{
@@ -210,8 +210,8 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 				{
 					Nomenclator nomenclator = statement.getParentNomenclator(getTransaction());
 					if (nomenclator.isLocalIdentifier(identifier))
-						nomenclator.unidentifyStatement(identifier);
-					statement.identify(getTransaction(), identifier);
+						nomenclator.unidentifyStatement(identifier, true);
+					statement.identify(getTransaction(), identifier, true);
 				}
 				catch (NomenclatorException e)
 				{
@@ -299,7 +299,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		}
 		try
 		{
-			assumption.updateTermParameterIdentification(getTransaction(), termParameterIdentification);
+			assumption.updateTermParameterIdentification(getTransaction(), termParameterIdentification, true);
 		}
 		catch (SignatureIsValidException e)
 		{
@@ -357,7 +357,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		}
 		try
 		{
-			declaration.updateValueParameterIdentification(getTransaction(), valueParameterIdentification);
+			declaration.updateValueParameterIdentification(getTransaction(), valueParameterIdentification, true);
 		}
 		catch (SignatureIsValidException e)
 		{
@@ -425,7 +425,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		}
 		try
 		{
-			specialization.updateInstanceParameterIdentification(getTransaction(), instanceParameterIdentification);
+			specialization.updateInstanceParameterIdentification(getTransaction(), instanceParameterIdentification, true);
 		}
 		catch (SignatureIsValidException e)
 		{
@@ -479,7 +479,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 		}
 		try
 		{
-			ctx.updateConsequentParameterIdentification(getTransaction(), consequentParameterIdentification);
+			ctx.updateConsequentParameterIdentification(getTransaction(), consequentParameterIdentification, true);
 		}
 		catch (SignatureIsValidException e)
 		{
