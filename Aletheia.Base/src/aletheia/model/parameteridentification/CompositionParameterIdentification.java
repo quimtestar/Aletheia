@@ -26,7 +26,7 @@ public class CompositionParameterIdentification extends ParameterIdentification
 	private final CompositionParameterIdentification head;
 	private final ParameterIdentification tail;
 
-	private CompositionParameterIdentification(CompositionParameterIdentification head, ParameterIdentification tail)
+	public CompositionParameterIdentification(CompositionParameterIdentification head, ParameterIdentification tail)
 	{
 		this.head = head;
 		this.tail = tail;

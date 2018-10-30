@@ -44,7 +44,7 @@ public class FunctionParameterIdentificationProxy extends ParameterIdentificatio
 	@Override
 	public FunctionParameterIdentification convertProxy()
 	{
-		return FunctionParameterIdentification.make(parameter, domain, body);
+		return new FunctionParameterIdentification(parameter, domain, body);
 	}
 
 }

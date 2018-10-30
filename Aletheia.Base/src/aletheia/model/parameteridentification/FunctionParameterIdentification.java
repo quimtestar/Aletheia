@@ -27,7 +27,7 @@ public class FunctionParameterIdentification extends ParameterIdentification
 	private final ParameterIdentification domain;
 	private final ParameterIdentification body;
 
-	private FunctionParameterIdentification(Identifier parameter, ParameterIdentification domain, ParameterIdentification body)
+	public FunctionParameterIdentification(Identifier parameter, ParameterIdentification domain, ParameterIdentification body)
 	{
 		this.parameter = parameter;
 		this.domain = domain;
