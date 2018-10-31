@@ -2191,10 +2191,7 @@ public abstract class Statement implements Exportable
 		return getPersistenceManager().specializationsByGeneral(transaction, this);
 	}
 
-	protected ParameterIdentification calcTermParameterIdentification(Transaction transaction)
-	{
-		return null;
-	}
+	protected abstract ParameterIdentification calcTermParameterIdentification(Transaction transaction);
 
 	private static void checkTermParameterIdentificationUuids(Transaction transaction, Collection<UUID> statementUuids)
 	{

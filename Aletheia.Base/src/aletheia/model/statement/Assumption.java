@@ -225,4 +225,10 @@ public class Assumption extends Statement
 		updateTermParameterIdentification(transaction, termParameterIdentification, false);
 	}
 
+	@Override
+	protected ParameterIdentification calcTermParameterIdentification(Transaction transaction)
+	{
+		return getTermParameterIdentification();
+	}
+
 }
