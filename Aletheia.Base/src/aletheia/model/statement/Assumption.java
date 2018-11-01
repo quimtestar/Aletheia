@@ -215,6 +215,8 @@ public class Assumption extends Statement
 			{
 				assumption.setTermParameterIdentification(transaction, termParameterIdentification, force);
 				assumption.getContext(transaction).checkTermParameterIdentification(transaction);
+				for (Specialization sp : assumption.specializations(transaction))
+					sp.checkTermParameterIdentification(transaction);
 			}
 		}
 
