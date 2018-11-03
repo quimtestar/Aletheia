@@ -29,7 +29,6 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.parser.term.TermParser.ParameterIdentifiedTerm;
-import aletheia.parsergenerator.ParserBaseException;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "strip", factory = NewStrip.Factory.class)
@@ -48,29 +47,18 @@ public class NewStrip extends NewAuto
 		public NewStrip parse(CommandSource from, Transaction transaction, Identifier identifier, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
-			try
+			Context ctx = from.getActiveContext();
+			if (ctx == null)
+				throw new CommandParseException(new NotActiveContextException());
+			Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, ctx, split.get(0));
+			if (statement == null)
+				throw new CommandParseException("Statement not found: " + split.get(0));
+			List<ParameterIdentifiedTerm> hints = new LinkedList<>();
+			for (String s : split.subList(1, split.size()))
 			{
-				Context ctx = from.getActiveContext();
-				if (ctx == null)
-					throw new NotActiveContextException();
-				Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, ctx, split.get(0));
-				if (statement == null)
-					throw new CommandParseException("Statement not found: " + split.get(0));
-				List<ParameterIdentifiedTerm> hints = new LinkedList<>();
-				for (String s : split.subList(1, split.size()))
-				{
-					hints.add(ctx.parseParameterIdentifiedTerm(transaction, s));
-				}
-				return new NewStrip(from, transaction, identifier, statement, hints);
+				hints.add(parseParameterIdentifiedTerm(ctx, transaction, s));
 			}
-			catch (NotActiveContextException | ParserBaseException e)
-			{
-				throw CommandParseEmbeddedException.embed(e);
-			}
-			finally
-			{
-
-			}
+			return new NewStrip(from, transaction, identifier, statement, hints);
 		}
 
 		@Override
