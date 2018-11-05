@@ -38,7 +38,6 @@ import aletheia.model.statement.Statement;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
-import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
 import aletheia.parser.term.TermParser.ParameterIdentifiedTerm;
@@ -249,9 +248,7 @@ public class NewAuto extends NewStatement
 				st_ = context.specialize(getTransaction(), statement, instanceProof.getVariable(), instanceProof);
 			st_.updateInstanceParameterIdentification(getTransaction(), pi);
 			statement = st_;
-			term = body;
-			if (term instanceof ProjectionTerm)
-				term = ((ProjectionTerm) term).getFunction();
+			term = body.unproject();
 		}
 		if (statement == general)
 			throw new Exception("Nothing boundable :(");
