@@ -29,6 +29,7 @@ import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.gui.common.datatransfer.TermTransferable;
 import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.Term;
+import aletheia.parser.term.TermParser;
 import aletheia.persistence.Transaction;
 
 @TaggedCommand(tag = "tcb", groupPath = "/term", factory = TermCb.Factory.class)
@@ -68,9 +69,18 @@ public class TermCb extends TransactionalCommand
 			}
 			else
 			{
-				term = parseTerm(from.getActiveContext(), transaction, split.get(0));
-				if (split.size() >= 2)
+				if (split.size() < 2)
+				{
+					TermParser.ParameterIdentifiedTerm parameterIdentifiedTerm = parseParameterIdentifiedTerm(from.getActiveContext(), transaction,
+							split.get(0));
+					term = parameterIdentifiedTerm.getTerm();
+					parameterIdentification = parameterIdentifiedTerm.getParameterIdentification();
+				}
+				else
+				{
+					term = parseTerm(from.getActiveContext(), transaction, split.get(0));
 					parameterIdentification = parseParameterIdentification(split.get(1));
+				}
 			}
 			return new TermCb(from, transaction, term, parameterIdentification);
 		}
