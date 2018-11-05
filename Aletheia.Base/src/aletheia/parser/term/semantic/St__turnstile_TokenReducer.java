@@ -48,8 +48,8 @@ public class St__turnstile_TokenReducer extends ProductionTokenPayloadReducer<Te
 		if (referenceType != ReferenceType.TYPE)
 			throw new SemanticException(reducees, "Invalid reference type to the consequent");
 		if (globals.getParameterIdentifiers() != null)
-			globals.getParameterIdentifiers()
-					.putAll(globals.getContext().getConsequent().parameterIdentifierMap(globals.getContext().getConsequentParameterIdentification()));
+			globals.getParameterIdentifiers().putAll(globals.getContext().getConsequent()
+					.parameterIdentifierMap(globals.getContext().consequentParameterIdentification(globals.getTransaction())));
 		return globals.getContext().getConsequent();
 	}
 
