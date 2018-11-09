@@ -50,6 +50,8 @@ public class A__A_bang_I_TokenReducer extends ProductionTokenPayloadReducer<Term
 		if (statement instanceof Declaration)
 		{
 			Declaration declaration = (Declaration) statement;
+			if (globals.getParameterIdentifiers() != null)
+				globals.getParameterIdentifiers().putAll(declaration.getValue().parameterIdentifierMap(declaration.getValueParameterIdentification()));
 			try
 			{
 				return term.replace(declaration.getVariable(), declaration.getValue());

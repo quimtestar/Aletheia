@@ -46,7 +46,12 @@ public class A__equals_bang_I_TokenReducer extends ProductionTokenPayloadReducer
 		Identifier identifier = NonTerminalToken.getPayloadFromTokenList(reducees, 2);
 		Statement statement = globals.getContext().identifierToStatement(globals.getTransaction()).get(identifier);
 		if (statement instanceof Declaration)
-			return ((Declaration) statement).getValue();
+		{
+			Declaration declaration = (Declaration) statement;
+			if (globals.getParameterIdentifiers() != null)
+				globals.getParameterIdentifiers().putAll(declaration.getValue().parameterIdentifierMap(declaration.getValueParameterIdentification()));
+			return declaration.getValue();
+		}
 		else
 			throw new SemanticException(reducees.get(2), "Referenced statement: '" + identifier + "' after the bang must be a declaration");
 	}
