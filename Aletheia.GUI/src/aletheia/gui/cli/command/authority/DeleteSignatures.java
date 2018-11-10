@@ -60,16 +60,17 @@ public class DeleteSignatures extends TransactionalCommand
 		@Override
 		public DeleteSignatures parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
+			boolean localIfMulti = split.remove("-local");
 			checkMinParameters(split);
 			Collection<StatementAuthoritySignature> signatures = specToStatementAuthoritySignatures(from.getPersistenceManager(), transaction,
-					from.getActiveContext(), split);
+					from.getActiveContext(), split, localIfMulti);
 			return new DeleteSignatures(from, transaction, signatures);
 		}
 
 		@Override
 		protected String paramSpec()
 		{
-			return "<statement> [<authorizer UUID> | <context> <prefix> (<person UUID> | <nick>)]";
+			return "<statement> [<authorizer UUID> | <context> <prefix> (<person UUID> | <nick>)] [-local]";
 		}
 
 		@Override
