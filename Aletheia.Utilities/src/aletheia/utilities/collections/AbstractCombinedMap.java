@@ -173,6 +173,12 @@ public abstract class AbstractCombinedMap<K, V> extends AbstractReadOnlyMap<K, V
 			return new EntrySetIterator(keySet.iterator());
 		}
 
+		@Override
+		public boolean isEmpty()
+		{
+			return keySet.isEmpty();
+		}
+
 	}
 
 	@Override
@@ -266,6 +272,12 @@ public abstract class AbstractCombinedMap<K, V> extends AbstractReadOnlyMap<K, V
 		public int size()
 		{
 			return entrySet.size();
+		}
+
+		@Override
+		public boolean isEmpty()
+		{
+			return entrySet.isEmpty();
 		}
 
 	}
