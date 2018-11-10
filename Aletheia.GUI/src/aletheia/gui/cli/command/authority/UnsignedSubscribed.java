@@ -87,8 +87,8 @@ public class UnsignedSubscribed extends TransactionalCommand
 		{
 			try
 			{
-				checkMinParameters(split);
 				boolean proof = split.remove("-proof");
+				checkMinParameters(split);
 				Context context;
 				if (split.size() > 0)
 				{

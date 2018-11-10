@@ -147,23 +147,22 @@ public class LookUp extends TransactionalCommand
 		@Override
 		public LookUp parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
+			int size = defaultSize;
+			int is = split.indexOf("-s");
+			if (is >= 0)
+			{
+				split.remove(is);
+				if (is >= split.size())
+					throw new CommandParseException("Must specify a size.");
+				size = Integer.parseInt(split.get(is));
+				split.remove(is);
+			}
 			checkMinParameters(split);
 			try
 			{
 				Context ctx = from.getActiveContext();
 				if (ctx == null)
 					throw new NotActiveContextException();
-				int size = defaultSize;
-				int is = split.indexOf("-s");
-				if (is >= 0)
-				{
-					split.remove(is);
-					if (is >= split.size())
-						throw new CommandParseException("Must specify a size.");
-					size = Integer.parseInt(split.get(is));
-					split.remove(is);
-
-				}
 				Term term = null;
 				NamespacePattern namespacePattern = null;
 				if (split.size() > 0)

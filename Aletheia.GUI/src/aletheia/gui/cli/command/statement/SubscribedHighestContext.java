@@ -95,8 +95,8 @@ public class SubscribedHighestContext extends TransactionalCommand
 		@Override
 		public SubscribedHighestContext parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
-			checkMinParameters(split);
 			boolean unsigned = split.remove("-unsigned");
+			checkMinParameters(split);
 			Context context;
 			if (split.size() > 0)
 			{

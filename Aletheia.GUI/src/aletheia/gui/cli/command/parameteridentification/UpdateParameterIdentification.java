@@ -178,12 +178,12 @@ public abstract class UpdateParameterIdentification extends TransactionalCommand
 		@Override
 		public UpdateParameterIdentification parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
-			checkMinParameters(split);
 			boolean value = split.remove("-v") || split.remove("-value");
 			boolean instance = split.remove("-i") || split.remove("-instance");
 			boolean consequent = split.remove("-c") || split.remove("-consequent");
 			if (countBooleans(value, instance, consequent) > 1)
 				throw new CommandParseException("Can't specify more than one switch in {[v]alue, [i]nstance, [c]onsequent}");
+			checkMinParameters(split);
 			Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 			if (statement == null)
 				throw new CommandParseException("Invalid statement");

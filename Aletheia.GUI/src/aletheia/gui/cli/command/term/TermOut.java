@@ -61,8 +61,8 @@ public class TermOut extends TransactionalCommand
 		@Override
 		public TermOut parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
-			checkMinParameters(split);
 			boolean indent = split.remove("-indent");
+			checkMinParameters(split);
 			Term term;
 			ParameterIdentification parameterIdentification = null;
 			if (split.size() < 1)

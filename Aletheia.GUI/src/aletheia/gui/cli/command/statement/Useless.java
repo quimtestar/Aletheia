@@ -214,8 +214,8 @@ public class Useless extends TransactionalCommand
 		{
 			try
 			{
-				checkMinParameters(split);
 				boolean unsigned = split.remove("-unsigned");
+				checkMinParameters(split);
 				Context context;
 				if (split.size() > 0)
 				{

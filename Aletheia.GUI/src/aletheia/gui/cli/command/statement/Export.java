@@ -66,10 +66,9 @@ public class Export extends TransactionalCommand
 		@Override
 		public Export parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
-			checkMinParameters(split);
 			boolean signed = split.remove("-signed");
 			boolean skipSignedProof = split.remove("-skipSignedProof");
-
+			checkMinParameters(split);
 			File file = new File(split.get(0));
 			List<Statement> statements = new ArrayList<>();
 			for (int i = 1; i < split.size(); i++)

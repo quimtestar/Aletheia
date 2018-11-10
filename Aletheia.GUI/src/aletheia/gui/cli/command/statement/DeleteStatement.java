@@ -63,8 +63,8 @@ public class DeleteStatement extends TransactionalCommand
 		@Override
 		public DeleteStatement parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
-			checkMinParameters(split);
 			boolean cascade = split.remove("-cascade");
+			checkMinParameters(split);
 			Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 			if (statement == null)
 				throw new CommandParseException("Invalid statement");
