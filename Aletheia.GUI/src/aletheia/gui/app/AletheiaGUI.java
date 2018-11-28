@@ -74,18 +74,47 @@ public class AletheiaGUI
 			try
 			{
 				MainAletheiaJFrame aletheiaJFrame = new MainAletheiaJFrame(this);
-				aletheiaJFrame.pack();
-				aletheiaJFrame.setVisible(true);
-				MainAletheiaJFrame.ExitState state = aletheiaJFrame.waitForClose();
-				aletheiaJFrame.dispose();
-				switch (state)
+				class ShutdownHook extends Thread implements AutoCloseable
 				{
-				case EXIT:
-					break run;
-				case RESTART:
-					break;
-				default:
-					break;
+					private boolean ran = false;
+
+					ShutdownHook()
+					{
+						super("ShutdownHook");
+						Runtime.getRuntime().addShutdownHook(this);
+					}
+
+					@Override
+					public synchronized void run()
+					{
+						aletheiaJFrame.exit();
+						ran = true;
+					}
+
+					@Override
+					public synchronized void close() throws Exception
+					{
+						if (!ran)
+							Runtime.getRuntime().removeShutdownHook(this);
+					}
+
+				}
+				;
+				try (ShutdownHook shutdownHook = new ShutdownHook())
+				{
+					aletheiaJFrame.pack();
+					aletheiaJFrame.setVisible(true);
+					MainAletheiaJFrame.ExitState state = aletheiaJFrame.waitForClose();
+					aletheiaJFrame.dispose();
+					switch (state)
+					{
+					case EXIT:
+						break run;
+					case RESTART:
+						break;
+					default:
+						break;
+					}
 				}
 			}
 			catch (Exception e)
