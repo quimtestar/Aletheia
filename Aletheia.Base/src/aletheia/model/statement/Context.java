@@ -1588,7 +1588,16 @@ public class Context extends Statement
 			if (stOrig instanceof Assumption)
 			{
 				Assumption asOrig = (Assumption) stOrig;
-				stDest = ctxParentDest.assumptions(transaction).get(asOrig.getOrder());
+				Assumption asDest = ctxParentDest.assumptions(transaction).get(asOrig.getOrder());
+				try
+				{
+					asDest.updateTermParameterIdentification(transaction, asOrig.getTermParameterIdentification());
+				}
+				catch (SignatureIsValidException e)
+				{
+					throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
+				}
+				stDest = asDest;
 			}
 			else if (stOrig instanceof Specialization)
 			{
@@ -1600,8 +1609,9 @@ public class Context extends Statement
 				{
 					specDest = ctxParentDest.specialize(transaction, map.getOrDefault(generalOrig, generalOrig), specOrig.getInstance().replace(termReplaceMap),
 							map.getOrDefault(instanceProofOrig, instanceProofOrig));
+					specDest.updateInstanceParameterIdentification(transaction, specOrig.getInstanceParameterIdentification());
 				}
-				catch (ReplaceTypeException | StatementException e)
+				catch (ReplaceTypeException | StatementException | SignatureIsValidException e)
 				{
 					throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
 				}
@@ -1615,12 +1625,9 @@ public class Context extends Statement
 				try
 				{
 					decDest = ctxParentDest.declare(transaction, decOrig.getValue().replace(termReplaceMap), map.getOrDefault(valueProofOrig, valueProofOrig));
+					decDest.updateValueParameterIdentification(transaction, decOrig.getValueParameterIdentification());
 				}
-				catch (ReplaceTypeException e)
-				{
-					throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
-				}
-				catch (StatementException e)
+				catch (ReplaceTypeException | StatementException | SignatureIsValidException e)
 				{
 					throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
 				}
@@ -1629,45 +1636,43 @@ public class Context extends Statement
 			else if (stOrig instanceof Context)
 			{
 				Context ctxOrig = (Context) stOrig;
+				Context ctxDest;
 				if (ctxOrig instanceof UnfoldingContext)
 				{
 					UnfoldingContext unfOrig = (UnfoldingContext) ctxOrig;
 					Declaration decOrig = unfOrig.getDeclaration(transaction);
-					UnfoldingContext unfDest;
 					try
 					{
-						unfDest = ctxParentDest.openUnfoldingSubContext(transaction, unfOrig.getTerm().replace(termReplaceMap),
+						ctxDest = ctxParentDest.openUnfoldingSubContext(transaction, unfOrig.getTerm().replace(termReplaceMap),
 								(Declaration) map.getOrDefault(decOrig, decOrig));
 					}
-					catch (ReplaceTypeException e)
+					catch (ReplaceTypeException | StatementException e)
 					{
 						throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
 					}
-					catch (StatementException e)
-					{
-						throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
-					}
-					stDest = unfDest;
 				}
 				else if (ctxOrig instanceof RootContext)
 					throw new Error();
 				else
 				{
-					Context ctxDest;
 					try
 					{
 						ctxDest = ctxParentDest.openSubContext(transaction, ctxOrig.getTerm().replace(termReplaceMap));
 					}
-					catch (ReplaceTypeException e)
+					catch (ReplaceTypeException | StatementException e)
 					{
 						throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
 					}
-					catch (StatementException e)
-					{
-						throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
-					}
-					stDest = ctxDest;
 				}
+				try
+				{
+					ctxDest.updateConsequentParameterIdentification(transaction, ctxOrig.getConsequentParameterIdentification());
+				}
+				catch (SignatureIsValidException e)
+				{
+					throw new CopyStatementException(e.getMessage() + " (" + stOrig.statementPathString(transaction, this) + ")", e);
+				}
+				stDest = ctxDest;
 				queue.addAll(ctxOrig.localDependencySortedStatements(transaction));
 			}
 			else
