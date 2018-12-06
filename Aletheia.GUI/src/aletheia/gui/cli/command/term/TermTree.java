@@ -32,18 +32,16 @@ import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.Term;
 import aletheia.persistence.Transaction;
 
-/*
- * TODO:
- * This command implementation is probably severely outdated and should be revised
- */
 @TaggedCommand(tag = "termtree", groupPath = "/term", factory = TermTree.Factory.class)
 public class TermTree extends TransactionalCommand
 {
+	private final String label;
 	private final Term term;
 
-	public TermTree(CommandSource from, Transaction transaction, Term term)
+	public TermTree(CommandSource from, Transaction transaction, String label, Term term)
 	{
 		super(from, transaction);
+		this.label = label;
 		this.term = term;
 	}
 
@@ -52,18 +50,23 @@ public class TermTree extends TransactionalCommand
 		return term;
 	}
 
+	protected String getLabel()
+	{
+		return label;
+	}
+
 	private boolean hasChildren(Term term)
 	{
 		return (term instanceof CompositionTerm) || (term instanceof FunctionTerm) || (term instanceof ProjectionTerm);
 	}
 
-	private void showTree(Term term)
+	private void showTree(String label, Term term)
 	{
 		if (hasChildren(term))
 			getOutB().print("\u250c ");
 		else
 			getOutB().print("\u2022 ");
-		showTree("", "", "?", false, term, term.parameterNumerator());
+		showTree("", "", label, false, term, term.parameterNumerator());
 	}
 
 	private void showTree(String prefixA, String prefixB, String label, boolean compLabel, Term term, Term.ParameterNumerator numerator)
@@ -151,7 +154,7 @@ public class TermTree extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws NotActiveContextException
 	{
-		showTree(term);
+		showTree(label, term);
 		return null;
 	}
 
@@ -163,15 +166,20 @@ public class TermTree extends TransactionalCommand
 		{
 			checkMinParameters(split);
 			Term term;
+			String label;
 			if (split.size() < 1)
 			{
 				if (from.getActiveContext() == null)
 					throw new CommandParseException(new NotActiveContextException());
+				label = "&|-";
 				term = from.getActiveContext().getConsequent();
 			}
 			else
+			{
+				label = "(" + split.get(0) + ")";
 				term = parseTerm(from.getActiveContext(), transaction, split.get(0));
-			return new TermTree(from, transaction, term);
+			}
+			return new TermTree(from, transaction, label, term);
 		}
 
 		@Override
