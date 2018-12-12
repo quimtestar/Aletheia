@@ -1099,15 +1099,12 @@ public class ContextJTreeModel extends PersistentTreeModel
 					}
 				}
 			}
-			if (statement instanceof RootContext)
-				nodeChanged(rootTreeNode);
-			else
+			if (!(statement instanceof RootContext))
 			{
 				Context ctx = statement.getContext(transaction);
 				StatementContextJTreeNode node_ = nodeMap.cachedByStatement(ctx);
 				if (node_ != null)
 				{
-					nodeChanged((ContextJTreeNode) node_);
 					if (ctx.getConsequent().isFreeVariable(statement.getVariable()) || ctx.getConsequent().equals(statement.getTerm()))
 					{
 						ContextSorterContextJTreeNode node__ = (ContextSorterContextJTreeNode) nodeMap.getByStatement(ctx);
