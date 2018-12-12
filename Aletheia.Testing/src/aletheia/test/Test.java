@@ -33,7 +33,7 @@ public abstract class Test
 
 	public static void main(String[] args) throws Exception
 	{
-		new Test0026().run();
+		new Test0021().run();
 	}
 
 }
