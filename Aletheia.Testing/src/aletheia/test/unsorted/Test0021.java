@@ -80,12 +80,12 @@ public class Test0021 extends TransactionalBerkeleyDBPersistenceManagerTest
 		enterPassphrase(persistenceManager);
 		PrivatePerson quimtestar = persistenceManager.privatePersonsByNick(transaction).get("quimtestar");
 		Context choiceCtx = persistenceManager.getContext(transaction, UUID.fromString("42cc8199-8159-5567-b65c-db023f95eaa3"));
-		Namespace prefix = Namespace.parse("Set.Topology.Path");
+		Namespace prefix = Namespace.parse("");
 		for (Context ctx : choiceCtx.statementPath(transaction))
 		{
 			for (Statement statement : ctx.localStatements(transaction).values())
 			{
-				if (prefix.isPrefixOf(statement.getIdentifier()))
+				if (prefix.isPrefixOf(statement.getIdentifier()) && statement.isProved() && !statement.isSignedProof(transaction))
 				{
 					System.out.println(statement.statementPathString(transaction));
 					StatementAuthority stAuth = statement.getAuthority(transaction);
