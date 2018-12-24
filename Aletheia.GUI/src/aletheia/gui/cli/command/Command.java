@@ -386,7 +386,7 @@ public abstract class Command
 			super();
 		}
 
-		protected CommandParseException(String message, Throwable cause)
+		public CommandParseException(String message, Throwable cause)
 		{
 			super(message, cause);
 		}

@@ -37,12 +37,14 @@ public class TermTree extends TransactionalCommand
 {
 	private final String label;
 	private final Term term;
+	private final int maxDepth;
 
-	public TermTree(CommandSource from, Transaction transaction, String label, Term term)
+	public TermTree(CommandSource from, Transaction transaction, String label, Term term, int maxDepth)
 	{
 		super(from, transaction);
 		this.label = label;
 		this.term = term;
+		this.maxDepth = maxDepth;
 	}
 
 	protected Term getTerm()
@@ -55,6 +57,11 @@ public class TermTree extends TransactionalCommand
 		return label;
 	}
 
+	protected int getMaxDepth()
+	{
+		return maxDepth;
+	}
+
 	private boolean hasChildren(Term term)
 	{
 		return (term instanceof CompositionTerm) || (term instanceof FunctionTerm) || (term instanceof ProjectionTerm);
@@ -62,90 +69,93 @@ public class TermTree extends TransactionalCommand
 
 	private void showTree(String label, Term term)
 	{
-		if (hasChildren(term))
-			getOutB().print("\u250c ");
+		if (hasChildren(term) && maxDepth > 0)
+			getOutB().print("\u250c " + label + ": ");
 		else
-			getOutB().print("\u2022 ");
-		showTree("", "", label, false, term, term.parameterNumerator());
+			getOutB().print("\u2022 " + label + ": ");
+		showTree("", "", label, false, term, term.parameterNumerator(), maxDepth);
 	}
 
-	private void showTree(String prefixA, String prefixB, String label, boolean compLabel, Term term, Term.ParameterNumerator numerator)
+	private void showTree(String prefixA, String prefixB, String label, boolean compLabel, Term term, Term.ParameterNumerator numerator, int depth)
 	{
 		getOut().println(term.toString(getTransaction(), getActiveContext(), numerator));
-		String atomicLabel = compLabel ? "(" + label + ")" : label;
-		if (term instanceof CompositionTerm)
+		if (depth > 0)
 		{
-			ListIterator<Term> iterator = ((CompositionTerm) term).components().listIterator();
-			while (iterator.hasNext())
+			String atomicLabel = compLabel ? "(" + label + ")" : label;
+			if (term instanceof CompositionTerm)
 			{
-				int i = iterator.nextIndex();
-				Term component = iterator.next();
-				String prefixA_, prefixB_;
-				if (iterator.hasNext())
+				ListIterator<Term> iterator = ((CompositionTerm) term).components().listIterator();
+				while (iterator.hasNext())
 				{
-					if (hasChildren(component))
-						prefixA_ = prefixB + "\u251c\u2500\u252c";
+					int i = iterator.nextIndex();
+					Term component = iterator.next();
+					String prefixA_, prefixB_;
+					if (iterator.hasNext())
+					{
+						if (hasChildren(component) && depth > 1)
+							prefixA_ = prefixB + "\u251c\u2500\u252c";
+						else
+							prefixA_ = prefixB + "\u251c\u2500\u2500";
+						prefixB_ = prefixB + "\u2502 ";
+					}
 					else
-						prefixA_ = prefixB + "\u251c\u2500\u2500";
-					prefixB_ = prefixB + "\u2502 ";
+					{
+						if (hasChildren(component) && depth > 1)
+							prefixA_ = prefixB + "\u2514\u2500\u252c";
+						else
+							prefixA_ = prefixB + "\u2514\u2500\u2500";
+						prefixB_ = prefixB + "  ";
+					}
+					String label_ = atomicLabel + (";" + i);
+					getOutB().format("%s %s: ", prefixA_, label_);
+					showTree(prefixA_, prefixB_, label_, false, component, numerator, depth - 1);
 				}
-				else
-				{
-					if (hasChildren(component))
-						prefixA_ = prefixB + "\u2514\u2500\u252c";
-					else
-						prefixA_ = prefixB + "\u2514\u2500\u2500";
-					prefixB_ = prefixB + "  ";
-				}
-				String label_ = atomicLabel + (";" + i);
-				getOutB().format("%s %s: ", prefixA_, label_);
-				showTree(prefixA_, prefixB_, label_, false, component, numerator);
 			}
-		}
-		else
-		{
-			while (term instanceof ProjectionTerm)
-				term = ((ProjectionTerm) term).getFunction();
-			if (term instanceof FunctionTerm)
+			else
 			{
-				FunctionTerm functionTerm = (FunctionTerm) term;
-				ParameterVariableTerm param = functionTerm.getParameter();
-				Term body = functionTerm.getBody();
+				while (term instanceof ProjectionTerm)
+					term = ((ProjectionTerm) term).getFunction();
+				if (term instanceof FunctionTerm)
 				{
-					Term parType = param.getType();
-					String prefixA_;
-					if (hasChildren(parType))
-						prefixA_ = prefixB + "\u251c\u2500\u252c";
-					else
-						prefixA_ = prefixB + "\u251c\u2500\u2500";
-					String prefixB_ = prefixB + "\u2502 ";
-					String label_ = atomicLabel + "%";
-					getOutB().format("%s %s: ", prefixA_, label_);
-					showTree(prefixA_, prefixB_, label_, false, parType, numerator);
-				}
-				{
-					int parNum = numerator.numberParameter(param);
-					String prefixA_;
-					if (hasChildren(body))
-						prefixA_ = prefixB + "\u2514\u2500\u252c";
-					else
-						prefixA_ = prefixB + "\u2514\u2500\u2500";
-					String prefixB_ = prefixB + "  ";
-					String label_;
-					boolean compLabel_;
-					if (body.isFreeVariable(functionTerm.getParameter()))
+					FunctionTerm functionTerm = (FunctionTerm) term;
+					ParameterVariableTerm param = functionTerm.getParameter();
+					Term body = functionTerm.getBody();
 					{
-						label_ = label + " @" + parNum;
-						compLabel_ = true;
+						Term parType = param.getType();
+						String prefixA_;
+						if (hasChildren(parType) && depth > 1)
+							prefixA_ = prefixB + "\u251c\u2500\u252c";
+						else
+							prefixA_ = prefixB + "\u251c\u2500\u2500";
+						String prefixB_ = prefixB + "\u2502 ";
+						String label_ = atomicLabel + "%";
+						getOutB().format("%s %s: ", prefixA_, label_);
+						showTree(prefixA_, prefixB_, label_, false, parType, numerator, depth - 1);
 					}
-					else
 					{
-						label_ = atomicLabel + "'";
-						compLabel_ = false;
+						int parNum = numerator.numberParameter(param);
+						String prefixA_;
+						if (hasChildren(body) && depth > 1)
+							prefixA_ = prefixB + "\u2514\u2500\u252c";
+						else
+							prefixA_ = prefixB + "\u2514\u2500\u2500";
+						String prefixB_ = prefixB + "  ";
+						String label_;
+						boolean compLabel_;
+						if (body.isFreeVariable(functionTerm.getParameter()))
+						{
+							label_ = label + " @" + parNum;
+							compLabel_ = true;
+						}
+						else
+						{
+							label_ = atomicLabel + "'";
+							compLabel_ = false;
+						}
+						getOutB().format("%s %s: ", prefixA_, label_);
+						showTree(prefixA_, prefixB_, label_, compLabel_, body, numerator, depth - 1);
+						numerator.unNumberParameter();
 					}
-					getOutB().format("%s %s: ", prefixA_, label_);
-					showTree(prefixA_, prefixB_, label_, compLabel_, body, numerator);
-					numerator.unNumberParameter();
 				}
 			}
 		}
@@ -165,6 +175,25 @@ public class TermTree extends TransactionalCommand
 		public TermTree parse(CommandSource from, Transaction transaction, Void extra, List<String> split) throws CommandParseException
 		{
 			checkMinParameters(split);
+			int maxDepth = Integer.MAX_VALUE;
+			{
+				int i = split.indexOf("-d");
+				if (i >= 0)
+				{
+					split.remove(i);
+					if (i >= split.size())
+						throw new CommandParseException("No maximum depth specified.");
+					try
+					{
+						maxDepth = Integer.parseInt(split.get(i));
+					}
+					catch (NumberFormatException e)
+					{
+						throw new CommandParseException("Specified maximum depth '" + split.get(i) + "' is not a number.", e);
+					}
+					split.remove(i);
+				}
+			}
 			Term term;
 			String label;
 			if (split.size() < 1)
@@ -179,7 +208,7 @@ public class TermTree extends TransactionalCommand
 				label = "(" + split.get(0) + ")";
 				term = parseTerm(from.getActiveContext(), transaction, split.get(0));
 			}
-			return new TermTree(from, transaction, label, term);
+			return new TermTree(from, transaction, label, term, maxDepth);
 		}
 
 		@Override
@@ -191,7 +220,7 @@ public class TermTree extends TransactionalCommand
 		@Override
 		protected String paramSpec()
 		{
-			return "[<term>]";
+			return "[<term>] [-d <maxdepth> ]";
 		}
 
 		@Override
