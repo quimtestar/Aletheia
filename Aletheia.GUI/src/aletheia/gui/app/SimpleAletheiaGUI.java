@@ -1,54 +1,51 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
- *
+ * Copyright (c) 2018 Quim Testar
+ * 
  * This file is part of the Aletheia Proof Assistant.
- *
+ * 
  * The Aletheia Proof Assistant is free software: you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the License,
  * or (at your option) any later version.
- *
+ * 
  * The Aletheia Proof Assistant is distributed in the hope that it will be
  * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
  * General Public License for more details.
- *
+ * 
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.menu;
+package aletheia.gui.app;
 
-import javax.swing.AbstractAction;
+import org.apache.logging.log4j.Logger;
 
-import aletheia.gui.app.DesktopAletheiaJFrame;
+import aletheia.log4j.LoggerManager;
 
-public abstract class AletheiaMenuAction extends AbstractAction
+public class SimpleAletheiaGUI extends AletheiaGUI
 {
-	private static final long serialVersionUID = -8269480514632884323L;
+	private final static Logger logger = LoggerManager.instance.logger();
 
-	private final AletheiaJMenu aletheiaJMenu;
-
-	public AletheiaMenuAction(AletheiaJMenu aletheiaJMenu, String name, int mnemonic)
+	@Override
+	protected void run()
 	{
-		this.aletheiaJMenu = aletheiaJMenu;
-		this.putValue(NAME, name);
-		this.putValue(MNEMONIC_KEY, mnemonic);
+		super.run();
+		try
+		{
+			SimpleAletheiaJFrame aletheiaJFrame = new SimpleAletheiaJFrame(this);
+			aletheiaJFrame.pack();
+			aletheiaJFrame.setVisible(true);
+		}
+		catch (Exception e)
+		{
+			logger.error(e.getMessage(), e);
+		}
 	}
 
-	public AletheiaJMenu getAletheiaJMenu()
+	public static void main(String[] args)
 	{
-		return aletheiaJMenu;
-	}
-
-	public AletheiaJMenuBar getAletheiaJMenuBar()
-	{
-		return getAletheiaJMenu().getAletheiaJMenuBar();
-	}
-
-	public DesktopAletheiaJFrame getAletheiaJFrame()
-	{
-		return getAletheiaJMenuBar().getAletheiaJFrame();
+		new SimpleAletheiaGUI().run();
 	}
 
 }

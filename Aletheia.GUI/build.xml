@@ -164,8 +164,8 @@
         <ant antfile="build.xml" dir="${Aletheia.Test.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Aletheia.Test.location}" inheritAll="false" target="build"/>
     </target>
-    <target name="AletheiaGUI">
-        <java classname="aletheia.gui.app.AletheiaGUI" dir="${workspace_loc:Aletheia.Data}" failonerror="true" fork="yes">
+    <target name="DesktopAletheiaGUI">
+        <java classname="aletheia.gui.app.DesktopAletheiaGUI" dir="${workspace_loc:Aletheia.Data}" failonerror="true" fork="yes">
             <jvmarg line="-Xmx512M"/>
             <classpath refid="Aletheia.GUI.classpath"/>
         </java>

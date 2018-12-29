@@ -21,7 +21,7 @@ package aletheia.gui.menu;
 
 import javax.swing.JMenu;
 
-import aletheia.gui.app.MainAletheiaJFrame;
+import aletheia.gui.app.DesktopAletheiaJFrame;
 
 public abstract class AletheiaJMenu extends JMenu
 {
@@ -41,7 +41,7 @@ public abstract class AletheiaJMenu extends JMenu
 		return aletheiaJMenuBar;
 	}
 
-	public MainAletheiaJFrame getAletheiaJFrame()
+	public DesktopAletheiaJFrame getAletheiaJFrame()
 	{
 		return getAletheiaJMenuBar().getAletheiaJFrame();
 	}

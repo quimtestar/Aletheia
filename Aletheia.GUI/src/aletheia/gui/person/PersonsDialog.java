@@ -30,17 +30,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
-import aletheia.gui.app.MainAletheiaJFrame;
+import aletheia.gui.app.DesktopAletheiaJFrame;
 
 public class PersonsDialog extends JDialog
 {
 	private static final long serialVersionUID = -9088016958228981761L;
-	private final MainAletheiaJFrame aletheiaJFrame;
+	private final DesktopAletheiaJFrame aletheiaJFrame;
 	private final PersonJTable personJTable;
 	private final PrivatePersonJTable privatePersonJTable;
 	private final JTabbedPane tabbedPane;
 
-	public PersonsDialog(MainAletheiaJFrame aletheiaJFrame)
+	public PersonsDialog(DesktopAletheiaJFrame aletheiaJFrame)
 	{
 		super(aletheiaJFrame, "Persons", false);
 		this.aletheiaJFrame = aletheiaJFrame;
@@ -132,7 +132,7 @@ public class PersonsDialog extends JDialog
 		this.pack();
 	}
 
-	protected MainAletheiaJFrame getAletheiaJFrame()
+	protected DesktopAletheiaJFrame getAletheiaJFrame()
 	{
 		return aletheiaJFrame;
 	}

@@ -2486,14 +2486,7 @@ public class CliJPanel extends JPanel implements CommandSource
 	@Override
 	public AletheiaJFrame openExtraFrame(String extraTitle)
 	{
-		try
-		{
-			return aletheiaJPanel.getAletheiaJFrame().openExtraFrame(extraTitle);
-		}
-		catch (InterruptedException e)
-		{
-			throw new RuntimeException(e);
-		}
+		return aletheiaJPanel.getAletheiaJFrame().openExtraFrame(extraTitle);
 	}
 
 	@Override
@@ -2537,8 +2530,7 @@ public class CliJPanel extends JPanel implements CommandSource
 	@Override
 	public void restart()
 	{
-		getAletheiaJPanel().getAletheiaJFrame().updateContentPane(true);
-		getAletheiaJPanel().getAletheiaJFrame().updateServerStatus(true);
+		getAletheiaJPanel().getAletheiaJFrame().restart();
 	}
 
 	public synchronized void resetCatalogJTree() throws InterruptedException

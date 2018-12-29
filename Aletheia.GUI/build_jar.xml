@@ -4,7 +4,7 @@
     <target depends="build" name="jar">
         <jar destfile="aletheiagui.jar" filesetmanifest="mergewithoutmain">
             <manifest>
-                <attribute name="Main-Class" value="aletheia.gui.app.AletheiaGUI"/>
+                <attribute name="Main-Class" value="aletheia.gui.app.DesktopAletheiaGUI"/>
                 <attribute name="Class-Path" value="."/>
             	<attribute name="SplashScreen-Image" value="aletheia/gui/app/splash.png" />
             </manifest>
