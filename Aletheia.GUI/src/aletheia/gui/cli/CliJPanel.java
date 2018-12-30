@@ -372,6 +372,12 @@ public class CliJPanel extends JPanel implements CommandSource
 					e.consume();
 				break;
 			}
+			case KeyEvent.VK_C:
+			{
+				if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+					controller.cancelActiveCommand("by user");
+				break;
+			}
 			}
 		}
 
@@ -383,7 +389,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		@Override
 		public void keyTyped(KeyEvent e)
 		{
-			if (e.getKeyChar() == '\n' && !e.isAltDown() && !e.isControlDown() && !e.isAltGraphDown())
+			if ((e.getKeyChar() == '\n' || e.getKeyChar() == '\r') && !e.isAltDown() && !e.isControlDown() && !e.isAltGraphDown())
 			{
 				bracketHighLightManager.clearHighLights();
 				try
@@ -415,9 +421,7 @@ public class CliJPanel extends JPanel implements CommandSource
 
 			}
 			else if (e.getKeyChar() == KeyEvent.VK_CANCEL)
-			{
 				controller.cancelActiveCommand("by user");
-			}
 		}
 
 	}
@@ -1088,7 +1092,7 @@ public class CliJPanel extends JPanel implements CommandSource
 			Transferable t = clip.getContents(null);
 			try
 			{
-				if (t.isDataFlavorSupported(DataFlavor.stringFlavor))
+				if (t != null && t.isDataFlavorSupported(DataFlavor.stringFlavor))
 				{
 					String s = (String) t.getTransferData(DataFlavor.stringFlavor);
 					StringSelection sel = new StringSelection(s);
