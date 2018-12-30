@@ -20,6 +20,8 @@
 package aletheia.gui.app;
 
 import java.awt.Dimension;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -131,8 +133,15 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 		this.aletheiaJPanel = new AletheiaJPanel(this, this, persistenceManager);
 		this.setContentPane(aletheiaJPanel);
 
-		this.setPreferredSize(new Dimension(800, 600));
-		this.setLocation(200, 100);
+		Rectangle maxRectangle = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+		if (maxRectangle != null)
+		{
+			this.setPreferredSize(new Dimension((int) maxRectangle.getWidth(), (int) maxRectangle.getHeight()));
+			this.setLocation(maxRectangle.getLocation());
+		}
+		this.setExtendedState(MAXIMIZED_BOTH);
+		this.setResizable(true);
+		this.setUndecorated(true);
 		this.setTitle(AletheiaConstants.TITLE);
 		this.setIconImages(IconManager.instance.aletheiaIconList);
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -205,6 +214,7 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 		{
 			aletheiaJPanel.close();
 			persistenceManager.close();
+			dispose();
 		}
 		catch (InterruptedException | IOException e)
 		{
