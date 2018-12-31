@@ -34,6 +34,16 @@ public class SimpleAletheiaGUI extends AletheiaGUI
 		try
 		{
 			SimpleAletheiaJFrame aletheiaJFrame = new SimpleAletheiaJFrame(this);
+			Runtime.getRuntime().addShutdownHook(new Thread("ShutdownHook")
+			{
+
+				@Override
+				public void run()
+				{
+					aletheiaJFrame.exit();
+				}
+
+			});
 			aletheiaJFrame.pack();
 			aletheiaJFrame.setVisible(true);
 		}

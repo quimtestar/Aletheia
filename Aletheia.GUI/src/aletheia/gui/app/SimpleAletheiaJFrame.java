@@ -31,6 +31,7 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.Properties;
 
+import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import org.apache.logging.log4j.Logger;
@@ -118,6 +119,8 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 	private final PersistenceManager persistenceManager;
 	private final AletheiaJPanel aletheiaJPanel;
 
+	private boolean active;
+
 	public SimpleAletheiaJFrame(SimpleAletheiaGUI aletheiaGUI) throws InterruptedException
 	{
 		super(aletheiaGUI);
@@ -145,6 +148,7 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 		this.setTitle(AletheiaConstants.TITLE);
 		this.setIconImages(IconManager.instance.aletheiaIconList);
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+		this.active = true;
 		this.addWindowListener(new WindowAdapter()
 		{
 			@Override
@@ -208,17 +212,28 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 	}
 
 	@Override
-	public void exit()
+	public synchronized void exit()
 	{
-		try
+		if (active)
 		{
-			aletheiaJPanel.close();
-			persistenceManager.close();
-			dispose();
-		}
-		catch (InterruptedException | IOException e)
-		{
-			logger.error(e.getMessage(), e);
+			try
+			{
+				aletheiaJPanel.close();
+				persistenceManager.close();
+				SwingUtilities.invokeLater(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						dispose();
+					}
+				});
+				active = false;
+			}
+			catch (InterruptedException | IOException e)
+			{
+				logger.error(e.getMessage(), e);
+			}
 		}
 	}
 
