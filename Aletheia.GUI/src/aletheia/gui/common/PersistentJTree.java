@@ -21,15 +21,19 @@ package aletheia.gui.common;
 
 import javax.swing.JTree;
 
+import aletheia.gui.app.FontManager;
 import aletheia.persistence.PersistenceManager;
 
 public class PersistentJTree extends JTree
 {
 	private static final long serialVersionUID = 664849945430061056L;
 
-	public PersistentJTree(PersistentTreeModel model)
+	private final FontManager fontManager;
+
+	public PersistentJTree(PersistentTreeModel model, FontManager fontManager)
 	{
 		super(model);
+		this.fontManager = fontManager;
 	}
 
 	@Override
@@ -41,6 +45,11 @@ public class PersistentJTree extends JTree
 	public PersistenceManager getPersistenceManager()
 	{
 		return getModel().getPersistenceManager();
+	}
+
+	public FontManager getFontManager()
+	{
+		return fontManager;
 	}
 
 	public void updateFontSize()

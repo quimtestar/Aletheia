@@ -22,18 +22,20 @@ package aletheia.gui.common.renderer;
 import java.awt.Color;
 import java.awt.Font;
 
+import aletheia.gui.app.FontManager;
+
 public class BoldTextLabelRenderer extends TextLabelRenderer
 {
 	private static final long serialVersionUID = 7583320639386442047L;
 
-	public BoldTextLabelRenderer(String text, Color textColor)
+	public BoldTextLabelRenderer(FontManager fontManager, String text, Color textColor)
 	{
-		super(text, textColor);
+		super(fontManager, text, textColor);
 	}
 
-	public BoldTextLabelRenderer(String text)
+	public BoldTextLabelRenderer(FontManager fontManager, String text)
 	{
-		super(text);
+		super(fontManager, text);
 	}
 
 	@Override

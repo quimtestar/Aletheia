@@ -106,7 +106,7 @@ public abstract class CatalogJTreeNodeRenderer extends PersistentJTreeNodeRender
 
 	public CatalogJTreeNodeRenderer(CatalogJTree catalogJTree, CatalogTreeNode node)
 	{
-		super(true, catalogJTree, false);
+		super(catalogJTree.getFontManager(), true, catalogJTree, false);
 		this.node = node;
 		this.listener = new Listener();
 		addMouseListener(listener);

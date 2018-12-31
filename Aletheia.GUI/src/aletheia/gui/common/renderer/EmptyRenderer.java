@@ -19,8 +19,15 @@
  ******************************************************************************/
 package aletheia.gui.common.renderer;
 
+import aletheia.gui.app.FontManager;
+
 public class EmptyRenderer extends AbstractRenderer
 {
 	private static final long serialVersionUID = 3297762365508704689L;
+
+	public EmptyRenderer(FontManager fontManager)
+	{
+		super(fontManager);
+	}
 
 }

@@ -349,7 +349,7 @@ public class SignatureRequestJTree extends PersistentJTree
 
 	public SignatureRequestJTree(AletheiaJPanel aletheiaJPanel)
 	{
-		super(new SignatureRequestTreeModel(aletheiaJPanel.getPersistenceManager()));
+		super(new SignatureRequestTreeModel(aletheiaJPanel.getPersistenceManager()), aletheiaJPanel.getFontManager());
 		this.aletheiaJPanel = aletheiaJPanel;
 		addKeyListener(new Listener());
 		MyTreeCellRenderer myTreeCellRenderer = new MyTreeCellRenderer();

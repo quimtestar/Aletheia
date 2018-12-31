@@ -19,16 +19,14 @@
  ******************************************************************************/
 package aletheia.gui.person;
 
-import aletheia.persistence.PersistenceManager;
-
 public class PersonJTable extends AbstractPersonJTable
 {
 
 	private static final long serialVersionUID = -3837230152139645325L;
 
-	public PersonJTable(PersistenceManager persistenceManager)
+	public PersonJTable(PersonsDialog personsDialog)
 	{
-		super(new PersonTableModel(persistenceManager));
+		super(new PersonTableModel(personsDialog.getPersistenceManager()), personsDialog);
 	}
 
 	@Override

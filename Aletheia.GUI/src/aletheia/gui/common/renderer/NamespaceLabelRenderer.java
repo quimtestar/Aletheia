@@ -19,15 +19,16 @@
  ******************************************************************************/
 package aletheia.gui.common.renderer;
 
+import aletheia.gui.app.FontManager;
 import aletheia.model.identifier.Namespace;
 
 public class NamespaceLabelRenderer extends AbstractRenderer
 {
 	private static final long serialVersionUID = -5498916214246200365L;
 
-	public NamespaceLabelRenderer(Namespace namespace)
+	public NamespaceLabelRenderer(FontManager fontManager, Namespace namespace)
 	{
-		super();
+		super(fontManager);
 		addTextLabel(namespace.qualifiedName());
 	}
 

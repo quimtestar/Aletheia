@@ -31,6 +31,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.WindowConstants;
 
 import aletheia.gui.app.DesktopAletheiaJFrame;
+import aletheia.gui.app.FontManager;
+import aletheia.persistence.PersistenceManager;
 
 public class PersonsDialog extends JDialog
 {
@@ -44,8 +46,8 @@ public class PersonsDialog extends JDialog
 	{
 		super(aletheiaJFrame, "Persons", false);
 		this.aletheiaJFrame = aletheiaJFrame;
-		this.personJTable = new PersonJTable(aletheiaJFrame.getPersistenceManager());
-		this.privatePersonJTable = new PrivatePersonJTable(aletheiaJFrame.getPersistenceManager());
+		this.personJTable = new PersonJTable(this);
+		this.privatePersonJTable = new PrivatePersonJTable(this);
 		this.tabbedPane = new JTabbedPane();
 		tabbedPane.addTab("Private", new JScrollPane(privatePersonJTable));
 		tabbedPane.addTab("All", new JScrollPane(personJTable));
@@ -135,6 +137,16 @@ public class PersonsDialog extends JDialog
 	protected DesktopAletheiaJFrame getAletheiaJFrame()
 	{
 		return aletheiaJFrame;
+	}
+
+	public FontManager getFontManager()
+	{
+		return getAletheiaJFrame().getFontManager();
+	}
+
+	public PersistenceManager getPersistenceManager()
+	{
+		return getAletheiaJFrame().getPersistenceManager();
 	}
 
 	public void close()

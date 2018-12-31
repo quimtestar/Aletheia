@@ -23,7 +23,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.FontMetrics;
 import java.awt.KeyboardFocusManager;
 import java.awt.LayoutManager;
 import java.awt.datatransfer.Transferable;
@@ -56,6 +55,7 @@ import javax.swing.table.TableCellRenderer;
 
 import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.gui.app.AletheiaJPanel;
+import aletheia.gui.app.FontManager;
 import aletheia.gui.cli.command.authority.DeleteSignatures;
 import aletheia.gui.common.datatransfer.StatementAuthoritySignatureTransferable;
 import aletheia.gui.common.renderer.AbstractRenderer;
@@ -70,7 +70,6 @@ import aletheia.gui.common.renderer.StatementLabelRenderer;
 import aletheia.gui.common.renderer.TextLabelRenderer;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeJPanel;
-import aletheia.gui.font.FontManager;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.Signatory;
 import aletheia.model.authority.StatementAuthoritySignature;
@@ -162,7 +161,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 				if (value != null)
 					renderer = buildRenderer(value);
 				else
-					renderer = new EmptyRenderer();
+					renderer = new EmptyRenderer(getFontManager());
 				myCellRendererComponent = buildMyCellRendererComponent(renderer);
 				myCellRendererComponents.put(value, myCellRendererComponent);
 			}
@@ -196,7 +195,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 		@Override
 		protected SignatoryLabelRenderer buildRenderer(Signatory signatory)
 		{
-			return new SignatoryLabelRenderer(signatory);
+			return new SignatoryLabelRenderer(getFontManager(), signatory);
 		}
 
 		@Override
@@ -212,7 +211,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 		@Override
 		protected DateLabelRenderer buildRenderer(Date date)
 		{
-			return new DateLabelRenderer(date);
+			return new DateLabelRenderer(getFontManager(), date);
 		}
 
 		@Override
@@ -228,7 +227,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 		@Override
 		protected BooleanLabelRenderer buildRenderer(Boolean bool)
 		{
-			return new BooleanLabelRenderer(bool);
+			return new BooleanLabelRenderer(getFontManager(), bool);
 		}
 
 		@Override
@@ -252,7 +251,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 		@Override
 		protected StatementLabelRenderer buildRenderer(Context context)
 		{
-			return new StatementLabelRenderer(getModel().getPersistenceManager(), context, true)
+			return new StatementLabelRenderer(getFontManager(), getModel().getPersistenceManager(), context, true)
 			{
 				private static final long serialVersionUID = -1084520290529382462L;
 
@@ -294,7 +293,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 		@Override
 		protected AbstractRenderer buildRenderer(Namespace value)
 		{
-			return new NamespaceLabelRenderer(value);
+			return new NamespaceLabelRenderer(getFontManager(), value);
 		}
 
 	}
@@ -311,7 +310,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 		@Override
 		protected AbstractRenderer buildRenderer(Person value)
 		{
-			return new PersonLabelRenderer(value);
+			return new PersonLabelRenderer(getFontManager(), value);
 		}
 	}
 
@@ -326,7 +325,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 		@Override
 		protected AbstractRenderer buildRenderer(String value)
 		{
-			TextLabelRenderer r = new BoldTextLabelRenderer(value.toString());
+			TextLabelRenderer r = new BoldTextLabelRenderer(getFontManager(), value.toString());
 			r.setBackground(new Color(0xeeeeee));
 			return r;
 		}
@@ -488,18 +487,6 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 		}
 	}
 
-	private static int computeWidth(int textLength)
-	{
-		FontMetrics fontMetrics = FontManager.instance.fontMetrics(FontManager.instance.defaultFont());
-		return fontMetrics.charWidth('x') * textLength + 10;
-	}
-
-	private static int computeHeight()
-	{
-		FontMetrics fontMetrics = FontManager.instance.fontMetrics(FontManager.instance.defaultFont());
-		return fontMetrics.getHeight();
-	}
-
 	private final AuthorityJPanel authorityJPanel;
 	private final Listener listener;
 
@@ -591,6 +578,21 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 	protected MainAletheiaJFrame getAletheiaJFrame()
 	{
 		return getAletheiaJPanel().getAletheiaJFrame();
+	}
+
+	private FontManager getFontManager()
+	{
+		return getAletheiaJFrame().getFontManager();
+	}
+
+	private int computeWidth(int textLength)
+	{
+		return getFontManager().fontMetrics().charWidth('x') * textLength + 10;
+	}
+
+	private int computeHeight()
+	{
+		return getFontManager().fontMetrics().getHeight();
 	}
 
 	private void deleteSignatures(Collection<StatementAuthoritySignature> signatures) throws InterruptedException

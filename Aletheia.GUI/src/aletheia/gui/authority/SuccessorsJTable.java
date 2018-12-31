@@ -23,7 +23,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.FontMetrics;
 import java.awt.LayoutManager;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -47,13 +46,13 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import aletheia.gui.app.FontManager;
 import aletheia.gui.authority.SuccessorsTableModel.SuccessorEntryData;
 import aletheia.gui.common.renderer.AbstractRenderer;
 import aletheia.gui.common.renderer.BoldTextLabelRenderer;
 import aletheia.gui.common.renderer.DateLabelRenderer;
 import aletheia.gui.common.renderer.PersonLabelRenderer;
 import aletheia.gui.common.renderer.TextLabelRenderer;
-import aletheia.gui.font.FontManager;
 import aletheia.model.authority.DelegateTreeRootNode;
 import aletheia.model.authority.Person;
 import aletheia.persistence.PersistenceManager;
@@ -61,18 +60,6 @@ import aletheia.persistence.PersistenceManager;
 public class SuccessorsJTable extends JTable
 {
 	private static final long serialVersionUID = 2156074004820098390L;
-
-	private static int computeWidth(int textLength)
-	{
-		FontMetrics fontMetrics = FontManager.instance.fontMetrics(FontManager.instance.defaultFont());
-		return fontMetrics.charWidth('x') * textLength + 10;
-	}
-
-	private static int computeHeight()
-	{
-		FontMetrics fontMetrics = FontManager.instance.fontMetrics(FontManager.instance.defaultFont());
-		return fontMetrics.getHeight();
-	}
 
 	private class MyCellRendererComponent extends JPanel
 	{
@@ -209,7 +196,7 @@ public class SuccessorsJTable extends JTable
 		@Override
 		protected MyCellRendererComponent makeMyCellRendererComponent(Date date)
 		{
-			return new MyCellRendererComponent(new DateLabelRenderer(date), myCellRendererComponentLayout());
+			return new MyCellRendererComponent(new DateLabelRenderer(getFontManager(), date), myCellRendererComponentLayout());
 		}
 
 	}
@@ -220,7 +207,7 @@ public class SuccessorsJTable extends JTable
 		@Override
 		protected MyCellRendererComponent makeMyCellRendererComponent(Person person)
 		{
-			return new MyCellRendererComponent(new PersonLabelRenderer(person), myCellRendererComponentLayout());
+			return new MyCellRendererComponent(new PersonLabelRenderer(getFontManager(), person), myCellRendererComponentLayout());
 		}
 
 	}
@@ -323,7 +310,7 @@ public class SuccessorsJTable extends JTable
 			MyCellRendererComponent renderer = rendererMap.get(text);
 			if (renderer == null)
 			{
-				TextLabelRenderer r = new BoldTextLabelRenderer(text);
+				TextLabelRenderer r = new BoldTextLabelRenderer(getFontManager(), text);
 				r.setBackground(new Color(0xeeeeee));
 				renderer = new MyCellRendererComponent(r, myCellRendererComponentLayout());
 				Border border = BorderFactory.createMatteBorder(0, 0, 1, 1, getGridColor());
@@ -347,14 +334,14 @@ public class SuccessorsJTable extends JTable
 		}
 	}
 
-	private final PersistenceManager persistenceManager;
+	private final AuthorityHeaderJPanel authorityHeaderJPanel;
 	private final MyTableDateCellRenderer myTableDateCellRenderer;
 	private final MyTablePersonCellRenderer myTablePersonCellRenderer;
 
-	public SuccessorsJTable(PersistenceManager persistenceManager, DelegateTreeRootNode delegateTreeRootNode)
+	public SuccessorsJTable(AuthorityHeaderJPanel authorityHeaderJPanel, DelegateTreeRootNode delegateTreeRootNode)
 	{
-		super(new SuccessorsTableModel(persistenceManager, delegateTreeRootNode));
-		this.persistenceManager = persistenceManager;
+		super(new SuccessorsTableModel(authorityHeaderJPanel.getPersistenceManager(), delegateTreeRootNode));
+		this.authorityHeaderJPanel = authorityHeaderJPanel;
 		this.myTableDateCellRenderer = new MyTableDateCellRenderer();
 		setDefaultRenderer(Date.class, myTableDateCellRenderer);
 		this.myTablePersonCellRenderer = new MyTablePersonCellRenderer();
@@ -386,9 +373,29 @@ public class SuccessorsJTable extends JTable
 		return (SuccessorsTableModel) super.getModel();
 	}
 
+	protected AuthorityHeaderJPanel getAuthorityHeaderJPanel()
+	{
+		return authorityHeaderJPanel;
+	}
+
 	protected PersistenceManager getPersistenceManager()
 	{
-		return persistenceManager;
+		return getAuthorityHeaderJPanel().getPersistenceManager();
+	}
+
+	protected FontManager getFontManager()
+	{
+		return getAuthorityHeaderJPanel().getFontManager();
+	}
+
+	private int computeWidth(int textLength)
+	{
+		return getFontManager().fontMetrics().charWidth('x') * textLength + 10;
+	}
+
+	private int computeHeight()
+	{
+		return getFontManager().fontMetrics().getHeight();
 	}
 
 	public void close()

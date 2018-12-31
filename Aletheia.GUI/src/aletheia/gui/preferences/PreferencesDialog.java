@@ -560,9 +560,10 @@ public class PreferencesDialog extends JDialog
 					throw new Exception("Must select a P2P surrogate address");
 				preferences.peerToPeerNode().malePeerToPeerNode().setP2pSurrogatePort((int) p2pSurrogatePortSpinner.getValue());
 				int fontSize = (Integer) fontSizeSpinner.getValue();
-				int oldFontSize = preferences.appearance().getFontSize();
+				preferences.appearance().setFontSize(fontSize);
+				int oldFontSize = aletheiaJFrame.getFontManager().getFontSize();
 				if (oldFontSize != fontSize)
-					preferences.appearance().setFontSize(fontSize);
+					aletheiaJFrame.getFontManager().setFontSize(fontSize);
 
 				boolean ret = aletheiaJFrame.updateContentPane(false);
 				if (ret)

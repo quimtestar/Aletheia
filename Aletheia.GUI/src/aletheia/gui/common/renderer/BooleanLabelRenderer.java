@@ -19,13 +19,15 @@
  ******************************************************************************/
 package aletheia.gui.common.renderer;
 
+import aletheia.gui.app.FontManager;
+
 public class BooleanLabelRenderer extends AbstractRenderer
 {
 	private static final long serialVersionUID = -513715235162812932L;
 
-	public BooleanLabelRenderer(Boolean bool)
+	public BooleanLabelRenderer(FontManager fontManager, Boolean bool)
 	{
-		super();
+		super(fontManager);
 		if (bool != null)
 		{
 			addBooleanLabel(bool);

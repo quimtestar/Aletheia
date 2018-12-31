@@ -81,7 +81,7 @@ public abstract class DelegateTreeModelNodeRenderer extends PersistentJTreeNodeR
 
 	public DelegateTreeModelNodeRenderer(DelegateTreeJTree delegateTreeJTree, DelegateTreeModelNode delegateTreeModelNode)
 	{
-		super(true, delegateTreeJTree, false);
+		super(delegateTreeJTree.getFontManager(), true, delegateTreeJTree, false);
 		this.delegateTreeModelNode = delegateTreeModelNode;
 		this.listener = new Listener();
 		addKeyListener(listener);

@@ -123,7 +123,7 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 
 	public SimpleAletheiaJFrame(SimpleAletheiaGUI aletheiaGUI) throws InterruptedException
 	{
-		super(aletheiaGUI);
+		super(new FontManager(32), aletheiaGUI);
 		this.properties = new MyProperties();
 		BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
 		if (properties.getDbFile() == null)

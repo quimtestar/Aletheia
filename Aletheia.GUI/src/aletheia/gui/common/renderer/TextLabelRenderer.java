@@ -22,20 +22,22 @@ package aletheia.gui.common.renderer;
 import java.awt.Color;
 import java.awt.Font;
 
+import aletheia.gui.app.FontManager;
+
 public class TextLabelRenderer extends AbstractRenderer
 {
 	private static final long serialVersionUID = -7907428778408871348L;
 
-	public TextLabelRenderer(String text, Color textColor)
+	public TextLabelRenderer(FontManager fontManager, String text, Color textColor)
 	{
-		super();
+		super(fontManager);
 		setActiveFont(getTextLabelFont());
 		addTextLabel(text, textColor);
 	}
 
-	public TextLabelRenderer(String text)
+	public TextLabelRenderer(FontManager fontManager, String text)
 	{
-		this(text, AbstractRenderer.getDefaultColor());
+		this(fontManager, text, AbstractRenderer.getDefaultColor());
 	}
 
 	protected Font getTextLabelFont()

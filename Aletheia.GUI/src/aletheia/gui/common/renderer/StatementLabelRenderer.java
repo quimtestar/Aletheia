@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.common.renderer;
 
+import aletheia.gui.app.FontManager;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -28,9 +29,9 @@ public class StatementLabelRenderer extends AbstractPersistentRenderer
 	private static final long serialVersionUID = 1212800280850847894L;
 	private final static int transactionTimeout = 100;
 
-	public StatementLabelRenderer(PersistenceManager persistenceManager, Statement statement, boolean highlightVariableReferences)
+	public StatementLabelRenderer(FontManager fontManager, PersistenceManager persistenceManager, Statement statement, boolean highlightVariableReferences)
 	{
-		super(persistenceManager, highlightVariableReferences);
+		super(fontManager, persistenceManager, highlightVariableReferences);
 		Transaction transaction = beginTransaction();
 		try
 		{

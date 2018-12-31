@@ -29,6 +29,7 @@ import javax.swing.JLabel;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
+import aletheia.gui.app.FontManager;
 import aletheia.gui.common.PopupManager;
 import aletheia.gui.person.PersonInfoJPanel;
 import aletheia.model.authority.Person;
@@ -79,15 +80,15 @@ public class PersonLabelRenderer extends AbstractRenderer
 	private final PersonInfoJPanel personInfoJPanel;
 	private final PopupManager popupManager;
 
-	public PersonLabelRenderer(Person person)
+	public PersonLabelRenderer(FontManager fontManager, Person person)
 	{
-		super();
+		super(fontManager);
 		this.person = person;
 		this.color = person instanceof PrivatePerson ? privateColor : defaultColor;
 		this.personLabel = addPersonReference(person, color);
 		this.listener = new Listener();
 		this.personLabel.addMouseListener(listener);
-		this.personInfoJPanel = new PersonInfoJPanel(person, color);
+		this.personInfoJPanel = new PersonInfoJPanel(person, fontManager, color);
 		this.personInfoJPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		this.popupManager = new PopupManager(this, personInfoJPanel);
 		addAncestorListener(new AncestorListener()

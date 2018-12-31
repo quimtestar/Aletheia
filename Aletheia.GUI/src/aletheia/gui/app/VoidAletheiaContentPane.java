@@ -25,7 +25,6 @@ import java.util.Collection;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
-import aletheia.gui.font.FontManager;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
@@ -34,14 +33,28 @@ public class VoidAletheiaContentPane extends AbstractAletheiaContentPane
 {
 	private static final long serialVersionUID = -7688744246450953102L;
 
-	private JLabel labelInfo = new JLabel("Set a persistence folder on the preferences dialog", SwingConstants.CENTER);
+	private final MainAletheiaJFrame aletheiaJFrame;
+	private final JLabel labelInfo;
 
-	public VoidAletheiaContentPane()
+	public VoidAletheiaContentPane(MainAletheiaJFrame aletheiaJFrame)
 	{
 		super();
+		this.aletheiaJFrame = aletheiaJFrame;
+		this.labelInfo = new JLabel("Set a persistence folder on the preferences dialog", SwingConstants.CENTER);
+
 		this.setLayout(new BorderLayout());
 		this.add(labelInfo, BorderLayout.CENTER);
 		updateFontSize();
+	}
+
+	private MainAletheiaJFrame getAletheiaJFrame()
+	{
+		return aletheiaJFrame;
+	}
+
+	private FontManager getFontManager()
+	{
+		return getAletheiaJFrame().getFontManager();
 	}
 
 	@Override
@@ -52,7 +65,7 @@ public class VoidAletheiaContentPane extends AbstractAletheiaContentPane
 	@Override
 	public void updateFontSize()
 	{
-		labelInfo.setFont(FontManager.instance.defaultFont());
+		labelInfo.setFont(getFontManager().defaultFont());
 	}
 
 	@Override

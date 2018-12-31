@@ -26,6 +26,7 @@ import java.awt.Insets;
 
 import javax.swing.JPanel;
 
+import aletheia.gui.app.FontManager;
 import aletheia.gui.common.renderer.BoldTextLabelRenderer;
 import aletheia.gui.common.renderer.TextLabelRenderer;
 import aletheia.gui.common.renderer.UUIDLabelRenderer;
@@ -36,7 +37,7 @@ public class PersonInfoJPanel extends JPanel
 	private static final long serialVersionUID = 829926598835206962L;
 	private final Person person;
 
-	public PersonInfoJPanel(Person person, Color textColor)
+	public PersonInfoJPanel(Person person, FontManager fontManager, Color textColor)
 	{
 		super();
 		this.person = person;
@@ -50,7 +51,7 @@ public class PersonInfoJPanel extends JPanel
 			gbc.gridy = 0;
 			gbc.insets = insets;
 			gbc.anchor = GridBagConstraints.WEST;
-			add(new BoldTextLabelRenderer("UUID", textColor), gbc);
+			add(new BoldTextLabelRenderer(fontManager, "UUID", textColor), gbc);
 		}
 		{
 			GridBagConstraints gbc = new GridBagConstraints();
@@ -58,7 +59,7 @@ public class PersonInfoJPanel extends JPanel
 			gbc.gridy = 0;
 			gbc.insets = insets;
 			gbc.anchor = GridBagConstraints.WEST;
-			add(new UUIDLabelRenderer(person.getUuid(), textColor), gbc);
+			add(new UUIDLabelRenderer(fontManager, person.getUuid(), textColor), gbc);
 		}
 		{
 			GridBagConstraints gbc = new GridBagConstraints();
@@ -66,7 +67,7 @@ public class PersonInfoJPanel extends JPanel
 			gbc.gridy = 1;
 			gbc.insets = insets;
 			gbc.anchor = GridBagConstraints.WEST;
-			add(new BoldTextLabelRenderer("Nick", textColor), gbc);
+			add(new BoldTextLabelRenderer(fontManager, "Nick", textColor), gbc);
 		}
 		{
 			GridBagConstraints gbc = new GridBagConstraints();
@@ -74,7 +75,7 @@ public class PersonInfoJPanel extends JPanel
 			gbc.gridy = 1;
 			gbc.insets = insets;
 			gbc.anchor = GridBagConstraints.WEST;
-			add(new TextLabelRenderer(person.getNick(), textColor), gbc);
+			add(new TextLabelRenderer(fontManager, person.getNick(), textColor), gbc);
 		}
 		{
 			GridBagConstraints gbc = new GridBagConstraints();
@@ -82,7 +83,7 @@ public class PersonInfoJPanel extends JPanel
 			gbc.gridy = 2;
 			gbc.insets = insets;
 			gbc.anchor = GridBagConstraints.WEST;
-			add(new BoldTextLabelRenderer("Name", textColor), gbc);
+			add(new BoldTextLabelRenderer(fontManager, "Name", textColor), gbc);
 		}
 		{
 			GridBagConstraints gbc = new GridBagConstraints();
@@ -90,7 +91,7 @@ public class PersonInfoJPanel extends JPanel
 			gbc.gridy = 2;
 			gbc.insets = insets;
 			gbc.anchor = GridBagConstraints.WEST;
-			add(new TextLabelRenderer(person.getName(), textColor), gbc);
+			add(new TextLabelRenderer(fontManager, person.getName(), textColor), gbc);
 		}
 		{
 			GridBagConstraints gbc = new GridBagConstraints();
@@ -98,7 +99,7 @@ public class PersonInfoJPanel extends JPanel
 			gbc.gridy = 3;
 			gbc.insets = insets;
 			gbc.anchor = GridBagConstraints.WEST;
-			add(new BoldTextLabelRenderer("Email", textColor), gbc);
+			add(new BoldTextLabelRenderer(fontManager, "Email", textColor), gbc);
 		}
 		{
 			GridBagConstraints gbc = new GridBagConstraints();
@@ -106,7 +107,7 @@ public class PersonInfoJPanel extends JPanel
 			gbc.gridy = 3;
 			gbc.insets = insets;
 			gbc.anchor = GridBagConstraints.WEST;
-			add(new TextLabelRenderer(person.getEmail(), textColor), gbc);
+			add(new TextLabelRenderer(fontManager, person.getEmail(), textColor), gbc);
 		}
 	}
 

@@ -41,13 +41,20 @@ public abstract class MainAletheiaJFrame extends AletheiaJFrame
 
 	}
 
+	private final FontManager fontManager;
 	private final AletheiaGUI aletheiaGUI;
 
-	public MainAletheiaJFrame(AletheiaGUI aletheiaGUI)
+	public MainAletheiaJFrame(FontManager fontManager, AletheiaGUI aletheiaGUI)
 	{
 		super();
+		this.fontManager = fontManager;
 		this.aletheiaGUI = aletheiaGUI;
 		this.aletheiaGUI.getAletheiaEventQueue().addThrowableProcessor(this, PersistenceLockTimeoutException.class, new MyThrowableProcessor());
+	}
+
+	public FontManager getFontManager()
+	{
+		return fontManager;
 	}
 
 	public AletheiaGUI getAletheiaGUI()

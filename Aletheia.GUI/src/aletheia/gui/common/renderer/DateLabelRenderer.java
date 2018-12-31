@@ -21,13 +21,15 @@ package aletheia.gui.common.renderer;
 
 import java.util.Date;
 
+import aletheia.gui.app.FontManager;
+
 public class DateLabelRenderer extends AbstractRenderer
 {
 	private static final long serialVersionUID = -3000005766995475145L;
 
-	public DateLabelRenderer(Date date)
+	public DateLabelRenderer(FontManager fontManager, Date date)
 	{
-		super(false);
+		super(fontManager, false);
 		addDateLabel(date);
 	}
 }

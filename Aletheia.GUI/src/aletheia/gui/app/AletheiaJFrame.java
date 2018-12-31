@@ -26,6 +26,7 @@ import java.awt.HeadlessException;
 import java.awt.Window;
 
 import javax.swing.JFrame;
+
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.utilities.gui.MyJSplitPane;

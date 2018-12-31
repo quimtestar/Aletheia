@@ -197,7 +197,7 @@ public class DesktopAletheiaJFrame extends MainAletheiaJFrame
 
 	public DesktopAletheiaJFrame(DesktopAletheiaGUI aletheiaGUI)
 	{
-		super(aletheiaGUI);
+		super(new FontManager(GUIAletheiaPreferences.instance.appearance().getFontSize()), aletheiaGUI);
 		this.preferences = GUIAletheiaPreferences.instance;
 		this.setPreferredSize(preferences.appearance().aletheiaJFrameBounds().getPreferredSize());
 		this.setLocation(preferences.appearance().aletheiaJFrameBounds().getLocation());
@@ -444,7 +444,7 @@ public class DesktopAletheiaJFrame extends MainAletheiaJFrame
 				persistenceManager = persistenceClass.persistenceGUIFactory.createPersistenceManager(this, startupProgressListener);
 				if (persistenceManager == null)
 				{
-					aletheiaContentPane = new VoidAletheiaContentPane();
+					aletheiaContentPane = new VoidAletheiaContentPane(this);
 					getJMenuBar().updatePersistenceManager();
 				}
 				else
@@ -461,7 +461,7 @@ public class DesktopAletheiaJFrame extends MainAletheiaJFrame
 			}
 			catch (RedialogCreatePersistenceManagerException e)
 			{
-				aletheiaContentPane = new VoidAletheiaContentPane();
+				aletheiaContentPane = new VoidAletheiaContentPane(this);
 				getJMenuBar().updatePersistenceManager();
 				refreshContentPane();
 				return false;
@@ -489,7 +489,7 @@ public class DesktopAletheiaJFrame extends MainAletheiaJFrame
 				}
 				persistenceManager = null;
 			}
-			aletheiaContentPane = new VoidAletheiaContentPane();
+			aletheiaContentPane = new VoidAletheiaContentPane(this);
 			getJMenuBar().updatePersistenceManager();
 			refreshContentPane();
 			String message = e.getMessage();

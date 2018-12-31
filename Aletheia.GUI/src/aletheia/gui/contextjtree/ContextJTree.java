@@ -484,7 +484,7 @@ public class ContextJTree extends PersistentJTree
 
 	public ContextJTree(AletheiaJPanel aletheiaJPanel)
 	{
-		super(new ContextJTreeModel(aletheiaJPanel.getPersistenceManager()));
+		super(new ContextJTreeModel(aletheiaJPanel.getPersistenceManager()), aletheiaJPanel.getFontManager());
 		this.setLargeModel(true);
 		this.setTransferHandler(new MyTransferHandler());
 		this.aletheiaJPanel = aletheiaJPanel;

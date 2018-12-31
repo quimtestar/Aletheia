@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.font;
+package aletheia.gui.app;
 
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -29,7 +29,6 @@ import javax.swing.JLabel;
 
 import org.apache.logging.log4j.Logger;
 
-import aletheia.gui.preferences.GUIAletheiaPreferences;
 import aletheia.log4j.LoggerManager;
 
 public class FontManager
@@ -42,8 +41,6 @@ public class FontManager
 	private final static String baseBoldFontFile = fontPath + "/ttf/DejaVuSansMono-Bold.ttf";
 	private final static String baseItalicFontFile = fontPath + "/ttf/DejaVuSansMono-Oblique.ttf";
 	private final static String baseExpandFontFile = fontPath + "/ttf/DejaVuSans.ttf";
-
-	public final static FontManager instance = new FontManager();
 
 	private final Font baseFont;
 	private final Font baseBoldFont;
@@ -71,7 +68,9 @@ public class FontManager
 		}
 	}
 
-	private FontManager()
+	private int fontSize;
+
+	public FontManager(int fontSize)
 	{
 		Font baseFont_;
 		try
@@ -83,7 +82,7 @@ public class FontManager
 			logger.warn("Couldn't load plain base font", e1);
 			baseFont_ = new Font(Font.MONOSPACED, Font.PLAIN, 1);
 		}
-		baseFont = baseFont_;
+		this.baseFont = baseFont_;
 
 		Font baseBoldFont_;
 		try
@@ -95,7 +94,7 @@ public class FontManager
 			logger.warn("Couldn't load bold base font", e1);
 			baseBoldFont_ = new Font(Font.MONOSPACED, Font.BOLD, 1);
 		}
-		baseBoldFont = baseBoldFont_;
+		this.baseBoldFont = baseBoldFont_;
 
 		Font baseItalicFont_;
 		try
@@ -107,7 +106,7 @@ public class FontManager
 			logger.warn("Couldn't load base italic base font", e1);
 			baseItalicFont_ = new Font(Font.MONOSPACED, Font.ITALIC, 1);
 		}
-		baseItalicFont = baseItalicFont_;
+		this.baseItalicFont = baseItalicFont_;
 
 		Font baseExpandFont_;
 		try
@@ -119,36 +118,49 @@ public class FontManager
 			logger.warn("Couldn't load expand base font", e1);
 			baseExpandFont_ = new Font(Font.DIALOG, Font.PLAIN, 1);
 		}
-		baseExpandFont = baseExpandFont_;
+		this.baseExpandFont = baseExpandFont_;
+
+		this.fontSize = fontSize;
 	}
 
-	private static int fontSize()
+	public int getFontSize()
 	{
-		return GUIAletheiaPreferences.instance.appearance().getFontSize();
+		return fontSize;
+	}
+
+	public void setFontSize(int fontSize)
+	{
+		this.fontSize = fontSize;
 	}
 
 	public Font defaultFont()
 	{
-		return baseFont.deriveFont(Font.PLAIN, fontSize());
+		return baseFont.deriveFont(Font.PLAIN, getFontSize());
 	}
 
 	public Font boldFont()
 	{
-		return baseBoldFont.deriveFont(Font.BOLD, fontSize());
+		return baseBoldFont.deriveFont(Font.BOLD, getFontSize());
 	}
 
 	public Font italicFont()
 	{
-		return baseItalicFont.deriveFont(Font.ITALIC, fontSize());
+		return baseItalicFont.deriveFont(Font.ITALIC, getFontSize());
 	}
 
 	public Font expandFont()
 	{
-		return baseExpandFont.deriveFont(Font.PLAIN, fontSize());
+		return baseExpandFont.deriveFont(Font.PLAIN, getFontSize());
 	}
 
 	public FontMetrics fontMetrics(Font font)
 	{
 		return new JLabel().getFontMetrics(font);
 	}
+
+	public FontMetrics fontMetrics()
+	{
+		return fontMetrics(defaultFont());
+	}
+
 }

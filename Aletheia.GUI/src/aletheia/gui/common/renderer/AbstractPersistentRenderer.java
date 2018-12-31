@@ -42,6 +42,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import aletheia.gui.app.FontManager;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.parameteridentification.CompositionParameterIdentification;
 import aletheia.model.parameteridentification.FunctionParameterIdentification;
@@ -72,16 +73,16 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 
 	private final boolean clickableVariableReferences;
 
-	public AbstractPersistentRenderer(boolean border, PersistenceManager persistenceManager, boolean clickableVariableReferences)
+	public AbstractPersistentRenderer(FontManager fontManager, boolean border, PersistenceManager persistenceManager, boolean clickableVariableReferences)
 	{
-		super(border);
+		super(fontManager, border);
 		this.persistenceManager = persistenceManager;
 		this.clickableVariableReferences = clickableVariableReferences;
 	}
 
-	public AbstractPersistentRenderer(PersistenceManager persistenceManager, boolean clickableVariableReferences)
+	public AbstractPersistentRenderer(FontManager fontManager, PersistenceManager persistenceManager, boolean clickableVariableReferences)
 	{
-		this(false, persistenceManager, clickableVariableReferences);
+		this(fontManager, false, persistenceManager, clickableVariableReferences);
 	}
 
 	protected PersistenceManager getPersistenceManager()

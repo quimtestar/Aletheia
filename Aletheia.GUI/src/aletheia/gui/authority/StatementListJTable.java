@@ -23,7 +23,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.FontMetrics;
 import java.awt.KeyboardFocusManager;
 import java.awt.LayoutManager;
 import java.awt.datatransfer.Transferable;
@@ -51,12 +50,12 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
+import aletheia.gui.app.FontManager;
 import aletheia.gui.common.datatransfer.StatementTransferable;
 import aletheia.gui.common.renderer.AbstractPersistentRenderer;
 import aletheia.gui.common.renderer.AbstractRenderer;
 import aletheia.gui.common.renderer.BoldTextLabelRenderer;
 import aletheia.gui.common.renderer.TextLabelRenderer;
-import aletheia.gui.font.FontManager;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.VariableTerm;
@@ -67,18 +66,6 @@ public class StatementListJTable extends JTable
 {
 	private static final long serialVersionUID = 2156074004820098390L;
 	private final static int transactionTimeout = 100;
-
-	private static int computeWidth(int textLength)
-	{
-		FontMetrics fontMetrics = FontManager.instance.fontMetrics(FontManager.instance.defaultFont());
-		return fontMetrics.charWidth('x') * textLength + 10;
-	}
-
-	private static int computeHeight()
-	{
-		FontMetrics fontMetrics = FontManager.instance.fontMetrics(FontManager.instance.defaultFont());
-		return fontMetrics.getHeight();
-	}
 
 	private class MyCellRendererComponent extends JPanel
 	{
@@ -178,7 +165,7 @@ public class StatementListJTable extends JTable
 
 			public StatementRenderer(Statement statement)
 			{
-				super(persistenceManager, true);
+				super(StatementListJTable.this.getFontManager(), StatementListJTable.this.getPersistenceManager(), true);
 				Transaction transaction = beginTransaction();
 				try
 				{
@@ -202,7 +189,7 @@ public class StatementListJTable extends JTable
 			@Override
 			protected Transaction beginTransaction()
 			{
-				return persistenceManager.beginTransaction(transactionTimeout);
+				return getPersistenceManager().beginTransaction(transactionTimeout);
 			}
 
 			private JLabel addAuthorityLabel()
@@ -373,7 +360,7 @@ public class StatementListJTable extends JTable
 			MyCellRendererComponent renderer = rendererMap.get(text);
 			if (renderer == null)
 			{
-				TextLabelRenderer r = new BoldTextLabelRenderer(text);
+				TextLabelRenderer r = new BoldTextLabelRenderer(getFontManager(), text);
 				r.setBackground(new Color(0xeeeeee));
 				renderer = new MyCellRendererComponent(r, myCellRendererComponentLayout());
 				Border border = BorderFactory.createMatteBorder(0, 0, 1, 1, getGridColor());
@@ -397,7 +384,7 @@ public class StatementListJTable extends JTable
 		}
 	}
 
-	private final PersistenceManager persistenceManager;
+	private final AuthorityHeaderJPanel authorityHeaderJPanel;
 	private final MyTableCellRenderer myTableCellRenderer;
 
 	private class MyTransferHandler extends TransferHandler
@@ -426,10 +413,10 @@ public class StatementListJTable extends JTable
 
 	}
 
-	public StatementListJTable(PersistenceManager persistenceManager, String name, List<Statement> statementList)
+	public StatementListJTable(AuthorityHeaderJPanel authorityHeaderJPanel, String name, List<Statement> statementList)
 	{
 		super(new StatementListTableModel(name, statementList));
-		this.persistenceManager = persistenceManager;
+		this.authorityHeaderJPanel = authorityHeaderJPanel;
 		this.myTableCellRenderer = new MyTableCellRenderer();
 		setTransferHandler(new MyTransferHandler());
 		setDefaultRenderer(Statement.class, myTableCellRenderer);
@@ -460,9 +447,29 @@ public class StatementListJTable extends JTable
 		return (StatementListTableModel) super.getModel();
 	}
 
+	protected AuthorityHeaderJPanel getAuthorityHeaderJPanel()
+	{
+		return authorityHeaderJPanel;
+	}
+
 	protected PersistenceManager getPersistenceManager()
 	{
-		return persistenceManager;
+		return getAuthorityHeaderJPanel().getPersistenceManager();
+	}
+
+	protected FontManager getFontManager()
+	{
+		return getAuthorityHeaderJPanel().getFontManager();
+	}
+
+	private int computeWidth(int textLength)
+	{
+		return getFontManager().fontMetrics().charWidth('x') * textLength + 10;
+	}
+
+	private int computeHeight()
+	{
+		return getFontManager().fontMetrics().getHeight();
 	}
 
 	protected void mouseClickedOnStatement(Statement statement)

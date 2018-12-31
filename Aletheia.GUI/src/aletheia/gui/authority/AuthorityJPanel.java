@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
+import aletheia.gui.app.FontManager;
 import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.gui.common.FocusBorderManager;
 import aletheia.gui.common.PersistentJTreeLayerUI;
@@ -218,6 +219,11 @@ public class AuthorityJPanel extends JPanel
 	public MainAletheiaJFrame getAletheiaJFrame()
 	{
 		return contextJTreeJPanel.getAletheiaJFrame();
+	}
+
+	public FontManager getFontManager()
+	{
+		return getAletheiaJFrame().getFontManager();
 	}
 
 	@Override

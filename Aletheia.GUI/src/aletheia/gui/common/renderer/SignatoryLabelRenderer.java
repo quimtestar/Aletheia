@@ -19,15 +19,16 @@
  ******************************************************************************/
 package aletheia.gui.common.renderer;
 
+import aletheia.gui.app.FontManager;
 import aletheia.model.authority.Signatory;
 
 public class SignatoryLabelRenderer extends AbstractRenderer
 {
 	private static final long serialVersionUID = -3100165173850768479L;
 
-	public SignatoryLabelRenderer(Signatory signatory)
+	public SignatoryLabelRenderer(FontManager fontManager, Signatory signatory)
 	{
-		super();
+		super(fontManager);
 		addUUIDLabel(signatory.getUuid());
 	}
 }

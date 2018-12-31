@@ -19,15 +19,16 @@
  ******************************************************************************/
 package aletheia.gui.common.renderer;
 
+import aletheia.gui.app.FontManager;
 import aletheia.model.authority.StatementAuthority;
 
 public class SignatureStatusLabelRenderer extends AbstractRenderer
 {
 	private static final long serialVersionUID = 8953938640629129992L;
 
-	public SignatureStatusLabelRenderer(StatementAuthority.SignatureStatus status)
+	public SignatureStatusLabelRenderer(FontManager fontManager, StatementAuthority.SignatureStatus status)
 	{
-		super();
+		super(fontManager);
 		addSignatureStatusSymbolLabel(status);
 		addSpaceLabel();
 		addTextLabel(status.getText());

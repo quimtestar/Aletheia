@@ -101,6 +101,11 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 		return aletheiaJFrame;
 	}
 
+	public FontManager getFontManager()
+	{
+		return aletheiaJFrame.getFontManager();
+	}
+
 	public AletheiaJFrame getOwnerFrame()
 	{
 		return ownerFrame;

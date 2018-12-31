@@ -69,7 +69,7 @@ public abstract class ContextJTreeNodeRenderer extends PersistentJTreeNodeRender
 
 	public ContextJTreeNodeRenderer(boolean border, ContextJTree contextJTree)
 	{
-		super(border, contextJTree, true);
+		super(contextJTree.getFontManager(), border, contextJTree, true);
 		addKeyListener(new TreeNodeRendererKeyListener());
 	}
 

@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.common.renderer;
 
+import aletheia.gui.app.FontManager;
 import aletheia.gui.common.PersistentJTree;
 import aletheia.persistence.Transaction;
 
@@ -28,15 +29,15 @@ public abstract class PersistentJTreeNodeRenderer extends AbstractPersistentRend
 
 	private final PersistentJTree persistentJTree;
 
-	public PersistentJTreeNodeRenderer(boolean border, PersistentJTree persistentJTree, boolean highlightVariableReferences)
+	public PersistentJTreeNodeRenderer(FontManager fontManager, boolean border, PersistentJTree persistentJTree, boolean highlightVariableReferences)
 	{
-		super(border, persistentJTree.getPersistenceManager(), highlightVariableReferences);
+		super(fontManager, border, persistentJTree.getPersistenceManager(), highlightVariableReferences);
 		this.persistentJTree = persistentJTree;
 	}
 
-	public PersistentJTreeNodeRenderer(PersistentJTree persistentJTree, boolean highlightVariableReferences)
+	public PersistentJTreeNodeRenderer(FontManager fontManager, PersistentJTree persistentJTree, boolean highlightVariableReferences)
 	{
-		this(false, persistentJTree, highlightVariableReferences);
+		this(fontManager, false, persistentJTree, highlightVariableReferences);
 	}
 
 	public PersistentJTree getPersistentJTree()

@@ -32,13 +32,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Scrollable;
 
+import aletheia.gui.app.FontManager;
 import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.gui.common.FocusBorderManager;
 import aletheia.gui.common.renderer.BoldTextLabelRenderer;
 import aletheia.gui.common.renderer.DateLabelRenderer;
 import aletheia.gui.common.renderer.PersonLabelRenderer;
 import aletheia.gui.common.renderer.SignatureStatusLabelRenderer;
-import aletheia.gui.font.FontManager;
 import aletheia.model.authority.DelegateTreeRootNode;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.statement.Context;
@@ -62,7 +62,7 @@ public class AuthorityHeaderJPanel extends JPanel implements Scrollable
 
 		public MyStatementListJTable(String name, List<Statement> statementList)
 		{
-			super(AuthorityHeaderJPanel.this.getPersistenceManager(), name, statementList);
+			super(AuthorityHeaderJPanel.this, name, statementList);
 		}
 
 		@Override
@@ -98,7 +98,7 @@ public class AuthorityHeaderJPanel extends JPanel implements Scrollable
 				gbc.gridy = 0;
 				gbc.insets = insets;
 				gbc.anchor = GridBagConstraints.WEST;
-				add(new BoldTextLabelRenderer("Author"), gbc);
+				add(new BoldTextLabelRenderer(getFontManager(), "Author"), gbc);
 			}
 			{
 				GridBagConstraints gbc = new GridBagConstraints();
@@ -106,7 +106,7 @@ public class AuthorityHeaderJPanel extends JPanel implements Scrollable
 				gbc.gridy = 0;
 				gbc.insets = insets;
 				gbc.anchor = GridBagConstraints.WEST;
-				add(new PersonLabelRenderer(statementAuthority.getAuthor(transaction)), gbc);
+				add(new PersonLabelRenderer(getFontManager(), statementAuthority.getAuthor(transaction)), gbc);
 			}
 			{
 				GridBagConstraints gbc = new GridBagConstraints();
@@ -114,7 +114,7 @@ public class AuthorityHeaderJPanel extends JPanel implements Scrollable
 				gbc.gridy = 1;
 				gbc.insets = insets;
 				gbc.anchor = GridBagConstraints.WEST;
-				add(new BoldTextLabelRenderer("Created"), gbc);
+				add(new BoldTextLabelRenderer(getFontManager(), "Created"), gbc);
 			}
 			{
 				GridBagConstraints gbc = new GridBagConstraints();
@@ -122,7 +122,7 @@ public class AuthorityHeaderJPanel extends JPanel implements Scrollable
 				gbc.gridy = 1;
 				gbc.insets = insets;
 				gbc.anchor = GridBagConstraints.WEST;
-				add(new DateLabelRenderer(statementAuthority.getCreationDate()), gbc);
+				add(new DateLabelRenderer(getFontManager(), statementAuthority.getCreationDate()), gbc);
 			}
 			{
 				GridBagConstraints gbc = new GridBagConstraints();
@@ -130,7 +130,7 @@ public class AuthorityHeaderJPanel extends JPanel implements Scrollable
 				gbc.gridy = 2;
 				gbc.insets = insets;
 				gbc.anchor = GridBagConstraints.WEST;
-				add(new BoldTextLabelRenderer("Status"), gbc);
+				add(new BoldTextLabelRenderer(getFontManager(), "Status"), gbc);
 			}
 			{
 				GridBagConstraints gbc = new GridBagConstraints();
@@ -138,7 +138,7 @@ public class AuthorityHeaderJPanel extends JPanel implements Scrollable
 				gbc.gridy = 2;
 				gbc.insets = insets;
 				gbc.anchor = GridBagConstraints.WEST;
-				add(new SignatureStatusLabelRenderer(statementAuthority.signatureStatus()), gbc);
+				add(new SignatureStatusLabelRenderer(getFontManager(), statementAuthority.signatureStatus()), gbc);
 			}
 			Statement statement = statementAuthority.getStatement(transaction);
 			if (statement != null)
@@ -191,10 +191,10 @@ public class AuthorityHeaderJPanel extends JPanel implements Scrollable
 						gbc.anchor = GridBagConstraints.WEST;
 						gbc.fill = GridBagConstraints.BOTH;
 						JLabel label = new JLabel("             ");
-						label.setFont(FontManager.instance.defaultFont());
+						label.setFont(authorityJPanel.getFontManager().defaultFont());
 						add(label, gbc);
 					}
-					this.successorListJTable = new SuccessorsJTable(getPersistenceManager(), delegateTreeRootNode);
+					this.successorListJTable = new SuccessorsJTable(this, delegateTreeRootNode);
 					{
 						GridBagConstraints gbc = new GridBagConstraints();
 						gbc.gridx = 5;
@@ -250,6 +250,11 @@ public class AuthorityHeaderJPanel extends JPanel implements Scrollable
 	protected MainAletheiaJFrame getAletheiaJFrame()
 	{
 		return authorityJPanel.getContextJTreeJPanel().getAletheiaJPanel().getAletheiaJFrame();
+	}
+
+	protected FontManager getFontManager()
+	{
+		return getAletheiaJFrame().getFontManager();
 	}
 
 	@Override

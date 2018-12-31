@@ -40,7 +40,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-import aletheia.gui.font.FontManager;
+import aletheia.gui.app.FontManager;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.utilities.MiscUtilities;
@@ -120,6 +120,8 @@ public abstract class AbstractRenderer extends JPanel
 		public void stopEditing();
 	}
 
+	private final FontManager fontManager;
+
 	private final Set<EditableComponent> editableComponents;
 
 	private final boolean withBorder;
@@ -133,9 +135,10 @@ public abstract class AbstractRenderer extends JPanel
 	private Color normalBackgroundColor = defaultNormalBackgroundColor;
 	private Color selectedBackgroundColor = defaultSelectedBackgroundColor;
 
-	public AbstractRenderer(boolean withBorder)
+	public AbstractRenderer(FontManager fontManager, boolean withBorder)
 	{
 		super();
+		this.fontManager = fontManager;
 		this.editableComponents = new HashSet<>();
 		this.withBorder = withBorder;
 		this.stack = new Stack<>();
@@ -150,9 +153,14 @@ public abstract class AbstractRenderer extends JPanel
 			setBorder(emptyBorder);
 	}
 
-	public AbstractRenderer()
+	public AbstractRenderer(FontManager fontManager)
 	{
-		this(false);
+		this(fontManager, false);
+	}
+
+	protected FontManager getFontManager()
+	{
+		return fontManager;
 	}
 
 	protected void pushComponentList()
@@ -210,17 +218,17 @@ public abstract class AbstractRenderer extends JPanel
 
 	protected Font getDefaultFont()
 	{
-		return FontManager.instance.defaultFont();
+		return fontManager.defaultFont();
 	}
 
 	protected Font getBoldFont()
 	{
-		return FontManager.instance.boldFont();
+		return fontManager.boldFont();
 	}
 
 	protected Font getItalicFont()
 	{
-		return FontManager.instance.italicFont();
+		return fontManager.italicFont();
 	}
 
 	protected Font getActiveFont()
@@ -508,7 +516,7 @@ public abstract class AbstractRenderer extends JPanel
 
 	protected JLabel addAsterismLabel(Color color)
 	{
-		return addTextLabel("\u2042", FontManager.instance.expandFont(), color);
+		return addTextLabel("\u2042", fontManager.expandFont(), color);
 	}
 
 	protected JLabel addEnvelopeLabel()

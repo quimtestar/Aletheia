@@ -106,7 +106,7 @@ public class GroupSorterContextJTreeNodeRenderer extends ContextJTreeNodeRendere
 
 		private StateRenderer(ContextJTree contextJTree)
 		{
-			super();
+			super(GroupSorterContextJTreeNodeRenderer.this.getFontManager());
 		}
 
 	}

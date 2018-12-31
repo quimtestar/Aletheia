@@ -216,7 +216,7 @@ public class CatalogJTree extends PersistentJTree
 
 	public CatalogJTree(CliJPanel cliJPanel)
 	{
-		super(new CatalogTreeModel(cliJPanel.getPersistenceManager()));
+		super(new CatalogTreeModel(cliJPanel.getPersistenceManager()), cliJPanel.getFontManager());
 		this.setLargeModel(true);
 		this.setTransferHandler(new MyTransferHandler());
 		this.cliJPanel = cliJPanel;

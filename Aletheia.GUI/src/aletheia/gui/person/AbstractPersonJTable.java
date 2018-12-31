@@ -22,7 +22,6 @@ package aletheia.gui.person;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
-import java.awt.FontMetrics;
 import java.awt.LayoutManager;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -48,19 +47,18 @@ import javax.swing.table.TableCellRenderer;
 
 import org.apache.logging.log4j.Logger;
 
+import aletheia.gui.app.FontManager;
 import aletheia.gui.common.renderer.AbstractRenderer;
 import aletheia.gui.common.renderer.BoldTextLabelRenderer;
 import aletheia.gui.common.renderer.EmptyRenderer;
 import aletheia.gui.common.renderer.TextLabelRenderer;
 import aletheia.gui.common.renderer.UUIDLabelRenderer;
-import aletheia.gui.font.FontManager;
 import aletheia.gui.person.AbstractPersonTableModel.AddedPersonTableModelEvent;
 import aletheia.gui.person.AbstractPersonTableModel.PersonTableModelEvent;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.IncompleteDataSignatureException;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.PrivatePerson;
-import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.exceptions.BerkeleyDBPersistenceException;
 import aletheia.persistence.exceptions.PersistenceException;
@@ -133,7 +131,7 @@ public abstract class AbstractPersonJTable extends JTable
 			if (value != null)
 				renderer = buildRenderer(value);
 			else
-				renderer = new EmptyRenderer();
+				renderer = new EmptyRenderer(getFontManager());
 			if (row >= 0 && !getModel().isRowPrivate(row))
 				renderer.setNormalBackgroundColor(new Color(0xefefef));
 			MyCellRendererComponent myCellRendererComponent = buildMyCellRendererComponent(renderer);
@@ -173,7 +171,7 @@ public abstract class AbstractPersonJTable extends JTable
 		@Override
 		protected AbstractRenderer buildRenderer(String value)
 		{
-			return new TextLabelRenderer(value);
+			return new TextLabelRenderer(getFontManager(), value);
 		}
 
 	}
@@ -190,7 +188,7 @@ public abstract class AbstractPersonJTable extends JTable
 		@Override
 		protected AbstractRenderer buildRenderer(UUID uuid)
 		{
-			return new UUIDLabelRenderer(uuid);
+			return new UUIDLabelRenderer(getFontManager(), uuid);
 		}
 
 	}
@@ -206,7 +204,7 @@ public abstract class AbstractPersonJTable extends JTable
 		@Override
 		protected AbstractRenderer buildRenderer(String value)
 		{
-			TextLabelRenderer r = new BoldTextLabelRenderer(value.toString());
+			TextLabelRenderer r = new BoldTextLabelRenderer(getFontManager(), value.toString());
 			r.setBackground(new Color(0xeeeeee));
 			return r;
 		}
@@ -322,7 +320,7 @@ public abstract class AbstractPersonJTable extends JTable
 		@Override
 		public void updateFontSize()
 		{
-			this.textField.setFont(FontManager.instance.defaultFont());
+			this.textField.setFont(getFontManager().defaultFont());
 		}
 
 		@Override
@@ -392,18 +390,6 @@ public abstract class AbstractPersonJTable extends JTable
 
 	}
 
-	private static int computeWidth(int textLength)
-	{
-		FontMetrics fontMetrics = FontManager.instance.fontMetrics(FontManager.instance.defaultFont());
-		return fontMetrics.charWidth('x') * textLength + 10;
-	}
-
-	private static int computeHeight()
-	{
-		FontMetrics fontMetrics = FontManager.instance.fontMetrics(FontManager.instance.defaultFont());
-		return fontMetrics.getHeight();
-	}
-
 	private final StringTableCellEditor stringTableCellEditor;
 
 	private class Listener implements KeyListener
@@ -435,12 +421,15 @@ public abstract class AbstractPersonJTable extends JTable
 
 	}
 
+	private final PersonsDialog personsDialog;
+
 	private final Listener listener;
 	private PrivatePerson inserted;
 
-	public AbstractPersonJTable(AbstractPersonTableModel personTableModel)
+	public AbstractPersonJTable(AbstractPersonTableModel personTableModel, PersonsDialog personsDialog)
 	{
 		super(personTableModel);
+		this.personsDialog = personsDialog;
 		this.stringTableCellEditor = new StringTableCellEditor();
 		this.listener = new Listener();
 		addKeyListener(listener);
@@ -462,9 +451,24 @@ public abstract class AbstractPersonJTable extends JTable
 		return (AbstractPersonTableModel) super.getModel();
 	}
 
-	protected PersistenceManager getPersistenceManager()
+	protected PersonsDialog getPersonsDialog()
 	{
-		return getModel().getPersistenceManager();
+		return personsDialog;
+	}
+
+	protected FontManager getFontManager()
+	{
+		return getPersonsDialog().getFontManager();
+	}
+
+	private int computeWidth(int textLength)
+	{
+		return getFontManager().fontMetrics().charWidth('x') * textLength + 10;
+	}
+
+	private int computeHeight()
+	{
+		return getFontManager().fontMetrics().getHeight();
 	}
 
 	public void close()
@@ -572,9 +576,9 @@ public abstract class AbstractPersonJTable extends JTable
 				String nick = "*new person";
 				if (n >= 0)
 					nick = nick + n;
-				if (!getPersistenceManager().privatePersonsByNick(transaction).containsKey(nick))
+				if (!getModel().getPersistenceManager().privatePersonsByNick(transaction).containsKey(nick))
 				{
-					person = PrivatePerson.create(getPersistenceManager(), transaction, nick);
+					person = PrivatePerson.create(getModel().getPersistenceManager(), transaction, nick);
 					try
 					{
 						person.sign(transaction);

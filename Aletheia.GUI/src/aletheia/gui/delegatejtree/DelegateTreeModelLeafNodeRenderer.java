@@ -37,7 +37,7 @@ public class DelegateTreeModelLeafNodeRenderer extends DelegateTreeModelNodeRend
 		try
 		{
 			Person person = delegateAuthorizer.getDelegate(transaction);
-			this.personLabelRenderer = new PersonLabelRenderer(person);
+			this.personLabelRenderer = new PersonLabelRenderer(getFontManager(), person);
 			add(personLabelRenderer);
 		}
 		finally

@@ -191,7 +191,7 @@ public class DelegateTreeJTree extends PersistentJTree
 
 	public DelegateTreeJTree(AuthorityJPanel authorityJPanel, StatementAuthority statementAuthority)
 	{
-		super(new DelegateTreeModel(authorityJPanel.getPersistenceManager(), statementAuthority));
+		super(new DelegateTreeModel(authorityJPanel.getPersistenceManager(), statementAuthority), authorityJPanel.getFontManager());
 		this.authorityJPanel = authorityJPanel;
 		this.listener = new Listener();
 		addKeyListener(this.listener);

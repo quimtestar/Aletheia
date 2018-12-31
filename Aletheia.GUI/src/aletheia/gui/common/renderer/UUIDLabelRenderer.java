@@ -22,20 +22,22 @@ package aletheia.gui.common.renderer;
 import java.awt.Color;
 import java.util.UUID;
 
+import aletheia.gui.app.FontManager;
+
 public class UUIDLabelRenderer extends AbstractRenderer
 {
 
 	private static final long serialVersionUID = 3107760025659849180L;
 
-	public UUIDLabelRenderer(UUID uuid, Color color)
+	public UUIDLabelRenderer(FontManager fontManager, UUID uuid, Color color)
 	{
-		super();
+		super(fontManager);
 		addUUIDLabel(uuid, color);
 	}
 
-	public UUIDLabelRenderer(UUID uuid)
+	public UUIDLabelRenderer(FontManager fontManager, UUID uuid)
 	{
-		super();
+		super(fontManager);
 		addUUIDLabel(uuid, AbstractRenderer.getDefaultColor());
 	}
 
