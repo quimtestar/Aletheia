@@ -1268,6 +1268,21 @@ public class CliJPanel extends JPanel implements CommandSource
 		return activeContext;
 	}
 
+	public JScrollPane getScrollTextPane()
+	{
+		return scrollTextPane;
+	}
+
+	public JScrollPane getCatalogJTreeScrollPane()
+	{
+		return catalogJTreeScrollPane;
+	}
+
+	public void setCatalogJTreeScrollPane(JScrollPane catalogJTreeScrollPane)
+	{
+		this.catalogJTreeScrollPane = catalogJTreeScrollPane;
+	}
+
 	@Override
 	public synchronized void setActiveContext(Context activeContext)
 	{
