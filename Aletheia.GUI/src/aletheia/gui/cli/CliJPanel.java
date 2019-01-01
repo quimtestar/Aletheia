@@ -1273,7 +1273,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		return scrollTextPane;
 	}
 
-	public JScrollPane getCatalogJTreeScrollPane()
+	public synchronized JScrollPane getCatalogJTreeScrollPane()
 	{
 		return catalogJTreeScrollPane;
 	}
@@ -2472,15 +2472,7 @@ public class CliJPanel extends JPanel implements CommandSource
 	@Override
 	public void resetGui()
 	{
-		try
-		{
-			aletheiaJPanel.getContextJTreeJPanel().resetContextJTree();
-			resetCatalogJTree();
-		}
-		catch (InterruptedException e)
-		{
-			throw new RuntimeException(e);
-		}
+		aletheiaJPanel.resetGui();
 	}
 
 	@Override

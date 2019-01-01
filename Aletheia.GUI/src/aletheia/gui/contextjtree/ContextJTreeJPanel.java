@@ -80,6 +80,11 @@ public class ContextJTreeJPanel extends JPanel
 		return contextJTree;
 	}
 
+	public synchronized JScrollPane getContextJTreeScrollPane()
+	{
+		return contextJTreeScrollPane;
+	}
+
 	public synchronized void close() throws InterruptedException
 	{
 		contextJTree.close();

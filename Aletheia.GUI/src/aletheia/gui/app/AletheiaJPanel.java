@@ -216,4 +216,18 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 		cliJPanel.setActiveContext(context);
 	}
 
+	public void resetGui()
+	{
+		try
+		{
+			getContextJTreeJPanel().resetContextJTree();
+			getCliJPanel().resetCatalogJTree();
+		}
+		catch (InterruptedException e)
+		{
+			throw new RuntimeException(e);
+		}
+		getOwnerFrame().resetedGui();
+	}
+
 }

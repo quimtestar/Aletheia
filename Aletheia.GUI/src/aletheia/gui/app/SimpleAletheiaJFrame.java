@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Collection;
 import java.util.Properties;
+import java.util.UUID;
 
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
@@ -51,6 +52,11 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 	private static final long serialVersionUID = 3991904540466721887L;
 	private static final Logger logger = LoggerManager.instance.logger();
 
+	public enum Panel
+	{
+		ALL, CONTEXT, CATALOG;
+	}
+
 	static class MyProperties extends Properties
 	{
 		private static final long serialVersionUID = -588777607193025899L;
@@ -60,14 +66,21 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 		private static final String dbfile_name = "aletheia.dbfile_name";
 		private static final String read_only = "aletheia.read_only";
 		private static final String cache_percent = "aletheia.cache_percent";
+		private static final String font_size = "aletheia.font_size";
+		private static final String active_context_uuid = "aletheia.active_context_uuid";
+
+		private static final boolean default_read_only = true;
+		private static final int default_cache_percent = 0;
+		private static final int default_font_size = 16;
 
 		private static final Properties defaults;
 
 		static
 		{
 			defaults = new Properties();
-			defaults.setProperty(read_only, Boolean.toString(true));
-			defaults.setProperty(cache_percent, Integer.toString(0));
+			defaults.setProperty(read_only, Boolean.toString(default_read_only));
+			defaults.setProperty(cache_percent, Integer.toString(default_cache_percent));
+			defaults.setProperty(font_size, Integer.toString(default_font_size));
 		}
 
 		private MyProperties()
@@ -92,8 +105,15 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 
 		public File getDbFile()
 		{
-			String dbFileName = getProperty(dbfile_name);
-			return dbFileName != null ? new File(dbFileName) : null;
+			try
+			{
+				return new File(getProperty(dbfile_name));
+			}
+			catch (NullPointerException e)
+			{
+				return null;
+			}
+
 		}
 
 		public boolean isReadOnly()
@@ -109,13 +129,43 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 			}
 			catch (NumberFormatException e)
 			{
-				return 0;
+				return default_cache_percent;
+			}
+		}
+
+		public int getFontSize()
+		{
+			try
+			{
+				return Integer.parseInt(getProperty(font_size));
+			}
+			catch (NumberFormatException e)
+			{
+				return default_font_size;
+			}
+		}
+
+		public UUID getActiveContextUuid()
+		{
+			try
+			{
+				return UUID.fromString(getProperty(active_context_uuid));
+			}
+			catch (NullPointerException e)
+			{
+				return null;
+			}
+			catch (IllegalArgumentException e)
+			{
+				logger.warn("Bad uuid format in properties file");
+				return null;
 			}
 		}
 
 	}
 
-	private final MyProperties properties;
+	private static final MyProperties properties = new MyProperties();
+
 	private final PersistenceManager persistenceManager;
 	private final AletheiaJPanel aletheiaJPanel;
 
@@ -123,8 +173,7 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 
 	public SimpleAletheiaJFrame(SimpleAletheiaGUI aletheiaGUI) throws InterruptedException
 	{
-		super(new FontManager(32), aletheiaGUI);
-		this.properties = new MyProperties();
+		super(new FontManager(properties.getFontSize()), aletheiaGUI);
 		BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
 		if (properties.getDbFile() == null)
 			throw new RuntimeException("No DB file location configured");
@@ -134,7 +183,29 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 		configuration.setCachePercent(properties.getCachePercent());
 		this.persistenceManager = new BerkeleyDBPersistenceManager(configuration);
 		this.aletheiaJPanel = new AletheiaJPanel(this, this, persistenceManager);
-		this.setContentPane(aletheiaJPanel);
+
+		UUID activeContextUuid = properties.getActiveContextUuid();
+		if (activeContextUuid != null)
+			try (Transaction transaction = persistenceManager.beginTransaction())
+			{
+				Context activeContext = persistenceManager.getContext(transaction, activeContextUuid);
+				if (activeContext != null)
+					aletheiaJPanel.setActiveContext(activeContext);
+				else
+					logger.warn("Couldn't set active context because no context with uuid '" + activeContextUuid + "' found");
+			}
+		switch (aletheiaGUI.getPanel())
+		{
+		case ALL:
+			this.setContentPane(aletheiaJPanel);
+			break;
+		case CONTEXT:
+			this.setContentPane(aletheiaJPanel.getContextJTreeJPanel().getContextJTreeScrollPane());
+			break;
+		case CATALOG:
+			this.setContentPane(aletheiaJPanel.getCliJPanel().getCatalogJTreeScrollPane());
+			break;
+		}
 
 		Rectangle maxRectangle = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
 		if (maxRectangle != null)
@@ -158,6 +229,12 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 			}
 		});
 
+	}
+
+	@Override
+	public SimpleAletheiaGUI getAletheiaGUI()
+	{
+		return (SimpleAletheiaGUI) super.getAletheiaGUI();
 	}
 
 	public AletheiaJPanel getAletheiaJPanel()
@@ -234,6 +311,23 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 			{
 				logger.error(e.getMessage(), e);
 			}
+		}
+	}
+
+	@Override
+	public void resetedGui()
+	{
+		super.resetedGui();
+		switch (getAletheiaGUI().getPanel())
+		{
+		case CONTEXT:
+			this.setContentPane(aletheiaJPanel.getContextJTreeJPanel().getContextJTreeScrollPane());
+			break;
+		case CATALOG:
+			this.setContentPane(aletheiaJPanel.getCliJPanel().getCatalogJTreeScrollPane());
+			break;
+		default:
+			break;
 		}
 	}
 

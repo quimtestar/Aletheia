@@ -146,4 +146,9 @@ public abstract class AletheiaJFrame extends JFrame
 
 	public abstract void setActiveContext(Context context);
 
+	public void resetedGui()
+	{
+
+	}
+
 }

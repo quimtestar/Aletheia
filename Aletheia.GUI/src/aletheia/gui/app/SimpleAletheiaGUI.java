@@ -21,11 +21,45 @@ package aletheia.gui.app;
 
 import org.apache.logging.log4j.Logger;
 
+import aletheia.gui.app.SimpleAletheiaJFrame.Panel;
 import aletheia.log4j.LoggerManager;
+import aletheia.utilities.CommandLineArguments;
+import aletheia.utilities.CommandLineArguments.Option;
+import aletheia.utilities.CommandLineArguments.Switch;
 
 public class SimpleAletheiaGUI extends AletheiaGUI
 {
 	private final static Logger logger = LoggerManager.instance.logger();
+
+	private final Panel panel;
+
+	public SimpleAletheiaGUI(CommandLineArguments cla)
+	{
+		super();
+		Panel panel_ = Panel.ALL;
+		Switch sw = cla.getGlobalSwitches().get("panel");
+		if (sw instanceof Option)
+			try
+			{
+				panel_ = Enum.valueOf(Panel.class, ((Option) sw).getValue());
+			}
+			catch (NullPointerException e)
+			{
+
+			}
+			catch (IllegalArgumentException e)
+			{
+				logger.warn("Bad panel option in command line. Using 'ALL'.");
+			}
+
+		this.panel = panel_;
+
+	}
+
+	public Panel getPanel()
+	{
+		return panel;
+	}
 
 	@Override
 	protected void run()
@@ -55,7 +89,15 @@ public class SimpleAletheiaGUI extends AletheiaGUI
 
 	public static void main(String[] args)
 	{
-		new SimpleAletheiaGUI().run();
+		try
+		{
+			new SimpleAletheiaGUI(new CommandLineArguments(args)).run();
+		}
+		catch (Exception e)
+		{
+			logger.fatal("Startup error", e);
+			System.exit(1);
+		}
 	}
 
 }

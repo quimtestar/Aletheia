@@ -8,6 +8,7 @@
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="aletheia.gui.app.SimpleAletheiaGUI"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="--panel=${string_prompt:panel:ALL}"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Aletheia.GUI"/>
 <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:Aletheia.Testing}"/>
 </launchConfiguration>
