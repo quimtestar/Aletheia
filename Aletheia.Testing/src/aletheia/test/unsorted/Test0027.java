@@ -17,23 +17,36 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.test;
+package aletheia.test.unsorted;
 
-import aletheia.test.unsorted.*;
-import aletheia.utilities.MiscUtilities;
+import aletheia.model.statement.Statement;
+import aletheia.persistence.Transaction;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
+import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
 
-public abstract class Test
+public class Test0027 extends TransactionalBerkeleyDBPersistenceManagerTest
 {
-	static
+	public Test0027()
 	{
-		MiscUtilities.dummy();
+		super();
+		setReadOnly(false);
 	}
 
-	public abstract void run() throws Exception;
-
-	public static void main(String[] args) throws Exception
+	@Override
+	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws Exception
 	{
-		new Test0027().run();
+		String pf = null;
+		for (Statement statement : persistenceManager.statements(transaction).values())
+		{
+			String pf_ = statement.getUuid().toString().substring(0, 4);
+			if (!pf_.equals(pf))
+			{
+				pf = pf_;
+				System.out.println(pf);
+			}
+			if (!statement.isSignedDependencies(transaction))
+				statement.deleteCascade(transaction);
+		}
 	}
 
 }
