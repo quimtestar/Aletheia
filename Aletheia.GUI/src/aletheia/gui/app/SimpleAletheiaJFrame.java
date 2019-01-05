@@ -91,7 +91,7 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 		{
 			if (template == null)
 				return null;
-			Pattern pattern = Pattern.compile("(%tempname%)");
+			Pattern pattern = Pattern.compile("(%randname%)");
 			Matcher matcher = pattern.matcher(template);
 			StringBuffer buffer = new StringBuffer();
 			while (matcher.find())
@@ -99,7 +99,7 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 				String tag = matcher.group();
 				switch (tag)
 				{
-				case "%tempname%":
+				case "%randname%":
 				{
 					byte[] bytes = new byte[8];
 					new Random().nextBytes(bytes);
