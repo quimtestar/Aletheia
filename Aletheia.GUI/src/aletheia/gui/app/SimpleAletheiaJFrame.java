@@ -28,9 +28,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Properties;
+import java.util.Random;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
@@ -60,8 +64,8 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 	static class MyProperties extends Properties
 	{
 		private static final long serialVersionUID = -588777607193025899L;
-		private static final String propertiesFileName_Default = "aletheia.properties";
-		private static final String propertiesFileName = System.getProperty("aletheia.properties.file", propertiesFileName_Default);
+		private static final String propertiesFileName_Default = "aletheia.simple.properties";
+		private static final String propertiesFileName = System.getProperty("aletheia.simple.properties.file", propertiesFileName_Default);
 
 		private static final String dbfile_name = "aletheia.dbfile_name";
 		private static final String read_only = "aletheia.read_only";
@@ -81,6 +85,37 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 			defaults.setProperty(read_only, Boolean.toString(default_read_only));
 			defaults.setProperty(cache_percent, Integer.toString(default_cache_percent));
 			defaults.setProperty(font_size, Integer.toString(default_font_size));
+		}
+
+		private static String resolveTemplate(String template)
+		{
+			if (template == null)
+				return null;
+			Pattern pattern = Pattern.compile("(%tempname%)");
+			Matcher matcher = pattern.matcher(template);
+			StringBuffer buffer = new StringBuffer();
+			while (matcher.find())
+			{
+				String tag = matcher.group();
+				switch (tag)
+				{
+				case "%tempname%":
+				{
+					byte[] bytes = new byte[8];
+					new Random().nextBytes(bytes);
+					String randomName = Base64.getEncoder().encodeToString(bytes).substring(0, 10);
+					matcher.appendReplacement(buffer, randomName);
+					break;
+				}
+				default:
+				{
+					matcher.appendReplacement(buffer, tag);
+					break;
+				}
+				}
+			}
+			matcher.appendTail(buffer);
+			return buffer.toString();
 		}
 
 		private MyProperties()
@@ -107,13 +142,12 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 		{
 			try
 			{
-				return new File(getProperty(dbfile_name));
+				return new File(resolveTemplate(getProperty(dbfile_name)));
 			}
 			catch (NullPointerException e)
 			{
 				return null;
 			}
-
 		}
 
 		public boolean isReadOnly()
@@ -175,10 +209,11 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 	{
 		super(new FontManager(properties.getFontSize()), aletheiaGUI);
 		BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
-		if (properties.getDbFile() == null)
+		File dbFile = properties.getDbFile();
+		if (dbFile == null)
 			throw new RuntimeException("No DB file location configured");
 		configuration.setStartupProgressListener(new SplashStartupProgressListener());
-		configuration.setDbFile(properties.getDbFile());
+		configuration.setDbFile(dbFile);
 		configuration.setReadOnly(properties.isReadOnly());
 		configuration.setCachePercent(properties.getCachePercent());
 		this.persistenceManager = new BerkeleyDBPersistenceManager(configuration);
