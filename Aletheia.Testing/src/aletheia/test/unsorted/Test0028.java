@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2018 Quim Testar
+ * Copyright (c) 2019 Quim Testar
  * 
  * This file is part of the Aletheia Proof Assistant.
  * 
@@ -17,23 +17,25 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.test;
+package aletheia.test.unsorted;
 
-import aletheia.test.unsorted.*;
-import aletheia.utilities.MiscUtilities;
+import java.nio.file.FileStore;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-public abstract class Test
+import aletheia.test.Test;
+
+public class Test0028 extends Test
 {
-	static
-	{
-		MiscUtilities.dummy();
-	}
 
-	public abstract void run() throws Exception;
-
-	public static void main(String[] args) throws Exception
+	@Override
+	public void run() throws Exception
 	{
-		new Test0028().run();
+		Path path = FileSystems.getDefault().getPath("/mnt/vlb0/quim/Aletheia/aletheiadb_temp/prova");
+		FileStore fileStore = Files.getFileStore(path);
+		long usableSpace = fileStore.getUsableSpace();
+		System.out.println(usableSpace);
 	}
 
 }
