@@ -26,6 +26,7 @@ import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.identifier.Identifier;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
 import aletheia.model.statement.RootContext;
@@ -39,11 +40,13 @@ import aletheia.persistence.Transaction;
 public class StatementOut extends TransactionalCommand
 {
 	private final Statement statement;
+	private final ParameterIdentification parameterIdentification;
 
-	public StatementOut(CommandSource from, Transaction transaction, Statement statement)
+	public StatementOut(CommandSource from, Transaction transaction, Statement statement, ParameterIdentification parameterIdentification)
 	{
 		super(from, transaction);
 		this.statement = statement;
+		this.parameterIdentification = parameterIdentification;
 	}
 
 	private Identifier statementToIdentifier(Context activeContext, Statement st)
@@ -61,7 +64,8 @@ public class StatementOut extends TransactionalCommand
 		{
 			Context context = (Context) statement;
 			Term term = context.getTerm();
-			String sterm = termToString(activeContext, getTransaction(), term, context.getTermParameterIdentification());
+			String sterm = termToString(activeContext, getTransaction(), term,
+					parameterIdentification == null ? context.getTermParameterIdentification() : parameterIdentification);
 			if (context instanceof UnfoldingContext)
 			{
 				UnfoldingContext unfoldingContext = (UnfoldingContext) context;
@@ -89,7 +93,8 @@ public class StatementOut extends TransactionalCommand
 			if (idgeneral == null)
 				throw new Exception("General is not identified");
 			String sgeneral = idgeneral.toString();
-			String sinstance = termToString(activeContext, getTransaction(), instance, spec.getInstanceParameterIdentification());
+			String sinstance = termToString(activeContext, getTransaction(), instance,
+					parameterIdentification == null ? spec.getInstanceParameterIdentification() : parameterIdentification);
 			Identifier idInstanceProof = statementToIdentifier(activeContext, instanceProof);
 			if (idInstanceProof == null)
 				throw new Exception("Instance proof is not identified");
@@ -100,7 +105,8 @@ public class StatementOut extends TransactionalCommand
 		{
 			Declaration dec = (Declaration) statement;
 			Term value = dec.getValue();
-			String svalue = termToString(activeContext, getTransaction(), value, dec.getValueParameterIdentification());
+			String svalue = termToString(activeContext, getTransaction(), value,
+					parameterIdentification == null ? dec.getValueParameterIdentification() : parameterIdentification);
 			Statement valueProof = dec.getValueProof(getTransaction());
 			Identifier idValueProof = statementToIdentifier(activeContext, valueProof);
 			if (idValueProof == null)
@@ -129,13 +135,16 @@ public class StatementOut extends TransactionalCommand
 			Statement statement = findStatementSpec(from.getPersistenceManager(), transaction, from.getActiveContext(), split.get(0));
 			if (statement == null)
 				throw new CommandParseException("Invalid statement");
-			return new StatementOut(from, transaction, statement);
+			ParameterIdentification parameterIdentification = null;
+			if (split.size() > 1)
+				parameterIdentification = parseParameterIdentification(split.get(1));
+			return new StatementOut(from, transaction, statement, parameterIdentification);
 		}
 
 		@Override
 		protected String paramSpec()
 		{
-			return "<statement>";
+			return "<statement> [<parameter identification>]";
 		}
 
 		@Override
