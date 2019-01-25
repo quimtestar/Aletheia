@@ -109,6 +109,7 @@ aletheia.gui.cli.command.statement.Undelete
 aletheia.gui.cli.command.statement.Unproved
 aletheia.gui.cli.command.statement.Unused
 aletheia.gui.cli.command.statement.ProofTerm
+aletheia.gui.cli.command.statement.ProofSize
 
 aletheia.gui.cli.command.parameteridentification.UpdateParameterIdentification
 aletheia.gui.cli.command.parameteridentification.GetParameterIdentification
@@ -119,6 +120,7 @@ aletheia.gui.cli.command.term.TermOut
 aletheia.gui.cli.command.term.TermCb
 aletheia.gui.cli.command.term.TermType
 aletheia.gui.cli.command.term.TermTree
+aletheia.gui.cli.command.term.TermSize
 
 aletheia.gui.cli.command.security.Passphrase
 aletheia.gui.cli.command.security.ClearPassphrase
