@@ -1356,4 +1356,6 @@ public abstract class Term implements Serializable, Exportable
 
 	protected abstract void findSimpleTermByAtom(AtomicTerm atom, Collection<SimpleTerm> results);
 
+	public abstract Term unfunctionalize();
+
 }

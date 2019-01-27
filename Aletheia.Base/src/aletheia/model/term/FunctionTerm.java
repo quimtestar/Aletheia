@@ -590,4 +590,18 @@ public class FunctionTerm extends Term
 		body.findSimpleTermByAtom(atom, results);
 	}
 
+	@Override
+	public Term unfunctionalize()
+	{
+		Term body_ = body.unfunctionalize();
+		if (body_ instanceof CompositionTerm)
+		{
+			SimpleTerm head = ((CompositionTerm) body_).getHead();
+			Term tail = ((CompositionTerm) body_).getTail();
+			if (tail.equals(parameter) && !head.isFreeVariable(parameter))
+				return head;
+		}
+		return new FunctionTerm(parameter, body_);
+	}
+
 }

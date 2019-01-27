@@ -45,6 +45,7 @@
 '/'																: bar;				# Path separator/sub-term extraction".
 '\?'															: question;			# Term matching operator.
 '\''															: apostrophe;		# Function body operator.
+'¡'																: unfunctionalize;	# Unfunctionalize operator.
 ':='															: assignment;		# Separates the variable from it's assigned value in an assignment term.
 '\|'															: pipe;				# For the folding cast type term.
 '<\-'															: leftarrow;		# For the folding cast type term.

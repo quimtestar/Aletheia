@@ -182,4 +182,10 @@ public abstract class SimpleTerm extends Term
 		}
 	}
 
+	@Override
+	public SimpleTerm unfunctionalize()
+	{
+		return this;
+	}
+
 }

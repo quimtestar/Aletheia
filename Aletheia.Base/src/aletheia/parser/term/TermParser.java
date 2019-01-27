@@ -49,6 +49,7 @@ import aletheia.parser.term.semantic.A__A_percent_TokenReducer;
 import aletheia.parser.term.semantic.A__A_SCo_Number_M_TokenReducer;
 import aletheia.parser.term.semantic.A__A_sharp_TokenReducer;
 import aletheia.parser.term.semantic.A__A_tilde_TokenReducer;
+import aletheia.parser.term.semantic.A__A_unfunctionalize_TokenReducer;
 import aletheia.parser.term.semantic.A__F_TokenReducer;
 import aletheia.parser.term.semantic.A__I_TokenReducer;
 import aletheia.parser.term.semantic.A__R_TokenReducer;
@@ -304,6 +305,7 @@ public class TermParser extends Parser
 					A__A_percent_TokenReducer.class,
 					A__A_sharp_TokenReducer.class,
 					A__A_apostrophe_TokenReducer.class,
+					A__A_unfunctionalize_TokenReducer.class,
 					A__A_bang_I_TokenReducer.class,
 					A__equals_bang_I_TokenReducer.class,
 					A__openpar_T_closepar_TokenReducer.class,
