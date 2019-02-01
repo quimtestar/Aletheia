@@ -45,7 +45,7 @@ public class ProofSize extends TransactionalCommand
 	{
 		if (statement instanceof Assumption)
 			throw new Exception("Statement is a assumption");
-		if (!statement.isProved())
+		if (!statement.proved(getTransaction()))
 			throw new Exception("Not proven");
 		Term proofTerm = statement.proofTerm(getTransaction());
 		if (proofTerm == null)

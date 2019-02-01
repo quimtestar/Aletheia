@@ -703,6 +703,15 @@ public abstract class Statement implements Exportable
 		return entity.isProved();
 	}
 
+	public boolean proved(Transaction transaction)
+	{
+		Statement st = refresh(transaction);
+		if (st == null)
+			return false;
+		else
+			return st.isProved();
+	}
+
 	/**
 	 * Sets the proven status of this statement AND saves it to the persistence
 	 * layer.
