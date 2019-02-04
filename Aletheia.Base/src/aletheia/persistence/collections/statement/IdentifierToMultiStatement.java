@@ -19,17 +19,16 @@
  ******************************************************************************/
 package aletheia.persistence.collections.statement;
 
-import java.util.SortedMap;
-
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.collections.PersistenceManagerDataStructure;
+import aletheia.utilities.collections.CloseableSortedMap;
 
 /**
  * The map from {@link Identifier}s to multiple {@link Statement}s.
  *
  */
 public interface IdentifierToMultiStatement<S extends Statement, M extends GenericStatementsMap<S>>
-		extends PersistenceManagerDataStructure, SortedMap<Identifier, M>
+		extends PersistenceManagerDataStructure, CloseableSortedMap<Identifier, M>
 {
 }

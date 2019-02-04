@@ -19,14 +19,10 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.collections.statement;
 
-import java.util.AbstractMap;
-import java.util.AbstractSet;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.SortedSet;
-
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
@@ -36,14 +32,17 @@ import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBRootContextE
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBRootContextEntity.IdentifierKey;
 import aletheia.persistence.collections.statement.GenericRootContextsMap;
 import aletheia.persistence.collections.statement.IdentifierToRootContexts;
+import aletheia.utilities.collections.AbstractCloseableMap;
+import aletheia.utilities.collections.AbstractCloseableSortedSet;
 import aletheia.utilities.collections.CloseableIterator;
+import aletheia.utilities.collections.CloseableSortedSet;
 
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 import com.sleepycat.persist.SecondaryIndex;
 
-public class BerkeleyDBIdentifierToRootContexts extends AbstractMap<Identifier, GenericRootContextsMap> implements IdentifierToRootContexts
+public class BerkeleyDBIdentifierToRootContexts extends AbstractCloseableMap<Identifier, GenericRootContextsMap> implements IdentifierToRootContexts
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final SecondaryIndex<IdentifierKey, UUIDKey, BerkeleyDBRootContextEntity> rootContextEntityIdentifierSecondaryIndex;
@@ -182,7 +181,7 @@ public class BerkeleyDBIdentifierToRootContexts extends AbstractMap<Identifier, 
 	}
 
 	@Override
-	public SortedSet<Entry<Identifier, GenericRootContextsMap>> entrySet()
+	public CloseableSortedSet<Entry<Identifier, GenericRootContextsMap>> entrySet()
 	{
 		class MyEntry implements Entry<Identifier, GenericRootContextsMap>
 		{
@@ -221,7 +220,7 @@ public class BerkeleyDBIdentifierToRootContexts extends AbstractMap<Identifier, 
 		}
 		;
 
-		class EntrySet extends AbstractSet<Map.Entry<Identifier, GenericRootContextsMap>> implements SortedSet<Map.Entry<Identifier, GenericRootContextsMap>>
+		class EntrySet extends AbstractCloseableSortedSet<Map.Entry<Identifier, GenericRootContextsMap>>
 		{
 
 			@Override
@@ -352,20 +351,20 @@ public class BerkeleyDBIdentifierToRootContexts extends AbstractMap<Identifier, 
 			}
 
 			@Override
-			public SortedSet<Map.Entry<Identifier, GenericRootContextsMap>> headSet(Map.Entry<Identifier, GenericRootContextsMap> from)
+			public CloseableSortedSet<Map.Entry<Identifier, GenericRootContextsMap>> headSet(Map.Entry<Identifier, GenericRootContextsMap> from)
 			{
 				return BerkeleyDBIdentifierToRootContexts.this.headMap(from.getKey()).entrySet();
 			}
 
 			@Override
-			public SortedSet<Map.Entry<Identifier, GenericRootContextsMap>> subSet(Map.Entry<Identifier, GenericRootContextsMap> from,
+			public CloseableSortedSet<Map.Entry<Identifier, GenericRootContextsMap>> subSet(Map.Entry<Identifier, GenericRootContextsMap> from,
 					Map.Entry<Identifier, GenericRootContextsMap> to)
 			{
 				return BerkeleyDBIdentifierToRootContexts.this.subMap(from.getKey(), to.getKey()).entrySet();
 			}
 
 			@Override
-			public SortedSet<Map.Entry<Identifier, GenericRootContextsMap>> tailSet(Map.Entry<Identifier, GenericRootContextsMap> to)
+			public CloseableSortedSet<Map.Entry<Identifier, GenericRootContextsMap>> tailSet(Map.Entry<Identifier, GenericRootContextsMap> to)
 			{
 				return BerkeleyDBIdentifierToRootContexts.this.tailMap(to.getKey()).entrySet();
 			}
@@ -402,6 +401,12 @@ public class BerkeleyDBIdentifierToRootContexts extends AbstractMap<Identifier, 
 	public Identifier lastKey()
 	{
 		return entrySet().last().getKey();
+	}
+
+	@Override
+	public boolean isEmpty()
+	{
+		return entrySet().isEmpty();
 	}
 
 }
