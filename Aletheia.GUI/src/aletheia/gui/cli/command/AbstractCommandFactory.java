@@ -21,11 +21,15 @@ package aletheia.gui.cli.command;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.Command.CommandParseEmbeddedException;
@@ -39,6 +43,7 @@ import aletheia.model.authority.StatementAuthoritySignature;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace;
+import aletheia.model.identifier.RootNamespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Context;
@@ -54,6 +59,7 @@ import aletheia.persistence.collections.statement.GenericRootContextsMap;
 import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableSet;
+import aletheia.utilities.collections.CloseableSortedMap;
 import aletheia.utilities.collections.EmptyCloseableSet;
 import aletheia.utilities.collections.TrivialCloseableSet;
 
@@ -396,4 +402,159 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 		}
 		return signatures;
 	}
+
+	public static class Completions implements Iterable<String>
+	{
+		private final String prefix;
+		private final Collection<String> completionSet;
+
+		public Completions(String prefix, Collection<String> completionSet)
+		{
+			super();
+			this.prefix = prefix;
+			this.completionSet = completionSet;
+		}
+
+		public String getPrefix()
+		{
+			return prefix;
+		}
+
+		public Collection<String> getCompletionSet()
+		{
+			return Collections.unmodifiableCollection(completionSet);
+		}
+
+		public int size()
+		{
+			return completionSet.size();
+		}
+
+		@Override
+		public Iterator<String> iterator()
+		{
+			return completionSet.iterator();
+		}
+
+		public String first()
+		{
+			return MiscUtilities.firstFromIterable(this);
+		}
+
+	}
+
+	public Completions completions(CommandSource from, List<String> split)
+	{
+		String last = MiscUtilities.lastFromList(split);
+		if (last == null)
+			return null;
+		Pattern pattern = Pattern.compile("/??(([a-zA-Z0-9_]+\\.)*[a-zA-Z0-9_]+/)*([a-zA-Z0-9_]+\\.)*[a-zA-Z0-9_]*$");
+		Matcher matcher = pattern.matcher(last);
+		if (!matcher.find())
+			return null;
+		String fullPath = matcher.group();
+		ArrayList<String> splittedPath = new ArrayList<>(Arrays.asList(fullPath.split("/")));
+		if (fullPath.endsWith("/"))
+			splittedPath.add("");
+		try (Transaction transaction = from.getPersistenceManager().beginDirtyTransaction())
+		{
+			Context context = from.getActiveContext();
+			for (int i = 0; i < splittedPath.size() - 1; i++)
+			{
+				if (i == 0 && splittedPath.get(i).isEmpty())
+					context = null;
+				else
+				{
+					try
+					{
+						if (context == null)
+						{
+							GenericRootContextsMap grcm = from.getPersistenceManager().identifierToRootContexts(transaction)
+									.get(Identifier.parse(splittedPath.get(i)));
+							if (grcm == null)
+								return null;
+							context = MiscUtilities.firstFromCloseableIterable(grcm.values());
+						}
+						else
+							context = (Context) context.identifierToStatement(transaction).get(Identifier.parse(splittedPath.get(i)));
+						if (context == null)
+							return null;
+					}
+					catch (InvalidNameException | ClassCastException e)
+					{
+						return null;
+					}
+				}
+			}
+			String fullName = splittedPath.get(splittedPath.size() - 1);
+			Pattern namePattern = Pattern.compile("(([a-zA-Z0-9_]+\\.)*)([a-zA-Z0-9_]*)");
+			Matcher nameMatcher = namePattern.matcher(fullName);
+			if (!nameMatcher.matches())
+				return null;
+			Namespace namespace;
+			try
+			{
+				String dirty = nameMatcher.group(1);
+				if (dirty.isEmpty())
+					namespace = RootNamespace.instance;
+				else
+					namespace = Namespace.parse(dirty.substring(0, dirty.length() - 1));
+			}
+			catch (InvalidNameException e)
+			{
+				return null;
+			}
+			String prefix = nameMatcher.group(3);
+			Identifier initiator;
+			Identifier terminator;
+			if (prefix.isEmpty())
+			{
+				initiator = namespace.initiator();
+				terminator = namespace.terminator();
+			}
+			else
+			{
+				try
+				{
+					initiator = new Identifier(namespace, prefix);
+					terminator = new Identifier(namespace, prefix + "zzz");
+				}
+				catch (InvalidNameException e)
+				{
+					return null;
+				}
+			}
+			CloseableSortedMap<Identifier, ?> identifierMap;
+			if (context == null)
+				identifierMap = from.getPersistenceManager().identifierToRootContexts(transaction).subMap(initiator, terminator);
+			else
+				identifierMap = context.identifierToStatement(transaction).subMap(initiator, terminator);
+			List<String> names = new ArrayList<>();
+			Identifier identifier = identifierMap.isEmpty() ? null : identifierMap.firstKey();
+			while (identifier != null)
+			{
+				Namespace suffix = identifier.makeSuffix(namespace);
+				if (suffix instanceof RootNamespace)
+					break;
+				else if (suffix instanceof NodeNamespace)
+				{
+					String name = ((NodeNamespace) suffix).headName();
+					names.add(name);
+					try
+					{
+						identifierMap = identifierMap.tailMap(new Identifier(namespace, name).terminator());
+					}
+					catch (InvalidNameException e)
+					{
+						return null;
+					}
+					identifier = identifierMap.isEmpty() ? null : identifierMap.firstKey();
+				}
+				else
+					return null;
+			}
+			return new Completions(prefix, names);
+		}
+	}
+
 }

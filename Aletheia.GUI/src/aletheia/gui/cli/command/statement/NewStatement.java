@@ -22,9 +22,9 @@ package aletheia.gui.cli.command.statement;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.AbstractCommandFactory;
@@ -110,14 +110,14 @@ public abstract class NewStatement extends TransactionalCommand
 				);
 		// @formatter:on
 
-		private final Map<String, AbstractNewStatementFactory<? extends NewStatement>> taggedFactories;
+		private final SortedMap<String, AbstractNewStatementFactory<? extends NewStatement>> taggedFactories;
 		private final RootCommandGroup rootCommandGroup;
 
 		public Factory()
 		{
 			try
 			{
-				this.taggedFactories = new HashMap<>();
+				this.taggedFactories = new TreeMap<>();
 				this.rootCommandGroup = new RootCommandGroup();
 				for (Class<? extends Command> c : taggedCommandList)
 				{
@@ -158,6 +158,27 @@ public abstract class NewStatement extends TransactionalCommand
 			catch (InvalidNameException e)
 			{
 				throw CommandParseEmbeddedException.embed(e);
+			}
+		}
+
+		@Override
+		public Completions completions(CommandSource from, List<String> split)
+		{
+			switch (split.size())
+			{
+			case 0:
+				return null;
+			case 1:
+				return new Completions("", taggedFactories.keySet());
+			case 2:
+				String prefix = split.get(1);
+				return new Completions(prefix, taggedFactories.subMap(prefix, prefix.concat(String.valueOf(Character.MAX_VALUE))).keySet());
+			default:
+				String tag = split.get(1);
+				AbstractNewStatementFactory<? extends NewStatement> factory = taggedFactories.get(tag);
+				if (factory == null)
+					return null;
+				return factory.completions(from, split.subList(2, split.size()));
 			}
 		}
 

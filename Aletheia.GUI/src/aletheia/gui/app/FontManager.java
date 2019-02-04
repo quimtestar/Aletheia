@@ -153,7 +153,7 @@ public class FontManager
 		return baseExpandFont.deriveFont(Font.PLAIN, getFontSize());
 	}
 
-	public FontMetrics fontMetrics(Font font)
+	public static FontMetrics fontMetrics(Font font)
 	{
 		return new JLabel().getFontMetrics(font);
 	}

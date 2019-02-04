@@ -28,10 +28,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Paths;
+import java.text.StringCharacterIterator;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.apache.logging.log4j.Logger;
 
@@ -45,13 +46,13 @@ import aletheia.persistence.Transaction;
 import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.MiscUtilities.NoConstructorException;
 import aletheia.utilities.StreamAsStringIterable;
-import aletheia.utilities.collections.AdaptedMap;
+import aletheia.utilities.collections.AdaptedSortedMap;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCloseableCollection;
 import aletheia.utilities.collections.BijectionCloseableIterable;
-import aletheia.utilities.collections.BijectionMap;
+import aletheia.utilities.collections.BijectionSortedMap;
 import aletheia.utilities.collections.CloseableIterable;
-import aletheia.utilities.collections.CombinedMap;
+import aletheia.utilities.collections.CombinedSortedMap;
 import aletheia.utilities.collections.EmptyCloseableCollection;
 import aletheia.utilities.collections.FilteredCloseableIterable;
 import aletheia.utilities.collections.NotNullFilter;
@@ -68,6 +69,11 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 	public static final GlobalCommandFactory instance = new GlobalCommandFactory();
 
 	private static List<String> splitCommand(String command) throws CommandParseException
+	{
+		return splitCommand(command, false);
+	}
+
+	private static List<String> splitCommand(String command, boolean incomplete) throws CommandParseException
 	{
 		List<String> list = new ArrayList<>();
 		boolean quoting = false;
@@ -110,7 +116,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 				}
 			}
 		}
-		if (quoting)
+		if (quoting && !incomplete)
 			throw new CommandParseException("Bad quoting");
 		if (sb != null)
 			list.add(sb.toString());
@@ -226,7 +232,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 
 	private final RootCommandGroup rootCommandGroup;
 
-	private final Map<String, AbstractVoidCommandFactory<? extends Command>> staticTaggedFactories;
+	private final SortedMap<String, AbstractVoidCommandFactory<? extends Command>> staticTaggedFactories;
 
 	private class DynamicTaggedFactoryEntry
 	{
@@ -247,15 +253,15 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 
 	}
 
-	private final Map<String, DynamicTaggedFactoryEntry> dynamicTaggedFactoryEntries;
-	private final Map<String, DynamicCommand.Factory<? extends DynamicCommand>> dynamicTaggedFactories;
-	private final Map<String, AbstractVoidCommandFactory<? extends Command>> taggedFactories;
+	private final SortedMap<String, DynamicTaggedFactoryEntry> dynamicTaggedFactoryEntries;
+	private final SortedMap<String, DynamicCommand.Factory<? extends DynamicCommand>> dynamicTaggedFactories;
+	private final SortedMap<String, AbstractVoidCommandFactory<? extends Command>> taggedFactories;
 
 	private GlobalCommandFactory()
 	{
 		super();
 		this.rootCommandGroup = new RootCommandGroup();
-		this.staticTaggedFactories = new HashMap<>();
+		this.staticTaggedFactories = new TreeMap<>();
 		try
 		{
 			for (Class<? extends Command> c : staticTaggedCommandList())
@@ -268,8 +274,8 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 		finally
 		{
 		}
-		this.dynamicTaggedFactoryEntries = new HashMap<>();
-		this.dynamicTaggedFactories = new BijectionMap<>(new Bijection<DynamicTaggedFactoryEntry, DynamicCommand.Factory<? extends DynamicCommand>>()
+		this.dynamicTaggedFactoryEntries = new TreeMap<>();
+		this.dynamicTaggedFactories = new BijectionSortedMap<>(new Bijection<DynamicTaggedFactoryEntry, DynamicCommand.Factory<? extends DynamicCommand>>()
 		{
 
 			@Override
@@ -285,7 +291,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 			}
 		}, dynamicTaggedFactoryEntries);
 
-		this.taggedFactories = new CombinedMap<>(new AdaptedMap<String, AbstractVoidCommandFactory<? extends Command>>(dynamicTaggedFactories),
+		this.taggedFactories = new CombinedSortedMap<>(new AdaptedSortedMap<String, AbstractVoidCommandFactory<? extends Command>>(dynamicTaggedFactories),
 				staticTaggedFactories);
 	}
 
@@ -518,6 +524,41 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 			if (factory == null)
 				throw new CommandParseException("Bad command: '" + tag + "'");
 			return factory.parse(from, transaction, split.subList(1, split.size()));
+		}
+	}
+
+	public Completions completions(CommandSource from, String command)
+	{
+		try
+		{
+			List<String> split = splitCommand(command, true);
+			if (Character.isWhitespace((new StringCharacterIterator(command)).last()))
+				split.add("");
+			return completions(from, split);
+		}
+		catch (CommandParseException e)
+		{
+			return null;
+		}
+	}
+
+	@Override
+	public Completions completions(CommandSource from, List<String> split)
+	{
+		switch (split.size())
+		{
+		case 0:
+			return new Completions("", taggedFactories.keySet());
+		case 1:
+			String prefix = split.get(0);
+			return new Completions(prefix, taggedFactories.subMap(prefix, prefix.concat(String.valueOf(Character.MAX_VALUE))).keySet());
+		default:
+			String tag = split.get(0);
+			AbstractVoidCommandFactory<? extends Command> factory = taggedFactories.get(tag);
+			if (factory == null)
+				return null;
+			return factory.completions(from, split.subList(1, split.size()));
+
 		}
 	}
 

@@ -98,6 +98,7 @@ import aletheia.gui.app.AletheiaJFrame;
 import aletheia.gui.app.AletheiaJPanel;
 import aletheia.gui.app.FontManager;
 import aletheia.gui.catalogjtree.CatalogJTree;
+import aletheia.gui.cli.command.AbstractCommandFactory.Completions;
 import aletheia.gui.cli.command.Command;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.Command.CommandParseException;
@@ -376,6 +377,19 @@ public class CliJPanel extends JPanel implements CommandSource
 			{
 				if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
 					controller.cancelActiveCommand("by user");
+				break;
+			}
+			case KeyEvent.VK_SPACE:
+			{
+				if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+					try
+					{
+						completion();
+					}
+					catch (InterruptedException e1)
+					{
+						logger.error(e1.getMessage(), e1);
+					}
 				break;
 			}
 			}
@@ -1146,6 +1160,7 @@ public class CliJPanel extends JPanel implements CommandSource
 	private Context activeContext;
 	private Command promptWhenDone;
 	private StringBuffer commandBuffer;
+	private int commandBufferCaretOffset;
 	private PrintWriter consolePrintWriter;
 
 	public CliJPanel(AletheiaJPanel aletheiaJPanel, CliController controller) throws InterruptedException
@@ -1202,6 +1217,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		controller.command(new Prompt(this));
 		promptWhenDone = null;
 		commandBuffer = new StringBuffer();
+		commandBufferCaretOffset = 0;
 		consolePrintWriter = null;
 		setActiveContext(initialActiveContext(getPersistenceManager()));
 	}
@@ -1356,17 +1372,18 @@ public class CliJPanel extends JPanel implements CommandSource
 			consolePrintWriter.print(s);
 			consolePrintWriter.flush();
 		}
+		commandBufferCaretOffset += moveCaretToEnd();
 		commandBuffer.append(getCommand(true));
 		try
 		{
-			moveCaretToEnd();
 			document.insertString(document.getEndPosition().getOffset() - 1, s, attributeSet);
 			updateMinimalCaretPosition();
 			if (attributeSet.containsAttribute(flushCommandBufferAttribute, true))
 			{
 				document.insertString(document.getEndPosition().getOffset() - 1, commandBuffer.toString(), attributeSet);
 				commandBuffer = new StringBuffer();
-				moveCaretToEnd();
+				moveCaretToEnd(commandBufferCaretOffset);
+				commandBufferCaretOffset = 0;
 			}
 			if (attributeSet != defaultAttributeSet)
 				textPane.setCharacterAttributes(defaultAttributeSet, true);
@@ -1382,9 +1399,23 @@ public class CliJPanel extends JPanel implements CommandSource
 		textPane.setCaretPosition(minimalCaretPosition);
 	}
 
-	private synchronized void moveCaretToEnd()
+	private synchronized int moveCaretToEnd(int offset)
 	{
-		textPane.setCaretPosition(document.getLength());
+		int offset_ = textPane.getCaretPosition() - document.getLength();
+		try
+		{
+			textPane.setCaretPosition(document.getLength() + offset);
+		}
+		catch (IllegalArgumentException e)
+		{
+			textPane.setCaretPosition(document.getLength());
+		}
+		return offset_;
+	}
+
+	private synchronized int moveCaretToEnd()
+	{
+		return moveCaretToEnd(0);
 	}
 
 	private synchronized void updateMinimalCaretPosition()
@@ -2610,6 +2641,97 @@ public class CliJPanel extends JPanel implements CommandSource
 		{
 			transaction.abort();
 		}
+	}
+
+	private synchronized void completion() throws InterruptedException
+	{
+		if (promptWhenDone != null)
+			return;
+		Completions completions = null;
+		try
+		{
+			String command = getCommand().substring(0, textPane.getCaretPosition() - minimalCaretPosition);
+			completions = Command.completions(this, command);
+		}
+		catch (Exception e)
+		{
+		}
+		if (completions != null)
+		{
+			if (completions.size() > 1)
+			{
+				int textPaneWidth = textPane.getWidth() / textPane.getFontMetrics(textPane.getFont()).charWidth(' ');
+				List<List<String>> columns = null;
+				List<Integer> widths = null;
+				for (int n = 1; n <= completions.size(); n++)
+				{
+					List<List<String>> columns_ = new ArrayList<>();
+					List<Integer> widths_ = new ArrayList<>();
+					for (int i = 0; i < n; i++)
+					{
+						columns_.add(new ArrayList<String>());
+						widths_.add(0);
+					}
+					int columnSize = (completions.size() - 1) / n + 1;
+					int i = 0;
+					for (String completion : completions)
+					{
+						columns_.get(i).add(completion);
+						if (completion.length() > widths_.get(i))
+							widths_.set(i, completion.length());
+						if (columns_.get(i).size() >= columnSize)
+							i++;
+					}
+					int totalWidth = 0;
+					for (int w : widths_)
+						totalWidth += ((w + 10) / 8) * 8;
+					if (totalWidth >= textPaneWidth)
+						break;
+					columns = columns_;
+					widths = widths_;
+				}
+				StringBuilder builder = new StringBuilder();
+				for (int i = 0;; i++)
+				{
+					if (i % columns.size() == 0)
+					{
+						if (i / columns.size() < columns.get(i % columns.size()).size())
+							builder.append("\n");
+						else
+							break;
+					}
+					if (i / columns.size() < columns.get(i % columns.size()).size())
+					{
+						String completion = columns.get(i % columns.size()).get(i / columns.size());
+						builder.append(completion);
+						builder.append(new String(new char[((widths.get(i % columns.size()) + 10) / 8) * 8 - completion.length()]).replace('\0', ' '));
+					}
+				}
+				message(builder.toString());
+			}
+			else if (completions.size() == 1)
+			{
+				String completion = completions.first();
+				if (completion.startsWith(completions.getPrefix()))
+				{
+					String append = completion.substring(completions.getPrefix().length());
+					try
+					{
+						document.insertString(textPane.getCaretPosition(), append, defaultAttributeSet);
+						/* TODO Not always space
+						if (textPane.getCaretPosition() >= document.getLength() || !" ".equals(document.getText(textPane.getCaretPosition(), 1)))
+							document.insertString(textPane.getCaretPosition(), " ", defaultAttributeSet);
+						else
+							textPane.setCaretPosition(textPane.getCaretPosition() + 1);
+						*/
+					}
+					catch (BadLocationException e)
+					{
+					}
+				}
+			}
+		}
+
 	}
 
 }
