@@ -1520,6 +1520,8 @@ public class CliJPanel extends JPanel implements CommandSource
 
 	private synchronized String getCommand(boolean remove)
 	{
+		if (minimalCaretPosition > document.getLength())
+			return "";
 		try
 		{
 			String text = document.getText(minimalCaretPosition, document.getLength() - minimalCaretPosition);
