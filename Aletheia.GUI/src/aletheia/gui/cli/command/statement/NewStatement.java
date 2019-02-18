@@ -162,23 +162,23 @@ public abstract class NewStatement extends TransactionalCommand
 		}
 
 		@Override
-		public Completions completions(CommandSource from, List<String> split)
+		public CompletionSet completionSet(CommandSource from, List<String> split)
 		{
 			switch (split.size())
 			{
 			case 0:
 				return null;
 			case 1:
-				return new Completions("", taggedFactories.keySet());
+				return new CompletionSet("", taggedFactories.keySet(), " ");
 			case 2:
 				String prefix = split.get(1);
-				return new Completions(prefix, taggedFactories.subMap(prefix, prefix.concat(String.valueOf(Character.MAX_VALUE))).keySet());
+				return new CompletionSet(prefix, taggedFactories.subMap(prefix, prefix.concat(String.valueOf(Character.MAX_VALUE))).keySet(), " ");
 			default:
 				String tag = split.get(1);
 				AbstractNewStatementFactory<? extends NewStatement> factory = taggedFactories.get(tag);
 				if (factory == null)
 					return null;
-				return factory.completions(from, split.subList(2, split.size()));
+				return factory.completionSet(from, split.subList(2, split.size()));
 			}
 		}
 

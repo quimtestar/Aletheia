@@ -32,6 +32,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import aletheia.gui.cli.command.CommandSource;
+import aletheia.gui.cli.command.AbstractCommandFactory.CompletionSet.Completion;
 import aletheia.gui.cli.command.Command.CommandParseEmbeddedException;
 import aletheia.gui.cli.command.Command.CommandParseException;
 import aletheia.gui.cli.command.Command.CommandParseTermParserException;
@@ -42,6 +43,7 @@ import aletheia.model.authority.StatementAuthority;
 import aletheia.model.authority.StatementAuthoritySignature;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
+import aletheia.model.identifier.NamespaceExtreme;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.RootNamespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
@@ -57,6 +59,8 @@ import aletheia.persistence.Transaction;
 import aletheia.persistence.collections.authority.StatementAuthoritySignatureMap;
 import aletheia.persistence.collections.statement.GenericRootContextsMap;
 import aletheia.utilities.MiscUtilities;
+import aletheia.utilities.collections.Bijection;
+import aletheia.utilities.collections.BijectionCollection;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableSet;
 import aletheia.utilities.collections.CloseableSortedMap;
@@ -403,47 +407,84 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 		return signatures;
 	}
 
-	public static class Completions implements Iterable<String>
+	public static class CompletionSet implements Iterable<Completion>
 	{
-		private final String prefix;
-		private final Collection<String> completionSet;
+		private final String queried;
 
-		public Completions(String prefix, Collection<String> completionSet)
+		public static class Completion
+		{
+			private final String contents;
+			private final String post;
+
+			public Completion(String contents, String post)
+			{
+				super();
+				this.contents = contents;
+				this.post = post;
+			}
+
+			public String getContents()
+			{
+				return contents;
+			}
+
+			public String getPost()
+			{
+				return post;
+			}
+		}
+
+		private final Collection<Completion> completions;
+
+		public CompletionSet(String queried, Collection<Completion> completions)
 		{
 			super();
-			this.prefix = prefix;
-			this.completionSet = completionSet;
+			this.queried = queried;
+			this.completions = completions;
 		}
 
-		public String getPrefix()
+		public CompletionSet(String queried, Collection<String> completionsContent, String post)
 		{
-			return prefix;
+			this(queried, new BijectionCollection<>(new Bijection<String, Completion>()
+			{
+
+				@Override
+				public Completion forward(String contents)
+				{
+					return new Completion(contents, post);
+				}
+			}, completionsContent));
 		}
 
-		public Collection<String> getCompletionSet()
+		public String getQueried()
 		{
-			return Collections.unmodifiableCollection(completionSet);
+			return queried;
+		}
+
+		public Collection<Completion> getCompletions()
+		{
+			return Collections.unmodifiableCollection(completions);
 		}
 
 		public int size()
 		{
-			return completionSet.size();
+			return completions.size();
 		}
 
 		@Override
-		public Iterator<String> iterator()
+		public Iterator<Completion> iterator()
 		{
-			return completionSet.iterator();
+			return completions.iterator();
 		}
 
-		public String first()
+		public Completion first()
 		{
 			return MiscUtilities.firstFromIterable(this);
 		}
 
 	}
 
-	public Completions completions(CommandSource from, List<String> split)
+	public CompletionSet identifierCompletionSet(CommandSource from, List<String> split)
 	{
 		String last = MiscUtilities.lastFromList(split);
 		if (last == null)
@@ -504,10 +545,10 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 			{
 				return null;
 			}
-			String prefix = nameMatcher.group(3);
+			String queried = nameMatcher.group(3);
 			Identifier initiator;
 			Identifier terminator;
-			if (prefix.isEmpty())
+			if (queried.isEmpty())
 			{
 				initiator = namespace.initiator();
 				terminator = namespace.terminator();
@@ -516,8 +557,8 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 			{
 				try
 				{
-					initiator = new Identifier(namespace, prefix);
-					terminator = new Identifier(namespace, prefix + "zzz");
+					initiator = new Identifier(namespace, queried);
+					terminator = new Identifier(namespace, queried + "zzz");
 				}
 				catch (InvalidNameException e)
 				{
@@ -529,7 +570,7 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 				identifierMap = from.getPersistenceManager().identifierToRootContexts(transaction).subMap(initiator, terminator);
 			else
 				identifierMap = context.identifierToStatement(transaction).subMap(initiator, terminator);
-			List<String> names = new ArrayList<>();
+			List<Completion> completions = new ArrayList<>();
 			Identifier identifier = identifierMap.isEmpty() ? null : identifierMap.firstKey();
 			while (identifier != null)
 			{
@@ -539,22 +580,38 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 				else if (suffix instanceof NodeNamespace)
 				{
 					String name = ((NodeNamespace) suffix).headName();
-					names.add(name);
+					String post = "";
 					try
 					{
-						identifierMap = identifierMap.tailMap(new Identifier(namespace, name).terminator());
+						Identifier id = new Identifier(namespace, name);
+						NamespaceExtreme idT = id.terminator();
+						CloseableSortedMap<Identifier, ?> identifierHeadMap = identifierMap.headMap(idT);
+						if (identifierHeadMap.containsKey(id))
+						{
+							if (identifierHeadMap.tailMap(id.initiator()).isEmpty())
+								post = " ";
+						}
+						else
+							post = ".";
+						identifierMap = identifierMap.tailMap(idT);
 					}
 					catch (InvalidNameException e)
 					{
 						return null;
 					}
+					completions.add(new Completion(name, post));
 					identifier = identifierMap.isEmpty() ? null : identifierMap.firstKey();
 				}
 				else
 					return null;
 			}
-			return new Completions(prefix, names);
+			return new CompletionSet(queried, completions);
 		}
+	}
+
+	public CompletionSet completionSet(CommandSource from, List<String> split)
+	{
+		return identifierCompletionSet(from, split);
 	}
 
 }

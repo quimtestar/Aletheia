@@ -527,14 +527,14 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 		}
 	}
 
-	public Completions completions(CommandSource from, String command)
+	public CompletionSet completionSet(CommandSource from, String command)
 	{
 		try
 		{
 			List<String> split = splitCommand(command, true);
 			if (Character.isWhitespace((new StringCharacterIterator(command)).last()))
 				split.add("");
-			return completions(from, split);
+			return completionSet(from, split);
 		}
 		catch (CommandParseException e)
 		{
@@ -543,21 +543,21 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 	}
 
 	@Override
-	public Completions completions(CommandSource from, List<String> split)
+	public CompletionSet completionSet(CommandSource from, List<String> split)
 	{
 		switch (split.size())
 		{
 		case 0:
-			return new Completions("", taggedFactories.keySet());
+			return new CompletionSet("", taggedFactories.keySet(), " ");
 		case 1:
 			String prefix = split.get(0);
-			return new Completions(prefix, taggedFactories.subMap(prefix, prefix.concat(String.valueOf(Character.MAX_VALUE))).keySet());
+			return new CompletionSet(prefix, taggedFactories.subMap(prefix, prefix.concat(String.valueOf(Character.MAX_VALUE))).keySet(), " ");
 		default:
 			String tag = split.get(0);
 			AbstractVoidCommandFactory<? extends Command> factory = taggedFactories.get(tag);
 			if (factory == null)
 				return null;
-			return factory.completions(from, split.subList(1, split.size()));
+			return factory.completionSet(from, split.subList(1, split.size()));
 
 		}
 	}

@@ -98,7 +98,8 @@ import aletheia.gui.app.AletheiaJFrame;
 import aletheia.gui.app.AletheiaJPanel;
 import aletheia.gui.app.FontManager;
 import aletheia.gui.catalogjtree.CatalogJTree;
-import aletheia.gui.cli.command.AbstractCommandFactory.Completions;
+import aletheia.gui.cli.command.AbstractCommandFactory.CompletionSet;
+import aletheia.gui.cli.command.AbstractCommandFactory.CompletionSet.Completion;
 import aletheia.gui.cli.command.Command;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.Command.CommandParseException;
@@ -2649,23 +2650,23 @@ public class CliJPanel extends JPanel implements CommandSource
 	{
 		if (promptWhenDone != null)
 			return;
-		Completions completions = null;
+		CompletionSet completionSet = null;
 		try
 		{
 			String command = getCommand().substring(0, textPane.getCaretPosition() - minimalCaretPosition);
-			completions = Command.completions(this, command);
+			completionSet = Command.completionSet(this, command);
 		}
 		catch (Exception e)
 		{
 		}
-		if (completions != null)
+		if (completionSet != null)
 		{
-			if (completions.size() > 1)
+			if (completionSet.size() > 1)
 			{
 				int textPaneWidth = textPane.getWidth() / textPane.getFontMetrics(textPane.getFont()).charWidth(' ');
 				List<List<String>> columns = null;
 				List<Integer> widths = null;
-				for (int n = 1; n <= completions.size(); n++)
+				for (int n = 1; n <= completionSet.size(); n++)
 				{
 					List<List<String>> columns_ = new ArrayList<>();
 					List<Integer> widths_ = new ArrayList<>();
@@ -2674,13 +2675,13 @@ public class CliJPanel extends JPanel implements CommandSource
 						columns_.add(new ArrayList<String>());
 						widths_.add(0);
 					}
-					int columnSize = (completions.size() - 1) / n + 1;
+					int columnSize = (completionSet.size() - 1) / n + 1;
 					int i = 0;
-					for (String completion : completions)
+					for (Completion completion : completionSet)
 					{
-						columns_.get(i).add(completion);
-						if (completion.length() > widths_.get(i))
-							widths_.set(i, completion.length());
+						columns_.get(i).add(completion.getContents());
+						if (completion.getContents().length() > widths_.get(i))
+							widths_.set(i, completion.getContents().length());
 						if (columns_.get(i).size() >= columnSize)
 							i++;
 					}
@@ -2711,21 +2712,20 @@ public class CliJPanel extends JPanel implements CommandSource
 				}
 				message(builder.toString());
 			}
-			else if (completions.size() == 1)
+			else if (completionSet.size() == 1)
 			{
-				String completion = completions.first();
-				if (completion.startsWith(completions.getPrefix()))
+				Completion completion = completionSet.first();
+				if (completion.getContents().startsWith(completionSet.getQueried()))
 				{
-					String append = completion.substring(completions.getPrefix().length());
+					String append = completion.getContents().substring(completionSet.getQueried().length());
 					try
 					{
 						document.insertString(textPane.getCaretPosition(), append, defaultAttributeSet);
-						/* TODO Not always space
-						if (textPane.getCaretPosition() >= document.getLength() || !" ".equals(document.getText(textPane.getCaretPosition(), 1)))
-							document.insertString(textPane.getCaretPosition(), " ", defaultAttributeSet);
+						if (textPane.getCaretPosition() >= document.getLength()
+								|| !completion.getPost().equals(document.getText(textPane.getCaretPosition(), 1)))
+							document.insertString(textPane.getCaretPosition(), completion.getPost(), defaultAttributeSet);
 						else
-							textPane.setCaretPosition(textPane.getCaretPosition() + 1);
-						*/
+							textPane.setCaretPosition(textPane.getCaretPosition() + completion.getPost().length());
 					}
 					catch (BadLocationException e)
 					{

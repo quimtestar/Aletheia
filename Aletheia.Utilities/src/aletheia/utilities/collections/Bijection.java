@@ -48,7 +48,10 @@ public interface Bijection<I, O>
 	 *            The input of the bijection.
 	 * @return The computed output.
 	 */
-	O forward(I input);
+	default O forward(I input)
+	{
+		throw new UnsupportedOperationException();
+	}
 
 	/**
 	 * The backward function of the bijection. Must be the inverse function of
@@ -58,6 +61,9 @@ public interface Bijection<I, O>
 	 *            The output of the bijection
 	 * @return The computed input.
 	 */
-	I backward(O output);
+	default I backward(O output)
+	{
+		throw new UnsupportedOperationException();
+	}
 
 };
