@@ -526,6 +526,7 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 		this.defaultTransactionConfig.setReadCommitted(true);
 		this.dirtyTransactionConfig = new TransactionConfig();
 		this.dirtyTransactionConfig.setReadUncommitted(true);
+		this.dirtyTransactionConfig.setReadOnly(true);
 
 		getPersistenceSchedulerThread().start();
 
