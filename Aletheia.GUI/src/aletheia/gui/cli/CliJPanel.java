@@ -2679,9 +2679,10 @@ public class CliJPanel extends JPanel implements CommandSource
 					int i = 0;
 					for (Completion completion : completionSet)
 					{
-						columns_.get(i).add(completion.getContents());
-						if (completion.getContents().length() > widths_.get(i))
-							widths_.set(i, completion.getContents().length());
+						String contents = completion.getContents();
+						columns_.get(i).add(contents);
+						if (contents.length() > widths_.get(i))
+							widths_.set(i, contents.length());
 						if (columns_.get(i).size() >= columnSize)
 							i++;
 					}
@@ -2711,6 +2712,18 @@ public class CliJPanel extends JPanel implements CommandSource
 					}
 				}
 				message(builder.toString());
+				String commonPrefix = completionSet.commonPrefix();
+				if (commonPrefix.startsWith(completionSet.getQueried()))
+				{
+					String append = commonPrefix.substring(completionSet.getQueried().length());
+					try
+					{
+						document.insertString(textPane.getCaretPosition(), append, defaultAttributeSet);
+					}
+					catch (BadLocationException e)
+					{
+					}
+				}
 			}
 			else if (completionSet.size() == 1)
 			{

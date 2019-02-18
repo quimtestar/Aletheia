@@ -784,4 +784,24 @@ public class MiscUtilities
 
 	}
 
+	public static String commonPrefix(String string1, String string2)
+	{
+		int minLength = Math.min(string1.length(), string2.length());
+		for (int i = 0; i < minLength; i++)
+			if (string1.charAt(i) != string2.charAt(i))
+				return string1.substring(0, i);
+		return string1.substring(0, minLength);
+	}
+
+	public static String commonPrefix(Iterable<String> strings)
+	{
+		String prefix = null;
+		for (String s : strings)
+			if (prefix == null)
+				prefix = s;
+			else
+				prefix = commonPrefix(prefix, s);
+		return prefix;
+	}
+
 }

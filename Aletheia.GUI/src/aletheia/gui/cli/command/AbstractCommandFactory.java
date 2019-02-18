@@ -484,6 +484,19 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 			return MiscUtilities.firstFromIterable(this);
 		}
 
+		public String commonPrefix()
+		{
+			return MiscUtilities.commonPrefix(new BijectionCollection<>(new Bijection<Completion, String>()
+			{
+
+				@Override
+				public String forward(Completion completion)
+				{
+					return completion.getContents();
+				}
+			}, completions));
+		}
+
 	}
 
 	public CompletionSet completionSet(CommandSource from, List<String> split)
