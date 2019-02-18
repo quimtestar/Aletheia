@@ -106,6 +106,18 @@ public class Import extends Command
 			return "Imports a set of statements from a file.";
 		}
 
+		@Override
+		public CompletionSet completionSet(CommandSource from, List<String> split)
+		{
+			switch (split.size())
+			{
+			case 0:
+			case 1:
+				return fileNameCompletionSet(from, split);
+			default:
+				return super.completionSet(from, split);
+			}
+		}
 	}
 
 }

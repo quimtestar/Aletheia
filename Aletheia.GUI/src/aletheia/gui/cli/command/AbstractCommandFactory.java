@@ -19,6 +19,8 @@
  ******************************************************************************/
 package aletheia.gui.cli.command;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -484,6 +486,11 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 
 	}
 
+	public CompletionSet completionSet(CommandSource from, List<String> split)
+	{
+		return identifierCompletionSet(from, split);
+	}
+
 	public CompletionSet identifierCompletionSet(CommandSource from, List<String> split)
 	{
 		String last = MiscUtilities.lastFromList(split);
@@ -609,9 +616,44 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 		}
 	}
 
-	public CompletionSet completionSet(CommandSource from, List<String> split)
+	public CompletionSet fileNameCompletionSet(CommandSource from, List<String> split)
 	{
-		return identifierCompletionSet(from, split);
+		String fullPath = MiscUtilities.lastFromList(split);
+		if (fullPath == null)
+			return null;
+		File directory;
+		String prefix;
+		try
+		{
+			File file = new File(fullPath);
+			File canonical = file.getCanonicalFile();
+			if (fullPath.isEmpty() || fullPath.endsWith("/"))
+			{
+				directory = canonical;
+				prefix = "";
+			}
+			else
+			{
+				directory = canonical.getParentFile();
+				prefix = canonical.getName();
+			}
+		}
+		catch (IOException e)
+		{
+			return null;
+		}
+		if (!directory.isDirectory())
+			return null;
+		File[] files = directory.listFiles((File f) -> f.getName().startsWith(prefix));
+		Arrays.sort(files);
+		return new CompletionSet(prefix, new BijectionCollection<>(new Bijection<File, Completion>()
+		{
+			@Override
+			public Completion forward(File file)
+			{
+				return new Completion(file.getName(), file.isDirectory() ? "/" : " ");
+			}
+		}, Arrays.asList(files)));
 	}
 
 }

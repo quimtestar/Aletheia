@@ -93,6 +93,19 @@ public class Export extends TransactionalCommand
 			return "Exports a set of statements to a file.";
 		}
 
+		@Override
+		public CompletionSet completionSet(CommandSource from, List<String> split)
+		{
+			switch (split.size())
+			{
+			case 0:
+			case 1:
+				return fileNameCompletionSet(from, split);
+			default:
+				return super.completionSet(from, split);
+			}
+
+		}
 	}
 
 }
