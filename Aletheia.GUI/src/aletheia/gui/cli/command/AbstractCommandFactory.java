@@ -409,7 +409,7 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 		return signatures;
 	}
 
-	public static class CompletionSet implements Iterable<Completion>
+	public static class CompletionSet implements Iterable<CompletionSet.Completion>
 	{
 		private final String queried;
 
