@@ -1411,6 +1411,11 @@ public class CliJPanel extends JPanel implements CommandSource
 		{
 			textPane.setCaretPosition(document.getLength());
 		}
+		catch (NullPointerException e)
+		{
+			//Workaround
+			logger.error(e.getMessage(), e);
+		}
 		return offset_;
 	}
 
