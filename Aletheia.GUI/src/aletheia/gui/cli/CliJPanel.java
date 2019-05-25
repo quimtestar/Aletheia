@@ -1366,6 +1366,18 @@ public class CliJPanel extends JPanel implements CommandSource
 		}
 	}
 
+	private void insertString(int offset, String s, AttributeSet attributeSet)
+	{
+		try
+		{
+			document.insertString(offset, s, attributeSet);
+		}
+		catch (BadLocationException e)
+		{
+			logger.error(String.format("Could not insert string \"%s\" to CLI document at position %d", s, offset), e);
+		}
+	}
+
 	private synchronized void printString(String s, AttributeSet attributeSet)
 	{
 		if (consolePrintWriter != null)
@@ -1375,24 +1387,17 @@ public class CliJPanel extends JPanel implements CommandSource
 		}
 		commandBufferCaretOffset += moveCaretToEnd();
 		commandBuffer.append(getCommand(true));
-		try
+		insertString(document.getEndPosition().getOffset() - 1, s, attributeSet);
+		updateMinimalCaretPosition();
+		if (attributeSet.containsAttribute(flushCommandBufferAttribute, true))
 		{
-			document.insertString(document.getEndPosition().getOffset() - 1, s, attributeSet);
-			updateMinimalCaretPosition();
-			if (attributeSet.containsAttribute(flushCommandBufferAttribute, true))
-			{
-				document.insertString(document.getEndPosition().getOffset() - 1, commandBuffer.toString(), attributeSet);
-				commandBuffer = new StringBuffer();
-				moveCaretToEnd(commandBufferCaretOffset);
-				commandBufferCaretOffset = 0;
-			}
-			if (attributeSet != defaultAttributeSet)
-				textPane.setCharacterAttributes(defaultAttributeSet, true);
+			insertString(document.getEndPosition().getOffset() - 1, commandBuffer.toString(), attributeSet);
+			commandBuffer = new StringBuffer();
+			moveCaretToEnd(commandBufferCaretOffset);
+			commandBufferCaretOffset = 0;
 		}
-		catch (BadLocationException e)
-		{
-			throw new Error(e);
-		}
+		if (attributeSet != defaultAttributeSet)
+			textPane.setCharacterAttributes(defaultAttributeSet, true);
 	}
 
 	private synchronized void moveCaretToMinimal()
