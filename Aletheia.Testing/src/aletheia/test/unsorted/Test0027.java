@@ -19,13 +19,19 @@
  ******************************************************************************/
 package aletheia.test.unsorted;
 
+import org.apache.logging.log4j.Logger;
+
+import aletheia.log4j.LoggerManager;
 import aletheia.model.statement.Statement;
+import aletheia.model.statement.Statement.SignatureIsValidException;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
 
 public class Test0027 extends TransactionalBerkeleyDBPersistenceManagerTest
 {
+	private static final Logger logger = LoggerManager.instance.logger();
+
 	public Test0027()
 	{
 		super();
@@ -45,7 +51,14 @@ public class Test0027 extends TransactionalBerkeleyDBPersistenceManagerTest
 				System.out.println(pf);
 			}
 			if (!statement.isSignedDependencies(transaction))
-				statement.deleteCascade(transaction);
+				try
+				{
+					statement.deleteCascade(transaction);
+				}
+				catch (SignatureIsValidException e)
+				{
+					logger.warn(e);
+				}
 		}
 	}
 
