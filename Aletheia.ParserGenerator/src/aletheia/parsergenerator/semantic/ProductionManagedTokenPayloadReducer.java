@@ -23,6 +23,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -294,12 +295,12 @@ public class ProductionManagedTokenPayloadReducer<G, P> extends TokenPayloadRedu
 			try
 			{
 				ProductionTokenPayloadReducer<G, ? extends P> old = productionTokenPayloadReducerMap.put(associatedProductionKey,
-						productionTokenPayloadReducerClass.newInstance());
+						productionTokenPayloadReducerClass.getDeclaredConstructor().newInstance());
 				if (old != null)
 					throw new ProductionManagedTokenPayloadReducerException("Production collision for classes " + productionTokenPayloadReducerClass.getName()
 							+ " and " + old.getClass().getName() + " (" + associatedProductionKey + ")");
 			}
-			catch (SecurityException | InstantiationException | IllegalAccessException e)
+			catch (SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException e)
 			{
 				throw new ProductionManagedTokenPayloadReducerException(e);
 			}
