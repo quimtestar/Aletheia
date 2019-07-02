@@ -73,13 +73,13 @@ public abstract class EntityStoreUpgrade
 			upgradeMap = new HashMap<>();
 			for (Class<? extends EntityStoreUpgrade> upgradeClass : upgradeClasses)
 			{
-				EntityStoreUpgrade upgrade = upgradeClass.newInstance();
+				EntityStoreUpgrade upgrade = upgradeClass.getDeclaredConstructor().newInstance();
 				for (int version : upgrade.versions())
 					if (upgradeMap.put(version, upgrade) != null)
 						throw new Error();
 			}
 		}
-		catch (InstantiationException | IllegalAccessException e)
+		catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e)
 		{
 			throw new Error(e);
 		}
