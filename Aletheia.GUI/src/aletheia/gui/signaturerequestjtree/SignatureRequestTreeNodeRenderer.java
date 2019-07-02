@@ -110,7 +110,7 @@ public abstract class SignatureRequestTreeNodeRenderer extends PersistentJTreeNo
 		@Override
 		public void mouseExited(MouseEvent e)
 		{
-			if ((draggable && (e.getModifiers() & MouseEvent.MOUSE_PRESSED) != 0))
+			if ((draggable && (e.getModifiersEx() & MouseEvent.MOUSE_PRESSED) != 0))
 				getPersistentJTree().getTransferHandler().exportAsDrag(getPersistentJTree(), e, TransferHandler.COPY);
 		}
 	}

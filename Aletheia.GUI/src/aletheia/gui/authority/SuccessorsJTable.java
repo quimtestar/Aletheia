@@ -97,7 +97,7 @@ public class SuccessorsJTable extends JTable
 			@Override
 			public void mouseExited(MouseEvent e)
 			{
-				if (draggable && ((e.getModifiers() & MouseEvent.MOUSE_PRESSED) != 0))
+				if (draggable && ((e.getModifiersEx() & MouseEvent.MOUSE_PRESSED) != 0))
 					SuccessorsJTable.this.getTransferHandler().exportAsDrag(SuccessorsJTable.this, e, TransferHandler.COPY);
 			}
 		}

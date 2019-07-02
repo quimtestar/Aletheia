@@ -67,7 +67,7 @@ public abstract class CatalogJTreeNodeRenderer extends PersistentJTreeNodeRender
 		@Override
 		public void mouseExited(MouseEvent e)
 		{
-			if (draggable && ((e.getModifiers() & MouseEvent.MOUSE_PRESSED) != 0))
+			if (draggable && ((e.getModifiersEx() & MouseEvent.MOUSE_PRESSED) != 0))
 				getCatalogJTree().getTransferHandler().exportAsDrag(getCatalogJTree(), e, TransferHandler.COPY);
 		}
 

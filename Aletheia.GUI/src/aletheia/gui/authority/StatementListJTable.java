@@ -103,7 +103,7 @@ public class StatementListJTable extends JTable
 			@Override
 			public void mouseExited(MouseEvent e)
 			{
-				if (draggable && ((e.getModifiers() & MouseEvent.MOUSE_PRESSED) != 0))
+				if (draggable && ((e.getModifiersEx() & MouseEvent.MOUSE_PRESSED) != 0))
 					StatementListJTable.this.getTransferHandler().exportAsDrag(StatementListJTable.this, e, TransferHandler.COPY);
 			}
 		}
