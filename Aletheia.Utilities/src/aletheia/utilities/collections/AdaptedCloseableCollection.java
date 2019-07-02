@@ -42,7 +42,7 @@ public class AdaptedCloseableCollection<E> extends AdaptedCollection<E> implemen
 	public CloseableIterator<E> iterator()
 	{
 		final CloseableIterator<? extends E> iterator = getInner().iterator();
-		return new CloseableIterator<E>()
+		return new CloseableIterator<>()
 		{
 
 			@Override

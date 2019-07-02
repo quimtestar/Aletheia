@@ -129,7 +129,7 @@ public class BerkeleyDBStatementAuthoritySignatureMap extends AbstractCloseableM
 		public CloseableIterator<Entry<Signatory, StatementAuthoritySignature>> iterator()
 		{
 			final EntityCursor<BerkeleyDBStatementAuthoritySignatureEntity> cursor = transaction.entities(index);
-			return new CloseableIterator<Entry<Signatory, StatementAuthoritySignature>>()
+			return new CloseableIterator<>()
 			{
 
 				BerkeleyDBStatementAuthoritySignatureEntity nextEntity;
@@ -155,7 +155,7 @@ public class BerkeleyDBStatementAuthoritySignatureMap extends AbstractCloseableM
 					nextEntity = transaction.next(cursor);
 					if (nextEntity == null)
 						transaction.close(cursor);
-					return new Entry<Signatory, StatementAuthoritySignature>()
+					return new Entry<>()
 					{
 
 						@Override

@@ -140,7 +140,7 @@ public abstract class CatalogTreeNode implements TreeNode
 	{
 
 		final Iterator<SubCatalogTreeNode> iterator = getChildren().list.iterator();
-		return new Enumeration<SubCatalogTreeNode>()
+		return new Enumeration<>()
 		{
 
 			@Override

@@ -53,7 +53,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 		this.prefix = prefix;
 		if (group != null && group.getPrefix() != null && (prefix == null || !group.getPrefix().isPrefixOf(prefix)))
 			throw new IllegalArgumentException("Inconsistent prefix.");
-		this.statementSorterBijection = new Bijection<S, Sorter>()
+		this.statementSorterBijection = new Bijection<>()
 		{
 
 			@Override
@@ -129,7 +129,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 	public CloseableIterable<Sorter> iterable(Transaction transaction)
 	{
 		final SortedStatements<S> sortedStatements = sortedStatements(transaction);
-		return new CloseableIterable<Sorter>()
+		return new CloseableIterable<>()
 		{
 
 			@Override
@@ -154,7 +154,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 									Collections.<Sorter> singleton(subGroupSorter(((NodeNamespace) prefix).asIdentifier()))).iterator();
 					}
 					if (identifiedIterator == null)
-						identifiedIterator = new CloseableIterator<Sorter>()
+						identifiedIterator = new CloseableIterator<>()
 						{
 							S next;
 

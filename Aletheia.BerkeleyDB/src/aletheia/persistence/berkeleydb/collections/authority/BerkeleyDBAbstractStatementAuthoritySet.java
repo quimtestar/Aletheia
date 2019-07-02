@@ -89,7 +89,7 @@ public abstract class BerkeleyDBAbstractStatementAuthoritySet extends AbstractCl
 	public CloseableIterator<StatementAuthority> iterator()
 	{
 		final EntityCursor<BerkeleyDBStatementAuthorityEntity> cursor = transaction.entities(index());
-		return new CloseableIterator<StatementAuthority>()
+		return new CloseableIterator<>()
 		{
 			private StatementAuthorityEntity next;
 

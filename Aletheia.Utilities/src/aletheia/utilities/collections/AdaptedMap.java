@@ -74,14 +74,14 @@ public class AdaptedMap<K, V> implements Map<K, V>
 	public Set<Entry<K, V>> entrySet()
 	{
 		final Set<K> keys = keySet();
-		return new AbstractSet<Entry<K, V>>()
+		return new AbstractSet<>()
 		{
 
 			@Override
 			public Iterator<Entry<K, V>> iterator()
 			{
 				final Iterator<K> iterator = keys.iterator();
-				return new Iterator<Entry<K, V>>()
+				return new Iterator<>()
 				{
 
 					@Override
@@ -94,7 +94,7 @@ public class AdaptedMap<K, V> implements Map<K, V>
 					public Entry<K, V> next()
 					{
 						final K key = iterator.next();
-						return new Entry<K, V>()
+						return new Entry<>()
 						{
 
 							@Override

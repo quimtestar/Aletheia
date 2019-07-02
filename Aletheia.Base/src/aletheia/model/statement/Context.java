@@ -402,12 +402,12 @@ public class Context extends Statement
 	 */
 	public CloseableIterable<Context> descendentContexts(final Transaction transaction)
 	{
-		return new CloseableIterable<Context>()
+		return new CloseableIterable<>()
 		{
 			@Override
 			public CloseableIterator<Context> iterator()
 			{
-				return new CloseableIterator<Context>()
+				return new CloseableIterator<>()
 				{
 					final Stack<CloseableIterator<Context>> stack;
 
@@ -1234,12 +1234,12 @@ public class Context extends Statement
 	 */
 	public CloseableIterable<Statement> descendentStatements(final Transaction transaction)
 	{
-		return new CloseableIterable<Statement>()
+		return new CloseableIterable<>()
 		{
 			@Override
 			public CloseableIterator<Statement> iterator()
 			{
-				return new CloseableIterator<Statement>()
+				return new CloseableIterator<>()
 				{
 					final Stack<CloseableIterator<Statement>> stack;
 
@@ -2264,7 +2264,7 @@ public class Context extends Statement
 	public Collection<Statement> proofDependencies(final Transaction transaction)
 	{
 
-		Bijection<Context, Collection<Statement>> bijection = new Bijection<Context, Collection<Statement>>()
+		Bijection<Context, Collection<Statement>> bijection = new Bijection<>()
 		{
 
 			@Override

@@ -377,13 +377,13 @@ public class UnpackedSignatureRequest extends SignatureRequest
 
 	public Iterable<Statement> missingForSignedProofRequest(final Transaction transaction)
 	{
-		return new Iterable<Statement>()
+		return new Iterable<>()
 		{
 
 			@Override
 			public Iterator<Statement> iterator()
 			{
-				return new Iterator<Statement>()
+				return new Iterator<>()
 				{
 					final Collection<Statement> statements = new HashSet<>(statements(transaction));
 					final Stack<Statement> stack = new Stack<>();

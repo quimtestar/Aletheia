@@ -446,7 +446,7 @@ public class StatementAuthority implements Exportable
 
 	public CloseableSortedSet<StatementAuthoritySignature> validSignatureDateSortedSet(Transaction transaction)
 	{
-		return new FilteredCloseableSortedSet<StatementAuthoritySignature>(new Filter<StatementAuthoritySignature>()
+		return new FilteredCloseableSortedSet<>(new Filter<StatementAuthoritySignature>()
 		{
 
 			@Override
@@ -698,7 +698,7 @@ public class StatementAuthority implements Exportable
 		DelegateTreeRootNode delegateTreeRootNode = getDelegateTreeRootNode(transaction);
 		if (delegateTreeRootNode != null)
 		{
-			Bijection<DelegateAuthorizer, Signatory> bijection = new Bijection<DelegateAuthorizer, Signatory>()
+			Bijection<DelegateAuthorizer, Signatory> bijection = new Bijection<>()
 			{
 
 				@Override

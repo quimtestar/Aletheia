@@ -1605,7 +1605,7 @@ public abstract class Statement implements Exportable
 			public CloseableIterator<CloseableCollection<Statement>> iterator()
 			{
 
-				return new CloseableIterator<CloseableCollection<Statement>>()
+				return new CloseableIterator<>()
 				{
 					final CloseableIterator<? extends Statement> iterator = collection.iterator();
 					final Set<Statement> visited = new HashSet<>();
@@ -1914,7 +1914,7 @@ public abstract class Statement implements Exportable
 
 	public static CloseableCollection<Match> filterMatches(CloseableCollection<Statement> statements, final Term target)
 	{
-		Bijection<Statement, Match> bijection = new Bijection<Statement, Match>()
+		Bijection<Statement, Match> bijection = new Bijection<>()
 		{
 
 			@Override
@@ -2158,7 +2158,7 @@ public abstract class Statement implements Exportable
 
 	protected static Comparator<Statement> solverStatementComparator()
 	{
-		return new Comparator<Statement>()
+		return new Comparator<>()
 		{
 
 			private int compareClasses(Statement st1, Statement st2)

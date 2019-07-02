@@ -128,13 +128,13 @@ public class BijectionKeyMap<I, O, V> extends AbstractMap<O, V>
 	@Override
 	public Set<Map.Entry<O, V>> entrySet()
 	{
-		Bijection<Entry<I, V>, Entry<O, V>> bijection_ = new Bijection<Entry<I, V>, Entry<O, V>>()
+		Bijection<Entry<I, V>, Entry<O, V>> bijection_ = new Bijection<>()
 		{
 
 			@Override
 			public Entry<O, V> forward(final Entry<I, V> input)
 			{
-				return new Entry<O, V>()
+				return new Entry<>()
 				{
 
 					@Override
@@ -161,7 +161,7 @@ public class BijectionKeyMap<I, O, V> extends AbstractMap<O, V>
 			@Override
 			public Entry<I, V> backward(final Entry<O, V> output)
 			{
-				return new Entry<I, V>()
+				return new Entry<>()
 				{
 
 					@Override

@@ -188,7 +188,7 @@ public abstract class Phase
 
 	private Iterator<Phase> ancestorIterator()
 	{
-		return new Iterator<Phase>()
+		return new Iterator<>()
 		{
 			private Phase phase = Phase.this;
 
@@ -219,7 +219,7 @@ public abstract class Phase
 
 	protected Iterable<Phase> ancestors()
 	{
-		return new Iterable<Phase>()
+		return new Iterable<>()
 		{
 
 			@Override

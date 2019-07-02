@@ -216,7 +216,7 @@ public class BerkeleyDBGenericPersonsMap<S extends Signatory, SE extends Signato
 		public CloseableIterator<Map.Entry<S, P>> iterator()
 		{
 			final EntityCursor<PE> cursor = transaction.entities(index, from, true, to, true);
-			return new CloseableIterator<Map.Entry<S, P>>()
+			return new CloseableIterator<>()
 			{
 				PE next;
 

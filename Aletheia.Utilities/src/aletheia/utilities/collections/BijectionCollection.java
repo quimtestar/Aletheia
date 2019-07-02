@@ -164,7 +164,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 	 */
 	protected static <O> Collection<O> extractedCollection(final Collection<?> c)
 	{
-		return new AbstractReadOnlyCollection<O>()
+		return new AbstractReadOnlyCollection<>()
 		{
 
 			@Override
@@ -189,7 +189,7 @@ public class BijectionCollection<I, O> extends AbstractCollection<O>
 			public Iterator<O> iterator()
 			{
 				final Iterator<?> iterator = c.iterator();
-				return new Iterator<O>()
+				return new Iterator<>()
 				{
 
 					@Override

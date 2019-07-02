@@ -49,7 +49,7 @@ public class StatementProofSubscriptionLoopDialogClient extends StatementProofSu
 	private AvailableProofsMessage dialogateAvailableProofsClient(Set<StatementLocal> subscribedProofStatementLocals)
 			throws IOException, ProtocolException, InterruptedException
 	{
-		Bijection<StatementLocal, UUID> statementLocalUuidBijection = new Bijection<StatementLocal, UUID>()
+		Bijection<StatementLocal, UUID> statementLocalUuidBijection = new Bijection<>()
 		{
 
 			@Override

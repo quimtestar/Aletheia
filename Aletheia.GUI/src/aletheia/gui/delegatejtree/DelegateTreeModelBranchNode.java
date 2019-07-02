@@ -204,7 +204,7 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 	{
 		final List<DelegateTreeModelNode> childList = getChildList();
 		final Iterator<DelegateTreeModelNode> iterator = childList.iterator();
-		return new Enumeration<DelegateTreeModelNode>()
+		return new Enumeration<>()
 		{
 			@Override
 			public boolean hasMoreElements()

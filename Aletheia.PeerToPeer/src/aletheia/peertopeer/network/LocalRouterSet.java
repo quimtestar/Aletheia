@@ -51,7 +51,7 @@ public class LocalRouterSet implements RouterSet
 
 	private static class NeighbourEntry
 	{
-		private static final Bijection<NeighbourEntry, NetworkPhase> bijection = new Bijection<NeighbourEntry, NetworkPhase>()
+		private static final Bijection<NeighbourEntry, NetworkPhase> bijection = new Bijection<>()
 		{
 
 			@Override

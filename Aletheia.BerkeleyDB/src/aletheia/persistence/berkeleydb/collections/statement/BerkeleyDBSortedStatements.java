@@ -85,7 +85,7 @@ public abstract class BerkeleyDBSortedStatements<S extends Statement> extends Ab
 		return transaction;
 	}
 
-	private final static Comparator<Statement> comparator = new Comparator<Statement>()
+	private final static Comparator<Statement> comparator = new Comparator<>()
 	{
 
 		@Override
@@ -161,7 +161,7 @@ public abstract class BerkeleyDBSortedStatements<S extends Statement> extends Ab
 	public CloseableIterator<S> iterator()
 	{
 		final EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(index, from, fromInclusive, to, toInclusive);
-		return new CloseableIterator<S>()
+		return new CloseableIterator<>()
 		{
 			private BerkeleyDBStatementEntity next;
 

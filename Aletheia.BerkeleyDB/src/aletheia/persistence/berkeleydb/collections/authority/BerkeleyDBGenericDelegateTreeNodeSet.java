@@ -95,7 +95,7 @@ public abstract class BerkeleyDBGenericDelegateTreeNodeSet<N extends DelegateTre
 	public CloseableIterator<N> iterator()
 	{
 		final EntityCursor<E> cursor = transaction.entities(index());
-		return new CloseableIterator<N>()
+		return new CloseableIterator<>()
 		{
 			private E next;
 

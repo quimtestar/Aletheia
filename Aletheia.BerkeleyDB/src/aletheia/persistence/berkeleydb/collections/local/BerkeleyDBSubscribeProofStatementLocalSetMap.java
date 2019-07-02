@@ -89,14 +89,14 @@ public class BerkeleyDBSubscribeProofStatementLocalSetMap extends AbstractClosea
 	@Override
 	public CloseableSet<Entry<ContextLocal, SubscribeProofStatementLocalSet>> entrySet()
 	{
-		return new AbstractCloseableSet<Entry<ContextLocal, SubscribeProofStatementLocalSet>>()
+		return new AbstractCloseableSet<>()
 		{
 
 			@Override
 			public CloseableIterator<Entry<ContextLocal, SubscribeProofStatementLocalSet>> iterator()
 			{
 				final EntityCursor<BerkeleyDBStatementLocalEntity> cursor = transaction.entities(index);
-				return new CloseableIterator<Entry<ContextLocal, SubscribeProofStatementLocalSet>>()
+				return new CloseableIterator<>()
 				{
 					private BerkeleyDBStatementLocalEntity next;
 
@@ -121,7 +121,7 @@ public class BerkeleyDBSubscribeProofStatementLocalSetMap extends AbstractClosea
 							transaction.close(cursor);
 						final ContextLocal contextLocal = (ContextLocal) persistenceManager.getStatementLocal(transaction, entity.getContextUuid());
 						final SubscribeProofStatementLocalSet subscribeProofStatementLocalSet = contextLocal.subscribeProofStatementLocalSet(transaction);
-						return new Entry<ContextLocal, SubscribeProofStatementLocalSet>()
+						return new Entry<>()
 						{
 
 							@Override

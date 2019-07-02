@@ -122,7 +122,7 @@ public class LocalSubscription implements Subscription
 	@Override
 	public CloseableMap<UUID, LocalSubContextSubscription> subContextSubscriptions()
 	{
-		return new AbstractCloseableMap<UUID, LocalSubContextSubscription>()
+		return new AbstractCloseableMap<>()
 		{
 
 			@Override
@@ -157,7 +157,7 @@ public class LocalSubscription implements Subscription
 					@Override
 					public Map.Entry<UUID, LocalSubContextSubscription> forward(final ContextLocal contextLocal)
 					{
-						return new Map.Entry<UUID, LocalSubContextSubscription>()
+						return new Map.Entry<>()
 						{
 
 							@Override

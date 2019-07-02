@@ -65,7 +65,7 @@ public class Test0011 extends TransactionalBerkeleyDBPersistenceManagerTest
 	{
 		//enterPassphrase(persistenceManager);
 
-		Bijection<UUID, Statement> uuidBijection = new Bijection<UUID, Statement>()
+		Bijection<UUID, Statement> uuidBijection = new Bijection<>()
 		{
 
 			@Override
@@ -147,7 +147,7 @@ public class Test0011 extends TransactionalBerkeleyDBPersistenceManagerTest
 				for (Statement d : ((Context) st).descendentStatements(transaction))
 					dependents.remove(d);
 
-		Bijection<Statement, IdentifiableVariableTerm> statementBijection = new Bijection<Statement, IdentifiableVariableTerm>()
+		Bijection<Statement, IdentifiableVariableTerm> statementBijection = new Bijection<>()
 		{
 
 			@Override

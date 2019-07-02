@@ -28,7 +28,7 @@ import aletheia.utilities.collections.BijectionComparator;
 public class RelativeNetworkPhaseComparator extends BijectionComparator<UUID, NetworkPhase>
 {
 
-	private static Bijection<UUID, NetworkPhase> bijection = new Bijection<UUID, NetworkPhase>()
+	private static Bijection<UUID, NetworkPhase> bijection = new Bijection<>()
 	{
 
 		@Override

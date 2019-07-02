@@ -42,7 +42,7 @@ import com.sleepycat.persist.SecondaryIndex;
 public class BerkeleyDBStatementAuthoritySignatureDateSortedSet extends AbstractCloseableSet<StatementAuthoritySignature>
 		implements StatementAuthoritySignatureDateSortedSet
 {
-	private final static Comparator<StatementAuthoritySignature> comparator = new Comparator<StatementAuthoritySignature>()
+	private final static Comparator<StatementAuthoritySignature> comparator = new Comparator<>()
 	{
 		@Override
 		public int compare(StatementAuthoritySignature o1, StatementAuthoritySignature o2)

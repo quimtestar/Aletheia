@@ -179,7 +179,7 @@ public class DelegateAuthorizer implements Exportable
 	private CloseableSet<StatementAuthoritySignature> filterStatementAuthoritySignatures(final Transaction transaction,
 			CloseableSet<StatementAuthoritySignature> statementAuthoritySignatures)
 	{
-		Filter<StatementAuthoritySignature> filter = new Filter<StatementAuthoritySignature>()
+		Filter<StatementAuthoritySignature> filter = new Filter<>()
 		{
 			@Override
 			public boolean filter(StatementAuthoritySignature sas)

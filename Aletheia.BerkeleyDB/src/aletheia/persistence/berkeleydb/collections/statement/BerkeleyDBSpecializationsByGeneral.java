@@ -92,7 +92,7 @@ public class BerkeleyDBSpecializationsByGeneral extends AbstractCloseableSet<Spe
 	{
 		final EntityCursor<BerkeleyDBSpecializationEntity> cursor = transaction.entities(specializationEntityGeneralSecondaryIndex, uuidKey, true, uuidKey,
 				true);
-		return new CloseableIterator<Specialization>()
+		return new CloseableIterator<>()
 		{
 			SpecializationEntity next;
 

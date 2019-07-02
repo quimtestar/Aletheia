@@ -60,7 +60,7 @@ public class Dependents extends TransactionalCommand
 			list.add(path);
 		}
 
-		Comparator<List<? extends Statement>> comparator = new Comparator<List<? extends Statement>>()
+		Comparator<List<? extends Statement>> comparator = new Comparator<>()
 		{
 			@Override
 			public int compare(List<? extends Statement> path1, List<? extends Statement> path2)

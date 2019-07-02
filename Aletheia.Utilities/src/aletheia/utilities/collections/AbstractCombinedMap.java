@@ -129,7 +129,7 @@ public abstract class AbstractCombinedMap<K, V> extends AbstractReadOnlyMap<K, V
 			public Map.Entry<K, V> next()
 			{
 				final K k = keyIterator.next();
-				return new Map.Entry<K, V>()
+				return new Map.Entry<>()
 				{
 
 					@Override

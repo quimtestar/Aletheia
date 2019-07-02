@@ -115,7 +115,7 @@ public class BerkeleyDBLocalStatementsByTerm extends AbstractCloseableMap<Term, 
 			uuidKeyTermHash.setTermHash(term.hashCode());
 			final EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(statementEntityTermHashSecondaryIndex, uuidKeyTermHash, true,
 					uuidKeyTermHash, true);
-			return new CloseableIterator<Statement>()
+			return new CloseableIterator<>()
 			{
 				BerkeleyDBStatementEntity next;
 

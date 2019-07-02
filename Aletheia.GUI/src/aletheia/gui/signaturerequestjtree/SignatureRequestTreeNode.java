@@ -132,7 +132,7 @@ public abstract class SignatureRequestTreeNode implements TreeNode
 	public Enumeration<? extends SignatureRequestTreeNode> children()
 	{
 		final Iterator<? extends SignatureRequestTreeNode> iterator = childNodeList().iterator();
-		return new Enumeration<SignatureRequestTreeNode>()
+		return new Enumeration<>()
 		{
 
 			@Override

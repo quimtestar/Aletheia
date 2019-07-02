@@ -53,7 +53,7 @@ public class StatementSubscriptionLoopDialogClient extends StatementSubscription
 	private Set<Context> dialogateStatementsSubscribeClient(Set<ContextLocal> subscribedContextLocals, Set<ContextLocal> unsubscribedContextLocals)
 			throws IOException, ProtocolException, InterruptedException
 	{
-		Bijection<ContextLocal, UUID> contextLocalUuidBijection = new Bijection<ContextLocal, UUID>()
+		Bijection<ContextLocal, UUID> contextLocalUuidBijection = new Bijection<>()
 		{
 
 			@Override

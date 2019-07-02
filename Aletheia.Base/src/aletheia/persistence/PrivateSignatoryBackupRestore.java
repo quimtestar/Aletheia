@@ -62,7 +62,7 @@ class PrivateSignatoryBackupRestore
 		@Override
 		protected Collection<PrivateSignatory> makeCollection(int n)
 		{
-			return new EmptyIgnoringCollection<PrivateSignatory>()
+			return new EmptyIgnoringCollection<>()
 			{
 
 				@Override

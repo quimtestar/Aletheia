@@ -153,7 +153,7 @@ public abstract class AbstractCombinedCloseableSortedMap<K, V> extends AbstractC
 	@Override
 	public CloseableSortedMap<K, V> headMap(final K toKey)
 	{
-		return new AbstractCombinedCloseableSortedMap<K, V>(getFront().headMap(toKey))
+		return new AbstractCombinedCloseableSortedMap<>(getFront().headMap(toKey))
 		{
 			private static final long serialVersionUID = -2512566498203919691L;
 
@@ -168,7 +168,7 @@ public abstract class AbstractCombinedCloseableSortedMap<K, V> extends AbstractC
 	@Override
 	public CloseableSortedMap<K, V> subMap(final K fromKey, final K toKey)
 	{
-		return new AbstractCombinedCloseableSortedMap<K, V>(getFront().subMap(fromKey, toKey))
+		return new AbstractCombinedCloseableSortedMap<>(getFront().subMap(fromKey, toKey))
 		{
 			private static final long serialVersionUID = -2899448591974596379L;
 
@@ -184,7 +184,7 @@ public abstract class AbstractCombinedCloseableSortedMap<K, V> extends AbstractC
 	@Override
 	public CloseableSortedMap<K, V> tailMap(final K fromKey)
 	{
-		return new AbstractCombinedCloseableSortedMap<K, V>(getFront().tailMap(fromKey))
+		return new AbstractCombinedCloseableSortedMap<>(getFront().tailMap(fromKey))
 		{
 			private static final long serialVersionUID = 1979312580696145790L;
 

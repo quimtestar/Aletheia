@@ -93,7 +93,7 @@ public class BerkeleyDBStatementLocalSet extends AbstractCloseableSet<StatementL
 	public CloseableIterator<StatementLocal> iterator()
 	{
 		final EntityCursor<BerkeleyDBStatementLocalEntity> cursor = transaction.entities(index);
-		return new CloseableIterator<StatementLocal>()
+		return new CloseableIterator<>()
 		{
 
 			private BerkeleyDBStatementLocalEntity next;

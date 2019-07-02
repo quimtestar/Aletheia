@@ -192,7 +192,7 @@ public class BerkeleyDBDelegateTreeRootNodeEntity extends BerkeleyDBDelegateTree
 		public ListIterator<BerkeleyDBSuccessorEntryEntity> listIterator(int index)
 		{
 			final ListIterator<BerkeleyDBSuccessorEntryEntity> successorEntriesIterator = successorEntryEntities.listIterator(index);
-			return new ListIterator<BerkeleyDBSuccessorEntryEntity>()
+			return new ListIterator<>()
 			{
 				private BerkeleyDBSuccessorEntryEntity last = null;
 

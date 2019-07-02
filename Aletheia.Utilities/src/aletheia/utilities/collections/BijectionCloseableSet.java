@@ -48,7 +48,7 @@ public class BijectionCloseableSet<I, O> extends BijectionSet<I, O> implements C
 	public CloseableIterator<O> iterator()
 	{
 		final CloseableIterator<I> inner = getInner().iterator();
-		return new CloseableIterator<O>()
+		return new CloseableIterator<>()
 		{
 
 			@Override

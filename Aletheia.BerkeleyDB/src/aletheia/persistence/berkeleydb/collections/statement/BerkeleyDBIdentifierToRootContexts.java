@@ -142,7 +142,7 @@ public class BerkeleyDBIdentifierToRootContexts extends AbstractCloseableMap<Ide
 		return transaction.contains(rootContextEntityIdentifierSecondaryIndex, identifierKey);
 	}
 
-	private final static Comparator<Identifier> comparator = new Comparator<Identifier>()
+	private final static Comparator<Identifier> comparator = new Comparator<>()
 	{
 		@Override
 		public int compare(Identifier o1, Identifier o2)
@@ -234,7 +234,7 @@ public class BerkeleyDBIdentifierToRootContexts extends AbstractCloseableMap<Ide
 			{
 				final EntityCursor<IdentifierKey> cursor = transaction.keys(rootContextEntityIdentifierSecondaryIndex, identifierKeyMin, true, identifierKeyMax,
 						false);
-				return new CloseableIterator<Map.Entry<Identifier, GenericRootContextsMap>>()
+				return new CloseableIterator<>()
 				{
 					IdentifierKey next;
 
@@ -301,7 +301,7 @@ public class BerkeleyDBIdentifierToRootContexts extends AbstractCloseableMap<Ide
 			public Comparator<Entry<Identifier, GenericRootContextsMap>> comparator()
 			{
 				final Comparator<Identifier> comp = BerkeleyDBIdentifierToRootContexts.this.comparator();
-				return new Comparator<Entry<Identifier, GenericRootContextsMap>>()
+				return new Comparator<>()
 				{
 
 					@Override

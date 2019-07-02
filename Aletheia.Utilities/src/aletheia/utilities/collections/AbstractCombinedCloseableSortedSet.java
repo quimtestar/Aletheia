@@ -102,7 +102,7 @@ public abstract class AbstractCombinedCloseableSortedSet<E> extends AbstractComb
 	@Override
 	public CloseableSortedSet<E> headSet(final E toElement)
 	{
-		return new AbstractCombinedCloseableSortedSet<E>(getFront().headSet(toElement))
+		return new AbstractCombinedCloseableSortedSet<>(getFront().headSet(toElement))
 		{
 
 			private static final long serialVersionUID = -6388856838720080057L;
@@ -118,7 +118,7 @@ public abstract class AbstractCombinedCloseableSortedSet<E> extends AbstractComb
 	@Override
 	public CloseableSortedSet<E> subSet(final E fromElement, final E toElement)
 	{
-		return new AbstractCombinedCloseableSortedSet<E>(getFront().subSet(fromElement, toElement))
+		return new AbstractCombinedCloseableSortedSet<>(getFront().subSet(fromElement, toElement))
 		{
 
 			private static final long serialVersionUID = 7028830817059557949L;
@@ -134,7 +134,7 @@ public abstract class AbstractCombinedCloseableSortedSet<E> extends AbstractComb
 	@Override
 	public CloseableSortedSet<E> tailSet(final E fromElement)
 	{
-		return new AbstractCombinedCloseableSortedSet<E>(getFront().tailSet(fromElement))
+		return new AbstractCombinedCloseableSortedSet<>(getFront().tailSet(fromElement))
 		{
 
 			private static final long serialVersionUID = -8634550355258915121L;

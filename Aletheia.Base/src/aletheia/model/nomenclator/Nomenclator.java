@@ -333,7 +333,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 	{
 		final SortedMap<Identifier, Statement> i2s = identifierToStatement();
 		final Map<Statement, Identifier> s2i = statementToIdentifier();
-		return new AbstractReadOnlySortedMap<Identifier, IdentifiableVariableTerm>()
+		return new AbstractReadOnlySortedMap<>()
 		{
 			@Override
 			public boolean containsKey(Object key)
@@ -439,7 +439,7 @@ public abstract class Nomenclator implements Serializable, Exportable
 	{
 		final SortedMap<Identifier, Statement> i2s = identifierToStatement();
 		final Map<Statement, Identifier> s2i = statementToIdentifier();
-		return new AbstractReadOnlyMap<IdentifiableVariableTerm, Identifier>()
+		return new AbstractReadOnlyMap<>()
 		{
 			@Override
 			public boolean containsKey(Object key)

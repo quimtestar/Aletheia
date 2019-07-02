@@ -42,7 +42,7 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 	@Override
 	public CloseableSet<K> keySet()
 	{
-		return new CloseableSet<K>()
+		return new CloseableSet<>()
 		{
 
 			@Override
@@ -67,7 +67,7 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 			public CloseableIterator<K> iterator()
 			{
 				final CloseableIterator<Entry<K, V>> iterator = entrySet().iterator();
-				return new CloseableIterator<K>()
+				return new CloseableIterator<>()
 				{
 
 					@Override
@@ -183,7 +183,7 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 	@Override
 	public CloseableCollection<V> values()
 	{
-		return new CloseableCollection<V>()
+		return new CloseableCollection<>()
 		{
 			@Override
 			public int size()
@@ -207,7 +207,7 @@ public abstract class AbstractCloseableMap<K, V> extends AbstractMap<K, V> imple
 			public CloseableIterator<V> iterator()
 			{
 				final CloseableIterator<Entry<K, V>> iterator = entrySet().iterator();
-				return new CloseableIterator<V>()
+				return new CloseableIterator<>()
 				{
 
 					@Override

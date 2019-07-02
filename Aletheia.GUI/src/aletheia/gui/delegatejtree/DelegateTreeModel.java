@@ -135,7 +135,7 @@ public class DelegateTreeModel extends PersistentTreeModel
 		@Override
 		public Enumeration<DelegateTreeModelNode> children()
 		{
-			return new Enumeration<DelegateTreeModelNode>()
+			return new Enumeration<>()
 			{
 
 				boolean hasNext = true;

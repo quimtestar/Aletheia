@@ -152,7 +152,7 @@ public abstract class AbstractCombinedList<E> extends AbstractCombinedCollection
 			liBack = getBack().listIterator(index - getFront().size());
 		}
 
-		return new ListIterator<E>()
+		return new ListIterator<>()
 		{
 
 			@Override

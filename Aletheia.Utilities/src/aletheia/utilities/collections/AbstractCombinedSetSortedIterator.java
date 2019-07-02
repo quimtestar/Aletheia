@@ -69,7 +69,7 @@ abstract class AbstractCombinedSetSortedIterator<E> extends AbstractCombinedSet<
 		Comparator<? super E> comp = comparator();
 		if (comp != null)
 			return comp;
-		return new Comparator<E>()
+		return new Comparator<>()
 		{
 			@SuppressWarnings("unchecked")
 			@Override

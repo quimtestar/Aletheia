@@ -300,7 +300,8 @@ public class ProductionManagedTokenPayloadReducer<G, P> extends TokenPayloadRedu
 					throw new ProductionManagedTokenPayloadReducerException("Production collision for classes " + productionTokenPayloadReducerClass.getName()
 							+ " and " + old.getClass().getName() + " (" + associatedProductionKey + ")");
 			}
-			catch (SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException e)
+			catch (SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+					| NoSuchMethodException e)
 			{
 				throw new ProductionManagedTokenPayloadReducerException(e);
 			}

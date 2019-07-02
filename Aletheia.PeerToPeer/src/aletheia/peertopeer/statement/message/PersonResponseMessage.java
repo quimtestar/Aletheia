@@ -40,7 +40,7 @@ import aletheia.utilities.collections.BijectionCollection;
 @MessageSubProtocolInfo(subProtocolClass = PersonResponseMessage.SubProtocol.class)
 public class PersonResponseMessage extends AbstractUUIDPersistentInfoMessage<Person>
 {
-	private final static Bijection<Person, Entry<Person>> entryBijection = new Bijection<Person, Entry<Person>>()
+	private final static Bijection<Person, Entry<Person>> entryBijection = new Bijection<>()
 	{
 
 		@Override

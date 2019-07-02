@@ -105,7 +105,7 @@ public class DifferenceCollection<E> extends AbstractReadOnlyCollection<E> imple
 	{
 		final Iterator<E> iterator = minuend.iterator();
 
-		return new AbstractReadOnlyIterator<E>()
+		return new AbstractReadOnlyIterator<>()
 		{
 
 			E next = advance();

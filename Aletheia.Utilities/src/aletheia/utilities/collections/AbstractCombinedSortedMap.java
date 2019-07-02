@@ -78,7 +78,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 		Comparator<? super K> comp = comparator();
 		if (comp != null)
 			return comp;
-		return new Comparator<K>()
+		return new Comparator<>()
 		{
 			@SuppressWarnings("unchecked")
 			@Override
@@ -153,7 +153,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 	@Override
 	public SortedMap<K, V> headMap(final K toKey)
 	{
-		return new AbstractCombinedSortedMap<K, V>(getFront().headMap(toKey))
+		return new AbstractCombinedSortedMap<>(getFront().headMap(toKey))
 		{
 			private static final long serialVersionUID = 7624550350393322501L;
 
@@ -168,7 +168,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 	@Override
 	public SortedMap<K, V> subMap(final K fromKey, final K toKey)
 	{
-		return new AbstractCombinedSortedMap<K, V>(getFront().subMap(fromKey, toKey))
+		return new AbstractCombinedSortedMap<>(getFront().subMap(fromKey, toKey))
 		{
 			private static final long serialVersionUID = -326776527215251305L;
 
@@ -184,7 +184,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 	@Override
 	public SortedMap<K, V> tailMap(final K fromKey)
 	{
-		return new AbstractCombinedSortedMap<K, V>(getFront().tailMap(fromKey))
+		return new AbstractCombinedSortedMap<>(getFront().tailMap(fromKey))
 		{
 			private static final long serialVersionUID = 134854101902632800L;
 
@@ -201,7 +201,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 	public Set<Map.Entry<K, V>> entrySet()
 	{
 		final Set<K> keySet = keySet();
-		return new AbstractReadOnlySet<Map.Entry<K, V>>()
+		return new AbstractReadOnlySet<>()
 		{
 
 			@Override
@@ -232,7 +232,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 			public Iterator<Map.Entry<K, V>> iterator()
 			{
 				final Iterator<K> iterator = keySet.iterator();
-				return new AbstractReadOnlyIterator<Map.Entry<K, V>>()
+				return new AbstractReadOnlyIterator<>()
 				{
 
 					@Override
@@ -245,7 +245,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 					public Map.Entry<K, V> next()
 					{
 						final K key = iterator.next();
-						return new Map.Entry<K, V>()
+						return new Map.Entry<>()
 						{
 							@Override
 							public K getKey()
@@ -302,7 +302,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 	public Collection<V> values()
 	{
 		final Set<K> keySet = keySet();
-		return new AbstractReadOnlyCollection<V>()
+		return new AbstractReadOnlyCollection<>()
 		{
 
 			@Override
@@ -333,7 +333,7 @@ public abstract class AbstractCombinedSortedMap<K, V> extends AbstractCombinedMa
 			public Iterator<V> iterator()
 			{
 				final Iterator<K> iterator = keySet.iterator();
-				return new AbstractReadOnlyIterator<V>()
+				return new AbstractReadOnlyIterator<>()
 				{
 
 					@Override

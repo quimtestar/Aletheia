@@ -41,7 +41,7 @@ public class TrivialCloseableIterable<E> implements CloseableIterable<E>
 	public CloseableIterator<E> iterator()
 	{
 		final Iterator<E> iterator = this.inner.iterator();
-		return new CloseableIterator<E>()
+		return new CloseableIterator<>()
 		{
 
 			@Override

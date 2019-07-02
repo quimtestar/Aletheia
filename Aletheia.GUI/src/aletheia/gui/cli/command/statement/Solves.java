@@ -58,7 +58,7 @@ public class Solves extends TransactionalCommand
 			throw new NotActiveContextException();
 		Term term = this.term;
 		List<Context> list = new BufferedList<>(ctx.descendantContextsByConsequent(getTransaction(), term));
-		Comparator<Context> comparator = new Comparator<Context>()
+		Comparator<Context> comparator = new Comparator<>()
 		{
 
 			@Override

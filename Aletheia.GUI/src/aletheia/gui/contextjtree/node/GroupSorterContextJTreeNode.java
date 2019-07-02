@@ -258,7 +258,7 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 
 	public Iterable<? extends ContextJTreeNode> childrenIterable()
 	{
-		return new Iterable<ContextJTreeNode>()
+		return new Iterable<>()
 		{
 
 			@Override

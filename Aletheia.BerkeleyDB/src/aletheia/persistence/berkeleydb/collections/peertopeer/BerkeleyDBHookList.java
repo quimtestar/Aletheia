@@ -62,7 +62,7 @@ public class BerkeleyDBHookList extends AbstractCloseableList<Hook> implements H
 	private CloseableIterator<Hook> iterator(Long fromPriority, Long toPriority)
 	{
 		final EntityCursor<BerkeleyDBHookEntity> cursor = transaction.entities(index, fromPriority, true, toPriority, false);
-		return new CloseableIterator<Hook>()
+		return new CloseableIterator<>()
 		{
 			private BerkeleyDBHookEntity next;
 
@@ -192,7 +192,7 @@ public class BerkeleyDBHookList extends AbstractCloseableList<Hook> implements H
 	@Override
 	public CloseableIterable<Hook> tail(final long fromPriority)
 	{
-		return new CloseableIterable<Hook>()
+		return new CloseableIterable<>()
 		{
 
 			@Override

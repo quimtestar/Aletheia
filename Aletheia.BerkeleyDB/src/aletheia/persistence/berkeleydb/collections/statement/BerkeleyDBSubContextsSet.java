@@ -94,7 +94,7 @@ public class BerkeleyDBSubContextsSet extends AbstractCloseableSet<Context> impl
 	public CloseableIterator<Context> iterator()
 	{
 		final EntityCursor<BerkeleyDBContextEntity> cursor = transaction.entities(contextEntityContextSecondaryIndex, uuidKey, true, uuidKey, true);
-		return new CloseableIterator<Context>()
+		return new CloseableIterator<>()
 		{
 			BerkeleyDBContextEntity next;
 

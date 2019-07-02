@@ -173,14 +173,14 @@ public class BerkeleyDBLocalDelegateTreeSubNodeMap extends AbstractCloseableMap<
 	@Override
 	public CloseableSet<Entry<Namespace, DelegateTreeSubNode>> entrySet()
 	{
-		return new AbstractCloseableSet<Entry<Namespace, DelegateTreeSubNode>>()
+		return new AbstractCloseableSet<>()
 		{
 
 			@Override
 			public CloseableIterator<Entry<Namespace, DelegateTreeSubNode>> iterator()
 			{
 				final EntityCursor<BerkeleyDBDelegateTreeNodeEntity> cursor = transaction.entities(index, primaryKeyFrom, true, primaryKeyTo, false);
-				return new CloseableIterator<Entry<Namespace, DelegateTreeSubNode>>()
+				return new CloseableIterator<>()
 				{
 					private BerkeleyDBDelegateTreeNodeEntity next;
 
@@ -205,7 +205,7 @@ public class BerkeleyDBLocalDelegateTreeSubNodeMap extends AbstractCloseableMap<
 						next = transaction.next(cursor);
 						if (next == null)
 							transaction.close(cursor);
-						return new Entry<Namespace, DelegateTreeSubNode>()
+						return new Entry<>()
 						{
 
 							@Override

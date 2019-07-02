@@ -44,7 +44,7 @@ public class TrivialCloseableSortedSet<E> extends AbstractCloseableSortedSet<E>
 	public CloseableIterator<E> iterator()
 	{
 		final Iterator<E> iterator = this.inner.iterator();
-		return new CloseableIterator<E>()
+		return new CloseableIterator<>()
 		{
 
 			@Override

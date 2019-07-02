@@ -74,7 +74,7 @@ public class Graph
 			suc.add(e.getTo());
 		}
 
-		return new Iterable<List<Node>>()
+		return new Iterable<>()
 		{
 
 			@Override
@@ -105,7 +105,7 @@ public class Graph
 
 				}
 				final Deque<DequeEntry> deque = new ArrayDeque<>();
-				return new Iterator<List<Node>>()
+				return new Iterator<>()
 				{
 					List<Node> next = findNext();
 

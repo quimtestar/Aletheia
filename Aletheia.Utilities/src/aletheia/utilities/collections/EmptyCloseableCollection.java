@@ -35,7 +35,7 @@ public class EmptyCloseableCollection<E> extends AbstractCloseableCollection<E>
 	@Override
 	public CloseableIterator<E> iterator()
 	{
-		return new CloseableIterator<E>()
+		return new CloseableIterator<>()
 		{
 
 			@Override

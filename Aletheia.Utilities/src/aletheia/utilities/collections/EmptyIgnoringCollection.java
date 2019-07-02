@@ -56,7 +56,7 @@ public class EmptyIgnoringCollection<E> extends AbstractCollection<E>
 	@Override
 	public Iterator<E> iterator()
 	{
-		return new Iterator<E>()
+		return new Iterator<>()
 		{
 
 			@Override

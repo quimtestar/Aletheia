@@ -60,7 +60,7 @@ public class DiamondPriorityDiscardingQueue<E> implements Queue<E>
 	 */
 	private static <E> Comparator<E> defaultComparator()
 	{
-		return new Comparator<E>()
+		return new Comparator<>()
 		{
 			@SuppressWarnings("unchecked")
 			@Override
@@ -138,7 +138,7 @@ public class DiamondPriorityDiscardingQueue<E> implements Queue<E>
 	@Override
 	public Iterator<E> iterator()
 	{
-		return new Iterator<E>()
+		return new Iterator<>()
 		{
 			int i = 0;
 

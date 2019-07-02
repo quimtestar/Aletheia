@@ -41,7 +41,7 @@ import aletheia.utilities.collections.UnionIterable;
 
 public class SorterDependencyFilter<S extends Sorter> implements Iterable<S>
 {
-	private final static Comparator<Sorter> sorterComparator = new Comparator<Sorter>()
+	private final static Comparator<Sorter> sorterComparator = new Comparator<>()
 	{
 
 		private int assumptionOrder(Sorter s)
@@ -108,13 +108,13 @@ public class SorterDependencyFilter<S extends Sorter> implements Iterable<S>
 				sorterMap.put(st, sorter);
 		}
 
-		Iterable<Iterable<S>> iterable2 = new Iterable<Iterable<S>>()
+		Iterable<Iterable<S>> iterable2 = new Iterable<>()
 		{
 
 			@Override
 			public Iterator<Iterable<S>> iterator()
 			{
-				return new Iterator<Iterable<S>>()
+				return new Iterator<>()
 				{
 
 					final Iterator<S> iterator = buffered.iterator();

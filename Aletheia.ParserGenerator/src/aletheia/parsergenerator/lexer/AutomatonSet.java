@@ -99,7 +99,7 @@ public class AutomatonSet implements Serializable
 	 */
 	public Comparator<DeterministicAutomaton> automatonComparator()
 	{
-		return new Comparator<DeterministicAutomaton>()
+		return new Comparator<>()
 		{
 
 			@Override

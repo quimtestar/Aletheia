@@ -105,7 +105,7 @@ public class BerkeleyDBDescendantContextsByConsequent extends AbstractCloseableS
 		final EntityCursor<BerkeleyDBContextEntity> cursor = transaction.entities(contextEntityConsequentHashSecondaryIndex, uuidKeyTermHash, true,
 				uuidKeyTermHash, true);
 
-		return new CloseableIterator<Context>()
+		return new CloseableIterator<>()
 		{
 			BerkeleyDBContextEntity next;
 

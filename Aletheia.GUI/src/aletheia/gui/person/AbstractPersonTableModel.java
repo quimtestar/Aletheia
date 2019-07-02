@@ -240,7 +240,7 @@ public abstract class AbstractPersonTableModel implements TableModel
 
 	private final Set<TableModelListener> listeners;
 
-	private final static Comparator<Person> personComparator = new Comparator<Person>()
+	private final static Comparator<Person> personComparator = new Comparator<>()
 	{
 		@Override
 		public int compare(Person person1, Person person2)

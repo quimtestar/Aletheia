@@ -123,7 +123,7 @@ public class BerkeleyDBNodeDeferredMessagesByRecipientCollection extends Abstrac
 	public CloseableIterator<NodeDeferredMessage> iterator()
 	{
 		final EntityCursor<BerkeleyDBNodeDeferredMessageEntity> cursor = transaction.entities(index, fromKey, true, toKey, false);
-		return new CloseableIterator<NodeDeferredMessage>()
+		return new CloseableIterator<>()
 		{
 			private BerkeleyDBNodeDeferredMessageEntity next;
 

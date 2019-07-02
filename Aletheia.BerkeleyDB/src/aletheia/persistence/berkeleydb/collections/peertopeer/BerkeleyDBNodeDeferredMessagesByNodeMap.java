@@ -86,14 +86,14 @@ public class BerkeleyDBNodeDeferredMessagesByNodeMap extends AbstractCloseableMa
 	@Override
 	public CloseableSet<UUID> keySet()
 	{
-		return new AbstractCloseableSet<UUID>()
+		return new AbstractCloseableSet<>()
 		{
 
 			@Override
 			public CloseableIterator<UUID> iterator()
 			{
 				final EntityCursor<NodeDeferredMessageRecipientSecondaryKeyData> cursor = transaction.keys(index, fromKey, true, toKey, true);
-				return new CloseableIterator<UUID>()
+				return new CloseableIterator<>()
 				{
 					private NodeDeferredMessageRecipientSecondaryKeyData next;
 
@@ -257,7 +257,7 @@ public class BerkeleyDBNodeDeferredMessagesByNodeMap extends AbstractCloseableMa
 			@Override
 			public Entry<UUID, NodeDeferredMessagesByRecipientCollection> forward(final UUID recipientUuid)
 			{
-				return new Entry<UUID, NodeDeferredMessagesByRecipientCollection>()
+				return new Entry<>()
 				{
 
 					@Override

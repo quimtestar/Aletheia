@@ -67,7 +67,7 @@ public class EmptySortedSet<E> extends AbstractReadOnlySortedSet<E> implements S
 	@Override
 	public Iterator<E> iterator()
 	{
-		return new Iterator<E>()
+		return new Iterator<>()
 		{
 
 			@Override

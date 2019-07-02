@@ -59,7 +59,7 @@ public class CatalogTreeModel extends PersistentTreeModel
 		@Override
 		public Enumeration<RootCatalogTreeNode> children()
 		{
-			return new Enumeration<RootCatalogTreeNode>()
+			return new Enumeration<>()
 			{
 
 				boolean hasNext = true;

@@ -670,7 +670,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 
 	public CloseableIterable<DelegateTreeSubNode> delegateTreeSubNodesRecursive(final Transaction transaction)
 	{
-		return new CloseableIterable<DelegateTreeSubNode>()
+		return new CloseableIterable<>()
 		{
 
 			@Override
@@ -678,7 +678,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 			{
 				final Stack<CloseableIterator<DelegateTreeSubNode>> stack = new Stack<>();
 				stack.push(localDelegateTreeSubNodeMap(transaction).values().iterator());
-				return new CloseableIterator<DelegateTreeSubNode>()
+				return new CloseableIterator<>()
 				{
 					private DelegateTreeSubNode next = obtainNext();
 

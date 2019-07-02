@@ -79,7 +79,8 @@ public abstract class EntityStoreUpgrade
 						throw new Error();
 			}
 		}
-		catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e)
+		catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException
+				| SecurityException e)
 		{
 			throw new Error(e);
 		}

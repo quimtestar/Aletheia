@@ -163,7 +163,7 @@ public class BerkeleyDBRootContextAuthorityBySignatureUuid extends AbstractClose
 		public CloseableIterator<Entry<UUID, RootContextAuthority>> iterator()
 		{
 			final EntityCursor<BerkeleyDBRootContextAuthorityEntity> cursor = transaction.entities(index);
-			return new CloseableIterator<Entry<UUID, RootContextAuthority>>()
+			return new CloseableIterator<>()
 			{
 				BerkeleyDBRootContextAuthorityEntity next;
 

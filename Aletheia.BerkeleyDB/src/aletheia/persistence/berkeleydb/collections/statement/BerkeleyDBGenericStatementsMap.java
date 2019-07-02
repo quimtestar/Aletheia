@@ -236,7 +236,7 @@ public abstract class BerkeleyDBGenericStatementsMap<S extends Statement, E exte
 		public CloseableIterator<Entry<IdentifiableVariableTerm, S>> iterator()
 		{
 			final EntityCursor<E> cursor = transaction.entities(index, from, true, to, true);
-			return new CloseableIterator<Entry<IdentifiableVariableTerm, S>>()
+			return new CloseableIterator<>()
 			{
 				E next;
 

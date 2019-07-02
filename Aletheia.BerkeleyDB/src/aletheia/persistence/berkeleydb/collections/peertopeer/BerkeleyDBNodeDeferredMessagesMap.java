@@ -222,14 +222,14 @@ public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID
 	@Override
 	public CloseableSet<Entry<UUID, NodeDeferredMessage>> entrySet()
 	{
-		return new AbstractCloseableSet<Entry<UUID, NodeDeferredMessage>>()
+		return new AbstractCloseableSet<>()
 		{
 
 			@Override
 			public CloseableIterator<Entry<UUID, NodeDeferredMessage>> iterator()
 			{
 				final EntityCursor<BerkeleyDBNodeDeferredMessageEntity> cursor = transaction.entities(index);
-				return new CloseableIterator<Entry<UUID, NodeDeferredMessage>>()
+				return new CloseableIterator<>()
 				{
 					private BerkeleyDBNodeDeferredMessageEntity next;
 

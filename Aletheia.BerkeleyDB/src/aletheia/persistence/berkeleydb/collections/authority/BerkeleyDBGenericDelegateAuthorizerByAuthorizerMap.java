@@ -77,7 +77,7 @@ public abstract class BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<K> exte
 		public CloseableIterator<Entry<Signatory, DelegateAuthorizer>> iterator()
 		{
 			final EntityCursor<BerkeleyDBDelegateAuthorizerEntity> cursor = transaction.entities(index, firstKey, true, lastKey, true);
-			return new CloseableIterator<Entry<Signatory, DelegateAuthorizer>>()
+			return new CloseableIterator<>()
 			{
 				BerkeleyDBDelegateAuthorizerEntity next;
 
@@ -102,7 +102,7 @@ public abstract class BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<K> exte
 					next = transaction.next(cursor);
 					if (next == null)
 						transaction.close(cursor);
-					return new Entry<Signatory, DelegateAuthorizer>()
+					return new Entry<>()
 					{
 
 						@Override

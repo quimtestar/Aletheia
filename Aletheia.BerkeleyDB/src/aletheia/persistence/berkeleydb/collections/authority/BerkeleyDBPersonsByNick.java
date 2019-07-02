@@ -21,7 +21,6 @@ package aletheia.persistence.berkeleydb.collections.authority;
 
 import java.util.Comparator;
 import java.util.Iterator;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 import aletheia.model.authority.Person;
@@ -110,7 +109,7 @@ public class BerkeleyDBPersonsByNick extends AbstractCloseableMap<String, Closea
 		public CloseableIterator<Person> iterator()
 		{
 			final EntityCursor<BerkeleyDBPersonEntity> cursor = transaction.entities(personEntityNickSecondaryIndex, nick, true, nick, true);
-			return new CloseableIterator<Person>()
+			return new CloseableIterator<>()
 			{
 				BerkeleyDBPersonEntity next;
 
@@ -265,14 +264,14 @@ public class BerkeleyDBPersonsByNick extends AbstractCloseableMap<String, Closea
 	@Override
 	public CloseableSet<String> keySet()
 	{
-		return new AbstractCloseableSet<String>()
+		return new AbstractCloseableSet<>()
 		{
 
 			@Override
 			public CloseableIterator<String> iterator()
 			{
 				final EntityCursor<String> cursor = transaction.keys(personEntityNickSecondaryIndex, from, true, to, false);
-				return new CloseableIterator<String>()
+				return new CloseableIterator<>()
 				{
 					private String advance()
 					{
@@ -359,14 +358,14 @@ public class BerkeleyDBPersonsByNick extends AbstractCloseableMap<String, Closea
 	public CloseableSet<Entry<String, CloseableSet<Person>>> entrySet()
 	{
 		final CloseableSet<String> keySet = keySet();
-		return new AbstractCloseableSet<Map.Entry<String, CloseableSet<Person>>>()
+		return new AbstractCloseableSet<>()
 		{
 
 			@Override
 			public CloseableIterator<Entry<String, CloseableSet<Person>>> iterator()
 			{
 				final CloseableIterator<String> iterator = keySet.iterator();
-				return new CloseableIterator<Map.Entry<String, CloseableSet<Person>>>()
+				return new CloseableIterator<>()
 				{
 
 					@Override
@@ -379,7 +378,7 @@ public class BerkeleyDBPersonsByNick extends AbstractCloseableMap<String, Closea
 					public Entry<String, CloseableSet<Person>> next()
 					{
 						final String key = iterator.next();
-						return new Entry<String, CloseableSet<Person>>()
+						return new Entry<>()
 						{
 
 							@Override

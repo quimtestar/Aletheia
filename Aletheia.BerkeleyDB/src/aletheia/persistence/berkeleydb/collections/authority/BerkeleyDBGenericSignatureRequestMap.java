@@ -118,7 +118,7 @@ public abstract class BerkeleyDBGenericSignatureRequestMap<S extends SignatureRe
 		public CloseableIterator<Entry<UUID, S>> iterator()
 		{
 			final EntityCursor<E> cursor = transaction.entities(index);
-			return new CloseableIterator<Entry<UUID, S>>()
+			return new CloseableIterator<>()
 			{
 				E next;
 

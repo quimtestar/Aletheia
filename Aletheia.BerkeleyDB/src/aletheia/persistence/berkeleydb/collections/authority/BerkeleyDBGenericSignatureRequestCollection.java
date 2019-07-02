@@ -115,7 +115,7 @@ public abstract class BerkeleyDBGenericSignatureRequestCollection<S extends Sign
 	public CloseableIterator<S> iterator()
 	{
 		final EntityCursor<E> cursor = transaction.entities(index, fromKey, fromInclusive, toKey, toInclusive);
-		return new CloseableIterator<S>()
+		return new CloseableIterator<>()
 		{
 			private E next;
 

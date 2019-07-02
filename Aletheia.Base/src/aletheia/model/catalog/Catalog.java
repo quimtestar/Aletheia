@@ -106,7 +106,7 @@ public abstract class Catalog
 
 	public Collection<SubCatalog> subCatalogs(final Transaction transaction)
 	{
-		return new AbstractCollection<SubCatalog>()
+		return new AbstractCollection<>()
 		{
 
 			@Override
@@ -115,7 +115,7 @@ public abstract class Catalog
 				final SortedMap<Identifier, Statement> map = map(transaction);
 				if (map == null)
 					return Collections.emptyIterator();
-				return new Iterator<SubCatalog>()
+				return new Iterator<>()
 				{
 
 					NodeNamespace nextNamespace = null;

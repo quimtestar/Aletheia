@@ -179,7 +179,7 @@ public class RootLocalIdentifierToStatement extends AbstractCloseableMap<Identif
 			@Override
 			public CloseableIterator<Map.Entry<Identifier, Statement>> iterator()
 			{
-				return new CloseableIterator<Map.Entry<Identifier, Statement>>()
+				return new CloseableIterator<>()
 				{
 					private MyEntry next = myEntry();
 
@@ -223,7 +223,7 @@ public class RootLocalIdentifierToStatement extends AbstractCloseableMap<Identif
 			public Comparator<Entry<Identifier, Statement>> comparator()
 			{
 				final Comparator<Identifier> comp = RootLocalIdentifierToStatement.this.comparator();
-				return new Comparator<Entry<Identifier, Statement>>()
+				return new Comparator<>()
 				{
 
 					@Override

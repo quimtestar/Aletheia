@@ -145,7 +145,7 @@ public class NewStatementsLoopDialogServer extends NewStatementsLoopDialog
 	private void dialogatePersonStatementRequestSend(SubscriptionContextsMessage subscriptionContextsMessage) throws IOException, InterruptedException
 	{
 
-		Bijection<AbstractUUIDInfoMessage.Entry<StatementAuthoritySubMessage>, StatementAuthoritySubMessage> bijection = new Bijection<AbstractUUIDInfoMessage.Entry<StatementAuthoritySubMessage>, StatementAuthoritySubMessage>()
+		Bijection<AbstractUUIDInfoMessage.Entry<StatementAuthoritySubMessage>, StatementAuthoritySubMessage> bijection = new Bijection<>()
 		{
 			@Override
 			public StatementAuthoritySubMessage forward(AbstractUUIDInfoMessage.Entry<StatementAuthoritySubMessage> input)

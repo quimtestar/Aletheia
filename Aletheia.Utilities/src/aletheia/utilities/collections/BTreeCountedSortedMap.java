@@ -2007,7 +2007,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 	{
 		class EntrySet extends GeneralViewCollection<Entry<K, V>> implements CountedIteratorSet<Entry<K, V>>
 		{
-			private Bijection<BTree.Branch, Entry<K, V>> branchBijection = new Bijection<BTree.Branch, Entry<K, V>>()
+			private Bijection<BTree.Branch, Entry<K, V>> branchBijection = new Bijection<>()
 			{
 
 				@Override
@@ -2023,7 +2023,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 				}
 			};
 
-			private Bijection<Entry<K, V>, K> keyBijection = new Bijection<Entry<K, V>, K>()
+			private Bijection<Entry<K, V>, K> keyBijection = new Bijection<>()
 			{
 
 				@Override
@@ -2060,7 +2060,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 	{
 		class KeySet extends GeneralViewCollection<K> implements CountedIteratorSet<K>
 		{
-			private Bijection<BTree.Branch, K> branchBijection = new Bijection<BTree.Branch, K>()
+			private Bijection<BTree.Branch, K> branchBijection = new Bijection<>()
 			{
 
 				@SuppressWarnings("unchecked")
@@ -2101,7 +2101,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 		class Values extends GeneralViewCollection<V> implements CountedIteratorCollection<V>
 		{
 
-			private Bijection<BTree.Branch, V> branchBijection = new Bijection<BTree.Branch, V>()
+			private Bijection<BTree.Branch, V> branchBijection = new Bijection<>()
 			{
 
 				@SuppressWarnings("unchecked")
@@ -2253,7 +2253,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 		{
 			class EntrySet extends IntervalViewCollection<Entry<K, V>> implements CountedIteratorSet<Entry<K, V>>
 			{
-				private Bijection<BTree.Branch, Entry<K, V>> branchBijection = new Bijection<BTree.Branch, Entry<K, V>>()
+				private Bijection<BTree.Branch, Entry<K, V>> branchBijection = new Bijection<>()
 				{
 
 					@Override
@@ -2269,7 +2269,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 					}
 				};
 
-				private Bijection<Entry<K, V>, K> keyBijection = new Bijection<Entry<K, V>, K>()
+				private Bijection<Entry<K, V>, K> keyBijection = new Bijection<>()
 				{
 
 					@Override
@@ -2306,7 +2306,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 		{
 			class KeySet extends IntervalViewCollection<K> implements CountedIteratorSet<K>
 			{
-				private Bijection<BTree.Branch, K> branchBijection = new Bijection<BTree.Branch, K>()
+				private Bijection<BTree.Branch, K> branchBijection = new Bijection<>()
 				{
 
 					@SuppressWarnings("unchecked")
@@ -2347,7 +2347,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 			class Values extends IntervalViewCollection<V> implements CountedIteratorCollection<V>
 			{
 
-				private Bijection<BTree.Branch, V> branchBijection = new Bijection<BTree.Branch, V>()
+				private Bijection<BTree.Branch, V> branchBijection = new Bijection<>()
 				{
 
 					@SuppressWarnings("unchecked")

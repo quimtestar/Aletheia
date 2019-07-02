@@ -99,7 +99,7 @@ public abstract class AbstractCombinedSortedSet<E> extends AbstractCombinedSetSo
 	@Override
 	public SortedSet<E> headSet(final E toElement)
 	{
-		return new AbstractCombinedSortedSet<E>(getFront().headSet(toElement))
+		return new AbstractCombinedSortedSet<>(getFront().headSet(toElement))
 		{
 
 			private static final long serialVersionUID = -6388856838720080057L;
@@ -115,7 +115,7 @@ public abstract class AbstractCombinedSortedSet<E> extends AbstractCombinedSetSo
 	@Override
 	public SortedSet<E> subSet(final E fromElement, final E toElement)
 	{
-		return new AbstractCombinedSortedSet<E>(getFront().subSet(fromElement, toElement))
+		return new AbstractCombinedSortedSet<>(getFront().subSet(fromElement, toElement))
 		{
 
 			private static final long serialVersionUID = 7028830817059557949L;
@@ -131,7 +131,7 @@ public abstract class AbstractCombinedSortedSet<E> extends AbstractCombinedSetSo
 	@Override
 	public SortedSet<E> tailSet(final E fromElement)
 	{
-		return new AbstractCombinedSortedSet<E>(getFront().tailSet(fromElement))
+		return new AbstractCombinedSortedSet<>(getFront().tailSet(fromElement))
 		{
 
 			private static final long serialVersionUID = -8634550355258915121L;

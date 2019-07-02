@@ -120,13 +120,13 @@ public class BijectionMap<K, I, O> extends AbstractMap<K, O>
 	@Override
 	public Set<Map.Entry<K, O>> entrySet()
 	{
-		Bijection<Entry<K, I>, Entry<K, O>> bijection_ = new Bijection<Entry<K, I>, Entry<K, O>>()
+		Bijection<Entry<K, I>, Entry<K, O>> bijection_ = new Bijection<>()
 		{
 
 			@Override
 			public Entry<K, O> forward(final Entry<K, I> input)
 			{
-				return new Entry<K, O>()
+				return new Entry<>()
 				{
 
 					@Override
@@ -153,7 +153,7 @@ public class BijectionMap<K, I, O> extends AbstractMap<K, O>
 			@Override
 			public Entry<K, I> backward(final Entry<K, O> output)
 			{
-				return new Entry<K, I>()
+				return new Entry<>()
 				{
 
 					@Override

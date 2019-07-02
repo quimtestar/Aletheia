@@ -202,7 +202,7 @@ public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractClose
 			{
 				final EntityCursor<BerkeleyDBStatementEntity> cursor = transaction.entities(statementEntityContextIdentifierSecondaryIndex,
 						uuidContextIdentifierMin, true, uuidContextIdentifierMax, false);
-				return new CloseableIterator<Map.Entry<Identifier, Statement>>()
+				return new CloseableIterator<>()
 				{
 					BerkeleyDBStatementEntity next;
 
@@ -269,7 +269,7 @@ public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractClose
 			public Comparator<Entry<Identifier, Statement>> comparator()
 			{
 				final Comparator<Identifier> comp = BerkeleyDBLocalIdentifierToStatement.this.comparator();
-				return new Comparator<Entry<Identifier, Statement>>()
+				return new Comparator<>()
 				{
 
 					@Override

@@ -56,13 +56,13 @@ public class BijectionCloseableSortedMap<K, I, O> extends BijectionSortedMap<K, 
 	@Override
 	public CloseableSet<Map.Entry<K, O>> entrySet()
 	{
-		Bijection<Entry<K, I>, Entry<K, O>> bijection_ = new Bijection<Entry<K, I>, Entry<K, O>>()
+		Bijection<Entry<K, I>, Entry<K, O>> bijection_ = new Bijection<>()
 		{
 
 			@Override
 			public Entry<K, O> forward(final Entry<K, I> input)
 			{
-				return new Entry<K, O>()
+				return new Entry<>()
 				{
 
 					@Override
@@ -89,7 +89,7 @@ public class BijectionCloseableSortedMap<K, I, O> extends BijectionSortedMap<K, 
 			@Override
 			public Entry<K, I> backward(final Entry<K, O> output)
 			{
-				return new Entry<K, I>()
+				return new Entry<>()
 				{
 
 					@Override

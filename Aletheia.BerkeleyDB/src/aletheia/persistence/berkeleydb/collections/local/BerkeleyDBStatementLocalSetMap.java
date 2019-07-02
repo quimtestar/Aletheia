@@ -88,14 +88,14 @@ public class BerkeleyDBStatementLocalSetMap extends AbstractCloseableMap<Context
 	@Override
 	public CloseableSet<Entry<ContextLocal, StatementLocalSet>> entrySet()
 	{
-		return new AbstractCloseableSet<Entry<ContextLocal, StatementLocalSet>>()
+		return new AbstractCloseableSet<>()
 		{
 
 			@Override
 			public CloseableIterator<Entry<ContextLocal, StatementLocalSet>> iterator()
 			{
 				final EntityCursor<BerkeleyDBStatementLocalEntity> cursor = transaction.entities(index);
-				return new CloseableIterator<Entry<ContextLocal, StatementLocalSet>>()
+				return new CloseableIterator<>()
 				{
 					private BerkeleyDBStatementLocalEntity next;
 
@@ -120,7 +120,7 @@ public class BerkeleyDBStatementLocalSetMap extends AbstractCloseableMap<Context
 							transaction.close(cursor);
 						final ContextLocal contextLocal = (ContextLocal) persistenceManager.getStatementLocal(transaction, entity.getContextUuid());
 						final StatementLocalSet statementLocalSet = contextLocal.statementLocalSet(transaction);
-						return new Entry<ContextLocal, StatementLocalSet>()
+						return new Entry<>()
 						{
 
 							@Override

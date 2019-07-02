@@ -37,7 +37,7 @@ public class BijectionCloseableList<I, O> extends BijectionList<I, O> implements
 	public CloseableIterator<O> iterator()
 	{
 		final CloseableIterator<I> inner = getInner().iterator();
-		return new CloseableIterator<O>()
+		return new CloseableIterator<>()
 		{
 
 			@Override

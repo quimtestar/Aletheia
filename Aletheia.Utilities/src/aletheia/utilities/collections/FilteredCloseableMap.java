@@ -108,7 +108,7 @@ public class FilteredCloseableMap<K, V> extends FilteredMap<K, V> implements Clo
 	@Override
 	public CloseableSet<K> keySet()
 	{
-		return new CloseableSet<K>()
+		return new CloseableSet<>()
 		{
 
 			@Override
@@ -133,7 +133,7 @@ public class FilteredCloseableMap<K, V> extends FilteredMap<K, V> implements Clo
 			public CloseableIterator<K> iterator()
 			{
 				final CloseableIterator<Entry<K, V>> iterator = entrySet().iterator();
-				return new CloseableIterator<K>()
+				return new CloseableIterator<>()
 				{
 
 					@Override
@@ -249,7 +249,7 @@ public class FilteredCloseableMap<K, V> extends FilteredMap<K, V> implements Clo
 	@Override
 	public CloseableCollection<V> values()
 	{
-		return new CloseableCollection<V>()
+		return new CloseableCollection<>()
 		{
 			@Override
 			public int size()
@@ -273,7 +273,7 @@ public class FilteredCloseableMap<K, V> extends FilteredMap<K, V> implements Clo
 			public CloseableIterator<V> iterator()
 			{
 				final CloseableIterator<Entry<K, V>> iterator = entrySet().iterator();
-				return new CloseableIterator<V>()
+				return new CloseableIterator<>()
 				{
 
 					@Override

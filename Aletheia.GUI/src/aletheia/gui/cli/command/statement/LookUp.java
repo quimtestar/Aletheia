@@ -95,7 +95,7 @@ public class LookUp extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		Comparator<Statement.Match> comparator = new Comparator<Statement.Match>()
+		Comparator<Statement.Match> comparator = new Comparator<>()
 		{
 
 			@Override

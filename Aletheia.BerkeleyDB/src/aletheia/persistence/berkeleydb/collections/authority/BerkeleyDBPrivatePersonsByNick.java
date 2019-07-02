@@ -20,7 +20,6 @@
 package aletheia.persistence.berkeleydb.collections.authority;
 
 import java.util.Comparator;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 import aletheia.model.authority.PrivatePerson;
@@ -163,14 +162,14 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 	@Override
 	public CloseableSet<String> keySet()
 	{
-		return new AbstractCloseableSet<String>()
+		return new AbstractCloseableSet<>()
 		{
 
 			@Override
 			public CloseableIterator<String> iterator()
 			{
 				final EntityCursor<String> cursor = transaction.keys(privatePersonEntityNickSecondaryIndex, from, true, to, false);
-				return new CloseableIterator<String>()
+				return new CloseableIterator<>()
 				{
 					private String advance()
 					{
@@ -257,14 +256,14 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 	public CloseableSet<Entry<String, PrivatePerson>> entrySet()
 	{
 		final CloseableSet<String> keySet = keySet();
-		return new AbstractCloseableSet<Map.Entry<String, PrivatePerson>>()
+		return new AbstractCloseableSet<>()
 		{
 
 			@Override
 			public CloseableIterator<Entry<String, PrivatePerson>> iterator()
 			{
 				final CloseableIterator<String> iterator = keySet.iterator();
-				return new CloseableIterator<Map.Entry<String, PrivatePerson>>()
+				return new CloseableIterator<>()
 				{
 
 					@Override
@@ -277,7 +276,7 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 					public Entry<String, PrivatePerson> next()
 					{
 						final String key = iterator.next();
-						return new Entry<String, PrivatePerson>()
+						return new Entry<>()
 						{
 
 							@Override

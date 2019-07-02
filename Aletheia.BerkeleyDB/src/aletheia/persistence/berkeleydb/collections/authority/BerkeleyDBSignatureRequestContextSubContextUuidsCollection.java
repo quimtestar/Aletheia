@@ -84,7 +84,7 @@ public class BerkeleyDBSignatureRequestContextSubContextUuidsCollection extends 
 	{
 		final EntityCursor<ContextSubContextSecondaryKeyData> cursor = transaction.keys(index, minContextSubContextSecondaryKeyData, true,
 				maxContextSubContextSecondaryKeyData, true);
-		return new CloseableIterator<UUID>()
+		return new CloseableIterator<>()
 		{
 			private ContextSubContextSecondaryKeyData next;
 

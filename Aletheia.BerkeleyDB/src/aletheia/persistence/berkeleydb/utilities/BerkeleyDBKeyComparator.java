@@ -39,7 +39,7 @@ public class BerkeleyDBKeyComparator<K> implements Comparator<K>
 	{
 		if (keyClass.equals(String.class))
 		{
-			innerComparator = new Comparator<K>()
+			innerComparator = new Comparator<>()
 			{
 				private final Charset utfCharSet = Charset.forName("UTF-8");
 
@@ -124,7 +124,7 @@ public class BerkeleyDBKeyComparator<K> implements Comparator<K>
 						comparatorMap.put(field.getType(), new BerkeleyDBKeyComparator<>(field.getType()));
 				}
 			}
-			innerComparator = new Comparator<K>()
+			innerComparator = new Comparator<>()
 			{
 				@Override
 				public int compare(K k1, K k2)

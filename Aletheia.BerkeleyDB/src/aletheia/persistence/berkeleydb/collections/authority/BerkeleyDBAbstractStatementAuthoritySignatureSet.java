@@ -83,7 +83,7 @@ public abstract class BerkeleyDBAbstractStatementAuthoritySignatureSet<K> extend
 	public CloseableIterator<StatementAuthoritySignature> iterator()
 	{
 		final EntityCursor<BerkeleyDBStatementAuthoritySignatureEntity> cursor = transaction.entities(subIndex);
-		return new CloseableIterator<StatementAuthoritySignature>()
+		return new CloseableIterator<>()
 		{
 			BerkeleyDBStatementAuthoritySignatureEntity nextEntity;
 
