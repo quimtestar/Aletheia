@@ -107,7 +107,7 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 			// Propagation: to be catched (for example) in the StatementListJTable (thus the drag & drop mechanism works as expected).
 			private void propagateEvent(MouseEvent e)
 			{
-				MouseEvent e_ = new MouseEvent(e.getComponent(), e.getID(), e.getWhen(), e.getModifiers(), e.getX(), e.getY(), e.getClickCount(),
+				MouseEvent e_ = new MouseEvent(e.getComponent(), e.getID(), e.getWhen(), e.getModifiersEx(), e.getX(), e.getY(), e.getClickCount(),
 						e.isPopupTrigger(), e.getButton());
 				Container parent = AbstractPersistentRenderer.this.getParent();
 				e_.setSource(parent);

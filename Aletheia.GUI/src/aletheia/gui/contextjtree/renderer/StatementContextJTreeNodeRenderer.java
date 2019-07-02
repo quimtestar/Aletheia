@@ -139,7 +139,7 @@ public abstract class StatementContextJTreeNodeRenderer<S extends Statement> ext
 		@Override
 		public void mouseExited(MouseEvent e)
 		{
-			if ((draggable && (e.getModifiers() & MouseEvent.MOUSE_PRESSED) != 0))
+			if ((draggable && (e.getModifiersEx() & MouseEvent.MOUSE_PRESSED) != 0))
 				getContextJTree().getTransferHandler().exportAsDrag(getContextJTree(), e, TransferHandler.COPY);
 		}
 	}
