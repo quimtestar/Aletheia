@@ -279,7 +279,6 @@ public class BerkeleyDBIdentifierToRootContexts extends AbstractCloseableMap<Ide
 					protected void finalize() throws Throwable
 					{
 						close();
-						super.finalize();
 					}
 
 				};

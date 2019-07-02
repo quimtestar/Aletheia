@@ -221,7 +221,6 @@ public class BerkeleyDBLocalDelegateAuthorizerMap extends AbstractCloseableMap<P
 					protected void finalize() throws Throwable
 					{
 						close();
-						super.finalize();
 					}
 
 				};

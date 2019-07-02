@@ -127,7 +127,6 @@ public abstract class BerkeleyDBAbstractStatementAuthoritySignatureSet<K> extend
 			protected void finalize() throws Throwable
 			{
 				close();
-				super.finalize();
 			}
 
 		};

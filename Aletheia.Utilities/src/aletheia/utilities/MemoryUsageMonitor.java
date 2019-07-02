@@ -155,7 +155,6 @@ public class MemoryUsageMonitor
 	protected void finalize() throws Throwable
 	{
 		shutdown();
-		super.finalize();
 	}
 
 }

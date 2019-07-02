@@ -131,7 +131,6 @@ public class BerkeleyDBSpecializationsByGeneral extends AbstractCloseableSet<Spe
 			protected void finalize() throws Throwable
 			{
 				close();
-				super.finalize();
 			}
 
 			@Override

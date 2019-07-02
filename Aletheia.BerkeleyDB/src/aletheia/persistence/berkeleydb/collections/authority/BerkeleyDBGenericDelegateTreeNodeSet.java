@@ -139,7 +139,6 @@ public abstract class BerkeleyDBGenericDelegateTreeNodeSet<N extends DelegateTre
 			protected void finalize() throws Throwable
 			{
 				close();
-				super.finalize();
 			}
 
 		};

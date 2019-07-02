@@ -142,7 +142,6 @@ public class BerkeleyDBSubscribeStatementsContextLocalSet extends AbstractClosea
 			protected void finalize() throws Throwable
 			{
 				close();
-				super.finalize();
 			}
 
 		};

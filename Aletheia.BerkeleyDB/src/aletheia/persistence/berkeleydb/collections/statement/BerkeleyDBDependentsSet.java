@@ -129,7 +129,6 @@ public class BerkeleyDBDependentsSet extends AbstractCloseableSet<Statement> imp
 			protected void finalize() throws Throwable
 			{
 				close();
-				super.finalize();
 			}
 
 			@Override

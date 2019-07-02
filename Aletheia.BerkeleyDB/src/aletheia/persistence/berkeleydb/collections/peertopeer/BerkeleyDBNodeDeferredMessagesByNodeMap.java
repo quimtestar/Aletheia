@@ -137,7 +137,6 @@ public class BerkeleyDBNodeDeferredMessagesByNodeMap extends AbstractCloseableMa
 					protected void finalize() throws Throwable
 					{
 						close();
-						super.finalize();
 					}
 
 				};

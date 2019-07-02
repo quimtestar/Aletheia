@@ -247,7 +247,6 @@ public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractClose
 					protected void finalize() throws Throwable
 					{
 						close();
-						super.finalize();
 					}
 
 				};

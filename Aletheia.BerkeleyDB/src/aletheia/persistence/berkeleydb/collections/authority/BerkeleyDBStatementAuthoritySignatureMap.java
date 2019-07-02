@@ -195,7 +195,6 @@ public class BerkeleyDBStatementAuthoritySignatureMap extends AbstractCloseableM
 				protected void finalize() throws Throwable
 				{
 					close();
-					super.finalize();
 				}
 
 			};

@@ -133,7 +133,6 @@ public class BerkeleyDBSubContextsSet extends AbstractCloseableSet<Context> impl
 			protected void finalize() throws Throwable
 			{
 				close();
-				super.finalize();
 			}
 
 			@Override

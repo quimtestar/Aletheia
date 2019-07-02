@@ -200,7 +200,6 @@ public abstract class BerkeleyDBSortedStatements<S extends Statement> extends Ab
 			protected void finalize() throws Throwable
 			{
 				close();
-				super.finalize();
 			}
 
 			@Override

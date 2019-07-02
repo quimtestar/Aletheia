@@ -138,7 +138,6 @@ public class BerkeleyDBStatementLocalSet extends AbstractCloseableSet<StatementL
 			protected void finalize() throws Throwable
 			{
 				close();
-				super.finalize();
 			}
 
 		};

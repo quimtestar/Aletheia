@@ -159,7 +159,6 @@ public abstract class BerkeleyDBGenericSignatureRequestCollection<S extends Sign
 			protected void finalize() throws Throwable
 			{
 				close();
-				super.finalize();
 			}
 
 		};

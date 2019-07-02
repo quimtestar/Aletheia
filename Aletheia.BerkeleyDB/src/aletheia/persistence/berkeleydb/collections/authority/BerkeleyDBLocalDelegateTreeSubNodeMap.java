@@ -245,7 +245,6 @@ public class BerkeleyDBLocalDelegateTreeSubNodeMap extends AbstractCloseableMap<
 					protected void finalize() throws Throwable
 					{
 						close();
-						super.finalize();
 					}
 
 				};

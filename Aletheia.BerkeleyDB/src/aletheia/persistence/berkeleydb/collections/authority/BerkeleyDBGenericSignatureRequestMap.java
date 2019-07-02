@@ -163,7 +163,6 @@ public abstract class BerkeleyDBGenericSignatureRequestMap<S extends SignatureRe
 				protected void finalize() throws Throwable
 				{
 					close();
-					super.finalize();
 				}
 			};
 

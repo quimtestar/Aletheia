@@ -273,7 +273,6 @@ public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID
 					protected void finalize() throws Throwable
 					{
 						close();
-						super.finalize();
 					}
 
 				};

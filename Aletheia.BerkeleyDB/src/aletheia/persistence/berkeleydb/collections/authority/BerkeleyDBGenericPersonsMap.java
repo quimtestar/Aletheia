@@ -262,7 +262,6 @@ public class BerkeleyDBGenericPersonsMap<S extends Signatory, SE extends Signato
 				protected void finalize() throws Throwable
 				{
 					close();
-					super.finalize();
 				}
 			};
 		}
