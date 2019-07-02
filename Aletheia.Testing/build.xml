@@ -20,8 +20,8 @@
     <property name="Aletheia.GUI.location" value="../Aletheia.GUI"/>
     <property name="Aletheia.GUI.Command.Extra.location" value="../Aletheia.GUI.Command.Extra"/>
     <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.8"/>
-    <property name="source" value="1.8"/>
+    <property name="target" value="11"/>
+    <property name="source" value="11"/>
     <path id="Log4j Library.userclasspath">
         <pathelement location="../../../../../../../Aletheia.log4j/log4j-api-2.8.2.jar"/>
         <pathelement location="../../../../../../../Aletheia.log4j/log4j-core-2.8.2.jar"/>

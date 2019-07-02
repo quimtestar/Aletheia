@@ -10,8 +10,8 @@
     <property name="Aletheia.log4j.location" value="../Aletheia.log4j"/>
     <property name="debug" value="true"/>
     <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.8"/>
-    <property name="source" value="1.8"/>
+    <property name="target" value="11"/>
+    <property name="source" value="11"/>
     <path id="Aletheia.Version.classpath">
         <pathelement location="bin"/>
     </path>

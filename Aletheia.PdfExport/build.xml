@@ -17,8 +17,8 @@
     <property name="Aletheia.PdfExport.location" value="../Aletheia.PdfExport"/>
     <property name="debug" value="true"/>
     <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="1.8"/>
-    <property name="source" value="1.8"/>
+    <property name="target" value="11"/>
+    <property name="source" value="11"/>
     <path id="ItextPdf Library.userclasspath">
         <pathelement location="${Aletheia.PdfExport.location}/itext5-itextpdf-5.5.12.jar"/>
     </path>
