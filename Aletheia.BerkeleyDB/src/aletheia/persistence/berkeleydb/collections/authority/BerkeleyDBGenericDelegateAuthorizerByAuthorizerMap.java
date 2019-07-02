@@ -142,7 +142,6 @@ public abstract class BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<K> exte
 				protected void finalize() throws Throwable
 				{
 					close();
-					super.finalize();
 				}
 
 			};

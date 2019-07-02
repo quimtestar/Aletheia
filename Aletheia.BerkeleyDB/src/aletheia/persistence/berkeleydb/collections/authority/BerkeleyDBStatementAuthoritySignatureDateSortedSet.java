@@ -242,7 +242,6 @@ public class BerkeleyDBStatementAuthoritySignatureDateSortedSet extends Abstract
 		protected void finalize() throws Throwable
 		{
 			close();
-			super.finalize();
 		}
 
 	}

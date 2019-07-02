@@ -663,7 +663,6 @@ public abstract class PeerToPeerNode
 		protected void finalize() throws Throwable
 		{
 			selector.close();
-			super.finalize();
 		}
 	}
 

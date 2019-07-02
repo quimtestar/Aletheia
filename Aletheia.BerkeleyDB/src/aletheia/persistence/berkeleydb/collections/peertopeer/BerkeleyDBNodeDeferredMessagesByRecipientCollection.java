@@ -167,7 +167,6 @@ public class BerkeleyDBNodeDeferredMessagesByRecipientCollection extends Abstrac
 			protected void finalize() throws Throwable
 			{
 				close();
-				super.finalize();
 			}
 
 		};

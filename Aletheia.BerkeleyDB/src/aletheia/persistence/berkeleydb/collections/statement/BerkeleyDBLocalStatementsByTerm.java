@@ -170,7 +170,6 @@ public class BerkeleyDBLocalStatementsByTerm extends AbstractCloseableMap<Term, 
 				protected void finalize() throws Throwable
 				{
 					close();
-					super.finalize();
 				}
 			};
 		}

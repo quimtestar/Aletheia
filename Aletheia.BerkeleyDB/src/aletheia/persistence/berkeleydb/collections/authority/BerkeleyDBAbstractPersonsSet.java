@@ -192,7 +192,6 @@ public abstract class BerkeleyDBAbstractPersonsSet<K> extends AbstractCloseableS
 			protected void finalize() throws Throwable
 			{
 				close();
-				super.finalize();
 			}
 
 		};

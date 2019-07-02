@@ -106,7 +106,6 @@ public class BerkeleyDBHookList extends AbstractCloseableList<Hook> implements H
 			protected void finalize() throws Throwable
 			{
 				close();
-				super.finalize();
 			}
 
 		};

@@ -166,7 +166,6 @@ public class BerkeleyDBPersonsByNick extends AbstractCloseableMap<String, Closea
 				protected void finalize() throws Throwable
 				{
 					close();
-					super.finalize();
 				}
 			};
 		}
@@ -317,7 +316,6 @@ public class BerkeleyDBPersonsByNick extends AbstractCloseableMap<String, Closea
 					protected void finalize() throws Throwable
 					{
 						close();
-						super.finalize();
 					}
 
 				};

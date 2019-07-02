@@ -214,7 +214,6 @@ public class BerkeleyDBPrivatePersonsByNick extends AbstractCloseableMap<String,
 					protected void finalize() throws Throwable
 					{
 						close();
-						super.finalize();
 					}
 
 				};

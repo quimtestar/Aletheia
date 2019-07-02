@@ -131,7 +131,6 @@ public class BerkeleyDBUnfoldingContextsByDeclaration extends AbstractCloseableS
 			protected void finalize() throws Throwable
 			{
 				close();
-				super.finalize();
 			}
 
 			@Override

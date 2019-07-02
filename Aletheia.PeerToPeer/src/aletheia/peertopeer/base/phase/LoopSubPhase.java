@@ -388,7 +388,6 @@ public abstract class LoopSubPhase<T extends LoopDialogType<?>> extends SubPhase
 	protected void finalize() throws Throwable
 	{
 		close();
-		super.finalize();
 	}
 
 	protected void closeSelector() throws IOException

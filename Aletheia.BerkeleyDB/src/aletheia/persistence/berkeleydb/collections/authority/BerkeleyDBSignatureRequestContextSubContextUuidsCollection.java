@@ -128,7 +128,6 @@ public class BerkeleyDBSignatureRequestContextSubContextUuidsCollection extends 
 			protected void finalize() throws Throwable
 			{
 				close();
-				super.finalize();
 			}
 
 		};

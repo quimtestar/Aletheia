@@ -162,7 +162,6 @@ public class BerkeleyDBDescendantContextsByConsequent extends AbstractCloseableS
 			protected void finalize() throws Throwable
 			{
 				close();
-				super.finalize();
 			}
 		};
 	}

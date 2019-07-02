@@ -150,7 +150,6 @@ public class NonBlockingSocketChannelInputStream extends InputStream implements 
 	protected void finalize() throws Throwable
 	{
 		close();
-		super.finalize();
 	}
 
 }

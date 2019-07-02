@@ -440,7 +440,6 @@ public abstract class AbstractPersonTableModel implements TableModel
 		protected void finalize() throws Throwable
 		{
 			close();
-			super.finalize();
 		}
 
 	}

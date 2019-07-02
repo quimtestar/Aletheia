@@ -468,7 +468,6 @@ public class Context extends Statement
 					protected void finalize() throws Throwable
 					{
 						close();
-						super.finalize();
 					}
 				};
 			}
@@ -1305,7 +1304,6 @@ public class Context extends Statement
 					protected void finalize() throws Throwable
 					{
 						close();
-						super.finalize();
 					}
 				};
 			}

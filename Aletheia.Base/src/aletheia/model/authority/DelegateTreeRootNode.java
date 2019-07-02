@@ -725,7 +725,6 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 					protected void finalize() throws Throwable
 					{
 						close();
-						super.finalize();
 					}
 				};
 			}

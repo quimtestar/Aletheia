@@ -208,7 +208,6 @@ public class BerkeleyDBRootContextAuthorityBySignatureUuid extends AbstractClose
 				protected void finalize() throws Throwable
 				{
 					close();
-					super.finalize();
 				}
 			};
 		}

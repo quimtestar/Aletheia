@@ -133,7 +133,6 @@ public abstract class BerkeleyDBAbstractDelegateAuthorizerSet extends AbstractCl
 			protected void finalize() throws Throwable
 			{
 				close();
-				super.finalize();
 			}
 
 		};

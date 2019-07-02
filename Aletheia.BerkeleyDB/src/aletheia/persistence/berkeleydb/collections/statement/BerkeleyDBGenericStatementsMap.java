@@ -281,7 +281,6 @@ public abstract class BerkeleyDBGenericStatementsMap<S extends Statement, E exte
 				protected void finalize() throws Throwable
 				{
 					close();
-					super.finalize();
 				}
 			};
 		}

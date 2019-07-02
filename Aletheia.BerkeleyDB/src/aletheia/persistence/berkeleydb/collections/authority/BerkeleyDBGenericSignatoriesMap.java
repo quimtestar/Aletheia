@@ -257,7 +257,6 @@ public abstract class BerkeleyDBGenericSignatoriesMap<S extends Signatory, E ext
 				protected void finalize() throws Throwable
 				{
 					close();
-					super.finalize();
 				}
 			};
 		}

@@ -589,7 +589,6 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 	protected void finalize() throws Throwable
 	{
 		close();
-		super.finalize();
 	}
 
 }

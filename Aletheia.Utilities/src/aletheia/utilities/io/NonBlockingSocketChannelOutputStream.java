@@ -134,7 +134,6 @@ public class NonBlockingSocketChannelOutputStream extends OutputStream implement
 	protected void finalize() throws Throwable
 	{
 		close();
-		super.finalize();
 	}
 
 }

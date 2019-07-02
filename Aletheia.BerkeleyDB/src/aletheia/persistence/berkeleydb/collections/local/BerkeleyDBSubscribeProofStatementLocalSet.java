@@ -144,7 +144,6 @@ public class BerkeleyDBSubscribeProofStatementLocalSet extends AbstractCloseable
 			protected void finalize() throws Throwable
 			{
 				close();
-				super.finalize();
 			}
 
 		};
