@@ -23,8 +23,8 @@
     <property name="target" value="1.8"/>
     <property name="source" value="1.8"/>
     <path id="Log4j Library.userclasspath">
-        <pathelement location="../../../../../../../Aletheia.log4j/log4j-api-2.8.2.jar"/>
-        <pathelement location="../../../../../../../Aletheia.log4j/log4j-core-2.8.2.jar"/>
+        <pathelement location="../../../../../../../Aletheia.log4j/log4j-api-2.12.0.jar"/>
+        <pathelement location="../../../../../../../Aletheia.log4j/log4j-core-2.12.0.jar"/>
     </path>
     <path id="Aletheia.Version.classpath">
         <pathelement location="${Aletheia.Version.location}/bin"/>
@@ -73,7 +73,7 @@
         <path refid="Aletheia.Version.classpath"/>
     </path>
     <path id="ItextPdf Library.userclasspath">
-        <pathelement location="../../../../../../../Aletheia.PdfExport/itext5-itextpdf-5.5.12.jar"/>
+        <pathelement location="../../../../../../../Aletheia.PdfExport/itextpdf-5.5.13.1.jar"/>
     </path>
     <path id="Aletheia.PdfExport.classpath">
         <pathelement location="${Aletheia.PdfExport.location}/bin"/>
