@@ -4,10 +4,10 @@
         <archive javadoc="file:/mnt/vlb0/quim/Software/BerkeleyDB/je-7.5.11/docs/java/" path="/Aletheia.BerkeleyDB/je-7.5.11.jar" source="/mnt/vlb0/quim/Software/BerkeleyDB/je-7.5.11/src"/>
     </library>
     <library name="ItextPdf Library" systemlibrary="false">
-        <archive javadoc="jar:file:/mnt/vlb0/quim/Software/iText/5.5.8/itextpdf-5.5.8-javadoc.jar!/" path="/Aletheia.PdfExport/itext5-itextpdf-5.5.12.jar" source="/mnt/vlb0/quim/Software/iText/5.5.8/itextpdf-5.5.8-sources.jar"/>
+        <archive javadoc="jar:file:/mnt/vlb0/quim/Software/iText/5.5.13.1/itextpdf-5.5.13.1-javadoc.jar!/" path="/Aletheia.PdfExport/itextpdf-5.5.13.1.jar" source="/mnt/vlb0/quim/Software/iText/5.5.13.1/itextpdf-5.5.13.1-sources.jar"/>
     </library>
     <library name="Log4j Library" systemlibrary="false">
-        <archive javadoc="jar:file:/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.8.2-bin/log4j-api-2.8.2-javadoc.jar!/" path="/Aletheia.log4j/log4j-api-2.8.2.jar" source="/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.8.2-bin/log4j-api-2.8.2-sources.jar"/>
-        <archive javadoc="jar:file:/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.8.2-bin/log4j-core-2.8.2-javadoc.jar!/" path="/Aletheia.log4j/log4j-core-2.8.2.jar" source="/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.8.2-bin/log4j-core-2.8.2-sources.jar"/>
+        <archive javadoc="jar:file:/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.12.0-bin/log4j-api-2.12.0-javadoc.jar!/" path="/Aletheia.log4j/log4j-api-2.12.0.jar" source="/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.12.0-bin/log4j-api-2.12.0-sources.jar"/>
+        <archive javadoc="jar:file:/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.12.0-bin/log4j-core-2.12.0-javadoc.jar!/" path="/Aletheia.log4j/log4j-core-2.12.0.jar" source="/mnt/vlb0/quim/Software/Log4J/apache-log4j-2.12.0-bin/log4j-core-2.12.0-sources.jar"/>
     </library>
 </eclipse-userlibraries>

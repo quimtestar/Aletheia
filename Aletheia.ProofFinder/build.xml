@@ -18,8 +18,8 @@
     <property name="target" value="11"/>
     <property name="source" value="11"/>
     <path id="Log4j Library.userclasspath">
-        <pathelement location="${Aletheia.log4j.location}/log4j-api-2.8.2.jar"/>
-        <pathelement location="${Aletheia.log4j.location}/log4j-core-2.8.2.jar"/>
+        <pathelement location="${Aletheia.log4j.location}/log4j-api-2.12.0.jar"/>
+        <pathelement location="${Aletheia.log4j.location}/log4j-core-2.12.0.jar"/>
     </path>
     <path id="Aletheia.log4j.classpath">
         <pathelement location="${Aletheia.log4j.location}/bin"/>

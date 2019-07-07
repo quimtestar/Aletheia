@@ -17,8 +17,8 @@
             <fileset dir="${Aletheia.Protocol.location}/bin"/>
             <fileset dir="${Aletheia.Version.location}/bin"/>
             <zipfileset excludes="META-INF/*.SF" src="${Aletheia.BerkeleyDB.location}/je-7.5.11.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-api-2.8.2.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-core-2.8.2.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-api-2.12.0.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-core-2.12.0.jar"/>
         </jar>
     </target>
 </project>
