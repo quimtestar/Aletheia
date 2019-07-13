@@ -418,6 +418,7 @@ public class StatementListJTable extends JTable
 		super(new StatementListTableModel(name, statementList));
 		this.authorityHeaderJPanel = authorityHeaderJPanel;
 		this.myTableCellRenderer = new MyTableCellRenderer();
+		setDragEnabled(true);
 		setTransferHandler(new MyTransferHandler());
 		setDefaultRenderer(Statement.class, myTableCellRenderer);
 		MyTableCellEditor editor = new MyTableCellEditor(myTableCellRenderer);

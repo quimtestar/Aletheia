@@ -360,6 +360,7 @@ public class SignatureRequestJTree extends PersistentJTree
 		setShowsRootHandles(true);
 		setEditable(true);
 		getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+		setDragEnabled(true);
 		setTransferHandler(new MyTransferHandler());
 	}
 

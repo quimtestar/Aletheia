@@ -486,6 +486,7 @@ public class ContextJTree extends PersistentJTree
 	{
 		super(new ContextJTreeModel(aletheiaJPanel.getPersistenceManager()), aletheiaJPanel.getFontManager());
 		this.setLargeModel(true);
+		this.setDragEnabled(true);
 		this.setTransferHandler(new MyTransferHandler());
 		this.aletheiaJPanel = aletheiaJPanel;
 		this.listener = new Listener();
