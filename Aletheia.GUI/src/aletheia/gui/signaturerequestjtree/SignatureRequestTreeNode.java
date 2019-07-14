@@ -227,7 +227,7 @@ public abstract class SignatureRequestTreeNode implements TreeNode
 		return renderer;
 	}
 
-	public void clearRenderer()
+	public synchronized void clearRenderer()
 	{
 		rendererRef = null;
 	}

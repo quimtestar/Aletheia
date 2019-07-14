@@ -68,7 +68,10 @@ public class CatalogJTree extends PersistentJTree
 
 		public CatalogJTreeNodeRenderer getNodeRenderer(CatalogTreeNode node)
 		{
-			return node.renderer(CatalogJTree.this);
+			synchronized (getTreeLock())
+			{
+				return node.renderer(CatalogJTree.this);
+			}
 		}
 
 	}

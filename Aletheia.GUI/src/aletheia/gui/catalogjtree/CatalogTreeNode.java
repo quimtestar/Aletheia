@@ -206,12 +206,12 @@ public abstract class CatalogTreeNode implements TreeNode
 		}
 	}
 
-	public void cleanRenderer()
+	public synchronized void cleanRenderer()
 	{
 		rendererRef = new SoftReference<>(null);
 	}
 
-	public CatalogJTreeNodeRenderer renderer(CatalogJTree catalogJTree)
+	public synchronized CatalogJTreeNodeRenderer renderer(CatalogJTree catalogJTree)
 	{
 		CatalogJTreeNodeRenderer renderer = rendererRef.get();
 		if (renderer == null)

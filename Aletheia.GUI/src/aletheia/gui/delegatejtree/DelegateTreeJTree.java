@@ -57,10 +57,13 @@ public class DelegateTreeJTree extends PersistentJTree
 			if (!(value instanceof DelegateTreeModelNode))
 				throw new Error();
 			DelegateTreeModelNode node = (DelegateTreeModelNode) value;
-			DelegateTreeModelNodeRenderer renderer = node.renderer(DelegateTreeJTree.this);
-			renderer.setSelected(selected);
-			renderer.setHasFocus(hasFocus);
-			return renderer;
+			synchronized (getTreeLock())
+			{
+				DelegateTreeModelNodeRenderer renderer = node.renderer(DelegateTreeJTree.this);
+				renderer.setSelected(selected);
+				renderer.setHasFocus(hasFocus);
+				return renderer;
+			}
 		}
 	}
 

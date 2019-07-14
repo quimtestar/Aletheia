@@ -119,7 +119,10 @@ public class ContextJTree extends PersistentJTree
 		{
 			try
 			{
-				return node.renderer(ContextJTree.this);
+				synchronized (getTreeLock())
+				{
+					return node.renderer(ContextJTree.this);
+				}
 			}
 			catch (PersistenceLockTimeoutException e)
 			{

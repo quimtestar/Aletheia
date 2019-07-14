@@ -70,10 +70,13 @@ public class SignatureRequestJTree extends PersistentJTree
 			if (!(value instanceof SignatureRequestTreeNode))
 				throw new Error();
 			SignatureRequestTreeNode node = (SignatureRequestTreeNode) value;
-			SignatureRequestTreeNodeRenderer renderer = node.renderer(SignatureRequestJTree.this);
-			renderer.setSelected(selected);
-			renderer.setHasFocus(hasFocus);
-			return renderer;
+			synchronized (getTreeLock())
+			{
+				SignatureRequestTreeNodeRenderer renderer = node.renderer(SignatureRequestJTree.this);
+				renderer.setSelected(selected);
+				renderer.setHasFocus(hasFocus);
+				return renderer;
+			}
 		}
 	}
 

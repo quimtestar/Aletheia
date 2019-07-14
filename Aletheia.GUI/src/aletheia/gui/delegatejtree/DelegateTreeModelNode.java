@@ -58,7 +58,7 @@ public abstract class DelegateTreeModelNode implements TreeNode
 
 	protected abstract DelegateTreeModelNodeRenderer buildRenderer(DelegateTreeJTree delegateTreeJTree);
 
-	public DelegateTreeModelNodeRenderer renderer(DelegateTreeJTree delegateTreeJTree)
+	public synchronized DelegateTreeModelNodeRenderer renderer(DelegateTreeJTree delegateTreeJTree)
 	{
 		DelegateTreeModelNodeRenderer renderer = null;
 		if (rendererRef != null)
