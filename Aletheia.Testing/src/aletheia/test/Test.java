@@ -19,7 +19,14 @@
  ******************************************************************************/
 package aletheia.test;
 
-import aletheia.test.unsorted.*;
+import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Modifier;
+
+import aletheia.utilities.CommandLineArguments;
+import aletheia.utilities.CommandLineArguments.CommandLineArgumentsException;
+import aletheia.utilities.CommandLineArguments.Parameter;
 import aletheia.utilities.MiscUtilities;
 
 public abstract class Test
@@ -31,9 +38,90 @@ public abstract class Test
 
 	public abstract void run() throws Exception;
 
-	public static void main(String[] args) throws Exception
+	public static void main(String[] args)
 	{
-		new Test0027().run();
+		try
+		{
+			CommandLineArguments cla = new CommandLineArguments(args);
+			for (Parameter parameter : cla.getParameters())
+			{
+				String className = parameter.getValue();
+				try
+				{
+					@SuppressWarnings("unchecked")
+					Class<? extends Test> testClass = (Class<? extends Test>) ClassLoader.getSystemClassLoader().loadClass(className);
+					if (!Test.class.isAssignableFrom(testClass))
+					{
+						System.err.format("Class '%s' does not derive from '%s'\n", className, Test.class.getName());
+						continue;
+					}
+					if (Modifier.isAbstract(testClass.getModifiers()))
+					{
+						System.err.format("Class '%s' is abstract\n", className);
+						continue;
+					}
+					if (cla.getGlobalSwitches().containsKey("i"))
+					{
+						System.out.format("Run test class '%s'?", className);
+						try
+						{
+							System.in.read();
+						}
+						catch (IOException e)
+						{
+							throw new RuntimeException(e);
+						}
+					}
+					Constructor<? extends Test> constructor = testClass.getConstructor();
+					Test test = constructor.newInstance();
+					test.run();
+				}
+				catch (ClassNotFoundException e)
+				{
+					System.err.format("Class '%s' not found\n", className);
+				}
+				catch (NoSuchMethodException e)
+				{
+					System.err.format("Class '%s' have not a no-argument constructor\n", className);
+				}
+				catch (SecurityException e)
+				{
+					System.err.format("No-argument constructor for class '%s' is not accessible\n", className);
+					e.printStackTrace();
+				}
+				catch (InstantiationException e)
+				{
+					System.err.format("Class '%s' could not be instantiated\n", className);
+					e.printStackTrace();
+				}
+				catch (IllegalAccessException e)
+				{
+					System.err.format("Illegal access instantiating class '%s'\n", className);
+					e.printStackTrace();
+				}
+				catch (IllegalArgumentException e)
+				{
+					System.err.format("Illegal argument instantiating class '%s'\n", className);
+					e.printStackTrace();
+				}
+				catch (InvocationTargetException e)
+				{
+					System.err.format("Exception '%s' thrown when instantiating class '%s'\n", e.getCause().getClass().getName(), className);
+					e.printStackTrace();
+				}
+				catch (Exception e)
+				{
+					System.err.format("Exception '%s' thrown when running test instance of '%s'\n", e.getCause().getClass().getName(), className);
+					e.printStackTrace();
+				}
+			}
+			System.exit(0);
+		}
+		catch (CommandLineArgumentsException e)
+		{
+			System.err.println(e.getMessage());
+			System.exit(1);
+		}
 	}
 
 }
