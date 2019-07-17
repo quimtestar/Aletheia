@@ -46,6 +46,8 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -648,6 +650,7 @@ public class CliJPanel extends JPanel implements CommandSource
 
 		private final static int bufferSize = 256;
 
+		private final Charset charSet = StandardCharsets.UTF_8;
 		private final PipedInputStream inputStream;
 		private final PipedOutputStream outputStream;
 		private final DataInputStream dataInput;
@@ -687,7 +690,7 @@ public class CliJPanel extends JPanel implements CommandSource
 						int size = dataInput.readInt();
 						byte buf[] = new byte[size];
 						dataInput.readFully(buf);
-						String s = new String(buf, 0, size);
+						String s = new String(buf, 0, size, charSet);
 						printString(s, attributeSet);
 					}
 				}
@@ -709,7 +712,7 @@ public class CliJPanel extends JPanel implements CommandSource
 			if (chan == null)
 			{
 				chan = channels.size();
-				out = new PrintStream(new MultiplexedOutputStream(outputStream, chan));
+				out = new PrintStream(new MultiplexedOutputStream(outputStream, chan), false, charSet);
 				channels.add(out);
 				attributeSets.add(attributeSet);
 				channelMap.put(attributeSet, chan);
