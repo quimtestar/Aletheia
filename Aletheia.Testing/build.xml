@@ -23,8 +23,8 @@
     <property name="target" value="11"/>
     <property name="source" value="11"/>
     <path id="Log4j Library.userclasspath">
-        <pathelement location="../../../../../../../Aletheia.log4j/log4j-api-2.12.0.jar"/>
-        <pathelement location="../../../../../../../Aletheia.log4j/log4j-core-2.12.0.jar"/>
+        <pathelement location="${Aletheia.log4j.location}/log4j-api-2.12.0.jar"/>
+        <pathelement location="${Aletheia.log4j.location}/log4j-core-2.12.0.jar"/>
     </path>
     <path id="Aletheia.Version.classpath">
         <pathelement location="${Aletheia.Version.location}/bin"/>
@@ -60,7 +60,7 @@
         <path refid="Aletheia.Protocol.classpath"/>
     </path>
     <path id="Berkeley DB Library.userclasspath">
-        <pathelement location="../../../../../../../Aletheia.BerkeleyDB/je-7.5.11.jar"/>
+        <pathelement location="${Aletheia.BerkeleyDB.location}/je-7.5.11.jar"/>
     </path>
     <path id="Aletheia.BerkeleyDB.classpath">
         <pathelement location="${Aletheia.BerkeleyDB.location}/bin"/>
@@ -73,7 +73,7 @@
         <path refid="Aletheia.Version.classpath"/>
     </path>
     <path id="ItextPdf Library.userclasspath">
-        <pathelement location="../../../../../../../Aletheia.PdfExport/itextpdf-5.5.13.1.jar"/>
+        <pathelement location="${Aletheia.PdfExport.location}/itextpdf-5.5.13.1.jar"/>
     </path>
     <path id="Aletheia.PdfExport.classpath">
         <pathelement location="${Aletheia.PdfExport.location}/bin"/>
@@ -141,6 +141,7 @@
         <path refid="Aletheia.Security.classpath"/>
         <path refid="Aletheia.Utilities.classpath"/>
         <path refid="Aletheia.Version.classpath"/>
+        <path refid="Aletheia.log4j.classpath"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
@@ -263,7 +264,7 @@
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
     </target>
-    <target name="Test">
+    <target name="Test" depends="build">
     	<condition property="args" else="">
     	    <isset property="args"/>
     	</condition>    	
