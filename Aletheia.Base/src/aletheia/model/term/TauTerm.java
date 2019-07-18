@@ -32,8 +32,8 @@ import aletheia.model.parameteridentification.ParameterIdentification;
  * <p>
  * There exists just one instance of this {@link Term} class, accessed through
  * the static member {@link TauTerm#instance}. The primitive type is represented
- * textually by the literal <b>"Τ"</b> (greek capital letter <b>tau</b>) or the
- * text "Tau".
+ * textually by the literal <b>"\u03a4"</b> (greek capital letter <b>tau</b>) or
+ * the text "Tau".
  *
  *
  */
