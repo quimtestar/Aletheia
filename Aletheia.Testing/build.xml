@@ -264,8 +264,12 @@
         <antcall target="build"/>
     </target>
     <target name="Test">
+    	<condition property="args" else="">
+    	    <isset property="args"/>
+    	</condition>    	
         <java classname="aletheia.test.Test" failonerror="true" fork="yes">
             <classpath refid="Aletheia.Testing.classpath"/>
+        	<arg line="${args}"/>
         </java>
     </target>
     <target name="TestingAletheiaPreferences.Configure">
