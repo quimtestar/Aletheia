@@ -36,6 +36,7 @@ import aletheia.model.catalog.SubCatalog;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.persistence.Transaction;
+import aletheia.persistence.exceptions.PersistenceManagerClosedException;
 
 public abstract class CatalogTreeNode implements TreeNode
 {
@@ -195,14 +196,21 @@ public abstract class CatalogTreeNode implements TreeNode
 	{
 		if (catalog == null)
 			return true;
-		Transaction transaction = getModel().beginTransaction();
 		try
 		{
-			return catalog.subCatalogs(transaction).isEmpty();
+			Transaction transaction = getModel().beginTransaction();
+			try
+			{
+				return catalog.subCatalogs(transaction).isEmpty();
+			}
+			finally
+			{
+				transaction.abort();
+			}
 		}
-		finally
+		catch (PersistenceManagerClosedException e)
 		{
-			transaction.abort();
+			return true;
 		}
 	}
 

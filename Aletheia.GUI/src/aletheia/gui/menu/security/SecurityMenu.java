@@ -116,7 +116,7 @@ public class SecurityMenu extends AletheiaJMenu
 		{
 			if (persistenceManager != null)
 				persistenceManager.getSecretKeyManager().removeListener(persistenceSecretKeyManagerListener);
-			this.persistenceManager = getAletheiaJFrame().getPersistenceManager();
+			persistenceManager = newPersistenceManager;
 			if (persistenceManager != null)
 				persistenceManager.getSecretKeyManager().addListener(persistenceSecretKeyManagerListener);
 			updateEnabledActions();

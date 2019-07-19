@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import aletheia.persistence.exceptions.PersistenceManagerClosedException;
 import aletheia.utilities.MiscUtilities;
 
 /**
@@ -60,9 +61,11 @@ public abstract class Transaction implements AutoCloseable
 	 *            transaction that is automatically committed after each single
 	 *            persistent operation.
 	 */
-	protected Transaction(PersistenceManager persistenceManager)
+	protected Transaction(PersistenceManager persistenceManager) throws PersistenceManagerClosedException
 	{
 		super();
+		if (!persistenceManager.isOpen())
+			throw new PersistenceManagerClosedException();
 		this.persistenceManager = persistenceManager;
 		this.stackTraceList = persistenceManager.isDebug() ? MiscUtilities.stackTraceList(1) : null;
 		this.open = true;
