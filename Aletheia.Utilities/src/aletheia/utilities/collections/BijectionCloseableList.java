@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2015 Quim Testar.
+ * Copyright (c) 2015, 2019 Quim Testar.
  * 
  * This file is part of the Aletheia Proof Assistant.
  * 
