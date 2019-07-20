@@ -438,7 +438,7 @@ public class DesktopAletheiaJFrame extends MainAletheiaJFrame
 				persistenceManager.close();
 				persistenceManager = null;
 			}
-			SplashStartupProgressListener startupProgressListener = new MySplashStartupProgressListener();
+			SplashStartupProgressListener startupProgressListener = new SplashStartupProgressListener();
 			try
 			{
 				persistenceManager = persistenceClass.persistenceGUIFactory.createPersistenceManager(this, startupProgressListener);

@@ -1,92 +1,81 @@
-/*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
- *
- * This file is part of the Aletheia Proof Assistant.
- *
- * The Aletheia Proof Assistant is free software: you can redistribute it and/or
- * modify it under the terms of the GNU Affero General Public License as
- * published by the Free Software Foundation, either version 3 of the License,
- * or (at your option) any later version.
- *
- * The Aletheia Proof Assistant is distributed in the hope that it will be
- * useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
- * General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with the Aletheia Proof Assistant. If not, see
- * <http://www.gnu.org/licenses/>.
- ******************************************************************************/
 package aletheia.gui.app;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.HeadlessException;
-import java.awt.SplashScreen;
+import java.awt.Graphics;
+import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.InputStream;
+
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+import javax.swing.JWindow;
 
 import aletheia.persistence.PersistenceManager.StartupProgressListener;
 import aletheia.version.VersionManager;
 
 public class SplashStartupProgressListener implements StartupProgressListener
 {
-	private final SplashScreen splashScreen;
-	private final Graphics2D graphics;
-	private final Dimension size;
+	private final JWindow window;
 
-	private SplashStartupProgressListener(SplashScreen splashScreen) throws IllegalStateException
-	{
-		if (splashScreen != null)
-		{
-			this.splashScreen = splashScreen;
-			this.graphics = splashScreen.createGraphics();
-			this.size = splashScreen.getSize();
-			graphics.setBackground(Color.white);
-			graphics.setColor(new Color(0x000054));
-			graphics.drawString("Version " + VersionManager.getVersion(), 12, 492);
-			splashScreen.update();
-		}
-		else
-		{
-			this.splashScreen = null;
-			this.graphics = null;
-			this.size = null;
-		}
-	}
-
-	private static SplashScreen getSplashScreen()
-	{
-		try
-		{
-			return SplashScreen.getSplashScreen();
-		}
-		catch (HeadlessException e)
-		{
-			return null;
-		}
-	}
+	private float progress = 0;
 
 	public SplashStartupProgressListener()
 	{
-		this(getSplashScreen());
+		JWindow window = null;
+		try (InputStream is = ClassLoader.getSystemResourceAsStream("aletheia/gui/app/splash.png"))
+		{
+			BufferedImage image = ImageIO.read(is);
+			JPanel panel = new JPanel()
+			{
+				private static final long serialVersionUID = 7793703420918559601L;
+
+				@Override
+				protected void paintComponent(Graphics graphics)
+				{
+					super.paintComponent(graphics);
+					graphics.drawImage(image, 0, 0, this);
+					graphics.setColor(new Color(0x000054));
+					graphics.drawString("Version " + VersionManager.getVersion(), 12, 492);
+					int position = (int) (progress * (SplashStartupProgressListener.this.window.getSize().width - 4));
+					graphics.fillRect(2, 466, position, 6);
+					graphics.setColor(Color.WHITE);
+					graphics.fillRect(position, 466, SplashStartupProgressListener.this.window.getSize().width - 4, 6);
+				}
+
+			};
+			panel.setBackground(Color.WHITE);
+			panel.setOpaque(false);
+			panel.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
+			window = new JWindow();
+			window.toFront();
+			window.setFocusable(false);
+			window.setBackground(new Color(0, 0, 0, 0));
+			window.setContentPane(panel);
+			window.pack();
+			Dimension size = window.getSize();
+			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+			window.setLocation((screenSize.width - size.width) / 2, (screenSize.height - size.height) / 2);
+			window.setVisible(true);
+		}
+		catch (Exception e)
+		{
+		}
+		this.window = window;
 	}
 
 	@Override
 	public void updateProgress(float progress)
 	{
-		if (splashScreen != null && splashScreen.isVisible())
-		{
-			int position = (int) (progress * (size.width - 4));
-			graphics.fillRect(2, 466, position, 6);
-			graphics.clearRect(position, 466, size.width - 4, 6);
-			splashScreen.update();
-		}
+		this.progress = progress;
+		if (window != null)
+			window.repaint();
 	}
 
 	public void close()
 	{
-		if (splashScreen != null && splashScreen.isVisible())
-			splashScreen.close();
+		if (window != null)
+			window.dispose();
 	}
 
 }
