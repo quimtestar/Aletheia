@@ -9,6 +9,7 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -45,10 +46,14 @@ public class SplashStartupProgressListener implements StartupProgressListener
 			imagePanel.setOpaque(false);
 			imagePanel.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
 			JLabel label = new JLabel("Version " + VersionManager.getVersion());
-			label.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
+			label.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(0x8080a8), 1, false),
+					BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 			label.setOpaque(true);
 			label.setBackground(Color.WHITE);
 			progressBar = new JProgressBar();
+			progressBar.setBorder(BorderFactory.createLineBorder(new Color(0x8080a8), 1, false));
+			progressBar.setBackground(Color.WHITE);
+			progressBar.setForeground(new Color(0x000054));
 			window = new JWindow();
 			window.toFront();
 			window.setFocusable(false);
@@ -57,7 +62,9 @@ public class SplashStartupProgressListener implements StartupProgressListener
 			panel.setOpaque(false);
 			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 			panel.add(imagePanel);
+			panel.add(new Box.Filler(new Dimension(0, 3), new Dimension(0, 3), new Dimension(0, 3)));
 			panel.add(label);
+			panel.add(new Box.Filler(new Dimension(0, 3), new Dimension(0, 3), new Dimension(0, 3)));
 			panel.add(progressBar);
 			window.setContentPane(panel);
 			window.pack();
