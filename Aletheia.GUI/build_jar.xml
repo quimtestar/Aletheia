@@ -26,7 +26,6 @@
             <manifest>
                 <attribute name="Main-Class" value="aletheia.gui.app.DesktopAletheiaGUI"/>
                 <attribute name="Class-Path" value="."/>
-            	<attribute name="SplashScreen-Image" value="aletheia/gui/app/splash.png" />
             </manifest>
             <fileset dir="${Aletheia.Base.location}/bin"/>
             <fileset dir="${Aletheia.ParserGenerator.location}/bin"/>

@@ -8,7 +8,11 @@ import java.awt.image.BufferedImage;
 import java.io.InputStream;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JWindow;
 
 import aletheia.persistence.PersistenceManager.StartupProgressListener;
@@ -17,16 +21,16 @@ import aletheia.version.VersionManager;
 public class SplashStartupProgressListener implements StartupProgressListener
 {
 	private final JWindow window;
-
-	private float progress = 0;
+	private final JProgressBar progressBar;
 
 	public SplashStartupProgressListener()
 	{
 		JWindow window = null;
-		try (InputStream is = ClassLoader.getSystemResourceAsStream("aletheia/gui/app/splash.png"))
+		JProgressBar progressBar = null;
+		try (InputStream is = ClassLoader.getSystemResourceAsStream("aletheia/gui/app/splash_image.png"))
 		{
 			BufferedImage image = ImageIO.read(is);
-			JPanel panel = new JPanel()
+			JPanel imagePanel = new JPanel()
 			{
 				private static final long serialVersionUID = 7793703420918559601L;
 
@@ -35,22 +39,26 @@ public class SplashStartupProgressListener implements StartupProgressListener
 				{
 					super.paintComponent(graphics);
 					graphics.drawImage(image, 0, 0, this);
-					graphics.setColor(new Color(0x000054));
-					graphics.drawString("Version " + VersionManager.getVersion(), 12, 492);
-					int position = (int) (progress * (SplashStartupProgressListener.this.window.getSize().width - 4));
-					graphics.fillRect(2, 466, position, 6);
-					graphics.setColor(Color.WHITE);
-					graphics.fillRect(position, 466, SplashStartupProgressListener.this.window.getSize().width - 4, 6);
 				}
 
 			};
-			panel.setBackground(Color.WHITE);
-			panel.setOpaque(false);
-			panel.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
+			imagePanel.setOpaque(false);
+			imagePanel.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
+			JLabel label = new JLabel("Version " + VersionManager.getVersion());
+			label.setBorder(BorderFactory.createEmptyBorder(2, 5, 2, 5));
+			label.setOpaque(true);
+			label.setBackground(Color.WHITE);
+			progressBar = new JProgressBar();
 			window = new JWindow();
 			window.toFront();
 			window.setFocusable(false);
 			window.setBackground(new Color(0, 0, 0, 0));
+			JPanel panel = new JPanel();
+			panel.setOpaque(false);
+			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+			panel.add(imagePanel);
+			panel.add(label);
+			panel.add(progressBar);
 			window.setContentPane(panel);
 			window.pack();
 			Dimension size = window.getSize();
@@ -62,14 +70,14 @@ public class SplashStartupProgressListener implements StartupProgressListener
 		{
 		}
 		this.window = window;
+		this.progressBar = progressBar;
 	}
 
 	@Override
 	public void updateProgress(float progress)
 	{
-		this.progress = progress;
-		if (window != null)
-			window.repaint();
+		if (progressBar != null)
+			progressBar.setValue((int) (progress * 100));
 	}
 
 	public void close()
