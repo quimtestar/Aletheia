@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
-<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/Aletheia.GUI/src/aletheia/gui/app/DesktopAletheiaGUI.java"/>
-</listAttribute>
-<listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
-<listEntry value="1"/>
-</listAttribute>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="aletheia.gui.app.DesktopAletheiaGUI"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Aletheia.GUI"/>
-<stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Daletheia.preferences.node=aletheia3 -Daletheia.p2pnode.properties.file=aletheia3.p2pnode.properties -Daletheia.title=Ἀλήθεια3 -Daletheia.gui.cli.commands=aletheia.gui.cli.commands.txt"/>
-<stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:Aletheia.Testing}"/>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
+        <listEntry value="/Aletheia.GUI/src/aletheia/gui/app/DesktopAletheiaGUI.java"/>
+    </listAttribute>
+    <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
+        <listEntry value="1"/>
+    </listAttribute>
+    <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
+    <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="aletheia.gui.app.DesktopAletheiaGUI"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-nosplash"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Aletheia.GUI"/>
+    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Daletheia.preferences.node=aletheia3 -Daletheia.p2pnode.properties.file=aletheia3.p2pnode.properties -Daletheia.title=Ἀλήθεια3 -Daletheia.gui.cli.commands=aletheia.gui.cli.commands.txt"/>
+    <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:Aletheia.Testing}"/>
 </launchConfiguration>

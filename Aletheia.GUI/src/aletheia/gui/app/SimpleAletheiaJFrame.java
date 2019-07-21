@@ -42,6 +42,7 @@ import javax.swing.WindowConstants;
 import org.apache.logging.log4j.Logger;
 
 import aletheia.common.AletheiaConstants;
+import aletheia.gui.app.splash.SplashStartupProgressListener;
 import aletheia.gui.icons.IconManager;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.statement.Context;
@@ -208,61 +209,64 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 	public SimpleAletheiaJFrame(SimpleAletheiaGUI aletheiaGUI) throws InterruptedException
 	{
 		super(new FontManager(properties.getFontSize()), aletheiaGUI);
-		BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
-		File dbFile = properties.getDbFile();
-		if (dbFile == null)
-			throw new RuntimeException("No DB file location configured");
-		configuration.setStartupProgressListener(new SplashStartupProgressListener());
-		configuration.setDbFile(dbFile);
-		configuration.setReadOnly(properties.isReadOnly());
-		configuration.setCachePercent(properties.getCachePercent());
-		this.persistenceManager = new BerkeleyDBPersistenceManager(configuration);
-		this.aletheiaJPanel = new AletheiaJPanel(this, this, persistenceManager);
+		try (SplashStartupProgressListener splashStartupProgressListener = SplashStartupProgressListener.makeFromGlobalSwitches(getGlobalSwitches()))
+		{
+			BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
+			configuration.setStartupProgressListener(splashStartupProgressListener);
+			File dbFile = properties.getDbFile();
+			if (dbFile == null)
+				throw new RuntimeException("No DB file location configured");
+			configuration.setDbFile(dbFile);
+			configuration.setReadOnly(properties.isReadOnly());
+			configuration.setCachePercent(properties.getCachePercent());
+			this.persistenceManager = new BerkeleyDBPersistenceManager(configuration);
+			this.aletheiaJPanel = new AletheiaJPanel(this, this, persistenceManager);
 
-		UUID activeContextUuid = properties.getActiveContextUuid();
-		if (activeContextUuid != null)
-			try (Transaction transaction = persistenceManager.beginTransaction())
+			UUID activeContextUuid = properties.getActiveContextUuid();
+			if (activeContextUuid != null)
+				try (Transaction transaction = persistenceManager.beginTransaction())
+				{
+					Context activeContext = persistenceManager.getContext(transaction, activeContextUuid);
+					if (activeContext != null)
+						aletheiaJPanel.setActiveContext(activeContext);
+					else
+						logger.warn("Couldn't set active context because no context with uuid '" + activeContextUuid + "' found");
+				}
+			switch (aletheiaGUI.getPanel())
 			{
-				Context activeContext = persistenceManager.getContext(transaction, activeContextUuid);
-				if (activeContext != null)
-					aletheiaJPanel.setActiveContext(activeContext);
-				else
-					logger.warn("Couldn't set active context because no context with uuid '" + activeContextUuid + "' found");
+			case ALL:
+				this.setContentPane(aletheiaJPanel);
+				break;
+			case CONTEXT:
+				this.setContentPane(aletheiaJPanel.getContextJTreeJPanel().getContextJTreeScrollPane());
+				break;
+			case CATALOG:
+				this.setContentPane(aletheiaJPanel.getCliJPanel().getCatalogJTreeScrollPane());
+				break;
 			}
-		switch (aletheiaGUI.getPanel())
-		{
-		case ALL:
-			this.setContentPane(aletheiaJPanel);
-			break;
-		case CONTEXT:
-			this.setContentPane(aletheiaJPanel.getContextJTreeJPanel().getContextJTreeScrollPane());
-			break;
-		case CATALOG:
-			this.setContentPane(aletheiaJPanel.getCliJPanel().getCatalogJTreeScrollPane());
-			break;
-		}
 
-		Rectangle maxRectangle = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-		if (maxRectangle != null)
-		{
-			this.setPreferredSize(new Dimension((int) maxRectangle.getWidth(), (int) maxRectangle.getHeight()));
-			this.setLocation(maxRectangle.getLocation());
-		}
-		this.setExtendedState(MAXIMIZED_BOTH);
-		this.setResizable(true);
-		this.setUndecorated(true);
-		this.setTitle(AletheiaConstants.TITLE);
-		this.setIconImages(IconManager.instance.aletheiaIconList);
-		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-		this.active = true;
-		this.addWindowListener(new WindowAdapter()
-		{
-			@Override
-			public void windowClosing(WindowEvent e)
+			Rectangle maxRectangle = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+			if (maxRectangle != null)
 			{
-				exit();
+				this.setPreferredSize(new Dimension((int) maxRectangle.getWidth(), (int) maxRectangle.getHeight()));
+				this.setLocation(maxRectangle.getLocation());
 			}
-		});
+			this.setExtendedState(MAXIMIZED_BOTH);
+			this.setResizable(true);
+			this.setUndecorated(true);
+			this.setTitle(AletheiaConstants.TITLE);
+			this.setIconImages(IconManager.instance.aletheiaIconList);
+			this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+			this.active = true;
+			this.addWindowListener(new WindowAdapter()
+			{
+				@Override
+				public void windowClosing(WindowEvent e)
+				{
+					exit();
+				}
+			});
+		}
 
 	}
 

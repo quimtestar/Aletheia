@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014, 2019 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -176,14 +176,12 @@ public abstract class PersistenceManager implements AutoCloseable
 
 	public interface StartupProgressListener
 	{
-		public void updateProgress(float progress);
+		public default void updateProgress(float progress)
+		{
+		}
 
 		public static StartupProgressListener silent = new StartupProgressListener()
 		{
-			@Override
-			public void updateProgress(float progress)
-			{
-			}
 		};
 	}
 

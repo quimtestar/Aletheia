@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2018 Quim Testar
+ * Copyright (c) 2018, 2019 Quim Testar
  * 
  * This file is part of the Aletheia Proof Assistant.
  * 
@@ -19,10 +19,13 @@
  ******************************************************************************/
 package aletheia.gui.app;
 
+import java.util.Map;
+
 import javax.swing.JOptionPane;
 
 import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
+import aletheia.utilities.CommandLineArguments.Switch;
 import aletheia.utilities.MiscUtilities;
 
 public abstract class MainAletheiaJFrame extends AletheiaJFrame
@@ -60,6 +63,11 @@ public abstract class MainAletheiaJFrame extends AletheiaJFrame
 	public AletheiaGUI getAletheiaGUI()
 	{
 		return aletheiaGUI;
+	}
+
+	public Map<String, Switch> getGlobalSwitches()
+	{
+		return aletheiaGUI.getGlobalSwitches();
 	}
 
 	public AletheiaEventQueue getAletheiaEventQueue()

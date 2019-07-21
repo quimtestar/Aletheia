@@ -35,7 +35,7 @@ public class SimpleAletheiaGUI extends AletheiaGUI
 
 	public SimpleAletheiaGUI(CommandLineArguments cla)
 	{
-		super();
+		super(cla.getGlobalSwitches());
 		Panel panel_ = Panel.ALL;
 		Switch sw = cla.getGlobalSwitches().get("panel");
 		if (sw instanceof Option)

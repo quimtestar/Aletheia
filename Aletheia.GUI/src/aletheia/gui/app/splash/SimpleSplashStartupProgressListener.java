@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  *******************************************************************************/
-package aletheia.gui.app;
+package aletheia.gui.app.splash;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -35,20 +35,27 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JWindow;
 
-import aletheia.persistence.PersistenceManager.StartupProgressListener;
 import aletheia.version.VersionManager;
 
-public class SplashStartupProgressListener implements StartupProgressListener
+class SimpleSplashStartupProgressListener extends SplashStartupProgressListener
 {
 	private final JWindow window;
 	private final JProgressBar progressBar;
 
-	public SplashStartupProgressListener()
+	SimpleSplashStartupProgressListener()
 	{
 		JWindow window = null;
 		JProgressBar progressBar = null;
-		try (InputStream is = ClassLoader.getSystemResourceAsStream("aletheia/gui/app/splash_image.png"))
+		try (InputStream is = ClassLoader.getSystemResourceAsStream("aletheia/gui/app/splash/splash_image.png"))
 		{
+			window = new JWindow();
+			window.toFront();
+			window.setFocusable(false);
+			window.setBackground(new Color(0, 0, 0, 0));
+			JPanel panel = new JPanel();
+			panel.setOpaque(false);
+			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
 			BufferedImage image = ImageIO.read(is);
 			JPanel imagePanel = new JPanel()
 			{
@@ -64,27 +71,23 @@ public class SplashStartupProgressListener implements StartupProgressListener
 			};
 			imagePanel.setOpaque(false);
 			imagePanel.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
+			panel.add(imagePanel);
+			panel.add(new Box.Filler(new Dimension(0, 3), new Dimension(0, 3), new Dimension(0, 3)));
+
 			JLabel label = new JLabel("Version " + VersionManager.getVersion());
 			label.setBorder(
 					BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1, false), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 			label.setOpaque(true);
 			label.setBackground(Color.WHITE);
+			panel.add(label);
+			panel.add(new Box.Filler(new Dimension(0, 3), new Dimension(0, 3), new Dimension(0, 3)));
+
 			progressBar = new JProgressBar();
 			progressBar.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1, false));
 			progressBar.setBackground(Color.WHITE);
 			progressBar.setForeground(new Color(0x000054));
-			window = new JWindow();
-			window.toFront();
-			window.setFocusable(false);
-			window.setBackground(new Color(0, 0, 0, 0));
-			JPanel panel = new JPanel();
-			panel.setOpaque(false);
-			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-			panel.add(imagePanel);
-			panel.add(new Box.Filler(new Dimension(0, 3), new Dimension(0, 3), new Dimension(0, 3)));
-			panel.add(label);
-			panel.add(new Box.Filler(new Dimension(0, 3), new Dimension(0, 3), new Dimension(0, 3)));
 			panel.add(progressBar);
+
 			window.setContentPane(panel);
 			window.pack();
 			Dimension size = window.getSize();
@@ -106,6 +109,7 @@ public class SplashStartupProgressListener implements StartupProgressListener
 			progressBar.setValue((int) (progress * 100));
 	}
 
+	@Override
 	public void close()
 	{
 		if (window != null)

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2018 Quim Testar
+ * Copyright (c) 2018, 2019 Quim Testar
  * 
  * This file is part of the Aletheia Proof Assistant.
  * 
@@ -20,16 +20,31 @@
 package aletheia.gui.app;
 
 import java.awt.Toolkit;
+import java.util.Collections;
+import java.util.Map;
 
+import aletheia.utilities.CommandLineArguments.Switch;
 import aletheia.version.VersionManager;
 
 public abstract class AletheiaGUI
 {
+	private final Map<String, Switch> globalSwitches;
 	private final AletheiaEventQueue aletheiaEventQueue;
+
+	public AletheiaGUI(Map<String, Switch> globalSwitches)
+	{
+		this.globalSwitches = globalSwitches;
+		this.aletheiaEventQueue = new AletheiaEventQueue();
+	}
 
 	public AletheiaGUI()
 	{
-		this.aletheiaEventQueue = new AletheiaEventQueue();
+		this(Collections.emptyMap());
+	}
+
+	public Map<String, Switch> getGlobalSwitches()
+	{
+		return globalSwitches;
 	}
 
 	public AletheiaEventQueue getAletheiaEventQueue()

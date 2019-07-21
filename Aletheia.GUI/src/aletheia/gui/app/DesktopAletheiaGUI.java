@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014, 2019 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -33,6 +33,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import org.apache.logging.log4j.Logger;
 
+import aletheia.gui.app.splash.SplashStartupProgressListener;
 import aletheia.gui.icons.IconManager;
 import aletheia.gui.lookandfeel.MyLookAndFeel;
 import aletheia.gui.preferences.GUIAletheiaPreferences;
@@ -49,6 +50,16 @@ import aletheia.utilities.CommandLineArguments.Switch;
 public class DesktopAletheiaGUI extends AletheiaGUI
 {
 	private final static Logger logger = LoggerManager.instance.logger();
+
+	public DesktopAletheiaGUI(Map<String, Switch> globalSwitches)
+	{
+		super(globalSwitches);
+	}
+
+	public DesktopAletheiaGUI()
+	{
+		super();
+	}
 
 	@Override
 	protected void run()
@@ -124,16 +135,10 @@ public class DesktopAletheiaGUI extends AletheiaGUI
 
 	}
 
-	private static void console() throws CreatePersistenceManagerException, ArgumentsException
-	{
-		console(new HashMap<String, Switch>());
-	}
-
 	private static void console(Map<String, Switch> globalSwitches) throws CreatePersistenceManagerException, ArgumentsException
 	{
 		final PersistenceManager persistenceManager;
-		SplashStartupProgressListener startupProgressListener = new SplashStartupProgressListener();
-		try
+		try (SplashStartupProgressListener startupProgressListener = SplashStartupProgressListener.makeFromGlobalSwitches(globalSwitches))
 		{
 			Switch swDbFile = globalSwitches.remove("dbFile");
 			if (swDbFile != null)
@@ -168,10 +173,6 @@ public class DesktopAletheiaGUI extends AletheiaGUI
 					throw new ArgumentsException("Persistence manager not set in preferences.");
 			}
 		}
-		finally
-		{
-			startupProgressListener.close();
-		}
 		try
 		{
 			Runtime.getRuntime().addShutdownHook(new Thread()
@@ -193,14 +194,14 @@ public class DesktopAletheiaGUI extends AletheiaGUI
 		}
 	}
 
-	private static void gui() throws UnsupportedLookAndFeelException
+	private static void gui(Map<String, Switch> globalSwitches) throws UnsupportedLookAndFeelException
 	{
 		Properties props = System.getProperties();
 		props.setProperty("awt.useSystemAAFontSettings", "on");
 		LoggerManager.instance.setUncaughtExceptionHandler();
 		LookAndFeel laf = new MyLookAndFeel();
 		UIManager.setLookAndFeel(laf);
-		DesktopAletheiaGUI aletheiaGUI = new DesktopAletheiaGUI();
+		DesktopAletheiaGUI aletheiaGUI = new DesktopAletheiaGUI(globalSwitches);
 		aletheiaGUI.run();
 	}
 
@@ -217,10 +218,10 @@ public class DesktopAletheiaGUI extends AletheiaGUI
 			else if (GraphicsEnvironment.isHeadless())
 			{
 				logger.warn("Headless graphics environment detected. Switching to console mode.");
-				console();
+				console(globalSwitches);
 			}
 			else
-				gui();
+				gui(globalSwitches);
 			System.exit(0);
 		}
 		catch (Exception e)
