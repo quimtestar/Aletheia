@@ -65,12 +65,12 @@ public class SplashStartupProgressListener implements StartupProgressListener
 			imagePanel.setOpaque(false);
 			imagePanel.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
 			JLabel label = new JLabel("Version " + VersionManager.getVersion());
-			label.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(new Color(0x8080a8), 1, false),
-					BorderFactory.createEmptyBorder(2, 5, 2, 5)));
+			label.setBorder(
+					BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1, false), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 			label.setOpaque(true);
 			label.setBackground(Color.WHITE);
 			progressBar = new JProgressBar();
-			progressBar.setBorder(BorderFactory.createLineBorder(new Color(0x8080a8), 1, false));
+			progressBar.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1, false));
 			progressBar.setBackground(Color.WHITE);
 			progressBar.setForeground(new Color(0x000054));
 			window = new JWindow();
