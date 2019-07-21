@@ -37,12 +37,12 @@ import javax.swing.JWindow;
 
 import aletheia.version.VersionManager;
 
-class SimpleSplashStartupProgressListener extends SplashStartupProgressListener
+public class SimpleSplashStartupProgressListener extends SplashStartupProgressListener
 {
 	private final JWindow window;
 	private final JProgressBar progressBar;
 
-	SimpleSplashStartupProgressListener()
+	public SimpleSplashStartupProgressListener()
 	{
 		JWindow window = null;
 		JProgressBar progressBar = null;
