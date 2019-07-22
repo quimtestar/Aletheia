@@ -22,7 +22,10 @@ package aletheia.gui.app.splash;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Toolkit;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
 
@@ -35,6 +38,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JWindow;
 
+import aletheia.gui.preferences.GUIAletheiaPreferences;
 import aletheia.version.VersionManager;
 
 public class SimpleSplashStartupProgressListener extends SplashStartupProgressListener
@@ -91,8 +95,21 @@ public class SimpleSplashStartupProgressListener extends SplashStartupProgressLi
 			window.setContentPane(panel);
 			window.pack();
 			Dimension size = window.getSize();
-			Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-			window.setLocation((screenSize.width - size.width) / 2, (screenSize.height - size.height) / 2);
+
+			Rectangle appBounds = GUIAletheiaPreferences.instance.appearance().aletheiaJFrameBounds().getBounds();
+			GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			Rectangle screenBounds = null;
+			for (GraphicsDevice graphicsDevice : graphicsEnvironment.getScreenDevices())
+			{
+				GraphicsConfiguration graphicsConfiguration = graphicsDevice.getDefaultConfiguration();
+				screenBounds = graphicsConfiguration.getBounds();
+				if (screenBounds.contains(appBounds.getCenterX(), appBounds.getCenterY()))
+					break;
+			}
+			if (screenBounds == null)
+				screenBounds = graphicsEnvironment.getDefaultScreenDevice().getDefaultConfiguration().getBounds();
+
+			window.setLocation((int) (screenBounds.getCenterX() - size.width / 2d), (int) (screenBounds.getCenterY() - size.height / 2d));
 			window.setVisible(true);
 		}
 		catch (Exception e)

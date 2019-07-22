@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2019 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -21,6 +21,7 @@ package aletheia.gui.preferences;
 
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Rectangle;
 
 import aletheia.preferences.NodeAletheiaPreferences;
 
@@ -109,6 +110,17 @@ public class AletheiaJFrameBoundsPreferences extends NodeAletheiaPreferences
 	{
 		setLocationX(location.x);
 		setLocationY(location.y);
+	}
+
+	public Rectangle getBounds()
+	{
+		return new Rectangle(getLocation(), getPreferredSize());
+	}
+
+	public void setBounds(Rectangle rectangle)
+	{
+		setLocation(rectangle.getLocation());
+		setPreferredSize(rectangle.getSize());
 	}
 
 }
