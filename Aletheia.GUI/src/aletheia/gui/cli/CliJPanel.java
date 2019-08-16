@@ -938,17 +938,24 @@ public class CliJPanel extends JPanel implements CommandSource
 							@Override
 							protected SizeRequirements calculateMinorAxisRequirements(int axis, SizeRequirements r)
 							{
-								if (r == null)
+								try
 								{
-									r = new SizeRequirements();
+									if (r == null)
+									{
+										r = new SizeRequirements();
+									}
+									float pref = layoutPool.getPreferredSpan(axis);
+									float min = layoutPool.getMinimumSpan(axis);
+									// Don't include insets, Box.getXXXSpan will include them.
+									r.minimum = (int) min;
+									r.preferred = Math.max(r.minimum, (int) pref);
+									r.maximum = Integer.MAX_VALUE;
+									r.alignment = 0.5f;
 								}
-								float pref = layoutPool.getPreferredSpan(axis);
-								float min = layoutPool.getMinimumSpan(axis);
-								// Don't include insets, Box.getXXXSpan will include them.
-								r.minimum = (int) min;
-								r.preferred = Math.max(r.minimum, (int) pref);
-								r.maximum = Integer.MAX_VALUE;
-								r.alignment = 0.5f;
+								catch (Error e)
+								{
+									logger.error(e, e);
+								}
 								return r;
 							}
 
