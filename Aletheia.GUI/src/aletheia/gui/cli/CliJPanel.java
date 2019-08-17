@@ -2188,56 +2188,68 @@ public class CliJPanel extends JPanel implements CommandSource
 				ArrayList<Token> stars = new ArrayList<>();
 				for (Token tstar = cursor.forward(false); tstar.type.equals(BHLMTokenType.Star); tstar = cursor.forward(false))
 					stars.add(tstar);
-				cursor = new Cursor();
-				Token tokenRight = token;
-				p = 0;
-				f = 1;
-				a = 0;
-				loop: while (true)
+				if (!ok)
 				{
-					token = cursor.backward();
-					switch (token.type)
-					{
-					case ClosePar:
-						p++;
-						break;
-					case OpenPar:
-						p--;
-						break;
-					case CloseFun:
-						f++;
-						a++;
-						break;
-					case OpenFun:
-						f--;
-						break;
-					case Arrow:
-						a--;
-						break;
-					case Comma:
-						if (f == 1)
-							commas.add(token);
-						break;
-					case Star:
-						break;
-					default:
-						break loop;
-					}
-					if ((f <= 0) || (p < 0) || (a < 0))
-						break;
+					AttributeSet as = errorAS;
+					createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
+					if (token.type != BHLMTokenType.Out)
+						createHighLight(as, token.absBegin(), token.absEnd());
+					for (Token star : stars)
+						createHighLight(as, star.absBegin(), star.absEnd());
 				}
-				warning = (p == 0) && (f == 0) && (a >= 0);
-				ok = warning && (a == 0);
-				AttributeSet as = ok ? okAS : warning ? warningAS : errorAS;
-				createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
-				if (token.type != BHLMTokenType.Out)
-					createHighLight(as, token.absBegin(), token.absEnd());
-				if (tokenRight.type != BHLMTokenType.Out)
-					createHighLight(as, tokenRight.absBegin(), tokenRight.absEnd());
-				for (Token comma : commas)
-					createHighLight(as, comma.absBegin(), comma.absEnd());
-				for (Token star : stars)
-					createHighLight(as, star.absBegin(), star.absEnd());
+				else
+				{
+					cursor = new Cursor();
+					Token tokenRight = token;
+					p = 0;
+					f = 1;
+					a = 0;
+					loop: while (true)
+					{
+						token = cursor.backward();
+						switch (token.type)
+						{
+						case ClosePar:
+							p++;
+							break;
+						case OpenPar:
+							p--;
+							break;
+						case CloseFun:
+							f++;
+							a++;
+							break;
+						case OpenFun:
+							f--;
+							break;
+						case Arrow:
+							a--;
+							break;
+						case Comma:
+							if (f == 1)
+								commas.add(token);
+							break;
+						case Star:
+							break;
+						default:
+							break loop;
+						}
+						if ((f <= 0) || (p < 0) || (a < 0))
+							break;
+					}
+					warning = (p == 0) && (f == 0) && (a >= 0);
+					ok = warning && (a == 0);
+					AttributeSet as = ok ? okAS : warning ? warningAS : errorAS;
+					createHighLight(as, firstToken.absBegin(), firstToken.absEnd());
+					if (token.type != BHLMTokenType.Out)
+						createHighLight(as, token.absBegin(), token.absEnd());
+					if (tokenRight.type != BHLMTokenType.Out)
+						createHighLight(as, tokenRight.absBegin(), tokenRight.absEnd());
+					for (Token comma : commas)
+						createHighLight(as, comma.absBegin(), comma.absEnd());
+					for (Token star : stars)
+						createHighLight(as, star.absBegin(), star.absEnd());
+				}
 				break;
 			}
 			case Comma:
