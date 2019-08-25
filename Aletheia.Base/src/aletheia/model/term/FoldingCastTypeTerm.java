@@ -227,4 +227,45 @@ public class FoldingCastTypeTerm extends CastTypeTerm
 		return new DiffInfoFoldingCastType(cast, diffTerm, diffType, diffVariable, diffValue);
 	}
 
+	public class SearchInfoFoldingCastType extends SearchInfoCastType
+	{
+		public final SearchInfo searchType;
+		public final SearchInfo searchVariable;
+		public final SearchInfo searchValue;
+
+		protected SearchInfoFoldingCastType(SearchInfo searchTerm, SearchInfo searchType, SearchInfo searchVariable, SearchInfo searchValue)
+		{
+			super(searchTerm);
+			this.searchType = searchType;
+			this.searchVariable = searchVariable;
+			this.searchValue = searchValue;
+		}
+
+		@Override
+		public String toString(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+		{
+			return "(" + searchTerm.toString(variableToIdentifier, parameterNumerator) + ":" + searchType.toString(variableToIdentifier, parameterNumerator)
+					+ " | " + searchVariable.toString(variableToIdentifier, parameterNumerator) + " <- "
+					+ searchValue.toString(variableToIdentifier, parameterNumerator) + ")";
+		}
+	}
+
+	@Override
+	public SearchInfo search(Term sub)
+	{
+		SearchInfo si = super.search(sub);
+		if (si instanceof SearchInfoFound)
+			return si;
+
+		SearchInfo siTerm = getTerm().search(sub);
+		SearchInfo siType = getType().search(sub);
+		SearchInfo siVariable = getVariable().search(sub);
+		SearchInfo siValue = getValue().search(sub);
+		if ((siTerm instanceof SearchInfoNotFound) && (siType instanceof SearchInfoNotFound) && (siVariable instanceof SearchInfoNotFound)
+				&& (siValue instanceof SearchInfoNotFound))
+			return new SearchInfoNotFound();
+
+		return new SearchInfoFoldingCastType(siTerm, siType, siVariable, siValue);
+	}
+
 }

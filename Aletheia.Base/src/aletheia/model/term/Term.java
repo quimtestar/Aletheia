@@ -1358,4 +1358,59 @@ public abstract class Term implements Serializable, Exportable
 
 	public abstract Term unfunctionalize();
 
+	public abstract class SearchInfo
+	{
+		public static final String beginMark = "\u00bb";
+
+		public static final String endMark = "\u00ab";
+
+		protected SearchInfo()
+		{
+			super();
+		}
+
+		@Override
+		public String toString()
+		{
+			return toString(Collections.<IdentifiableVariableTerm, Identifier> emptyMap());
+		}
+
+		public String toString(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier)
+		{
+			return toString(variableToIdentifier, parameterNumerator());
+		}
+
+		public abstract String toString(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator);
+	}
+
+	public class SearchInfoFound extends SearchInfo
+	{
+
+		@Override
+		public String toString(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+		{
+			return beginMark + Term.this.toString(variableToIdentifier, parameterNumerator) + endMark;
+		}
+
+	}
+
+	public class SearchInfoNotFound extends SearchInfo
+	{
+
+		@Override
+		public String toString(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+		{
+			return Term.this.toString(variableToIdentifier, parameterNumerator);
+		}
+
+	}
+
+	public SearchInfo search(Term sub)
+	{
+		if (equals(sub))
+			return new SearchInfoFound();
+		else
+			return new SearchInfoNotFound();
+	}
+
 }

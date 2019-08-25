@@ -376,4 +376,42 @@ public class CompositionTerm extends SimpleTerm
 		}
 	}
 
+	public class SearchInfoComposition extends SearchInfo
+	{
+		public final SearchInfo searchHead;
+		public final SearchInfo searchTail;
+
+		protected SearchInfoComposition(SearchInfo searchHead, SearchInfo searchTail)
+		{
+			this.searchHead = searchHead;
+			this.searchTail = searchTail;
+		}
+
+		@Override
+		public String toString(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+		{
+			if (tail instanceof CompositionTerm)
+				return searchHead.toString(variableToIdentifier, parameterNumerator) + " (" + searchTail.toString(variableToIdentifier, parameterNumerator)
+						+ ")";
+			else
+				return searchHead.toString(variableToIdentifier, parameterNumerator) + " " + searchTail.toString(variableToIdentifier, parameterNumerator);
+		}
+
+	}
+
+	@Override
+	public SearchInfo search(Term sub)
+	{
+		SearchInfo si = super.search(sub);
+		if (si instanceof SearchInfoFound)
+			return si;
+
+		SearchInfo siHead = getHead().search(sub);
+		SearchInfo siTail = getTail().search(sub);
+		if ((siHead instanceof SearchInfoNotFound) && (siTail instanceof SearchInfoNotFound))
+			return new SearchInfoNotFound();
+
+		return new SearchInfoComposition(siHead, siTail);
+	}
+
 }

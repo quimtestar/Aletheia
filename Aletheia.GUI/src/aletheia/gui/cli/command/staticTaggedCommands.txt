@@ -121,6 +121,7 @@ aletheia.gui.cli.command.term.TermCb
 aletheia.gui.cli.command.term.TermType
 aletheia.gui.cli.command.term.TermTree
 aletheia.gui.cli.command.term.TermSize
+aletheia.gui.cli.command.term.TermSearch
 
 aletheia.gui.cli.command.security.Passphrase
 aletheia.gui.cli.command.security.ClearPassphrase

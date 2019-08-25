@@ -28,6 +28,7 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.parameteridentification.FunctionParameterIdentification;
 import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.FunctionTerm.DiffInfoFunction;
+import aletheia.model.term.FunctionTerm.SearchInfoFunction;
 
 /**
  * A projection of a function is a term which is roughly equivalent to the
@@ -370,6 +371,72 @@ public class ProjectionTerm extends AtomicTerm
 			Map<ParameterVariableTerm, DomainParameterIdentification> domainParameterIdentificationMap)
 	{
 		getFunction().populateDomainParameterIdentificationMap(parameterIdentification, domainParameterIdentificationMap);
+	}
+
+	public class SearchInfoProjection extends SearchInfo
+	{
+		public final SearchInfo searchFunction;
+
+		protected SearchInfoProjection(SearchInfo searchFunction)
+		{
+			this.searchFunction = searchFunction;
+		}
+
+		protected FunctionTerm getFunction()
+		{
+			return ProjectionTerm.this.getFunction();
+		}
+
+		@Override
+		public String toString(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+		{
+			SearchInfo si = this;
+			class StackEntry
+			{
+				final FunctionTerm functionTerm;
+				final SearchInfo searchDomain;
+
+				StackEntry(FunctionTerm functionTerm, SearchInfo searchDomain)
+				{
+					super();
+					this.functionTerm = functionTerm;
+					this.searchDomain = searchDomain;
+				}
+
+			}
+			;
+			Stack<StackEntry> stack = new Stack<>();
+			while (si instanceof SearchInfoProjection)
+			{
+				SearchInfoFunction searchFunction = (SearchInfoFunction) (((SearchInfoProjection) si).searchFunction);
+				stack.push(new StackEntry(searchFunction.getFunctionTerm(), searchFunction.searchDomain));
+				si = searchFunction.searchBody;
+			}
+			int nProjections = stack.size();
+			while (!stack.isEmpty())
+			{
+				StackEntry se = stack.pop();
+				si = se.functionTerm.new SearchInfoFunction(se.searchDomain, si);
+			}
+			StringBuilder stringBuilder = new StringBuilder(si.toString(variableToIdentifier, parameterNumerator));
+			for (int i = 0; i < nProjections; i++)
+				stringBuilder.append("*");
+			return stringBuilder.toString();
+		}
+	}
+
+	@Override
+	public SearchInfo search(Term sub)
+	{
+		SearchInfo si = super.search(sub);
+		if (si instanceof SearchInfoFound)
+			return si;
+
+		SearchInfo siFunction = getFunction().search(sub);
+		if (siFunction instanceof SearchInfoNotFound)
+			return new SearchInfoNotFound();
+
+		return new SearchInfoProjection(siFunction);
 	}
 
 }

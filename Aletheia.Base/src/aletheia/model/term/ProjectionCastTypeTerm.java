@@ -188,4 +188,33 @@ public abstract class ProjectionCastTypeTerm extends CastTypeTerm
 		return new DiffInfoProjectionCastType(cast, diffTerm);
 	}
 
+	public class SearchInfoProjectionCastType extends SearchInfoCastType
+	{
+
+		protected SearchInfoProjectionCastType(SearchInfo searchTerm)
+		{
+			super(searchTerm);
+		}
+
+		@Override
+		public String toString(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+		{
+			return symbolOpen() + searchTerm.toString(variableToIdentifier, parameterNumerator) + symbolClose();
+		}
+	}
+
+	@Override
+	public SearchInfo search(Term sub)
+	{
+		SearchInfo si = super.search(sub);
+		if (si instanceof SearchInfoFound)
+			return si;
+
+		SearchInfo siTerm = getTerm().search(sub);
+		if (siTerm instanceof SearchInfoNotFound)
+			return new SearchInfoNotFound();
+
+		return new SearchInfoProjectionCastType(siTerm);
+	}
+
 }

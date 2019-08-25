@@ -148,4 +148,15 @@ public abstract class CastTypeTerm extends AtomicTerm
 
 	}
 
+	public abstract class SearchInfoCastType extends SearchInfo
+	{
+		public final SearchInfo searchTerm;
+
+		protected SearchInfoCastType(SearchInfo searchTerm)
+		{
+			this.searchTerm = searchTerm;
+		}
+
+	}
+
 }

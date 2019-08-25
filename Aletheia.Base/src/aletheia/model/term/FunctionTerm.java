@@ -604,4 +604,80 @@ public class FunctionTerm extends Term
 		return new FunctionTerm(parameter, body_);
 	}
 
+	public class SearchInfoFunction extends SearchInfo
+	{
+		public final SearchInfo searchDomain;
+		public final SearchInfo searchBody;
+
+		protected SearchInfoFunction(SearchInfo searchDomain, SearchInfo searchBody)
+		{
+			this.searchDomain = searchDomain;
+			this.searchBody = searchBody;
+		}
+
+		protected FunctionTerm getFunctionTerm()
+		{
+			return FunctionTerm.this;
+		}
+
+		protected ParameterVariableTerm getParameter()
+		{
+			return getFunctionTerm().getParameter();
+		}
+
+		protected Term getBody()
+		{
+			return getFunctionTerm().getBody();
+		}
+
+		@Override
+		public String toString(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+		{
+			SearchInfo si = this;
+			StringBuilder parameterListStringBuilder = new StringBuilder();
+			boolean first = true;
+			int numberedParameters = 0;
+			while (si instanceof SearchInfoFunction)
+			{
+				SearchInfo siDomain = ((SearchInfoFunction) si).searchDomain;
+				SearchInfo siBody = ((SearchInfoFunction) si).searchBody;
+				ParameterVariableTerm parameter = ((SearchInfoFunction) si).getParameter();
+				Term body = ((SearchInfoFunction) si).getBody();
+				String sDomain = siDomain.toString(variableToIdentifier, parameterNumerator);
+				String sParameter = null;
+				if (body.isFreeVariable(parameter))
+				{
+					parameterNumerator.numberParameter(parameter);
+					numberedParameters++;
+					sParameter = parameter.toString(variableToIdentifier, parameterNumerator);
+				}
+				if (!first)
+					parameterListStringBuilder.append(", ");
+				parameterListStringBuilder.append((sParameter != null ? (sParameter + ":") : "") + sDomain);
+				first = false;
+				si = siBody;
+			}
+			String sBody = null;
+			if (si != null)
+				sBody = si.toString(variableToIdentifier, parameterNumerator);
+			parameterNumerator.unNumberParameters(numberedParameters);
+			return "<" + parameterListStringBuilder + " " + (sBody != null ? ("-> " + sBody) : "...") + ">";
+		}
+	}
+
+	@Override
+	public SearchInfo search(Term sub)
+	{
+		SearchInfo si = super.search(sub);
+		if (si instanceof SearchInfoFound)
+			return si;
+
+		SearchInfo siDomain = domain().search(sub);
+		SearchInfo siBody = getBody().search(sub);
+		if ((siDomain instanceof SearchInfoNotFound) && (siBody instanceof SearchInfoNotFound))
+			return new SearchInfoNotFound();
+
+		return new SearchInfoFunction(siDomain, siBody);
+	}
+
 }
