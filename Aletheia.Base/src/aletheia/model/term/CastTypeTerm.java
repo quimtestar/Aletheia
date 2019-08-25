@@ -136,4 +136,16 @@ public abstract class CastTypeTerm extends AtomicTerm
 		getTerm().populateDomainParameterIdentificationMap(parameterIdentification, domainParameterIdentificationMap);
 	}
 
+	public abstract class DiffInfoCastType extends DiffInfoNotEqual
+	{
+		public final DiffInfo diffTerm;
+
+		protected DiffInfoCastType(CastTypeTerm other, DiffInfo diffTerm)
+		{
+			super(other);
+			this.diffTerm = diffTerm;
+		}
+
+	}
+
 }

@@ -153,4 +153,39 @@ public abstract class ProjectionCastTypeTerm extends CastTypeTerm
 		return false;
 	}
 
+	public class DiffInfoProjectionCastType extends DiffInfoCastType
+	{
+		protected DiffInfoProjectionCastType(ProjectionCastTypeTerm other, DiffInfo diffTerm)
+		{
+			super(other, diffTerm);
+		}
+
+		@Override
+		public String toStringLeft(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+		{
+			return symbolOpen() + diffTerm.toStringLeft(variableToIdentifier, parameterNumerator) + symbolClose();
+		}
+
+		@Override
+		public String toStringRight(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+		{
+			return symbolOpen() + diffTerm.toStringRight(variableToIdentifier, parameterNumerator) + symbolClose();
+		}
+	}
+
+	@Override
+	public DiffInfo diff(Term term)
+	{
+		DiffInfo di = super.diff(term);
+		if (di != null)
+			return di;
+		if (!(term instanceof ProjectionCastTypeTerm))
+			return new DiffInfoNotEqual(term);
+		ProjectionCastTypeTerm cast = (ProjectionCastTypeTerm) term;
+		DiffInfo diffTerm = getTerm().diff(cast.getTerm());
+		if (diffTerm instanceof DiffInfoEqual)
+			return new DiffInfoEqual(cast);
+		return new DiffInfoProjectionCastType(cast, diffTerm);
+	}
+
 }

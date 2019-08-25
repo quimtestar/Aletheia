@@ -67,7 +67,7 @@ public class FoldingCastTypeTerm extends CastTypeTerm
 		try
 		{
 			if (!type.replace(variable, value).equals(term.getType()))
-				throw new FoldingCastTypeException();
+				throw new FoldingCastTypeException("Folding type does not match");
 		}
 		catch (ReplaceTypeException e)
 		{
@@ -174,6 +174,57 @@ public class FoldingCastTypeTerm extends CastTypeTerm
 	public boolean isFreeVariable(VariableTerm variable)
 	{
 		return super.isFreeVariable(variable) || this.variable.equals(variable);
+	}
+
+	public class DiffInfoFoldingCastType extends DiffInfoCastType
+	{
+		public final DiffInfo diffType;
+		public final DiffInfo diffVariable;
+		public final DiffInfo diffValue;
+
+		protected DiffInfoFoldingCastType(FoldingCastTypeTerm other, DiffInfo diffTerm, DiffInfo diffType, DiffInfo diffVariable, DiffInfo diffValue)
+		{
+			super(other, diffTerm);
+			this.diffType = diffType;
+			this.diffVariable = diffVariable;
+			this.diffValue = diffValue;
+		}
+
+		@Override
+		public String toStringLeft(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+		{
+			return "(" + diffTerm.toStringLeft(variableToIdentifier, parameterNumerator) + ":" + diffType.toStringLeft(variableToIdentifier, parameterNumerator)
+					+ " | " + diffVariable.toStringLeft(variableToIdentifier, parameterNumerator) + " <- "
+					+ diffValue.toStringLeft(variableToIdentifier, parameterNumerator) + ")";
+		}
+
+		@Override
+		public String toStringRight(Map<IdentifiableVariableTerm, Identifier> variableToIdentifier, ParameterNumerator parameterNumerator)
+		{
+			return "(" + diffTerm.toStringRight(variableToIdentifier, parameterNumerator) + ":"
+					+ diffType.toStringRight(variableToIdentifier, parameterNumerator) + " | "
+					+ diffVariable.toStringRight(variableToIdentifier, parameterNumerator) + " <- "
+					+ diffValue.toStringRight(variableToIdentifier, parameterNumerator) + ")";
+		}
+	}
+
+	@Override
+	public DiffInfo diff(Term term)
+	{
+		DiffInfo di = super.diff(term);
+		if (di != null)
+			return di;
+		if (!(term instanceof FoldingCastTypeTerm))
+			return new DiffInfoNotEqual(term);
+		FoldingCastTypeTerm cast = (FoldingCastTypeTerm) term;
+		DiffInfo diffTerm = getTerm().diff(cast.getTerm());
+		DiffInfo diffType = getType().diff(cast.getType());
+		DiffInfo diffVariable = getVariable().diff(cast.getVariable());
+		DiffInfo diffValue = getValue().diff(cast.getValue());
+		if ((diffTerm instanceof DiffInfoEqual) && (diffType instanceof DiffInfoEqual) && (diffVariable instanceof DiffInfoEqual)
+				&& (diffValue instanceof DiffInfoEqual))
+			return new DiffInfoEqual(cast);
+		return new DiffInfoFoldingCastType(cast, diffTerm, diffType, diffVariable, diffValue);
 	}
 
 }
