@@ -1760,9 +1760,12 @@ public class CliJPanel extends JPanel implements CommandSource
 					case ')':
 						return new Token(BHLMTokenType.ClosePar, offset, pos, position);
 					case '<':
-						return new Token(BHLMTokenType.OpenFun, offset, pos, position);
+						if ((pos + 1 < command.length()) && (command.charAt(pos + 1) == '-'))
+							return new Token(BHLMTokenType.Default, offset, pos, position);
+						else
+							return new Token(BHLMTokenType.OpenFun, offset, pos, position);
 					case '>':
-						if ((pos > 0) && (command.charAt(pos - 1) == '-'))
+						if ((pos - 1 >= 0) && (command.charAt(pos - 1) == '-'))
 							return new Token(BHLMTokenType.Arrow, offset, pos - 1, position);
 						else
 							return new Token(BHLMTokenType.CloseFun, offset, pos, position);
