@@ -115,7 +115,7 @@ public class TermSearch extends TransactionalCommand
 		@Override
 		protected String paramSpec()
 		{
-			return "[<term] <sub>";
+			return "[<term>] <sub>";
 		}
 
 		@Override
