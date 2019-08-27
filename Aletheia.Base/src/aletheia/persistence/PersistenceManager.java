@@ -176,8 +176,13 @@ public abstract class PersistenceManager implements AutoCloseable
 
 	public interface StartupProgressListener
 	{
+		public default void updateProgress(float progress, String text)
+		{
+		}
+
 		public default void updateProgress(float progress)
 		{
+			updateProgress(progress, null);
 		}
 
 		public static StartupProgressListener silent = new StartupProgressListener()

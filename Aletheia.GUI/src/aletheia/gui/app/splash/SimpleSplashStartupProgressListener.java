@@ -38,6 +38,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JWindow;
 
+import aletheia.gui.app.FontManager;
 import aletheia.gui.preferences.GUIAletheiaPreferences;
 import aletheia.version.VersionManager;
 
@@ -87,9 +88,12 @@ public class SimpleSplashStartupProgressListener extends SplashStartupProgressLi
 			panel.add(new Box.Filler(new Dimension(0, 3), new Dimension(0, 3), new Dimension(0, 3)));
 
 			progressBar = new JProgressBar();
-			progressBar.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1, false));
+			progressBar.setBorder(BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.WHITE, 1, false),
+					BorderFactory.createLineBorder(new Color(0x000054), 1, false)));
 			progressBar.setBackground(Color.WHITE);
 			progressBar.setForeground(new Color(0x000054));
+			progressBar.setFont(new FontManager(8).defaultFont());
+			progressBar.setStringPainted(true);
 			panel.add(progressBar);
 
 			window.setContentPane(panel);
@@ -120,10 +124,13 @@ public class SimpleSplashStartupProgressListener extends SplashStartupProgressLi
 	}
 
 	@Override
-	public void updateProgress(float progress)
+	public void updateProgress(float progress, String text)
 	{
 		if (progressBar != null)
+		{
 			progressBar.setValue((int) (progress * 100));
+			progressBar.setString(text);
+		}
 	}
 
 	@Override

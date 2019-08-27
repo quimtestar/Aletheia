@@ -35,8 +35,8 @@ public class Test0031 extends Test
 		{
 			for (int progress = 0; progress <= 10; progress++)
 			{
-				simpleSplashStartupProgressListener.updateProgress(progress / 10f);
-				Thread.sleep(250);
+				simpleSplashStartupProgressListener.updateProgress(progress / 10f, String.format("progress: %d", progress));
+				Thread.sleep(1000);
 			}
 		}
 	}
