@@ -99,7 +99,7 @@ public class TermSearch extends TransactionalCommand
 			checkMinParameters(split);
 			Term term;
 			Term sub;
-			if (split.size() >= 1)
+			if (split.size() >= 2)
 			{
 				term = parseTerm(from.getActiveContext(), transaction, split.get(0));
 				sub = parseTerm(from.getActiveContext(), transaction, split.get(1));
