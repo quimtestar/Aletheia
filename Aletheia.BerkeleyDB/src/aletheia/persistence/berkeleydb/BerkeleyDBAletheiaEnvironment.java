@@ -92,7 +92,7 @@ public class BerkeleyDBAletheiaEnvironment extends Environment
 					float progress = ((float) phase.ordinal()) / RecoveryProgress.values().length;
 					if (n >= 0)
 						progress += ((float) n) / total / RecoveryProgress.values().length;
-					configuration.getStartupProgressListener().updateProgress(progress, phase.toString());
+					configuration.getStartupProgressListener().updateProgress(progress, phase.name().replaceAll("_", " "));
 				}
 				return true;
 			}
