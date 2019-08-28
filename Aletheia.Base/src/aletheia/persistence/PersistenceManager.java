@@ -611,17 +611,23 @@ public abstract class PersistenceManager implements AutoCloseable
 	@Override
 	public void close()
 	{
-		open = false;
-		sync();
 		try
 		{
-			persistenceSchedulerThread.shutdown();
+			sync();
+			try
+			{
+				persistenceSchedulerThread.shutdown();
+			}
+			catch (InterruptedException e)
+			{
+				throw new PersistenceException(e);
+			}
+			persistenceSecretKeyManager.close();
 		}
-		catch (InterruptedException e)
+		finally
 		{
-			throw new PersistenceException(e);
+			open = false;
 		}
-		persistenceSecretKeyManager.close();
 	}
 
 	public boolean isOpen()
