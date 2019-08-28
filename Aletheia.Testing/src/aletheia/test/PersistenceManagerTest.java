@@ -53,7 +53,9 @@ public abstract class PersistenceManagerTest<P extends PersistenceManager> exten
 
 	protected abstract P createPersistenceManager();
 
-	protected abstract void run(P persistenceManager) throws Exception;
+	protected void run(P persistenceManager) throws Exception
+	{
+	}
 
 	protected void enterPassphrase(P persistenceManager) throws PersistenceSecretKeyException
 	{

@@ -38,7 +38,9 @@ public abstract class Test
 		MiscUtilities.dummy();
 	}
 
-	public abstract void run() throws Exception;
+	public void run() throws Exception
+	{
+	}
 
 	public static void main(String[] args)
 	{

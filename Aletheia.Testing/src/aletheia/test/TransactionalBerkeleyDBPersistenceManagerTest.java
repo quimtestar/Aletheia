@@ -40,6 +40,8 @@ public abstract class TransactionalBerkeleyDBPersistenceManagerTest extends Berk
 		}
 	}
 
-	protected abstract void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws Exception;
+	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws Exception
+	{
+	}
 
 }
