@@ -468,7 +468,7 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 		{
 			registry.register(configuration.getDbFile());
 			logger.info("Berkeley DB Persistence Manager starting (" + configuration + ")");
-			configuration.getStartupProgressListener().updateProgress(0);
+			configuration.getStartupProgressListener().updateProgress(0, "STARTING");
 			try
 			{
 				try
@@ -531,7 +531,7 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 		getPersistenceSchedulerThread().start();
 
 		logger.info("Berkeley DB Persistence Manager started (storeVersion: " + entityStore.storeVersion() + ")");
-		configuration.getStartupProgressListener().updateProgress(1);
+		configuration.getStartupProgressListener().updateProgress(1, "READY");
 	}
 
 	protected BerkeleyDBPersistenceManager(BerkeleyDBAletheiaEnvironment environment, BerkeleyDBAletheiaEntityStore entityStore,
