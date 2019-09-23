@@ -110,6 +110,7 @@ aletheia.gui.cli.command.statement.Unproved
 aletheia.gui.cli.command.statement.Unused
 aletheia.gui.cli.command.statement.ProofTerm
 aletheia.gui.cli.command.statement.ProofSize
+aletheia.gui.cli.command.statement.Renumber
 
 aletheia.gui.cli.command.parameteridentification.UpdateParameterIdentification
 aletheia.gui.cli.command.parameteridentification.GetParameterIdentification
