@@ -76,8 +76,16 @@ public abstract class Test
 					}
 					Constructor<? extends Test> constructor = testClass.getConstructor();
 					Test test = constructor.newInstance();
-					test.run();
-					System.exit(0);
+					try
+					{
+						test.run();
+						System.exit(0);
+					}
+					catch (Exception e)
+					{
+						System.err.format("Exception '%s' thrown when running test instance of '%s'\n", e.getClass().getName(), className);
+						e.printStackTrace();
+					}
 				}
 			}
 			catch (ClassNotFoundException e)
@@ -111,11 +119,6 @@ public abstract class Test
 			catch (InvocationTargetException e)
 			{
 				System.err.format("Exception '%s' thrown when instantiating class '%s'\n", e.getCause().getClass().getName(), className);
-				e.printStackTrace();
-			}
-			catch (Exception e)
-			{
-				System.err.format("Exception '%s' thrown when running test instance of '%s'\n", e.getClass().getName(), className);
 				e.printStackTrace();
 			}
 		}
