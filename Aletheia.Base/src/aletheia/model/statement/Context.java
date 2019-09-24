@@ -2662,4 +2662,15 @@ public class Context extends Statement
 		updateConsequentParameterIdentification(transaction, consequentParameterIdentification, false);
 	}
 
+	public void deepStructureChange(Transaction transaction)
+	{
+		Iterable<StateListener> listeners = stateListeners();
+		synchronized (listeners)
+		{
+			for (StateListener listener : listeners)
+				listener.deepStructureChange(transaction, this);
+		}
+
+	}
+
 }

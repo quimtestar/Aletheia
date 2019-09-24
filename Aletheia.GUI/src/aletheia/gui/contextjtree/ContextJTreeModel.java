@@ -505,6 +505,27 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 	}
 
+	private class DeepStructureChange extends StatementStateChange
+	{
+
+		public DeepStructureChange(Transaction transaction, Context context)
+		{
+			super(transaction, context);
+		}
+
+		@Override
+		public Context getStatement()
+		{
+			return (Context) super.getStatement();
+		}
+
+		public Context getContext()
+		{
+			return getStatement();
+		}
+
+	}
+
 	private class StatementListener implements Statement.StateListener, Nomenclator.Listener, RootContext.TopStateListener, ContextLocal.StateListener,
 			RootContextLocal.StateListener, StatementAuthority.StateListener
 	{
@@ -771,6 +792,19 @@ public class ContextJTreeModel extends PersistentTreeModel
 			}
 		}
 
+		@Override
+		public void deepStructureChange(Transaction transaction, Context context)
+		{
+			try
+			{
+				statementStateChangeQueue.put(new DeepStructureChange(transaction, context));
+			}
+			catch (InterruptedException e)
+			{
+				logger.error(e.getMessage(), e);
+			}
+		}
+
 	}
 
 	public void pushSelectStatement(Transaction transaction, Statement statement, ContextJTree contextJTree)
@@ -878,6 +912,8 @@ public class ContextJTreeModel extends PersistentTreeModel
 									setActiveContextStateChange((SetActiveContextStateChange) c, transaction);
 								else if (c instanceof ParameterIdentificationChange)
 									parameterIdentificationChange((ParameterIdentificationChange) c, transaction);
+								else if (c instanceof DeepStructureChange)
+									deepStructureChange((DeepStructureChange) c, transaction);
 								else
 									throw new Error();
 							}
@@ -1448,7 +1484,6 @@ public class ContextJTreeModel extends PersistentTreeModel
 				consequentParameterIdentificationChange(((ConsequentParameterIdentificationChange) c).getContext(), transaction);
 			else
 				parameterIdentificationChange(c.getStatement(), transaction);
-
 		}
 
 		private void parameterIdentificationChange(Statement statement, Transaction transaction)
@@ -1469,6 +1504,38 @@ public class ContextJTreeModel extends PersistentTreeModel
 				ContextSorterContextJTreeNode node = (ContextSorterContextJTreeNode) nodeMap.getByStatement(context);
 				nodeChangedNoDep(node.getConsequentNode());
 			}
+		}
+
+		private void deepStructureChange(DeepStructureChange c, Transaction transaction)
+		{
+			deepStructureChange(c.getContext(), transaction);
+		}
+
+		private void deepStructureChange(Context context, Transaction transaction)
+		{
+			context = context.refresh(transaction);
+			if (context != null)
+			{
+				ContextSorterContextJTreeNode node = (ContextSorterContextJTreeNode) nodeMap.removeByStatement(context);
+				if (node != null)
+				{
+					List<Sorter> sorterList = node.getSorterList();
+					if (sorterList != null)
+						for (Sorter sorter : sorterList)
+							nodeMapRemoveRecursive(sorter);
+				}
+				final TreeModelEvent eStructure = new TreeModelEvent(this, node.path());
+				SwingUtilities.invokeLater(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						for (TreeModelListener l : getListeners())
+							persistenceLockTimeoutSwingInvokeLaterTreeStructureChanged(l, eStructure);
+					}
+				});
+			}
+
 		}
 
 	}

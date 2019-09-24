@@ -103,6 +103,7 @@ public class Renumber extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws NumberOverflowException, InvalidNameException, NomenclatorException
 	{
+		context.deepStructureChange(null);
 		Pattern pattern = pattern();
 		int splits = expression.length() - expression.replace(".", "").length();
 		Stack<Context> stack = new Stack<>();
