@@ -20,8 +20,11 @@
 package aletheia.gui.contextjtree;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.concurrent.BlockingQueue;
@@ -33,7 +36,6 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreePath;
 
 import org.apache.logging.log4j.Logger;
-
 import aletheia.gui.common.PersistentTreeModel;
 import aletheia.gui.contextjtree.node.ConsequentContextJTreeNode;
 import aletheia.gui.contextjtree.node.ContextSorterContextJTreeNode;
@@ -64,6 +66,7 @@ import aletheia.persistence.Transaction;
 import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
 import aletheia.utilities.ListChanges;
 import aletheia.utilities.collections.CloseableIterator;
+import aletheia.utilities.collections.ReverseList;
 
 public class ContextJTreeModel extends PersistentTreeModel
 {
@@ -505,6 +508,41 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 	}
 
+	private class StructureChange extends StatementStateChange
+	{
+		public StructureChange(Transaction transaction, Statement statement)
+		{
+			super(transaction, statement);
+		}
+	}
+
+	private class ContextStructureChange extends StructureChange
+	{
+		public ContextStructureChange(Transaction transaction, Context context)
+		{
+			super(transaction, context);
+		}
+
+		@Override
+		public Context getStatement()
+		{
+			return (Context) super.getStatement();
+		}
+
+		public Context getContext()
+		{
+			return getStatement();
+		}
+	}
+
+	private class RootStructureChange extends StructureChange
+	{
+		public RootStructureChange(Transaction transaction)
+		{
+			super(transaction, null);
+		}
+	}
+
 	private class StatementListener implements Statement.StateListener, Nomenclator.Listener, RootContext.TopStateListener, ContextLocal.StateListener,
 			RootContextLocal.StateListener, StatementAuthority.StateListener
 	{
@@ -809,6 +847,30 @@ public class ContextJTreeModel extends PersistentTreeModel
 		}
 	}
 
+	private void pushRootStructureChange(Transaction transaction)
+	{
+		try
+		{
+			statementStateChangeQueue.put(new RootStructureChange(transaction));
+		}
+		catch (InterruptedException e)
+		{
+			logger.error(e.getMessage(), e);
+		}
+	}
+
+	private void pushContextStructureChange(Transaction transaction, Context context)
+	{
+		try
+		{
+			statementStateChangeQueue.put(new ContextStructureChange(transaction, context));
+		}
+		catch (InterruptedException e)
+		{
+			logger.error(e.getMessage(), e);
+		}
+	}
+
 	public void shutdown() throws InterruptedException
 	{
 		getPersistenceManager().getListenerManager().getRootContextTopStateListeners().remove(statementListener);
@@ -838,16 +900,124 @@ public class ContextJTreeModel extends PersistentTreeModel
 		@Override
 		public void run()
 		{
+			class MyTransactionHook implements Transaction.Hook
+			{
+				private final static int compactationThreshold = 10;
+
+				private final Transaction transaction;
+				private final Map<Transaction, MyTransactionHook> transactionHooks;
+				private final Set<StatementStateChange> changeSet;
+				private final Map<Context, Set<StatementStateChange>> compactablesByContext;
+				private final Set<StatementStateChange> rootCompactables;
+
+				public MyTransactionHook(Transaction transaction, Map<Transaction, MyTransactionHook> transactionHooks)
+				{
+					this.transaction = transaction;
+					this.transactionHooks = transactionHooks;
+					this.changeSet = new LinkedHashSet<>();
+					this.compactablesByContext = new HashMap<>();
+					this.rootCompactables = new HashSet<>();
+
+					transactionHooks.put(transaction, this);
+					transaction.runWhenCommit(this);
+				}
+
+				@Override
+				public void run(Transaction closedTransaction)
+				{
+					if (rootCompactables.size() >= compactationThreshold)
+					{
+						changeSet.removeAll(rootCompactables);
+						for (Set<StatementStateChange> compactables : compactablesByContext.values())
+							changeSet.removeAll(compactables);
+						pushRootStructureChange(transaction);
+					}
+					else
+					{
+						for (Map.Entry<Context, Set<StatementStateChange>> e : compactablesByContext.entrySet())
+						{
+							Context context = e.getKey();
+							Set<StatementStateChange> compactables = e.getValue();
+							boolean push = true;
+							try (Transaction transaction = getPersistenceManager().beginTransaction(1000))
+							{
+								context = context.refresh(transaction);
+								if (context != null)
+								{
+									for (Context context_ : new ReverseList<>(context.statementPath(transaction)))
+										if (context_ != context)
+										{
+											Set<StatementStateChange> compactables_ = compactablesByContext.get(context_);
+											if (compactables_ != null && compactables_.size() >= compactationThreshold)
+											{
+												push = false;
+												break;
+											}
+										}
+								}
+							}
+							catch (PersistenceLockTimeoutException exc)
+							{
+							}
+							if (compactables.size() >= compactationThreshold)
+							{
+								changeSet.removeAll(compactables);
+								if (push && context != null)
+									pushContextStructureChange(transaction, context);
+							}
+						}
+					}
+					statementStateChangeQueue.addAll(changeSet);
+					transactionHooks.remove(closedTransaction);
+				}
+
+				private void addCompactable(Context context, StatementStateChange c)
+				{
+					Set<StatementStateChange> compactable = compactablesByContext.get(context);
+					if (compactable == null)
+					{
+						compactable = new HashSet<>();
+						compactablesByContext.put(context, compactable);
+					}
+					compactable.add(c);
+				}
+
+				public void addChange(StatementStateChange c)
+				{
+					changeSet.add(c);
+					if (c instanceof IdentifierStateChange)
+						if (c.getStatement() instanceof RootContext)
+							rootCompactables.add(c);
+						else
+							addCompactable(c.getStatement().getContext(transaction), c);
+					else if (c instanceof ContextStateChange)
+						addCompactable(((ContextStateChange) c).getContext(), c);
+					else if (c instanceof RootContextStateChange)
+						rootCompactables.add(c);
+				}
+			}
+			Map<Transaction, MyTransactionHook> transactionHooks = Collections.synchronizedMap(new HashMap<>());
 			while (!shutdown)
 			{
 				try
 				{
 					StatementStateChange c = statementStateChangeQueue.take();
+					boolean hooked = false;
 					if (c.getTransaction() != null)
-						c.getTransaction().waitForClose();
-					synchronized (ContextJTreeModel.this)
+						synchronized (c.getTransaction())
+						{
+							if (c.getTransaction().isOpen())
+							{
+								MyTransactionHook hook = transactionHooks.get(c.getTransaction());
+								if (hook == null)
+									hook = new MyTransactionHook(c.getTransaction(), transactionHooks);
+								hook.addChange(c);
+								hooked = true;
+							}
+						}
+					if (c.getTransaction() == null || (!hooked && c.getTransaction().isCommited()))
 					{
-						if (c.getTransaction() == null || c.getTransaction().isCommited())
+						synchronized (ContextJTreeModel.this)
 						{
 							Transaction transaction = getPersistenceManager().beginTransaction(1000);
 							try
@@ -878,6 +1048,10 @@ public class ContextJTreeModel extends PersistentTreeModel
 									setActiveContextStateChange((SetActiveContextStateChange) c, transaction);
 								else if (c instanceof ParameterIdentificationChange)
 									parameterIdentificationChange((ParameterIdentificationChange) c, transaction);
+								else if (c instanceof ContextStructureChange)
+									contextStructureChange((ContextStructureChange) c, transaction);
+								else if (c instanceof RootStructureChange)
+									rootStructureChange((RootStructureChange) c, transaction);
 								else
 									throw new Error();
 							}
@@ -1448,7 +1622,6 @@ public class ContextJTreeModel extends PersistentTreeModel
 				consequentParameterIdentificationChange(((ConsequentParameterIdentificationChange) c).getContext(), transaction);
 			else
 				parameterIdentificationChange(c.getStatement(), transaction);
-
 		}
 
 		private void parameterIdentificationChange(Statement statement, Transaction transaction)
@@ -1471,6 +1644,56 @@ public class ContextJTreeModel extends PersistentTreeModel
 			}
 		}
 
+		private void contextStructureChange(ContextStructureChange c, Transaction transaction)
+		{
+			contextStructureChange(c.getContext(), transaction);
+		}
+
+		private void contextStructureChange(Context context, Transaction transaction)
+		{
+			context = context.refresh(transaction);
+			if (context != null)
+			{
+				ContextSorterContextJTreeNode node = (ContextSorterContextJTreeNode) nodeMap.removeByStatement(context);
+				if (node != null)
+				{
+					List<Sorter> sorterList = node.getSorterList();
+					if (sorterList != null)
+						for (Sorter sorter : sorterList)
+							nodeMapRemoveRecursive(sorter);
+				}
+				final TreeModelEvent eStructure = new TreeModelEvent(this, node.path());
+				SwingUtilities.invokeLater(new Runnable()
+				{
+					@Override
+					public void run()
+					{
+						for (TreeModelListener l : getListeners())
+							persistenceLockTimeoutSwingInvokeLaterTreeStructureChanged(l, eStructure);
+					}
+				});
+			}
+		}
+
+		private void rootStructureChange(RootStructureChange c, Transaction transaction)
+		{
+			rootStructureChange(transaction);
+		}
+
+		private void rootStructureChange(Transaction transaction)
+		{
+			nodeMap.clear();
+			final TreeModelEvent eStructure = new TreeModelEvent(this, getRootTreeNode().path());
+			SwingUtilities.invokeLater(new Runnable()
+			{
+				@Override
+				public void run()
+				{
+					for (TreeModelListener l : getListeners())
+						persistenceLockTimeoutSwingInvokeLaterTreeStructureChanged(l, eStructure);
+				}
+			});
+		}
 	}
 
 	@Override
