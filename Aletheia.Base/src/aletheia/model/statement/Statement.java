@@ -1193,10 +1193,6 @@ public abstract class Statement implements Exportable
 		{
 		}
 
-		public default void deepStructureChange(Transaction transaction, Context context)
-		{
-		}
-
 	}
 
 	/**

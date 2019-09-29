@@ -581,7 +581,6 @@ public class ContextJTree extends PersistentJTree
 		@Override
 		public void treeStructureChanged(TreeModelEvent e)
 		{
-			collapsePath(e.getTreePath());
 			TreePath selPath = getSelectionModel().getSelectionPath();
 			if (selPath != null && (e.getTreePath().isDescendant(selPath)))
 			{
