@@ -128,9 +128,12 @@ public class Renumber extends TransactionalCommand
 							localPrefixMap.put(from, to);
 						}
 						Identifier newId = to.concat(st.getIdentifier().makeSuffix(from)).asIdentifier();
-						renameMap.put(st, newId);
-						st.unidentify(getTransaction());
-						logger.trace("{}: {} -> {}", renameMap.size(), st.getIdentifier(), newId);
+						if (!newId.equals(st.getIdentifier()))
+						{
+							renameMap.put(st, newId);
+							st.unidentify(getTransaction());
+							logger.trace("{}: {} -> {}", renameMap.size(), st.getIdentifier(), newId);
+						}
 					}
 				}
 				if ((st instanceof Context) && !st.isProved())
