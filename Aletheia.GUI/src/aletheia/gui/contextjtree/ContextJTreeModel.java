@@ -998,6 +998,8 @@ public class ContextJTreeModel extends PersistentTreeModel
 						}
 					if (c.getTransaction() == null || (!hooked && c.getTransaction().isCommited()))
 					{
+						for (Transaction transaction : new BufferedList<>(transactionHooks.keySet()))
+							transaction.waitForClose();
 						synchronized (ContextJTreeModel.this)
 						{
 							Transaction transaction = getPersistenceManager().beginTransaction(1000);
