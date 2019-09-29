@@ -681,7 +681,10 @@ public class MiscUtilities
 	 */
 	public static <E> E[] iterableToArray(Iterable<?> iterable, E[] a)
 	{
-		return iteratorToArray(iterable.iterator(), a);
+		synchronized (iterable)
+		{
+			return iteratorToArray(iterable.iterator(), a);
+		}
 	}
 
 	/**
