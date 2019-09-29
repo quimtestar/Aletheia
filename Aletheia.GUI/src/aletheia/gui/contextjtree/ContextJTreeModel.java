@@ -19,6 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.contextjtree;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -64,6 +65,7 @@ import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
 import aletheia.utilities.ListChanges;
+import aletheia.utilities.collections.BufferedList;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.ReverseList;
 
@@ -846,30 +848,6 @@ public class ContextJTreeModel extends PersistentTreeModel
 		}
 	}
 
-	private void pushRootStructureChange(Transaction transaction)
-	{
-		try
-		{
-			statementStateChangeQueue.putFirst(new RootStructureChange(transaction));
-		}
-		catch (InterruptedException e)
-		{
-			logger.error(e.getMessage(), e);
-		}
-	}
-
-	private void pushContextStructureChange(Transaction transaction, Context context)
-	{
-		try
-		{
-			statementStateChangeQueue.putFirst(new ContextStructureChange(transaction, context));
-		}
-		catch (InterruptedException e)
-		{
-			logger.error(e.getMessage(), e);
-		}
-	}
-
 	public void shutdown() throws InterruptedException
 	{
 		getPersistenceManager().getListenerManager().getRootContextTopStateListeners().remove(statementListener);
@@ -924,12 +902,13 @@ public class ContextJTreeModel extends PersistentTreeModel
 				@Override
 				public void run(Transaction closedTransaction)
 				{
+					List<StructureChange> structureChanges = new ArrayList<>();
 					if (rootCompactables.size() >= compactationThreshold)
 					{
 						changeSet.removeAll(rootCompactables);
 						for (Set<StatementStateChange> compactables : compactablesByContext.values())
 							changeSet.removeAll(compactables);
-						pushRootStructureChange(transaction);
+						structureChanges.add(new RootStructureChange(transaction));
 					}
 					else
 					{
@@ -962,11 +941,14 @@ public class ContextJTreeModel extends PersistentTreeModel
 							{
 								changeSet.removeAll(compactables);
 								if (push && context != null)
-									pushContextStructureChange(transaction, context);
+									structureChanges.add(new ContextStructureChange(closedTransaction, context));
 							}
 						}
 					}
-					statementStateChangeQueue.addAll(changeSet);
+					for (StatementStateChange c : new ReverseList<>(new BufferedList<>(changeSet)))
+						statementStateChangeQueue.addFirst(c);
+					for (StructureChange c : structureChanges)
+						statementStateChangeQueue.addFirst(c);
 					transactionHooks.remove(closedTransaction);
 				}
 
