@@ -27,9 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-
+import java.util.concurrent.BlockingDeque;
+import java.util.concurrent.LinkedBlockingDeque;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
@@ -75,7 +74,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 	private final SorterTreeNodeMap nodeMap;
 	private final Set<ContextJTree.TreeModelListener> contextJTreeListeners;
 	private final StatementListener statementListener;
-	private final BlockingQueue<StatementStateChange> statementStateChangeQueue;
+	private final BlockingDeque<StatementStateChange> statementStateChangeQueue;
 	private final StatementStateProcessorThread statementStateProcessorThread;
 	private final RootContextJTreeNode rootTreeNode;
 
@@ -90,7 +89,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 		persistenceManager.getListenerManager().getRootContextTopStateListeners().add(statementListener);
 		persistenceManager.getListenerManager().getRootContextLocalStateListeners().add(statementListener);
 		listenRootContextNomenclators();
-		this.statementStateChangeQueue = new LinkedBlockingQueue<>();
+		this.statementStateChangeQueue = new LinkedBlockingDeque<>();
 		this.statementStateProcessorThread = new StatementStateProcessorThread();
 		this.statementStateProcessorThread.start();
 		this.rootTreeNode = new RootContextJTreeNode(this);
@@ -145,7 +144,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 	{
 		if (((activeContext == null) != (this.activeContext == null)) || (activeContext != null && !activeContext.equals(this.activeContext)))
 		{
-			pushSetActiveContext(null, activeContext, this.activeContext);
+			putSetActiveContext(null, activeContext, this.activeContext);
 			this.activeContext = activeContext;
 		}
 	}
@@ -811,7 +810,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 	}
 
-	public void pushSelectStatement(Transaction transaction, Statement statement, ContextJTree contextJTree)
+	public void putSelectStatement(Transaction transaction, Statement statement, ContextJTree contextJTree)
 	{
 		try
 		{
@@ -823,7 +822,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 		}
 	}
 
-	public void pushSelectContextConsequent(Transaction transaction, Context context, ContextJTree contextJTree)
+	public void putSelectContextConsequent(Transaction transaction, Context context, ContextJTree contextJTree)
 	{
 		try
 		{
@@ -835,7 +834,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 		}
 	}
 
-	public void pushSetActiveContext(Transaction transaction, Context activeContext, Context oldActiveContext)
+	public void putSetActiveContext(Transaction transaction, Context activeContext, Context oldActiveContext)
 	{
 		try
 		{
@@ -851,7 +850,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 	{
 		try
 		{
-			statementStateChangeQueue.put(new RootStructureChange(transaction));
+			statementStateChangeQueue.putFirst(new RootStructureChange(transaction));
 		}
 		catch (InterruptedException e)
 		{
@@ -863,7 +862,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 	{
 		try
 		{
-			statementStateChangeQueue.put(new ContextStructureChange(transaction, context));
+			statementStateChangeQueue.putFirst(new ContextStructureChange(transaction, context));
 		}
 		catch (InterruptedException e)
 		{

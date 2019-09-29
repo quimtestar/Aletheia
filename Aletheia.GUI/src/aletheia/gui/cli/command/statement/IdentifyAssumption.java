@@ -65,7 +65,7 @@ public class IdentifyAssumption extends TransactionalCommand
 			newActiveContext = (Context) statement;
 		else
 			newActiveContext = statement.getContext(getTransaction());
-		pushSelectStatement(getTransaction(), statement);
+		putSelectStatement(getTransaction(), statement);
 		return new RunTransactionalReturnData(newActiveContext);
 	}
 

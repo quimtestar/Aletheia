@@ -1176,24 +1176,24 @@ public class ContextJTree extends PersistentJTree
 
 	}
 
-	public void pushSelectStatement(Transaction transaction, Statement statement)
+	public void putSelectStatement(Transaction transaction, Statement statement)
 	{
-		getModel().pushSelectStatement(transaction, statement, this);
+		getModel().putSelectStatement(transaction, statement, this);
 	}
 
-	public void pushSelectStatement(Statement statement)
+	public void putSelectStatement(Statement statement)
 	{
-		getModel().pushSelectStatement(null, statement, this);
+		getModel().putSelectStatement(null, statement, this);
 	}
 
-	public void pushSelectContextConsequent(Transaction transaction, Context context)
+	public void putSelectContextConsequent(Transaction transaction, Context context)
 	{
-		getModel().pushSelectContextConsequent(transaction, context, this);
+		getModel().putSelectContextConsequent(transaction, context, this);
 	}
 
-	public void pushSelectContextConsequent(Context context)
+	public void putSelectContextConsequent(Context context)
 	{
-		getModel().pushSelectContextConsequent(null, context, this);
+		getModel().putSelectContextConsequent(null, context, this);
 	}
 
 	public void close() throws InterruptedException

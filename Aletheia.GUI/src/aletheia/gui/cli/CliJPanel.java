@@ -2497,27 +2497,27 @@ public class CliJPanel extends JPanel implements CommandSource
 	}
 
 	@Override
-	public void pushSelectStatement(Statement statement)
+	public void putSelectStatement(Statement statement)
 	{
-		aletheiaJPanel.getContextJTree().pushSelectStatement(statement);
+		aletheiaJPanel.getContextJTree().putSelectStatement(statement);
 	}
 
 	@Override
-	public void pushSelectStatement(Transaction transaction, Statement statement)
+	public void putSelectStatement(Transaction transaction, Statement statement)
 	{
-		aletheiaJPanel.getContextJTree().pushSelectStatement(transaction, statement);
+		aletheiaJPanel.getContextJTree().putSelectStatement(transaction, statement);
 	}
 
 	@Override
-	public void pushSelectContextConsequent(Context context)
+	public void putSelectContextConsequent(Context context)
 	{
-		aletheiaJPanel.getContextJTree().pushSelectContextConsequent(context);
+		aletheiaJPanel.getContextJTree().putSelectContextConsequent(context);
 	}
 
 	@Override
-	public void pushSelectContextConsequent(Transaction transaction, Context context)
+	public void putSelectContextConsequent(Transaction transaction, Context context)
 	{
-		aletheiaJPanel.getContextJTree().pushSelectContextConsequent(transaction, context);
+		aletheiaJPanel.getContextJTree().putSelectContextConsequent(transaction, context);
 	}
 
 	@Override

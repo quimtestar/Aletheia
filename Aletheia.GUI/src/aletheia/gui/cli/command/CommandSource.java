@@ -61,13 +61,13 @@ public interface CommandSource
 
 	PeerToPeerNode getPeerToPeerNode();
 
-	void pushSelectStatement(Statement statement);
+	void putSelectStatement(Statement statement);
 
-	void pushSelectStatement(Transaction transaction, Statement statement);
+	void putSelectStatement(Transaction transaction, Statement statement);
 
-	void pushSelectContextConsequent(Context context);
+	void putSelectContextConsequent(Context context);
 
-	void pushSelectContextConsequent(Transaction transaction, Context context);
+	void putSelectContextConsequent(Transaction transaction, Context context);
 
 	void expandAllContexts(Context context);
 

@@ -128,19 +128,19 @@ public abstract class Command
 		return peerToPeerNode;
 	}
 
-	protected void pushSelectStatement(Statement statement)
+	protected void putSelectStatement(Statement statement)
 	{
-		from.pushSelectStatement(statement);
+		from.putSelectStatement(statement);
 	}
 
-	protected void pushSelectStatement(Transaction transaction, Statement statement)
+	protected void putSelectStatement(Transaction transaction, Statement statement)
 	{
-		from.pushSelectStatement(transaction, statement);
+		from.putSelectStatement(transaction, statement);
 	}
 
-	protected void pushSelectContextConsequent(Transaction transaction, Context context)
+	protected void putSelectContextConsequent(Transaction transaction, Context context)
 	{
-		from.pushSelectContextConsequent(transaction, context);
+		from.putSelectContextConsequent(transaction, context);
 	}
 
 	protected Context getActiveContext()

@@ -78,9 +78,9 @@ public abstract class NewStatement extends TransactionalCommand
 		nsData.statement.identify(getTransaction(), identifier);
 		Statement statement = nsData.statement.refresh(getTransaction());
 		if (!statement.isProved() && statement instanceof Context)
-			pushSelectContextConsequent(getTransaction(), (Context) statement);
+			putSelectContextConsequent(getTransaction(), (Context) statement);
 		else
-			pushSelectStatement(getTransaction(), statement);
+			putSelectStatement(getTransaction(), statement);
 
 		Context newActiveContext;
 		if (statement instanceof Context && !statement.isProved())

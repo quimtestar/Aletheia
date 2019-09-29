@@ -47,7 +47,7 @@ public class SelectStatement extends TransactionalCommand
 	@Override
 	protected RunTransactionalReturnData runTransactional() throws Exception
 	{
-		pushSelectStatement(getTransaction(), statement);
+		putSelectStatement(getTransaction(), statement);
 		return null;
 	}
 

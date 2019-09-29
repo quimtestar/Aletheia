@@ -74,7 +74,7 @@ public class ObtainRootContext extends PeerToPeerCommand
 			if (rootCtx == null)
 				getErr().println("Not found.");
 			else
-				pushSelectStatement(rootCtx);
+				putSelectStatement(rootCtx);
 		}
 		catch (AbortException e)
 		{

@@ -42,7 +42,7 @@ public class Undelete extends TransactionalCommand
 	{
 		List<Statement> undeleted = getPersistenceManager().getUndeleteManager().undelete(getTransaction());
 		if (!undeleted.isEmpty())
-			pushSelectStatement(getTransaction(), undeleted.get(undeleted.size() - 1));
+			putSelectStatement(getTransaction(), undeleted.get(undeleted.size() - 1));
 		return null;
 	}
 

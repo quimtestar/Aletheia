@@ -110,7 +110,7 @@ public class ObtainRootContextFromUnpackedSignatureRequestCollection extends Tra
 			if (rootCtx == null)
 				getErr().println("Not found.");
 			else
-				pushSelectStatement(rootCtx);
+				putSelectStatement(rootCtx);
 		}
 		finally
 		{
