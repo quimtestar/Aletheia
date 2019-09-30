@@ -983,6 +983,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 				try
 				{
 					StatementStateChange c = statementStateChangeQueue.take();
+					// FIXME: if the transaction commits when this thread is here, this change is processed in the wrong order.
 					boolean hooked = false;
 					if (c.getTransaction() != null)
 						synchronized (c.getTransaction())
