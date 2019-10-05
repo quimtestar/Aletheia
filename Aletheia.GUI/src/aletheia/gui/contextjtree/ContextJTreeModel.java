@@ -894,7 +894,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 		{
 			class MyTransactionHook implements Transaction.Hook
 			{
-				private final static int compactationThreshold = 10;
+				private final static int compactationThreshold = 25;
 
 				private final Transaction transaction;
 				private final Map<Transaction, MyTransactionHook> transactionHooks;
