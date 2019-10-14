@@ -20,6 +20,7 @@
 package aletheia.parser;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -42,71 +43,58 @@ import aletheia.parsergenerator.parser.TransitionTable.ConflictException;
  */
 public class AletheiaParserGenerator
 {
+	private final static File src = new File("src");
+	private final static File bin = new File("bin");
 
 	private static AutomatonSet createAutomatonSet() throws ParserBaseException, IOException
 	{
-		Reader reader = new InputStreamReader(ClassLoader.getSystemResourceAsStream(AletheiaParserConstants.lexerPath));
-		try
+		try (Reader reader = new InputStreamReader(new FileInputStream(new File(src, AletheiaParserConstants.lexerPath))))
 		{
 			LexerLexer lexLex = new LexerLexer(reader);
 			LexerParser lexParser = new LexerParser();
 			AutomatonSet automatonSet = lexParser.parse(lexLex);
 			return automatonSet;
 		}
-		finally
-		{
-			reader.close();
-		}
 	}
 
 	private static TransitionTable createTermTransitionTable() throws ConflictException, ParserBaseException, IOException
 	{
-		Reader reader = new InputStreamReader(ClassLoader.getSystemResourceAsStream(AletheiaParserConstants.termGrammarPath));
-		try
+		try (Reader reader = new InputStreamReader(new FileInputStream(new File(src, AletheiaParserConstants.termGrammarPath))))
 		{
 			GrammarParser gp = new GrammarParser();
 			Grammar g = gp.parse(reader);
 			TransitionTable table = new TransitionTableLalr1(g);
 			return table;
-		}
-		finally
-		{
-			reader.close();
 		}
 	}
 
 	private static TransitionTable createParameterIdentificationTransitionTable() throws ConflictException, ParserBaseException, IOException
 	{
-		Reader reader = new InputStreamReader(ClassLoader.getSystemResourceAsStream(AletheiaParserConstants.parameterIdentificationGrammarPath));
-		try
+		try (Reader reader = new InputStreamReader(new FileInputStream(new File(src, AletheiaParserConstants.parameterIdentificationGrammarPath))))
 		{
 			GrammarParser gp = new GrammarParser();
 			Grammar g = gp.parse(reader);
 			TransitionTable table = new TransitionTableLalr1(g);
 			return table;
-		}
-		finally
-		{
-			reader.close();
 		}
 	}
 
 	private static void generate() throws ParserBaseException, IOException, ConflictException
 	{
 		AutomatonSet automatonSet = createAutomatonSet();
-		File automatonSetFile = new File("bin/" + AletheiaParserConstants.automatonSetPath);
+		File automatonSetFile = new File(bin, AletheiaParserConstants.automatonSetPath);
 		automatonSetFile.getParentFile().mkdirs();
 		automatonSet.save(automatonSetFile);
 		System.out.println("Aletheia lexer automaton saved to " + automatonSetFile);
 
 		TransitionTable termTransitionTable = createTermTransitionTable();
-		File termTransitionTableFile = new File("bin/" + AletheiaParserConstants.termTransitionTablePath);
+		File termTransitionTableFile = new File(bin, AletheiaParserConstants.termTransitionTablePath);
 		termTransitionTableFile.getParentFile().mkdirs();
 		termTransitionTable.save(termTransitionTableFile);
 		System.out.println("Aletheia term parser transition table saved to " + termTransitionTableFile);
 
 		TransitionTable parameterIdentificationTransitionTable = createParameterIdentificationTransitionTable();
-		File parameterIdentificationTransitionTableFile = new File("bin/" + AletheiaParserConstants.parameterIdentificationTransitionTablePath);
+		File parameterIdentificationTransitionTableFile = new File(bin, AletheiaParserConstants.parameterIdentificationTransitionTablePath);
 		parameterIdentificationTransitionTableFile.getParentFile().mkdirs();
 		parameterIdentificationTransitionTable.save(parameterIdentificationTransitionTableFile);
 		System.out.println("Aletheia term parser transition table saved to " + parameterIdentificationTransitionTableFile);
