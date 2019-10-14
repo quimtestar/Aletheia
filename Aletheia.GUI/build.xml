@@ -168,6 +168,7 @@
         <ant antfile="build.xml" dir="${Aletheia.Security.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.ParserGenerator.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.Base.location}" inheritAll="false" target="build-project"/>
+        <ant antfile="build.xml" dir="${Aletheia.Base.location}" inheritAll="false" target="build-parser"/>
         <ant antfile="build.xml" dir="${Aletheia.ProofFinder.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.PdfExport.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.BerkeleyDB.location}" inheritAll="false" target="build-project"/>

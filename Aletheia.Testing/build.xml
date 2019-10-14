@@ -232,6 +232,11 @@
                 <propertyref name="build.compiler"/>
             </propertyset>
         </ant>
+        <ant antfile="build.xml" dir="${Aletheia.Base.location}" inheritAll="false" target="build-parser">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
         <ant antfile="build.xml" dir="${Aletheia.ProofFinder.location}" inheritAll="false" target="build-project">
             <propertyset>
                 <propertyref name="build.compiler"/>
