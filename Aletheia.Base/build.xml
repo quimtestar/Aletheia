@@ -130,6 +130,6 @@
  	   </condition>
     </target>
     <target name="build-parser" depends="check-parser, build-project, build-subprojects" unless="parser.alldone">
-    		<java classname="aletheia.parser.AletheiaParserGenerator" classpathref="Aletheia.Base.classpath" fork="true"/>
+    		<java classname="aletheia.parser.AletheiaParserGenerator" classpathref="Aletheia.Base.classpath" fork="true" failonerror="true"/>
     </target>
 </project>
