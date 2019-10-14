@@ -505,7 +505,11 @@ public class CliJPanel extends JPanel implements CommandSource
 		@Override
 		public void insertUpdate(DocumentEvent e)
 		{
-			bracketHighLightManager.textInserted(e.getOffset(), e.getLength());
+			synchronized (CliJPanel.this)
+			{
+				if (!inserting)
+					bracketHighLightManager.textInserted(e.getOffset(), e.getLength());
+			}
 		}
 
 		@Override
@@ -1176,6 +1180,7 @@ public class CliJPanel extends JPanel implements CommandSource
 	private StringBuffer commandBuffer;
 	private int commandBufferCaretOffset;
 	private PrintWriter consolePrintWriter;
+	private boolean inserting = false;
 
 	public CliJPanel(AletheiaJPanel aletheiaJPanel, CliController controller) throws InterruptedException
 	{
@@ -1379,11 +1384,13 @@ public class CliJPanel extends JPanel implements CommandSource
 		}
 	}
 
-	private void insertString(int offset, String s, AttributeSet attributeSet)
+	private synchronized void insertString(int offset, String s, AttributeSet attributeSet)
 	{
 		try
 		{
+			inserting = true;
 			document.insertString(offset, s, attributeSet);
+			inserting = false;
 		}
 		catch (BadLocationException e)
 		{
