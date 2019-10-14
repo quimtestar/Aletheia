@@ -18,12 +18,7 @@
     along with the Aletheia Proof Assistant. If not, see
     <http://www.gnu.org/licenses/>.
  -->
-
-<!-- WARNING: Eclipse auto-generated file.
-              Any modifications will be overwritten.
-              To include a user specific buildfile here, simply create one in the same
-              directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="Aletheia.ParserGenerator">
+<project basedir="." default="build" name="Aletheia.ParserGenerator">
     <property environment="env"/>
     <property name="Aletheia.Base.location" value="../Aletheia.Base"/>
     <property name="Aletheia.GUI.location" value="../Aletheia.GUI"/>
