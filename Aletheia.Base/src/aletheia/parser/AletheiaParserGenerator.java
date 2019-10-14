@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014, 2019 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -94,17 +94,20 @@ public class AletheiaParserGenerator
 	private static void generate() throws ParserBaseException, IOException, ConflictException
 	{
 		AutomatonSet automatonSet = createAutomatonSet();
-		File automatonSetFile = new File("src/" + AletheiaParserConstants.automatonSetPath);
+		File automatonSetFile = new File("bin/" + AletheiaParserConstants.automatonSetPath);
+		automatonSetFile.getParentFile().mkdirs();
 		automatonSet.save(automatonSetFile);
 		System.out.println("Aletheia lexer automaton saved to " + automatonSetFile);
 
 		TransitionTable termTransitionTable = createTermTransitionTable();
-		File termTransitionTableFile = new File("src/" + AletheiaParserConstants.termTransitionTablePath);
+		File termTransitionTableFile = new File("bin/" + AletheiaParserConstants.termTransitionTablePath);
+		termTransitionTableFile.getParentFile().mkdirs();
 		termTransitionTable.save(termTransitionTableFile);
 		System.out.println("Aletheia term parser transition table saved to " + termTransitionTableFile);
 
 		TransitionTable parameterIdentificationTransitionTable = createParameterIdentificationTransitionTable();
-		File parameterIdentificationTransitionTableFile = new File("src/" + AletheiaParserConstants.parameterIdentificationTransitionTablePath);
+		File parameterIdentificationTransitionTableFile = new File("bin/" + AletheiaParserConstants.parameterIdentificationTransitionTablePath);
+		parameterIdentificationTransitionTableFile.getParentFile().mkdirs();
 		parameterIdentificationTransitionTable.save(parameterIdentificationTransitionTableFile);
 		System.out.println("Aletheia term parser transition table saved to " + parameterIdentificationTransitionTableFile);
 

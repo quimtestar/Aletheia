@@ -19,11 +19,7 @@
     <http://www.gnu.org/licenses/>.
  -->
 
-<!-- WARNING: Eclipse auto-generated file.
-              Any modifications will be overwritten.
-              To include a user specific buildfile here, simply create one in the same
-              directory with the processing instruction <?eclipse.ant.import?>
-              as the first entry and export the buildfile again. --><project basedir="." default="build" name="Aletheia.Base">
+<project basedir="." default="build" name="Aletheia.Base">
     <property environment="env"/>
     <property name="Aletheia.BerkeleyDB.location" value="../Aletheia.BerkeleyDB"/>
     <property name="Aletheia.GUI.location" value="../Aletheia.GUI"/>
@@ -91,7 +87,7 @@
         <ant antfile="build.xml" dir="${Aletheia.Security.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Aletheia.ParserGenerator.location}" inheritAll="false" target="clean"/>
     </target>
-    <target depends="build-subprojects,build-project" name="build"/>
+    <target depends="build-subprojects,build-project,build-parser" name="build"/>
     <target name="build-subprojects">
         <ant antfile="build.xml" dir="${Aletheia.log4j.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.Utilities.location}" inheritAll="false" target="build-project"/>
@@ -119,5 +115,21 @@
         <ant antfile="build.xml" dir="${Aletheia.ProofFinder.location}" inheritAll="false" target="build"/>
         <ant antfile="build.xml" dir="${Aletheia.Test.location}" inheritAll="false" target="clean"/>
         <ant antfile="build.xml" dir="${Aletheia.Test.location}" inheritAll="false" target="build"/>
+    </target>
+              	
+    <target name="check-parser">
+       <uptodate property="parser.lex" srcfile="src/aletheia/parser/aletheia.lex" targetfile="bin/aletheia/parser/bin/aletheia.ast"/>
+       <uptodate property="parser.term" srcfile="src/aletheia/parser/term/term.gra" targetfile="bin/aletheia/parser/bin/term.ttb"/>
+       <uptodate property="parser.parameterIdentification" srcfile="src/aletheia/parser/parameteridentification/parameterIdentification.gra" targetfile="bin/aletheia/parser/bin/parameterIdentification.ttb"/>
+   	   <condition property="parser.alldone">
+	 	   <and>
+	             <isset property="parser.lex"/>
+	             <isset property="parser.term"/>
+	 	  		 <isset property="parser.parameterIdentification"/>
+	 	   </and>
+ 	   </condition>
+    </target>
+    <target name="build-parser" depends="check-parser, build-project, build-subprojects" unless="parser.alldone">
+    		<java classname="aletheia.parser.AletheiaParserGenerator" classpathref="Aletheia.Base.classpath" fork="true"/>
     </target>
 </project>
