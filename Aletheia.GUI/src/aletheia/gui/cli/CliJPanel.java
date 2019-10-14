@@ -408,32 +408,35 @@ public class CliJPanel extends JPanel implements CommandSource
 		{
 			if ((e.getKeyChar() == '\n' || e.getKeyChar() == '\r') && !e.isAltDown() && !e.isControlDown() && !e.isAltGraphDown())
 			{
-				bracketHighLightManager.clearHighLights();
-				try
+				synchronized (CliJPanel.this)
 				{
-					if (!e.isShiftDown())
+					bracketHighLightManager.clearHighLights();
+					try
 					{
-						String s = getCommand().trim();
-						updateMinimalCaretPosition();
-						command(s);
+						if (!e.isShiftDown())
+						{
+							String s = getCommand().trim();
+							updateMinimalCaretPosition();
+							command(s);
+						}
+						else
+						{
+							try
+							{
+								document.insertString(textPane.getCaretPosition(), "\n" + multiLinePrompt + " ", multiLinePromptAttributeSet);
+								document.setCharacterAttributes(textPane.getCaretPosition() - 1, 1, defaultAttributeSet, true);
+								textPane.setCharacterAttributes(defaultAttributeSet, true);
+							}
+							catch (BadLocationException e1)
+							{
+								throw new Error(e1);
+							}
+						}
 					}
-					else
+					catch (InterruptedException e1)
 					{
-						try
-						{
-							document.insertString(textPane.getCaretPosition(), "\n" + multiLinePrompt + " ", multiLinePromptAttributeSet);
-							document.setCharacterAttributes(textPane.getCaretPosition() - 1, 1, defaultAttributeSet, true);
-							textPane.setCharacterAttributes(defaultAttributeSet, true);
-						}
-						catch (BadLocationException e1)
-						{
-							throw new Error(e1);
-						}
+						logger.error(e1.getMessage(), e1);
 					}
-				}
-				catch (InterruptedException e1)
-				{
-					logger.error(e1.getMessage(), e1);
 				}
 
 			}
