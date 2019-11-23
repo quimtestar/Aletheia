@@ -19,7 +19,24 @@
  *******************************************************************************/
 package aletheia.gui.app.splash;
 
-public class VoidSplashStartupProgressListener extends AbstractSplashStartupProgressListener
+import java.util.Map;
+
+import aletheia.persistence.PersistenceManager;
+import aletheia.utilities.CommandLineArguments.Switch;
+
+public abstract class AbstractSplashStartupProgressListener implements PersistenceManager.StartupProgressListener, AutoCloseable
 {
+	public static AbstractSplashStartupProgressListener makeFromGlobalSwitches(Map<String, Switch> globalSwitches)
+	{
+		if (globalSwitches.containsKey("nosplash"))
+			return new VoidSplashStartupProgressListener();
+		else
+			return new SplashStartupProgressListener();
+	}
+
+	@Override
+	public void close()
+	{
+	}
 
 }

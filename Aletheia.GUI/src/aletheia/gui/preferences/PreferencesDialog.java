@@ -57,6 +57,7 @@ import org.apache.logging.log4j.Logger;
 import aletheia.gui.app.DesktopAletheiaJFrame;
 import aletheia.log4j.LoggerManager;
 import aletheia.persistence.gui.PersistencePreferencesJPanel;
+import aletheia.utilities.AsynchronousInvoker;
 import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCollection;
@@ -529,6 +530,12 @@ public class PreferencesDialog extends JDialog
 
 	}
 
+	@Override
+	public void setEnabled(boolean enable)
+	{
+		super.setEnabled(enable);
+	}
+
 	private class OkAction extends AbstractAction
 	{
 		private static final long serialVersionUID = 7381151484374373488L;
@@ -541,46 +548,53 @@ public class PreferencesDialog extends JDialog
 		@Override
 		public void actionPerformed(ActionEvent e)
 		{
-			try
-			{
-				preferences.setPersistenceClass((PersistenceClass) persistenceClassComboBox.getSelectedItem());
-				for (PersistencePreferencesJPanel persistencePreferencesJPanel : persistencePreferencesJPanels.values())
-					persistencePreferencesJPanel.okAction();
-				PeerToPeerNodeGender peerToPeerNodeGender = ((PeerToPeerNodeGenderItem) p2pNodeGenderComboBox.getSelectedItem()).gender;
-				preferences.peerToPeerNode().setP2pGender(peerToPeerNodeGender);
-				AddressComboBoxItem addressComboBoxItem = (AddressComboBoxItem) p2pExternalAddressComboBox.getSelectedItem();
-				preferences.peerToPeerNode().femalePeerToPeerNode()
-						.setP2pExternalAddress(addressComboBoxItem != null ? addressComboBoxItem.getAddress() : null);
-				if (peerToPeerNodeGender == PeerToPeerNodeGender.FEMALE && addressComboBoxItem == null)
-					throw new Exception("Must select a P2P external address");
-				preferences.peerToPeerNode().femalePeerToPeerNode().setP2pExternalPort((int) p2pExternalPortSpinner.getValue());
-				String p2pSurrogateAddress = p2pSurrogateAddressTextField.getText().trim();
-				preferences.peerToPeerNode().malePeerToPeerNode().setP2pSurrogateAddress(p2pSurrogateAddress);
-				if (peerToPeerNodeGender == PeerToPeerNodeGender.MALE && p2pSurrogateAddress.isEmpty())
-					throw new Exception("Must select a P2P surrogate address");
-				preferences.peerToPeerNode().malePeerToPeerNode().setP2pSurrogatePort((int) p2pSurrogatePortSpinner.getValue());
-				int fontSize = (Integer) fontSizeSpinner.getValue();
-				preferences.appearance().setFontSize(fontSize);
-				int oldFontSize = aletheiaJFrame.getFontManager().getFontSize();
-				if (oldFontSize != fontSize)
-					aletheiaJFrame.getFontManager().setFontSize(fontSize);
-
-				boolean ret = aletheiaJFrame.updateContentPane(false);
-				if (ret)
-					ret = aletheiaJFrame.updateServerStatus(false);
-				if (ret)
+			PreferencesDialog.this.setEnabled(false);
+			AsynchronousInvoker.instance.invoke(() -> {
+				try
 				{
+					preferences.setPersistenceClass((PersistenceClass) persistenceClassComboBox.getSelectedItem());
+					for (PersistencePreferencesJPanel persistencePreferencesJPanel : persistencePreferencesJPanels.values())
+						persistencePreferencesJPanel.okAction();
+					PeerToPeerNodeGender peerToPeerNodeGender = ((PeerToPeerNodeGenderItem) p2pNodeGenderComboBox.getSelectedItem()).gender;
+					preferences.peerToPeerNode().setP2pGender(peerToPeerNodeGender);
+					AddressComboBoxItem addressComboBoxItem = (AddressComboBoxItem) p2pExternalAddressComboBox.getSelectedItem();
+					preferences.peerToPeerNode().femalePeerToPeerNode()
+							.setP2pExternalAddress(addressComboBoxItem != null ? addressComboBoxItem.getAddress() : null);
+					if (peerToPeerNodeGender == PeerToPeerNodeGender.FEMALE && addressComboBoxItem == null)
+						throw new Exception("Must select a P2P external address");
+					preferences.peerToPeerNode().femalePeerToPeerNode().setP2pExternalPort((int) p2pExternalPortSpinner.getValue());
+					String p2pSurrogateAddress = p2pSurrogateAddressTextField.getText().trim();
+					preferences.peerToPeerNode().malePeerToPeerNode().setP2pSurrogateAddress(p2pSurrogateAddress);
+					if (peerToPeerNodeGender == PeerToPeerNodeGender.MALE && p2pSurrogateAddress.isEmpty())
+						throw new Exception("Must select a P2P surrogate address");
+					preferences.peerToPeerNode().malePeerToPeerNode().setP2pSurrogatePort((int) p2pSurrogatePortSpinner.getValue());
+					int fontSize = (Integer) fontSizeSpinner.getValue();
+					preferences.appearance().setFontSize(fontSize);
+					int oldFontSize = aletheiaJFrame.getFontManager().getFontSize();
 					if (oldFontSize != fontSize)
-						aletheiaJFrame.updateFontSize();
+						aletheiaJFrame.getFontManager().setFontSize(fontSize);
+
+					boolean ret = aletheiaJFrame.updateContentPane(false);
+					if (ret)
+						ret = aletheiaJFrame.updateServerStatus(false);
+					if (ret)
+					{
+						if (oldFontSize != fontSize)
+							aletheiaJFrame.updateFontSize();
+					}
+					if (ret)
+						dispose();
 				}
-				if (ret)
-					dispose();
-			}
-			catch (Exception ex)
-			{
-				logger.error(ex.getMessage(), ex);
-				JOptionPane.showMessageDialog(PreferencesDialog.this, MiscUtilities.wrapText(ex.getMessage(), 80), "Error", JOptionPane.ERROR_MESSAGE);
-			}
+				catch (Exception ex)
+				{
+					logger.error(ex.getMessage(), ex);
+					JOptionPane.showMessageDialog(PreferencesDialog.this, MiscUtilities.wrapText(ex.getMessage(), 80), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				finally
+				{
+					PreferencesDialog.this.setEnabled(true);
+				}
+			});
 		}
 
 	}

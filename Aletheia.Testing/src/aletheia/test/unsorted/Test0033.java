@@ -19,7 +19,7 @@
  *******************************************************************************/
 package aletheia.test.unsorted;
 
-import aletheia.gui.app.splash.SimpleSplashStartupProgressListener;
+import aletheia.gui.app.splash.SplashStartupProgressListener;
 import aletheia.test.BerkeleyDBPersistenceManagerTest;
 
 /**
@@ -31,7 +31,7 @@ public class Test0033 extends BerkeleyDBPersistenceManagerTest
 	public Test0033()
 	{
 		super();
-		getConfiguration().setStartupProgressListener(new SimpleSplashStartupProgressListener());
+		getConfiguration().setStartupProgressListener(new SplashStartupProgressListener());
 	}
 
 }

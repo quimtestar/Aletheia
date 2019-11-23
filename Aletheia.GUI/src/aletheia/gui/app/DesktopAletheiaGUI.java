@@ -33,7 +33,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import org.apache.logging.log4j.Logger;
 
-import aletheia.gui.app.splash.SplashStartupProgressListener;
+import aletheia.gui.app.splash.AbstractSplashStartupProgressListener;
 import aletheia.gui.icons.IconManager;
 import aletheia.gui.lookandfeel.MyLookAndFeel;
 import aletheia.gui.preferences.GUIAletheiaPreferences;
@@ -138,7 +138,7 @@ public class DesktopAletheiaGUI extends AletheiaGUI
 	private static void console(Map<String, Switch> globalSwitches) throws CreatePersistenceManagerException, ArgumentsException
 	{
 		final PersistenceManager persistenceManager;
-		try (SplashStartupProgressListener startupProgressListener = SplashStartupProgressListener.makeFromGlobalSwitches(globalSwitches))
+		try (AbstractSplashStartupProgressListener startupProgressListener = AbstractSplashStartupProgressListener.makeFromGlobalSwitches(globalSwitches))
 		{
 			Switch swDbFile = globalSwitches.remove("dbFile");
 			if (swDbFile != null)

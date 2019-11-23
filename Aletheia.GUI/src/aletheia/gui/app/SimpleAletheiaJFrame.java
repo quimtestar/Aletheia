@@ -42,7 +42,7 @@ import javax.swing.WindowConstants;
 import org.apache.logging.log4j.Logger;
 
 import aletheia.common.AletheiaConstants;
-import aletheia.gui.app.splash.SplashStartupProgressListener;
+import aletheia.gui.app.splash.AbstractSplashStartupProgressListener;
 import aletheia.gui.icons.IconManager;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.statement.Context;
@@ -209,7 +209,8 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 	public SimpleAletheiaJFrame(SimpleAletheiaGUI aletheiaGUI) throws InterruptedException
 	{
 		super(new FontManager(properties.getFontSize()), aletheiaGUI);
-		try (SplashStartupProgressListener splashStartupProgressListener = SplashStartupProgressListener.makeFromGlobalSwitches(getGlobalSwitches()))
+		try (AbstractSplashStartupProgressListener splashStartupProgressListener = AbstractSplashStartupProgressListener
+				.makeFromGlobalSwitches(getGlobalSwitches()))
 		{
 			BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
 			configuration.setStartupProgressListener(splashStartupProgressListener);

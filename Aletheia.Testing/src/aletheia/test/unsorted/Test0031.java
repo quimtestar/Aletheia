@@ -19,7 +19,7 @@
  *******************************************************************************/
 package aletheia.test.unsorted;
 
-import aletheia.gui.app.splash.SimpleSplashStartupProgressListener;
+import aletheia.gui.app.splash.SplashStartupProgressListener;
 import aletheia.test.Test;
 
 /**
@@ -31,7 +31,7 @@ public class Test0031 extends Test
 	@Override
 	public void run() throws Exception
 	{
-		try (SimpleSplashStartupProgressListener simpleSplashStartupProgressListener = new SimpleSplashStartupProgressListener())
+		try (SplashStartupProgressListener simpleSplashStartupProgressListener = new SplashStartupProgressListener())
 		{
 			for (int progress = 0; progress <= 10; progress++)
 			{

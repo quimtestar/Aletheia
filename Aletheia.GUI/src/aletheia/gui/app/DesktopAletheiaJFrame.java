@@ -36,7 +36,7 @@ import javax.swing.WindowConstants;
 import org.apache.logging.log4j.Logger;
 
 import aletheia.common.AletheiaConstants;
-import aletheia.gui.app.splash.SplashStartupProgressListener;
+import aletheia.gui.app.splash.AbstractSplashStartupProgressListener;
 import aletheia.gui.icons.IconManager;
 import aletheia.gui.menu.AletheiaJMenuBar;
 import aletheia.gui.person.PersonsDialog;
@@ -439,7 +439,8 @@ public class DesktopAletheiaJFrame extends MainAletheiaJFrame
 				persistenceManager.close();
 				persistenceManager = null;
 			}
-			try (SplashStartupProgressListener startupProgressListener = SplashStartupProgressListener.makeFromGlobalSwitches(getGlobalSwitches()))
+			try (AbstractSplashStartupProgressListener startupProgressListener = AbstractSplashStartupProgressListener
+					.makeFromGlobalSwitches(getGlobalSwitches()))
 			{
 				persistenceManager = persistenceClass.persistenceGUIFactory.createPersistenceManager(this, startupProgressListener);
 				if (persistenceManager == null)
