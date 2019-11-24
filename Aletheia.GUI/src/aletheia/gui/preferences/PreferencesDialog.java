@@ -48,10 +48,11 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-
+import javax.swing.SwingConstants;
 import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.app.DesktopAletheiaJFrame;
@@ -302,6 +303,7 @@ public class PreferencesDialog extends JDialog
 	private final JSpinner p2pSurrogatePortSpinner;
 
 	private final JSpinner fontSizeSpinner;
+	private final JSlider compactationThresholdSlider;
 
 	private final JButton okButton;
 	private final JButton cancelButton;
@@ -500,6 +502,36 @@ public class PreferencesDialog extends JDialog
 		}
 		gridy++;
 
+		{
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.gridx = 0;
+			gbc.gridy = gridy;
+			gbc.insets = formFieldInsets;
+			gbc.anchor = GridBagConstraints.WEST;
+			formPanel.add(new JLabel("<html><body>Compactation<br>threshold<br>(advanced)</body></html>"), gbc);
+		}
+		this.compactationThresholdSlider = new JSlider(SwingConstants.HORIZONTAL, 0, 512,
+				Integer.max(0, Integer.min(512, preferences.appearance().getCompactationThreshold())));
+		this.compactationThresholdSlider.setPaintTicks(true);
+		this.compactationThresholdSlider.setMinorTickSpacing(16);
+		this.compactationThresholdSlider.setMajorTickSpacing(128);
+		this.compactationThresholdSlider.setPaintLabels(true);
+		this.compactationThresholdSlider.setSnapToTicks(true);
+		this.compactationThresholdSlider.setPaintTrack(true);
+		this.compactationThresholdSlider.setToolTipText(Integer.toString(this.compactationThresholdSlider.getValue()));
+		this.compactationThresholdSlider.addChangeListener(e -> {
+			this.compactationThresholdSlider.setToolTipText(Integer.toString(this.compactationThresholdSlider.getValue()));
+		});
+		{
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.gridx = 1;
+			gbc.gridy = gridy;
+			gbc.insets = formFieldInsets;
+			gbc.anchor = GridBagConstraints.WEST;
+			formPanel.add(compactationThresholdSlider, gbc);
+		}
+		gridy++;
+
 		this.add(formPanel, BorderLayout.CENTER);
 
 		JPanel buttonPanel = new JPanel(new GridBagLayout());
@@ -573,6 +605,7 @@ public class PreferencesDialog extends JDialog
 					int oldFontSize = aletheiaJFrame.getFontManager().getFontSize();
 					if (oldFontSize != fontSize)
 						aletheiaJFrame.getFontManager().setFontSize(fontSize);
+					preferences.appearance().setCompactationThreshold(compactationThresholdSlider.getValue());
 
 					boolean ret = aletheiaJFrame.updateContentPane(false);
 					if (ret)

@@ -36,6 +36,7 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreePath;
 
 import org.apache.logging.log4j.Logger;
+
 import aletheia.gui.common.PersistentTreeModel;
 import aletheia.gui.contextjtree.node.ConsequentContextJTreeNode;
 import aletheia.gui.contextjtree.node.ContextSorterContextJTreeNode;
@@ -46,6 +47,7 @@ import aletheia.gui.contextjtree.node.SorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.StatementContextJTreeNode;
 import aletheia.gui.contextjtree.node.TopGroupSorterContextJTreeNode;
 import aletheia.gui.contextjtree.sorter.Sorter;
+import aletheia.gui.preferences.GUIAletheiaPreferences;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.identifier.Identifier;
@@ -894,8 +896,6 @@ public class ContextJTreeModel extends PersistentTreeModel
 		{
 			class MyTransactionHook implements Transaction.Hook
 			{
-				private final static int compactationThreshold = 25;
-
 				private final Transaction transaction;
 				private final Map<Transaction, MyTransactionHook> transactionHooks;
 				private final Set<StateChange> changeSet;
@@ -929,6 +929,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 
 				public void compactChanges()
 				{
+					int compactationThreshold = GUIAletheiaPreferences.instance.appearance().getCompactationThreshold();
 					List<StructureChange> structureChanges = new ArrayList<>();
 					if (rootCompactables.size() >= compactationThreshold)
 					{

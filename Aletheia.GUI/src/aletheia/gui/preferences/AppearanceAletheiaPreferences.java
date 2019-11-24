@@ -27,7 +27,11 @@ public class AppearanceAletheiaPreferences extends NodeAletheiaPreferences
 
 	private final static String FONT_SIZE = "font_size";
 
+	private final static String COMPACTATION_THRESHOLD = "compactation_threshold";
+
 	private final static int defaultFontSize = 14;
+
+	private final static int defaultCompactationThreshold = 128;
 
 	private final AletheiaJFrameBoundsPreferences aletheiaJFrameBoundsPreferences;
 
@@ -45,6 +49,16 @@ public class AppearanceAletheiaPreferences extends NodeAletheiaPreferences
 	public void setFontSize(int fontSize)
 	{
 		getPreferences().putInt(FONT_SIZE, fontSize);
+	}
+
+	public int getCompactationThreshold()
+	{
+		return getPreferences().getInt(COMPACTATION_THRESHOLD, defaultCompactationThreshold);
+	}
+
+	public void setCompactationThreshold(int compactationThreshold)
+	{
+		getPreferences().putInt(COMPACTATION_THRESHOLD, compactationThreshold);
 	}
 
 	public AletheiaJFrameBoundsPreferences aletheiaJFrameBounds()
