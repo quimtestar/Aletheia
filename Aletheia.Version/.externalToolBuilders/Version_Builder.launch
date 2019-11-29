@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.ant.AntBuilderLaunchConfigurationType">
-<stringAttribute key="org.eclipse.ant.ui.ATTR_ANT_CLEAN_TARGETS" value="clean_version,"/>
-<booleanAttribute key="org.eclipse.ant.ui.ATTR_TARGETS_UPDATED" value="true"/>
-<booleanAttribute key="org.eclipse.ant.ui.DEFAULT_VM_INSTALL" value="false"/>
-<booleanAttribute key="org.eclipse.debug.core.capture_output" value="false"/>
-<booleanAttribute key="org.eclipse.debug.ui.ATTR_CONSOLE_OUTPUT_ON" value="false"/>
-<booleanAttribute key="org.eclipse.debug.ui.ATTR_LAUNCH_IN_BACKGROUND" value="false"/>
-<stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.ant.ui.AntClasspathProvider"/>
-<booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="true"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Aletheia.Version"/>
-<booleanAttribute key="org.eclipse.ui.externaltools.ATTR_BUILDER_ENABLED" value="true"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${workspace_loc:/Aletheia.Version/build_version.xml}"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_RUN_BUILD_KINDS" value="full,incremental,auto,clean"/>
-<booleanAttribute key="org.eclipse.ui.externaltools.ATTR_TRIGGERS_CONFIGURED" value="true"/>
+    <stringAttribute key="org.eclipse.ant.ui.ATTR_ANT_CLEAN_TARGETS" value="clean_version,"/>
+    <booleanAttribute key="org.eclipse.ant.ui.ATTR_TARGETS_UPDATED" value="true"/>
+    <booleanAttribute key="org.eclipse.ant.ui.DEFAULT_VM_INSTALL" value="false"/>
+    <booleanAttribute key="org.eclipse.debug.core.capture_output" value="false"/>
+    <booleanAttribute key="org.eclipse.debug.ui.ATTR_CONSOLE_OUTPUT_ON" value="false"/>
+    <booleanAttribute key="org.eclipse.debug.ui.ATTR_LAUNCH_IN_BACKGROUND" value="false"/>
+    <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.ant.ui.AntClasspathProvider"/>
+    <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="true"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Aletheia.Version"/>
+    <booleanAttribute key="org.eclipse.ui.externaltools.ATTR_BUILDER_ENABLED" value="true"/>
+    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_BUILD_SCOPE" value="${working_set:&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#10;&lt;resources&gt;&#10;&lt;item path=&quot;/Aletheia.Base&quot; type=&quot;4&quot;/&gt;&#10;&lt;item path=&quot;/Aletheia.BerkeleyDB&quot; type=&quot;4&quot;/&gt;&#10;&lt;item path=&quot;/Aletheia.Documentation&quot; type=&quot;4&quot;/&gt;&#10;&lt;item path=&quot;/Aletheia.GUI&quot; type=&quot;4&quot;/&gt;&#10;&lt;item path=&quot;/Aletheia.GUI.Command.Extra&quot; type=&quot;4&quot;/&gt;&#10;&lt;item path=&quot;/Aletheia.GUI.Fonts&quot; type=&quot;4&quot;/&gt;&#10;&lt;item path=&quot;/Aletheia.ParserGenerator&quot; type=&quot;4&quot;/&gt;&#10;&lt;item path=&quot;/Aletheia.PdfExport&quot; type=&quot;4&quot;/&gt;&#10;&lt;item path=&quot;/Aletheia.PeerToPeer&quot; type=&quot;4&quot;/&gt;&#10;&lt;item path=&quot;/Aletheia.ProofFinder&quot; type=&quot;4&quot;/&gt;&#10;&lt;item path=&quot;/Aletheia.Protocol&quot; type=&quot;4&quot;/&gt;&#10;&lt;item path=&quot;/Aletheia.Security&quot; type=&quot;4&quot;/&gt;&#10;&lt;item path=&quot;/Aletheia.Testing&quot; type=&quot;4&quot;/&gt;&#10;&lt;item path=&quot;/Aletheia.Utilities&quot; type=&quot;4&quot;/&gt;&#10;&lt;item path=&quot;/Aletheia.Version&quot; type=&quot;4&quot;/&gt;&#10;&lt;item path=&quot;/Aletheia.jars&quot; type=&quot;4&quot;/&gt;&#10;&lt;item path=&quot;/Aletheia.log4j&quot; type=&quot;4&quot;/&gt;&#10;&lt;/resources&gt;}"/>
+    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="${workspace_loc:/Aletheia.Version/build_version.xml}"/>
+    <stringAttribute key="org.eclipse.ui.externaltools.ATTR_RUN_BUILD_KINDS" value="full,incremental,auto,clean"/>
+    <booleanAttribute key="org.eclipse.ui.externaltools.ATTR_TRIGGERS_CONFIGURED" value="true"/>
 </launchConfiguration>
