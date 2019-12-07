@@ -505,11 +505,8 @@ public class CliJPanel extends JPanel implements CommandSource
 		@Override
 		public void insertUpdate(DocumentEvent e)
 		{
-			synchronized (CliJPanel.this)
-			{
-				if (!inserting)
-					bracketHighLightManager.textInserted(e.getOffset(), e.getLength());
-			}
+			if (!inserting)
+				bracketHighLightManager.textInserted(e.getOffset(), e.getLength());
 		}
 
 		@Override
