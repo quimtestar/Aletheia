@@ -1656,7 +1656,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 			if (statement != null)
 			{
 				StatementContextJTreeNode node = nodeMap.getByStatement(statement);
-				nodeChangedNoDep((ContextJTreeNode) node);
+				nodeChanged((ContextJTreeNode) node);
 			}
 		}
 
