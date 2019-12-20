@@ -2563,9 +2563,134 @@ public class Context extends Statement
 		}
 	}
 
+	protected Map<Context, Statement> descendentSolvers(Transaction transaction, Aborter aborter) throws AbortException
+	{
+		Map<Statement, Integer> proofSizes = new HashMap<>();
+		Map<Context, Statement> solvers = new HashMap<>();
+
+		Stack<Statement> stack = new Stack<>();
+		stack.push(this);
+		Set<Statement> visited = new HashSet<>();
+		while (!stack.isEmpty())
+		{
+			if (aborter != null)
+				aborter.checkAbort();
+			Statement st = stack.pop();
+			//System.out.println(" -? " + st.statementPathString(transaction, this) );
+			deploop: while (true)
+			{
+				for (Statement dep : st.dependencies(transaction))
+					if (isDescendent(transaction, dep) && !proofSizes.containsKey(dep))
+					{
+						if (st.getUuid().equals(UUID.fromString("b6cdf42c-5e36-4fb3-ac70-84e3b44ba2a3")))
+						{
+							System.out.println(" -? " + st.statementPathString(transaction, this));
+							System.out.println("      dep: " + dep.statementPathString(transaction, this));
+							System.out.println("      xxxx");
+						}
+						st = dep;
+						continue deploop;
+					}
+				if (st instanceof Context)
+					for (Assumption ass : ((Context) st).assumptions(transaction))
+						if (!proofSizes.containsKey(ass))
+						{
+							st = ass;
+							continue deploop;
+						}
+				break;
+			}
+			if (!visited.contains(st))
+			{
+				if (st.getUuid().equals(UUID.fromString("b6cdf42c-5e36-4fb3-ac70-84e3b44ba2a3")))
+					System.out.println(" -> " + st.statementPathString(transaction, this));
+				visited.add(st);
+				int newSize = st.dependencies(transaction).stream().mapToInt(st_ -> (isDescendent(transaction, st_)) ? proofSizes.get(st_) : 0).sum();
+				if (st instanceof Context)
+				{
+					Context ctx = (Context) st;
+					Statement solver = solvers.get(ctx);
+					int size = proofSizes.getOrDefault(solver, Integer.MAX_VALUE);
+					ArrayList<Statement> solvers_ = new ArrayList<>(ctx.solvers(transaction));
+					Collections.reverse(solvers_);
+					Collections.sort(solvers_, solverStatementComparator());
+					for (Statement solver_ : solvers_)
+					{
+						if (solver_.isProved())
+						{
+							if (proofSizes.containsKey(solver_))
+							{
+								int size_ = proofSizes.get(solver_);
+								if (size_ < size)
+								{
+									size = size_;
+									solver = solver_;
+								}
+							}
+							else if (isDescendent(transaction, solver_))
+								stack.push(solver_);
+						}
+					}
+					if (solver != null)
+					{
+						solvers.put(ctx, solver);
+						//size += ctx.assumptions(transaction).size();
+						newSize += size;
+					}
+					else
+						newSize = -1;
+				}
+				else if (st instanceof Specialization)
+					newSize += 1;
+				if (newSize >= 0)
+				{
+					Integer old = proofSizes.put(st, newSize);
+					System.out.println("   " + st.statementPathString(transaction, this) + ": " + newSize);
+					if (!equals(st) && (old == null || old != newSize))
+					{
+						for (Statement dep : st.dependents(transaction))
+							if (isDescendent(transaction, dep))
+							{
+								visited.remove(dep);
+								stack.push(dep);
+								//System.out.println(" <- " + dep.statementPathString(transaction, this) + " (dependent)");
+							}
+						for (Statement dep : st.getContext(transaction).descendantContextsByConsequent(transaction, st.getTerm()))
+						{
+							if (!dep.equals(st))
+							{
+								visited.remove(dep);
+								stack.push(dep);
+								//System.out.println(" <- " + dep.statementPathString(transaction, this) + " (solver)");
+							}
+						}
+						if (st instanceof Assumption)
+						{
+							Statement dep = st.getContext(transaction);
+							visited.remove(dep);
+							stack.push(dep);
+							//System.out.println(" <- " + dep.statementPathString(transaction, this) + " (assumption)");
+						}
+					}
+				}
+			}
+		}
+		{
+			System.out.println();
+			for (Statement st : descendentStatements(transaction))
+			{
+				if (st.isProved() && !proofSizes.containsKey(st) && Stream
+						.concat(st.dependencies(transaction).stream(), st instanceof Context ? ((Context) st).solvers(transaction).stream() : Stream.empty())
+						.filter(Statement::isProved).filter(dep_ -> isDescendent(transaction, dep_)).allMatch(proofSizes::containsKey))
+					System.out.println("   " + st.statementPathString(transaction, this));
+			}
+		}
+		return solvers;
+	}
+
 	public Set<Statement> uselessDescendents(Transaction transaction, Aborter aborter) throws AbortException
 	{
-		Map<Context, Statement> solvers = descendentProofTermsAndSolvers(transaction, aborter).solvers;
+		Map<Context, Statement> solvers = descendentSolvers(transaction, aborter);
 		Set<Statement> useless = Stream.concat(Stream.of(this), StreamSupport.stream(descendentStatements(transaction).spliterator(), false))
 				.collect(Collectors.toCollection(() -> new HashSet<>()));
 		Stack<Statement> stack = new Stack<>();
