@@ -1930,23 +1930,10 @@ public abstract class Statement implements Exportable
 		return new FilteredCloseableCollection<>(new NotNullFilter<Match>(), new BijectionCloseableCollection<>(bijection, statements));
 	}
 
-	protected class DescendentProofTermsAndSolvers
+	protected Map<Statement, Term> descendentProofTerms(Transaction transaction, Aborter aborter) throws AbortException
 	{
-		final Map<Statement, Term> proofs;
-		final Map<Context, Statement> solvers;
-
-		DescendentProofTermsAndSolvers()
-		{
-			super();
-			this.proofs = new HashMap<>();
-			this.solvers = new HashMap<>();
-		}
-	}
-
-	protected DescendentProofTermsAndSolvers descendentProofTermsAndSolvers(Transaction transaction, Aborter aborter) throws AbortException
-	{
-		DescendentProofTermsAndSolvers descendentProofTermsAndSolvers = new DescendentProofTermsAndSolvers();
-
+		Map<Statement, Term> proofs = new HashMap<>();
+		final Map<Context, Statement> solvers = new HashMap<>();
 		Map<VariableTerm, Term> replaceMap = new BijectionKeyMap<>(new Bijection<Statement, VariableTerm>()
 		{
 
@@ -1964,9 +1951,8 @@ public abstract class Statement implements Exportable
 				else
 					return null;
 			}
-		}, descendentProofTermsAndSolvers.proofs);
-
-		Function<Statement, Term> stTermFunction = st -> (isDescendent(transaction, st)) ? descendentProofTermsAndSolvers.proofs.get(st) : st.getVariable();
+		}, proofs);
+		Function<Statement, Term> stTermFunction = st -> (isDescendent(transaction, st)) ? proofs.get(st) : st.getVariable();
 		Stack<Statement> stack = new Stack<>();
 		stack.push(this);
 		Set<Statement> visited = new HashSet<>();
@@ -1978,14 +1964,14 @@ public abstract class Statement implements Exportable
 			deploop: while (true)
 			{
 				for (Statement dep : st.dependencies(transaction))
-					if (isDescendent(transaction, dep) && !descendentProofTermsAndSolvers.proofs.containsKey(dep))
+					if (isDescendent(transaction, dep) && !proofs.containsKey(dep))
 					{
 						st = dep;
 						continue deploop;
 					}
 				if (st instanceof Context)
 					for (Assumption ass : ((Context) st).assumptions(transaction))
-						if (!descendentProofTermsAndSolvers.proofs.containsKey(ass))
+						if (!proofs.containsKey(ass))
 						{
 							st = ass;
 							continue deploop;
@@ -2001,7 +1987,7 @@ public abstract class Statement implements Exportable
 					if (st instanceof Assumption)
 					{
 						Term type = st.getTerm().replace(replaceMap);
-						Term old = descendentProofTermsAndSolvers.proofs.get(st);
+						Term old = proofs.get(st);
 						Term oldType = old == null ? null : old.getType();
 						term = type.equals(oldType) ? old : new ParameterVariableTerm(st.getTerm().replace(replaceMap));
 					}
@@ -2021,7 +2007,7 @@ public abstract class Statement implements Exportable
 					else if (st instanceof Context)
 					{
 						Context ctx = (Context) st;
-						Statement solver = descendentProofTermsAndSolvers.solvers.get(ctx);
+						Statement solver = solvers.get(ctx);
 						int size;
 						if (solver == null)
 						{
@@ -2033,10 +2019,10 @@ public abstract class Statement implements Exportable
 							term = stTermFunction.apply(solver);
 							size = term.size();
 						}
-						ArrayList<Statement> solvers = new ArrayList<>(ctx.solvers(transaction));
-						Collections.reverse(solvers);
-						Collections.sort(solvers, solverStatementComparator());
-						for (Statement solver_ : solvers)
+						ArrayList<Statement> solvers_ = new ArrayList<>(ctx.solvers(transaction));
+						Collections.reverse(solvers_);
+						Collections.sort(solvers_, solverStatementComparator());
+						for (Statement solver_ : solvers_)
 						{
 							if (solver_.isProved())
 							{
@@ -2057,8 +2043,8 @@ public abstract class Statement implements Exportable
 						}
 						if (term != null)
 							for (Assumption a : new ReverseList<>(ctx.assumptions(transaction)))
-								term = new FunctionTerm((ParameterVariableTerm) descendentProofTermsAndSolvers.proofs.get(a), term);
-						descendentProofTermsAndSolvers.solvers.put(ctx, solver);
+								term = new FunctionTerm((ParameterVariableTerm) proofs.get(a), term);
+						solvers.put(ctx, solver);
 					}
 					else
 						throw new Error();
@@ -2071,7 +2057,7 @@ public abstract class Statement implements Exportable
 							if (getContext(transaction).statements(transaction).containsKey(dec.getVariable()))
 								term = new FoldingCastTypeTerm(term, st.getTerm().replace(replaceMap), dec.getVariable(), dec.getValue());
 						}
-						Term old = descendentProofTermsAndSolvers.proofs.put(st, term);
+						Term old = proofs.put(st, term);
 						if (!equals(st) && !term.equals(old))
 						{
 							for (Statement dep : st.dependents(transaction))
@@ -2107,14 +2093,14 @@ public abstract class Statement implements Exportable
 				}
 			}
 		}
-		return descendentProofTermsAndSolvers;
+		return proofs;
 	}
 
-	protected DescendentProofTermsAndSolvers descendentProofTermsAndSolvers(Transaction transaction)
+	protected Map<Statement, Term> descendentProofTerms(Transaction transaction)
 	{
 		try
 		{
-			return descendentProofTermsAndSolvers(transaction, null);
+			return descendentProofTerms(transaction, null);
 		}
 		catch (AbortException e)
 		{
@@ -2124,7 +2110,7 @@ public abstract class Statement implements Exportable
 
 	public Term proofTerm(Transaction transaction, Aborter aborter) throws AbortException
 	{
-		return descendentProofTermsAndSolvers(transaction, aborter).proofs.get(this);
+		return descendentProofTerms(transaction, aborter).get(this);
 	}
 
 	public Term proofTerm(Transaction transaction)
