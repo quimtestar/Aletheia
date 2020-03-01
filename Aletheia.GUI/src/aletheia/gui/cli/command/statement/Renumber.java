@@ -84,7 +84,7 @@ public class Renumber extends TransactionalCommand
 		}
 	}
 
-	private NodeNamespace to(int n) throws NumberOverflowException, InvalidNameException
+	private Identifier to(int n) throws NumberOverflowException, InvalidNameException
 	{
 		char[] chars = expression.toCharArray();
 		for (int i = chars.length - 1; i >= 0; i--)
@@ -97,7 +97,7 @@ public class Renumber extends TransactionalCommand
 		}
 		if (n > 0)
 			throw new NumberOverflowException();
-		return new NodeNamespace(new String(chars));
+		return Identifier.parse(new String(chars));
 	}
 
 	@Override
