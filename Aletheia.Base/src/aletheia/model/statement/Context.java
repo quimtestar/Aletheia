@@ -2565,9 +2565,8 @@ public class Context extends Statement
 
 	protected Map<Context, Statement> descendentSolvers(Transaction transaction, Aborter aborter) throws AbortException
 	{
-		Map<Statement, Integer> proofSizes = new HashMap<>();
+		Map<Statement, Set<IdentifiableVariableTerm>> proofVariables = new HashMap<>();
 		Map<Context, Statement> solvers = new HashMap<>();
-
 		Stack<Statement> stack = new Stack<>();
 		stack.push(this);
 		Set<Statement> visited = new HashSet<>();
@@ -2576,24 +2575,17 @@ public class Context extends Statement
 			if (aborter != null)
 				aborter.checkAbort();
 			Statement st = stack.pop();
-			//System.out.println(" -? " + st.statementPathString(transaction, this) );
 			deploop: while (true)
 			{
 				for (Statement dep : st.dependencies(transaction))
-					if (isDescendent(transaction, dep) && !proofSizes.containsKey(dep))
+					if (isDescendent(transaction, dep) && !proofVariables.containsKey(dep))
 					{
-						if (st.getUuid().equals(UUID.fromString("b6cdf42c-5e36-4fb3-ac70-84e3b44ba2a3")))
-						{
-							System.out.println(" -? " + st.statementPathString(transaction, this));
-							System.out.println("      dep: " + dep.statementPathString(transaction, this));
-							System.out.println("      xxxx");
-						}
 						st = dep;
 						continue deploop;
 					}
 				if (st instanceof Context)
 					for (Assumption ass : ((Context) st).assumptions(transaction))
-						if (!proofSizes.containsKey(ass))
+						if (!proofVariables.containsKey(ass))
 						{
 							st = ass;
 							continue deploop;
@@ -2602,15 +2594,18 @@ public class Context extends Statement
 			}
 			if (!visited.contains(st))
 			{
-				if (st.getUuid().equals(UUID.fromString("b6cdf42c-5e36-4fb3-ac70-84e3b44ba2a3")))
-					System.out.println(" -> " + st.statementPathString(transaction, this));
 				visited.add(st);
-				int newSize = st.dependencies(transaction).stream().mapToInt(st_ -> (isDescendent(transaction, st_)) ? proofSizes.get(st_) : 0).sum();
+				Set<IdentifiableVariableTerm> newProofVariables = new HashSet<>();
+				for (Statement dep : st.dependencies(transaction))
+					if (isDescendent(transaction, dep))
+						newProofVariables.addAll(proofVariables.get(dep));
+					else
+						newProofVariables.add(dep.getVariable());
 				if (st instanceof Context)
 				{
 					Context ctx = (Context) st;
 					Statement solver = solvers.get(ctx);
-					int size = proofSizes.getOrDefault(solver, Integer.MAX_VALUE);
+					Set<IdentifiableVariableTerm> solverProofVariables = proofVariables.get(solver);
 					ArrayList<Statement> solvers_ = new ArrayList<>(ctx.solvers(transaction));
 					Collections.reverse(solvers_);
 					Collections.sort(solvers_, solverStatementComparator());
@@ -2618,42 +2613,38 @@ public class Context extends Statement
 					{
 						if (solver_.isProved())
 						{
-							if (proofSizes.containsKey(solver_))
+							Set<IdentifiableVariableTerm> solverProofVariables_ = isDescendent(transaction, solver_) ? proofVariables.get(solver_)
+									: Collections.emptySet();
+							if (solverProofVariables_ != null)
 							{
-								int size_ = proofSizes.get(solver_);
-								if (size_ < size)
+								if (solverProofVariables == null || solverProofVariables_.size() < solverProofVariables.size())
 								{
-									size = size_;
+									solverProofVariables = solverProofVariables_;
 									solver = solver_;
 								}
 							}
-							else if (isDescendent(transaction, solver_))
+							else
 								stack.push(solver_);
 						}
 					}
 					if (solver != null)
 					{
 						solvers.put(ctx, solver);
-						//size += ctx.assumptions(transaction).size();
-						newSize += size;
+						newProofVariables.addAll(solverProofVariables);
 					}
 					else
-						newSize = -1;
+						newProofVariables = null;
 				}
-				else if (st instanceof Specialization)
-					newSize += 1;
-				if (newSize >= 0)
+				if (newProofVariables != null)
 				{
-					Integer old = proofSizes.put(st, newSize);
-					System.out.println("   " + st.statementPathString(transaction, this) + ": " + newSize);
-					if (!equals(st) && (old == null || old != newSize))
+					Set<IdentifiableVariableTerm> oldProofVariables = proofVariables.put(st, newProofVariables);
+					if (!equals(st) && !newProofVariables.equals(oldProofVariables))
 					{
 						for (Statement dep : st.dependents(transaction))
 							if (isDescendent(transaction, dep))
 							{
 								visited.remove(dep);
 								stack.push(dep);
-								//System.out.println(" <- " + dep.statementPathString(transaction, this) + " (dependent)");
 							}
 						for (Statement dep : st.getContext(transaction).descendantContextsByConsequent(transaction, st.getTerm()))
 						{
@@ -2661,7 +2652,6 @@ public class Context extends Statement
 							{
 								visited.remove(dep);
 								stack.push(dep);
-								//System.out.println(" <- " + dep.statementPathString(transaction, this) + " (solver)");
 							}
 						}
 						if (st instanceof Assumption)
@@ -2669,20 +2659,9 @@ public class Context extends Statement
 							Statement dep = st.getContext(transaction);
 							visited.remove(dep);
 							stack.push(dep);
-							//System.out.println(" <- " + dep.statementPathString(transaction, this) + " (assumption)");
 						}
 					}
 				}
-			}
-		}
-		{
-			System.out.println();
-			for (Statement st : descendentStatements(transaction))
-			{
-				if (st.isProved() && !proofSizes.containsKey(st) && Stream
-						.concat(st.dependencies(transaction).stream(), st instanceof Context ? ((Context) st).solvers(transaction).stream() : Stream.empty())
-						.filter(Statement::isProved).filter(dep_ -> isDescendent(transaction, dep_)).allMatch(proofSizes::containsKey))
-					System.out.println("   " + st.statementPathString(transaction, this));
 			}
 		}
 		return solvers;
