@@ -1050,15 +1050,7 @@ public abstract class Statement implements Exportable
 	@Override
 	public String toString()
 	{
-		Transaction transaction = persistenceManager.beginDirtyTransaction();
-		try
-		{
-			return toString(transaction);
-		}
-		finally
-		{
-			transaction.abort();
-		}
+		return getUuid() + ":" + label();
 	}
 
 	/**
