@@ -379,7 +379,18 @@ public class CliJPanel extends JPanel implements CommandSource
 			case KeyEvent.VK_C:
 			{
 				if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
-					controller.cancelActiveCommand("by user");
+				{
+					if ((e.getModifiersEx() & InputEvent.SHIFT_DOWN_MASK) == 0)
+						controller.cancelActiveCommand("by user");
+					else
+						textPane.copy();
+				}
+				break;
+			}
+			case KeyEvent.VK_V:
+			{
+				if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+					textPane.paste();
 				break;
 			}
 			case KeyEvent.VK_SPACE:
@@ -440,7 +451,7 @@ public class CliJPanel extends JPanel implements CommandSource
 				}
 
 			}
-			else if (e.getKeyChar() == KeyEvent.VK_CANCEL)
+			else if (e.getKeyChar() == KeyEvent.VK_CANCEL && (e.getModifiersEx() & InputEvent.SHIFT_DOWN_MASK) == 0)
 				controller.cancelActiveCommand("by user");
 		}
 
