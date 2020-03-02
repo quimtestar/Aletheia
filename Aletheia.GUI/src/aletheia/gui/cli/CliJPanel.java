@@ -383,14 +383,20 @@ public class CliJPanel extends JPanel implements CommandSource
 					if ((e.getModifiersEx() & InputEvent.SHIFT_DOWN_MASK) == 0)
 						controller.cancelActiveCommand("by user");
 					else
+					{
 						textPane.copy();
+						e.consume();
+					}
 				}
 				break;
 			}
 			case KeyEvent.VK_V:
 			{
 				if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+				{
 					textPane.paste();
+					e.consume();
+				}
 				break;
 			}
 			case KeyEvent.VK_SPACE:
