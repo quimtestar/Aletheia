@@ -34,7 +34,8 @@ public class UselessTest0003 extends TransactionalBerkeleyDBPersistenceManagerTe
 	@Override
 	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws Exception
 	{
-		Context context = persistenceManager.getContext(transaction, UUID.fromString("68394946-0037-409a-b062-2821d629fbd7"));
+		//Context context = persistenceManager.getContext(transaction, UUID.fromString("68394946-0037-409a-b062-2821d629fbd7"));
+		Context context = persistenceManager.getContext(transaction, UUID.fromString("2e650ed3-7433-5832-b00c-85c3ed6fdc56"));
 		Set<Statement> useless = context.uselessDescendents(transaction);
 		for (Statement st : useless)
 			System.out.println(st.statementPathString(transaction, context));

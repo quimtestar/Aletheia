@@ -2594,6 +2594,11 @@ public class Context extends Statement
 			}
 			if (!visited.contains(st))
 			{
+				System.out.println("-> " + st.getUuid() + ":" + st.label());
+				if (st.getUuid().equals(UUID.fromString("a71998b9-d30a-5446-a9f9-cb6a11dabef6")))
+					System.out.println("HALT");
+				if (st.getUuid().equals(UUID.fromString("fb50b45b-2d1a-59a3-9e3a-1a38a0ac8c26")))
+					System.out.println("HALT");
 				visited.add(st);
 				Set<IdentifiableVariableTerm> newProofVariables = new HashSet<>();
 				for (Statement dep : st.dependencies(transaction))
@@ -2619,6 +2624,8 @@ public class Context extends Statement
 							{
 								if (solverProofVariables == null || solverProofVariables_.size() < solverProofVariables.size())
 								{
+									if (solverProofVariables != null)
+										System.out.println("HALT");
 									solverProofVariables = solverProofVariables_;
 									solver = solver_;
 								}
@@ -2637,6 +2644,8 @@ public class Context extends Statement
 				}
 				if (newProofVariables != null)
 				{
+					if (st.getUuid().equals(UUID.fromString("fb50b45b-2d1a-59a3-9e3a-1a38a0ac8c26")))
+						System.out.println("HALT");
 					Set<IdentifiableVariableTerm> oldProofVariables = proofVariables.put(st, newProofVariables);
 					if (!equals(st) && !newProofVariables.equals(oldProofVariables))
 					{
