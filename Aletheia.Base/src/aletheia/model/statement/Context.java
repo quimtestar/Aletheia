@@ -2583,22 +2583,10 @@ public class Context extends Statement
 						st = dep;
 						continue deploop;
 					}
-				if (st instanceof Context)
-					for (Assumption ass : ((Context) st).assumptions(transaction))
-						if (!proofVariables.containsKey(ass))
-						{
-							st = ass;
-							continue deploop;
-						}
 				break;
 			}
 			if (!visited.contains(st))
 			{
-				System.out.println("-> " + st.getUuid() + ":" + st.label());
-				if (st.getUuid().equals(UUID.fromString("a71998b9-d30a-5446-a9f9-cb6a11dabef6")))
-					System.out.println("HALT");
-				if (st.getUuid().equals(UUID.fromString("fb50b45b-2d1a-59a3-9e3a-1a38a0ac8c26")))
-					System.out.println("HALT");
 				visited.add(st);
 				Set<IdentifiableVariableTerm> newProofVariables = new HashSet<>();
 				for (Statement dep : st.dependencies(transaction))
@@ -2624,8 +2612,6 @@ public class Context extends Statement
 							{
 								if (solverProofVariables == null || solverProofVariables_.size() < solverProofVariables.size())
 								{
-									if (solverProofVariables != null)
-										System.out.println("HALT");
 									solverProofVariables = solverProofVariables_;
 									solver = solver_;
 								}
@@ -2644,8 +2630,6 @@ public class Context extends Statement
 				}
 				if (newProofVariables != null)
 				{
-					if (st.getUuid().equals(UUID.fromString("fb50b45b-2d1a-59a3-9e3a-1a38a0ac8c26")))
-						System.out.println("HALT");
 					Set<IdentifiableVariableTerm> oldProofVariables = proofVariables.put(st, newProofVariables);
 					if (!equals(st) && !newProofVariables.equals(oldProofVariables))
 					{
@@ -2655,19 +2639,28 @@ public class Context extends Statement
 								visited.remove(dep);
 								stack.push(dep);
 							}
-						for (Statement dep : st.getContext(transaction).descendantContextsByConsequent(transaction, st.getTerm()))
+						for (Context ctx : st.getContext(transaction).descendantContextsByConsequent(transaction, st.getTerm()))
 						{
-							if (!dep.equals(st))
+							if (!st.equals(ctx))
 							{
-								visited.remove(dep);
-								stack.push(dep);
+								visited.remove(ctx);
+								stack.push(ctx);
 							}
 						}
-						if (st instanceof Assumption)
+						Stack<Statement> depStack = new Stack<>();
+						depStack.push(st);
+						while (!depStack.isEmpty())
 						{
-							Statement dep = st.getContext(transaction);
-							visited.remove(dep);
-							stack.push(dep);
+							Statement st_ = depStack.pop();
+							if (st.equals(st_) || proofVariables.remove(st_) != null)
+							{
+								for (Statement dep : st_.dependents(transaction))
+									if (isDescendent(transaction, dep))
+										depStack.push(dep);
+								for (Context ctx : st_.getContext(transaction).descendantContextsByConsequent(transaction, st_.getTerm()))
+									if (st_.equals(solvers.get(ctx)))
+										depStack.push(ctx);
+							}
 						}
 					}
 				}
