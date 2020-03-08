@@ -63,7 +63,7 @@ public class ReplacementTest0000 extends TransactionalBerkeleyDBPersistenceManag
 	@Override
 	protected void run(BerkeleyDBPersistenceManager persistenceManager, Transaction transaction) throws Exception
 	{
-		//enterPassphrase(persistenceManager);
+		enterPassphrase(persistenceManager);
 
 		Bijection<UUID, Statement> uuidBijection = new Bijection<>()
 		{
@@ -86,24 +86,7 @@ public class ReplacementTest0000 extends TransactionalBerkeleyDBPersistenceManag
 		{
 			Map<String, String> stringMap = new HashMap<>();
 
-			/*
-			stringMap.put("Aletheia.Term.type.freeVars.variant", "Aletheia.Term.type.freeVars.variant.new");
-			stringMap.put("Aletheia.Term.type.freeVars.variant.def", "Aletheia.Term.type.freeVars.variant.new.def.old");
-			stringMap.put("Aletheia.Term.type.freeVars.variant.th.tau", "Aletheia.Term.type.freeVars.variant.new.th.tau");
-			stringMap.put("Aletheia.Term.type.freeVars.variant.th.variable", "Aletheia.Term.type.freeVars.variant.new.th.variable");
-			stringMap.put("Aletheia.Term.type.freeVars.variant.th.composition", "Aletheia.Term.type.freeVars.variant.new.th.composition");
-			stringMap.put("Aletheia.Term.type.freeVars.variant.th.function", "Aletheia.Term.type.freeVars.variant.new.th.function.subtraction_singleton");
-			stringMap.put("Aletheia.Term.type.freeVars.variant.th.projection", "Aletheia.Term.type.freeVars.variant.new.th.projection");
-			*/
-
-			stringMap.put("Aletheia.Term.type.freeVars.invariant", "Aletheia.Term.type.freeVars.invariant.new");
-			stringMap.put("Aletheia.Term.type.freeVars.invariant.def", "Aletheia.Term.type.freeVars.invariant.new.def.old");
-			stringMap.put("Aletheia.Term.type.freeVars.invariant.th.tau", "Aletheia.Term.type.freeVars.invariant.new.th.tau");
-			stringMap.put("Aletheia.Term.type.freeVars.invariant.th.variable", "Aletheia.Term.type.freeVars.invariant.new.th.variable");
-			stringMap.put("Aletheia.Term.type.freeVars.invariant.th.composition", "Aletheia.Term.type.freeVars.invariant.new.th.composition");
-			stringMap.put("Aletheia.Term.type.freeVars.invariant.th.function", "Aletheia.Term.type.freeVars.invariant.new.th.function.subtraction_singleton");
-			stringMap.put("Aletheia.Term.type.freeVars.invariant.th.projection.function",
-					"Aletheia.Term.type.freeVars.invariant.new.th.projection.function.subtraction_singleton");
+			stringMap.put("Prop.True.th", "Prop.True.def.new");
 
 			Context choiceCtx = persistenceManager.getContext(transaction, UUID.fromString("75130b32-91fa-5da5-af6c-744cb4463f64"));
 			for (Map.Entry<String, String> e : stringMap.entrySet())
