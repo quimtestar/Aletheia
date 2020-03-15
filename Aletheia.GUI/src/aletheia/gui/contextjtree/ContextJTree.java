@@ -366,7 +366,7 @@ public class ContextJTree extends PersistentJTree
 		{
 			lastDraggedPoint = e.getPoint();
 			lastDraggedViewRect = getAletheiaJPanel().getContextJTreeJPanel().getContextJTreeScrollPane().getViewport().getViewRect();
-			lastDraggedViewRect.grow(-3, -3);
+			lastDraggedViewRect.grow(-10, -10);
 		}
 
 		@Override
