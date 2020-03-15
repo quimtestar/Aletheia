@@ -20,11 +20,14 @@
 package aletheia.gui.contextjtree;
 
 import java.awt.Component;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -200,7 +203,7 @@ public class ContextJTree extends PersistentJTree
 
 	}
 
-	private class Listener implements KeyListener, MouseListener, TreeSelectionListener
+	private class Listener implements KeyListener, MouseListener, MouseMotionListener, TreeSelectionListener
 	{
 
 		@Override
@@ -355,13 +358,40 @@ public class ContextJTree extends PersistentJTree
 		{
 		}
 
+		private Point lastDraggedPoint = null;
+		private Rectangle lastDraggedViewRect = null;
+
 		@Override
 		public void mousePressed(MouseEvent e)
 		{
+			lastDraggedPoint = e.getPoint();
+			lastDraggedViewRect = getAletheiaJPanel().getContextJTreeJPanel().getContextJTreeScrollPane().getViewport().getViewRect();
+			lastDraggedViewRect.grow(-3, -3);
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e)
+		{
+			lastDraggedPoint = null;
+			lastDraggedViewRect = null;
+		}
+
+		@Override
+		public void mouseDragged(MouseEvent e)
+		{
+			if (lastDraggedPoint != null && lastDraggedViewRect != null)
+			{
+				Point dragged = e.getPoint();
+				Rectangle viewRect = new Rectangle(lastDraggedViewRect);
+				viewRect.translate((int) (Math.round(lastDraggedPoint.getX() - dragged.getX())), (int) (Math.round(lastDraggedPoint.getY() - dragged.getY())));
+				scrollRectToVisible(viewRect);
+				lastDraggedPoint = dragged;
+				lastDraggedViewRect = viewRect;
+			}
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e)
 		{
 		}
 
@@ -500,6 +530,7 @@ public class ContextJTree extends PersistentJTree
 		this.selectionModel.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		this.addKeyListener(listener);
 		this.addMouseListener(listener);
+		this.addMouseMotionListener(listener);
 		this.selectionModel.addTreeSelectionListener(listener);
 		this.setEditable(true);
 		this.selectionListeners = Collections.synchronizedSet(new HashSet<SelectionListener>());
