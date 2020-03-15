@@ -229,7 +229,12 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 				{
 					Context activeContext = persistenceManager.getContext(transaction, activeContextUuid);
 					if (activeContext != null)
+					{
 						aletheiaJPanel.setActiveContext(activeContext);
+						if (!activeContext.isProved())
+							aletheiaJPanel.getContextJTree().expandStatement(activeContext);
+						aletheiaJPanel.getContextJTree().scrollStatementToVisible(activeContext);
+					}
 					else
 						logger.warn("Couldn't set active context because no context with uuid '" + activeContextUuid + "' found");
 				}
