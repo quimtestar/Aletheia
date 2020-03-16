@@ -27,6 +27,7 @@ import javax.swing.SwingUtilities;
 import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.gui.app.AletheiaJPanel;
 import aletheia.gui.authority.AuthorityJPanel;
+import aletheia.gui.common.DraggableJScrollPane;
 import aletheia.gui.common.FocusBorderManager;
 import aletheia.gui.contextjtree.sorter.Sorter;
 import aletheia.model.statement.Statement;
@@ -49,7 +50,7 @@ public class ContextJTreeJPanel extends JPanel
 		super();
 		this.aletheiaJPanel = aletheiaJPanel;
 		this.contextJTree = new ContextJTree(aletheiaJPanel);
-		this.contextJTreeScrollPane = new JScrollPane(this.contextJTree);
+		this.contextJTreeScrollPane = new DraggableJScrollPane(this.contextJTree);
 		this.contextJTreeFocusBorderManager = new FocusBorderManager(contextJTreeScrollPane, contextJTree);
 		this.authorityJPanel = new AuthorityJPanel(this);
 		this.splitPane1 = new MyJSplitPane(JSplitPane.VERTICAL_SPLIT, contextJTreeScrollPane, authorityJPanel);
