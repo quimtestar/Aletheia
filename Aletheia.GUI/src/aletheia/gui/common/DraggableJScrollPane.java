@@ -52,8 +52,11 @@ public class DraggableJScrollPane extends JScrollPane
 		@Override
 		public void mousePressed(MouseEvent e)
 		{
-			originDragRelativePoint = relativePoint(e);
-			originScrollPoint = getScrollPoint();
+			if (dragging)
+			{
+				originDragRelativePoint = relativePoint(e);
+				originScrollPoint = getScrollPoint();
+			}
 		}
 
 		@Override
@@ -76,7 +79,7 @@ public class DraggableJScrollPane extends JScrollPane
 		@Override
 		public void mouseDragged(MouseEvent e)
 		{
-			if (originDragRelativePoint != null)
+			if (dragging && originDragRelativePoint != null && originScrollPoint != null)
 			{
 				Point dragRelativePoint = relativePoint(e);
 				Point scrollPoint = new Point(originScrollPoint);
@@ -93,6 +96,7 @@ public class DraggableJScrollPane extends JScrollPane
 	}
 
 	private final Listener listener;
+	private boolean dragging;
 
 	public DraggableJScrollPane(Component view)
 	{
@@ -100,6 +104,17 @@ public class DraggableJScrollPane extends JScrollPane
 		this.listener = new Listener();
 		getViewport().getView().addMouseListener(this.listener);
 		getViewport().getView().addMouseMotionListener(this.listener);
+		this.dragging = false;
+	}
+
+	public boolean isDragging()
+	{
+		return dragging;
+	}
+
+	public void setDragging(boolean dragging)
+	{
+		this.dragging = dragging;
 	}
 
 	private Point getScrollPoint()

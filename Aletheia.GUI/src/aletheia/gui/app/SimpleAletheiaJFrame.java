@@ -222,6 +222,7 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 			configuration.setCachePercent(properties.getCachePercent());
 			this.persistenceManager = new BerkeleyDBPersistenceManager(configuration);
 			this.aletheiaJPanel = new AletheiaJPanel(this, this, persistenceManager);
+			this.aletheiaJPanel.setDragging(true);
 
 			UUID activeContextUuid = properties.getActiveContextUuid();
 			if (activeContextUuid != null)
@@ -244,7 +245,7 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 				this.setContentPane(aletheiaJPanel);
 				break;
 			case CONTEXT:
-				this.setContentPane(aletheiaJPanel.getContextJTreeJPanel().getContextJTreeScrollPane());
+				this.setContentPane(aletheiaJPanel.getContextJTreeJPanel().getContextJTreeDraggableJScrollPane());
 				break;
 			case CATALOG:
 				this.setContentPane(aletheiaJPanel.getCliJPanel().getCatalogJTreeScrollPane());
@@ -366,7 +367,7 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 		switch (getAletheiaGUI().getPanel())
 		{
 		case CONTEXT:
-			this.setContentPane(aletheiaJPanel.getContextJTreeJPanel().getContextJTreeScrollPane());
+			this.setContentPane(aletheiaJPanel.getContextJTreeJPanel().getContextJTreeDraggableJScrollPane());
 			break;
 		case CATALOG:
 			this.setContentPane(aletheiaJPanel.getCliJPanel().getCatalogJTreeScrollPane());

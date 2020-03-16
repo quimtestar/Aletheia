@@ -21,7 +21,6 @@ package aletheia.gui.contextjtree;
 
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 import aletheia.gui.app.MainAletheiaJFrame;
@@ -40,7 +39,8 @@ public class ContextJTreeJPanel extends JPanel
 
 	private final AletheiaJPanel aletheiaJPanel;
 	private ContextJTree contextJTree;
-	private JScrollPane contextJTreeScrollPane;
+	private DraggableJScrollPane contextJTreeDraggableJScrollPane;
+	private boolean dragging;
 	private FocusBorderManager contextJTreeFocusBorderManager;
 	private final AuthorityJPanel authorityJPanel;
 	private final MyJSplitPane splitPane1;
@@ -50,10 +50,11 @@ public class ContextJTreeJPanel extends JPanel
 		super();
 		this.aletheiaJPanel = aletheiaJPanel;
 		this.contextJTree = new ContextJTree(aletheiaJPanel);
-		this.contextJTreeScrollPane = new DraggableJScrollPane(this.contextJTree);
-		this.contextJTreeFocusBorderManager = new FocusBorderManager(contextJTreeScrollPane, contextJTree);
+		this.contextJTreeDraggableJScrollPane = new DraggableJScrollPane(this.contextJTree);
+		this.dragging = false;
+		this.contextJTreeFocusBorderManager = new FocusBorderManager(contextJTreeDraggableJScrollPane, contextJTree);
 		this.authorityJPanel = new AuthorityJPanel(this);
-		this.splitPane1 = new MyJSplitPane(JSplitPane.VERTICAL_SPLIT, contextJTreeScrollPane, authorityJPanel);
+		this.splitPane1 = new MyJSplitPane(JSplitPane.VERTICAL_SPLIT, contextJTreeDraggableJScrollPane, authorityJPanel);
 		this.splitPane1.setResizeWeight(1);
 		this.splitPane1.setDividerLocationOrCollapseWhenValid(1d);
 		this.splitPane1.setOneTouchExpandable(true);
@@ -81,9 +82,21 @@ public class ContextJTreeJPanel extends JPanel
 		return contextJTree;
 	}
 
-	public synchronized JScrollPane getContextJTreeScrollPane()
+	public synchronized DraggableJScrollPane getContextJTreeDraggableJScrollPane()
 	{
-		return contextJTreeScrollPane;
+		return contextJTreeDraggableJScrollPane;
+	}
+
+	public synchronized boolean isDragging()
+	{
+		return dragging;
+	}
+
+	public synchronized void setDragging(boolean dragging)
+	{
+		this.dragging = dragging;
+		if (contextJTreeDraggableJScrollPane != null)
+			contextJTreeDraggableJScrollPane.setDragging(dragging);
 	}
 
 	public synchronized void close() throws InterruptedException
@@ -144,10 +157,11 @@ public class ContextJTreeJPanel extends JPanel
 		contextJTree = new ContextJTree(aletheiaJPanel);
 		if (selected != null)
 			selectSorter(selected);
-		contextJTreeScrollPane = new JScrollPane(contextJTree);
-		contextJTreeFocusBorderManager = new FocusBorderManager(contextJTreeScrollPane, contextJTree);
+		contextJTreeDraggableJScrollPane = new DraggableJScrollPane(contextJTree);
+		contextJTreeDraggableJScrollPane.setDragging(dragging);
+		contextJTreeFocusBorderManager = new FocusBorderManager(contextJTreeDraggableJScrollPane, contextJTree);
 		double dl = splitPane1.getProportionalDividerLocation();
-		splitPane1.setTopComponent(contextJTreeScrollPane);
+		splitPane1.setTopComponent(contextJTreeDraggableJScrollPane);
 		splitPane1.setDividerLocationOrCollapse(dl);
 
 		authorityJPanel.updatedContextJTree(contextJTree);

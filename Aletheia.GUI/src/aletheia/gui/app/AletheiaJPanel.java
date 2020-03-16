@@ -63,6 +63,7 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 	private final ProofFinder proofFinder;
 
 	private boolean closed;
+	private boolean dragging;
 
 	public AletheiaJPanel(MainAletheiaJFrame aletheiaJFrame, AletheiaJFrame ownerFrame, PersistenceManager persistenceManager) throws InterruptedException
 	{
@@ -94,6 +95,7 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 		this.proofFinder.addListener(new ProofFinderExecutor(persistenceManager, cliJPanel));
 
 		this.closed = false;
+		this.dragging = false;
 	}
 
 	public MainAletheiaJFrame getAletheiaJFrame()
@@ -228,6 +230,17 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 			throw new RuntimeException(e);
 		}
 		getOwnerFrame().resetedGui();
+	}
+
+	public boolean isDragging()
+	{
+		return dragging;
+	}
+
+	public void setDragging(boolean dragging)
+	{
+		this.dragging = dragging;
+		this.contextJTreeJPanel.setDragging(dragging);
 	}
 
 }
