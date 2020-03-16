@@ -21,12 +21,10 @@ package aletheia.gui.common;
 
 import java.awt.Component;
 import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
-import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
 public class DraggableJScrollPane extends JScrollPane
@@ -35,8 +33,16 @@ public class DraggableJScrollPane extends JScrollPane
 
 	private class Listener implements MouseListener, MouseMotionListener
 	{
-		private Point originDragPoint = null;
-		private Rectangle originViewRect = null;
+		private Point originDragRelativePoint = null;
+		private Point originScrollPoint = null;
+
+		private Point relativePoint(MouseEvent e)
+		{
+			Point scrollPoint = getScrollPoint();
+			Point relativePoint = new Point(e.getPoint());
+			relativePoint.translate(-scrollPoint.x, -scrollPoint.y);
+			return relativePoint;
+		}
 
 		@Override
 		public void mouseClicked(MouseEvent e)
@@ -46,15 +52,15 @@ public class DraggableJScrollPane extends JScrollPane
 		@Override
 		public void mousePressed(MouseEvent e)
 		{
-			originDragPoint = e.getPoint();
-			originViewRect = getViewport().getViewRect();
+			originDragRelativePoint = relativePoint(e);
+			originScrollPoint = getScrollPoint();
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e)
 		{
-			originDragPoint = null;
-			originViewRect = null;
+			originDragRelativePoint = null;
+			originScrollPoint = null;
 		}
 
 		@Override
@@ -70,12 +76,12 @@ public class DraggableJScrollPane extends JScrollPane
 		@Override
 		public void mouseDragged(MouseEvent e)
 		{
-			if (originDragPoint != null && originViewRect != null)
+			if (originDragRelativePoint != null)
 			{
-				Point dragPoint = e.getPoint();
-				Rectangle viewRect = new Rectangle(originViewRect);
-				viewRect.translate((int) Math.round(originDragPoint.getX() - dragPoint.getX()), (int) Math.round(originDragPoint.getY() - dragPoint.getY()));
-				((JComponent) (getViewport().getView())).scrollRectToVisible(viewRect);
+				Point dragRelativePoint = relativePoint(e);
+				Point scrollPoint = new Point(originScrollPoint);
+				scrollPoint.translate(originDragRelativePoint.x - dragRelativePoint.x, originDragRelativePoint.y - dragRelativePoint.y);
+				setScrollPoint(scrollPoint);
 			}
 		}
 
@@ -94,6 +100,17 @@ public class DraggableJScrollPane extends JScrollPane
 		this.listener = new Listener();
 		getViewport().getView().addMouseListener(this.listener);
 		getViewport().getView().addMouseMotionListener(this.listener);
+	}
+
+	private Point getScrollPoint()
+	{
+		return new Point(getHorizontalScrollBar().getValue(), getVerticalScrollBar().getValue());
+	}
+
+	private void setScrollPoint(Point p)
+	{
+		getHorizontalScrollBar().setValue(p.x);
+		getVerticalScrollBar().setValue(p.y);
 	}
 
 }
