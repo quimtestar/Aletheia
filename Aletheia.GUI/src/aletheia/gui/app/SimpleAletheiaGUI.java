@@ -36,7 +36,7 @@ public class SimpleAletheiaGUI extends AletheiaGUI
 	public SimpleAletheiaGUI(CommandLineArguments cla)
 	{
 		super(cla.getGlobalSwitches());
-		Panel panel_ = Panel.ALL;
+		Panel panel_ = Panel.TABBED;
 		Switch sw = cla.getGlobalSwitches().get("panel");
 		if (sw instanceof Option)
 			try

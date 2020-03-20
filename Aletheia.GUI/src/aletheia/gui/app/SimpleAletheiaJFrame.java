@@ -36,6 +36,7 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
@@ -59,7 +60,7 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 
 	public enum Panel
 	{
-		ALL, CONTEXT, CATALOG;
+		TABBED, CONTEXT, CATALOG, ALL;
 	}
 
 	static class MyProperties extends Properties
@@ -203,6 +204,7 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 
 	private final PersistenceManager persistenceManager;
 	private final AletheiaJPanel aletheiaJPanel;
+	private final JTabbedPane aletheiaJTabbedPane;
 
 	private boolean active;
 
@@ -223,6 +225,9 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 			this.persistenceManager = new BerkeleyDBPersistenceManager(configuration);
 			this.aletheiaJPanel = new AletheiaJPanel(this, this, persistenceManager);
 			this.aletheiaJPanel.setDragging(true);
+			this.aletheiaJTabbedPane = new JTabbedPane();
+			this.aletheiaJTabbedPane.addTab("Context", aletheiaJPanel.getContextJTreeJPanel().getContextJTreeDraggableJScrollPane());
+			this.aletheiaJTabbedPane.addTab("Catalog", aletheiaJPanel.getCliJPanel().getCatalogJTreeDraggableJScrollPane());
 
 			UUID activeContextUuid = properties.getActiveContextUuid();
 			if (activeContextUuid != null)
@@ -239,6 +244,7 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 					else
 						logger.warn("Couldn't set active context because no context with uuid '" + activeContextUuid + "' found");
 				}
+
 			switch (aletheiaGUI.getPanel())
 			{
 			case ALL:
@@ -249,6 +255,9 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 				break;
 			case CATALOG:
 				this.setContentPane(aletheiaJPanel.getCliJPanel().getCatalogJTreeDraggableJScrollPane());
+				break;
+			case TABBED:
+				this.setContentPane(aletheiaJTabbedPane);
 				break;
 			}
 
@@ -372,6 +381,8 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 		case CATALOG:
 			this.setContentPane(aletheiaJPanel.getCliJPanel().getCatalogJTreeDraggableJScrollPane());
 			break;
+		case TABBED:
+			this.setContentPane(aletheiaJTabbedPane);
 		default:
 			break;
 		}
