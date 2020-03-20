@@ -98,13 +98,18 @@ public class DraggableJScrollPane extends JScrollPane
 	private final Listener listener;
 	private boolean dragging;
 
-	public DraggableJScrollPane(Component view)
+	public DraggableJScrollPane(Component view, Component source)
 	{
 		super(view);
 		this.listener = new Listener();
-		getViewport().getView().addMouseListener(this.listener);
-		getViewport().getView().addMouseMotionListener(this.listener);
+		source.addMouseListener(this.listener);
+		source.addMouseMotionListener(this.listener);
 		this.dragging = false;
+	}
+
+	public DraggableJScrollPane(Component view)
+	{
+		this(view, view);
 	}
 
 	public boolean isDragging()

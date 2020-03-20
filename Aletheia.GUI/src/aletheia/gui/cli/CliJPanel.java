@@ -110,6 +110,7 @@ import aletheia.gui.cli.command.aux.EmptyCommand;
 import aletheia.gui.cli.command.gui.Prompt;
 import aletheia.gui.cli.command.gui.SimpleMessage;
 import aletheia.gui.cli.command.gui.TraceException;
+import aletheia.gui.common.DraggableJScrollPane;
 import aletheia.gui.common.FocusBorderManager;
 import aletheia.gui.common.PassphraseDialog;
 import aletheia.gui.common.PersistentJTreeLayerUI;
@@ -1182,7 +1183,8 @@ public class CliJPanel extends JPanel implements CommandSource
 	private final MyJSplitPane splitPane;
 	private CatalogJTree catalogJTree;
 	private PersistentJTreeLayerUI<CatalogJTree> catalogJTreeLayerUI;
-	private JScrollPane catalogJTreeScrollPane;
+	private DraggableJScrollPane catalogJTreeDraggableJScrollPane;
+	private boolean dragging;
 	private FocusBorderManager catalogJTreeFocusBorderManager;
 	private final CommandHistory commandHistory;
 	private final BracketHighLightManager bracketHighLightManager;
@@ -1216,9 +1218,10 @@ public class CliJPanel extends JPanel implements CommandSource
 		textPaneFocusBorderManager = new FocusBorderManager(scrollTextPane, textPane);
 		catalogJTree = new CatalogJTree(this);
 		catalogJTreeLayerUI = new PersistentJTreeLayerUI<>(aletheiaJPanel.getAletheiaJFrame(), catalogJTree);
-		catalogJTreeScrollPane = new JScrollPane(catalogJTreeLayerUI.getJLayer());
-		catalogJTreeFocusBorderManager = new FocusBorderManager(catalogJTreeScrollPane, catalogJTree);
-		splitPane = new MyJSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollTextPane, catalogJTreeScrollPane);
+		catalogJTreeDraggableJScrollPane = new DraggableJScrollPane(catalogJTreeLayerUI.getJLayer(), catalogJTree);
+		dragging = false;
+		catalogJTreeFocusBorderManager = new FocusBorderManager(catalogJTreeDraggableJScrollPane, catalogJTree);
+		splitPane = new MyJSplitPane(JSplitPane.HORIZONTAL_SPLIT, scrollTextPane, catalogJTreeDraggableJScrollPane);
 		splitPane.setResizeWeight(1);
 		splitPane.setDividerLocationOrCollapseWhenValid(1.0d);
 		splitPane.setOneTouchExpandable(true);
@@ -1322,14 +1325,29 @@ public class CliJPanel extends JPanel implements CommandSource
 		return scrollTextPane;
 	}
 
-	public synchronized JScrollPane getCatalogJTreeScrollPane()
+	public synchronized JScrollPane getCatalogJTreeDraggableJScrollPane()
 	{
-		return catalogJTreeScrollPane;
+		return catalogJTreeDraggableJScrollPane;
 	}
 
-	public void setCatalogJTreeScrollPane(JScrollPane catalogJTreeScrollPane)
+	public synchronized void setCatalogJTreeDraggableJScrollPane(DraggableJScrollPane catalogJTreeDraggableJScrollPane)
 	{
-		this.catalogJTreeScrollPane = catalogJTreeScrollPane;
+		this.catalogJTreeDraggableJScrollPane = catalogJTreeDraggableJScrollPane;
+	}
+
+	public synchronized boolean isDragging()
+	{
+		return dragging;
+	}
+
+	public synchronized void setDragging(boolean dragging)
+	{
+		this.dragging = dragging;
+		if (catalogJTreeDraggableJScrollPane != null)
+			catalogJTreeDraggableJScrollPane.setDragging(dragging);
+		if (catalogJTree != null)
+			catalogJTree.setDragEnabled(!dragging);
+
 	}
 
 	@Override
@@ -2656,12 +2674,11 @@ public class CliJPanel extends JPanel implements CommandSource
 			selectPrefix(selected);
 		catalogJTreeLayerUI.close();
 		catalogJTreeLayerUI = new PersistentJTreeLayerUI<>(aletheiaJPanel.getAletheiaJFrame(), catalogJTree);
-		catalogJTreeScrollPane = new JScrollPane(catalogJTreeLayerUI.getJLayer());
-		catalogJTreeFocusBorderManager = new FocusBorderManager(catalogJTreeScrollPane, catalogJTree);
-		catalogJTreeScrollPane = new JScrollPane(catalogJTree);
-		catalogJTreeFocusBorderManager = new FocusBorderManager(catalogJTreeScrollPane, catalogJTree);
+		catalogJTreeDraggableJScrollPane = new DraggableJScrollPane(catalogJTreeLayerUI.getJLayer(), catalogJTree);
+		catalogJTreeDraggableJScrollPane.setDragging(dragging);
+		catalogJTreeFocusBorderManager = new FocusBorderManager(catalogJTreeDraggableJScrollPane, catalogJTree);
 		double dl = splitPane.getProportionalDividerLocation();
-		splitPane.setRightComponent(catalogJTreeScrollPane);
+		splitPane.setRightComponent(catalogJTreeDraggableJScrollPane);
 		splitPane.setDividerLocationOrCollapse(dl);
 	}
 

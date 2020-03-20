@@ -241,6 +241,7 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 	{
 		this.dragging = dragging;
 		this.contextJTreeJPanel.setDragging(dragging);
+		this.cliJPanel.setDragging(dragging);
 	}
 
 }

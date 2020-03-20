@@ -97,6 +97,8 @@ public class ContextJTreeJPanel extends JPanel
 		this.dragging = dragging;
 		if (contextJTreeDraggableJScrollPane != null)
 			contextJTreeDraggableJScrollPane.setDragging(dragging);
+		if (contextJTree != null)
+			contextJTree.setDragEnabled(!dragging);
 	}
 
 	public synchronized void close() throws InterruptedException
