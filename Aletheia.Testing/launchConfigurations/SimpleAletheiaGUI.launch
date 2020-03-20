@@ -9,7 +9,7 @@
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_EXCLUDE_TEST_CODE" value="true"/>
     <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_CLASSPATH_ONLY_JAR" value="false"/>
     <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="aletheia.gui.app.SimpleAletheiaGUI"/>
-    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-nosplash --panel=${string_prompt:Panel:TABBED}"/>
+    <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-nosplash --panel=${string_prompt:Panel:TABBED} -framed"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Aletheia.GUI"/>
     <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:Aletheia.Testing}"/>
 </launchConfiguration>

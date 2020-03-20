@@ -37,6 +37,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JTabbedPane;
+import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
@@ -226,9 +227,10 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 			this.persistenceManager = new BerkeleyDBPersistenceManager(configuration);
 			this.aletheiaJPanel = new AletheiaJPanel(this, this, persistenceManager);
 			this.aletheiaJPanel.setDragging(true);
-			this.aletheiaJTabbedPane = new JTabbedPane();
-			this.aletheiaJTabbedPane.addTab("Catalog", aletheiaJPanel.getCliJPanel().getCatalogJTreeDraggableJScrollPane());
-			this.aletheiaJTabbedPane.addTab("Context", aletheiaJPanel.getContextJTreeJPanel().getContextJTreeDraggableJScrollPane());
+			this.aletheiaJTabbedPane = new JTabbedPane(SwingConstants.LEFT);
+			this.aletheiaJTabbedPane.setFont(new FontManager(24).expandFont());
+			this.aletheiaJTabbedPane.addTab("\u2042", aletheiaJPanel.getCliJPanel().getCatalogJTreeDraggableJScrollPane());
+			this.aletheiaJTabbedPane.addTab("\u22a2", aletheiaJPanel.getContextJTreeJPanel().getContextJTreeDraggableJScrollPane());
 			this.aletheiaJPanel.getContextJTree().addSelectionListener(new ContextJTree.SelectionListener()
 			{
 				@Override
@@ -265,15 +267,18 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 				break;
 			}
 
-			Rectangle maxRectangle = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-			if (maxRectangle != null)
+			if (!aletheiaGUI.isFramed())
 			{
-				this.setPreferredSize(new Dimension((int) maxRectangle.getWidth(), (int) maxRectangle.getHeight()));
-				this.setLocation(maxRectangle.getLocation());
+				Rectangle maxRectangle = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+				if (maxRectangle != null)
+				{
+					this.setPreferredSize(new Dimension((int) maxRectangle.getWidth(), (int) maxRectangle.getHeight()));
+					this.setLocation(maxRectangle.getLocation());
+				}
+				this.setExtendedState(MAXIMIZED_BOTH);
+				this.setUndecorated(true);
 			}
-			this.setExtendedState(MAXIMIZED_BOTH);
 			this.setResizable(true);
-			this.setUndecorated(true);
 			this.setTitle(AletheiaConstants.TITLE);
 			this.setIconImages(IconManager.instance.aletheiaIconList);
 			this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

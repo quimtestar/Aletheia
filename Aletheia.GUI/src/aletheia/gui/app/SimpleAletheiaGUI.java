@@ -32,6 +32,7 @@ public class SimpleAletheiaGUI extends AletheiaGUI
 	private final static Logger logger = LoggerManager.instance.logger();
 
 	private final Panel panel;
+	private final boolean framed;
 
 	public SimpleAletheiaGUI(CommandLineArguments cla)
 	{
@@ -45,20 +46,23 @@ public class SimpleAletheiaGUI extends AletheiaGUI
 			}
 			catch (NullPointerException e)
 			{
-
 			}
 			catch (IllegalArgumentException e)
 			{
-				logger.warn("Bad panel option in command line. Using 'ALL'.");
+				logger.warn("Bad panel option in command line. Using '" + panel_.name() + "'.");
 			}
-
 		this.panel = panel_;
-
+		this.framed = cla.getGlobalSwitches().containsKey("framed");
 	}
 
 	public Panel getPanel()
 	{
 		return panel;
+	}
+
+	public boolean isFramed()
+	{
+		return framed;
 	}
 
 	@Override

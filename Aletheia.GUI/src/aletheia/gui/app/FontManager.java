@@ -49,22 +49,9 @@ public class FontManager
 
 	private static Font loadFont(String file) throws FontFormatException, IOException
 	{
-		InputStream is;
-		is = ClassLoader.getSystemResourceAsStream(file);
-		try
+		try (InputStream is = ClassLoader.getSystemResourceAsStream(file))
 		{
 			return Font.createFont(Font.TRUETYPE_FONT, is);
-		}
-		finally
-		{
-			if (is != null)
-				try
-				{
-					is.close();
-				}
-				catch (IOException e)
-				{
-				}
 		}
 	}
 
