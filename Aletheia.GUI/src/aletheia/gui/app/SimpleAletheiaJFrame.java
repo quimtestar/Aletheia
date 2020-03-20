@@ -44,6 +44,7 @@ import org.apache.logging.log4j.Logger;
 
 import aletheia.common.AletheiaConstants;
 import aletheia.gui.app.splash.AbstractSplashStartupProgressListener;
+import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.icons.IconManager;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.statement.Context;
@@ -226,8 +227,16 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 			this.aletheiaJPanel = new AletheiaJPanel(this, this, persistenceManager);
 			this.aletheiaJPanel.setDragging(true);
 			this.aletheiaJTabbedPane = new JTabbedPane();
-			this.aletheiaJTabbedPane.addTab("Context", aletheiaJPanel.getContextJTreeJPanel().getContextJTreeDraggableJScrollPane());
 			this.aletheiaJTabbedPane.addTab("Catalog", aletheiaJPanel.getCliJPanel().getCatalogJTreeDraggableJScrollPane());
+			this.aletheiaJTabbedPane.addTab("Context", aletheiaJPanel.getContextJTreeJPanel().getContextJTreeDraggableJScrollPane());
+			this.aletheiaJPanel.getContextJTree().addSelectionListener(new ContextJTree.SelectionListener()
+			{
+				@Override
+				public void statementSelected(Statement statement, boolean expanded)
+				{
+					aletheiaJTabbedPane.setSelectedIndex(1);
+				}
+			});
 
 			UUID activeContextUuid = properties.getActiveContextUuid();
 			if (activeContextUuid != null)
@@ -235,12 +244,7 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 				{
 					Context activeContext = persistenceManager.getContext(transaction, activeContextUuid);
 					if (activeContext != null)
-					{
 						aletheiaJPanel.setActiveContext(activeContext);
-						if (!activeContext.isProved())
-							aletheiaJPanel.getContextJTree().expandStatement(activeContext);
-						aletheiaJPanel.getContextJTree().scrollStatementToVisible(activeContext);
-					}
 					else
 						logger.warn("Couldn't set active context because no context with uuid '" + activeContextUuid + "' found");
 				}

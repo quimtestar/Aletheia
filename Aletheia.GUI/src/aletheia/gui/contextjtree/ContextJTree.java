@@ -394,11 +394,17 @@ public class ContextJTree extends PersistentJTree
 
 	public interface SelectionListener
 	{
-		public void statementSelected(Statement statement, boolean expanded);
+		public default void statementSelected(Statement statement, boolean expanded)
+		{
+		};
 
-		public void consequentSelected(Context context);
+		public default void consequentSelected(Context context)
+		{
+		};
 
-		public void groupSorterSelected(GroupSorter<? extends Statement> groupSorter, boolean expanded);
+		public default void groupSorterSelected(GroupSorter<? extends Statement> groupSorter, boolean expanded)
+		{
+		};
 	}
 
 	private final AletheiaJPanel aletheiaJPanel;
