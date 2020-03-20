@@ -22,9 +22,9 @@ package aletheia.gui.app.splash;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.InputStream;
@@ -47,11 +47,49 @@ public class SplashStartupProgressListener extends AbstractSplashStartupProgress
 	private final JWindow window;
 	private final JProgressBar progressBar;
 
+	private static Rectangle screenBounds()
+	{
+		Rectangle appBounds = GUIAletheiaPreferences.instance.appearance().aletheiaJFrameBounds().getBounds();
+		GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		for (GraphicsDevice graphicsDevice : graphicsEnvironment.getScreenDevices())
+		{
+			Rectangle screenBounds = graphicsDevice.getDefaultConfiguration().getBounds();
+			if (screenBounds.contains(appBounds.getCenterX(), appBounds.getCenterY()))
+				return screenBounds;
+		}
+		return graphicsEnvironment.getDefaultScreenDevice().getDefaultConfiguration().getBounds();
+	}
+
+	private static Image image(Rectangle screenBounds)
+	{
+		try (InputStream is = ClassLoader.getSystemResourceAsStream("aletheia/gui/app/splash/splash_image.png"))
+		{
+			BufferedImage original = ImageIO.read(is);
+			if (screenBounds.getWidth() >= original.getWidth() && screenBounds.getHeight() >= original.getHeight())
+				return original;
+			else
+			{
+				int width = Integer.min(screenBounds.width, original.getWidth() * screenBounds.height / original.getHeight());
+				int height = Integer.min(screenBounds.height, original.getHeight() * screenBounds.width / original.getWidth());
+				return original.getScaledInstance(width, height, Image.SCALE_SMOOTH);
+			}
+		}
+		catch (Exception e)
+		{
+			return null;
+		}
+	}
+
 	public SplashStartupProgressListener()
 	{
-		JWindow window = null;
-		JProgressBar progressBar = null;
-		try (InputStream is = ClassLoader.getSystemResourceAsStream("aletheia/gui/app/splash/splash_image.png"))
+		Rectangle screenBounds = screenBounds();
+		Image image = image(screenBounds);
+		if (image == null)
+		{
+			window = null;
+			progressBar = null;
+		}
+		else
 		{
 			window = new JWindow();
 			window.setBackground(new Color(0, 0, 0, 0));
@@ -59,7 +97,6 @@ public class SplashStartupProgressListener extends AbstractSplashStartupProgress
 			panel.setOpaque(false);
 			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-			BufferedImage image = ImageIO.read(is);
 			JPanel imagePanel = new JPanel()
 			{
 				private static final long serialVersionUID = 7793703420918559601L;
@@ -73,7 +110,7 @@ public class SplashStartupProgressListener extends AbstractSplashStartupProgress
 
 			};
 			imagePanel.setOpaque(false);
-			imagePanel.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
+			imagePanel.setPreferredSize(new Dimension(image.getWidth(null), image.getHeight(null)));
 			panel.add(imagePanel);
 			panel.add(new Box.Filler(new Dimension(0, 3), new Dimension(0, 3), new Dimension(0, 3)));
 
@@ -98,29 +135,11 @@ public class SplashStartupProgressListener extends AbstractSplashStartupProgress
 			window.pack();
 			Dimension size = window.getSize();
 
-			Rectangle appBounds = GUIAletheiaPreferences.instance.appearance().aletheiaJFrameBounds().getBounds();
-			GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-			Rectangle screenBounds = null;
-			for (GraphicsDevice graphicsDevice : graphicsEnvironment.getScreenDevices())
-			{
-				GraphicsConfiguration graphicsConfiguration = graphicsDevice.getDefaultConfiguration();
-				screenBounds = graphicsConfiguration.getBounds();
-				if (screenBounds.contains(appBounds.getCenterX(), appBounds.getCenterY()))
-					break;
-			}
-			if (screenBounds == null)
-				screenBounds = graphicsEnvironment.getDefaultScreenDevice().getDefaultConfiguration().getBounds();
-
 			window.setLocation((int) (screenBounds.getCenterX() - size.width / 2d), (int) (screenBounds.getCenterY() - size.height / 2d));
 			window.setFocusable(false);
 			window.setVisible(true);
 			window.toFront();
 		}
-		catch (Exception e)
-		{
-		}
-		this.window = window;
-		this.progressBar = progressBar;
 	}
 
 	@Override
