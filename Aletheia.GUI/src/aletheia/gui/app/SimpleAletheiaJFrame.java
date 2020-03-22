@@ -40,7 +40,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
-
 import org.apache.logging.log4j.Logger;
 
 import aletheia.common.AletheiaConstants;
@@ -227,18 +226,23 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 			this.persistenceManager = new BerkeleyDBPersistenceManager(configuration);
 			this.aletheiaJPanel = new AletheiaJPanel(this, this, persistenceManager);
 			this.aletheiaJPanel.setDragging(true);
-			this.aletheiaJTabbedPane = new JTabbedPane(SwingConstants.LEFT);
-			this.aletheiaJTabbedPane.setFont(new FontManager(24).expandFont());
-			this.aletheiaJTabbedPane.addTab("\u2042", aletheiaJPanel.getCliJPanel().getCatalogJTreeDraggableJScrollPane());
-			this.aletheiaJTabbedPane.addTab("\u22a2", aletheiaJPanel.getContextJTreeJPanel().getContextJTreeDraggableJScrollPane());
-			this.aletheiaJPanel.getContextJTree().addSelectionListener(new ContextJTree.SelectionListener()
+			if (aletheiaGUI.getPanel() == Panel.TABBED)
 			{
-				@Override
-				public void statementSelected(Statement statement, boolean expanded)
+				this.aletheiaJTabbedPane = new JTabbedPane(SwingConstants.LEFT);
+				this.aletheiaJTabbedPane.setFont(new FontManager(24).expandFont());
+				this.aletheiaJTabbedPane.addTab("\u2042", aletheiaJPanel.getCliJPanel().getCatalogJTreeDraggableJScrollPane());
+				this.aletheiaJTabbedPane.addTab("\u22a2", aletheiaJPanel.getContextJTreeJPanel().getContextJTreeDraggableJScrollPane());
+				this.aletheiaJPanel.getContextJTree().addSelectionListener(new ContextJTree.SelectionListener()
 				{
-					aletheiaJTabbedPane.setSelectedIndex(1);
-				}
-			});
+					@Override
+					public void statementSelected(Statement statement, boolean expanded)
+					{
+						aletheiaJTabbedPane.setSelectedComponent(aletheiaJPanel.getContextJTreeJPanel().getContextJTreeDraggableJScrollPane());
+					}
+				});
+			}
+			else
+				this.aletheiaJTabbedPane = null;
 
 			UUID activeContextUuid = properties.getActiveContextUuid();
 			if (activeContextUuid != null)
