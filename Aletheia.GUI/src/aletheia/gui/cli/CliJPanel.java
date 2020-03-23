@@ -1325,7 +1325,12 @@ public class CliJPanel extends JPanel implements CommandSource
 		return scrollTextPane;
 	}
 
-	public synchronized JScrollPane getCatalogJTreeDraggableJScrollPane()
+	public synchronized CatalogJTree getCatalogJTree()
+	{
+		return catalogJTree;
+	}
+
+	public synchronized DraggableJScrollPane getCatalogJTreeDraggableJScrollPane()
 	{
 		return catalogJTreeDraggableJScrollPane;
 	}
@@ -2823,6 +2828,11 @@ public class CliJPanel extends JPanel implements CommandSource
 			}
 		}
 
+	}
+
+	public void setExpandBySelection(boolean expandBySelection)
+	{
+		getCatalogJTree().setExpandBySelection(expandBySelection);
 	}
 
 }

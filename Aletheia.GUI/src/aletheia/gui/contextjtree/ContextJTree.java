@@ -368,6 +368,7 @@ public class ContextJTree extends PersistentJTree
 		@Override
 		public void valueChanged(TreeSelectionEvent ev)
 		{
+			expandBySelection(ev.getPath());
 			ContextJTreeNode node = (ContextJTreeNode) ev.getPath().getLastPathComponent();
 			if (node instanceof SorterContextJTreeNode)
 			{
@@ -491,6 +492,9 @@ public class ContextJTree extends PersistentJTree
 
 	private final MemoryUsageMonitor memoryUsageMonitor;
 
+	private final Stack<TreePath> expandedBySelectionPathStack;
+	private boolean expandBySelection;
+
 	public ContextJTree(AletheiaJPanel aletheiaJPanel)
 	{
 		super(new ContextJTreeModel(aletheiaJPanel.getPersistenceManager()), aletheiaJPanel.getFontManager());
@@ -513,6 +517,8 @@ public class ContextJTree extends PersistentJTree
 		this.setShowsRootHandles(true);
 		this.addTreeExpansionListener(new MyTreeExpansionListener());
 		this.memoryUsageMonitor = makeMemoryUsageMonitor();
+		this.expandedBySelectionPathStack = new Stack<>();
+		this.expandBySelection = false;
 	}
 
 	public class TreeModelListener extends TreeModelHandler
@@ -1288,6 +1294,30 @@ public class ContextJTree extends PersistentJTree
 	public void setActiveContext(Context activeContext)
 	{
 		getModel().setActiveContext(activeContext);
+	}
+
+	public boolean isExpandBySelection()
+	{
+		return expandBySelection;
+	}
+
+	public void setExpandBySelection(boolean expandBySelection)
+	{
+		this.expandBySelection = expandBySelection;
+	}
+
+	private void expandBySelection(TreePath path)
+	{
+		if (expandBySelection)
+		{
+			while (!expandedBySelectionPathStack.isEmpty())
+				if (!expandedBySelectionPathStack.peek().isDescendant(path))
+					collapsePath(expandedBySelectionPathStack.pop());
+				else
+					break;
+			expandPath(path);
+			expandedBySelectionPathStack.push(path);
+		}
 	}
 
 }

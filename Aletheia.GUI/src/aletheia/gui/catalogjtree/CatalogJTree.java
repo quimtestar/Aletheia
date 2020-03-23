@@ -23,6 +23,7 @@ import java.awt.Component;
 import java.awt.datatransfer.Transferable;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Stack;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.JComponent;
@@ -30,6 +31,8 @@ import javax.swing.JTree;
 import javax.swing.ToolTipManager;
 import javax.swing.TransferHandler;
 import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellEditor;
 import javax.swing.tree.TreeCellRenderer;
@@ -148,7 +151,7 @@ public class CatalogJTree extends PersistentJTree
 
 	}
 
-	private class MyListener implements KeyListener
+	private class MyListener implements KeyListener, TreeSelectionListener
 	{
 
 		@Override
@@ -181,6 +184,12 @@ public class CatalogJTree extends PersistentJTree
 		@Override
 		public void keyTyped(KeyEvent arg0)
 		{
+		}
+
+		@Override
+		public void valueChanged(TreeSelectionEvent e)
+		{
+			expandBySelection(e.getPath());
 		}
 
 	}
@@ -217,6 +226,9 @@ public class CatalogJTree extends PersistentJTree
 
 	}
 
+	private final Stack<TreePath> expandedBySelectionPathStack;
+	private boolean expandBySelection;
+
 	public CatalogJTree(CliJPanel cliJPanel)
 	{
 		super(new CatalogTreeModel(cliJPanel.getPersistenceManager()), cliJPanel.getFontManager());
@@ -233,8 +245,10 @@ public class CatalogJTree extends PersistentJTree
 		ToolTipManager.sharedInstance().registerComponent(this);
 		this.listener = new MyListener();
 		this.addKeyListener(this.listener);
+		this.addTreeSelectionListener(this.listener);
 		this.selectionModel.setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-
+		this.expandBySelection = false;
+		this.expandedBySelectionPathStack = new Stack<>();
 	}
 
 	@Override
@@ -371,6 +385,30 @@ public class CatalogJTree extends PersistentJTree
 	public void close() throws InterruptedException
 	{
 		getModel().shutdown();
+	}
+
+	public boolean isExpandBySelection()
+	{
+		return expandBySelection;
+	}
+
+	public void setExpandBySelection(boolean expandBySelection)
+	{
+		this.expandBySelection = expandBySelection;
+	}
+
+	private void expandBySelection(TreePath path)
+	{
+		if (expandBySelection)
+		{
+			while (!expandedBySelectionPathStack.isEmpty())
+				if (!expandedBySelectionPathStack.peek().isDescendant(path))
+					collapsePath(expandedBySelectionPathStack.pop());
+				else
+					break;
+			expandPath(path);
+			expandedBySelectionPathStack.push(path);
+		}
 	}
 
 }

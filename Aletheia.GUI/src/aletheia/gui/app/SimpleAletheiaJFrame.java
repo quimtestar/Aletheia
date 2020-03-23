@@ -226,6 +226,7 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 			this.persistenceManager = new BerkeleyDBPersistenceManager(configuration);
 			this.aletheiaJPanel = new AletheiaJPanel(this, this, persistenceManager);
 			this.aletheiaJPanel.setDragging(true);
+			this.aletheiaJPanel.setExpandBySelection(true);
 			if (aletheiaGUI.getPanel() == Panel.TABBED)
 			{
 				this.aletheiaJTabbedPane = new JTabbedPane(SwingConstants.LEFT);

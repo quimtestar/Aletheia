@@ -244,4 +244,10 @@ public class AletheiaJPanel extends AbstractAletheiaContentPane
 		this.cliJPanel.setDragging(dragging);
 	}
 
+	public void setExpandBySelection(boolean expandBySelection)
+	{
+		getContextJTree().setExpandBySelection(expandBySelection);
+		getCliJPanel().setExpandBySelection(expandBySelection);
+	}
+
 }
