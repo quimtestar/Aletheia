@@ -24,11 +24,11 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 
 import aletheia.model.authority.SignatureRequest;
+import aletheia.model.authority.protocol.SignatureRequestProtocol;
+import aletheia.model.peertopeer.deferredmessagecontent.protocol.DeferredMessageContentCode;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.authority.SignatureRequestProtocol;
-import aletheia.protocol.peertopeer.deferredmessagecontent.DeferredMessageContentCode;
 
 @DeferredMessageContentSubProtocolInfo(subProtocolClass = SignatureRequestDeferredMessageContent.SubProtocol.class)
 public class SignatureRequestDeferredMessageContent extends CipheredDeferredMessageContent<SignatureRequest>

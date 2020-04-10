@@ -26,10 +26,10 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Arrays;
 
+import aletheia.model.peertopeer.deferredmessagecontent.protocol.DeferredMessageContentCode;
 import aletheia.protocol.Protocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.peertopeer.deferredmessagecontent.DeferredMessageContentCode;
 import aletheia.protocol.primitive.ByteArrayProtocol;
 import aletheia.protocol.primitive.IntegerProtocol;
 import aletheia.protocol.security.ReceivingRSACipherProtocol;

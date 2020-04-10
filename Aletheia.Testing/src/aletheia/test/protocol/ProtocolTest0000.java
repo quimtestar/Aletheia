@@ -27,9 +27,9 @@ import java.util.UUID;
 
 import aletheia.model.statement.Statement;
 import aletheia.model.term.Term;
+import aletheia.model.term.protocol.TermProtocol;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
-import aletheia.protocol.term.TermProtocol;
 import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
 
 public class ProtocolTest0000 extends TransactionalBerkeleyDBPersistenceManagerTest

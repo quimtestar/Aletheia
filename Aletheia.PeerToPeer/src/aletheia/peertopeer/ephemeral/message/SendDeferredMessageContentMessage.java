@@ -24,12 +24,12 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 import aletheia.model.peertopeer.deferredmessagecontent.DeferredMessageContent;
+import aletheia.model.peertopeer.deferredmessagecontent.protocol.DeferredMessageContentProtocol;
 import aletheia.peertopeer.base.message.MessageCode;
 import aletheia.peertopeer.base.message.MessageSubProtocolInfo;
 import aletheia.peertopeer.base.message.NonPersistentMessage;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.peertopeer.deferredmessagecontent.DeferredMessageContentProtocol;
 
 @MessageSubProtocolInfo(subProtocolClass = SendDeferredMessageContentMessage.SubProtocol.class)
 public class SendDeferredMessageContentMessage extends NonPersistentMessage

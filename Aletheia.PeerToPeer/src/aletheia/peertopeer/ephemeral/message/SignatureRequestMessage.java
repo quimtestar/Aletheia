@@ -25,6 +25,7 @@ import java.io.IOException;
 
 import aletheia.model.authority.PackedSignatureRequest;
 import aletheia.model.authority.SignatureRequest;
+import aletheia.model.authority.protocol.SignatureRequestProtocol;
 import aletheia.peertopeer.base.message.MessageCode;
 import aletheia.peertopeer.base.message.MessageSubProtocolInfo;
 import aletheia.peertopeer.base.message.PersistentMessage;
@@ -32,7 +33,6 @@ import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.authority.SignatureRequestProtocol;
 
 @MessageSubProtocolInfo(subProtocolClass = SignatureRequestMessage.SubProtocol.class)
 public class SignatureRequestMessage extends PersistentMessage
