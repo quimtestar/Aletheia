@@ -186,7 +186,7 @@ public class LexerParser extends Parser
 
 	@AssociatedProduction(left = "S", right =
 	{ "QUOTE", "E", "QUOTE", "COLON", "TAG" })
-	public final static class S__QUOTE_E_QUOTE_COLON_TAG_TokenReducer extends ProductionTokenPayloadReducer<Void, AutomatonTag>
+	private final static class S__QUOTE_E_QUOTE_COLON_TAG_TokenReducer extends ProductionTokenPayloadReducer<Void, AutomatonTag>
 	{
 
 		@Override
@@ -202,7 +202,7 @@ public class LexerParser extends Parser
 
 	@AssociatedProduction(left = "S", right =
 	{ "QUOTE", "E", "QUOTE", "COLON" })
-	public final static class S__QUOTE_E_QUOTE_COLON_TokenReducer extends ProductionTokenPayloadReducer<Void, AutomatonTag>
+	private final static class S__QUOTE_E_QUOTE_COLON_TokenReducer extends ProductionTokenPayloadReducer<Void, AutomatonTag>
 	{
 
 		@Override
