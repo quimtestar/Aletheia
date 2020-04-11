@@ -1,10 +1,10 @@
 module aletheia.security
 {
+	exports aletheia.model.security; //TODO rename
+	exports aletheia.security.signerverifier;
+	exports aletheia.protocol.security; //TODO rename
 	exports aletheia.security.messagedigester;
 	exports aletheia.security.utilities;
-	exports aletheia.protocol.security;
-	exports aletheia.model.security;
-	exports aletheia.security.signerverifier;
 
 	requires aletheia.protocol;
 	requires aletheia.utilities;

@@ -18,7 +18,6 @@
  * <http://www.gnu.org/licenses/>.
  *******************************************************************************/
 /**
- * Classes related to the translation of data  across
- * different environments.
+ * Classes related to the translation of data across different environments.
  */
 package aletheia.protocol;

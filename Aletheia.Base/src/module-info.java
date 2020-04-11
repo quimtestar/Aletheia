@@ -1,55 +1,10 @@
 module aletheia.base
 {
-	exports aletheia.persistence.entities.peertopeer;
-	exports aletheia.model.local;
-	exports aletheia.common;
-	exports aletheia.model.nomenclator;
-	exports aletheia.persistence.preferences;
-	exports aletheia.parser.parameteridentification.semantic;
-	exports aletheia.model.peertopeer.deferredmessagecontent;
-	exports aletheia.persistence.collections.statement;
-	exports aletheia.persistence.entities;
-	exports aletheia.persistence.exceptions;
-	exports aletheia.preferences;
-	exports aletheia.persistence.collections;
-	exports aletheia.parser;
-	exports aletheia.model.authority;
-	exports aletheia.parser.term.parameterRef;
-	exports aletheia.persistence.entities.statement;
-	exports aletheia.persistence.collections.authority;
-	exports aletheia.parser.term.semantic;
-	exports aletheia.model.peertopeer.deferredmessagecontent.protocol;
-	exports aletheia.model.statement.protocol;
-	exports aletheia.model.term.protocol;
-	exports aletheia.persistence;
-	exports aletheia.model.identifier;
-	exports aletheia.model.statement;
-	exports aletheia.parser.parameteridentification;
-	exports aletheia.persistence.collections.local;
-	exports aletheia.persistence.entities.local;
-	exports aletheia.persistence.collections.peertopeer;
-	exports aletheia.parser.term;
-	exports aletheia.model.peertopeer;
-	exports aletheia.model.identifier.protocol;
-	exports aletheia.model.parameteridentification.protocol;
-	exports aletheia.model.authority.protocol;
-	exports aletheia.persistence.gui;
-	exports aletheia.model.parameteridentification;
-	exports aletheia.persistence.entities.misc;
-	exports aletheia.model.misc;
-	exports aletheia.model.local.protocol;
-	exports aletheia.model.peertopeer.protocol;
-	exports aletheia.model.term;
-	exports aletheia.model.catalog;
-	exports aletheia.persistence.entities.authority;
-	exports aletheia.persistence.protocol;
-
+	requires aletheia.security;
 	requires aletheia.log4j;
-	requires transitive aletheia.parsergenerator;
 	requires aletheia.protocol;
-	requires transitive aletheia.security;
-	requires transitive aletheia.utilities;
+	requires aletheia.utilities;
+	requires aletheia.parsergenerator;
 	requires java.desktop;
 	requires java.prefs;
-	requires org.apache.logging.log4j;
 }
