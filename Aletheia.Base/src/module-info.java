@@ -42,6 +42,7 @@ module aletheia.base
 	exports aletheia.model.term;
 	exports aletheia.model.catalog;
 	exports aletheia.persistence.entities.authority;
+	exports aletheia.persistence.protocol;
 
 	requires aletheia.log4j;
 	requires transitive aletheia.parsergenerator;

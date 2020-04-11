@@ -177,7 +177,8 @@ public class ResourceTreeNodeSet
 			return resource;
 		}
 
-		public Map<NetworkPhase, UpEntry> getUpEntries()
+		@SuppressWarnings("unused")
+		private Map<NetworkPhase, UpEntry> getUpEntries()
 		{
 			return Collections.unmodifiableMap(upEntries);
 		}

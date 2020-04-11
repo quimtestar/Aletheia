@@ -171,7 +171,7 @@ public class StandAlonePeerToPeerNodeSubscriptions
 		}
 	}
 
-	public static ConfigurationTree loadConfiguration() throws IOException, ConfigurationException
+	private static ConfigurationTree loadConfiguration() throws IOException, ConfigurationException
 	{
 		ConfigurationTree configurationTree = new ConfigurationTree();
 		if (configurationFileName != null)
