@@ -871,7 +871,8 @@ public class ContextJTree extends PersistentJTree
 		getAletheiaJPanel().getCliJPanel().command(new Undelete(getAletheiaJPanel().getCliJPanel(), getModel().beginTransaction()), false);
 	}
 
-	public Listener getListener()
+	@SuppressWarnings("unused")
+	private Listener getListener()
 	{
 		return listener;
 	}

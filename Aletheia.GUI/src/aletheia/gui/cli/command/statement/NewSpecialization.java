@@ -51,7 +51,7 @@ public class NewSpecialization extends NewStatement
 
 	private final List<ProvedInstance> provedInstances;
 
-	public NewSpecialization(CommandSource from, Transaction transaction, Identifier identifier, Statement general, List<ProvedInstance> provedInstances)
+	private NewSpecialization(CommandSource from, Transaction transaction, Identifier identifier, Statement general, List<ProvedInstance> provedInstances)
 	{
 		super(from, transaction, identifier);
 		this.general = general;
