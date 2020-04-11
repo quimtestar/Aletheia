@@ -1,8 +1,8 @@
 module aletheia.security
 {
-	exports aletheia.model.security; //TODO rename
+	exports aletheia.security.model;
 	exports aletheia.security.signerverifier;
-	exports aletheia.protocol.security; //TODO rename
+	exports aletheia.security.protocol;
 	exports aletheia.security.messagedigester;
 	exports aletheia.security.utilities;
 

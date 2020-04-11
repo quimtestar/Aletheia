@@ -17,12 +17,12 @@
  * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.model.security;
+package aletheia.security.model;
 
 import java.util.Arrays;
 import java.util.UUID;
 
-import aletheia.protocol.security.SignatureDataProtocol;
+import aletheia.security.protocol.SignatureDataProtocol;
 import aletheia.security.utilities.SecurityUtilities;
 import aletheia.utilities.MiscUtilities;
 

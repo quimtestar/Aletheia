@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -17,29 +17,20 @@
  * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.protocol.security;
+package aletheia.security.protocol;
 
-import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
-import java.security.spec.InvalidKeySpecException;
 
+import aletheia.protocol.Protocol;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.security.utilities.SecurityUtilities;
-import aletheia.security.utilities.SecurityUtilities.NoSuchFormatException;
 
 @ProtocolInfo(availableVersions = 0)
-public class PrivateKeyProtocol extends KeyProtocol<PrivateKey>
+public class ReceivingRSACipherProtocol<T> extends ReceivingAsymmetricKeyCipherProtocol<T>
 {
-	public PrivateKeyProtocol(int requiredVersion)
+	public ReceivingRSACipherProtocol(int requiredVersion, PrivateKey privateKey, Protocol<T> inner)
 	{
-		super(0);
-		checkVersionAvailability(PrivateKeyProtocol.class, requiredVersion);
-	}
-
-	@Override
-	protected PrivateKey decode(String format, String algorithm, byte[] encoded) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchFormatException
-	{
-		return SecurityUtilities.instance.decodePrivateKey(format, algorithm, encoded);
+		super(0, privateKey, inner);
+		checkVersionAvailability(ReceivingRSACipherProtocol.class, requiredVersion);
 	}
 
 }

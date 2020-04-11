@@ -34,7 +34,6 @@ import aletheia.model.authority.DelegateTreeRootNode.NoPrivateDataForAuthorExcep
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.RootNamespace;
 import aletheia.model.identifier.protocol.NamespaceProtocol;
-import aletheia.model.security.SignatureData;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.PersistenceManager;
@@ -45,6 +44,7 @@ import aletheia.protocol.collection.NonReturningCollectionProtocol;
 import aletheia.protocol.primitive.DateProtocol;
 import aletheia.protocol.primitive.NullableProtocol;
 import aletheia.protocol.primitive.UUIDProtocol;
+import aletheia.security.model.SignatureData;
 import aletheia.security.signerverifier.Signer;
 import aletheia.security.signerverifier.Verifier;
 import aletheia.utilities.collections.CloseableSet;

@@ -23,11 +23,11 @@ import java.security.InvalidKeyException;
 import java.util.Date;
 import java.util.UUID;
 
-import aletheia.model.security.SignatureData;
 import aletheia.persistence.PersistenceListenerManager.Listeners;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.entities.authority.PrivatePersonEntity;
+import aletheia.security.model.SignatureData;
 import aletheia.security.signerverifier.Signer;
 
 public class PrivatePerson extends Person

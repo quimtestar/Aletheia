@@ -28,7 +28,6 @@ import aletheia.model.authority.Person;
 import aletheia.model.authority.Person.PersonCreationException;
 import aletheia.model.authority.Signatory;
 import aletheia.model.authority.SignatureVerifyException;
-import aletheia.model.security.SignatureData;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.protocol.PersistentExportableProtocol;
@@ -38,7 +37,8 @@ import aletheia.protocol.primitive.DateProtocol;
 import aletheia.protocol.primitive.IntegerProtocol;
 import aletheia.protocol.primitive.NullableProtocol;
 import aletheia.protocol.primitive.StringProtocol;
-import aletheia.protocol.security.SignatureDataProtocol;
+import aletheia.security.model.SignatureData;
+import aletheia.security.protocol.SignatureDataProtocol;
 
 @ProtocolInfo(availableVersions = 0)
 public class PersonProtocol extends PersistentExportableProtocol<Person>

@@ -34,7 +34,7 @@ import aletheia.persistence.Transaction;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.primitive.StringProtocol;
-import aletheia.protocol.security.PrivateKeyProtocol;
+import aletheia.security.protocol.PrivateKeyProtocol;
 
 @ProtocolInfo(availableVersions = 0)
 public class PrivateSignatoryProtocol extends AbstractSignatoryProtocol<PrivateSignatory>

@@ -22,8 +22,8 @@ package aletheia.persistence.entities.authority;
 import java.util.UUID;
 
 import aletheia.model.identifier.Namespace;
-import aletheia.model.security.MessageDigestData;
 import aletheia.persistence.entities.Entity;
+import aletheia.security.model.MessageDigestData;
 
 public interface DelegateTreeNodeEntity extends Entity
 {

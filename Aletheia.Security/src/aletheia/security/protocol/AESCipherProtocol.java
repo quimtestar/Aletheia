@@ -17,24 +17,31 @@
  * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.protocol.security;
+package aletheia.security.protocol;
 
-import java.security.PublicKey;
+import javax.crypto.SecretKey;
 
 import aletheia.protocol.Protocol;
 import aletheia.protocol.ProtocolInfo;
 
 @ProtocolInfo(availableVersions = 0)
-public class SendingRSACipherProtocol<T> extends SendingAsymmetricKeyCipherProtocol<T>
+public class AESCipherProtocol<T> extends SymmetricKeyCipherProtocol<T>
 {
-	private final static String algorithm = "RSA";
-	private final static String secretKeyAlgorithm = "AES";
-	private final static String symmetricAlgorithm = "AES";
-
-	public SendingRSACipherProtocol(int requiredVersion, PublicKey publicKey, Protocol<T> inner)
+	static
 	{
-		super(0, algorithm, secretKeyAlgorithm, symmetricAlgorithm, publicKey, inner);
-		checkVersionAvailability(SendingRSACipherProtocol.class, requiredVersion);
+		/*
+		 * If the AES key length is > 128, we can remove the Oracle's JRE default
+		 * restriction calling this.
+		 */
+		//		SecurityUtilities.instance.removeCryptographyRestrictions();
+	}
+
+	private final static String algorithm = "AES";
+
+	public AESCipherProtocol(int requiredVersion, SecretKey secretKey, Protocol<T> inner)
+	{
+		super(0, algorithm, secretKey, inner);
+		checkVersionAvailability(AESCipherProtocol.class, requiredVersion);
 	}
 
 }

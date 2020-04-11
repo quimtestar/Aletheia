@@ -21,7 +21,7 @@ package aletheia.security.messagedigester;
 
 import java.io.DataOutput;
 
-import aletheia.model.security.MessageDigestData;
+import aletheia.security.model.MessageDigestData;
 
 public interface MessageDigester
 {

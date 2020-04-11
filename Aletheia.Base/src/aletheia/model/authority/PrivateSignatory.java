@@ -36,7 +36,7 @@ import aletheia.model.authority.Person.PersonCreationException;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.entities.authority.PrivateSignatoryEntity;
-import aletheia.protocol.security.PublicKeyProtocol;
+import aletheia.security.protocol.PublicKeyProtocol;
 import aletheia.security.signerverifier.BufferedSigner;
 import aletheia.security.signerverifier.Signer;
 import aletheia.security.utilities.SecurityUtilities;

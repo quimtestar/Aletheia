@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -17,30 +17,24 @@
  * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.protocol.security;
+package aletheia.security.protocol;
 
-import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
-import java.security.spec.InvalidKeySpecException;
 
+import aletheia.protocol.Protocol;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.security.utilities.SecurityUtilities;
-import aletheia.security.utilities.SecurityUtilities.NoSuchFormatException;
 
 @ProtocolInfo(availableVersions = 0)
-public class PublicKeyProtocol extends KeyProtocol<PublicKey>
+public class SendingRSACipherProtocol<T> extends SendingAsymmetricKeyCipherProtocol<T>
 {
+	private final static String algorithm = "RSA";
+	private final static String secretKeyAlgorithm = "AES";
+	private final static String symmetricAlgorithm = "AES";
 
-	public PublicKeyProtocol(int requiredVersion)
+	public SendingRSACipherProtocol(int requiredVersion, PublicKey publicKey, Protocol<T> inner)
 	{
-		super(0);
-		checkVersionAvailability(PublicKeyProtocol.class, requiredVersion);
-	}
-
-	@Override
-	protected PublicKey decode(String format, String algorithm, byte[] encoded) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchFormatException
-	{
-		return SecurityUtilities.instance.decodePublicKey(format, algorithm, encoded);
+		super(0, algorithm, secretKeyAlgorithm, symmetricAlgorithm, publicKey, inner);
+		checkVersionAvailability(SendingRSACipherProtocol.class, requiredVersion);
 	}
 
 }
