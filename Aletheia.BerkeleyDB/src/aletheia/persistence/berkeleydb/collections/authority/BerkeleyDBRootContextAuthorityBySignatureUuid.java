@@ -34,6 +34,7 @@ import aletheia.persistence.entities.authority.RootContextAuthorityEntity;
 import aletheia.utilities.collections.AbstractCloseableMap;
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
+import aletheia.utilities.collections.CloseableSet;
 
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.SecondaryIndex;
@@ -227,7 +228,7 @@ public class BerkeleyDBRootContextAuthorityBySignatureUuid extends AbstractClose
 	}
 
 	@Override
-	public EntrySet entrySet()
+	public CloseableSet<Entry<UUID, RootContextAuthority>> entrySet()
 	{
 		return new EntrySet();
 	}

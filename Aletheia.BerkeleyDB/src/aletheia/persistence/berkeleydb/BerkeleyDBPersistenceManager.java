@@ -400,7 +400,7 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 	{
 		private static final long serialVersionUID = -5412888039106717133L;
 
-		public MustAllowCreateException(EnvironmentNotFoundException e)
+		private MustAllowCreateException(EnvironmentNotFoundException e)
 		{
 			super(e);
 		}
