@@ -287,7 +287,7 @@ public class Proof
 
 	}
 
-	public boolean existsPath(QueueSubEntry qse0, QueueSubEntry qse1)
+	boolean existsPath(QueueSubEntry qse0, QueueSubEntry qse1)
 	{
 		Set<QueueSubEntry> visited = new HashSet<>();
 		Queue<QueueSubEntry> queue = new LinkedList<>();

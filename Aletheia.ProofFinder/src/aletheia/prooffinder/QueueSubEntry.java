@@ -34,7 +34,7 @@ import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.MiscUtilities;
 
-public abstract class QueueSubEntry implements Comparable<QueueSubEntry>
+abstract class QueueSubEntry implements Comparable<QueueSubEntry>
 {
 	private final CandidateFinder candidateFinder;
 	private final Context context;

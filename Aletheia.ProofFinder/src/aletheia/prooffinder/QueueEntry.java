@@ -29,7 +29,7 @@ import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.utilities.collections.CombinedSet;
 
-public abstract class QueueEntry implements Comparable<QueueEntry>
+abstract class QueueEntry implements Comparable<QueueEntry>
 {
 	private final CandidateFinder candidateFinder;
 	private final Proof proof;

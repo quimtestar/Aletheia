@@ -21,7 +21,7 @@ package aletheia.prooffinder;
 
 import aletheia.utilities.collections.CombinedCollection;
 
-public class NodeQueueEntry extends QueueEntry
+class NodeQueueEntry extends QueueEntry
 {
 
 	private final QueueEntry parent;

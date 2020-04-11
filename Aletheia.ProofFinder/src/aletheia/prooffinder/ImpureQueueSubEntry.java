@@ -27,7 +27,7 @@ import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
 import aletheia.utilities.collections.AdaptedCollection;
 
-public class ImpureQueueSubEntry extends QueueSubEntry
+class ImpureQueueSubEntry extends QueueSubEntry
 {
 	private final QueueSubEntry parent;
 	private final Candidate candidate;

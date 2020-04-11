@@ -25,7 +25,7 @@ import aletheia.model.term.Term.UnprojectTypeException;
 import aletheia.model.term.VariableTerm;
 import aletheia.utilities.collections.CombinedList;
 
-public class NodeQueueSubEntry extends PureQueueSubEntry
+class NodeQueueSubEntry extends PureQueueSubEntry
 {
 	private final List<VirtualStatement> virtualStatements;
 

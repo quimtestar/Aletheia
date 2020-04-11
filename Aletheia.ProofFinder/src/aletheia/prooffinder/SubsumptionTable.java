@@ -24,7 +24,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class SubsumptionTable
+class SubsumptionTable
 {
 	private final Map<QueueSubEntry, Set<QueueEntry>> table;
 
