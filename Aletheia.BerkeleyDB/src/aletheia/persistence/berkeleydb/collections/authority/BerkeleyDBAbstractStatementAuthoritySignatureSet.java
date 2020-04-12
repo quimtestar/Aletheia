@@ -25,7 +25,6 @@ import aletheia.model.authority.StatementAuthoritySignature;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthoritySignatureEntity;
-import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData;
 import aletheia.persistence.collections.authority.StatementAuthoritySignatureSet;
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
@@ -39,13 +38,14 @@ public abstract class BerkeleyDBAbstractStatementAuthoritySignatureSet<K> extend
 		implements StatementAuthoritySignatureSet
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
-	private final SecondaryIndex<K, PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> secondaryIndex;
+	private final SecondaryIndex<K, BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> secondaryIndex;
 	private final BerkeleyDBTransaction transaction;
 	private final K key;
-	private final EntityIndex<PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> subIndex;
+	private final EntityIndex<BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> subIndex;
 
 	public BerkeleyDBAbstractStatementAuthoritySignatureSet(BerkeleyDBPersistenceManager persistenceManager,
-			SecondaryIndex<K, PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> secondaryIndex, BerkeleyDBTransaction transaction, K key)
+			SecondaryIndex<K, BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> secondaryIndex,
+			BerkeleyDBTransaction transaction, K key)
 	{
 		super();
 		this.persistenceManager = persistenceManager;

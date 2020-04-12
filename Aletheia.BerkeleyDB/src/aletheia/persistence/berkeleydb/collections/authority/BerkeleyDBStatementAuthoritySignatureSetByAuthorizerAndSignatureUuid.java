@@ -25,8 +25,6 @@ import aletheia.model.authority.Signatory;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthoritySignatureEntity;
-import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthoritySignatureEntity.AuthorizerSignatureUuidKeyData;
-import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData;
 import aletheia.persistence.collections.authority.StatementAuthoritySignatureSetByAuthorizerAndSignatureUuid;
 
 import com.sleepycat.je.DatabaseException;
@@ -39,7 +37,7 @@ public class BerkeleyDBStatementAuthoritySignatureSetByAuthorizerAndSignatureUui
 	private final Signatory authorizer;
 	private final UUID signatureUuid;
 
-	private static SecondaryIndex<AuthorizerSignatureUuidKeyData, PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> index(
+	private static SecondaryIndex<BerkeleyDBStatementAuthoritySignatureEntity.AuthorizerSignatureUuidKeyData, BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> index(
 			BerkeleyDBPersistenceManager persistenceManager)
 	{
 		try

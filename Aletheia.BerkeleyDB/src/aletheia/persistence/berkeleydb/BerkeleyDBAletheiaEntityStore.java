@@ -38,7 +38,6 @@ import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTree
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTreeSubNodeEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBEncryptedPrivateSignatoryEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPackedSignatureRequestEntity;
-import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPackedSignatureRequestEntity.ContextPackingDateSecondaryKeyData;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPersonEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPlainPrivateSignatoryEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPrivatePersonEntity;
@@ -591,7 +590,7 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 		return unpackedSignatureRequestEntityStatementListSecondaryIndex().subIndex(contextUuidKey);
 	}
 
-	public SecondaryIndex<ContextPackingDateSecondaryKeyData, UUIDKey, BerkeleyDBPackedSignatureRequestEntity> packedSignatureRequestEntityContextPackingDateSecondaryIndex()
+	public SecondaryIndex<BerkeleyDBPackedSignatureRequestEntity.ContextPackingDateSecondaryKeyData, UUIDKey, BerkeleyDBPackedSignatureRequestEntity> packedSignatureRequestEntityContextPackingDateSecondaryIndex()
 			throws DatabaseException
 	{
 		return getSubclassIndex(signatureRequestEntityPrimaryIndex(), BerkeleyDBPackedSignatureRequestEntity.class,
