@@ -41,7 +41,7 @@ import aletheia.gui.preferences.PersistenceClass;
 import aletheia.log4j.LoggerManager;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
-import aletheia.persistence.gui.PersistenceGUIFactory.CreatePersistenceManagerException;
+import aletheia.persistence.gui.PersistenceGUIFactory;
 import aletheia.utilities.CommandLineArguments;
 import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.CommandLineArguments.Option;
@@ -135,7 +135,7 @@ public class DesktopAletheiaGUI extends AletheiaGUI
 
 	}
 
-	private static void console(Map<String, Switch> globalSwitches) throws CreatePersistenceManagerException, ArgumentsException
+	private static void console(Map<String, Switch> globalSwitches) throws PersistenceGUIFactory.CreatePersistenceManagerException, ArgumentsException
 	{
 		final PersistenceManager persistenceManager;
 		try (AbstractSplashStartupProgressListener startupProgressListener = AbstractSplashStartupProgressListener.makeFromGlobalSwitches(globalSwitches))

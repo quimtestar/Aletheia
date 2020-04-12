@@ -1,5 +1,6 @@
 module aletheia.base
 {
+	exports aletheia.common;
 	exports aletheia.model.term;
 	exports aletheia.model.identifier;
 	exports aletheia.model.identifier.protocol;

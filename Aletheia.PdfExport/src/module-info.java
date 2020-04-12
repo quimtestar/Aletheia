@@ -1,5 +1,7 @@
 module aletheia.pdfexport
 {
-	requires aletheia.base;
-	requires itextpdf;
+	exports aletheia.pdfexport.document;
+	
+	requires transitive aletheia.base;
+	requires transitive itextpdf;
 }
