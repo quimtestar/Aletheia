@@ -27,7 +27,6 @@ import java.util.UUID;
 
 import aletheia.model.authority.Person;
 import aletheia.model.authority.SignatureVerifyException;
-import aletheia.model.security.SignatureData;
 import aletheia.persistence.Transaction;
 import aletheia.protocol.Exportable;
 import aletheia.protocol.ExportableProtocol;
@@ -40,7 +39,8 @@ import aletheia.protocol.primitive.DateProtocol;
 import aletheia.protocol.primitive.IntegerProtocol;
 import aletheia.protocol.primitive.NullableProtocol;
 import aletheia.protocol.primitive.StringProtocol;
-import aletheia.protocol.security.SignatureDataProtocol;
+import aletheia.security.model.SignatureData;
+import aletheia.security.protocol.SignatureDataProtocol;
 
 public class PersonResource extends AbstractPersonResource
 {

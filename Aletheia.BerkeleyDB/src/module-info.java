@@ -1,10 +1,20 @@
 module aletheia.persistence.berkeleydb
 {
+	exports aletheia.persistence.berkeleydb;
+	exports aletheia.persistence.berkeleydb.entities;
+	exports aletheia.persistence.berkeleydb.entities.statement;
+	exports aletheia.persistence.berkeleydb.entities.authority;
+	exports aletheia.persistence.berkeleydb.entities.local;
+	exports aletheia.persistence.berkeleydb.entities.peertopeer;
+	exports aletheia.persistence.berkeleydb.entities.misc;
+	exports aletheia.persistence.berkeleydb.collections.statement;
+	exports aletheia.persistence.berkeleydb.collections.authority;
+	
+	requires transitive aletheia.utilities;
+	requires transitive aletheia.base;
 	requires aletheia.log4j;
-	requires aletheia.utilities;
-	requires aletheia.base;
 	requires aletheia.protocol;
 	requires aletheia.version;
-	requires je;
+	requires transitive je;  //TODO is this necessary?
 	requires java.desktop;
 }

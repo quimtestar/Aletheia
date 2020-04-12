@@ -2,15 +2,19 @@ module aletheia.base
 {
 	exports aletheia.model.term;
 	exports aletheia.model.identifier;
+	exports aletheia.model.identifier.protocol;
 	exports aletheia.model.parameteridentification;
 	exports aletheia.model.statement;
+	exports aletheia.model.statement.protocol;
 	exports aletheia.model.nomenclator;
 	exports aletheia.model.catalog;
 	exports aletheia.model.authority;
+	exports aletheia.model.authority.protocol;
 	exports aletheia.model.local;
 	exports aletheia.model.peertopeer;
 	exports aletheia.model.peertopeer.deferredmessagecontent;
 	exports aletheia.model.peertopeer.deferredmessagecontent.protocol;
+	exports aletheia.model.peertopeer.protocol;
 	exports aletheia.model.misc;
 	exports aletheia.parser.term;
 	exports aletheia.parser.term.parameterRef; //TODO: rename?
@@ -27,6 +31,7 @@ module aletheia.base
 	exports aletheia.persistence.exceptions;
 	exports aletheia.persistence.gui;
 	exports aletheia.persistence.preferences;
+	exports aletheia.persistence.protocol;
 	exports aletheia.preferences;
 	
 	requires transitive aletheia.security;
