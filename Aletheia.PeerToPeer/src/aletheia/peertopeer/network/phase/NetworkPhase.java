@@ -37,10 +37,10 @@ import aletheia.model.peertopeer.DeferredMessage;
 import aletheia.model.peertopeer.Hook;
 import aletheia.peertopeer.NodeAddress;
 import aletheia.peertopeer.PeerToPeerNode;
-import aletheia.peertopeer.PeerToPeerConnection.Gender;
+import aletheia.peertopeer.PeerToPeerConnection;
 import aletheia.peertopeer.PeerToPeerNode.ConnectException;
-import aletheia.peertopeer.base.dialog.Dialog.DialogStreamException;
-import aletheia.peertopeer.base.phase.LoopSubPhase.CancelledCommandException;
+import aletheia.peertopeer.base.dialog.Dialog;
+import aletheia.peertopeer.base.phase.LoopSubPhase;
 import aletheia.peertopeer.base.phase.RootPhase;
 import aletheia.peertopeer.base.phase.SubRootPhase;
 import aletheia.peertopeer.network.Belt;
@@ -189,7 +189,7 @@ public class NetworkPhase extends SubRootPhase
 	}
 
 	@Override
-	public void run() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+	public void run() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		logger.debug(": starting");
 		boolean redirected = false;
@@ -208,7 +208,7 @@ public class NetworkPhase extends SubRootPhase
 				logger.debug("not loop");
 				loopNetworkPhase.close();
 				valedictionDialog();
-				if (getGender() == Gender.MALE)
+				if (getGender() == PeerToPeerConnection.Gender.MALE)
 				{
 					NodeAddress redirect = translateRemoteNodeAddress(initialNetworkPhase.getRedirectNodeAddress());
 					if (redirectedNodeAddress(redirect))
@@ -246,7 +246,7 @@ public class NetworkPhase extends SubRootPhase
 		}
 		finally
 		{
-			if (getGender() == Gender.MALE)
+			if (getGender() == PeerToPeerConnection.Gender.MALE)
 				if (((NetworkMalePeerToPeerConnection) getPeerToPeerConnection()).getInitialNetworkPhaseType() == InitialNetworkPhaseType.Joining)
 					if (!initialNetworkPhase.isJoinedToNetwork())
 						if (!redirected)
@@ -314,7 +314,7 @@ public class NetworkPhase extends SubRootPhase
 		loopNetworkPhase.beltConnect(nodeAddress, EnumSet.of(side));
 	}
 
-	public boolean routerSetNeighbour() throws InterruptedException, CancelledCommandException
+	public boolean routerSetNeighbour() throws InterruptedException, LoopSubPhase.CancelledCommandException
 	{
 		return loopNetworkPhase.routerSetNeighbour();
 	}

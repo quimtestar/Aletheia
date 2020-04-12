@@ -22,7 +22,7 @@ package aletheia.peertopeer.statement.phase;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 
-import aletheia.peertopeer.base.dialog.Dialog.DialogStreamException;
+import aletheia.peertopeer.base.dialog.Dialog;
 import aletheia.peertopeer.base.phase.SubPhase;
 import aletheia.peertopeer.statement.dialog.InitializeStatementProofDialog;
 import aletheia.protocol.ProtocolException;
@@ -47,7 +47,7 @@ public abstract class StatementSubPhase extends SubPhase
 	}
 
 	public void statementProofSubPhase(Class<? extends InitializeStatementProofDialog> initializeStatementProofDialogClass, Object... initargs)
-			throws IOException, ProtocolException, InterruptedException, DialogStreamException
+			throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		Constructor<? extends InitializeStatementProofDialog> initializeStatementProofDialogConstructor = dialogConstructor(initializeStatementProofDialogClass,
 				initargs);

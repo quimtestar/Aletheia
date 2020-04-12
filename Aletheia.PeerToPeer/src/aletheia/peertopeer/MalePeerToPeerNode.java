@@ -28,7 +28,7 @@ import java.util.UUID;
 import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
-import aletheia.peertopeer.base.phase.LoopSubPhase.CancelledCommandException;
+import aletheia.peertopeer.base.phase.LoopSubPhase;
 import aletheia.peertopeer.conjugal.ConjugalMalePeerToPeerConnection;
 import aletheia.peertopeer.conjugal.phase.FemaleConjugalPhase;
 import aletheia.peertopeer.conjugal.phase.GenderedConjugalPhase.OpenConnectionException;
@@ -283,7 +283,7 @@ public class MalePeerToPeerNode extends PeerToPeerNode
 			splicedMalePeerToPeerConnection.join();
 			return new ConnectSocketChannel(splicedMalePeerToPeerConnection.getSocketChannel(), connectionIdAddress.getRemoteAddress());
 		}
-		catch (IOException | ConnectException | InterruptedException | CancelledCommandException | OpenConnectionException e)
+		catch (IOException | ConnectException | InterruptedException | LoopSubPhase.CancelledCommandException | OpenConnectionException e)
 		{
 			throw new MaleConnectException(e);
 		}

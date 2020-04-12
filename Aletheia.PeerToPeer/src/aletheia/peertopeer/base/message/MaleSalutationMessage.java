@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.util.UUID;
 
 import aletheia.peertopeer.PeerToPeerConnection;
-import aletheia.peertopeer.PeerToPeerConnection.Gender;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.primitive.NullableProtocol;
@@ -36,7 +35,7 @@ public class MaleSalutationMessage extends SalutationMessage
 {
 	private final UUID expectedPeerNodeUuid;
 
-	public MaleSalutationMessage(int protocolVersion, Gender gender, UUID nodeUuid, UUID expectedPeerNodeUuid)
+	public MaleSalutationMessage(int protocolVersion, PeerToPeerConnection.Gender gender, UUID nodeUuid, UUID expectedPeerNodeUuid)
 	{
 		super(protocolVersion, gender, nodeUuid);
 		this.expectedPeerNodeUuid = expectedPeerNodeUuid;
