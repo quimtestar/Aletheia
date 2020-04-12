@@ -1,10 +1,39 @@
 module aletheia.base
 {
-	requires aletheia.security;
+	exports aletheia.model.term;
+	exports aletheia.model.identifier;
+	exports aletheia.model.parameteridentification;
+	exports aletheia.model.statement;
+	exports aletheia.model.nomenclator;
+	exports aletheia.model.catalog;
+	exports aletheia.model.authority;
+	exports aletheia.model.local;
+	exports aletheia.model.peertopeer;
+	exports aletheia.model.peertopeer.deferredmessagecontent;
+	exports aletheia.model.peertopeer.deferredmessagecontent.protocol;
+	exports aletheia.model.misc;
+	exports aletheia.parser.term;
+	exports aletheia.parser.term.parameterRef; //TODO: rename?
+	exports aletheia.persistence;
+	exports aletheia.persistence.collections.statement;
+	exports aletheia.persistence.collections.authority;
+	exports aletheia.persistence.collections.local;
+	exports aletheia.persistence.collections.peertopeer;
+	exports aletheia.persistence.entities.statement;
+	exports aletheia.persistence.entities.authority;
+	exports aletheia.persistence.entities.local;
+	exports aletheia.persistence.entities.misc;
+	exports aletheia.persistence.entities.peertopeer;
+	exports aletheia.persistence.exceptions;
+	exports aletheia.persistence.gui;
+	exports aletheia.persistence.preferences;
+	exports aletheia.preferences;
+	
+	requires transitive aletheia.security;
+	requires transitive aletheia.utilities;
 	requires aletheia.log4j;
 	requires aletheia.protocol;
-	requires aletheia.utilities;
 	requires aletheia.parsergenerator;
-	requires java.desktop;
-	requires java.prefs;
+	requires transitive java.desktop;
+	requires transitive java.prefs;
 }

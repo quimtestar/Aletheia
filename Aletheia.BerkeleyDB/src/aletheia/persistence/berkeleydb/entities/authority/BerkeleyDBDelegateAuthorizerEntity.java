@@ -25,9 +25,9 @@ import java.util.UUID;
 
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
-import aletheia.model.security.SignatureData;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.entities.authority.DelegateAuthorizerEntity;
+import aletheia.security.model.SignatureData;
 
 import com.sleepycat.persist.model.Entity;
 import com.sleepycat.persist.model.KeyField;

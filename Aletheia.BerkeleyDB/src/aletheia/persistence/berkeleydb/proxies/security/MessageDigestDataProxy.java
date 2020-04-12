@@ -19,8 +19,8 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.security;
 
-import aletheia.model.security.MessageDigestData;
 import aletheia.persistence.berkeleydb.proxies.AletheiaPersistentProxy;
+import aletheia.security.model.MessageDigestData;
 
 import com.sleepycat.persist.model.Persistent;
 
