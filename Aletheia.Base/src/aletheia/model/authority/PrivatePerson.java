@@ -23,7 +23,7 @@ import java.security.InvalidKeyException;
 import java.util.Date;
 import java.util.UUID;
 
-import aletheia.persistence.PersistenceListenerManager.Listeners;
+import aletheia.persistence.PersistenceListenerManager;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.entities.authority.PrivatePersonEntity;
@@ -50,7 +50,7 @@ public class PrivatePerson extends Person
 		PrivatePerson person = new PrivatePerson(persistenceManager, signatory.getUuid(), nick);
 		person.updateOrphanSince(transaction);
 		person.persistenceUpdate(transaction);
-		Listeners<AddStateListener> listeners = persistenceManager.getListenerManager().getPersonAddStateListeners();
+		PersistenceListenerManager.Listeners<AddStateListener> listeners = persistenceManager.getListenerManager().getPersonAddStateListeners();
 		synchronized (listeners)
 		{
 			for (AddStateListener l : listeners)

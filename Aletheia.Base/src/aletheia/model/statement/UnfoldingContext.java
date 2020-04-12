@@ -22,8 +22,6 @@ package aletheia.model.statement;
 import java.util.UUID;
 
 import aletheia.model.term.Term;
-import aletheia.model.term.Term.ReplaceTypeException;
-import aletheia.model.term.Term.TypeException;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.entities.statement.UnfoldingContextEntity;
@@ -139,15 +137,15 @@ public class UnfoldingContext extends Context
 	{
 		private static final long serialVersionUID = -8033335562227425924L;
 
-		private final TypeException exception;
+		private final Term.TypeException exception;
 
-		public UnfoldingContextReplaceException(TypeException exception)
+		public UnfoldingContextReplaceException(Term.TypeException exception)
 		{
 			super();
 			this.exception = exception;
 		}
 
-		public TypeException getException()
+		public Term.TypeException getException()
 		{
 			return exception;
 		}
@@ -178,7 +176,7 @@ public class UnfoldingContext extends Context
 		{
 			return term.replace(declaration.getVariable(), declaration.getValue());
 		}
-		catch (ReplaceTypeException e)
+		catch (Term.ReplaceTypeException e)
 		{
 			throw new UnfoldingContextReplaceException(e);
 		}
@@ -220,7 +218,7 @@ public class UnfoldingContext extends Context
 		{
 			return getTerm().replace(dec.getVariable(), dec.getValue());
 		}
-		catch (ReplaceTypeException e)
+		catch (Term.ReplaceTypeException e)
 		{
 			throw new RuntimeException(e);
 		}
