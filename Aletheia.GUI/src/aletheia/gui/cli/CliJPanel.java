@@ -100,8 +100,7 @@ import aletheia.gui.app.AletheiaJFrame;
 import aletheia.gui.app.AletheiaJPanel;
 import aletheia.gui.app.FontManager;
 import aletheia.gui.catalogjtree.CatalogJTree;
-import aletheia.gui.cli.command.AbstractCommandFactory.CompletionSet;
-import aletheia.gui.cli.command.AbstractCommandFactory.CompletionSet.Completion;
+import aletheia.gui.cli.command.AbstractCommandFactory;
 import aletheia.gui.cli.command.Command;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.Command.CommandParseException;
@@ -2731,7 +2730,7 @@ public class CliJPanel extends JPanel implements CommandSource
 	{
 		if (promptWhenDone != null)
 			return;
-		CompletionSet completionSet = null;
+		AbstractCommandFactory.CompletionSet completionSet = null;
 		try
 		{
 			String command = getCommand().substring(0, textPane.getCaretPosition() - minimalCaretPosition);
@@ -2758,7 +2757,7 @@ public class CliJPanel extends JPanel implements CommandSource
 					}
 					int columnSize = (completionSet.size() - 1) / n + 1;
 					int i = 0;
-					for (Completion completion : completionSet)
+					for (AbstractCommandFactory.CompletionSet.Completion completion : completionSet)
 					{
 						String contents = completion.getContents();
 						columns_.get(i).add(contents);
@@ -2808,7 +2807,7 @@ public class CliJPanel extends JPanel implements CommandSource
 			}
 			else if (completionSet.size() == 1)
 			{
-				Completion completion = completionSet.first();
+				AbstractCommandFactory.CompletionSet.Completion completion = completionSet.first();
 				if (completion.getContents().startsWith(completionSet.getQueried()))
 				{
 					String append = completion.getContents().substring(completionSet.getQueried().length());

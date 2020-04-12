@@ -26,7 +26,6 @@ import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Collections;
 import aletheia.gui.app.AletheiaJFrame;
-import aletheia.gui.cli.command.AbstractCommandFactory.CompletionSet;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.model.authority.UnpackedSignatureRequest;
 import aletheia.model.identifier.Namespace;
@@ -300,7 +299,7 @@ public abstract class Command
 		return factory.parse(from, transaction, command);
 	}
 
-	public static CompletionSet completionSet(CommandSource from, String command)
+	public static AbstractCommandFactory.CompletionSet completionSet(CommandSource from, String command)
 	{
 		return factory.completionSet(from, command);
 	}
