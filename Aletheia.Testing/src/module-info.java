@@ -8,4 +8,5 @@ module aletheia.test
 	requires aletheia.parsergenerator;
 	requires aletheia.security;
 	requires aletheia.pdfexport;
+	requires aletheia.version;
 }
