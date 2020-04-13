@@ -19,5 +19,7 @@ module aletheia.persistence.berkeleydb
 	requires aletheia.protocol;
 	requires aletheia.version;
 	requires transitive je;  //TODO is this necessary?
+	requires jdk.unsupported;
+	requires java.transaction.xa;
 	requires java.desktop;
 }
