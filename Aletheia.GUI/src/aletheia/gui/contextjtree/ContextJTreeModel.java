@@ -161,7 +161,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 			contextJTreeListeners.add((ContextJTree.TreeModelListener) l);
 	}
 
-	public StatementListener getStatementListener()
+	StatementListener getStatementListener()
 	{
 		return statementListener;
 	}

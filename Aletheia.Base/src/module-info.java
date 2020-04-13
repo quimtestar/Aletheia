@@ -2,9 +2,11 @@ module aletheia.base
 {
 	exports aletheia.common;
 	exports aletheia.model.term;
+	exports aletheia.model.term.protocol;
 	exports aletheia.model.identifier;
 	exports aletheia.model.identifier.protocol;
 	exports aletheia.model.parameteridentification;
+	exports aletheia.model.parameteridentification.protocol;
 	exports aletheia.model.statement;
 	exports aletheia.model.statement.protocol;
 	exports aletheia.model.nomenclator;
