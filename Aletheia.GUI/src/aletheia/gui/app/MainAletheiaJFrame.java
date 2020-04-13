@@ -23,6 +23,7 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
+import aletheia.gui.fonts.FontManager;
 import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
 import aletheia.utilities.CommandLineArguments.Switch;

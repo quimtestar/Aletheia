@@ -98,7 +98,6 @@ import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.app.AletheiaJFrame;
 import aletheia.gui.app.AletheiaJPanel;
-import aletheia.gui.app.FontManager;
 import aletheia.gui.catalogjtree.CatalogJTree;
 import aletheia.gui.cli.command.AbstractCommandFactory;
 import aletheia.gui.cli.command.Command;
@@ -118,6 +117,7 @@ import aletheia.gui.common.datatransfer.StatementDataFlavor;
 import aletheia.gui.common.datatransfer.TermDataFlavor;
 import aletheia.gui.common.datatransfer.TermParameterIdentificationDataFlavor;
 import aletheia.gui.common.datatransfer.UUIDDataFlavor;
+import aletheia.gui.fonts.FontManager;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.UnpackedSignatureRequest;
 import aletheia.model.identifier.Identifier;

@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.common.renderer;
 
-import aletheia.gui.app.FontManager;
+import aletheia.gui.fonts.FontManager;
 import aletheia.model.authority.StatementAuthority;
 
 public class SignatureStatusLabelRenderer extends AbstractRenderer

@@ -21,7 +21,7 @@ package aletheia.gui.common.renderer;
 
 import java.util.Date;
 
-import aletheia.gui.app.FontManager;
+import aletheia.gui.fonts.FontManager;
 
 public class DateLabelRenderer extends AbstractRenderer
 {

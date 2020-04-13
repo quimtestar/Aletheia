@@ -25,6 +25,7 @@ import java.util.Collection;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 
+import aletheia.gui.fonts.FontManager;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;

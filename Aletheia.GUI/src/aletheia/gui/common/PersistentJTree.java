@@ -21,7 +21,7 @@ package aletheia.gui.common;
 
 import javax.swing.JTree;
 
-import aletheia.gui.app.FontManager;
+import aletheia.gui.fonts.FontManager;
 import aletheia.persistence.PersistenceManager;
 
 public class PersistentJTree extends JTree

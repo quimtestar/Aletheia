@@ -27,7 +27,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
-import aletheia.gui.app.FontManager;
 import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.gui.common.FocusBorderManager;
 import aletheia.gui.common.PersistentJTreeLayerUI;
@@ -35,6 +34,7 @@ import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeJPanel;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
 import aletheia.gui.delegatejtree.DelegateTreeJTree;
+import aletheia.gui.fonts.FontManager;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.authority.StatementAuthoritySignature;
 import aletheia.model.statement.Context;

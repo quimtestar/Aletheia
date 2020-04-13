@@ -40,7 +40,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-import aletheia.gui.app.FontManager;
+import aletheia.gui.fonts.FontManager;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.utilities.MiscUtilities;

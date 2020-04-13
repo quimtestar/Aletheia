@@ -55,7 +55,6 @@ import javax.swing.table.TableCellRenderer;
 
 import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.gui.app.AletheiaJPanel;
-import aletheia.gui.app.FontManager;
 import aletheia.gui.cli.command.authority.DeleteSignatures;
 import aletheia.gui.common.datatransfer.StatementAuthoritySignatureTransferable;
 import aletheia.gui.common.renderer.AbstractRenderer;
@@ -70,6 +69,7 @@ import aletheia.gui.common.renderer.StatementLabelRenderer;
 import aletheia.gui.common.renderer.TextLabelRenderer;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeJPanel;
+import aletheia.gui.fonts.FontManager;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.Signatory;
 import aletheia.model.authority.StatementAuthoritySignature;

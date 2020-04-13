@@ -22,7 +22,7 @@ package aletheia.gui.common.renderer;
 import java.awt.Color;
 import java.util.UUID;
 
-import aletheia.gui.app.FontManager;
+import aletheia.gui.fonts.FontManager;
 
 public class UUIDLabelRenderer extends AbstractRenderer
 {

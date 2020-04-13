@@ -26,6 +26,7 @@ module aletheia.gui
 	requires transitive aletheia.prooffinder;
 	requires transitive aletheia.persistence.berkeleydb;
 	requires transitive aletheia.parsergenerator;
+	requires transitive aletheia.gui.fonts;
 	requires aletheia.utilities;
 	requires aletheia.log4j;
 	requires aletheia.version;

@@ -19,8 +19,8 @@
  ******************************************************************************/
 package aletheia.gui.common.renderer;
 
-import aletheia.gui.app.FontManager;
 import aletheia.gui.common.PersistentJTree;
+import aletheia.gui.fonts.FontManager;
 import aletheia.persistence.Transaction;
 
 public abstract class PersistentJTreeNodeRenderer extends AbstractPersistentRenderer
