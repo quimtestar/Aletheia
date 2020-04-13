@@ -1,4 +1,4 @@
-module aletheia.version
+open module aletheia.version
 {
 	exports aletheia.version;
 }
