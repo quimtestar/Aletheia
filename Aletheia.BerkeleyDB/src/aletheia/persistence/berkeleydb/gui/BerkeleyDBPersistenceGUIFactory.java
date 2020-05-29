@@ -24,6 +24,7 @@ import java.awt.Component;
 import javax.swing.JOptionPane;
 
 import aletheia.persistence.PersistenceManager;
+import aletheia.persistence.berkeleydb.BerkeleyDBConfiguration;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager.EntityStoreVersionException;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager.MustAllowCreateException;
@@ -60,10 +61,10 @@ public class BerkeleyDBPersistenceGUIFactory extends PersistenceGUIFactory
 		return new BerkeleyDBPersistencePreferencesJPanel(getPreferences());
 	}
 
-	private BerkeleyDBPersistenceManager.Configuration makePersistenceManagerConfiguration(PersistenceManager.StartupProgressListener progressListener,
+	private BerkeleyDBConfiguration makePersistenceManagerConfiguration(PersistenceManager.StartupProgressListener progressListener,
 			boolean allowCreate, boolean allowUpgrade)
 	{
-		BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
+		BerkeleyDBConfiguration configuration = new BerkeleyDBConfiguration();
 		configuration.setStartupProgressListener(progressListener);
 		configuration.setDbFile(getPreferences().getDbFile());
 		configuration.setAllowCreate(allowCreate);

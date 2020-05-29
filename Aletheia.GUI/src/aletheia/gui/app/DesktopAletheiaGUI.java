@@ -40,6 +40,7 @@ import aletheia.gui.preferences.GUIAletheiaPreferences;
 import aletheia.gui.preferences.PersistenceClass;
 import aletheia.log4j.LoggerManager;
 import aletheia.persistence.PersistenceManager;
+import aletheia.persistence.berkeleydb.BerkeleyDBConfiguration;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.gui.PersistenceGUIFactory;
 import aletheia.utilities.CommandLineArguments;
@@ -157,7 +158,7 @@ public class DesktopAletheiaGUI extends AletheiaGUI
 				Switch swAllowCreate = globalSwitches.remove("ac");
 				if (swAllowCreate != null)
 					allowCreate = true;
-				BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
+				BerkeleyDBConfiguration configuration = new BerkeleyDBConfiguration();
 				configuration.setDbFile(dbFile);
 				configuration.setReadOnly(readOnly);
 				configuration.setAllowCreate(allowCreate);

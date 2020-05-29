@@ -166,7 +166,7 @@ public class BerkeleyDBAletheiaTool
 		@Override
 		protected void execute()
 		{
-			BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
+			BerkeleyDBConfiguration configuration = new BerkeleyDBConfiguration();
 			configuration.setDbFile(dbFile);
 			configuration.setAllowCreate(false);
 			configuration.setReadOnly(true);
@@ -205,7 +205,7 @@ public class BerkeleyDBAletheiaTool
 		@Override
 		protected void execute()
 		{
-			BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
+			BerkeleyDBConfiguration configuration = new BerkeleyDBConfiguration();
 			configuration.setDbFile(dbFile);
 			configuration.setAllowCreate(false);
 			configuration.setReadOnly(false);
@@ -254,7 +254,7 @@ public class BerkeleyDBAletheiaTool
 		@Override
 		protected void execute() throws ExecuteException
 		{
-			BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
+			BerkeleyDBConfiguration configuration = new BerkeleyDBConfiguration();
 			configuration.setDbFile(dbFile);
 			configuration.setAllowCreate(false);
 			configuration.setReadOnly(false);
@@ -305,7 +305,7 @@ public class BerkeleyDBAletheiaTool
 		@Override
 		protected void execute() throws ExecuteException
 		{
-			BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
+			BerkeleyDBConfiguration configuration = new BerkeleyDBConfiguration();
 			configuration.setDbFile(dbFile);
 			configuration.setAllowCreate(false);
 			configuration.setReadOnly(true);
@@ -366,7 +366,7 @@ public class BerkeleyDBAletheiaTool
 		@Override
 		protected void execute() throws ExecuteException
 		{
-			BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
+			BerkeleyDBConfiguration configuration = new BerkeleyDBConfiguration();
 			configuration.setDbFile(dbFile);
 			configuration.setAllowCreate(true);
 			configuration.setReadOnly(false);

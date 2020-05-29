@@ -20,19 +20,20 @@
 package aletheia.test;
 
 import aletheia.gui.app.AletheiaCliConsole;
+import aletheia.persistence.Configuration;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.PersistenceSecretKeyManager.PersistenceSecretKeyException;
 
 public abstract class PersistenceManagerTest<P extends PersistenceManager> extends Test
 {
-	private final PersistenceManager.Configuration configuration;
+	private final Configuration configuration;
 
-	public PersistenceManagerTest(PersistenceManager.Configuration configuration)
+	public PersistenceManagerTest(Configuration configuration)
 	{
 		this.configuration = configuration;
 	}
 
-	public PersistenceManager.Configuration getConfiguration()
+	public Configuration getConfiguration()
 	{
 		return configuration;
 	}

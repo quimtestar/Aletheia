@@ -53,12 +53,12 @@ public class BerkeleyDBAletheiaEnvironment extends Environment
 {
 	private final static Logger logger = LoggerManager.instance.logger();
 
-	public BerkeleyDBAletheiaEnvironment(BerkeleyDBPersistenceManager.Configuration configuration)
+	public BerkeleyDBAletheiaEnvironment(BerkeleyDBConfiguration configuration)
 	{
 		super(makeDbFile(configuration), makeConfig(configuration));
 	}
 
-	private static File makeDbFile(BerkeleyDBPersistenceManager.Configuration configuration)
+	private static File makeDbFile(BerkeleyDBConfiguration configuration)
 	{
 		File dbFile = configuration.getDbFile();
 		if (configuration.isAllowCreate())
@@ -66,7 +66,7 @@ public class BerkeleyDBAletheiaEnvironment extends Environment
 		return dbFile;
 	}
 
-	private static EnvironmentConfig makeConfig(final BerkeleyDBPersistenceManager.Configuration configuration)
+	private static EnvironmentConfig makeConfig(final BerkeleyDBConfiguration configuration)
 	{
 		EnvironmentConfig environmentConfig = new EnvironmentConfig();
 		environmentConfig.setAllowCreate(configuration.isAllowCreate());
