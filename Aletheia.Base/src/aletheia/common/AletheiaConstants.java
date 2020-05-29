@@ -36,7 +36,7 @@ public class AletheiaConstants
 	 *
 	 * @see java.util.prefs
 	 */
-	private static final String PREFERENCES_NODE_PATH_default = "aletheia";
+	private static final String PREFERENCES_NODE_PATH_default = "aletheia#module";		//TODO: set this back to "aletheia" when merging to master.
 	public static final String PREFERENCES_NODE_PATH;
 
 	static
