@@ -22,6 +22,7 @@ package aletheia.gui.cli.command;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -221,7 +222,7 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 	{
 		try
 		{
-			return ctx.parseTerm(transaction, s, parameterIdentifiers);
+			return TermParser.parseTerm(transaction, ctx, new StringReader(s), parameterIdentifiers);
 		}
 		catch (ParserBaseException e)
 		{
@@ -251,7 +252,7 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 	{
 		try
 		{
-			return ctx.parseParameterIdentifiedTerm(transaction, s);
+			return TermParser.parseParameterIdentifiedTerm(transaction, ctx, new StringReader(s));
 		}
 		catch (ParserBaseException e)
 		{
