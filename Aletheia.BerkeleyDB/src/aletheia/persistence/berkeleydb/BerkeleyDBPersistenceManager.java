@@ -52,7 +52,6 @@ import aletheia.model.statement.Context;
 import aletheia.model.statement.Declaration;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.SimpleTerm;
-import aletheia.persistence.Configuration;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.collections.authority.BerkeleyDBDelegateAuthorizerByAuthorizerMap;
