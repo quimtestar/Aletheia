@@ -367,58 +367,26 @@ public class TermParser extends Parser
 
 	private static TransitionTable loadTransitionTable()
 	{
-		InputStream is = ClassLoader.getSystemResourceAsStream(AletheiaParserConstants.termTransitionTablePath);
-		try
+		try (InputStream is = ClassLoader.getSystemResourceAsStream(AletheiaParserConstants.termTransitionTablePath))
 		{
 			return TransitionTable.load(is);
 		}
-		catch (ClassNotFoundException e)
+		catch (ClassNotFoundException | IOException e)
 		{
-			throw new Error(e);
-		}
-		catch (IOException e)
-		{
-			throw new Error(e);
-		}
-		finally
-		{
-			try
-			{
-				if (is != null)
-					is.close();
-			}
-			catch (IOException e)
-			{
-				throw new Error(e);
-			}
+			throw new RuntimeException(e);
 		}
 	}
 
 	private TermParser()
 	{
 		super(loadTransitionTable());
-		try
+		try (InputStream is = ClassLoader.getSystemResourceAsStream(AletheiaParserConstants.automatonSetPath))
 		{
-			{
-				InputStream is = ClassLoader.getSystemResourceAsStream(AletheiaParserConstants.automatonSetPath);
-				try
-				{
-					automatonSet = AutomatonSet.load(is);
-				}
-				finally
-				{
-					if (is != null)
-						is.close();
-				}
-			}
+			automatonSet = AutomatonSet.load(is);
 		}
-		catch (IOException e)
+		catch (ClassNotFoundException | IOException e)
 		{
-			throw new Error(e);
-		}
-		catch (ClassNotFoundException e)
-		{
-			throw new Error(e);
+			throw new RuntimeException(e);
 		}
 		this.tokenPayloadReducer = new ProductionManagedTokenPayloadReducer<>(reducerClasses);
 	}
