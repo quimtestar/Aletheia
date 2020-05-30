@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Paths;
@@ -180,7 +181,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 			}
 		}
 		List<CommandResource> commandResourceList = new ArrayList<>();
-		commandResourceList.add(new CommandResource(ClassLoader.getSystemClassLoader(), staticTaggedCommandsResourceName));
+		commandResourceList.add(new CommandResource(new URLClassLoader(new URL[] {GlobalCommandFactory.class.getProtectionDomain().getCodeSource().getLocation()}), staticTaggedCommandsResourceName));
 
 		String commandsFileName = System.getProperty("aletheia.gui.cli.commands");
 		if (commandsFileName != null)
