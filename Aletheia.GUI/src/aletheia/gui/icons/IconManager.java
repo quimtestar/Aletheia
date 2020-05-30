@@ -44,7 +44,7 @@ public class IconManager
 			InputStream is = null;
 			try
 			{
-				is = ClassLoader.getSystemResourceAsStream("aletheia/gui/icons/" + f);
+				is = IconManager.class.getResourceAsStream(f);
 				if (is != null)
 					icons.add(ImageIO.read(is));
 			}
