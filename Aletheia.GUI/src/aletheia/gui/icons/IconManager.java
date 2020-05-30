@@ -22,9 +22,11 @@ package aletheia.gui.icons;
 import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
@@ -36,63 +38,31 @@ public class IconManager
 
 	private static List<Image> loadIcons()
 	{
-		String[] files =
-		{ "aletheia_plain_16.png", "aletheia_plain_32.png", "aletheia_plain_64.png", "aletheia_plain_128.png" };
-		List<Image> icons = new ArrayList<>();
-		for (String f : files)
-		{
-			InputStream is = null;
-			try
+		return Stream.of("aletheia_plain_16.png", "aletheia_plain_32.png", "aletheia_plain_64.png", "aletheia_plain_128.png").map(fn -> {
+			try (InputStream is = IconManager.class.getResourceAsStream(fn))
 			{
-				is = IconManager.class.getResourceAsStream(f);
-				if (is != null)
-					icons.add(ImageIO.read(is));
-			}
-			catch (IOException e)
-			{
-			}
-			finally
-			{
-				if (is != null)
-					try
-					{
-						is.close();
-					}
-					catch (IOException e)
-					{
-					}
-			}
-		}
-		return icons;
-	}
-
-	@SuppressWarnings("unused")
-	private static Icon loadBinaryFolderIcon()
-	{
-		InputStream is = null;
-		try
-		{
-			is = ClassLoader.getSystemResourceAsStream("aletheia/gui/icons/folder_binary.png");
-			try
-			{
-				return new ImageIcon(ImageIO.read(is));
+				if (is == null)
+					return null;
+				else
+					return ImageIO.read(is);
 			}
 			catch (IOException e)
 			{
 				return null;
 			}
-		}
-		finally
+		}).filter(Objects::nonNull).collect(Collectors.toList());
+	}
+
+	@SuppressWarnings("unused")
+	private static Icon loadBinaryFolderIcon()
+	{
+		try (InputStream is = IconManager.class.getResourceAsStream("folder_binary.png"))
 		{
-			if (is != null)
-				try
-				{
-					is.close();
-				}
-				catch (IOException e)
-				{
-					return null;
-				}
+			return new ImageIcon(ImageIO.read(is));
+		}
+		catch (IOException e)
+		{
+			return null;
 		}
 	}
 
