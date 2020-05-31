@@ -1,5 +1,13 @@
 module aletheia.base
 {
+	requires transitive aletheia.security;
+	requires transitive aletheia.utilities;
+	requires aletheia.log4j;
+	requires aletheia.protocol;
+	requires transitive aletheia.parsergenerator;
+	requires transitive java.desktop;
+	requires transitive java.prefs;
+	
 	exports aletheia.common;
 	exports aletheia.model.term;
 	exports aletheia.model.term.protocol;
@@ -36,14 +44,6 @@ module aletheia.base
 	exports aletheia.persistence.preferences;
 	exports aletheia.persistence.protocol;
 	exports aletheia.preferences;
-	
-	requires transitive aletheia.security;
-	requires transitive aletheia.utilities;
-	requires aletheia.log4j;
-	requires aletheia.protocol;
-	requires transitive aletheia.parsergenerator;
-	requires transitive java.desktop;
-	requires transitive java.prefs;
 	
 	exports aletheia.parser.term.semantic to aletheia.parsergenerator;
 }
