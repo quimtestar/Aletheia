@@ -75,7 +75,7 @@ public class GrammarTokenPayLoadReducer extends ProductionManagedTokenPayloadRed
 		}
 	}
 
-	private static class PreProduction
+	public static class PreProduction
 	{
 		private final String left;
 		private final List<String> right;
@@ -123,7 +123,7 @@ public class GrammarTokenPayLoadReducer extends ProductionManagedTokenPayloadRed
 
 	@AssociatedProduction(left = "P", right =
 	{ "IDENTIFIER", "ARROW", "R" })
-	private static class P__IDENTIFIER_ARROW_R_TokenReducer extends ProductionTokenPayloadReducer<Void, PreProduction>
+	public static class P__IDENTIFIER_ARROW_R_TokenReducer extends ProductionTokenPayloadReducer<Void, PreProduction>
 	{
 		@Override
 		public PreProduction reduce(Void globals, List<Token<? extends Symbol>> antecedents, Production production, List<Token<? extends Symbol>> reducees)

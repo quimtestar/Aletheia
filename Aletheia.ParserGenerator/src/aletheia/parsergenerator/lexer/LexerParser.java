@@ -139,7 +139,7 @@ public class LexerParser extends Parser
 					C__CHAR_HYPHEN_CHAR_TokenReducer.class);
 	//@formatter:on
 
-	private static class AutomatonTag
+	public static class AutomatonTag
 	{
 		public final DeterministicAutomaton automaton;
 		public final TaggedTerminalSymbol tag;
@@ -186,7 +186,7 @@ public class LexerParser extends Parser
 
 	@AssociatedProduction(left = "S", right =
 	{ "QUOTE", "E", "QUOTE", "COLON", "TAG" })
-	private final static class S__QUOTE_E_QUOTE_COLON_TAG_TokenReducer extends ProductionTokenPayloadReducer<Void, AutomatonTag>
+	public final static class S__QUOTE_E_QUOTE_COLON_TAG_TokenReducer extends ProductionTokenPayloadReducer<Void, AutomatonTag>
 	{
 
 		@Override
@@ -202,7 +202,7 @@ public class LexerParser extends Parser
 
 	@AssociatedProduction(left = "S", right =
 	{ "QUOTE", "E", "QUOTE", "COLON" })
-	private final static class S__QUOTE_E_QUOTE_COLON_TokenReducer extends ProductionTokenPayloadReducer<Void, AutomatonTag>
+	public final static class S__QUOTE_E_QUOTE_COLON_TokenReducer extends ProductionTokenPayloadReducer<Void, AutomatonTag>
 	{
 
 		@Override
