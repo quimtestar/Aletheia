@@ -367,7 +367,7 @@ public class TermParser extends Parser
 
 	private static TransitionTable loadTransitionTable()
 	{
-		try (InputStream is = ClassLoader.getSystemResourceAsStream(AletheiaParserConstants.termTransitionTablePath))
+		try (InputStream is = TermParser.class.getResourceAsStream(AletheiaParserConstants.termTransitionTablePath))
 		{
 			return TransitionTable.load(is);
 		}
@@ -380,7 +380,7 @@ public class TermParser extends Parser
 	private TermParser()
 	{
 		super(loadTransitionTable());
-		try (InputStream is = ClassLoader.getSystemResourceAsStream(AletheiaParserConstants.automatonSetPath))
+		try (InputStream is = TermParser.class.getResourceAsStream(AletheiaParserConstants.automatonSetPath))
 		{
 			automatonSet = AutomatonSet.load(is);
 		}
