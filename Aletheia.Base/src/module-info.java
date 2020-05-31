@@ -41,7 +41,9 @@ module aletheia.base
 	requires transitive aletheia.utilities;
 	requires aletheia.log4j;
 	requires aletheia.protocol;
-	requires aletheia.parsergenerator;
+	requires transitive aletheia.parsergenerator;
 	requires transitive java.desktop;
 	requires transitive java.prefs;
+	
+	exports aletheia.parser.term.semantic to aletheia.parsergenerator;
 }
