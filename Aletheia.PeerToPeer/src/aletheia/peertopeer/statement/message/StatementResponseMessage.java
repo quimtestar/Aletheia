@@ -28,6 +28,7 @@ import java.util.UUID;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.authority.protocol.StatementAuthorityProtocol;
 import aletheia.model.statement.Statement;
+import aletheia.model.statement.protocol.StatementProtocol;
 import aletheia.peertopeer.base.message.AbstractUUIDPersistentInfoMessage;
 import aletheia.peertopeer.base.message.MessageCode;
 import aletheia.peertopeer.base.message.MessageSubProtocolInfo;
@@ -36,7 +37,6 @@ import aletheia.persistence.Transaction;
 import aletheia.protocol.PersistentExportableProtocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.statement.StatementProtocol;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCollection;
 

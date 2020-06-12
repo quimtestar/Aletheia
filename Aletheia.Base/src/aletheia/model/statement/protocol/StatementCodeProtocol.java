@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.protocol.statement;
+package aletheia.model.statement.protocol;
 
 import aletheia.protocol.Protocol;
 import aletheia.protocol.ProtocolInfo;
