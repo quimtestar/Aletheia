@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.protocol.peertopeer;
+package aletheia.model.peertopeer.protocol;
 
 import java.io.DataInput;
 import java.io.DataOutput;
@@ -27,12 +27,12 @@ import java.util.UUID;
 
 import aletheia.model.peertopeer.DeferredMessage;
 import aletheia.model.peertopeer.deferredmessagecontent.DeferredMessageContent;
+import aletheia.model.peertopeer.deferredmessagecontent.protocol.DeferredMessageContentProtocol;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.protocol.PersistentExportableProtocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.peertopeer.deferredmessagecontent.DeferredMessageContentProtocol;
 import aletheia.protocol.primitive.DateProtocol;
 import aletheia.protocol.primitive.UUIDProtocol;
 

@@ -23,9 +23,9 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+import aletheia.model.peertopeer.deferredmessagecontent.protocol.DeferredMessageContentCode;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.peertopeer.deferredmessagecontent.DeferredMessageContentCode;
 import aletheia.protocol.primitive.ByteArrayProtocol;
 
 @Deprecated

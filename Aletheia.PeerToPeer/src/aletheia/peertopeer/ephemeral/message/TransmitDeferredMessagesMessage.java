@@ -28,6 +28,7 @@ import java.util.UUID;
 
 import aletheia.model.peertopeer.DeferredMessage;
 import aletheia.model.peertopeer.deferredmessagecontent.DeferredMessageContent;
+import aletheia.model.peertopeer.deferredmessagecontent.protocol.DeferredMessageContentProtocol;
 import aletheia.peertopeer.base.message.MessageCode;
 import aletheia.peertopeer.base.message.MessageSubProtocolInfo;
 import aletheia.peertopeer.base.message.NonPersistentMessage;
@@ -36,7 +37,6 @@ import aletheia.protocol.ExportableProtocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.collection.CollectionProtocol;
-import aletheia.protocol.peertopeer.deferredmessagecontent.DeferredMessageContentProtocol;
 import aletheia.protocol.primitive.DateProtocol;
 import aletheia.protocol.primitive.UUIDProtocol;
 import aletheia.utilities.collections.Bijection;

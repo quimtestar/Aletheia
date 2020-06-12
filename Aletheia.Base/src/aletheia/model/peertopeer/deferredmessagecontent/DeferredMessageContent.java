@@ -23,10 +23,10 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.io.Serializable;
 
+import aletheia.model.peertopeer.deferredmessagecontent.protocol.DeferredMessageContentCode;
 import aletheia.protocol.Exportable;
 import aletheia.protocol.ExportableProtocol;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.peertopeer.deferredmessagecontent.DeferredMessageContentCode;
 
 public abstract class DeferredMessageContent implements Exportable, Serializable
 {

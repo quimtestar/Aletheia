@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.protocol.peertopeer.deferredmessagecontent;
+package aletheia.model.peertopeer.deferredmessagecontent.protocol;
 
 import java.io.DataInput;
 import java.io.DataOutput;
