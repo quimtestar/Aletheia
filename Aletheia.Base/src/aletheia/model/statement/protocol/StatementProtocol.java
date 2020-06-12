@@ -41,6 +41,7 @@ import aletheia.model.statement.Statement.SignatureIsValidException;
 import aletheia.model.statement.Statement.StatementException;
 import aletheia.model.statement.UnfoldingContext;
 import aletheia.model.term.Term;
+import aletheia.model.term.protocol.TermProtocol;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.protocol.PersistentExportableProtocol;
@@ -51,7 +52,6 @@ import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.primitive.IntegerProtocol;
 import aletheia.protocol.primitive.NullableProtocol;
 import aletheia.protocol.primitive.UUIDProtocol;
-import aletheia.protocol.term.TermProtocol;
 
 /**
  * {@link Protocol} for {@link Statement}s. The data is arranged as follows:

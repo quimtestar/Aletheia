@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.protocol.term;
+package aletheia.model.term.protocol;
 
 import java.io.DataInput;
 import java.io.DataOutput;
