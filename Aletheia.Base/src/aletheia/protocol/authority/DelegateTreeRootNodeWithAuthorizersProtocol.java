@@ -29,12 +29,12 @@ import aletheia.model.authority.DelegateTreeNode;
 import aletheia.model.authority.DelegateTreeRootNode;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.identifier.Namespace;
+import aletheia.model.identifier.protocol.NamespaceProtocol;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.collection.CollectionProtocol;
-import aletheia.protocol.namespace.NamespaceProtocol;
 import aletheia.protocol.primitive.IntegerProtocol;
 import aletheia.utilities.collections.BufferedList;
 

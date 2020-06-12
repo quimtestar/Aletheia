@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2019 Quim Testar.
+ * Copyright (c) 2014 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -16,9 +16,24 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
- *******************************************************************************/
+ ******************************************************************************/
+package aletheia.model.identifier.protocol;
+
+import aletheia.protocol.Protocol;
+import aletheia.protocol.ProtocolInfo;
+import aletheia.protocol.enumerate.ByteExportableEnumProtocol;
+
 /**
- * Classes for encoding {@link aletheia.model.identifier.Namespace} objects and
- * sending/receive them on the protocol.
+ * {@link Protocol} for {@link NamespaceCode}s.
  */
-package aletheia.protocol.namespace;
+@ProtocolInfo(availableVersions = 0)
+public class NamespaceCodeProtocol extends ByteExportableEnumProtocol<NamespaceCode>
+{
+
+	public NamespaceCodeProtocol(int requiredVersion)
+	{
+		super(0, NamespaceCode.class, 0);
+		checkVersionAvailability(NamespaceCodeProtocol.class, requiredVersion);
+	}
+
+}

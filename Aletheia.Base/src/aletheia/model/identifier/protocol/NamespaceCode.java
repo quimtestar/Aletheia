@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.protocol.namespace;
+package aletheia.model.identifier.protocol;
 
 import java.util.Collections;
 import java.util.HashMap;

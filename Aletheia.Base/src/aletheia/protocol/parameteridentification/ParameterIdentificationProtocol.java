@@ -24,6 +24,7 @@ import java.io.DataOutput;
 import java.io.IOException;
 
 import aletheia.model.identifier.Identifier;
+import aletheia.model.identifier.protocol.NamespaceProtocol;
 import aletheia.model.parameteridentification.CompositionParameterIdentification;
 import aletheia.model.parameteridentification.FunctionParameterIdentification;
 import aletheia.model.parameteridentification.ParameterIdentification;
@@ -32,7 +33,6 @@ import aletheia.protocol.ExportableProtocol;
 import aletheia.protocol.Protocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.namespace.NamespaceProtocol;
 import aletheia.protocol.primitive.NullableProtocol;
 
 @ProtocolInfo(availableVersions = 0)
