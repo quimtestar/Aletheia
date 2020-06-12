@@ -24,7 +24,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import aletheia.model.parameteridentification.ParameterIdentification;
-import aletheia.protocol.parameteridentification.ParameterIdentificationProtocol;
+import aletheia.model.parameteridentification.protocol.ParameterIdentificationProtocol;
 import aletheia.test.Test;
 
 public class ParameterIdentificationTest0001 extends Test

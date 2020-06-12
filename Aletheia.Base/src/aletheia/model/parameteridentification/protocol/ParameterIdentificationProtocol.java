@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.protocol.parameteridentification;
+package aletheia.model.parameteridentification.protocol;
 
 import java.io.DataInput;
 import java.io.DataOutput;
