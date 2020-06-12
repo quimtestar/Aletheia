@@ -26,7 +26,7 @@ import java.security.PrivateKey;
 import java.security.Signature;
 import java.security.SignatureException;
 
-import aletheia.model.security.SignatureData;
+import aletheia.security.model.SignatureData;
 
 public class BufferedSigner extends BufferedSignerOrVerifier implements Signer
 {

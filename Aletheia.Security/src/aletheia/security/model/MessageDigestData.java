@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.model.security;
+package aletheia.security.model;
 
 import java.util.Arrays;
 

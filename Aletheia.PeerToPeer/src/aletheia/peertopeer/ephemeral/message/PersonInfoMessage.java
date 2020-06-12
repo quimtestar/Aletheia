@@ -27,7 +27,6 @@ import java.util.Date;
 import java.util.UUID;
 
 import aletheia.model.authority.Person;
-import aletheia.model.security.SignatureData;
 import aletheia.peertopeer.base.message.AbstractUUIDInfoMessage;
 import aletheia.peertopeer.base.message.MessageCode;
 import aletheia.peertopeer.base.message.MessageSubProtocolInfo;
@@ -36,7 +35,8 @@ import aletheia.protocol.ExportableProtocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.primitive.DateProtocol;
-import aletheia.protocol.security.SignatureDataProtocol;
+import aletheia.security.model.SignatureData;
+import aletheia.security.protocol.SignatureDataProtocol;
 
 @MessageSubProtocolInfo(subProtocolClass = PersonInfoMessage.SubProtocol.class)
 public class PersonInfoMessage extends AbstractUUIDInfoMessage<PersonInfoMessage.PersonInfo>

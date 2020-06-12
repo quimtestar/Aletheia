@@ -32,7 +32,6 @@ import aletheia.model.authority.Person;
 import aletheia.model.authority.Signatory;
 import aletheia.model.authority.SignatureVerifyException;
 import aletheia.model.authority.SignatureVersionException;
-import aletheia.model.security.SignatureData;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.protocol.PersistentExportableProtocol;
@@ -43,7 +42,8 @@ import aletheia.protocol.primitive.DateProtocol;
 import aletheia.protocol.primitive.IntegerProtocol;
 import aletheia.protocol.primitive.NullableProtocol;
 import aletheia.protocol.primitive.UUIDProtocol;
-import aletheia.protocol.security.SignatureDataProtocol;
+import aletheia.security.model.SignatureData;
+import aletheia.security.protocol.SignatureDataProtocol;
 
 @ProtocolInfo(availableVersions = 0)
 public class DelegateAuthorizerProtocol extends PersistentExportableProtocol<DelegateAuthorizer>

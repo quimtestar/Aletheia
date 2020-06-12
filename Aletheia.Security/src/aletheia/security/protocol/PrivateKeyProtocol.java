@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2018 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -17,45 +17,29 @@
  * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.security.messagedigester;
+package aletheia.security.protocol;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.spec.InvalidKeySpecException;
 
-import aletheia.security.model.MessageDigestData;
+import aletheia.protocol.ProtocolInfo;
+import aletheia.security.utilities.SecurityUtilities;
+import aletheia.security.utilities.SecurityUtilities.NoSuchFormatException;
 
-public class BufferedMessageDigester extends AbstractMessageDigester
+@ProtocolInfo(availableVersions = 0)
+public class PrivateKeyProtocol extends KeyProtocol<PrivateKey>
 {
-	private final ByteArrayOutputStream byteArrayOutputStream;
-
-	public BufferedMessageDigester(String algorithm) throws NoSuchAlgorithmException
+	public PrivateKeyProtocol(int requiredVersion)
 	{
-		super(algorithm);
-		this.byteArrayOutputStream = new ByteArrayOutputStream();
+		super(0);
+		checkVersionAvailability(PrivateKeyProtocol.class, requiredVersion);
 	}
 
 	@Override
-	protected ByteArrayOutputStream outputStream()
+	protected PrivateKey decode(String format, String algorithm, byte[] encoded) throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchFormatException
 	{
-		return byteArrayOutputStream;
-	}
-
-	@Override
-	public MessageDigestData digest()
-	{
-		try
-		{
-			MessageDigest messageDigest = getMessageDigest();
-			outputStream().close();
-			messageDigest.update(outputStream().toByteArray());
-			return new MessageDigestData(getAlgorithm(), messageDigest.digest());
-		}
-		catch (IOException e)
-		{
-			throw new RuntimeException(e);
-		}
+		return SecurityUtilities.instance.decodePrivateKey(format, algorithm, encoded);
 	}
 
 }

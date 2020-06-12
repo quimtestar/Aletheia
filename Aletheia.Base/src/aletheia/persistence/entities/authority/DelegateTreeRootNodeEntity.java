@@ -25,7 +25,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import aletheia.model.identifier.RootNamespace;
-import aletheia.model.security.SignatureData;
+import aletheia.security.model.SignatureData;
 
 public interface DelegateTreeRootNodeEntity extends DelegateTreeNodeEntity
 {

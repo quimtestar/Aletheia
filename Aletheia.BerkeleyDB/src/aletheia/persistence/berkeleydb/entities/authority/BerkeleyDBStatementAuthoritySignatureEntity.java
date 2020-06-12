@@ -22,9 +22,9 @@ package aletheia.persistence.berkeleydb.entities.authority;
 import java.util.Date;
 import java.util.UUID;
 
-import aletheia.model.security.SignatureData;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.entities.authority.StatementAuthoritySignatureEntity;
+import aletheia.security.model.SignatureData;
 
 import com.sleepycat.persist.model.Entity;
 import com.sleepycat.persist.model.KeyField;

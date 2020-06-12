@@ -32,7 +32,6 @@ import aletheia.model.authority.StatementAuthority;
 import aletheia.model.authority.StatementAuthoritySignature;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
-import aletheia.model.security.SignatureData;
 import aletheia.persistence.Transaction;
 import aletheia.protocol.Exportable;
 import aletheia.protocol.ExportableProtocol;
@@ -44,7 +43,8 @@ import aletheia.protocol.primitive.BooleanProtocol;
 import aletheia.protocol.primitive.DateProtocol;
 import aletheia.protocol.primitive.NullableProtocol;
 import aletheia.protocol.primitive.UUIDProtocol;
-import aletheia.protocol.security.SignatureDataProtocol;
+import aletheia.security.model.SignatureData;
+import aletheia.security.protocol.SignatureDataProtocol;
 import aletheia.utilities.collections.CloseableCollection;
 import aletheia.utilities.collections.TrivialCloseableCollection;
 

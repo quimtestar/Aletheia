@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2018 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -17,51 +17,85 @@
  * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.protocol.security;
+package aletheia.security.protocol;
 
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.security.Key;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
-import aletheia.model.security.MessageDigestData;
 import aletheia.protocol.Protocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.primitive.ByteArrayProtocol;
 import aletheia.protocol.primitive.StringProtocol;
+import aletheia.security.utilities.SecurityUtilities;
+import aletheia.security.utilities.SecurityUtilities.NoSuchFormatException;
 
 @ProtocolInfo(availableVersions = 0)
-public class MessageDigestDataProtocol extends Protocol<MessageDigestData>
+public abstract class KeyProtocol<K extends Key> extends Protocol<K>
 {
 	private final StringProtocol stringProtocol;
 	private final ByteArrayProtocol byteArrayProtocol;
 
-	public MessageDigestDataProtocol(int requiredVersion)
+	public KeyProtocol(int requiredVersion)
 	{
 		super(0);
-		checkVersionAvailability(MessageDigestDataProtocol.class, requiredVersion);
+		checkVersionAvailability(KeyProtocol.class, requiredVersion);
 		this.stringProtocol = new StringProtocol(0);
 		this.byteArrayProtocol = new ByteArrayProtocol(0);
 	}
 
 	@Override
-	public void send(DataOutput out, MessageDigestData messageDigestData) throws IOException
+	public void send(DataOutput out, K k) throws IOException
 	{
-		stringProtocol.send(out, messageDigestData.getAlgorithm());
-		byteArrayProtocol.send(out, messageDigestData.getEncoded());
+		stringProtocol.send(out, k.getFormat());
+		stringProtocol.send(out, k.getAlgorithm());
+		byteArrayProtocol.send(out, k.getEncoded());
+	}
+
+	protected Key recv(DataInput in, Method decoder) throws IOException, ProtocolException
+	{
+		String format = stringProtocol.recv(in);
+		String algorithm = stringProtocol.recv(in);
+		byte[] encoded = byteArrayProtocol.recv(in);
+		try
+		{
+			return (Key) decoder.invoke(SecurityUtilities.instance, format, algorithm, encoded);
+		}
+		catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException | ClassCastException e)
+		{
+			throw new ProtocolException(e);
+		}
 	}
 
 	@Override
-	public MessageDigestData recv(DataInput in) throws IOException, ProtocolException
+	public K recv(DataInput in) throws IOException, ProtocolException
 	{
+		String format = stringProtocol.recv(in);
 		String algorithm = stringProtocol.recv(in);
 		byte[] encoded = byteArrayProtocol.recv(in);
-		return new MessageDigestData(algorithm, encoded);
+		try
+		{
+			return decode(format, algorithm, encoded);
+		}
+		catch (NoSuchAlgorithmException | InvalidKeySpecException | NoSuchFormatException e)
+		{
+			throw new ProtocolException(e);
+		}
 	}
+
+	protected abstract K decode(String format, String algorithm, byte[] encoded)
+			throws NoSuchAlgorithmException, InvalidKeySpecException, NoSuchFormatException;
 
 	@Override
 	public void skip(DataInput in) throws IOException, ProtocolException
 	{
+		stringProtocol.skip(in);
 		stringProtocol.skip(in);
 		byteArrayProtocol.skip(in);
 	}

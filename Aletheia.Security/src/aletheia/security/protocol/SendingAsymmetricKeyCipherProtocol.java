@@ -17,31 +17,43 @@
  * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.protocol.security;
+package aletheia.security.protocol;
 
-import javax.crypto.SecretKey;
+import java.io.DataInput;
+import java.io.IOException;
+import java.security.PublicKey;
 
 import aletheia.protocol.Protocol;
+import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
 
 @ProtocolInfo(availableVersions = 0)
-public class AESCipherProtocol<T> extends SymmetricKeyCipherProtocol<T>
+public class SendingAsymmetricKeyCipherProtocol<T> extends AsymmetricKeyCipherProtocol<T>
 {
-	static
+
+	public SendingAsymmetricKeyCipherProtocol(int requiredVersion, String algorithm, String secretKeyAlgorithm, String symmetricAlgorithm, PublicKey publicKey,
+			Protocol<T> inner)
 	{
-		/*
-		 * If the AES key length is > 128, we can remove the Oracle's JRE default
-		 * restriction calling this.
-		 */
-		//		SecurityUtilities.instance.removeCryptographyRestrictions();
+		super(0, algorithm, secretKeyAlgorithm, symmetricAlgorithm, publicKey, inner);
+		checkVersionAvailability(SendingAsymmetricKeyCipherProtocol.class, requiredVersion);
 	}
 
-	private final static String algorithm = "AES";
-
-	public AESCipherProtocol(int requiredVersion, SecretKey secretKey, Protocol<T> inner)
+	@Override
+	public PublicKey getKey()
 	{
-		super(0, algorithm, secretKey, inner);
-		checkVersionAvailability(AESCipherProtocol.class, requiredVersion);
+		return (PublicKey) super.getKey();
+	}
+
+	@Override
+	protected T recv(String algorithm, DataInput in) throws IOException, ProtocolException
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public void skip(DataInput in) throws IOException, ProtocolException
+	{
+		throw new UnsupportedOperationException();
 	}
 
 }

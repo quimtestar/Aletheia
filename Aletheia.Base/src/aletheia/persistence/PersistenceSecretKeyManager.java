@@ -46,7 +46,7 @@ import aletheia.model.misc.PersistenceSecretKeySingleton;
 import aletheia.model.misc.PersistenceSecretKeySingleton.PersistenceSecretKeySingletonCollisionException;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.primitive.ByteArrayProtocol;
-import aletheia.protocol.security.AESCipherProtocol;
+import aletheia.security.protocol.AESCipherProtocol;
 
 public class PersistenceSecretKeyManager
 {

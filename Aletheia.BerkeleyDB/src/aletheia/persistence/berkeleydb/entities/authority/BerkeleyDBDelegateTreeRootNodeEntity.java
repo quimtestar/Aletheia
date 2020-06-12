@@ -31,9 +31,9 @@ import java.util.Set;
 import java.util.UUID;
 
 import aletheia.model.identifier.RootNamespace;
-import aletheia.model.security.SignatureData;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.entities.authority.DelegateTreeRootNodeEntity;
+import aletheia.security.model.SignatureData;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionList;
 import aletheia.utilities.collections.BijectionSet;

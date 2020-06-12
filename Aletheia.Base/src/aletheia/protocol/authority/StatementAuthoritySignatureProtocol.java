@@ -30,7 +30,6 @@ import aletheia.model.authority.SignatureVerifyException;
 import aletheia.model.authority.SignatureVersionException;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.authority.StatementAuthoritySignature;
-import aletheia.model.security.SignatureData;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.protocol.PersistentExportableProtocol;
@@ -39,7 +38,8 @@ import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.primitive.DateProtocol;
 import aletheia.protocol.primitive.IntegerProtocol;
 import aletheia.protocol.primitive.UUIDProtocol;
-import aletheia.protocol.security.SignatureDataProtocol;
+import aletheia.security.model.SignatureData;
+import aletheia.security.protocol.SignatureDataProtocol;
 
 @ProtocolInfo(availableVersions = 0)
 public class StatementAuthoritySignatureProtocol extends PersistentExportableProtocol<StatementAuthoritySignature>

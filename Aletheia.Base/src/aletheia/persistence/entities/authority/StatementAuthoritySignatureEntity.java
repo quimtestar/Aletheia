@@ -22,8 +22,8 @@ package aletheia.persistence.entities.authority;
 import java.util.Date;
 import java.util.UUID;
 
-import aletheia.model.security.SignatureData;
 import aletheia.persistence.entities.Entity;
+import aletheia.security.model.SignatureData;
 
 public interface StatementAuthoritySignatureEntity extends Entity
 {

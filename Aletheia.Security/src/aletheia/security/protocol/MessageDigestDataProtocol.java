@@ -17,43 +17,53 @@
  * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.protocol.security;
+package aletheia.security.protocol;
 
 import java.io.DataInput;
+import java.io.DataOutput;
 import java.io.IOException;
-import java.security.PublicKey;
 
 import aletheia.protocol.Protocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
+import aletheia.protocol.primitive.ByteArrayProtocol;
+import aletheia.protocol.primitive.StringProtocol;
+import aletheia.security.model.MessageDigestData;
 
 @ProtocolInfo(availableVersions = 0)
-public class SendingAsymmetricKeyCipherProtocol<T> extends AsymmetricKeyCipherProtocol<T>
+public class MessageDigestDataProtocol extends Protocol<MessageDigestData>
 {
+	private final StringProtocol stringProtocol;
+	private final ByteArrayProtocol byteArrayProtocol;
 
-	public SendingAsymmetricKeyCipherProtocol(int requiredVersion, String algorithm, String secretKeyAlgorithm, String symmetricAlgorithm, PublicKey publicKey,
-			Protocol<T> inner)
+	public MessageDigestDataProtocol(int requiredVersion)
 	{
-		super(0, algorithm, secretKeyAlgorithm, symmetricAlgorithm, publicKey, inner);
-		checkVersionAvailability(SendingAsymmetricKeyCipherProtocol.class, requiredVersion);
+		super(0);
+		checkVersionAvailability(MessageDigestDataProtocol.class, requiredVersion);
+		this.stringProtocol = new StringProtocol(0);
+		this.byteArrayProtocol = new ByteArrayProtocol(0);
 	}
 
 	@Override
-	public PublicKey getKey()
+	public void send(DataOutput out, MessageDigestData messageDigestData) throws IOException
 	{
-		return (PublicKey) super.getKey();
+		stringProtocol.send(out, messageDigestData.getAlgorithm());
+		byteArrayProtocol.send(out, messageDigestData.getEncoded());
 	}
 
 	@Override
-	protected T recv(String algorithm, DataInput in) throws IOException, ProtocolException
+	public MessageDigestData recv(DataInput in) throws IOException, ProtocolException
 	{
-		throw new UnsupportedOperationException();
+		String algorithm = stringProtocol.recv(in);
+		byte[] encoded = byteArrayProtocol.recv(in);
+		return new MessageDigestData(algorithm, encoded);
 	}
 
 	@Override
 	public void skip(DataInput in) throws IOException, ProtocolException
 	{
-		throw new UnsupportedOperationException();
+		stringProtocol.skip(in);
+		byteArrayProtocol.skip(in);
 	}
 
 }

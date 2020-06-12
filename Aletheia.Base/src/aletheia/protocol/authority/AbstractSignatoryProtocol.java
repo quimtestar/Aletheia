@@ -32,7 +32,7 @@ import aletheia.protocol.PersistentExportableProtocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.primitive.UUIDProtocol;
-import aletheia.protocol.security.PublicKeyProtocol;
+import aletheia.security.protocol.PublicKeyProtocol;
 
 @ProtocolInfo(availableVersions = 0)
 public abstract class AbstractSignatoryProtocol<S extends Signatory> extends PersistentExportableProtocol<S>

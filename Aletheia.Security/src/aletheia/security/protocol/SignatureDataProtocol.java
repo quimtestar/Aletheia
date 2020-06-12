@@ -17,18 +17,18 @@
  * along with the Aletheia Proof Assistant.
  * If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.protocol.security;
+package aletheia.security.protocol;
 
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import aletheia.model.security.SignatureData;
 import aletheia.protocol.Protocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.primitive.ByteArrayProtocol;
 import aletheia.protocol.primitive.StringProtocol;
+import aletheia.security.model.SignatureData;
 
 @ProtocolInfo(availableVersions = 0)
 public class SignatureDataProtocol extends Protocol<SignatureData>

@@ -21,7 +21,7 @@ package aletheia.security.signerverifier;
 
 import java.security.InvalidKeyException;
 
-import aletheia.model.security.SignatureData;
+import aletheia.security.model.SignatureData;
 
 public interface Signer extends SignerOrVerifier
 {

@@ -25,7 +25,7 @@ import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import aletheia.model.security.MessageDigestData;
+import aletheia.security.model.MessageDigestData;
 
 public abstract class AbstractMessageDigester implements MessageDigester
 {

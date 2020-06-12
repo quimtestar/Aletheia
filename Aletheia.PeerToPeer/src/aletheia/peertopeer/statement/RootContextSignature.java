@@ -21,7 +21,7 @@ package aletheia.peertopeer.statement;
 
 import java.util.Date;
 
-import aletheia.model.security.SignatureData;
+import aletheia.security.model.SignatureData;
 
 public class RootContextSignature implements Comparable<RootContextSignature>
 {
