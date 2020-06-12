@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.protocol.authority;
+package aletheia.model.authority.protocol;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInput;

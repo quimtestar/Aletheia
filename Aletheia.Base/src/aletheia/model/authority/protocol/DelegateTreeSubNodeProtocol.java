@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.protocol.authority;
+package aletheia.model.authority.protocol;
 
 import aletheia.model.authority.DelegateTreeNode;
 import aletheia.model.authority.DelegateTreeSubNode;

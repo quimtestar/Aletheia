@@ -25,10 +25,10 @@ import java.security.PublicKey;
 import java.util.Collection;
 
 import aletheia.model.authority.Person;
+import aletheia.model.authority.protocol.PersonProtocol;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.authority.PersonProtocol;
 import aletheia.protocol.collection.CollectionProtocol;
 import aletheia.protocol.peertopeer.deferredmessagecontent.DeferredMessageContentCode;
 

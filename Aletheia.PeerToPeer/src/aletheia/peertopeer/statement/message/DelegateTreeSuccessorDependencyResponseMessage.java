@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.UUID;
 
 import aletheia.model.authority.Person;
+import aletheia.model.authority.protocol.PersonProtocol;
 import aletheia.peertopeer.base.message.AbstractUUIDPersistentInfoMessage;
 import aletheia.peertopeer.base.message.MessageCode;
 import aletheia.peertopeer.base.message.MessageSubProtocolInfo;
@@ -34,7 +35,6 @@ import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.authority.PersonProtocol;
 
 @MessageSubProtocolInfo(subProtocolClass = DelegateTreeSuccessorDependencyResponseMessage.SubProtocol.class)
 public class DelegateTreeSuccessorDependencyResponseMessage extends DelegateTreeDependencyResponseMessage<Person>
