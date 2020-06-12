@@ -17,10 +17,13 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.protocol;
+package aletheia.persistence.protocol;
 
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
+import aletheia.protocol.Exportable;
+import aletheia.protocol.ExportableProtocol;
+import aletheia.protocol.ProtocolInfo;
 
 /**
  * Extension of the {@link ExportableProtocol} for objects stored into the

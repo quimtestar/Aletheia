@@ -34,7 +34,7 @@ import aletheia.model.authority.SignatureVerifyException;
 import aletheia.model.authority.SignatureVersionException;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
-import aletheia.protocol.PersistentExportableProtocol;
+import aletheia.persistence.protocol.PersistentExportableProtocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.collection.CollectionProtocol;

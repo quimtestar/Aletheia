@@ -38,7 +38,7 @@ import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
-import aletheia.protocol.PersistentExportableProtocol;
+import aletheia.persistence.protocol.PersistentExportableProtocol;
 import aletheia.protocol.Protocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;

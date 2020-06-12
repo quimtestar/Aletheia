@@ -32,7 +32,7 @@ import aletheia.model.authority.StatementAuthoritySignature;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
-import aletheia.protocol.PersistentExportableProtocol;
+import aletheia.persistence.protocol.PersistentExportableProtocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.collection.NonReturningCollectionProtocol;
