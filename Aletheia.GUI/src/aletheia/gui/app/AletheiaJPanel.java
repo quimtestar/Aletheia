@@ -35,6 +35,7 @@ import aletheia.gui.common.FocusBorderManager;
 import aletheia.gui.common.PersistentJTreeLayerUI;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeJPanel;
+import aletheia.gui.fonts.FontManager;
 import aletheia.gui.signaturerequestjtree.SignatureRequestJTree;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;

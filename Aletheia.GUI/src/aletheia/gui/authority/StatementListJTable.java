@@ -50,12 +50,12 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import aletheia.gui.app.FontManager;
 import aletheia.gui.common.datatransfer.StatementTransferable;
 import aletheia.gui.common.renderer.AbstractPersistentRenderer;
 import aletheia.gui.common.renderer.AbstractRenderer;
 import aletheia.gui.common.renderer.BoldTextLabelRenderer;
 import aletheia.gui.common.renderer.TextLabelRenderer;
+import aletheia.gui.fonts.FontManager;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.VariableTerm;

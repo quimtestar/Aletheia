@@ -26,10 +26,10 @@ import java.awt.Insets;
 
 import javax.swing.JPanel;
 
-import aletheia.gui.app.FontManager;
 import aletheia.gui.common.renderer.BoldTextLabelRenderer;
 import aletheia.gui.common.renderer.TextLabelRenderer;
 import aletheia.gui.common.renderer.UUIDLabelRenderer;
+import aletheia.gui.fonts.FontManager;
 import aletheia.model.authority.Person;
 
 public class PersonInfoJPanel extends JPanel

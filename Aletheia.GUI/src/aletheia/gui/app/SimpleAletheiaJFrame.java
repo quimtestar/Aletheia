@@ -45,6 +45,7 @@ import org.apache.logging.log4j.Logger;
 import aletheia.common.AletheiaConstants;
 import aletheia.gui.app.splash.AbstractSplashStartupProgressListener;
 import aletheia.gui.contextjtree.ContextJTree;
+import aletheia.gui.fonts.FontManager;
 import aletheia.gui.icons.IconManager;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.statement.Context;

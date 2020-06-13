@@ -17,7 +17,7 @@
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package aletheia.gui.app;
+package aletheia.gui.fonts;
 
 import java.awt.Font;
 import java.awt.FontFormatException;

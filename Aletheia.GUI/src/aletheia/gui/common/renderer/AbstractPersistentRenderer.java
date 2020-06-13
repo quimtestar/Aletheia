@@ -42,7 +42,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import aletheia.gui.app.FontManager;
+import aletheia.gui.fonts.FontManager;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.parameteridentification.CompositionParameterIdentification;
 import aletheia.model.parameteridentification.FunctionParameterIdentification;

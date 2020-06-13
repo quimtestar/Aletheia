@@ -37,6 +37,7 @@ import org.apache.logging.log4j.Logger;
 
 import aletheia.common.AletheiaConstants;
 import aletheia.gui.app.splash.AbstractSplashStartupProgressListener;
+import aletheia.gui.fonts.FontManager;
 import aletheia.gui.icons.IconManager;
 import aletheia.gui.menu.AletheiaJMenuBar;
 import aletheia.gui.person.PersonsDialog;
