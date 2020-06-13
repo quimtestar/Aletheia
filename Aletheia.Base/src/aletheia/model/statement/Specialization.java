@@ -31,7 +31,6 @@ import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
-import aletheia.model.term.Term.TypeException;
 import aletheia.model.term.VariableTerm;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -264,15 +263,15 @@ public class Specialization extends Statement
 	{
 		private static final long serialVersionUID = 1956058202547292190L;
 
-		private final TypeException exception;
+		private final Term.TypeException exception;
 
-		private BadInstanceException(TypeException exception)
+		private BadInstanceException(Term.TypeException exception)
 		{
 			super();
 			this.exception = exception;
 		}
 
-		public TypeException getException()
+		public Term.TypeException getException()
 		{
 			return exception;
 		}
@@ -382,7 +381,7 @@ public class Specialization extends Statement
 		{
 			return term.compose(instance);
 		}
-		catch (TypeException e)
+		catch (Term.TypeException e)
 		{
 			throw new BadInstanceException(e);
 		}
