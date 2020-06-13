@@ -29,6 +29,7 @@ import aletheia.model.statement.Statement;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceConfiguration;
 import aletheia.protocol.ProtocolException;
 import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
 import aletheia.utilities.collections.AdaptedCollection;
@@ -54,7 +55,7 @@ public class ProtocolTest0001 extends TransactionalBerkeleyDBPersistenceManagerT
 			@Override
 			public void run()
 			{
-				BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
+				BerkeleyDBPersistenceConfiguration configuration = new BerkeleyDBPersistenceConfiguration();
 				configuration.setDbFile(new File("/mnt/vlb0/quim/Aletheia/aletheiadb_identified_parameters2_bis"));
 				configuration.setReadOnly(false);
 				try (PersistenceManager persistenceManager = new BerkeleyDBPersistenceManager(configuration))

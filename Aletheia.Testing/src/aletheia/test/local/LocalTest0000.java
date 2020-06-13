@@ -28,6 +28,7 @@ import aletheia.model.statement.Statement;
 import aletheia.model.statement.UnfoldingContext;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceConfiguration;
 import aletheia.test.Test;
 
 public class LocalTest0000 extends Test
@@ -36,7 +37,7 @@ public class LocalTest0000 extends Test
 	@Override
 	public void run() throws Exception
 	{
-		BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
+		BerkeleyDBPersistenceConfiguration configuration = new BerkeleyDBPersistenceConfiguration();
 		configuration.setDbFile(new File("/home/quimtestar/.Aletheia/aletheiadb_training"));
 		configuration.setReadOnly(false);
 		try (BerkeleyDBPersistenceManager persistenceManager = new BerkeleyDBPersistenceManager(configuration))

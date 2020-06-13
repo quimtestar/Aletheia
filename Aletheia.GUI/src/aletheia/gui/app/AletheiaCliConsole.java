@@ -50,6 +50,7 @@ import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceConfiguration;
 import aletheia.prooffinder.ProofFinder;
 import aletheia.utilities.CommandLineArguments;
 import aletheia.utilities.CommandLineArguments.CommandLineArgumentsException;
@@ -488,7 +489,7 @@ public abstract class AletheiaCliConsole implements CommandSource
 				readOnly = false;
 			if (!globalSwitches.isEmpty())
 				throw new ArgumentsException("Unrecognized switches/options: " + globalSwitches.keySet());
-			BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
+			BerkeleyDBPersistenceConfiguration configuration = new BerkeleyDBPersistenceConfiguration();
 			configuration.setDbFile(dbFile);
 			configuration.setReadOnly(readOnly);
 

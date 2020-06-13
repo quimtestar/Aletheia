@@ -53,6 +53,7 @@ import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceConfiguration;
 
 public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 {
@@ -215,7 +216,7 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 		try (AbstractSplashStartupProgressListener splashStartupProgressListener = AbstractSplashStartupProgressListener
 				.makeFromGlobalSwitches(getGlobalSwitches()))
 		{
-			BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
+			BerkeleyDBPersistenceConfiguration configuration = new BerkeleyDBPersistenceConfiguration();
 			configuration.setStartupProgressListener(splashStartupProgressListener);
 			File dbFile = properties.getDbFile();
 			if (dbFile == null)
