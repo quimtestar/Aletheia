@@ -21,14 +21,14 @@ package aletheia.test;
 
 import java.io.File;
 
-import aletheia.persistence.berkeleydb.BerkeleyDBConfiguration;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceConfiguration;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 
 public abstract class BerkeleyDBPersistenceManagerTest extends PersistenceManagerTest<BerkeleyDBPersistenceManager>
 {
 	public BerkeleyDBPersistenceManagerTest()
 	{
-		super(new BerkeleyDBConfiguration());
+		super(new BerkeleyDBPersistenceConfiguration());
 		File dbFile = TestingAletheiaPreferences.instance.getDbFile();
 		if (dbFile == null)
 			throw new RuntimeException("No db file configured");
@@ -37,9 +37,9 @@ public abstract class BerkeleyDBPersistenceManagerTest extends PersistenceManage
 	}
 
 	@Override
-	public BerkeleyDBConfiguration getConfiguration()
+	public BerkeleyDBPersistenceConfiguration getConfiguration()
 	{
-		return (BerkeleyDBConfiguration) super.getConfiguration();
+		return (BerkeleyDBPersistenceConfiguration) super.getConfiguration();
 	}
 
 	public boolean isReadOnly()

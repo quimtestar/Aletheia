@@ -2,7 +2,9 @@ package aletheia.persistence.berkeleydb;
 
 import java.io.File;
 
-public class BerkeleyDBConfiguration extends aletheia.persistence.Configuration
+import aletheia.persistence.PersistenceConfiguration;
+
+public class BerkeleyDBPersistenceConfiguration extends PersistenceConfiguration
 {
 	private final static boolean defaultAllowCreate = false;
 	private final static boolean defaultReadOnly = true;
@@ -17,7 +19,7 @@ public class BerkeleyDBConfiguration extends aletheia.persistence.Configuration
 	private int cachePercent;
 	private boolean sharedCache;
 
-	public BerkeleyDBConfiguration()
+	public BerkeleyDBPersistenceConfiguration()
 	{
 		super();
 		this.allowCreate = defaultAllowCreate;

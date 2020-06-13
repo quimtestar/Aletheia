@@ -36,7 +36,7 @@ import aletheia.peertopeer.PeerToPeerNodeProperties;
 import aletheia.peertopeer.PeerToPeerNode.ConnectException;
 import aletheia.peertopeer.standalone.StandAlonePeerToPeerNodeSubscriptions.ConfigurationException;
 import aletheia.persistence.PersistenceManager;
-import aletheia.persistence.berkeleydb.BerkeleyDBConfiguration;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceConfiguration;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.utilities.CommandLineArguments;
 import aletheia.version.VersionManager;
@@ -148,9 +148,9 @@ public class StandAlonePeerToPeerNodeManager
 		return properties.getStandaloneMaleFemaleAddress();
 	}
 
-	private BerkeleyDBConfiguration makePersistenceManagerConfiguration()
+	private BerkeleyDBPersistenceConfiguration makePersistenceManagerConfiguration()
 	{
-		BerkeleyDBConfiguration configuration = new BerkeleyDBConfiguration();
+		BerkeleyDBPersistenceConfiguration configuration = new BerkeleyDBPersistenceConfiguration();
 		configuration.setDbFile(getDbFile());
 		configuration.setAllowCreate(isAllowCreate());
 		configuration.setReadOnly(isReadOnly());

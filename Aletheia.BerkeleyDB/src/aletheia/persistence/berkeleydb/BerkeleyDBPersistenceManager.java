@@ -370,7 +370,7 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 			this.temporaryEntityStore = temporaryEntityStore;
 		}
 
-		private InitializationData(BerkeleyDBConfiguration configuration)
+		private InitializationData(BerkeleyDBPersistenceConfiguration configuration)
 		{
 			registry.register(configuration.getDbFile());
 			logger.info("Berkeley DB Persistence Manager starting (" + configuration + ")");
@@ -420,7 +420,7 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 		}
 	}
 
-	private BerkeleyDBPersistenceManager(BerkeleyDBConfiguration configuration, InitializationData initializationData)
+	private BerkeleyDBPersistenceManager(BerkeleyDBPersistenceConfiguration configuration, InitializationData initializationData)
 	{
 		super(configuration);
 		this.environment = initializationData.environment;
@@ -443,7 +443,7 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 	protected BerkeleyDBPersistenceManager(BerkeleyDBAletheiaEnvironment environment, BerkeleyDBAletheiaEntityStore entityStore,
 			BerkeleyDBAletheiaTemporaryEntityStore temporaryEntityStore)
 	{
-		this(new BerkeleyDBConfiguration()
+		this(new BerkeleyDBPersistenceConfiguration()
 		{
 		}, new InitializationData(environment, entityStore, temporaryEntityStore));
 	}
@@ -453,7 +453,7 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 		this(environment, entityStore, null);
 	}
 
-	public BerkeleyDBPersistenceManager(BerkeleyDBConfiguration configuration) throws MustAllowCreateException, UpgradeException
+	public BerkeleyDBPersistenceManager(BerkeleyDBPersistenceConfiguration configuration) throws MustAllowCreateException, UpgradeException
 	{
 		this(configuration, new InitializationData(configuration));
 	}
@@ -502,7 +502,7 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 
 	public static void lowLevelBackup(File backupFile, File dbFile) throws IOException
 	{
-		BerkeleyDBConfiguration configuration = new BerkeleyDBConfiguration();
+		BerkeleyDBPersistenceConfiguration configuration = new BerkeleyDBPersistenceConfiguration();
 		configuration.setDbFile(dbFile);
 		configuration.setAllowCreate(false);
 		configuration.setReadOnly(true);
@@ -528,7 +528,7 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 
 	public static void lowLevelRestore(File backupFile, File dbFile) throws IOException, ProtocolException
 	{
-		BerkeleyDBConfiguration configuration = new BerkeleyDBConfiguration();
+		BerkeleyDBPersistenceConfiguration configuration = new BerkeleyDBPersistenceConfiguration();
 		configuration.setDbFile(dbFile);
 		configuration.setAllowCreate(true);
 		configuration.setReadOnly(false);
@@ -555,7 +555,7 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 
 	public static void lowLevelCopy(File srcDbFile, File dstDbFile) throws ProtocolException
 	{
-		BerkeleyDBConfiguration srcConfiguration = new BerkeleyDBConfiguration();
+		BerkeleyDBPersistenceConfiguration srcConfiguration = new BerkeleyDBPersistenceConfiguration();
 		srcConfiguration.setDbFile(srcDbFile);
 		srcConfiguration.setAllowCreate(false);
 		srcConfiguration.setReadOnly(true);
@@ -583,7 +583,7 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 
 			};
 
-			BerkeleyDBConfiguration dstConfiguration = new BerkeleyDBConfiguration();
+			BerkeleyDBPersistenceConfiguration dstConfiguration = new BerkeleyDBPersistenceConfiguration();
 			dstConfiguration.setDbFile(dstDbFile);
 			dstConfiguration.setAllowCreate(true);
 			dstConfiguration.setReadOnly(false);

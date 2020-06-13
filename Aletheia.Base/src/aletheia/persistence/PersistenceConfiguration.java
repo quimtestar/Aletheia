@@ -2,7 +2,7 @@ package aletheia.persistence;
 
 import aletheia.persistence.PersistenceManager.StartupProgressListener;
 
-public abstract class Configuration
+public abstract class PersistenceConfiguration
 {
 	private final static StartupProgressListener defaultStartupProgressListener = StartupProgressListener.silent;
 	private final static boolean defaultDebug = false;
@@ -10,7 +10,7 @@ public abstract class Configuration
 	private StartupProgressListener startupProgressListener;
 	private boolean debug;
 
-	public Configuration()
+	public PersistenceConfiguration()
 	{
 		super();
 		this.startupProgressListener = defaultStartupProgressListener;

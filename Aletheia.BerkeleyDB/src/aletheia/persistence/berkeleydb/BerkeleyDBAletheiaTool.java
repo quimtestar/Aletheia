@@ -166,7 +166,7 @@ public class BerkeleyDBAletheiaTool
 		@Override
 		protected void execute()
 		{
-			BerkeleyDBConfiguration configuration = new BerkeleyDBConfiguration();
+			BerkeleyDBPersistenceConfiguration configuration = new BerkeleyDBPersistenceConfiguration();
 			configuration.setDbFile(dbFile);
 			configuration.setAllowCreate(false);
 			configuration.setReadOnly(true);
@@ -205,7 +205,7 @@ public class BerkeleyDBAletheiaTool
 		@Override
 		protected void execute()
 		{
-			BerkeleyDBConfiguration configuration = new BerkeleyDBConfiguration();
+			BerkeleyDBPersistenceConfiguration configuration = new BerkeleyDBPersistenceConfiguration();
 			configuration.setDbFile(dbFile);
 			configuration.setAllowCreate(false);
 			configuration.setReadOnly(false);
@@ -254,7 +254,7 @@ public class BerkeleyDBAletheiaTool
 		@Override
 		protected void execute() throws ExecuteException
 		{
-			BerkeleyDBConfiguration configuration = new BerkeleyDBConfiguration();
+			BerkeleyDBPersistenceConfiguration configuration = new BerkeleyDBPersistenceConfiguration();
 			configuration.setDbFile(dbFile);
 			configuration.setAllowCreate(false);
 			configuration.setReadOnly(false);
@@ -305,7 +305,7 @@ public class BerkeleyDBAletheiaTool
 		@Override
 		protected void execute() throws ExecuteException
 		{
-			BerkeleyDBConfiguration configuration = new BerkeleyDBConfiguration();
+			BerkeleyDBPersistenceConfiguration configuration = new BerkeleyDBPersistenceConfiguration();
 			configuration.setDbFile(dbFile);
 			configuration.setAllowCreate(false);
 			configuration.setReadOnly(true);
@@ -366,7 +366,7 @@ public class BerkeleyDBAletheiaTool
 		@Override
 		protected void execute() throws ExecuteException
 		{
-			BerkeleyDBConfiguration configuration = new BerkeleyDBConfiguration();
+			BerkeleyDBPersistenceConfiguration configuration = new BerkeleyDBPersistenceConfiguration();
 			configuration.setDbFile(dbFile);
 			configuration.setAllowCreate(true);
 			configuration.setReadOnly(false);

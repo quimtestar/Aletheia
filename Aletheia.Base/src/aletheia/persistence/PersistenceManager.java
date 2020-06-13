@@ -205,7 +205,7 @@ public abstract class PersistenceManager implements AutoCloseable
 	/**
 	 * Creates a new persistence manager.
 	 */
-	public PersistenceManager(Configuration configuration)
+	public PersistenceManager(PersistenceConfiguration configuration)
 	{
 		this.persistenceSchedulerThread = new PersistenceSchedulerThread(this);
 		this.persistenceListenerManager = new PersistenceListenerManager();
