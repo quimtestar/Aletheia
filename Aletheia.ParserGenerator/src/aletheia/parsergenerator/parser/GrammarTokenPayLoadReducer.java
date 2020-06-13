@@ -75,7 +75,7 @@ public class GrammarTokenPayLoadReducer extends ProductionManagedTokenPayloadRed
 		}
 	}
 
-	private static class PreProduction
+	public static class PreProduction
 	{
 		private final String left;
 		private final List<String> right;
