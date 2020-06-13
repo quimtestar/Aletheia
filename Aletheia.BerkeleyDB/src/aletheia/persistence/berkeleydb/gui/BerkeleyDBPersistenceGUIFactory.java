@@ -24,11 +24,11 @@ import java.awt.Component;
 import javax.swing.JOptionPane;
 
 import aletheia.persistence.PersistenceManager;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceConfiguration;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager.EntityStoreVersionException;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager.MustAllowCreateException;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager.UnsupportedEntityStoreVersionException;
-import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceConfiguration;
 import aletheia.persistence.berkeleydb.preferences.BerkeleyDBPersistenceAletheiaPreferences;
 import aletheia.persistence.gui.PersistenceGUIFactory;
 import aletheia.preferences.AletheiaPreferences;
