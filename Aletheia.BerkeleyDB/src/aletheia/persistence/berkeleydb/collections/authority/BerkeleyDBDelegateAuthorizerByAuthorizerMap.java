@@ -25,7 +25,6 @@ import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateAuthorizerEntity;
-import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData;
 import aletheia.persistence.collections.authority.DelegateAuthorizerByAuthorizerMap;
 
 import com.sleepycat.je.DatabaseException;
@@ -35,7 +34,8 @@ public class BerkeleyDBDelegateAuthorizerByAuthorizerMap extends BerkeleyDBGener
 		implements DelegateAuthorizerByAuthorizerMap
 {
 
-	private static SecondaryIndex<UUIDKey, PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> makeIndex(BerkeleyDBPersistenceManager persistenceManager)
+	private static SecondaryIndex<UUIDKey, BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> makeIndex(
+			BerkeleyDBPersistenceManager persistenceManager)
 	{
 		try
 		{

@@ -29,7 +29,6 @@ import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateAuthorizerEntity;
-import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTreeNodeEntity;
 import aletheia.persistence.collections.authority.LocalDelegateAuthorizerMap;
 import aletheia.utilities.collections.AbstractCloseableMap;
@@ -46,7 +45,7 @@ public class BerkeleyDBLocalDelegateAuthorizerMap extends AbstractCloseableMap<P
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
 	private final DelegateTreeNode delegateTreeNode;
-	private final EntityIndex<PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> index;
+	private final EntityIndex<BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> index;
 
 	public BerkeleyDBLocalDelegateAuthorizerMap(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction,
 			DelegateTreeNode delegateTreeNode)
@@ -106,7 +105,7 @@ public class BerkeleyDBLocalDelegateAuthorizerMap extends AbstractCloseableMap<P
 	@Override
 	public boolean isEmpty()
 	{
-		EntityCursor<PrimaryKeyData> cursor = transaction.keys(index);
+		EntityCursor<BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData> cursor = transaction.keys(index);
 		try
 		{
 			return transaction.first(cursor) == null;
