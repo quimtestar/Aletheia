@@ -179,7 +179,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 			}
 		}
 		List<CommandResource> commandResourceList = new ArrayList<>();
-		commandResourceList.add(new CommandResource(ClassLoader.getSystemClassLoader(), staticTaggedCommandsResourceName));
+		commandResourceList.add(new CommandResource(new URLClassLoader(new URL[] {GlobalCommandFactory.class.getProtectionDomain().getCodeSource().getLocation()}), staticTaggedCommandsResourceName));
 
 		String commandsFileName = System.getProperty("aletheia.gui.cli.commands");
 		if (commandsFileName != null)
