@@ -20,6 +20,7 @@
 package aletheia.peertopeer.network.dialog;
 
 import java.io.IOException;
+
 import aletheia.peertopeer.base.phase.Phase;
 import aletheia.peertopeer.network.message.RequestRouterCumulationValueMessage;
 import aletheia.protocol.ProtocolException;

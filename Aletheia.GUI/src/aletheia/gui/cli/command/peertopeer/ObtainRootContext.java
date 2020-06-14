@@ -22,8 +22,8 @@ package aletheia.gui.cli.command.peertopeer;
 import java.util.List;
 import java.util.UUID;
 
-import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.statement.RootContext;
 import aletheia.persistence.Transaction;

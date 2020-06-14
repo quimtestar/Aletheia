@@ -19,10 +19,10 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.parameteridentification;
 
+import com.sleepycat.persist.model.Persistent;
+
 import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.persistence.berkeleydb.proxies.AletheiaPersistentProxy;
-
-import com.sleepycat.persist.model.Persistent;
 
 @Persistent(proxyFor = ParameterIdentification.class, version = 0)
 public abstract class ParameterIdentificationProxy<P extends ParameterIdentification> implements AletheiaPersistentProxy<P>

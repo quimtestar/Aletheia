@@ -19,10 +19,10 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.peertopeer.deferredmessagecontent;
 
+import com.sleepycat.persist.model.Persistent;
+
 import aletheia.model.peertopeer.deferredmessagecontent.DeferredMessageContent;
 import aletheia.persistence.berkeleydb.proxies.AletheiaPersistentProxy;
-
-import com.sleepycat.persist.model.Persistent;
 
 @Persistent(proxyFor = DeferredMessageContent.class)
 public abstract class DeferredMessageContentProxy<C extends DeferredMessageContent> implements AletheiaPersistentProxy<C>

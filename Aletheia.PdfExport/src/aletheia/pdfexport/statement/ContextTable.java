@@ -19,12 +19,12 @@
  ******************************************************************************/
 package aletheia.pdfexport.statement;
 
+import com.itextpdf.text.Document;
+
 import aletheia.model.statement.Context;
 import aletheia.pdfexport.BasePhrase;
 import aletheia.pdfexport.SimpleChunk;
 import aletheia.persistence.Transaction;
-
-import com.itextpdf.text.Document;
 
 public class ContextTable extends StatementTable
 {

@@ -19,15 +19,15 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.collections.authority;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityIndex;
+
 import aletheia.model.authority.StatementAuthority;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBUnpackedSignatureRequestEntity;
 import aletheia.persistence.collections.authority.UnpackedSignatureRequestSetByStatementAuthority;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityIndex;
 
 public class BerkeleyDBUnpackedSignatureRequestSetByStatementAuthority extends BerkeleyDBUnpackedSignatureRequestUUIDKeySet
 		implements UnpackedSignatureRequestSetByStatementAuthority

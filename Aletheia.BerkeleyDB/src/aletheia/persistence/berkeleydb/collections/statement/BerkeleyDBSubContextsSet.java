@@ -21,6 +21,10 @@ package aletheia.persistence.berkeleydb.collections.statement;
 
 import java.util.NoSuchElementException;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.model.statement.Context;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
@@ -32,10 +36,6 @@ import aletheia.persistence.collections.statement.SubContextsSet;
 import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBSubContextsSet extends AbstractCloseableSet<Context> implements SubContextsSet
 {

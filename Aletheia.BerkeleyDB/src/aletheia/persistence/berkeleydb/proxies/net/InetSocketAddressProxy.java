@@ -22,9 +22,9 @@ package aletheia.persistence.berkeleydb.proxies.net;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
-import aletheia.persistence.berkeleydb.proxies.AletheiaPersistentProxy;
-
 import com.sleepycat.persist.model.Persistent;
+
+import aletheia.persistence.berkeleydb.proxies.AletheiaPersistentProxy;
 
 @Persistent(version = 0, proxyFor = InetSocketAddress.class)
 public class InetSocketAddressProxy implements AletheiaPersistentProxy<InetSocketAddress>

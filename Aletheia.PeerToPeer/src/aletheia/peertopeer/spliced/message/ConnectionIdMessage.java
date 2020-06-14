@@ -22,6 +22,7 @@ package aletheia.peertopeer.spliced.message;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+
 import aletheia.peertopeer.base.message.MessageCode;
 import aletheia.peertopeer.base.message.MessageSubProtocolInfo;
 import aletheia.peertopeer.base.message.NonPersistentMessage;

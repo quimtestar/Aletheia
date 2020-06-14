@@ -23,11 +23,11 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Stack;
 
-import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.AbstractCommandFactory;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
 import aletheia.gui.cli.command.Command;
 import aletheia.gui.cli.command.CommandGroup;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.SubCommandGroup;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.persistence.Transaction;

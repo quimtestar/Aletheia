@@ -19,12 +19,12 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.term;
 
+import com.sleepycat.persist.model.Persistent;
+
 import aletheia.model.term.CompositionTerm;
 import aletheia.model.term.CompositionTerm.CompositionTypeException;
 import aletheia.model.term.SimpleTerm;
 import aletheia.model.term.Term;
-
-import com.sleepycat.persist.model.Persistent;
 
 @Persistent(proxyFor = CompositionTerm.class, version = 0)
 public class CompositionTermProxy extends SimpleTermProxy<CompositionTerm>

@@ -26,10 +26,10 @@ import java.util.List;
 import java.util.UUID;
 
 import aletheia.model.authority.DelegateTreeRootNode;
-import aletheia.model.authority.Person;
-import aletheia.model.authority.SignatureVerifyException;
 import aletheia.model.authority.DelegateTreeRootNode.DateConsistenceException;
 import aletheia.model.authority.DelegateTreeRootNode.DuplicateSuccessorException;
+import aletheia.model.authority.Person;
+import aletheia.model.authority.SignatureVerifyException;
 import aletheia.model.authority.SignatureVersionException;
 import aletheia.peertopeer.base.message.AbstractUUIDPersistentInfoMessage;
 import aletheia.peertopeer.base.phase.Phase;
@@ -38,9 +38,9 @@ import aletheia.peertopeer.statement.message.DelegateAuthorizerResponseMessage;
 import aletheia.peertopeer.statement.message.DelegateTreeDelegateDependencyRequestMessage;
 import aletheia.peertopeer.statement.message.DelegateTreeDelegateDependencyResponseMessage;
 import aletheia.peertopeer.statement.message.DelegateTreeInfoMessage;
+import aletheia.peertopeer.statement.message.DelegateTreeInfoMessage.MissingDependencyException;
 import aletheia.peertopeer.statement.message.DelegateTreeSuccessorDependencyRequestMessage;
 import aletheia.peertopeer.statement.message.DelegateTreeSuccessorDependencyResponseMessage;
-import aletheia.peertopeer.statement.message.DelegateTreeInfoMessage.MissingDependencyException;
 import aletheia.protocol.ProtocolException;
 
 public abstract class DelegateTreeDialog extends StatementDialog

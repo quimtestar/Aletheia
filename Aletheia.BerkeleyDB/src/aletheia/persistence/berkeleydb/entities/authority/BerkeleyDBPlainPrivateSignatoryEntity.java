@@ -21,10 +21,10 @@ package aletheia.persistence.berkeleydb.entities.authority;
 
 import java.security.PrivateKey;
 
+import com.sleepycat.persist.model.Persistent;
+
 import aletheia.persistence.berkeleydb.entities.PrivateKeyCapsule;
 import aletheia.persistence.entities.authority.PlainPrivateSignatoryEntity;
-
-import com.sleepycat.persist.model.Persistent;
 
 @Persistent(version = 0)
 public class BerkeleyDBPlainPrivateSignatoryEntity extends BerkeleyDBPrivateSignatoryEntity implements PlainPrivateSignatoryEntity

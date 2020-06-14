@@ -19,17 +19,17 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.entities.statement;
 
+import com.sleepycat.persist.model.KeyField;
+import com.sleepycat.persist.model.Persistent;
+import com.sleepycat.persist.model.Relationship;
+import com.sleepycat.persist.model.SecondaryKey;
+
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.identifier.RootNamespace;
 import aletheia.persistence.entities.statement.RootContextEntity;
-
-import com.sleepycat.persist.model.KeyField;
-import com.sleepycat.persist.model.Persistent;
-import com.sleepycat.persist.model.Relationship;
-import com.sleepycat.persist.model.SecondaryKey;
 
 @Persistent(version = 2)
 public class BerkeleyDBRootContextEntity extends BerkeleyDBContextEntity implements RootContextEntity

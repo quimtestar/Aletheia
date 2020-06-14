@@ -23,12 +23,12 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
+import com.sleepycat.je.DatabaseEntry;
+
 import aletheia.protocol.Protocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.primitive.ByteArrayProtocol;
-
-import com.sleepycat.je.DatabaseEntry;
 
 @ProtocolInfo(availableVersions = 0)
 class DatabaseEntryProtocol extends Protocol<DatabaseEntry>

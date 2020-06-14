@@ -20,6 +20,7 @@
 package aletheia.utilities.collections;
 
 import java.util.Iterator;
+import java.util.SortedSet;
 
 /**
  * An abstract implementation of a {@link SortedSet} whose {@link Iterator} is a

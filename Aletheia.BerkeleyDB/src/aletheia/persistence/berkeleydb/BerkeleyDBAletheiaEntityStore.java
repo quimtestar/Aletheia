@@ -25,6 +25,11 @@ import java.util.Date;
 
 import org.apache.logging.log4j.Logger;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityIndex;
+import com.sleepycat.persist.PrimaryIndex;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.log4j.LoggerManager;
 import aletheia.model.identifier.Identifier;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager.EntityStoreVersionException;
@@ -97,11 +102,6 @@ import aletheia.persistence.berkeleydb.proxies.term.UnprojectedCastTypeTermProxy
 import aletheia.persistence.berkeleydb.proxies.term.VariableTermProxy;
 import aletheia.persistence.berkeleydb.upgrade.EntityStoreUpgrade;
 import aletheia.persistence.berkeleydb.upgrade.EntityStoreUpgrade.UpgradeException;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityIndex;
-import com.sleepycat.persist.PrimaryIndex;
-import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEntityStore
 {

@@ -21,6 +21,8 @@ package aletheia.persistence.berkeleydb.exceptions;
 
 import java.util.Collection;
 
+import com.sleepycat.je.LockTimeoutException;
+
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
@@ -31,8 +33,6 @@ import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCollection;
 import aletheia.utilities.collections.FilteredCollection;
 import aletheia.utilities.collections.NotNullFilter;
-
-import com.sleepycat.je.LockTimeoutException;
 
 public class BerkeleyDBPersistenceLockTimeoutException extends PersistenceLockTimeoutException
 {

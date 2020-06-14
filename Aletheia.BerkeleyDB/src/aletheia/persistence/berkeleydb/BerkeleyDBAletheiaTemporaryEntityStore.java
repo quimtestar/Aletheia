@@ -24,6 +24,11 @@ import java.util.Collection;
 
 import org.apache.logging.log4j.Logger;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityIndex;
+import com.sleepycat.persist.PrimaryIndex;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.log4j.LoggerManager;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.peertopeer.BerkeleyDBDeferredMessageEntity;
@@ -35,11 +40,6 @@ import aletheia.persistence.berkeleydb.proxies.peertopeer.deferredmessagecontent
 import aletheia.persistence.berkeleydb.proxies.peertopeer.deferredmessagecontent.DeferredMessageContentProxy;
 import aletheia.persistence.berkeleydb.proxies.peertopeer.deferredmessagecontent.PersonsDeferredMessageContentProxy;
 import aletheia.persistence.berkeleydb.proxies.peertopeer.deferredmessagecontent.SignatureRequestDeferredMessageContentProxy;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityIndex;
-import com.sleepycat.persist.PrimaryIndex;
-import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBAletheiaTemporaryEntityStore extends BerkeleyDBAletheiaAbstractEntityStore
 {

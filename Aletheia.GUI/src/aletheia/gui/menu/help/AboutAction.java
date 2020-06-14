@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JOptionPane;
+
 import aletheia.gui.menu.AletheiaMenuAction;
 import aletheia.utilities.MiscUtilities;
 import aletheia.version.VersionManager;

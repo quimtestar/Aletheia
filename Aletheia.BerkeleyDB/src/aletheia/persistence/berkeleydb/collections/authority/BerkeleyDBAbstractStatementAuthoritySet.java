@@ -21,6 +21,11 @@ package aletheia.persistence.berkeleydb.collections.authority;
 
 import java.util.NoSuchElementException;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.EntityIndex;
+import com.sleepycat.persist.PrimaryIndex;
+
 import aletheia.model.authority.StatementAuthority;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
@@ -31,11 +36,6 @@ import aletheia.persistence.entities.authority.StatementAuthorityEntity;
 import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.EntityIndex;
-import com.sleepycat.persist.PrimaryIndex;
 
 public abstract class BerkeleyDBAbstractStatementAuthoritySet extends AbstractCloseableSet<StatementAuthority> implements StatementAuthoritySet
 {

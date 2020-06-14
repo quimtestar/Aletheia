@@ -27,6 +27,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
 import aletheia.gui.app.splash.SplashStartupProgressListener;
 import aletheia.test.Test;
 

@@ -19,10 +19,10 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.term;
 
+import com.sleepycat.persist.model.Persistent;
+
 import aletheia.model.term.Term;
 import aletheia.model.term.VariableTerm;
-
-import com.sleepycat.persist.model.Persistent;
 
 @Persistent(version = 1)
 public abstract class VariableTermProxy<T extends VariableTerm> extends AtomicTermProxy<T>

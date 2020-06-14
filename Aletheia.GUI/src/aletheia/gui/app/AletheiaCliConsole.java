@@ -37,9 +37,9 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.status.StatusLogger;
 
 import aletheia.gui.cli.command.Command;
+import aletheia.gui.cli.command.Command.CommandParseException;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TransactionalCommand;
-import aletheia.gui.cli.command.Command.CommandParseException;
 import aletheia.gui.cli.command.gui.Exit;
 import aletheia.gui.cli.command.gui.TraceException;
 import aletheia.model.authority.UnpackedSignatureRequest;

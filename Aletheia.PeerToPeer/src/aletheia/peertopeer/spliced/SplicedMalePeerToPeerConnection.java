@@ -28,8 +28,8 @@ import aletheia.peertopeer.DirectMalePeerToPeerConnection;
 import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.peertopeer.spliced.phase.SplicedMaleRootPhase;
 import aletheia.peertopeer.spliced.phase.SplicedPhase;
-import aletheia.utilities.aborter.ListenableAborter;
 import aletheia.utilities.aborter.Aborter.AbortException;
+import aletheia.utilities.aborter.ListenableAborter;
 
 public class SplicedMalePeerToPeerConnection extends DirectMalePeerToPeerConnection
 {

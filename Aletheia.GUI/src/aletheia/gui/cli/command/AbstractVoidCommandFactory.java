@@ -21,7 +21,6 @@ package aletheia.gui.cli.command;
 
 import java.util.List;
 
-import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.Command.CommandParseException;
 import aletheia.persistence.Transaction;
 

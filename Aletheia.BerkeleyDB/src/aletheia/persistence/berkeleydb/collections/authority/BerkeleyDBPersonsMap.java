@@ -19,6 +19,9 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.collections.authority;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.PrimaryIndex;
+
 import aletheia.model.authority.Person;
 import aletheia.model.authority.Signatory;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
@@ -27,9 +30,6 @@ import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPersonEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBSignatoryEntity;
 import aletheia.persistence.collections.authority.PersonsMap;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.PrimaryIndex;
 
 public class BerkeleyDBPersonsMap extends BerkeleyDBGenericPersonsMap<Signatory, BerkeleyDBSignatoryEntity, Person, BerkeleyDBPersonEntity>
 		implements PersonsMap

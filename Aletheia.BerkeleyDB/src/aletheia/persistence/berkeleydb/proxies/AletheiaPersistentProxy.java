@@ -19,9 +19,9 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies;
 
-import aletheia.persistence.berkeleydb.exceptions.BerkeleyDBPersistenceException;
-
 import com.sleepycat.persist.model.PersistentProxy;
+
+import aletheia.persistence.berkeleydb.exceptions.BerkeleyDBPersistenceException;
 
 public interface AletheiaPersistentProxy<T> extends PersistentProxy<T>
 {

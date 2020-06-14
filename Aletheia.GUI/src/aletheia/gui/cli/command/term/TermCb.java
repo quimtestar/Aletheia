@@ -22,8 +22,8 @@ package aletheia.gui.cli.command.term;
 import java.awt.Toolkit;
 import java.util.List;
 
-import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.gui.common.datatransfer.TermTransferable;

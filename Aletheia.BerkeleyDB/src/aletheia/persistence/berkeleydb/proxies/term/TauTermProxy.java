@@ -19,9 +19,9 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.term;
 
-import aletheia.model.term.TauTerm;
-
 import com.sleepycat.persist.model.Persistent;
+
+import aletheia.model.term.TauTerm;
 
 @Persistent(proxyFor = TauTerm.class, version = 1)
 public class TauTermProxy extends AtomicTermProxy<TauTerm>

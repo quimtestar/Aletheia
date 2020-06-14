@@ -40,6 +40,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
+
 import org.apache.logging.log4j.Logger;
 
 import aletheia.common.AletheiaConstants;

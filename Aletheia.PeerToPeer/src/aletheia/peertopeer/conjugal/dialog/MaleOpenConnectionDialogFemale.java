@@ -24,12 +24,12 @@ import java.io.IOException;
 import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
-import aletheia.peertopeer.SplicedConnectionId;
 import aletheia.peertopeer.PeerToPeerNode.ConnectException;
+import aletheia.peertopeer.SplicedConnectionId;
 import aletheia.peertopeer.base.phase.Phase;
-import aletheia.peertopeer.conjugal.message.OpenConnectionSocketAddressMessage;
 import aletheia.peertopeer.conjugal.message.OpenConnectionErrorMessage;
 import aletheia.peertopeer.conjugal.message.OpenConnectionExpectedPeerNodeUuidMessage;
+import aletheia.peertopeer.conjugal.message.OpenConnectionSocketAddressMessage;
 import aletheia.peertopeer.conjugal.message.OpenConnectionSplicedConnectionIdMessage;
 import aletheia.peertopeer.conjugal.phase.FemaleConjugalPhase;
 import aletheia.protocol.ProtocolException;

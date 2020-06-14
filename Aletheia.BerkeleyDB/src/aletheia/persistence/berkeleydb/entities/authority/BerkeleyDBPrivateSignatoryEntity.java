@@ -19,11 +19,11 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.entities.authority;
 
-import aletheia.persistence.entities.authority.PrivateSignatoryEntity;
-
 import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
+
+import aletheia.persistence.entities.authority.PrivateSignatoryEntity;
 
 @Persistent(version = 2)
 public abstract class BerkeleyDBPrivateSignatoryEntity extends BerkeleyDBSignatoryEntity implements PrivateSignatoryEntity

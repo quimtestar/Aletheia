@@ -22,6 +22,9 @@ package aletheia.persistence.berkeleydb.collections.authority;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.EntityIndex;
+
 import aletheia.model.authority.DelegateAuthorizer;
 import aletheia.model.authority.Signatory;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
@@ -32,9 +35,6 @@ import aletheia.utilities.collections.AbstractCloseableMap;
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableSet;
-
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.EntityIndex;
 
 public abstract class BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<K> extends AbstractCloseableMap<Signatory, DelegateAuthorizer>
 		implements DelegateAuthorizerByAuthorizerMap

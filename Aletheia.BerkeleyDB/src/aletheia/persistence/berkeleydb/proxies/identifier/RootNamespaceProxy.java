@@ -19,9 +19,9 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.identifier;
 
-import aletheia.model.identifier.RootNamespace;
-
 import com.sleepycat.persist.model.Persistent;
+
+import aletheia.model.identifier.RootNamespace;
 
 @Persistent(proxyFor = RootNamespace.class, version = 0)
 public class RootNamespaceProxy extends NamespaceProxy<RootNamespace>

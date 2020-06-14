@@ -19,9 +19,9 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.entities.local;
 
-import aletheia.persistence.entities.local.RootContextLocalEntity;
-
 import com.sleepycat.persist.model.Persistent;
+
+import aletheia.persistence.entities.local.RootContextLocalEntity;
 
 @Persistent(version = 0)
 public class BerkeleyDBRootContextLocalEntity extends BerkeleyDBContextLocalEntity implements RootContextLocalEntity

@@ -22,6 +22,9 @@ package aletheia.persistence.berkeleydb.collections.authority;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.EntityIndex;
+
 import aletheia.model.authority.SignatureRequest;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -34,9 +37,6 @@ import aletheia.utilities.collections.AbstractCloseableMap;
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableSet;
-
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.EntityIndex;
 
 public abstract class BerkeleyDBGenericSignatureRequestMap<S extends SignatureRequest, E extends BerkeleyDBSignatureRequestEntity>
 		extends AbstractCloseableMap<UUID, S> implements GenericSignatureRequestMap<S>

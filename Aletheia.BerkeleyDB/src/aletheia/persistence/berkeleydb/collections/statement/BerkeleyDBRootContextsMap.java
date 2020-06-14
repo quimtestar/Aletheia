@@ -19,14 +19,14 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.collections.statement;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityIndex;
+
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBRootContextEntity;
 import aletheia.persistence.collections.statement.RootContextsMap;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityIndex;
 
 public class BerkeleyDBRootContextsMap extends BerkeleyDBGenericRootContextsMap implements RootContextsMap
 {

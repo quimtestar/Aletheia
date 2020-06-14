@@ -22,6 +22,7 @@ package aletheia.model.nomenclator;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.RootNamespace;

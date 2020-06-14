@@ -32,16 +32,6 @@ import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
 
-import aletheia.log4j.LoggerManager;
-import aletheia.persistence.berkeleydb.BerkeleyDBAletheiaEntityStore;
-import aletheia.persistence.berkeleydb.BerkeleyDBAletheiaEnvironment;
-import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
-import aletheia.persistence.berkeleydb.utilities.BerkeleyDBMiscUtilities;
-import aletheia.persistence.exceptions.PersistenceException;
-import aletheia.utilities.MiscUtilities;
-import aletheia.utilities.aborter.Aborter;
-import aletheia.utilities.aborter.Aborter.AbortException;
-
 import com.sleepycat.je.CursorConfig;
 import com.sleepycat.je.Transaction;
 import com.sleepycat.persist.EntityCursor;
@@ -52,6 +42,16 @@ import com.sleepycat.persist.model.PersistentProxy;
 import com.sleepycat.persist.raw.RawObject;
 import com.sleepycat.persist.raw.RawStore;
 import com.sleepycat.persist.raw.RawType;
+
+import aletheia.log4j.LoggerManager;
+import aletheia.persistence.berkeleydb.BerkeleyDBAletheiaEntityStore;
+import aletheia.persistence.berkeleydb.BerkeleyDBAletheiaEnvironment;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
+import aletheia.persistence.berkeleydb.utilities.BerkeleyDBMiscUtilities;
+import aletheia.persistence.exceptions.PersistenceException;
+import aletheia.utilities.MiscUtilities;
+import aletheia.utilities.aborter.Aborter;
+import aletheia.utilities.aborter.Aborter.AbortException;
 
 public abstract class EntityStoreUpgrade
 {

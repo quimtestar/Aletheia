@@ -20,6 +20,7 @@
 package aletheia.gui.cli.command.statement;
 
 import java.util.List;
+
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.model.identifier.Identifier;

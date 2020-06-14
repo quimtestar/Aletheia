@@ -34,6 +34,8 @@ import java.util.Queue;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import com.sleepycat.persist.EntityStore;
+
 import aletheia.persistence.berkeleydb.lowlevelbackuprestore.LowLevelBackupRestoreEntityStore;
 import aletheia.protocol.ProtocolException;
 import aletheia.utilities.CommandLineArguments;
@@ -41,8 +43,6 @@ import aletheia.utilities.CommandLineArguments.Option;
 import aletheia.utilities.CommandLineArguments.Parameter;
 import aletheia.utilities.CommandLineArguments.Switch;
 import aletheia.version.VersionManager;
-
-import com.sleepycat.persist.EntityStore;
 
 public class BerkeleyDBAletheiaTool
 {

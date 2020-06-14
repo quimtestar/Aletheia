@@ -25,6 +25,10 @@ import java.io.IOException;
 
 import org.apache.logging.log4j.Logger;
 
+import com.sleepycat.je.Database;
+import com.sleepycat.je.DatabaseConfig;
+import com.sleepycat.je.DatabaseNotFoundException;
+
 import aletheia.log4j.LoggerManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBAletheiaEntityStore;
 import aletheia.persistence.berkeleydb.BerkeleyDBAletheiaEnvironment;
@@ -32,10 +36,6 @@ import aletheia.protocol.ProtocolException;
 import aletheia.protocol.VersionProtocol;
 import aletheia.protocol.primitive.BooleanProtocol;
 import aletheia.protocol.primitive.StringProtocol;
-
-import com.sleepycat.je.Database;
-import com.sleepycat.je.DatabaseConfig;
-import com.sleepycat.je.DatabaseNotFoundException;
 
 public class LowLevelBackupRestoreEntityStore
 {

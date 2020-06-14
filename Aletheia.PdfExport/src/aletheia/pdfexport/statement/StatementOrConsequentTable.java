@@ -21,12 +21,13 @@ package aletheia.pdfexport.statement;
 
 import java.util.Map;
 
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.pdf.PdfPCell;
+
 import aletheia.model.identifier.Identifier;
 import aletheia.model.term.VariableTerm;
 import aletheia.pdfexport.BasePhrase;
 import aletheia.pdfexport.BaseTable;
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.pdf.PdfPCell;
 
 public abstract class StatementOrConsequentTable extends BaseTable
 {

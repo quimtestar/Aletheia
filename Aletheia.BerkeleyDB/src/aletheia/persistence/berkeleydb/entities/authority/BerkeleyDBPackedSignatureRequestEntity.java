@@ -28,15 +28,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import aletheia.persistence.berkeleydb.entities.UUIDKey;
-import aletheia.persistence.entities.authority.PackedSignatureRequestEntity;
-import aletheia.utilities.collections.Bijection;
-import aletheia.utilities.collections.BijectionSet;
-
 import com.sleepycat.persist.model.KeyField;
 import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
+
+import aletheia.persistence.berkeleydb.entities.UUIDKey;
+import aletheia.persistence.entities.authority.PackedSignatureRequestEntity;
+import aletheia.utilities.collections.Bijection;
+import aletheia.utilities.collections.BijectionSet;
 
 @Persistent(version = 8)
 public class BerkeleyDBPackedSignatureRequestEntity extends BerkeleyDBSignatureRequestEntity implements PackedSignatureRequestEntity

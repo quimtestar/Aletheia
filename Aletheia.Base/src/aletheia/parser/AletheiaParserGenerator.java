@@ -33,9 +33,9 @@ import aletheia.parsergenerator.lexer.LexerParser;
 import aletheia.parsergenerator.parser.Grammar;
 import aletheia.parsergenerator.parser.GrammarParser;
 import aletheia.parsergenerator.parser.TransitionTable;
-import aletheia.parsergenerator.parser.TransitionTableLalr1;
 import aletheia.parsergenerator.parser.TransitionTable.Conflict;
 import aletheia.parsergenerator.parser.TransitionTable.ConflictException;
+import aletheia.parsergenerator.parser.TransitionTableLalr1;
 
 /**
  * Executable class used to pre-generate the files needed by the parser and the

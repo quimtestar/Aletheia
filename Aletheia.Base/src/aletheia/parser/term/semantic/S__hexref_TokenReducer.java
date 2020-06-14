@@ -20,6 +20,7 @@
 package aletheia.parser.term.semantic;
 
 import java.util.List;
+
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.parser.term.TermParser.Globals;

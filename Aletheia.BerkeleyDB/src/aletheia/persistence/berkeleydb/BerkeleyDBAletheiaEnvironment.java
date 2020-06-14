@@ -33,10 +33,6 @@ import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.Logger;
 
-import aletheia.log4j.LoggerManager;
-import aletheia.utilities.collections.Filter;
-import aletheia.utilities.collections.FilteredCollection;
-
 import com.sleepycat.je.Database;
 import com.sleepycat.je.DatabaseConfig;
 import com.sleepycat.je.DatabaseEntry;
@@ -48,6 +44,10 @@ import com.sleepycat.je.OperationStatus;
 import com.sleepycat.je.ProgressListener;
 import com.sleepycat.je.RecoveryProgress;
 import com.sleepycat.je.Transaction;
+
+import aletheia.log4j.LoggerManager;
+import aletheia.utilities.collections.Filter;
+import aletheia.utilities.collections.FilteredCollection;
 
 public class BerkeleyDBAletheiaEnvironment extends Environment
 {

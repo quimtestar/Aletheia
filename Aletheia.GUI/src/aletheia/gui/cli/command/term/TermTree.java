@@ -21,8 +21,9 @@ package aletheia.gui.cli.command.term;
 
 import java.util.List;
 import java.util.ListIterator;
-import aletheia.gui.cli.command.CommandSource;
+
 import aletheia.gui.cli.command.AbstractVoidCommandFactory;
+import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.TaggedCommand;
 import aletheia.gui.cli.command.TransactionalCommand;
 import aletheia.model.term.CompositionTerm;

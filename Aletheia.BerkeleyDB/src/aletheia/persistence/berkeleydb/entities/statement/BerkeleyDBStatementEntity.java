@@ -23,12 +23,19 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import com.sleepycat.persist.model.Entity;
+import com.sleepycat.persist.model.KeyField;
+import com.sleepycat.persist.model.Persistent;
+import com.sleepycat.persist.model.PrimaryKey;
+import com.sleepycat.persist.model.Relationship;
+import com.sleepycat.persist.model.SecondaryKey;
+
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
-import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.identifier.RootNamespace;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.entities.statement.ContextEntity;
@@ -36,13 +43,6 @@ import aletheia.persistence.entities.statement.RootContextEntity;
 import aletheia.persistence.entities.statement.StatementEntity;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionSet;
-
-import com.sleepycat.persist.model.Entity;
-import com.sleepycat.persist.model.KeyField;
-import com.sleepycat.persist.model.Persistent;
-import com.sleepycat.persist.model.PrimaryKey;
-import com.sleepycat.persist.model.Relationship;
-import com.sleepycat.persist.model.SecondaryKey;
 
 @Entity(version = 2)
 public abstract class BerkeleyDBStatementEntity implements StatementEntity

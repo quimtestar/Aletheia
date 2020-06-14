@@ -19,11 +19,11 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.entities.authority;
 
-import aletheia.persistence.entities.authority.PrivatePersonEntity;
-
 import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
+
+import aletheia.persistence.entities.authority.PrivatePersonEntity;
 
 @Persistent(version = 0)
 public class BerkeleyDBPrivatePersonEntity extends BerkeleyDBPersonEntity implements PrivatePersonEntity

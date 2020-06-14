@@ -21,14 +21,14 @@ package aletheia.pdfexport.term;
 
 import java.util.Map;
 
+import com.itextpdf.text.BaseColor;
+
 import aletheia.model.identifier.Identifier;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.pdfexport.SimpleChunk;
 import aletheia.pdfexport.font.FontManager;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
-
-import com.itextpdf.text.BaseColor;
 
 public class IdentifiableVariableTermReferencePhrase extends IdentifiableVariableTermPhrase
 {

@@ -23,6 +23,12 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.EntityIndex;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
@@ -36,11 +42,6 @@ import aletheia.utilities.collections.AbstractCloseableMap;
 import aletheia.utilities.collections.AbstractCloseableSortedSet;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableSortedSet;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.EntityIndex;
-import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBIdentifierToRootContexts extends AbstractCloseableMap<Identifier, GenericRootContextsMap> implements IdentifierToRootContexts
 {

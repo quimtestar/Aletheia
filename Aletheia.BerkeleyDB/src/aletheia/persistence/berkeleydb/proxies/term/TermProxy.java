@@ -19,10 +19,10 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.term;
 
+import com.sleepycat.persist.model.Persistent;
+
 import aletheia.model.term.Term;
 import aletheia.persistence.berkeleydb.proxies.AletheiaPersistentProxy;
-
-import com.sleepycat.persist.model.Persistent;
 
 @Persistent(proxyFor = Term.class, version = 0)
 public abstract class TermProxy<T extends Term> implements AletheiaPersistentProxy<T>

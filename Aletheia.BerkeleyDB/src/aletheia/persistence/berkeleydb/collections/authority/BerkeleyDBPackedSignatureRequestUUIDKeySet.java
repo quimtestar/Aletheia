@@ -22,12 +22,12 @@ package aletheia.persistence.berkeleydb.collections.authority;
 import java.util.Collection;
 import java.util.Collections;
 
+import com.sleepycat.persist.EntityIndex;
+
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPackedSignatureRequestEntity;
-
-import com.sleepycat.persist.EntityIndex;
 
 public abstract class BerkeleyDBPackedSignatureRequestUUIDKeySet extends BerkeleyDBPackedSignatureRequestSet<UUIDKey>
 {

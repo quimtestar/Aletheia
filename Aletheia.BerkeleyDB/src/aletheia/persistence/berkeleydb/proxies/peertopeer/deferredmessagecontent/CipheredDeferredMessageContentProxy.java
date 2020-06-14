@@ -19,9 +19,9 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.peertopeer.deferredmessagecontent;
 
-import aletheia.model.peertopeer.deferredmessagecontent.CipheredDeferredMessageContent;
-
 import com.sleepycat.persist.model.Persistent;
+
+import aletheia.model.peertopeer.deferredmessagecontent.CipheredDeferredMessageContent;
 
 @Persistent(proxyFor = CipheredDeferredMessageContent.class)
 public abstract class CipheredDeferredMessageContentProxy<T, C extends CipheredDeferredMessageContent<T>> extends DeferredMessageContentProxy<C>

@@ -19,12 +19,12 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.collections.authority;
 
+import com.sleepycat.persist.EntityIndex;
+
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPackedSignatureRequestEntity;
 import aletheia.persistence.collections.authority.PackedSignatureRequestSet;
-
-import com.sleepycat.persist.EntityIndex;
 
 public abstract class BerkeleyDBPackedSignatureRequestSet<K> extends BerkeleyDBPackedSignatureRequestCollection<K> implements PackedSignatureRequestSet
 {

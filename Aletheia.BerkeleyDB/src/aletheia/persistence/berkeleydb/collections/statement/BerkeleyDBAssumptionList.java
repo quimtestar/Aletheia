@@ -21,6 +21,10 @@ package aletheia.persistence.berkeleydb.collections.statement;
 
 import java.util.AbstractList;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
@@ -30,10 +34,6 @@ import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBAssumptionEn
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBAssumptionEntity.UUIDKeyOrder;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBStatementEntity;
 import aletheia.persistence.collections.statement.AssumptionList;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBAssumptionList extends AbstractList<Assumption> implements AssumptionList
 {

@@ -21,6 +21,9 @@ package aletheia.persistence.berkeleydb.collections.peertopeer;
 
 import java.util.NoSuchElementException;
 
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.model.peertopeer.Hook;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
@@ -30,9 +33,6 @@ import aletheia.persistence.collections.peertopeer.HookList;
 import aletheia.utilities.collections.AbstractCloseableList;
 import aletheia.utilities.collections.CloseableIterable;
 import aletheia.utilities.collections.CloseableIterator;
-
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBHookList extends AbstractCloseableList<Hook> implements HookList
 {

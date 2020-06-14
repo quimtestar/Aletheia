@@ -20,6 +20,7 @@
 package aletheia.peertopeer.spliced.phase;
 
 import java.io.IOException;
+
 import aletheia.peertopeer.base.dialog.Dialog.DialogStreamException;
 import aletheia.peertopeer.spliced.SplicedMalePeerToPeerConnection;
 import aletheia.peertopeer.spliced.dialog.ConnectionIdDialogMale;

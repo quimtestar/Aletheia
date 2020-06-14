@@ -19,15 +19,15 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.collections.authority;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.PrimaryIndex;
+
 import aletheia.model.authority.Signatory;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBSignatoryEntity;
 import aletheia.persistence.collections.authority.SignatoriesMap;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.PrimaryIndex;
 
 public class BerkeleyDBSignatoriesMap extends BerkeleyDBGenericSignatoriesMap<Signatory, BerkeleyDBSignatoryEntity> implements SignatoriesMap
 {

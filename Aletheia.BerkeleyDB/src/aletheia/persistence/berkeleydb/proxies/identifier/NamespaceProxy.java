@@ -19,10 +19,10 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.identifier;
 
+import com.sleepycat.persist.model.Persistent;
+
 import aletheia.model.identifier.Namespace;
 import aletheia.persistence.berkeleydb.proxies.AletheiaPersistentProxy;
-
-import com.sleepycat.persist.model.Persistent;
 
 @Persistent(proxyFor = Namespace.class, version = 0)
 public abstract class NamespaceProxy<N extends Namespace> implements AletheiaPersistentProxy<N>

@@ -26,7 +26,6 @@ import java.util.Stack;
 import java.util.UUID;
 
 import aletheia.model.statement.Statement;
-import aletheia.model.term.ProjectionCastTypeTerm;
 import aletheia.model.term.CastTypeTerm;
 import aletheia.model.term.CastTypeTerm.CastTypeException;
 import aletheia.model.term.CompositionTerm;
@@ -36,6 +35,7 @@ import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.ProjectedCastTypeTerm;
+import aletheia.model.term.ProjectionCastTypeTerm;
 import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 import aletheia.model.term.SimpleTerm;

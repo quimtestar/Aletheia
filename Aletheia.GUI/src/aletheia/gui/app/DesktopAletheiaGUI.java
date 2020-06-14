@@ -43,9 +43,9 @@ import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.gui.PersistenceGUIFactory.CreatePersistenceManagerException;
 import aletheia.utilities.CommandLineArguments;
-import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.CommandLineArguments.Option;
 import aletheia.utilities.CommandLineArguments.Switch;
+import aletheia.utilities.MiscUtilities;
 
 public class DesktopAletheiaGUI extends AletheiaGUI
 {

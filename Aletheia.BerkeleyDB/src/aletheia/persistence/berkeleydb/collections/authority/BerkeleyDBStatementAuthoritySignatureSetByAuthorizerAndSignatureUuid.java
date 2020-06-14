@@ -21,6 +21,9 @@ package aletheia.persistence.berkeleydb.collections.authority;
 
 import java.util.UUID;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.model.authority.Signatory;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
@@ -28,9 +31,6 @@ import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAut
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthoritySignatureEntity.AuthorizerSignatureUuidKeyData;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData;
 import aletheia.persistence.collections.authority.StatementAuthoritySignatureSetByAuthorizerAndSignatureUuid;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBStatementAuthoritySignatureSetByAuthorizerAndSignatureUuid
 		extends BerkeleyDBAbstractStatementAuthoritySignatureSet<BerkeleyDBStatementAuthoritySignatureEntity.AuthorizerSignatureUuidKeyData>

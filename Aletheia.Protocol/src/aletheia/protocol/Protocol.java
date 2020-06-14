@@ -27,6 +27,7 @@ import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Collection;
+
 import aletheia.utilities.collections.ArrayAsList;
 
 /**

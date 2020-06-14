@@ -21,6 +21,10 @@ package aletheia.persistence.berkeleydb.collections.statement;
 
 import java.util.NoSuchElementException;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.PersistenceManager;
@@ -33,10 +37,6 @@ import aletheia.persistence.collections.statement.SpecializationsByGeneral;
 import aletheia.persistence.entities.statement.SpecializationEntity;
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBSpecializationsByGeneral extends AbstractCloseableSet<Specialization> implements SpecializationsByGeneral
 {

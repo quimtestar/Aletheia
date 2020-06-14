@@ -21,10 +21,10 @@ package aletheia.persistence.berkeleydb.proxies.security;
 
 import java.security.Key;
 
+import com.sleepycat.persist.model.Persistent;
+
 import aletheia.persistence.berkeleydb.proxies.AletheiaPersistentProxy;
 import aletheia.utilities.Capsule;
-
-import com.sleepycat.persist.model.Persistent;
 
 @Persistent(version = 0)
 public abstract class KeyProxy<K extends Key> implements AletheiaPersistentProxy<Capsule<K>>

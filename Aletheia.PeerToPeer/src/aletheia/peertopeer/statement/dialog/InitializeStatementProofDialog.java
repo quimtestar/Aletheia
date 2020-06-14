@@ -20,6 +20,7 @@
 package aletheia.peertopeer.statement.dialog;
 
 import java.util.Stack;
+
 import aletheia.peertopeer.base.phase.Phase;
 
 public abstract class InitializeStatementProofDialog extends StatementProofDialog

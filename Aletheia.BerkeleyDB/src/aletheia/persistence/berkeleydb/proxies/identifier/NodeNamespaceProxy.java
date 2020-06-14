@@ -19,10 +19,10 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.identifier;
 
+import com.sleepycat.persist.model.Persistent;
+
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
-
-import com.sleepycat.persist.model.Persistent;
 
 @Persistent(proxyFor = NodeNamespace.class, version = 0)
 public class NodeNamespaceProxy extends AbstractNodeNamespaceProxy<NodeNamespace>

@@ -19,13 +19,13 @@
  ******************************************************************************/
 package aletheia.pdfexport.statement;
 
+import com.itextpdf.text.Document;
+
 import aletheia.model.statement.UnfoldingContext;
 import aletheia.pdfexport.BasePhrase;
 import aletheia.pdfexport.SimpleChunk;
 import aletheia.pdfexport.term.TermPhrase;
 import aletheia.persistence.Transaction;
-
-import com.itextpdf.text.Document;
 
 public class UnfoldingContextTable extends StatementTable
 {

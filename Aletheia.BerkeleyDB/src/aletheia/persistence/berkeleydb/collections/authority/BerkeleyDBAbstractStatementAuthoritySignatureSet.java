@@ -21,6 +21,11 @@ package aletheia.persistence.berkeleydb.collections.authority;
 
 import java.util.NoSuchElementException;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.EntityIndex;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.model.authority.StatementAuthoritySignature;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
@@ -29,11 +34,6 @@ import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAut
 import aletheia.persistence.collections.authority.StatementAuthoritySignatureSet;
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.EntityIndex;
-import com.sleepycat.persist.SecondaryIndex;
 
 public abstract class BerkeleyDBAbstractStatementAuthoritySignatureSet<K> extends AbstractCloseableSet<StatementAuthoritySignature>
 		implements StatementAuthoritySignatureSet

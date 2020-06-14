@@ -21,15 +21,15 @@ package aletheia.persistence.berkeleydb.collections.authority;
 
 import java.util.Comparator;
 
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.model.authority.Person;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPersonEntity;
 import aletheia.utilities.collections.CloseableSortedSet;
-
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.SecondaryIndex;
 
 public abstract class BerkeleyDBAbstractPersonsSortedSet<K> extends BerkeleyDBAbstractPersonsSet<K> implements CloseableSortedSet<Person>
 {

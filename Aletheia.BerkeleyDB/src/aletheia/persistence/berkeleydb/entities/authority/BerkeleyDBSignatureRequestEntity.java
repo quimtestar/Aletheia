@@ -25,17 +25,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import aletheia.persistence.berkeleydb.entities.UUIDKey;
-import aletheia.persistence.entities.authority.SignatureRequestEntity;
-import aletheia.utilities.collections.Bijection;
-import aletheia.utilities.collections.BijectionList;
-
 import com.sleepycat.persist.model.Entity;
 import com.sleepycat.persist.model.KeyField;
 import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.PrimaryKey;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
+
+import aletheia.persistence.berkeleydb.entities.UUIDKey;
+import aletheia.persistence.entities.authority.SignatureRequestEntity;
+import aletheia.utilities.collections.Bijection;
+import aletheia.utilities.collections.BijectionList;
 
 @Entity(version = 3)
 public abstract class BerkeleyDBSignatureRequestEntity implements SignatureRequestEntity

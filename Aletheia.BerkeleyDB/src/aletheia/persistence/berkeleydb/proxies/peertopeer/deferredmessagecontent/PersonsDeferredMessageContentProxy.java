@@ -21,10 +21,10 @@ package aletheia.persistence.berkeleydb.proxies.peertopeer.deferredmessageconten
 
 import java.util.Collection;
 
+import com.sleepycat.persist.model.Persistent;
+
 import aletheia.model.authority.Person;
 import aletheia.model.peertopeer.deferredmessagecontent.PersonsDeferredMessageContent;
-
-import com.sleepycat.persist.model.Persistent;
 
 @Persistent(proxyFor = PersonsDeferredMessageContent.class)
 public class PersonsDeferredMessageContentProxy extends CipheredDeferredMessageContentProxy<Collection<Person>, PersonsDeferredMessageContent>

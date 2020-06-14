@@ -25,15 +25,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import aletheia.model.security.SignatureData;
-import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthoritySignatureEntity;
-
 import com.sleepycat.persist.evolve.Conversion;
 import com.sleepycat.persist.evolve.Converter;
 import com.sleepycat.persist.evolve.Deleter;
 import com.sleepycat.persist.evolve.EntityConverter;
 import com.sleepycat.persist.model.EntityModel;
 import com.sleepycat.persist.raw.RawObject;
+
+import aletheia.model.security.SignatureData;
+import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthoritySignatureEntity;
 
 public class MutationSet121117 extends MutationSet
 {

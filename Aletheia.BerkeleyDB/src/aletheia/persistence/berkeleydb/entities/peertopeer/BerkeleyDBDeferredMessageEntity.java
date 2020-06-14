@@ -22,12 +22,12 @@ package aletheia.persistence.berkeleydb.entities.peertopeer;
 import java.util.Date;
 import java.util.UUID;
 
+import com.sleepycat.persist.model.Entity;
+import com.sleepycat.persist.model.PrimaryKey;
+
 import aletheia.model.peertopeer.deferredmessagecontent.DeferredMessageContent;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.entities.peertopeer.DeferredMessageEntity;
-
-import com.sleepycat.persist.model.Entity;
-import com.sleepycat.persist.model.PrimaryKey;
 
 @Entity
 public class BerkeleyDBDeferredMessageEntity implements DeferredMessageEntity

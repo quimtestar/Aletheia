@@ -20,6 +20,7 @@
 package aletheia.parsergenerator.parser;
 
 import java.io.Reader;
+
 import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.parser.TransitionTable.ConflictException;
 

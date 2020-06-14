@@ -23,18 +23,18 @@ import java.util.Date;
 import java.util.TreeSet;
 import java.util.UUID;
 
-import aletheia.model.identifier.Namespace;
-import aletheia.model.identifier.NodeNamespace.InvalidNameException;
-import aletheia.model.security.SignatureData;
-import aletheia.persistence.berkeleydb.entities.UUIDKey;
-import aletheia.persistence.entities.authority.DelegateAuthorizerEntity;
-
 import com.sleepycat.persist.model.Entity;
 import com.sleepycat.persist.model.KeyField;
 import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.PrimaryKey;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
+
+import aletheia.model.identifier.Namespace;
+import aletheia.model.identifier.NodeNamespace.InvalidNameException;
+import aletheia.model.security.SignatureData;
+import aletheia.persistence.berkeleydb.entities.UUIDKey;
+import aletheia.persistence.entities.authority.DelegateAuthorizerEntity;
 
 @Entity(version = 3)
 public class BerkeleyDBDelegateAuthorizerEntity implements DelegateAuthorizerEntity

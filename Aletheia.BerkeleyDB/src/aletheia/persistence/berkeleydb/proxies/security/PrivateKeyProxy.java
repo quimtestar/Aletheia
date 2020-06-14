@@ -23,11 +23,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.spec.InvalidKeySpecException;
 
+import com.sleepycat.persist.model.Persistent;
+
 import aletheia.persistence.berkeleydb.entities.PrivateKeyCapsule;
 import aletheia.security.utilities.SecurityUtilities;
 import aletheia.security.utilities.SecurityUtilities.NoSuchFormatException;
-
-import com.sleepycat.persist.model.Persistent;
 
 @Persistent(version = 0, proxyFor = PrivateKeyCapsule.class)
 public class PrivateKeyProxy extends KeyProxy<PrivateKey>

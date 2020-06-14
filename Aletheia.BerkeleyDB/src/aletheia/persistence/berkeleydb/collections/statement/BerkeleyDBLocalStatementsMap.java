@@ -19,6 +19,10 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.collections.statement;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
@@ -26,10 +30,6 @@ import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBStatementEntity;
 import aletheia.persistence.collections.statement.LocalStatementsMap;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBLocalStatementsMap extends BerkeleyDBStatementsMap implements LocalStatementsMap
 {

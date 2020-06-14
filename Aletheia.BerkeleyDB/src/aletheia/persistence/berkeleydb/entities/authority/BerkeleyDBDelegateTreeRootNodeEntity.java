@@ -30,6 +30,10 @@ import java.util.ListIterator;
 import java.util.Set;
 import java.util.UUID;
 
+import com.sleepycat.persist.model.Persistent;
+import com.sleepycat.persist.model.Relationship;
+import com.sleepycat.persist.model.SecondaryKey;
+
 import aletheia.model.identifier.RootNamespace;
 import aletheia.model.security.SignatureData;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
@@ -38,10 +42,6 @@ import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionList;
 import aletheia.utilities.collections.BijectionSet;
 import aletheia.utilities.collections.CastBijection;
-
-import com.sleepycat.persist.model.Persistent;
-import com.sleepycat.persist.model.Relationship;
-import com.sleepycat.persist.model.SecondaryKey;
 
 @Persistent(version = 3)
 public class BerkeleyDBDelegateTreeRootNodeEntity extends BerkeleyDBDelegateTreeNodeEntity implements DelegateTreeRootNodeEntity

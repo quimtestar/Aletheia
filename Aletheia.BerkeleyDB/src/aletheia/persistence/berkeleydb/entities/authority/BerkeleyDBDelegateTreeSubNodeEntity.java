@@ -21,12 +21,12 @@ package aletheia.persistence.berkeleydb.entities.authority;
 
 import java.util.UUID;
 
-import aletheia.model.identifier.NodeNamespace;
-import aletheia.persistence.entities.authority.DelegateTreeSubNodeEntity;
-
 import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
+
+import aletheia.model.identifier.NodeNamespace;
+import aletheia.persistence.entities.authority.DelegateTreeSubNodeEntity;
 
 @Persistent(version = 0)
 public class BerkeleyDBDelegateTreeSubNodeEntity extends BerkeleyDBDelegateTreeNodeEntity implements DelegateTreeSubNodeEntity

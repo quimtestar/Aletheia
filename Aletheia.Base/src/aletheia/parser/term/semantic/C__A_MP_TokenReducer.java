@@ -21,8 +21,8 @@ package aletheia.parser.term.semantic;
 
 import java.util.List;
 
-import aletheia.model.term.Term;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
+import aletheia.model.term.Term;
 import aletheia.parser.term.TermParser.Globals;
 import aletheia.parser.term.TermParser.ProductionTokenPayloadReducer;
 import aletheia.parsergenerator.parser.Production;

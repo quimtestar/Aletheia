@@ -58,9 +58,9 @@ import aletheia.peertopeer.statement.message.DelegateTreeSuccessorDependencyResp
 import aletheia.peertopeer.statement.message.PersonRequestMessage;
 import aletheia.peertopeer.statement.message.PersonResponseMessage;
 import aletheia.peertopeer.statement.message.StatementAuthoritySubMessage;
-import aletheia.peertopeer.statement.message.StatementResponseMessage;
 import aletheia.peertopeer.statement.message.StatementAuthoritySubMessage.NoValidSignature;
 import aletheia.peertopeer.statement.message.StatementRequestMessage;
+import aletheia.peertopeer.statement.message.StatementResponseMessage;
 import aletheia.peertopeer.statement.message.SubscriptionContextsMessage;
 import aletheia.peertopeer.statement.message.SubscriptionSubContextsMessage;
 import aletheia.peertopeer.statement.message.SubscriptionSubContextsMessage.SubContextSubscriptionUuids;

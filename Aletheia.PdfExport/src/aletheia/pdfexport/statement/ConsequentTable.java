@@ -19,6 +19,12 @@
  ******************************************************************************/
 package aletheia.pdfexport.statement;
 
+import java.util.Map;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
@@ -29,12 +35,6 @@ import aletheia.pdfexport.font.FontManager;
 import aletheia.pdfexport.term.TermPhrase;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
-
-import java.util.Map;
-
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
 
 public class ConsequentTable extends StatementOrConsequentTable
 {

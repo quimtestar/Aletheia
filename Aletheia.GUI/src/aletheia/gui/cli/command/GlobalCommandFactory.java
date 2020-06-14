@@ -36,7 +36,6 @@ import java.util.TreeMap;
 
 import org.apache.logging.log4j.Logger;
 
-import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.Command.CommandException;
 import aletheia.gui.cli.command.Command.CommandParseException;
 import aletheia.gui.cli.command.CommandGroup.CommandGroupException;

@@ -24,14 +24,14 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Rectangle;
+
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.pdfexport.statement.ConsequentTable;
 import aletheia.pdfexport.statement.StatementTable;
 import aletheia.persistence.Transaction;
-
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Rectangle;
 
 public class ExpandedContextDocument extends ContextDocument
 {

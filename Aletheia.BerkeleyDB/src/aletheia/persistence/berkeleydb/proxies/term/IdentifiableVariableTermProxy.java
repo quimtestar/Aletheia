@@ -21,9 +21,9 @@ package aletheia.persistence.berkeleydb.proxies.term;
 
 import java.util.UUID;
 
-import aletheia.model.term.IdentifiableVariableTerm;
-
 import com.sleepycat.persist.model.Persistent;
+
+import aletheia.model.term.IdentifiableVariableTerm;
 
 @Persistent(proxyFor = IdentifiableVariableTerm.class, version = 0)
 public class IdentifiableVariableTermProxy extends VariableTermProxy<IdentifiableVariableTerm>

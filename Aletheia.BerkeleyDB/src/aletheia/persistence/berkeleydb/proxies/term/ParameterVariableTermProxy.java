@@ -19,9 +19,9 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.term;
 
-import aletheia.model.term.ParameterVariableTerm;
-
 import com.sleepycat.persist.model.Persistent;
+
+import aletheia.model.term.ParameterVariableTerm;
 
 @Persistent(proxyFor = ParameterVariableTerm.class, version = 0)
 public class ParameterVariableTermProxy extends VariableTermProxy<ParameterVariableTerm>

@@ -53,6 +53,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+
 import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.app.DesktopAletheiaJFrame;

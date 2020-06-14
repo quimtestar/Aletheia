@@ -24,13 +24,6 @@ import java.util.Map;
 
 import org.apache.logging.log4j.Logger;
 
-import aletheia.log4j.LoggerManager;
-import aletheia.persistence.berkeleydb.mutations.BerkeleyDBAletheiaMutations;
-import aletheia.persistence.berkeleydb.utilities.BerkeleyDBMiscUtilities;
-import aletheia.utilities.MiscUtilities;
-import aletheia.utilities.aborter.Aborter;
-import aletheia.utilities.aborter.Aborter.AbortException;
-
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.Environment;
 import com.sleepycat.je.Transaction;
@@ -42,6 +35,13 @@ import com.sleepycat.persist.model.EntityMetadata;
 import com.sleepycat.persist.model.EntityModel;
 import com.sleepycat.persist.model.SecondaryKeyMetadata;
 import com.sleepycat.persist.raw.RawType;
+
+import aletheia.log4j.LoggerManager;
+import aletheia.persistence.berkeleydb.mutations.BerkeleyDBAletheiaMutations;
+import aletheia.persistence.berkeleydb.utilities.BerkeleyDBMiscUtilities;
+import aletheia.utilities.MiscUtilities;
+import aletheia.utilities.aborter.Aborter;
+import aletheia.utilities.aborter.Aborter.AbortException;
 
 public abstract class BerkeleyDBAletheiaAbstractEntityStore extends EntityStore
 {

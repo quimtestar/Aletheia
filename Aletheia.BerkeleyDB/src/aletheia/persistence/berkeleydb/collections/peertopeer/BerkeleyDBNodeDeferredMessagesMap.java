@@ -22,6 +22,9 @@ package aletheia.persistence.berkeleydb.collections.peertopeer;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.EntityIndex;
+
 import aletheia.model.peertopeer.DeferredMessage;
 import aletheia.model.peertopeer.NodeDeferredMessage;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
@@ -39,9 +42,6 @@ import aletheia.utilities.collections.BijectionCloseableSet;
 import aletheia.utilities.collections.CloseableCollection;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableSet;
-
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.EntityIndex;
 
 public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID, NodeDeferredMessage> implements NodeDeferredMessagesMap
 {

@@ -21,13 +21,13 @@ package aletheia.persistence.berkeleydb.entities.local;
 
 import java.util.UUID;
 
-import aletheia.persistence.berkeleydb.entities.UUIDKey;
-import aletheia.persistence.entities.local.ContextLocalEntity;
-
 import com.sleepycat.persist.model.KeyField;
 import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
+
+import aletheia.persistence.berkeleydb.entities.UUIDKey;
+import aletheia.persistence.entities.local.ContextLocalEntity;
 
 @Persistent(version = 0)
 public class BerkeleyDBContextLocalEntity extends BerkeleyDBStatementLocalEntity implements ContextLocalEntity

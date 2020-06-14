@@ -19,9 +19,9 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.entities.authority;
 
-import aletheia.persistence.entities.authority.ContextAuthorityEntity;
-
 import com.sleepycat.persist.model.Persistent;
+
+import aletheia.persistence.entities.authority.ContextAuthorityEntity;
 
 @Persistent(version = 0)
 public class BerkeleyDBContextAuthorityEntity extends BerkeleyDBStatementAuthorityEntity implements ContextAuthorityEntity

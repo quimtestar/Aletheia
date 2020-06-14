@@ -21,6 +21,7 @@ package aletheia.model.term;
 
 import java.util.Collection;
 import java.util.List;
+
 import aletheia.model.term.CompositionTerm.CompositionTypeException;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 

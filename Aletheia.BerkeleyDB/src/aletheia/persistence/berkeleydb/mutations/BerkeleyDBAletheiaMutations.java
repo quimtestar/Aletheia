@@ -28,9 +28,9 @@ import java.util.List;
 
 import org.apache.logging.log4j.Logger;
 
-import aletheia.log4j.LoggerManager;
-
 import com.sleepycat.persist.evolve.Mutations;
+
+import aletheia.log4j.LoggerManager;
 
 public class BerkeleyDBAletheiaMutations extends Mutations
 {

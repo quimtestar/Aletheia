@@ -19,12 +19,12 @@
  ******************************************************************************/
 package aletheia.pdfexport;
 
-import aletheia.pdfexport.font.FontManager;
-
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Phrase;
+
+import aletheia.pdfexport.font.FontManager;
 
 public class BasePhrase extends Phrase
 {

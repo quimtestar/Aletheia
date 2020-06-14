@@ -25,9 +25,9 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Collections;
+
 import aletheia.gui.app.AletheiaJFrame;
 import aletheia.gui.cli.command.AbstractCommandFactory.CompletionSet;
-import aletheia.gui.cli.command.CommandSource;
 import aletheia.model.authority.UnpackedSignatureRequest;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;

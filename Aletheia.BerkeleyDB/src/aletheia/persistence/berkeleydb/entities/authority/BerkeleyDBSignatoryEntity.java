@@ -22,12 +22,12 @@ package aletheia.persistence.berkeleydb.entities.authority;
 import java.security.PublicKey;
 import java.util.UUID;
 
+import com.sleepycat.persist.model.Entity;
+import com.sleepycat.persist.model.PrimaryKey;
+
 import aletheia.persistence.berkeleydb.entities.PublicKeyCapsule;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.entities.authority.SignatoryEntity;
-
-import com.sleepycat.persist.model.Entity;
-import com.sleepycat.persist.model.PrimaryKey;
 
 @Entity(version = 0)
 public class BerkeleyDBSignatoryEntity implements SignatoryEntity

@@ -19,6 +19,9 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.collections.authority;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.model.authority.ContextAuthority;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
@@ -26,9 +29,6 @@ import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthorityEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthorityEntity.ContextFlagSecondaryKeyData;
 import aletheia.persistence.collections.authority.SignedProofLocalStatementAuthoritySet;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBSignedProofLocalStatementAuthoritySet extends BerkeleyDBFlagLocalStatementAuthoritySet implements SignedProofLocalStatementAuthoritySet
 {

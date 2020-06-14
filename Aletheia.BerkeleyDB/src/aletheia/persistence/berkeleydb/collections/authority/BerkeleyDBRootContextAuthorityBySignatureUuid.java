@@ -22,6 +22,9 @@ package aletheia.persistence.berkeleydb.collections.authority;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.model.authority.RootContextAuthority;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -34,9 +37,6 @@ import aletheia.persistence.entities.authority.RootContextAuthorityEntity;
 import aletheia.utilities.collections.AbstractCloseableMap;
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
-
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBRootContextAuthorityBySignatureUuid extends AbstractCloseableMap<UUID, RootContextAuthority>
 		implements RootContextAuthorityBySignatureUuid

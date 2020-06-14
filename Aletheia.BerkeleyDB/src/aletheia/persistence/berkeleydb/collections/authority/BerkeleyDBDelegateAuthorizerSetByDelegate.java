@@ -19,6 +19,10 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.collections.authority;
 
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.EntityIndex;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.model.authority.Person;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
@@ -26,10 +30,6 @@ import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateAuthorizerEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData;
 import aletheia.persistence.collections.authority.DelegateAuthorizerSetByDelegate;
-
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.EntityIndex;
-import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBDelegateAuthorizerSetByDelegate extends BerkeleyDBAbstractDelegateAuthorizerSet implements DelegateAuthorizerSetByDelegate
 {

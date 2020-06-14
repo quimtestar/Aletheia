@@ -19,15 +19,15 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.collections.statement;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.PrimaryIndex;
+
 import aletheia.model.statement.Statement;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBStatementEntity;
 import aletheia.persistence.collections.statement.StatementsMap;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.PrimaryIndex;
 
 public class BerkeleyDBStatementsMap extends BerkeleyDBGenericStatementsMap<Statement, BerkeleyDBStatementEntity> implements StatementsMap
 {

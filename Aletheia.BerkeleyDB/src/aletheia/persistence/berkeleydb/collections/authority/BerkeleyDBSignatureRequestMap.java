@@ -19,15 +19,15 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.collections.authority;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.PrimaryIndex;
+
 import aletheia.model.authority.SignatureRequest;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBSignatureRequestEntity;
 import aletheia.persistence.collections.authority.SignatureRequestMap;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.PrimaryIndex;
 
 public class BerkeleyDBSignatureRequestMap extends BerkeleyDBGenericSignatureRequestMap<SignatureRequest, BerkeleyDBSignatureRequestEntity>
 		implements SignatureRequestMap

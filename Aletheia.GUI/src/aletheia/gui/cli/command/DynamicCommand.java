@@ -21,7 +21,6 @@ package aletheia.gui.cli.command;
 
 import java.util.List;
 
-import aletheia.gui.cli.command.CommandSource;
 import aletheia.persistence.Transaction;
 
 public abstract class DynamicCommand extends Command

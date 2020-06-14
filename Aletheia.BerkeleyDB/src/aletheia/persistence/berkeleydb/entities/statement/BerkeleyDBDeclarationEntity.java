@@ -19,16 +19,16 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.entities.statement;
 
-import aletheia.model.parameteridentification.ParameterIdentification;
-import aletheia.model.term.Term;
-import aletheia.persistence.berkeleydb.entities.UUIDKey;
-import aletheia.persistence.entities.statement.DeclarationEntity;
-
 import java.util.UUID;
 
 import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
+
+import aletheia.model.parameteridentification.ParameterIdentification;
+import aletheia.model.term.Term;
+import aletheia.persistence.berkeleydb.entities.UUIDKey;
+import aletheia.persistence.entities.statement.DeclarationEntity;
 
 @Persistent(version = 4)
 public class BerkeleyDBDeclarationEntity extends BerkeleyDBStatementEntity implements DeclarationEntity

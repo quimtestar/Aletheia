@@ -19,9 +19,9 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.term;
 
-import aletheia.model.term.SimpleTerm;
-
 import com.sleepycat.persist.model.Persistent;
+
+import aletheia.model.term.SimpleTerm;
 
 @Persistent(proxyFor = SimpleTerm.class, version = 0)
 public abstract class SimpleTermProxy<T extends SimpleTerm> extends TermProxy<T>

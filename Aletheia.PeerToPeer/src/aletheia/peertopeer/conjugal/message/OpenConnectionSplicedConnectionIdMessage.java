@@ -22,6 +22,7 @@ package aletheia.peertopeer.conjugal.message;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+
 import aletheia.peertopeer.SplicedConnectionId;
 import aletheia.peertopeer.base.message.MessageCode;
 import aletheia.peertopeer.base.message.MessageSubProtocolInfo;

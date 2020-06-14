@@ -19,11 +19,11 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.term;
 
+import com.sleepycat.persist.model.Persistent;
+
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
-
-import com.sleepycat.persist.model.Persistent;
 
 @Persistent(proxyFor = ProjectionTerm.class, version = 0)
 public class ProjectionTermProxy extends AtomicTermProxy<ProjectionTerm>

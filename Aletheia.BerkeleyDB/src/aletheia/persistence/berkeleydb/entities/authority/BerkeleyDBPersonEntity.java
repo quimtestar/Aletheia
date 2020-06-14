@@ -22,14 +22,14 @@ package aletheia.persistence.berkeleydb.entities.authority;
 import java.util.Date;
 import java.util.UUID;
 
-import aletheia.model.security.SignatureData;
-import aletheia.persistence.berkeleydb.entities.UUIDKey;
-import aletheia.persistence.entities.authority.PersonEntity;
-
 import com.sleepycat.persist.model.Entity;
 import com.sleepycat.persist.model.PrimaryKey;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
+
+import aletheia.model.security.SignatureData;
+import aletheia.persistence.berkeleydb.entities.UUIDKey;
+import aletheia.persistence.entities.authority.PersonEntity;
 
 @Entity(version = 2)
 public class BerkeleyDBPersonEntity implements PersonEntity

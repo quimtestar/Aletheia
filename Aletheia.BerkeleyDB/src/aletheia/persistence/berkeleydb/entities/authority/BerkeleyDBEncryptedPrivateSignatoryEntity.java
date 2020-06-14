@@ -21,9 +21,9 @@ package aletheia.persistence.berkeleydb.entities.authority;
 
 import java.util.Arrays;
 
-import aletheia.persistence.entities.authority.EncryptedPrivateSignatoryEntity;
-
 import com.sleepycat.persist.model.Persistent;
+
+import aletheia.persistence.entities.authority.EncryptedPrivateSignatoryEntity;
 
 @Persistent(version = 1)
 public class BerkeleyDBEncryptedPrivateSignatoryEntity extends BerkeleyDBPrivateSignatoryEntity implements EncryptedPrivateSignatoryEntity

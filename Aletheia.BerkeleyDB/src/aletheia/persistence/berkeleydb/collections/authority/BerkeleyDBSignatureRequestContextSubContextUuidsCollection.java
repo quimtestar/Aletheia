@@ -22,6 +22,9 @@ package aletheia.persistence.berkeleydb.collections.authority;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
@@ -31,9 +34,6 @@ import aletheia.persistence.collections.authority.SignatureRequestContextSubCont
 import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.collections.AbstractCloseableCollection;
 import aletheia.utilities.collections.CloseableIterator;
-
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBSignatureRequestContextSubContextUuidsCollection extends AbstractCloseableCollection<UUID>
 		implements SignatureRequestContextSubContextUuidsCollection
