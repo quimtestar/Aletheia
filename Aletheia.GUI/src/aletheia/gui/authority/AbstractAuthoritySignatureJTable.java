@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -53,8 +53,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.gui.app.AletheiaJPanel;
+import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.gui.cli.command.authority.DeleteSignatures;
 import aletheia.gui.common.datatransfer.StatementAuthoritySignatureTransferable;
 import aletheia.gui.common.renderer.AbstractRenderer;

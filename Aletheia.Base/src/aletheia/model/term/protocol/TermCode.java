@@ -30,11 +30,11 @@ import aletheia.model.term.FoldingCastTypeTerm;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
-import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.ProjectedCastTypeTerm;
-import aletheia.model.term.UnprojectedCastTypeTerm;
+import aletheia.model.term.ProjectionTerm;
 import aletheia.model.term.TauTerm;
 import aletheia.model.term.Term;
+import aletheia.model.term.UnprojectedCastTypeTerm;
 import aletheia.protocol.enumerate.ByteExportableEnum;
 import aletheia.protocol.enumerate.ExportableEnumInfo;
 

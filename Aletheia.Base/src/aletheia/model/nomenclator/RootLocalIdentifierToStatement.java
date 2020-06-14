@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -22,6 +22,7 @@ package aletheia.model.nomenclator;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.RootNamespace;

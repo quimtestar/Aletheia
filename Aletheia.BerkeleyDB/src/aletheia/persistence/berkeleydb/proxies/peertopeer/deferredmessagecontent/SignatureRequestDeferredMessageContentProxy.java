@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -19,10 +19,10 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.peertopeer.deferredmessagecontent;
 
+import com.sleepycat.persist.model.Persistent;
+
 import aletheia.model.authority.SignatureRequest;
 import aletheia.model.peertopeer.deferredmessagecontent.SignatureRequestDeferredMessageContent;
-
-import com.sleepycat.persist.model.Persistent;
 
 @Persistent(proxyFor = SignatureRequestDeferredMessageContent.class)
 public class SignatureRequestDeferredMessageContentProxy extends CipheredDeferredMessageContentProxy<SignatureRequest, SignatureRequestDeferredMessageContent>

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -27,11 +27,6 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.Logger;
 
-import aletheia.log4j.LoggerManager;
-import aletheia.persistence.Transaction;
-import aletheia.persistence.berkeleydb.exceptions.BerkeleyDBPersistenceException;
-import aletheia.utilities.MiscUtilities;
-
 import com.sleepycat.je.CursorConfig;
 import com.sleepycat.je.DatabaseException;
 import com.sleepycat.je.LockMode;
@@ -39,6 +34,11 @@ import com.sleepycat.je.TransactionConfig;
 import com.sleepycat.persist.EntityCursor;
 import com.sleepycat.persist.EntityIndex;
 import com.sleepycat.persist.PrimaryIndex;
+
+import aletheia.log4j.LoggerManager;
+import aletheia.persistence.Transaction;
+import aletheia.persistence.berkeleydb.exceptions.BerkeleyDBPersistenceException;
+import aletheia.utilities.MiscUtilities;
 
 public class BerkeleyDBTransaction extends Transaction
 {

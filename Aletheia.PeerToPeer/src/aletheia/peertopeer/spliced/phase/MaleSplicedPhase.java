@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -20,6 +20,7 @@
 package aletheia.peertopeer.spliced.phase;
 
 import java.io.IOException;
+
 import aletheia.peertopeer.base.dialog.Dialog.DialogStreamException;
 import aletheia.peertopeer.spliced.SplicedMalePeerToPeerConnection;
 import aletheia.peertopeer.spliced.dialog.ConnectionIdDialogMale;

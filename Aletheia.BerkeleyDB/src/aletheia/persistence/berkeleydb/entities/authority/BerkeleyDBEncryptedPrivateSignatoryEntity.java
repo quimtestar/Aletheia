@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -21,9 +21,9 @@ package aletheia.persistence.berkeleydb.entities.authority;
 
 import java.util.Arrays;
 
-import aletheia.persistence.entities.authority.EncryptedPrivateSignatoryEntity;
-
 import com.sleepycat.persist.model.Persistent;
+
+import aletheia.persistence.entities.authority.EncryptedPrivateSignatoryEntity;
 
 @Persistent(version = 1)
 public class BerkeleyDBEncryptedPrivateSignatoryEntity extends BerkeleyDBPrivateSignatoryEntity implements EncryptedPrivateSignatoryEntity

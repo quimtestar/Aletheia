@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2015 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -19,15 +19,15 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.collections.authority;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityIndex;
+
 import aletheia.model.authority.StatementAuthority;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBUnpackedSignatureRequestEntity;
 import aletheia.persistence.collections.authority.UnpackedSignatureRequestSetByStatementAuthority;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityIndex;
 
 public class BerkeleyDBUnpackedSignatureRequestSetByStatementAuthority extends BerkeleyDBUnpackedSignatureRequestUUIDKeySet
 		implements UnpackedSignatureRequestSetByStatementAuthority

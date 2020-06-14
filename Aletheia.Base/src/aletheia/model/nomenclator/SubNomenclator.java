@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2017 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -21,6 +21,7 @@ package aletheia.model.nomenclator;
 
 import java.io.Serializable;
 import java.util.Map;
+
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;

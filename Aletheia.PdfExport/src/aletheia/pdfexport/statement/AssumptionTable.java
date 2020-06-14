@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -19,12 +19,12 @@
  ******************************************************************************/
 package aletheia.pdfexport.statement;
 
+import com.itextpdf.text.Document;
+
 import aletheia.model.statement.Assumption;
 import aletheia.pdfexport.BasePhrase;
 import aletheia.pdfexport.SimpleChunk;
 import aletheia.persistence.Transaction;
-
-import com.itextpdf.text.Document;
 
 public class AssumptionTable extends StatementTable
 {

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2018 Quim Testar
+ * Copyright (c) 2018, 2020 Quim Testar
  * 
  * This file is part of the Aletheia Proof Assistant.
  * 
@@ -21,8 +21,8 @@ package aletheia.parser.term.semantic;
 
 import java.util.List;
 
-import aletheia.model.term.Term;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
+import aletheia.model.term.Term;
 import aletheia.parser.term.TermParser.Globals;
 import aletheia.parser.term.TermParser.ProductionTokenPayloadReducer;
 import aletheia.parsergenerator.parser.Production;

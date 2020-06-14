@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -25,6 +25,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Collections;
+
 import aletheia.gui.app.AletheiaJFrame;
 import aletheia.gui.cli.command.CommandSource;
 import aletheia.model.authority.UnpackedSignatureRequest;

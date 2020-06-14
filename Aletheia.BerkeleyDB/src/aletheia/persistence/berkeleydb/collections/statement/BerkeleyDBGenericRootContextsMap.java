@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2015 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -19,14 +19,14 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.collections.statement;
 
+import com.sleepycat.persist.EntityIndex;
+
 import aletheia.model.statement.RootContext;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBRootContextEntity;
 import aletheia.persistence.collections.statement.GenericRootContextsMap;
-
-import com.sleepycat.persist.EntityIndex;
 
 public abstract class BerkeleyDBGenericRootContextsMap extends BerkeleyDBGenericStatementsMap<RootContext, BerkeleyDBRootContextEntity>
 		implements GenericRootContextsMap

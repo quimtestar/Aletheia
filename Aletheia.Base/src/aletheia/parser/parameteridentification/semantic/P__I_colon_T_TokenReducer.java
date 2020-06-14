@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2018 Quim Testar
+ * Copyright (c) 2018, 2020 Quim Testar
  * 
  * This file is part of the Aletheia Proof Assistant.
  * 
@@ -26,8 +26,8 @@ import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.parser.parameteridentification.ParameterIdentificationParser.ProductionTokenPayloadReducer;
 import aletheia.parser.parameteridentification.ParameterWithDomain;
 import aletheia.parsergenerator.parser.Production;
-import aletheia.parsergenerator.semantic.SemanticException;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
+import aletheia.parsergenerator.semantic.SemanticException;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.Token;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -21,6 +21,7 @@ package aletheia.model.term;
 
 import java.util.Collection;
 import java.util.List;
+
 import aletheia.model.term.CompositionTerm.CompositionTypeException;
 import aletheia.model.term.ProjectionTerm.ProjectionTypeException;
 

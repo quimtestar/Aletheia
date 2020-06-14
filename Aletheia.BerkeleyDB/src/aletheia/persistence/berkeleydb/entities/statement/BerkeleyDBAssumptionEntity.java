@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -19,13 +19,13 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.entities.statement;
 
-import aletheia.persistence.berkeleydb.entities.UUIDKey;
-import aletheia.persistence.entities.statement.AssumptionEntity;
-
 import com.sleepycat.persist.model.KeyField;
 import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
+
+import aletheia.persistence.berkeleydb.entities.UUIDKey;
+import aletheia.persistence.entities.statement.AssumptionEntity;
 
 @Persistent(version = 0)
 public class BerkeleyDBAssumptionEntity extends BerkeleyDBStatementEntity implements AssumptionEntity

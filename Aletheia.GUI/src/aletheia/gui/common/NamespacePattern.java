@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 Quim Testar.
+ * Copyright (c) 2016, 2020 Quim Testar.
  * 
  * This file is part of the Aletheia Proof Assistant.
  * 
@@ -24,8 +24,8 @@ import java.util.regex.Pattern;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace;
-import aletheia.model.identifier.RootNamespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
+import aletheia.model.identifier.RootNamespace;
 
 public abstract class NamespacePattern
 {

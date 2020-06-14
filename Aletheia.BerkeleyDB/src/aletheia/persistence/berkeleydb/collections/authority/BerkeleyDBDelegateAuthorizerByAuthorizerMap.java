@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2015 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -21,14 +21,14 @@ package aletheia.persistence.berkeleydb.collections.authority;
 
 import java.util.UUID;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateAuthorizerEntity;
 import aletheia.persistence.collections.authority.DelegateAuthorizerByAuthorizerMap;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBDelegateAuthorizerByAuthorizerMap extends BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<UUIDKey>
 		implements DelegateAuthorizerByAuthorizerMap

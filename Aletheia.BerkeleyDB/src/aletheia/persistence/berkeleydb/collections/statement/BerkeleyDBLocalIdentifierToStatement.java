@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -25,6 +25,10 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.statement.Statement;
@@ -38,10 +42,6 @@ import aletheia.utilities.collections.AbstractCloseableMap;
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableSortedSet;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.SecondaryIndex;
 
 public abstract class BerkeleyDBLocalIdentifierToStatement extends AbstractCloseableMap<Identifier, Statement> implements LocalIdentifierToStatement
 {

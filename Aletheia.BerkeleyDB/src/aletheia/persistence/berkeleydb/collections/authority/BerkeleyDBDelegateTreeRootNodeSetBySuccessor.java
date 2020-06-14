@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -19,6 +19,10 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.collections.authority;
 
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.EntityIndex;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.model.authority.Person;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
@@ -26,10 +30,6 @@ import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTreeRootNodeEntity;
 import aletheia.persistence.collections.authority.DelegateTreeRootNodeSetBySuccessor;
-
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.EntityIndex;
-import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBDelegateTreeRootNodeSetBySuccessor extends BerkeleyDBAbstractDelegateTreeRootNodeSet implements DelegateTreeRootNodeSetBySuccessor
 {

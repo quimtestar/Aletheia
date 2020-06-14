@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.lexer.LexerLexer.CharToken;
 import aletheia.parsergenerator.lexer.LexerLexer.NumberToken;
@@ -37,13 +38,13 @@ import aletheia.parsergenerator.parser.Parser;
 import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.parser.TransitionTable;
 import aletheia.parsergenerator.parser.TransitionTable.ConflictException;
+import aletheia.parsergenerator.parser.TransitionTableLalr1;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.ConstantProductionTokenPayloadReducer;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.ProductionTokenPayloadReducer;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.TrivialProductionTokenPayloadReducer;
 import aletheia.parsergenerator.semantic.SemanticException;
-import aletheia.parsergenerator.parser.TransitionTableLalr1;
 import aletheia.parsergenerator.symbols.Symbol;
 import aletheia.parsergenerator.symbols.TaggedTerminalSymbol;
 import aletheia.parsergenerator.tokens.NonTerminalToken;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -24,9 +24,9 @@ import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import aletheia.persistence.berkeleydb.proxies.AletheiaPersistentProxy;
-
 import com.sleepycat.persist.model.Persistent;
+
+import aletheia.persistence.berkeleydb.proxies.AletheiaPersistentProxy;
 
 @Persistent(version = 1, proxyFor = InetAddress.class)
 public abstract class InetAddressProxy<T extends InetAddress> implements AletheiaPersistentProxy<T>

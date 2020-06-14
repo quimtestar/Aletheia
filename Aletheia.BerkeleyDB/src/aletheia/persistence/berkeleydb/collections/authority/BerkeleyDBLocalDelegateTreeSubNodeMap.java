@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -22,6 +22,10 @@ package aletheia.persistence.berkeleydb.collections.authority;
 import java.util.Comparator;
 import java.util.NoSuchElementException;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.EntityIndex;
+
 import aletheia.model.authority.DelegateTreeNode;
 import aletheia.model.authority.DelegateTreeSubNode;
 import aletheia.model.identifier.Namespace;
@@ -35,10 +39,6 @@ import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableSet;
 import aletheia.utilities.collections.CloseableSortedMap;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.EntityIndex;
 
 public class BerkeleyDBLocalDelegateTreeSubNodeMap extends AbstractCloseableMap<Namespace, DelegateTreeSubNode> implements LocalDelegateTreeSubNodeMap
 {

@@ -20,6 +20,7 @@
 package aletheia.test.gui;
 
 import java.lang.reflect.Field;
+
 import aletheia.gui.app.AletheiaJPanel;
 import aletheia.gui.app.DesktopAletheiaGUI;
 import aletheia.gui.app.DesktopAletheiaJFrame;

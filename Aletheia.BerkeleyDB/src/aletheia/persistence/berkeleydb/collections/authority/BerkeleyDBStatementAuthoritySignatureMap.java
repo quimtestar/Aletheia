@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -23,6 +23,10 @@ import java.util.AbstractSet;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.EntityIndex;
+
 import aletheia.model.authority.Signatory;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.authority.StatementAuthoritySignature;
@@ -34,10 +38,6 @@ import aletheia.persistence.collections.authority.StatementAuthoritySignatureMap
 import aletheia.utilities.collections.AbstractCloseableMap;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableSet;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.EntityIndex;
 
 public class BerkeleyDBStatementAuthoritySignatureMap extends AbstractCloseableMap<Signatory, StatementAuthoritySignature>
 		implements StatementAuthoritySignatureMap

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -26,10 +26,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import aletheia.utilities.NaturalComparator;
-
 import com.sleepycat.persist.model.KeyField;
 import com.sleepycat.persist.model.Persistent;
+
+import aletheia.utilities.NaturalComparator;
 
 public class BerkeleyDBKeyComparator<K> implements Comparator<K>
 {

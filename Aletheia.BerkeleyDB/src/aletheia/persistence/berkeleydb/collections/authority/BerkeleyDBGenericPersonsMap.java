@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -22,6 +22,9 @@ package aletheia.persistence.berkeleydb.collections.authority;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.EntityIndex;
+
 import aletheia.model.authority.Person;
 import aletheia.model.authority.Signatory;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
@@ -33,9 +36,6 @@ import aletheia.persistence.entities.authority.SignatoryEntity;
 import aletheia.utilities.collections.AbstractCloseableMap;
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
-
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.EntityIndex;
 
 public class BerkeleyDBGenericPersonsMap<S extends Signatory, SE extends SignatoryEntity, P extends Person, PE extends PersonEntity>
 		extends AbstractCloseableMap<S, P> implements GenericPersonsMap<S, P>

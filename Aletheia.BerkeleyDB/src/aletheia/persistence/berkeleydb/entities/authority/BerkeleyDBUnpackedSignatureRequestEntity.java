@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -25,15 +25,15 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import com.sleepycat.persist.model.Persistent;
+import com.sleepycat.persist.model.Relationship;
+import com.sleepycat.persist.model.SecondaryKey;
+
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBStatementEntity;
 import aletheia.persistence.entities.authority.UnpackedSignatureRequestEntity;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionSet;
-
-import com.sleepycat.persist.model.Persistent;
-import com.sleepycat.persist.model.Relationship;
-import com.sleepycat.persist.model.SecondaryKey;
 
 @Persistent(version = 3)
 public class BerkeleyDBUnpackedSignatureRequestEntity extends BerkeleyDBSignatureRequestEntity implements UnpackedSignatureRequestEntity

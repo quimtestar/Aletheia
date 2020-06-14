@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -37,8 +37,8 @@ import aletheia.peertopeer.ephemeral.message.RootContextStatementSignaturesRespo
 import aletheia.peertopeer.statement.message.PersonRequestMessage;
 import aletheia.peertopeer.statement.message.PersonResponseMessage;
 import aletheia.peertopeer.statement.message.StatementAuthoritySubMessage;
-import aletheia.peertopeer.statement.message.StatementRequestMessage;
 import aletheia.peertopeer.statement.message.StatementAuthoritySubMessage.NoValidSignature;
+import aletheia.peertopeer.statement.message.StatementRequestMessage;
 import aletheia.peertopeer.statement.message.StatementResponseMessage;
 import aletheia.persistence.collections.authority.RootContextAuthorityBySignatureUuid;
 import aletheia.protocol.ProtocolException;

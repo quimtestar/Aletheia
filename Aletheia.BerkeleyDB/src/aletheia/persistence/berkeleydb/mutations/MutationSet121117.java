@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -25,15 +25,15 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthoritySignatureEntity;
-import aletheia.security.model.SignatureData;
-
 import com.sleepycat.persist.evolve.Conversion;
 import com.sleepycat.persist.evolve.Converter;
 import com.sleepycat.persist.evolve.Deleter;
 import com.sleepycat.persist.evolve.EntityConverter;
 import com.sleepycat.persist.model.EntityModel;
 import com.sleepycat.persist.raw.RawObject;
+
+import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthoritySignatureEntity;
+import aletheia.security.model.SignatureData;
 
 public class MutationSet121117 extends MutationSet
 {

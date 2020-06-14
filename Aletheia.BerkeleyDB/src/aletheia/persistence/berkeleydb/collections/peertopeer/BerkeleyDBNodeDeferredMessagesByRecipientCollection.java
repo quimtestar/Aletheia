@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -23,6 +23,9 @@ import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.model.peertopeer.NodeDeferredMessage;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -36,9 +39,6 @@ import aletheia.persistence.collections.peertopeer.NodeDeferredMessagesByRecipie
 import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.collections.AbstractCloseableCollection;
 import aletheia.utilities.collections.CloseableIterator;
-
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBNodeDeferredMessagesByRecipientCollection extends AbstractCloseableCollection<NodeDeferredMessage>
 		implements NodeDeferredMessagesByRecipientCollection

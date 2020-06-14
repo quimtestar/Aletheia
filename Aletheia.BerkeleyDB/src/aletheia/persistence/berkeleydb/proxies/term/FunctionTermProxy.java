@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -19,11 +19,11 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.term;
 
+import com.sleepycat.persist.model.Persistent;
+
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
-
-import com.sleepycat.persist.model.Persistent;
 
 @Persistent(proxyFor = FunctionTerm.class, version = 0)
 public class FunctionTermProxy extends TermProxy<FunctionTerm>

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -28,8 +28,8 @@ import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.peertopeer.conjugal.phase.ConjugalMaleRootPhase;
 import aletheia.peertopeer.conjugal.phase.ConjugalPhase;
 import aletheia.peertopeer.conjugal.phase.MaleConjugalPhase;
-import aletheia.utilities.aborter.ListenableAborter;
 import aletheia.utilities.aborter.Aborter.AbortException;
+import aletheia.utilities.aborter.ListenableAborter;
 
 public class ConjugalMalePeerToPeerConnection extends DirectMalePeerToPeerConnection
 {

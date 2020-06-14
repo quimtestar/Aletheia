@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2017 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -19,12 +19,12 @@
  ******************************************************************************/
 package aletheia.pdfexport;
 
-import aletheia.pdfexport.font.FontManager;
-
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Phrase;
+
+import aletheia.pdfexport.font.FontManager;
 
 public class BasePhrase extends Phrase
 {

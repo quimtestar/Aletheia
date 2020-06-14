@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -23,6 +23,10 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.NoSuchElementException;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.authority.StatementAuthoritySignature;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
@@ -32,10 +36,6 @@ import aletheia.persistence.collections.authority.StatementAuthoritySignatureDat
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableSortedSet;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBStatementAuthoritySignatureDateSortedSet extends AbstractCloseableSet<StatementAuthoritySignature>
 		implements StatementAuthoritySignatureDateSortedSet

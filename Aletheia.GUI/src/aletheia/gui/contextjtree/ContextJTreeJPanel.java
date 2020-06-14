@@ -20,11 +20,13 @@
 package aletheia.gui.contextjtree;
 
 import java.awt.BorderLayout;
+
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
-import aletheia.gui.app.MainAletheiaJFrame;
+
 import aletheia.gui.app.AletheiaJPanel;
+import aletheia.gui.app.MainAletheiaJFrame;
 import aletheia.gui.authority.AuthorityJPanel;
 import aletheia.gui.common.DraggableJScrollPane;
 import aletheia.gui.common.FocusBorderManager;
