@@ -64,7 +64,7 @@ import aletheia.model.peertopeer.deferredmessagecontent.PersonsDeferredMessageCo
 import aletheia.model.peertopeer.deferredmessagecontent.SignatureRequestDeferredMessageContent;
 import aletheia.model.statement.RootContext;
 import aletheia.peertopeer.base.SubRootPhaseType;
-import aletheia.peertopeer.base.phase.LoopSubPhase.CancelledCommandException;
+import aletheia.peertopeer.base.phase.LoopSubPhase;
 import aletheia.peertopeer.base.phase.SubRootPhase;
 import aletheia.peertopeer.conjugal.ConjugalMalePeerToPeerConnection;
 import aletheia.peertopeer.conjugal.phase.ConjugalPhase;
@@ -1516,7 +1516,7 @@ public abstract class PeerToPeerNode
 					{
 						femaleConjugalPhase.femaleOpenConnection(splicedConnectionId);
 					}
-					catch (InterruptedException | CancelledCommandException | OpenConnectionException e)
+					catch (InterruptedException | LoopSubPhase.CancelledCommandException | OpenConnectionException e)
 					{
 						logger.error("Exception caught", e);
 						try
@@ -1963,7 +1963,7 @@ public abstract class PeerToPeerNode
 				throw new ConnectTimeoutException();
 			return new ConnectSocketChannel(socketChannel, null);
 		}
-		catch (InterruptedException | CancelledCommandException | OpenConnectionException e)
+		catch (InterruptedException | LoopSubPhase.CancelledCommandException | OpenConnectionException e)
 		{
 			try
 			{
@@ -2297,7 +2297,7 @@ public abstract class PeerToPeerNode
 	}
 
 	public RootContext obtainRootContext(UUID signatureUuid, ListenableAborter aborter)
-			throws InterruptedException, IOException, ConnectException, CancelledCommandException, AbortException
+			throws InterruptedException, IOException, ConnectException, LoopSubPhase.CancelledCommandException, AbortException
 	{
 		PersistenceManager persistenceManager = getPersistenceManager();
 		{
@@ -2330,7 +2330,7 @@ public abstract class PeerToPeerNode
 	}
 
 	private RootContext obtainRootContext(NodeAddress nodeAddress, UUID signatureUuid, ListenableAborter aborter)
-			throws ConnectException, IOException, InterruptedException, AbortException, CancelledCommandException
+			throws ConnectException, IOException, InterruptedException, AbortException, LoopSubPhase.CancelledCommandException
 	{
 		EphemeralMalePeerToPeerConnection connection = ephemeralConnect(nodeAddress);
 		try
@@ -2348,7 +2348,7 @@ public abstract class PeerToPeerNode
 	}
 
 	private RootContext obtainRootContext(NodeAddress nodeAddress, UUID signatureUuid)
-			throws ConnectException, IOException, InterruptedException, CancelledCommandException
+			throws ConnectException, IOException, InterruptedException, LoopSubPhase.CancelledCommandException
 	{
 		try
 		{
@@ -2361,7 +2361,7 @@ public abstract class PeerToPeerNode
 	}
 
 	private void transmitRootContext(NodeAddress nodeAddress, UUID signatureUuid, ListenableAborter aborter)
-			throws ConnectException, IOException, InterruptedException, AbortException, CancelledCommandException
+			throws ConnectException, IOException, InterruptedException, AbortException, LoopSubPhase.CancelledCommandException
 	{
 		EphemeralMalePeerToPeerConnection connection = ephemeralConnect(nodeAddress);
 		try
@@ -2378,7 +2378,7 @@ public abstract class PeerToPeerNode
 	}
 
 	private void transmitRootContext(NodeAddress nodeAddress, UUID signatureUuid)
-			throws ConnectException, IOException, InterruptedException, CancelledCommandException
+			throws ConnectException, IOException, InterruptedException, LoopSubPhase.CancelledCommandException
 	{
 		try
 		{
@@ -2391,7 +2391,7 @@ public abstract class PeerToPeerNode
 	}
 
 	public boolean sendSignatureRequest(Person person, SignatureRequest signatureRequest, ListenableAborter aborter)
-			throws InterruptedException, IOException, ConnectException, AbortException, CancelledCommandException
+			throws InterruptedException, IOException, ConnectException, AbortException, LoopSubPhase.CancelledCommandException
 	{
 		ResourceInfo resourceInfo = locateResource(new PrivatePersonResource(person.getUuid()));
 		if (resourceInfo != null)
@@ -2417,7 +2417,7 @@ public abstract class PeerToPeerNode
 	}
 
 	private boolean sendDeferredSignatureRequest(Person person, SignatureRequest signatureRequest, ListenableAborter aborter)
-			throws IOException, ConnectException, InterruptedException, AbortException, CancelledCommandException
+			throws IOException, ConnectException, InterruptedException, AbortException, LoopSubPhase.CancelledCommandException
 	{
 		Transaction transaction = getPersistenceManager().beginTransaction();
 		try
@@ -2435,7 +2435,7 @@ public abstract class PeerToPeerNode
 	}
 
 	private boolean sendDeferredMessage(UUID recipientUuid, DeferredMessageContent content, ListenableAborter aborter)
-			throws IOException, ConnectException, InterruptedException, AbortException, CancelledCommandException
+			throws IOException, ConnectException, InterruptedException, AbortException, LoopSubPhase.CancelledCommandException
 	{
 		NodeAddress closest = closestNodeAddress(recipientUuid);
 		if (closest.getUuid().equals(getNodeUuid()))
@@ -2466,7 +2466,7 @@ public abstract class PeerToPeerNode
 
 	@Deprecated
 	public boolean sendDeferredMessage(UUID recipientUuid, aletheia.model.peertopeer.deferredmessagecontent.DummyDeferredMessageContent content,
-			ListenableAborter aborter) throws IOException, ConnectException, InterruptedException, AbortException, CancelledCommandException
+			ListenableAborter aborter) throws IOException, ConnectException, InterruptedException, AbortException, LoopSubPhase.CancelledCommandException
 	{
 		return sendDeferredMessage(recipientUuid, (DeferredMessageContent) content, aborter);
 	}
@@ -2498,7 +2498,7 @@ public abstract class PeerToPeerNode
 				{
 					obtainRootContext(nodeAddress, metadata.getResource().getUuid());
 				}
-				catch (CancelledCommandException e)
+				catch (LoopSubPhase.CancelledCommandException e)
 				{
 					logger.error(e.getMessage(), e);
 				}
@@ -2509,7 +2509,7 @@ public abstract class PeerToPeerNode
 				{
 					transmitRootContext(nodeAddress, metadata.getResource().getUuid());
 				}
-				catch (CancelledCommandException e)
+				catch (LoopSubPhase.CancelledCommandException e)
 				{
 					logger.error(e.getMessage(), e);
 				}
@@ -2578,7 +2578,7 @@ public abstract class PeerToPeerNode
 	}
 
 	public boolean sendPersons(Person recipient, Collection<Person> persons, ListenableAborter aborter)
-			throws InterruptedException, AbortException, ConnectException, IOException, CancelledCommandException
+			throws InterruptedException, AbortException, ConnectException, IOException, LoopSubPhase.CancelledCommandException
 	{
 		ResourceInfo resourceInfo = locateResource(new PrivatePersonResource(recipient.getUuid()));
 		if (resourceInfo != null)
@@ -2606,7 +2606,7 @@ public abstract class PeerToPeerNode
 	}
 
 	private boolean sendDeferredPersons(Person recipient, Collection<Person> persons, ListenableAborter aborter)
-			throws IOException, ConnectException, InterruptedException, AbortException, CancelledCommandException
+			throws IOException, ConnectException, InterruptedException, AbortException, LoopSubPhase.CancelledCommandException
 	{
 		Transaction transaction = getPersistenceManager().beginTransaction();
 		try
@@ -2921,7 +2921,7 @@ public abstract class PeerToPeerNode
 	}
 
 	public boolean transmitDeferredMessages(UUID recipientUuid, Collection<DeferredMessage> deferredMessages)
-			throws InterruptedException, IOException, ConnectException, CancelledCommandException
+			throws InterruptedException, IOException, ConnectException, LoopSubPhase.CancelledCommandException
 	{
 		PrivatePersonResource privatePersonResourceMetadata = new PrivatePersonResource(recipientUuid);
 		if (isLocalResource(privatePersonResourceMetadata))

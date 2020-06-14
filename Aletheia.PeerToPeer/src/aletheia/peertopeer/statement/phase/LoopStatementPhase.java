@@ -37,7 +37,7 @@ import aletheia.model.local.StatementLocal;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
-import aletheia.peertopeer.base.dialog.Dialog.DialogStreamException;
+import aletheia.peertopeer.base.dialog.Dialog;
 import aletheia.peertopeer.base.phase.LoopSubPhase;
 import aletheia.peertopeer.statement.PendingPersistentDataChanges;
 import aletheia.peertopeer.statement.RemoteSubscription;
@@ -310,7 +310,8 @@ public class LoopStatementPhase extends StatementSubPhase
 		}
 
 		@Override
-		protected boolean serverPhase(LoopStatementDialogType loopDialogType) throws IOException, ProtocolException, InterruptedException, DialogStreamException
+		protected boolean serverPhase(LoopStatementDialogType loopDialogType)
+				throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 		{
 			switch (loopDialogType)
 			{
@@ -339,7 +340,7 @@ public class LoopStatementPhase extends StatementSubPhase
 
 		@Override
 		protected boolean clientPhase(LoopSubPhase<LoopStatementDialogType>.Command<?> command)
-				throws IOException, ProtocolException, InterruptedException, DialogStreamException
+				throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 		{
 			switch (command.getLoopDialogType())
 			{
@@ -367,7 +368,7 @@ public class LoopStatementPhase extends StatementSubPhase
 		}
 
 		@Override
-		protected void loopPhaseTerminate() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+		protected void loopPhaseTerminate() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 		{
 			super.loopPhaseTerminate();
 			contextStateUnlistenAll();
@@ -564,52 +565,52 @@ public class LoopStatementPhase extends StatementSubPhase
 			}
 		}
 
-		private void statementSubscriptionLoopDialogClient() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+		private void statementSubscriptionLoopDialogClient() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 		{
 			dialog(StatementSubscriptionLoopDialogClient.class, this);
 		}
 
-		private void statementSubscriptionLoopDialogServer() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+		private void statementSubscriptionLoopDialogServer() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 		{
 			dialog(StatementSubscriptionLoopDialogServer.class, this);
 		}
 
-		private void newStatementsLoopDialogClient() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+		private void newStatementsLoopDialogClient() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 		{
 			dialog(NewStatementsLoopDialogClient.class, this);
 		}
 
-		private void newStatementsLoopDialogServer() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+		private void newStatementsLoopDialogServer() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 		{
 			dialog(NewStatementsLoopDialogServer.class, this);
 		}
 
-		private void statementProofSubscriptionLoopDialogClient() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+		private void statementProofSubscriptionLoopDialogClient() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 		{
 			statementProofSubPhase(StatementProofSubscriptionLoopDialogClient.class, this);
 		}
 
-		private void statementProofSubscriptionLoopDialogServer() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+		private void statementProofSubscriptionLoopDialogServer() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 		{
 			statementProofSubPhase(StatementProofSubscriptionLoopDialogServer.class, this);
 		}
 
-		private void newSignedProofsLoopDialogClient() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+		private void newSignedProofsLoopDialogClient() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 		{
 			statementProofSubPhase(NewSignedProofsLoopDialogClient.class, this);
 		}
 
-		private void newSignedProofsLoopDialogServer() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+		private void newSignedProofsLoopDialogServer() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 		{
 			statementProofSubPhase(NewSignedProofsLoopDialogServer.class, this);
 		}
 
-		private void delegateTreeDialogClient() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+		private void delegateTreeDialogClient() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 		{
 			dialog(DelegateTreeDialogClient.class, this);
 		}
 
-		private void delegateTreeDialogServer() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+		private void delegateTreeDialogServer() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 		{
 			dialog(DelegateTreeDialogServer.class, this);
 		}
@@ -667,7 +668,7 @@ public class LoopStatementPhase extends StatementSubPhase
 	}
 
 	@Override
-	public void run() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+	public void run() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		loopStatementSubPhase.run();
 	}

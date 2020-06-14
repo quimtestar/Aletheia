@@ -959,7 +959,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 					if (closest.routerSetNeighbour())
 						break;
 				}
-				catch (CancelledCommandException e)
+				catch (LoopSubPhase.CancelledCommandException e)
 				{
 				}
 				Thread.sleep(closestConnectRetryTime);

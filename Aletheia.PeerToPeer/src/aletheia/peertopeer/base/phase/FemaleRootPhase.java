@@ -24,7 +24,7 @@ import java.util.Set;
 
 import aletheia.peertopeer.PeerToPeerConnection;
 import aletheia.peertopeer.base.SubRootPhaseType;
-import aletheia.peertopeer.base.dialog.Dialog.DialogStreamException;
+import aletheia.peertopeer.base.dialog.Dialog;
 import aletheia.peertopeer.base.dialog.SalutationDialogFemale;
 import aletheia.peertopeer.base.dialog.SubRootPhaseDialogPassive;
 import aletheia.protocol.ProtocolException;
@@ -40,13 +40,13 @@ public class FemaleRootPhase extends RootPhase
 	}
 
 	private SubRootPhaseDialogPassive subRootPhaseDialogPassive(Set<SubRootPhaseType> acceptedTypes)
-			throws IOException, ProtocolException, InterruptedException, DialogStreamException
+			throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		return dialog(SubRootPhaseDialogPassive.class, this, acceptedTypes);
 	}
 
 	@Override
-	protected SubRootPhaseType subRootPhaseDialog() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+	protected SubRootPhaseType subRootPhaseDialog() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		SubRootPhaseDialogPassive subRootPhaseDialogPassive = subRootPhaseDialogPassive(acceptedSubRootPhaseTypes);
 		if (subRootPhaseDialogPassive.isAcknowledged())
@@ -57,7 +57,7 @@ public class FemaleRootPhase extends RootPhase
 
 	@Override
 	protected SalutationDialogFemale salutationDialog(int localProtocolVersion)
-			throws IOException, ProtocolException, InterruptedException, DialogStreamException
+			throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		return dialog(SalutationDialogFemale.class, this, localProtocolVersion);
 	}
