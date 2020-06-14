@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -20,6 +20,7 @@
 package aletheia.peertopeer.network.dialog;
 
 import java.io.IOException;
+
 import aletheia.peertopeer.base.phase.Phase;
 import aletheia.peertopeer.network.CumulationSet;
 import aletheia.peertopeer.network.message.RouterCumulationMessage;

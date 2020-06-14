@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.util.Arrays;
 import java.util.Collection;
+
 import aletheia.model.identifier.Identifier;
 import aletheia.model.parameteridentification.FunctionParameterIdentification;
 import aletheia.model.parameteridentification.ParameterIdentification;
@@ -39,11 +40,11 @@ import aletheia.parser.parameteridentification.semantic.P__I_colon_T_TokenReduce
 import aletheia.parser.parameteridentification.semantic.P___TokenReducer;
 import aletheia.parser.parameteridentification.semantic.P__colon_T_TokenReducer;
 import aletheia.parser.parameteridentification.semantic.T__Ts_TokenReducer;
-import aletheia.parser.parameteridentification.semantic.Ts__Tk_TokenReducer;
-import aletheia.parser.parameteridentification.semantic.Ts__Ts_Tk_TokenReducer;
 import aletheia.parser.parameteridentification.semantic.T___TokenReducer;
 import aletheia.parser.parameteridentification.semantic.Tk__F_TokenReducer;
 import aletheia.parser.parameteridentification.semantic.Tk__openpar_T_closepar_TokenReducer;
+import aletheia.parser.parameteridentification.semantic.Ts__Tk_TokenReducer;
+import aletheia.parser.parameteridentification.semantic.Ts__Ts_Tk_TokenReducer;
 import aletheia.parsergenerator.ParserBaseException;
 import aletheia.parsergenerator.lexer.AutomatonSet;
 import aletheia.parsergenerator.lexer.AutomatonSetLexer;

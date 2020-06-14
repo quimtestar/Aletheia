@@ -34,7 +34,6 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.AbstractCommandFactory.CompletionSet.Completion;
 import aletheia.gui.cli.command.Command.CommandParseEmbeddedException;
 import aletheia.gui.cli.command.Command.CommandParseException;
@@ -48,8 +47,8 @@ import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NamespaceExtreme;
 import aletheia.model.identifier.NodeNamespace;
-import aletheia.model.identifier.RootNamespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
+import aletheia.model.identifier.RootNamespace;
 import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;

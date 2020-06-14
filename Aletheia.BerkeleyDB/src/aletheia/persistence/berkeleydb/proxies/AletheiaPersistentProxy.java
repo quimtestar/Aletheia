@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -19,9 +19,9 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies;
 
-import aletheia.persistence.berkeleydb.exceptions.BerkeleyDBPersistenceException;
-
 import com.sleepycat.persist.model.PersistentProxy;
+
+import aletheia.persistence.berkeleydb.exceptions.BerkeleyDBPersistenceException;
 
 public interface AletheiaPersistentProxy<T> extends PersistentProxy<T>
 {

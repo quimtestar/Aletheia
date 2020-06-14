@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2015 Quim Testar.
+ * Copyright (c) 2015, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JOptionPane;
+
 import aletheia.gui.menu.AletheiaMenuAction;
 import aletheia.utilities.MiscUtilities;
 import aletheia.version.VersionManager;

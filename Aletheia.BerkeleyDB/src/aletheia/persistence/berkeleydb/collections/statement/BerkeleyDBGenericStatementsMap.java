@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -21,6 +21,10 @@ package aletheia.persistence.berkeleydb.collections.statement;
 
 import java.util.NoSuchElementException;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.EntityIndex;
+
 import aletheia.model.statement.Statement;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
@@ -32,10 +36,6 @@ import aletheia.utilities.collections.AbstractCloseableMap;
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableSet;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.EntityIndex;
 
 public abstract class BerkeleyDBGenericStatementsMap<S extends Statement, E extends BerkeleyDBStatementEntity>
 		extends AbstractCloseableMap<IdentifiableVariableTerm, S> implements GenericStatementsMap<S>

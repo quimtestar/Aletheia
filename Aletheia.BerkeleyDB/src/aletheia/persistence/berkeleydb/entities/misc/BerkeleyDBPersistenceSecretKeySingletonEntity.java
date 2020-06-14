@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -19,10 +19,10 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.entities.misc;
 
-import aletheia.persistence.entities.misc.PersistenceSecretKeySingletonEntity;
-
 import com.sleepycat.persist.model.Entity;
 import com.sleepycat.persist.model.PrimaryKey;
+
+import aletheia.persistence.entities.misc.PersistenceSecretKeySingletonEntity;
 
 @Entity(version = 1)
 public class BerkeleyDBPersistenceSecretKeySingletonEntity implements PersistenceSecretKeySingletonEntity

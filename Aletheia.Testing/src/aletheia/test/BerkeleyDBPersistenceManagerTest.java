@@ -21,8 +21,8 @@ package aletheia.test;
 
 import java.io.File;
 
-import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceConfiguration;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 
 public abstract class BerkeleyDBPersistenceManagerTest extends PersistenceManagerTest<BerkeleyDBPersistenceManager>
 {

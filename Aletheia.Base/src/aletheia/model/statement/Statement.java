@@ -40,6 +40,7 @@ import java.util.UUID;
 import java.util.function.Function;
 
 import org.apache.logging.log4j.Logger;
+
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.AuthorityException;
 import aletheia.model.authority.Person;
@@ -60,12 +61,12 @@ import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.statement.Context.CantDeleteAssumptionException;
 import aletheia.model.statement.Context.StatementHasDependentsException;
 import aletheia.model.statement.Context.StatementNotInContextException;
-import aletheia.model.term.ProjectionCastTypeTerm;
 import aletheia.model.term.CastTypeTerm.CastTypeException;
 import aletheia.model.term.FoldingCastTypeTerm;
 import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.ParameterVariableTerm;
+import aletheia.model.term.ProjectionCastTypeTerm;
 import aletheia.model.term.SimpleTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.ComposeTypeException;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -28,16 +28,16 @@ import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.FemalePeerToPeerNode;
-import aletheia.peertopeer.MalePeerToPeerNode;
 import aletheia.peertopeer.FemalePeerToPeerNode.ExternalServerSocketManagerException;
+import aletheia.peertopeer.MalePeerToPeerNode;
 import aletheia.peertopeer.PeerToPeerNode;
+import aletheia.peertopeer.PeerToPeerNode.ConnectException;
 import aletheia.peertopeer.PeerToPeerNode.InternalServerSocketManagerException;
 import aletheia.peertopeer.PeerToPeerNodeProperties;
-import aletheia.peertopeer.PeerToPeerNode.ConnectException;
 import aletheia.peertopeer.standalone.StandAlonePeerToPeerNodeSubscriptions.ConfigurationException;
 import aletheia.persistence.PersistenceManager;
-import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceConfiguration;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.utilities.CommandLineArguments;
 import aletheia.version.VersionManager;
 

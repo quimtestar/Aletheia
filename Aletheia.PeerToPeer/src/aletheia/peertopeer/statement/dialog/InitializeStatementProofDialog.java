@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -20,6 +20,7 @@
 package aletheia.peertopeer.statement.dialog;
 
 import java.util.Stack;
+
 import aletheia.peertopeer.base.phase.Phase;
 
 public abstract class InitializeStatementProofDialog extends StatementProofDialog

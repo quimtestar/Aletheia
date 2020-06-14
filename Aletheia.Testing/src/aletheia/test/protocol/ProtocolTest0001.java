@@ -25,11 +25,12 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
+
 import aletheia.model.statement.Statement;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
-import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceConfiguration;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.protocol.ProtocolException;
 import aletheia.test.TransactionalBerkeleyDBPersistenceManagerTest;
 import aletheia.utilities.collections.AdaptedCollection;

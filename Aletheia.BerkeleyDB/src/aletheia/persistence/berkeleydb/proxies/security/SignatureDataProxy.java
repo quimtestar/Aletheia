@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -19,10 +19,10 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.security;
 
+import com.sleepycat.persist.model.Persistent;
+
 import aletheia.persistence.berkeleydb.proxies.AletheiaPersistentProxy;
 import aletheia.security.model.SignatureData;
-
-import com.sleepycat.persist.model.Persistent;
 
 @Persistent(version = 0, proxyFor = SignatureData.class)
 public class SignatureDataProxy implements AletheiaPersistentProxy<SignatureData>

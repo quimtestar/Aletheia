@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -21,6 +21,10 @@ package aletheia.persistence.berkeleydb.collections.statement;
 
 import java.util.NoSuchElementException;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.model.statement.Declaration;
 import aletheia.model.statement.UnfoldingContext;
 import aletheia.persistence.PersistenceManager;
@@ -33,10 +37,6 @@ import aletheia.persistence.collections.statement.UnfoldingContextsByDeclaration
 import aletheia.persistence.entities.statement.UnfoldingContextEntity;
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.SecondaryIndex;
 
 public class BerkeleyDBUnfoldingContextsByDeclaration extends AbstractCloseableSet<UnfoldingContext> implements UnfoldingContextsByDeclaration
 {

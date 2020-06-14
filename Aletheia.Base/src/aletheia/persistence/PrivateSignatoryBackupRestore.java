@@ -31,9 +31,9 @@ import java.util.Collection;
 
 import aletheia.model.authority.Person;
 import aletheia.model.authority.Person.PersonCreationException;
-import aletheia.model.authority.protocol.PrivateSignatoryProtocol;
 import aletheia.model.authority.PrivatePerson;
 import aletheia.model.authority.PrivateSignatory;
+import aletheia.model.authority.protocol.PrivateSignatoryProtocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.VersionProtocol;

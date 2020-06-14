@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -36,8 +36,8 @@ import aletheia.log4j.LoggerManager;
 import aletheia.model.peertopeer.DeferredMessage;
 import aletheia.model.peertopeer.Hook;
 import aletheia.peertopeer.NodeAddress;
-import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.peertopeer.PeerToPeerConnection.Gender;
+import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.peertopeer.PeerToPeerNode.ConnectException;
 import aletheia.peertopeer.base.dialog.Dialog.DialogStreamException;
 import aletheia.peertopeer.base.phase.LoopSubPhase.CancelledCommandException;

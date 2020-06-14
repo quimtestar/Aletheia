@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -19,10 +19,10 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.identifier;
 
+import com.sleepycat.persist.model.Persistent;
+
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace;
-
-import com.sleepycat.persist.model.Persistent;
 
 @Persistent(version = 0)
 public abstract class AbstractNodeNamespaceProxy<N extends NodeNamespace> extends NamespaceProxy<N>

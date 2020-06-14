@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -27,8 +27,8 @@ import aletheia.gui.contextjtree.node.ContextSorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.RootContextGroupSorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.SorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.StatementContextJTreeNode;
-import aletheia.gui.contextjtree.node.StatementSorterContextJTreeNode;
 import aletheia.gui.contextjtree.node.StatementGroupSorterContextJTreeNode;
+import aletheia.gui.contextjtree.node.StatementSorterContextJTreeNode;
 import aletheia.gui.contextjtree.sorter.ContextSorter;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
 import aletheia.gui.contextjtree.sorter.RootContextGroupSorter;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2017 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -19,9 +19,9 @@
  ******************************************************************************/
 package aletheia.persistence.berkeleydb.proxies.term;
 
-import aletheia.model.term.TauTerm;
-
 import com.sleepycat.persist.model.Persistent;
+
+import aletheia.model.term.TauTerm;
 
 @Persistent(proxyFor = TauTerm.class, version = 1)
 public class TauTermProxy extends AtomicTermProxy<TauTerm>

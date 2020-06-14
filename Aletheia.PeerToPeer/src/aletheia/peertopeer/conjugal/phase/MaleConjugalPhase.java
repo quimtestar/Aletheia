@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2015 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -24,8 +24,8 @@ import java.net.InetSocketAddress;
 import java.util.Collection;
 import java.util.UUID;
 
-import aletheia.peertopeer.SplicedConnectionId;
 import aletheia.peertopeer.MalePeerToPeerNode;
+import aletheia.peertopeer.SplicedConnectionId;
 import aletheia.peertopeer.base.dialog.Dialog.DialogStreamException;
 import aletheia.peertopeer.base.phase.LoopSubPhase.CancelledCommandException;
 import aletheia.peertopeer.conjugal.dialog.FemaleOpenConnectionDialogMale;

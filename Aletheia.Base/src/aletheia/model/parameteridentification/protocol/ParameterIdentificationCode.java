@@ -24,9 +24,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import aletheia.model.parameteridentification.ParameterIdentification;
-import aletheia.model.parameteridentification.FunctionParameterIdentification;
 import aletheia.model.parameteridentification.CompositionParameterIdentification;
+import aletheia.model.parameteridentification.FunctionParameterIdentification;
+import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.protocol.enumerate.ByteExportableEnum;
 import aletheia.protocol.enumerate.ExportableEnumInfo;
 

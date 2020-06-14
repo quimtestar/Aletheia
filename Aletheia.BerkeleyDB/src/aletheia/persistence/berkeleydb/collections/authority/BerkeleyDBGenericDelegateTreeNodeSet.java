@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -21,6 +21,11 @@ package aletheia.persistence.berkeleydb.collections.authority;
 
 import java.util.NoSuchElementException;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.EntityIndex;
+import com.sleepycat.persist.PrimaryIndex;
+
 import aletheia.model.authority.DelegateTreeNode;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
@@ -30,11 +35,6 @@ import aletheia.persistence.collections.authority.GenericDelegateTreeNodeSet;
 import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.EntityIndex;
-import com.sleepycat.persist.PrimaryIndex;
 
 public abstract class BerkeleyDBGenericDelegateTreeNodeSet<N extends DelegateTreeNode, E extends BerkeleyDBDelegateTreeNodeEntity>
 		extends AbstractCloseableSet<N> implements GenericDelegateTreeNodeSet<N>

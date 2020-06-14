@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -21,14 +21,14 @@ package aletheia.persistence.berkeleydb.entities.statement;
 
 import java.util.UUID;
 
+import com.sleepycat.persist.model.Persistent;
+import com.sleepycat.persist.model.Relationship;
+import com.sleepycat.persist.model.SecondaryKey;
+
 import aletheia.model.parameteridentification.ParameterIdentification;
 import aletheia.model.term.Term;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.entities.statement.SpecializationEntity;
-
-import com.sleepycat.persist.model.Persistent;
-import com.sleepycat.persist.model.Relationship;
-import com.sleepycat.persist.model.SecondaryKey;
 
 @Persistent(version = 2)
 public class BerkeleyDBSpecializationEntity extends BerkeleyDBStatementEntity implements SpecializationEntity

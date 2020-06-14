@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -19,6 +19,12 @@
  ******************************************************************************/
 package aletheia.pdfexport.statement;
 
+import java.util.Map;
+
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+
 import aletheia.model.identifier.Identifier;
 import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
@@ -34,12 +40,6 @@ import aletheia.pdfexport.term.IdentifiableVariableTermAnchorPhrase;
 import aletheia.pdfexport.term.TermPhrase;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
-
-import java.util.Map;
-
-import com.itextpdf.text.BaseColor;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
 
 public abstract class StatementTable extends StatementOrConsequentTable
 {

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -22,6 +22,10 @@ package aletheia.persistence.berkeleydb.collections.local;
 import java.util.NoSuchElementException;
 import java.util.UUID;
 
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.EntityIndex;
+
 import aletheia.model.local.ContextLocal;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
@@ -30,10 +34,6 @@ import aletheia.persistence.berkeleydb.entities.local.BerkeleyDBContextLocalEnti
 import aletheia.persistence.collections.local.SubscribeStatementsContextLocalSet;
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.EntityIndex;
 
 public class BerkeleyDBSubscribeStatementsContextLocalSet extends AbstractCloseableSet<ContextLocal> implements SubscribeStatementsContextLocalSet
 {

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -38,6 +38,13 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import org.apache.logging.log4j.Logger;
+
+import com.sleepycat.je.DatabaseException;
+import com.sleepycat.je.DeleteConstraintException;
+import com.sleepycat.je.EnvironmentNotFoundException;
+import com.sleepycat.je.LockTimeoutException;
+import com.sleepycat.je.TransactionConfig;
+import com.sleepycat.je.UniqueConstraintException;
 
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.ContextAuthority;
@@ -210,13 +217,6 @@ import aletheia.persistence.exceptions.PersistenceDeleteConstraintException;
 import aletheia.persistence.exceptions.PersistenceException;
 import aletheia.persistence.exceptions.PersistenceUniqueConstraintException;
 import aletheia.protocol.ProtocolException;
-
-import com.sleepycat.je.DatabaseException;
-import com.sleepycat.je.DeleteConstraintException;
-import com.sleepycat.je.EnvironmentNotFoundException;
-import com.sleepycat.je.LockTimeoutException;
-import com.sleepycat.je.TransactionConfig;
-import com.sleepycat.je.UniqueConstraintException;
 
 /**
  * Implementation of the {@link PersistenceManager} that makes use of the

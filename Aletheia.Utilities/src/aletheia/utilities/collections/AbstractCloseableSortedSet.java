@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016 Quim Testar.
+ * Copyright (c) 2016, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -20,6 +20,7 @@
 package aletheia.utilities.collections;
 
 import java.util.Iterator;
+import java.util.SortedSet;
 
 /**
  * An abstract implementation of a {@link SortedSet} whose {@link Iterator} is a

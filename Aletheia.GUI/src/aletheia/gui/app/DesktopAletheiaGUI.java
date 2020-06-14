@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -40,13 +40,13 @@ import aletheia.gui.preferences.GUIAletheiaPreferences;
 import aletheia.gui.preferences.PersistenceClass;
 import aletheia.log4j.LoggerManager;
 import aletheia.persistence.PersistenceManager;
-import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceConfiguration;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.gui.PersistenceGUIFactory.CreatePersistenceManagerException;
 import aletheia.utilities.CommandLineArguments;
-import aletheia.utilities.MiscUtilities;
 import aletheia.utilities.CommandLineArguments.Option;
 import aletheia.utilities.CommandLineArguments.Switch;
+import aletheia.utilities.MiscUtilities;
 
 public class DesktopAletheiaGUI extends AletheiaGUI
 {

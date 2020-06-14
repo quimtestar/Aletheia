@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -22,15 +22,15 @@ package aletheia.persistence.berkeleydb.entities.peertopeer;
 import java.util.Date;
 import java.util.UUID;
 
-import aletheia.persistence.berkeleydb.entities.UUIDKey;
-import aletheia.persistence.entities.peertopeer.NodeDeferredMessageEntity;
-
 import com.sleepycat.persist.model.Entity;
 import com.sleepycat.persist.model.KeyField;
 import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.PrimaryKey;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
+
+import aletheia.persistence.berkeleydb.entities.UUIDKey;
+import aletheia.persistence.entities.peertopeer.NodeDeferredMessageEntity;
 
 @Entity
 public class BerkeleyDBNodeDeferredMessageEntity implements NodeDeferredMessageEntity

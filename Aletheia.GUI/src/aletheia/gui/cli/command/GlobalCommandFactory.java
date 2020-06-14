@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -36,7 +36,6 @@ import java.util.TreeMap;
 
 import org.apache.logging.log4j.Logger;
 
-import aletheia.gui.cli.command.CommandSource;
 import aletheia.gui.cli.command.Command.CommandException;
 import aletheia.gui.cli.command.Command.CommandParseException;
 import aletheia.gui.cli.command.CommandGroup.CommandGroupException;

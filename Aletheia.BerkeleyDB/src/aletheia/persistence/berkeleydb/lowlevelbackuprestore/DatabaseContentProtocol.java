@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2015 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -23,19 +23,19 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import aletheia.protocol.Protocol;
-import aletheia.protocol.ProtocolException;
-import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.enumerate.ByteExportableEnum;
-import aletheia.protocol.enumerate.ByteExportableEnumProtocol;
-import aletheia.protocol.enumerate.ExportableEnumInfo;
-
 import com.sleepycat.je.Database;
 import com.sleepycat.je.DatabaseEntry;
 import com.sleepycat.je.DiskOrderedCursor;
 import com.sleepycat.je.DiskOrderedCursorConfig;
 import com.sleepycat.je.LockMode;
 import com.sleepycat.je.OperationStatus;
+
+import aletheia.protocol.Protocol;
+import aletheia.protocol.ProtocolException;
+import aletheia.protocol.ProtocolInfo;
+import aletheia.protocol.enumerate.ByteExportableEnum;
+import aletheia.protocol.enumerate.ByteExportableEnumProtocol;
+import aletheia.protocol.enumerate.ExportableEnumInfo;
 
 @ProtocolInfo(availableVersions = 0)
 class DatabaseContentProtocol extends Protocol<Void>

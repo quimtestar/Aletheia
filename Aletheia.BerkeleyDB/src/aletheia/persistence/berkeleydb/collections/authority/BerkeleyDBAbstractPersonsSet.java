@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -21,6 +21,9 @@ package aletheia.persistence.berkeleydb.collections.authority;
 
 import java.util.NoSuchElementException;
 
+import com.sleepycat.persist.EntityCursor;
+import com.sleepycat.persist.SecondaryIndex;
+
 import aletheia.model.authority.Person;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
@@ -30,9 +33,6 @@ import aletheia.persistence.berkeleydb.utilities.BerkeleyDBKeyComparator;
 import aletheia.persistence.collections.authority.PersonsSet;
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
-
-import com.sleepycat.persist.EntityCursor;
-import com.sleepycat.persist.SecondaryIndex;
 
 public abstract class BerkeleyDBAbstractPersonsSet<K> extends AbstractCloseableSet<Person> implements PersonsSet
 {

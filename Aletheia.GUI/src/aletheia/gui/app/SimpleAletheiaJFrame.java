@@ -40,6 +40,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
+
 import org.apache.logging.log4j.Logger;
 
 import aletheia.common.AletheiaConstants;
@@ -53,8 +54,8 @@ import aletheia.model.statement.Statement;
 import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
-import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceConfiguration;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 
 public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 {

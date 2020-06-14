@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -21,9 +21,9 @@ package aletheia.persistence.berkeleydb.proxies.term;
 
 import java.util.UUID;
 
-import aletheia.model.term.IdentifiableVariableTerm;
-
 import com.sleepycat.persist.model.Persistent;
+
+import aletheia.model.term.IdentifiableVariableTerm;
 
 @Persistent(proxyFor = IdentifiableVariableTerm.class, version = 0)
 public class IdentifiableVariableTermProxy extends VariableTermProxy<IdentifiableVariableTerm>

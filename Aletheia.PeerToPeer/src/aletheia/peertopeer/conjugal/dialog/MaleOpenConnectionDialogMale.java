@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -27,9 +27,9 @@ import java.util.UUID;
 import aletheia.peertopeer.SplicedConnectionId;
 import aletheia.peertopeer.base.message.NonPersistentMessage;
 import aletheia.peertopeer.base.phase.Phase;
-import aletheia.peertopeer.conjugal.message.OpenConnectionSocketAddressMessage;
 import aletheia.peertopeer.conjugal.message.OpenConnectionErrorMessage;
 import aletheia.peertopeer.conjugal.message.OpenConnectionExpectedPeerNodeUuidMessage;
+import aletheia.peertopeer.conjugal.message.OpenConnectionSocketAddressMessage;
 import aletheia.peertopeer.conjugal.message.OpenConnectionSplicedConnectionIdMessage;
 import aletheia.protocol.ProtocolException;
 import aletheia.utilities.io.NonBlockingSocketChannelStream.TimeoutException;

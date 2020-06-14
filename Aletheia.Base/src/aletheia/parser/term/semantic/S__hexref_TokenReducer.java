@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2018 Quim Testar
+ * Copyright (c) 2018, 2020 Quim Testar
  * 
  * This file is part of the Aletheia Proof Assistant.
  * 
@@ -20,6 +20,7 @@
 package aletheia.parser.term.semantic;
 
 import java.util.List;
+
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.parser.term.TermParser.Globals;

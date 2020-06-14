@@ -27,8 +27,8 @@ import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.model.statement.UnfoldingContext;
 import aletheia.persistence.Transaction;
-import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceConfiguration;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.test.Test;
 
 public class LocalTest0000 extends Test

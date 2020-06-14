@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -29,9 +29,9 @@ import aletheia.peertopeer.base.protocol.MessageSubProtocol;
 import aletheia.peertopeer.conjugal.message.LoopConjugalDialogTypeAcknowledgeMessage;
 import aletheia.peertopeer.conjugal.message.LoopConjugalDialogTypeRequestMessage;
 import aletheia.peertopeer.conjugal.message.OpenConnectionAcceptedMessage;
-import aletheia.peertopeer.conjugal.message.OpenConnectionSocketAddressMessage;
 import aletheia.peertopeer.conjugal.message.OpenConnectionErrorMessage;
 import aletheia.peertopeer.conjugal.message.OpenConnectionExpectedPeerNodeUuidMessage;
+import aletheia.peertopeer.conjugal.message.OpenConnectionSocketAddressMessage;
 import aletheia.peertopeer.conjugal.message.OpenConnectionSplicedConnectionIdMessage;
 import aletheia.peertopeer.conjugal.message.UpdateMaleNodeUuidsMessage;
 import aletheia.peertopeer.ephemeral.message.LoopEphemeralDialogTypeAcknowledgeMessage;

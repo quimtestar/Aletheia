@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -21,14 +21,14 @@ package aletheia.pdfexport.document;
 
 import java.io.OutputStream;
 
-import aletheia.model.statement.Context;
-import aletheia.persistence.Transaction;
-
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfWriter;
+
+import aletheia.model.statement.Context;
+import aletheia.persistence.Transaction;
 
 public abstract class ContextDocument extends Document
 {

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -21,12 +21,12 @@ package aletheia.persistence.berkeleydb.entities.authority;
 
 import java.util.UUID;
 
-import aletheia.persistence.berkeleydb.entities.UUIDKey;
-import aletheia.persistence.entities.authority.RootContextAuthorityEntity;
-
 import com.sleepycat.persist.model.Persistent;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
+
+import aletheia.persistence.berkeleydb.entities.UUIDKey;
+import aletheia.persistence.entities.authority.RootContextAuthorityEntity;
 
 @Persistent(version = 0)
 public class BerkeleyDBRootContextAuthorityEntity extends BerkeleyDBContextAuthorityEntity implements RootContextAuthorityEntity
