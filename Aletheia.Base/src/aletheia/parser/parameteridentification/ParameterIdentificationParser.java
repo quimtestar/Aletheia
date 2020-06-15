@@ -111,7 +111,7 @@ public class ParameterIdentificationParser extends Parser
 
 	private static TransitionTable loadTransitionTable()
 	{
-		try (InputStream is = ClassLoader.getSystemResourceAsStream(AletheiaParserConstants.parameterIdentificationTransitionTablePath))
+		try (InputStream is = ParameterIdentificationParser.class.getResourceAsStream(AletheiaParserConstants.parameterIdentificationTransitionTablePath))
 		{
 			return TransitionTable.load(is);
 		}
@@ -124,7 +124,7 @@ public class ParameterIdentificationParser extends Parser
 	private ParameterIdentificationParser()
 	{
 		super(loadTransitionTable());
-		try (InputStream is = ClassLoader.getSystemResourceAsStream(AletheiaParserConstants.automatonSetPath))
+		try (InputStream is = ParameterIdentificationParser.class.getResourceAsStream(AletheiaParserConstants.automatonSetPath))
 		{
 			automatonSet = AutomatonSet.load(is);
 		}
