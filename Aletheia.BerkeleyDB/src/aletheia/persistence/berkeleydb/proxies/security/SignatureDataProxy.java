@@ -21,8 +21,8 @@ package aletheia.persistence.berkeleydb.proxies.security;
 
 import com.sleepycat.persist.model.Persistent;
 
-import aletheia.model.security.SignatureData;
 import aletheia.persistence.berkeleydb.proxies.AletheiaPersistentProxy;
+import aletheia.security.model.SignatureData;
 
 @Persistent(version = 0, proxyFor = SignatureData.class)
 public class SignatureDataProxy implements AletheiaPersistentProxy<SignatureData>

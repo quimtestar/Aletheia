@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -25,12 +25,12 @@ import java.security.PublicKey;
 import java.util.Collection;
 
 import aletheia.model.authority.Person;
+import aletheia.model.authority.protocol.PersonProtocol;
+import aletheia.model.peertopeer.deferredmessagecontent.protocol.DeferredMessageContentCode;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.authority.PersonProtocol;
 import aletheia.protocol.collection.CollectionProtocol;
-import aletheia.protocol.peertopeer.deferredmessagecontent.DeferredMessageContentCode;
 
 @DeferredMessageContentSubProtocolInfo(subProtocolClass = PersonsDeferredMessageContent.SubProtocol.class)
 public class PersonsDeferredMessageContent extends CipheredDeferredMessageContent<Collection<Person>>

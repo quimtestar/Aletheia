@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -37,27 +37,27 @@ import java.util.UUID;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import aletheia.model.authority.protocol.DelegateTreeRootNodeWithAuthorizersProtocol;
+import aletheia.model.authority.protocol.PersonProtocol;
+import aletheia.model.authority.protocol.StatementAuthorityProtocol;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
+import aletheia.model.statement.protocol.StatementProtocol;
 import aletheia.persistence.PersistenceListener;
 import aletheia.persistence.PersistenceListenerManager.Listeners;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.entities.authority.SignatureRequestEntity;
+import aletheia.persistence.protocol.PersistentExportableProtocol;
 import aletheia.protocol.Exportable;
-import aletheia.protocol.PersistentExportableProtocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.VersionProtocol;
-import aletheia.protocol.authority.DelegateTreeRootNodeWithAuthorizersProtocol;
-import aletheia.protocol.authority.PersonProtocol;
-import aletheia.protocol.authority.StatementAuthorityProtocol;
 import aletheia.protocol.enumerate.ByteExportableEnum;
 import aletheia.protocol.enumerate.ByteExportableEnumProtocol;
 import aletheia.protocol.enumerate.ExportableEnumInfo;
 import aletheia.protocol.primitive.ByteArrayProtocol;
 import aletheia.protocol.primitive.UUIDProtocol;
-import aletheia.protocol.statement.StatementProtocol;
 import aletheia.utilities.collections.CombinedSet;
 import aletheia.utilities.io.SegmentedInputStream;
 import aletheia.utilities.io.SegmentedOutputStream;

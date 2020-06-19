@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2018 Quim Testar
+ * Copyright (c) 2018, 2020 Quim Testar
  * 
  * This file is part of the Aletheia Proof Assistant.
  * 
@@ -21,14 +21,14 @@ package aletheia.test;
 
 import java.io.File;
 
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceConfiguration;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
-import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager.Configuration;
 
 public abstract class BerkeleyDBPersistenceManagerTest extends PersistenceManagerTest<BerkeleyDBPersistenceManager>
 {
 	public BerkeleyDBPersistenceManagerTest()
 	{
-		super(new Configuration());
+		super(new BerkeleyDBPersistenceConfiguration());
 		File dbFile = TestingAletheiaPreferences.instance.getDbFile();
 		if (dbFile == null)
 			throw new RuntimeException("No db file configured");
@@ -37,9 +37,9 @@ public abstract class BerkeleyDBPersistenceManagerTest extends PersistenceManage
 	}
 
 	@Override
-	public Configuration getConfiguration()
+	public BerkeleyDBPersistenceConfiguration getConfiguration()
 	{
-		return (Configuration) super.getConfiguration();
+		return (BerkeleyDBPersistenceConfiguration) super.getConfiguration();
 	}
 
 	public boolean isReadOnly()

@@ -29,9 +29,9 @@ import com.sleepycat.persist.model.PrimaryKey;
 import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
 
-import aletheia.model.security.SignatureData;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.entities.authority.StatementAuthoritySignatureEntity;
+import aletheia.security.model.SignatureData;
 
 @Entity(version = 5)
 public class BerkeleyDBStatementAuthoritySignatureEntity implements StatementAuthoritySignatureEntity

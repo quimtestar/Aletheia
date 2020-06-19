@@ -27,7 +27,7 @@ import java.util.Stack;
 import org.apache.logging.log4j.Logger;
 
 import aletheia.log4j.LoggerManager;
-import aletheia.peertopeer.base.dialog.Dialog.DialogStreamException;
+import aletheia.peertopeer.base.dialog.Dialog;
 import aletheia.peertopeer.base.phase.SubPhase;
 import aletheia.peertopeer.statement.dialog.InitializeStatementProofDialog;
 import aletheia.peertopeer.statement.dialog.IterationStatementProofDialog;
@@ -54,7 +54,7 @@ public class StatementProofSubPhase extends SubPhase
 	}
 
 	@Override
-	public void run() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+	public void run() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		logger.debug("Entering statement proof phase");
 		try

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -45,7 +45,6 @@ import aletheia.model.authority.SignatureVerifyException;
 import aletheia.model.authority.SignatureVersionException;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
-import aletheia.model.security.SignatureData;
 import aletheia.peertopeer.base.message.AbstractUUIDInfoMessage;
 import aletheia.peertopeer.base.message.MessageCode;
 import aletheia.peertopeer.base.message.MessageSubProtocolInfo;
@@ -64,7 +63,8 @@ import aletheia.protocol.primitive.DateProtocol;
 import aletheia.protocol.primitive.IntegerProtocol;
 import aletheia.protocol.primitive.StringProtocol;
 import aletheia.protocol.primitive.UUIDProtocol;
-import aletheia.protocol.security.SignatureDataProtocol;
+import aletheia.security.model.SignatureData;
+import aletheia.security.protocol.SignatureDataProtocol;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionList;
 import aletheia.utilities.collections.CloseableIterator;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -23,10 +23,10 @@ import java.io.DataOutput;
 import java.io.IOException;
 import java.io.Serializable;
 
+import aletheia.model.peertopeer.deferredmessagecontent.protocol.DeferredMessageContentCode;
 import aletheia.protocol.Exportable;
 import aletheia.protocol.ExportableProtocol;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.peertopeer.deferredmessagecontent.DeferredMessageContentCode;
 
 public abstract class DeferredMessageContent implements Exportable, Serializable
 {

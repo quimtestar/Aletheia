@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -33,6 +33,7 @@ import aletheia.model.authority.DelegateTreeNode;
 import aletheia.model.authority.DelegateTreeRootNode;
 import aletheia.model.authority.DelegateTreeSubNode;
 import aletheia.model.authority.Person;
+import aletheia.model.authority.protocol.DelegateAuthorizerProtocol;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.peertopeer.base.message.AbstractUUIDInfoMessage;
@@ -41,11 +42,10 @@ import aletheia.peertopeer.base.message.MessageCode;
 import aletheia.peertopeer.base.message.MessageSubProtocolInfo;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
+import aletheia.persistence.protocol.PersistentExportableProtocol;
 import aletheia.protocol.Exportable;
-import aletheia.protocol.PersistentExportableProtocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.authority.DelegateAuthorizerProtocol;
 import aletheia.protocol.collection.MapProtocol;
 import aletheia.protocol.primitive.IntegerProtocol;
 import aletheia.protocol.primitive.StringProtocol;

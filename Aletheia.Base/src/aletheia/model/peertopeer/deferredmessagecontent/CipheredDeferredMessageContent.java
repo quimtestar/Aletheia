@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -26,14 +26,14 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Arrays;
 
+import aletheia.model.peertopeer.deferredmessagecontent.protocol.DeferredMessageContentCode;
 import aletheia.protocol.Protocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.peertopeer.deferredmessagecontent.DeferredMessageContentCode;
 import aletheia.protocol.primitive.ByteArrayProtocol;
 import aletheia.protocol.primitive.IntegerProtocol;
-import aletheia.protocol.security.ReceivingRSACipherProtocol;
-import aletheia.protocol.security.SendingRSACipherProtocol;
+import aletheia.security.protocol.ReceivingRSACipherProtocol;
+import aletheia.security.protocol.SendingRSACipherProtocol;
 
 public abstract class CipheredDeferredMessageContent<T> extends DeferredMessageContent
 {

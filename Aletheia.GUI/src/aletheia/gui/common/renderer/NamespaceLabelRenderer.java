@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.common.renderer;
 
-import aletheia.gui.app.FontManager;
+import aletheia.gui.fonts.FontManager;
 import aletheia.model.identifier.Namespace;
 
 public class NamespaceLabelRenderer extends AbstractRenderer

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2015 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -27,7 +27,7 @@ import aletheia.peertopeer.base.message.MessageCode;
 import aletheia.peertopeer.base.message.PersistentMessage;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
-import aletheia.protocol.PersistentExportableProtocol;
+import aletheia.persistence.protocol.PersistentExportableProtocol;
 import aletheia.protocol.ProtocolInfo;
 
 @ProtocolInfo(availableVersions = 0)

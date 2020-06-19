@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -26,17 +26,17 @@ import java.util.Collection;
 import java.util.UUID;
 
 import aletheia.model.authority.StatementAuthority;
+import aletheia.model.authority.protocol.StatementAuthorityProtocol;
 import aletheia.model.statement.Statement;
+import aletheia.model.statement.protocol.StatementProtocol;
 import aletheia.peertopeer.base.message.AbstractUUIDPersistentInfoMessage;
 import aletheia.peertopeer.base.message.MessageCode;
 import aletheia.peertopeer.base.message.MessageSubProtocolInfo;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
-import aletheia.protocol.PersistentExportableProtocol;
+import aletheia.persistence.protocol.PersistentExportableProtocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.authority.StatementAuthorityProtocol;
-import aletheia.protocol.statement.StatementProtocol;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCollection;
 

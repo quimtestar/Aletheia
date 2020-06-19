@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -25,7 +25,7 @@ import java.io.OutputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import aletheia.model.security.MessageDigestData;
+import aletheia.security.model.MessageDigestData;
 
 public abstract class AbstractMessageDigester implements MessageDigester
 {

@@ -30,7 +30,6 @@ import aletheia.model.authority.DelegateAuthorizer;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateAuthorizerEntity;
-import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData;
 import aletheia.persistence.collections.authority.DelegateAuthorizerSet;
 import aletheia.persistence.entities.authority.DelegateAuthorizerEntity;
 import aletheia.utilities.MiscUtilities;
@@ -41,7 +40,7 @@ public abstract class BerkeleyDBAbstractDelegateAuthorizerSet extends AbstractCl
 {
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
-	private final PrimaryIndex<PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> primaryIndex;
+	private final PrimaryIndex<BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> primaryIndex;
 
 	public BerkeleyDBAbstractDelegateAuthorizerSet(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction)
 	{
@@ -69,12 +68,12 @@ public abstract class BerkeleyDBAbstractDelegateAuthorizerSet extends AbstractCl
 		return transaction;
 	}
 
-	protected PrimaryIndex<PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> getPrimaryIndex()
+	protected PrimaryIndex<BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> getPrimaryIndex()
 	{
 		return primaryIndex;
 	}
 
-	protected abstract EntityIndex<PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> index();
+	protected abstract EntityIndex<BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> index();
 
 	@Override
 	public boolean contains(Object o)
@@ -82,7 +81,8 @@ public abstract class BerkeleyDBAbstractDelegateAuthorizerSet extends AbstractCl
 		if (!(o instanceof DelegateAuthorizer))
 			return false;
 		DelegateAuthorizer da = (DelegateAuthorizer) o;
-		return transaction.contains(index(), new PrimaryKeyData(da.getStatementUuid(), da.getPrefix(), da.getDelegateUuid()));
+		return transaction.contains(index(),
+				new BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData(da.getStatementUuid(), da.getPrefix(), da.getDelegateUuid()));
 	}
 
 	@Override

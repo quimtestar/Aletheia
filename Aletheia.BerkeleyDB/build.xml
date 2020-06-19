@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
-    Copyright (c) 2019 Quim Testar.
+    Copyright (c) 2019, 2020 Quim Testar.
    
     This file is part of the Aletheia Proof Assistant.
    
@@ -109,13 +109,13 @@
     </target>
     <target depends="build-subprojects,build-project" name="build"/>
     <target name="build-subprojects">
+        <ant antfile="build.xml" dir="${Aletheia.Version.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.log4j.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.Utilities.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.Protocol.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.Security.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.ParserGenerator.location}" inheritAll="false" target="build-project"/>
         <ant antfile="build.xml" dir="${Aletheia.Base.location}" inheritAll="false" target="build-project"/>
-        <ant antfile="build.xml" dir="${Aletheia.Version.location}" inheritAll="false" target="build-project"/>
     </target>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>

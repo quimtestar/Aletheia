@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2015 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -42,9 +42,9 @@ import java.security.spec.X509EncodedKeySpec;
 import java.util.Map;
 import java.util.UUID;
 
-import aletheia.model.security.MessageDigestData;
 import aletheia.protocol.Protocol;
 import aletheia.security.messagedigester.BufferedMessageDigester;
+import aletheia.security.model.MessageDigestData;
 
 public class SecurityUtilities
 {

@@ -29,13 +29,13 @@ import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPackedSignatureRequestEntity;
-import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPackedSignatureRequestEntity.ContextPackingDateSecondaryKeyData;
 import aletheia.persistence.collections.authority.PackedSignatureRequestContextPackingDateCollection;
 
-public class BerkeleyDBPackedSignatureRequestContextPackingDateCollection extends BerkeleyDBPackedSignatureRequestCollection<ContextPackingDateSecondaryKeyData>
+public class BerkeleyDBPackedSignatureRequestContextPackingDateCollection
+		extends BerkeleyDBPackedSignatureRequestCollection<BerkeleyDBPackedSignatureRequestEntity.ContextPackingDateSecondaryKeyData>
 		implements PackedSignatureRequestContextPackingDateCollection
 {
-	private static SecondaryIndex<ContextPackingDateSecondaryKeyData, UUIDKey, BerkeleyDBPackedSignatureRequestEntity> index(
+	private static SecondaryIndex<BerkeleyDBPackedSignatureRequestEntity.ContextPackingDateSecondaryKeyData, UUIDKey, BerkeleyDBPackedSignatureRequestEntity> index(
 			BerkeleyDBPersistenceManager persistenceManager)
 	{
 		try
@@ -54,8 +54,9 @@ public class BerkeleyDBPackedSignatureRequestContextPackingDateCollection extend
 	public BerkeleyDBPackedSignatureRequestContextPackingDateCollection(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction,
 			UUID contextUuid)
 	{
-		super(persistenceManager, index(persistenceManager), transaction, ContextPackingDateSecondaryKeyData.class,
-				ContextPackingDateSecondaryKeyData.min(contextUuid), true, ContextPackingDateSecondaryKeyData.max(contextUuid), true);
+		super(persistenceManager, index(persistenceManager), transaction, BerkeleyDBPackedSignatureRequestEntity.ContextPackingDateSecondaryKeyData.class,
+				BerkeleyDBPackedSignatureRequestEntity.ContextPackingDateSecondaryKeyData.min(contextUuid), true,
+				BerkeleyDBPackedSignatureRequestEntity.ContextPackingDateSecondaryKeyData.max(contextUuid), true);
 		this.contextUuid = contextUuid;
 	}
 
@@ -66,7 +67,7 @@ public class BerkeleyDBPackedSignatureRequestContextPackingDateCollection extend
 	}
 
 	@Override
-	protected Collection<ContextPackingDateSecondaryKeyData> entityKeys(BerkeleyDBPackedSignatureRequestEntity entity)
+	protected Collection<BerkeleyDBPackedSignatureRequestEntity.ContextPackingDateSecondaryKeyData> entityKeys(BerkeleyDBPackedSignatureRequestEntity entity)
 	{
 		return entity.getContextPackingDateSecondaryKeyDataList();
 	}

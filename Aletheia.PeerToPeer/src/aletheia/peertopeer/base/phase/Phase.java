@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -36,7 +36,6 @@ import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.PeerToPeerConnection;
 import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.peertopeer.base.dialog.Dialog;
-import aletheia.peertopeer.base.dialog.Dialog.DialogStreamException;
 import aletheia.peertopeer.base.dialog.ValedictionDialog;
 import aletheia.persistence.PersistenceManager;
 import aletheia.protocol.ProtocolException;
@@ -125,19 +124,19 @@ public abstract class Phase
 		getPeerToPeerConnection().interruptStreams();
 	}
 
-	protected void valedictionDialog() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+	protected void valedictionDialog() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		dialog(ValedictionDialog.class, this);
 	}
 
-	public abstract void run() throws IOException, ProtocolException, InterruptedException, DialogStreamException;
+	public abstract void run() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException;
 
 	public void shutdown(boolean fast)
 	{
 	}
 
 	private <D extends Dialog> D dialog(Constructor<D> dialogConstructor, Object... initargs)
-			throws IOException, ProtocolException, InterruptedException, DialogStreamException
+			throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		D dialog;
 		try
@@ -165,7 +164,7 @@ public abstract class Phase
 	}
 
 	protected <D extends Dialog> D dialog(Class<D> dialogClass, Object... initargs)
-			throws IOException, ProtocolException, InterruptedException, DialogStreamException
+			throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		Constructor<D> constructor = dialogConstructor(dialogClass, initargs);
 		return dialog(constructor, initargs);

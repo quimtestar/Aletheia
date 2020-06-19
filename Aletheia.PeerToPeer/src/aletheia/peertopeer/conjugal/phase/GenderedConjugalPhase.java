@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2015 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -22,7 +22,7 @@ package aletheia.peertopeer.conjugal.phase;
 import java.io.IOException;
 import java.util.UUID;
 
-import aletheia.peertopeer.base.dialog.Dialog.DialogStreamException;
+import aletheia.peertopeer.base.dialog.Dialog;
 import aletheia.peertopeer.base.phase.LoopSubPhase;
 import aletheia.peertopeer.base.phase.SubPhase;
 import aletheia.peertopeer.conjugal.dialog.LoopConjugalDialogType;
@@ -58,7 +58,8 @@ public abstract class GenderedConjugalPhase extends SubPhase
 		}
 
 		@Override
-		protected boolean serverPhase(LoopConjugalDialogType loopDialogType) throws IOException, ProtocolException, InterruptedException, DialogStreamException
+		protected boolean serverPhase(LoopConjugalDialogType loopDialogType)
+				throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 		{
 			switch (loopDialogType)
 			{
@@ -71,11 +72,11 @@ public abstract class GenderedConjugalPhase extends SubPhase
 		}
 
 		protected abstract boolean genderedServerPhase(LoopConjugalDialogType loopDialogType)
-				throws IOException, ProtocolException, InterruptedException, DialogStreamException;
+				throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException;
 
 		@Override
 		protected boolean clientPhase(LoopSubPhase<LoopConjugalDialogType>.Command<?> command)
-				throws IOException, ProtocolException, InterruptedException, DialogStreamException
+				throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 		{
 			switch (command.getLoopDialogType())
 			{
@@ -87,7 +88,8 @@ public abstract class GenderedConjugalPhase extends SubPhase
 			}
 		}
 
-		protected abstract boolean genderedClientPhase(Command<?> command) throws IOException, ProtocolException, InterruptedException, DialogStreamException;
+		protected abstract boolean genderedClientPhase(Command<?> command)
+				throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException;
 
 		@Override
 		protected ValedictionCommand makeValedictionCommand()
@@ -123,7 +125,7 @@ public abstract class GenderedConjugalPhase extends SubPhase
 	protected abstract LoopConjugalSubPhase getLoopConjugalSubPhase();
 
 	@Override
-	public void run() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+	public void run() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		getLoopConjugalSubPhase().run();
 	}

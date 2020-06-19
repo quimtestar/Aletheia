@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -41,10 +41,10 @@ import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.identifier.RootNamespace;
-import aletheia.model.security.SignatureData;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.RootContext;
 import aletheia.model.statement.Statement;
+import aletheia.model.statement.protocol.StatementProtocol;
 import aletheia.model.term.Term;
 import aletheia.persistence.PersistenceListener;
 import aletheia.persistence.PersistenceManager;
@@ -59,7 +59,7 @@ import aletheia.persistence.entities.authority.StatementAuthorityEntity;
 import aletheia.protocol.Exportable;
 import aletheia.protocol.primitive.DateProtocol;
 import aletheia.protocol.primitive.UUIDProtocol;
-import aletheia.protocol.statement.StatementProtocol;
+import aletheia.security.model.SignatureData;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCloseableCollection;
 import aletheia.utilities.collections.BijectionCloseableSet;

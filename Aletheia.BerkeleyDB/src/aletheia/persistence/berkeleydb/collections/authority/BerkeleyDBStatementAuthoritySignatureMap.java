@@ -34,7 +34,6 @@ import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthoritySignatureEntity;
-import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData;
 import aletheia.persistence.collections.authority.StatementAuthoritySignatureMap;
 import aletheia.utilities.collections.AbstractCloseableMap;
 import aletheia.utilities.collections.CloseableIterator;
@@ -48,7 +47,7 @@ public class BerkeleyDBStatementAuthoritySignatureMap extends AbstractCloseableM
 	private final StatementAuthority statementAuthority;
 	private final UUID statementUuid;
 	private final UUIDKey statementUuidKey;
-	private final EntityIndex<PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> index;
+	private final EntityIndex<BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> index;
 
 	public BerkeleyDBStatementAuthoritySignatureMap(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction,
 			StatementAuthority statementAuthority)
@@ -222,7 +221,7 @@ public class BerkeleyDBStatementAuthoritySignatureMap extends AbstractCloseableM
 	@Override
 	public int size()
 	{
-		EntityCursor<PrimaryKeyData> cursor = transaction.keys(index);
+		EntityCursor<BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData> cursor = transaction.keys(index);
 		try
 		{
 			int n = 0;
@@ -239,7 +238,7 @@ public class BerkeleyDBStatementAuthoritySignatureMap extends AbstractCloseableM
 	@Override
 	public boolean isEmpty()
 	{
-		EntityCursor<PrimaryKeyData> cursor = transaction.keys(index);
+		EntityCursor<BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData> cursor = transaction.keys(index);
 		try
 		{
 			return transaction.first(cursor) == null;

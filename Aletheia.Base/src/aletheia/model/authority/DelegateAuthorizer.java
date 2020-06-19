@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -33,7 +33,7 @@ import aletheia.model.authority.DelegateTreeRootNode.DateConsistenceException;
 import aletheia.model.authority.DelegateTreeRootNode.NoPrivateDataForAuthorException;
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.RootNamespace;
-import aletheia.model.security.SignatureData;
+import aletheia.model.identifier.protocol.NamespaceProtocol;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.PersistenceManager;
@@ -41,10 +41,10 @@ import aletheia.persistence.Transaction;
 import aletheia.persistence.entities.authority.DelegateAuthorizerEntity;
 import aletheia.protocol.Exportable;
 import aletheia.protocol.collection.NonReturningCollectionProtocol;
-import aletheia.protocol.namespace.NamespaceProtocol;
 import aletheia.protocol.primitive.DateProtocol;
 import aletheia.protocol.primitive.NullableProtocol;
 import aletheia.protocol.primitive.UUIDProtocol;
+import aletheia.security.model.SignatureData;
 import aletheia.security.signerverifier.Signer;
 import aletheia.security.signerverifier.Verifier;
 import aletheia.utilities.collections.CloseableSet;

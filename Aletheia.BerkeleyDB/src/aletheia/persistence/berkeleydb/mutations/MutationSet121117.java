@@ -32,8 +32,8 @@ import com.sleepycat.persist.evolve.EntityConverter;
 import com.sleepycat.persist.model.EntityModel;
 import com.sleepycat.persist.raw.RawObject;
 
-import aletheia.model.security.SignatureData;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthoritySignatureEntity;
+import aletheia.security.model.SignatureData;
 
 public class MutationSet121117 extends MutationSet
 {

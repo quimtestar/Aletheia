@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2018, 2019 Quim Testar
+ * Copyright (c) 2018, 2020 Quim Testar
  * 
  * This file is part of the Aletheia Proof Assistant.
  * 
@@ -23,6 +23,7 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
+import aletheia.gui.fonts.FontManager;
 import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
 import aletheia.utilities.CommandLineArguments.Switch;

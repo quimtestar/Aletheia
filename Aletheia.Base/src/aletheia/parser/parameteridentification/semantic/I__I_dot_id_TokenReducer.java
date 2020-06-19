@@ -22,8 +22,8 @@ package aletheia.parser.parameteridentification.semantic;
 import java.util.List;
 
 import aletheia.model.identifier.Identifier;
-import aletheia.model.identifier.NodeNamespace.InvalidNameException;
-import aletheia.parser.parameteridentification.ParameterIdentificationParser.ProductionTokenPayloadReducer;
+import aletheia.model.identifier.NodeNamespace;
+import aletheia.parser.parameteridentification.ParameterIdentificationParser;
 import aletheia.parsergenerator.parser.Production;
 import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
 import aletheia.parsergenerator.semantic.SemanticException;
@@ -34,7 +34,7 @@ import aletheia.parsergenerator.tokens.Token;
 
 @AssociatedProduction(left = "I", right =
 { "I", "dot", "id" })
-public class I__I_dot_id_TokenReducer extends ProductionTokenPayloadReducer<Identifier>
+public class I__I_dot_id_TokenReducer extends ParameterIdentificationParser.ProductionTokenPayloadReducer<Identifier>
 {
 
 	@Override
@@ -47,7 +47,7 @@ public class I__I_dot_id_TokenReducer extends ProductionTokenPayloadReducer<Iden
 		{
 			return new Identifier(namespace, name);
 		}
-		catch (InvalidNameException e)
+		catch (NodeNamespace.InvalidNameException e)
 		{
 			throw new SemanticException(reducees.get(0), e);
 		}

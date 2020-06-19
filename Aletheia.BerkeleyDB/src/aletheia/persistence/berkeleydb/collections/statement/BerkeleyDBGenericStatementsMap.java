@@ -35,6 +35,7 @@ import aletheia.persistence.collections.statement.GenericStatementsMap;
 import aletheia.utilities.collections.AbstractCloseableMap;
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
+import aletheia.utilities.collections.CloseableSet;
 
 public abstract class BerkeleyDBGenericStatementsMap<S extends Statement, E extends BerkeleyDBStatementEntity>
 		extends AbstractCloseableMap<IdentifiableVariableTerm, S> implements GenericStatementsMap<S>
@@ -288,7 +289,7 @@ public abstract class BerkeleyDBGenericStatementsMap<S extends Statement, E exte
 	}
 
 	@Override
-	public EntrySet entrySet()
+	public CloseableSet<Entry<IdentifiableVariableTerm, S>> entrySet()
 	{
 		return new EntrySet();
 	}

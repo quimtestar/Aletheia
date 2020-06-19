@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -21,7 +21,7 @@ package aletheia.peertopeer.statement;
 
 import java.util.Date;
 
-import aletheia.model.security.SignatureData;
+import aletheia.security.model.SignatureData;
 
 public class RootContextSignature implements Comparable<RootContextSignature>
 {

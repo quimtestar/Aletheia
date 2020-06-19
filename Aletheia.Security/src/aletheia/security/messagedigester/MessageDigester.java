@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -21,7 +21,7 @@ package aletheia.security.messagedigester;
 
 import java.io.DataOutput;
 
-import aletheia.model.security.MessageDigestData;
+import aletheia.security.model.MessageDigestData;
 
 public interface MessageDigester
 {

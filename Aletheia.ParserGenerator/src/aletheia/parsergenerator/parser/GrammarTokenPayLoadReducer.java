@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2018 Quim Testar
+ * Copyright (c) 2018, 2020 Quim Testar
  * 
  * This file is part of the Aletheia Proof Assistant.
  * 
@@ -75,7 +75,7 @@ public class GrammarTokenPayLoadReducer extends ProductionManagedTokenPayloadRed
 		}
 	}
 
-	private static class PreProduction
+	public static class PreProduction
 	{
 		private final String left;
 		private final List<String> right;

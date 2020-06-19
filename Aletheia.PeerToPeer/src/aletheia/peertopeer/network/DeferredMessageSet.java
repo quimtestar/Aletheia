@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -39,7 +39,7 @@ import aletheia.model.peertopeer.NodeDeferredMessage;
 import aletheia.model.peertopeer.deferredmessagecontent.DeferredMessageContent;
 import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.peertopeer.PeerToPeerNode.ConnectException;
-import aletheia.peertopeer.base.phase.LoopSubPhase.CancelledCommandException;
+import aletheia.peertopeer.base.phase.LoopSubPhase;
 import aletheia.peertopeer.network.ResourceTreeNodeSet.ResourceTreeNode;
 import aletheia.peertopeer.network.phase.NetworkPhase;
 import aletheia.peertopeer.resource.PrivatePersonResource;
@@ -492,7 +492,7 @@ public class DeferredMessageSet
 				{
 					transmitDeferredMessages(privatePersonResourceMetadata);
 				}
-				catch (IOException | ConnectException | CancelledCommandException e)
+				catch (IOException | ConnectException | LoopSubPhase.CancelledCommandException e)
 				{
 					logger.error(e.getMessage(), e);
 				}
@@ -501,7 +501,7 @@ public class DeferredMessageSet
 	}
 
 	private synchronized void transmitDeferredMessages(PrivatePersonResource privatePersonResourceMetadata)
-			throws IOException, ConnectException, CancelledCommandException
+			throws IOException, ConnectException, LoopSubPhase.CancelledCommandException
 	{
 		RecipientData recipientData = recipientDataMap.get(privatePersonResourceMetadata.getUuid());
 		if (recipientData != null && recipientData.distance == 0)

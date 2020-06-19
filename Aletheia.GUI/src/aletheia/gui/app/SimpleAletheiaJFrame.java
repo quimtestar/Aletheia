@@ -46,6 +46,7 @@ import org.apache.logging.log4j.Logger;
 import aletheia.common.AletheiaConstants;
 import aletheia.gui.app.splash.AbstractSplashStartupProgressListener;
 import aletheia.gui.contextjtree.ContextJTree;
+import aletheia.gui.fonts.FontManager;
 import aletheia.gui.icons.IconManager;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.statement.Context;
@@ -53,6 +54,7 @@ import aletheia.model.statement.Statement;
 import aletheia.peertopeer.PeerToPeerNode;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceConfiguration;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 
 public class SimpleAletheiaJFrame extends MainAletheiaJFrame
@@ -216,7 +218,7 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 		try (AbstractSplashStartupProgressListener splashStartupProgressListener = AbstractSplashStartupProgressListener
 				.makeFromGlobalSwitches(getGlobalSwitches()))
 		{
-			BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
+			BerkeleyDBPersistenceConfiguration configuration = new BerkeleyDBPersistenceConfiguration();
 			configuration.setStartupProgressListener(splashStartupProgressListener);
 			File dbFile = properties.getDbFile();
 			if (dbFile == null)

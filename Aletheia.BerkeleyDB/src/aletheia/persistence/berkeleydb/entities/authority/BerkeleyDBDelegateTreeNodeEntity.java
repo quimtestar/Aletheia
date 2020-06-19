@@ -30,9 +30,9 @@ import com.sleepycat.persist.model.SecondaryKey;
 
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
-import aletheia.model.security.MessageDigestData;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.entities.authority.DelegateTreeNodeEntity;
+import aletheia.security.model.MessageDigestData;
 
 @Entity(version = 0)
 public abstract class BerkeleyDBDelegateTreeNodeEntity implements DelegateTreeNodeEntity

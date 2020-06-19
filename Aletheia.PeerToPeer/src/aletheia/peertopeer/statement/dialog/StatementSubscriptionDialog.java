@@ -52,7 +52,6 @@ import aletheia.peertopeer.statement.message.DelegateAuthorizerResponseMessage;
 import aletheia.peertopeer.statement.message.DelegateTreeDelegateDependencyRequestMessage;
 import aletheia.peertopeer.statement.message.DelegateTreeDelegateDependencyResponseMessage;
 import aletheia.peertopeer.statement.message.DelegateTreeInfoMessage;
-import aletheia.peertopeer.statement.message.DelegateTreeInfoMessage.MissingDependencyException;
 import aletheia.peertopeer.statement.message.DelegateTreeSuccessorDependencyRequestMessage;
 import aletheia.peertopeer.statement.message.DelegateTreeSuccessorDependencyResponseMessage;
 import aletheia.peertopeer.statement.message.PersonRequestMessage;
@@ -63,7 +62,6 @@ import aletheia.peertopeer.statement.message.StatementRequestMessage;
 import aletheia.peertopeer.statement.message.StatementResponseMessage;
 import aletheia.peertopeer.statement.message.SubscriptionContextsMessage;
 import aletheia.peertopeer.statement.message.SubscriptionSubContextsMessage;
-import aletheia.peertopeer.statement.message.SubscriptionSubContextsMessage.SubContextSubscriptionUuids;
 import aletheia.protocol.ProtocolException;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCollection;
@@ -309,10 +307,10 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 		sendMessage(sended);
 		SubscriptionSubContextsMessage received = recvMessage(SubscriptionSubContextsMessage.class);
 		Set<UUID> uuids = new HashSet<>();
-		for (Map.Entry<UUID, SubContextSubscriptionUuids> e : received.getMap().entrySet())
+		for (Map.Entry<UUID, SubscriptionSubContextsMessage.SubContextSubscriptionUuids> e : received.getMap().entrySet())
 		{
-			SubContextSubscriptionUuids subContextSubscriptionUuidsSended = sended.getMap().get(e.getKey());
-			SubContextSubscriptionUuids subContextSubscriptionUuidsReceived = e.getValue();
+			SubscriptionSubContextsMessage.SubContextSubscriptionUuids subContextSubscriptionUuidsSended = sended.getMap().get(e.getKey());
+			SubscriptionSubContextsMessage.SubContextSubscriptionUuids subContextSubscriptionUuidsReceived = e.getValue();
 			for (UUID uuid : subContextSubscriptionUuidsReceived.getContextUuids())
 				if (subContextSubscriptionUuidsSended.getContextUuids().contains(uuid))
 					uuids.add(uuid);
@@ -482,7 +480,8 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 			{
 				delegateTreeInfoMessage.update(getPersistenceManager(), getTransaction());
 			}
-			catch (SignatureVerifyException | MissingDependencyException | DateConsistenceException | DuplicateSuccessorException | SignatureVersionException e)
+			catch (SignatureVerifyException | DelegateTreeInfoMessage.MissingDependencyException | DateConsistenceException | DuplicateSuccessorException
+					| SignatureVersionException e)
 			{
 				throw new ProtocolException(e);
 			}

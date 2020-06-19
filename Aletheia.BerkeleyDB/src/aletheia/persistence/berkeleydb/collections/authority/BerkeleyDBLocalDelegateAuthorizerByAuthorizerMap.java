@@ -29,17 +29,16 @@ import aletheia.model.identifier.Namespace;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateAuthorizerEntity;
-import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData;
-import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateAuthorizerEntity.StatementAuthorizerKeyData;
 import aletheia.persistence.collections.authority.LocalDelegateAuthorizerByAuthorizerMap;
 
-public class BerkeleyDBLocalDelegateAuthorizerByAuthorizerMap extends BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<StatementAuthorizerKeyData>
+public class BerkeleyDBLocalDelegateAuthorizerByAuthorizerMap
+		extends BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<BerkeleyDBDelegateAuthorizerEntity.StatementAuthorizerKeyData>
 		implements LocalDelegateAuthorizerByAuthorizerMap
 {
 	private final StatementAuthority statementAuthority;
 	private final Namespace prefix;
 
-	private static SecondaryIndex<StatementAuthorizerKeyData, PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> makeIndex(
+	private static SecondaryIndex<BerkeleyDBDelegateAuthorizerEntity.StatementAuthorizerKeyData, BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> makeIndex(
 			BerkeleyDBPersistenceManager persistenceManager)
 	{
 		try
@@ -55,8 +54,9 @@ public class BerkeleyDBLocalDelegateAuthorizerByAuthorizerMap extends BerkeleyDB
 	public BerkeleyDBLocalDelegateAuthorizerByAuthorizerMap(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction,
 			StatementAuthority statementAuthority, Namespace prefix)
 	{
-		super(persistenceManager, transaction, makeIndex(persistenceManager), StatementAuthorizerKeyData.first(statementAuthority.getStatementUuid(), prefix),
-				StatementAuthorizerKeyData.last(statementAuthority.getStatementUuid(), prefix));
+		super(persistenceManager, transaction, makeIndex(persistenceManager),
+				BerkeleyDBDelegateAuthorizerEntity.StatementAuthorizerKeyData.first(statementAuthority.getStatementUuid(), prefix),
+				BerkeleyDBDelegateAuthorizerEntity.StatementAuthorizerKeyData.last(statementAuthority.getStatementUuid(), prefix));
 		this.statementAuthority = statementAuthority;
 		this.prefix = prefix;
 	}
@@ -72,9 +72,9 @@ public class BerkeleyDBLocalDelegateAuthorizerByAuthorizerMap extends BerkeleyDB
 	}
 
 	@Override
-	protected StatementAuthorizerKeyData uuidToKey(UUID authorizerUuid)
+	protected BerkeleyDBDelegateAuthorizerEntity.StatementAuthorizerKeyData uuidToKey(UUID authorizerUuid)
 	{
-		return new StatementAuthorizerKeyData(statementAuthority.getStatementUuid(), prefix, authorizerUuid);
+		return new BerkeleyDBDelegateAuthorizerEntity.StatementAuthorizerKeyData(statementAuthority.getStatementUuid(), prefix, authorizerUuid);
 	}
 
 }

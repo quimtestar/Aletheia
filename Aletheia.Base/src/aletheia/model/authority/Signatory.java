@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -24,13 +24,13 @@ import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 import java.util.UUID;
 
-import aletheia.model.security.SignatureData;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.collections.authority.StatementAuthoritySignatureSetByAuthorizer;
 import aletheia.persistence.collections.authority.StatementAuthoritySignatureSetByAuthorizerAndSignatureUuid;
 import aletheia.persistence.entities.authority.SignatoryEntity;
 import aletheia.protocol.Exportable;
+import aletheia.security.model.SignatureData;
 import aletheia.security.signerverifier.BufferedVerifier;
 import aletheia.security.signerverifier.Verifier;
 

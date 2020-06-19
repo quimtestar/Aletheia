@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -37,6 +37,7 @@ import org.apache.logging.log4j.Logger;
 
 import aletheia.common.AletheiaConstants;
 import aletheia.gui.app.splash.AbstractSplashStartupProgressListener;
+import aletheia.gui.fonts.FontManager;
 import aletheia.gui.icons.IconManager;
 import aletheia.gui.menu.AletheiaJMenuBar;
 import aletheia.gui.person.PersonsDialog;

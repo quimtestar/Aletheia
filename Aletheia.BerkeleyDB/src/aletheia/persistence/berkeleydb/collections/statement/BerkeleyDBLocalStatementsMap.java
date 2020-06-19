@@ -25,11 +25,13 @@ import com.sleepycat.persist.SecondaryIndex;
 
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
+import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.statement.BerkeleyDBStatementEntity;
 import aletheia.persistence.collections.statement.LocalStatementsMap;
+import aletheia.utilities.collections.CloseableSet;
 
 public class BerkeleyDBLocalStatementsMap extends BerkeleyDBStatementsMap implements LocalStatementsMap
 {
@@ -107,7 +109,7 @@ public class BerkeleyDBLocalStatementsMap extends BerkeleyDBStatementsMap implem
 	}
 
 	@Override
-	public EntrySet entrySet()
+	public CloseableSet<Entry<IdentifiableVariableTerm, Statement>> entrySet()
 	{
 		return new EntrySet(statementContextSecondaryIndex, uuidKeyContext, uuidKeyContext);
 	}

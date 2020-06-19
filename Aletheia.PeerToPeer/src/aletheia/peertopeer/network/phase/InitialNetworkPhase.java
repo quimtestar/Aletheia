@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2015 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -28,10 +28,9 @@ import org.apache.logging.log4j.Logger;
 import aletheia.log4j.LoggerManager;
 import aletheia.peertopeer.NodeAddress;
 import aletheia.peertopeer.PeerToPeerConnection;
-import aletheia.peertopeer.PeerToPeerConnection.Gender;
 import aletheia.peertopeer.PeerToPeerNode.JoinedToNetworkTimeoutException;
 import aletheia.peertopeer.PeerToPeerNodeProperties;
-import aletheia.peertopeer.base.dialog.Dialog.DialogStreamException;
+import aletheia.peertopeer.base.dialog.Dialog;
 import aletheia.peertopeer.network.BeltNetworkMalePeerToPeerConnection;
 import aletheia.peertopeer.network.InitialNetworkPhaseType;
 import aletheia.peertopeer.network.NetworkMalePeerToPeerConnection;
@@ -110,28 +109,28 @@ public class InitialNetworkPhase extends NetworkSubPhase
 		this.joinedToNetwork = joinedToNetwork;
 	}
 
-	private void updateBindPortInitialDialog() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+	private void updateBindPortInitialDialog() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		UpdateBindPortInitialDialog dialog = dialog(UpdateBindPortInitialDialog.class, this);
 		getNetworkPhase().setBindPort(dialog.getBindPort());
 	}
 
-	private void routerSetInitialDialog() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+	private void routerSetInitialDialog() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		dialog(RouterSetInitialDialog.class, this);
 	}
 
-	private ClosestNodeDialogFemale closestNodeDialogFemale() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+	private ClosestNodeDialogFemale closestNodeDialogFemale() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		return dialog(ClosestNodeDialogFemale.class, this);
 	}
 
-	private ClosestNodeDialogMale closestNodeDialogMale() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+	private ClosestNodeDialogMale closestNodeDialogMale() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		return dialog(ClosestNodeDialogMale.class, this);
 	}
 
-	private ClosestNodeDialog closestNodeDialog() throws InterruptedException, IOException, ProtocolException, DialogStreamException
+	private ClosestNodeDialog closestNodeDialog() throws InterruptedException, IOException, ProtocolException, Dialog.DialogStreamException
 	{
 		switch (getGender())
 		{
@@ -144,13 +143,13 @@ public class InitialNetworkPhase extends NetworkSubPhase
 		}
 	}
 
-	private void resourceTreeNodeInitialDialog() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+	private void resourceTreeNodeInitialDialog() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		dialog(ResourceTreeNodeInitialDialog.class, this);
 	}
 
 	private InitialNetworkPhaseTypeDialogFemale initialNetworkPhaseTypeDialogFemale()
-			throws IOException, ProtocolException, InterruptedException, DialogStreamException
+			throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		return dialog(InitialNetworkPhaseTypeDialogFemale.class, this);
 	}
@@ -161,12 +160,13 @@ public class InitialNetworkPhase extends NetworkSubPhase
 	}
 
 	private InitialNetworkPhaseTypeDialogMale initialNetworkPhaseTypeDialogMale(InitialNetworkPhaseType type)
-			throws IOException, ProtocolException, InterruptedException, DialogStreamException
+			throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		return dialog(InitialNetworkPhaseTypeDialogMale.class, this, type);
 	}
 
-	private InitialNetworkPhaseTypeDialog initialNetworkPhaseTypeDialog() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+	private InitialNetworkPhaseTypeDialog initialNetworkPhaseTypeDialog()
+			throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		switch (getGender())
 		{
@@ -179,17 +179,17 @@ public class InitialNetworkPhase extends NetworkSubPhase
 		}
 	}
 
-	private RouterSetNeighbourDialog routerSetNeighbourDialog() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+	private RouterSetNeighbourDialog routerSetNeighbourDialog() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		return dialog(RouterSetNeighbourDialog.class, this);
 	}
 
-	private BeltDialogFemale beltDialogFemale() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+	private BeltDialogFemale beltDialogFemale() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		return dialog(BeltDialogFemale.class, this);
 	}
 
-	private BeltDialogMale beltDialogMale() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+	private BeltDialogMale beltDialogMale() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		PeerToPeerConnection connection = getPeerToPeerConnection();
 		Set<Side> sides;
@@ -200,7 +200,7 @@ public class InitialNetworkPhase extends NetworkSubPhase
 		return dialog(BeltDialogMale.class, this, sides);
 	}
 
-	private BeltDialog beltDialog() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+	private BeltDialog beltDialog() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		switch (getGender())
 		{
@@ -214,7 +214,7 @@ public class InitialNetworkPhase extends NetworkSubPhase
 	}
 
 	@Override
-	public void run() throws IOException, ProtocolException, InterruptedException, DialogStreamException
+	public void run() throws IOException, ProtocolException, InterruptedException, Dialog.DialogStreamException
 	{
 		try
 		{
@@ -229,7 +229,7 @@ public class InitialNetworkPhase extends NetworkSubPhase
 			case Joining:
 			{
 				logger.debug("Joining closestNode");
-				if (getGender() == Gender.FEMALE)
+				if (getGender() == PeerToPeerConnection.Gender.FEMALE)
 				{
 					try
 					{
@@ -260,7 +260,7 @@ public class InitialNetworkPhase extends NetworkSubPhase
 								routerSetInitialDialog();
 								resourceTreeNodeInitialDialog();
 							}
-							if (getGender() == Gender.MALE)
+							if (getGender() == PeerToPeerConnection.Gender.MALE)
 							{
 								getPeerToPeerNode().sendComplementingInvitations();
 								setJoinedToNetwork(true);

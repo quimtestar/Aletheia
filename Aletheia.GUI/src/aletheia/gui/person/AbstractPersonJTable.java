@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -47,12 +47,12 @@ import javax.swing.table.TableCellRenderer;
 
 import org.apache.logging.log4j.Logger;
 
-import aletheia.gui.app.FontManager;
 import aletheia.gui.common.renderer.AbstractRenderer;
 import aletheia.gui.common.renderer.BoldTextLabelRenderer;
 import aletheia.gui.common.renderer.EmptyRenderer;
 import aletheia.gui.common.renderer.TextLabelRenderer;
 import aletheia.gui.common.renderer.UUIDLabelRenderer;
+import aletheia.gui.fonts.FontManager;
 import aletheia.gui.person.AbstractPersonTableModel.AddedPersonTableModelEvent;
 import aletheia.gui.person.AbstractPersonTableModel.PersonTableModelEvent;
 import aletheia.log4j.LoggerManager;

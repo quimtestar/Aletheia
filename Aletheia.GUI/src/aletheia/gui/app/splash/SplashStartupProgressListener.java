@@ -38,7 +38,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JWindow;
 
-import aletheia.gui.app.FontManager;
+import aletheia.gui.fonts.FontManager;
 import aletheia.gui.preferences.GUIAletheiaPreferences;
 import aletheia.version.VersionManager;
 

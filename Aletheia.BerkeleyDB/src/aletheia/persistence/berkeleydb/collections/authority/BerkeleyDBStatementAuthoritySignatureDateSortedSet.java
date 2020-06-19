@@ -32,8 +32,6 @@ import aletheia.model.authority.StatementAuthoritySignature;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthoritySignatureEntity;
-import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData;
-import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBStatementAuthoritySignatureEntity.StatementSignatureDateKeyData;
 import aletheia.persistence.collections.authority.StatementAuthoritySignatureDateSortedSet;
 import aletheia.utilities.collections.AbstractCloseableSet;
 import aletheia.utilities.collections.CloseableIterator;
@@ -55,7 +53,7 @@ public class BerkeleyDBStatementAuthoritySignatureDateSortedSet extends Abstract
 	private final BerkeleyDBPersistenceManager persistenceManager;
 	private final BerkeleyDBTransaction transaction;
 	private final StatementAuthority statementAuthority;
-	private final SecondaryIndex<StatementSignatureDateKeyData, PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> index;
+	private final SecondaryIndex<BerkeleyDBStatementAuthoritySignatureEntity.StatementSignatureDateKeyData, BerkeleyDBStatementAuthoritySignatureEntity.PrimaryKeyData, BerkeleyDBStatementAuthoritySignatureEntity> index;
 	private final StatementAuthoritySignature from;
 	private final StatementAuthoritySignature to;
 	private final BerkeleyDBStatementAuthoritySignatureEntity.StatementSignatureDateKeyData fromStatementSignatureDateKeyData;

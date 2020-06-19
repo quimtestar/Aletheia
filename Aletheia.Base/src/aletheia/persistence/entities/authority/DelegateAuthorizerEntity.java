@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -24,8 +24,8 @@ import java.util.SortedSet;
 import java.util.UUID;
 
 import aletheia.model.identifier.Namespace;
-import aletheia.model.security.SignatureData;
 import aletheia.persistence.entities.Entity;
+import aletheia.security.model.SignatureData;
 
 public interface DelegateAuthorizerEntity extends Entity
 {

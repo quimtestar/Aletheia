@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -38,8 +38,7 @@ import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
 import aletheia.model.identifier.RootNamespace;
-import aletheia.model.security.MessageDigestData;
-import aletheia.model.security.SignatureData;
+import aletheia.model.identifier.protocol.NamespaceProtocol;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
@@ -48,11 +47,12 @@ import aletheia.persistence.collections.authority.LocalDelegateTreeSubNodeMap;
 import aletheia.persistence.entities.authority.DelegateTreeNodeEntity;
 import aletheia.protocol.Exportable;
 import aletheia.protocol.collection.ListProtocol;
-import aletheia.protocol.namespace.NamespaceProtocol;
 import aletheia.protocol.primitive.UUIDProtocol;
-import aletheia.protocol.security.MessageDigestDataProtocol;
 import aletheia.security.messagedigester.BufferedMessageDigester;
 import aletheia.security.messagedigester.MessageDigester;
+import aletheia.security.model.MessageDigestData;
+import aletheia.security.model.SignatureData;
+import aletheia.security.protocol.MessageDigestDataProtocol;
 import aletheia.utilities.collections.CloseableCollection;
 import aletheia.utilities.collections.CloseableMap;
 

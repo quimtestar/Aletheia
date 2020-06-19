@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -24,6 +24,7 @@ import java.awt.Component;
 import javax.swing.JOptionPane;
 
 import aletheia.persistence.PersistenceManager;
+import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceConfiguration;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager.EntityStoreVersionException;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager.MustAllowCreateException;
@@ -60,10 +61,10 @@ public class BerkeleyDBPersistenceGUIFactory extends PersistenceGUIFactory
 		return new BerkeleyDBPersistencePreferencesJPanel(getPreferences());
 	}
 
-	private BerkeleyDBPersistenceManager.Configuration makePersistenceManagerConfiguration(PersistenceManager.StartupProgressListener progressListener,
+	private BerkeleyDBPersistenceConfiguration makePersistenceManagerConfiguration(PersistenceManager.StartupProgressListener progressListener,
 			boolean allowCreate, boolean allowUpgrade)
 	{
-		BerkeleyDBPersistenceManager.Configuration configuration = new BerkeleyDBPersistenceManager.Configuration();
+		BerkeleyDBPersistenceConfiguration configuration = new BerkeleyDBPersistenceConfiguration();
 		configuration.setStartupProgressListener(progressListener);
 		configuration.setDbFile(getPreferences().getDbFile());
 		configuration.setAllowCreate(allowCreate);

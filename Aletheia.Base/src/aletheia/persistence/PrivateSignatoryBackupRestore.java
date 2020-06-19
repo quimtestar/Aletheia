@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -33,10 +33,10 @@ import aletheia.model.authority.Person;
 import aletheia.model.authority.Person.PersonCreationException;
 import aletheia.model.authority.PrivatePerson;
 import aletheia.model.authority.PrivateSignatory;
+import aletheia.model.authority.protocol.PrivateSignatoryProtocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.VersionProtocol;
-import aletheia.protocol.authority.PrivateSignatoryProtocol;
 import aletheia.protocol.collection.AbstractCollectionProtocol;
 import aletheia.security.utilities.PassphraseEncryptedStreamer;
 import aletheia.security.utilities.PassphraseEncryptedStreamer.BadPassphraseException;

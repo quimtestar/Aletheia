@@ -39,7 +39,7 @@ public class IconManager
 	private static List<Image> loadIcons()
 	{
 		return Stream.of("aletheia_plain_16.png", "aletheia_plain_32.png", "aletheia_plain_64.png", "aletheia_plain_128.png").map(fn -> {
-			try (InputStream is = ClassLoader.getSystemResourceAsStream("aletheia/gui/icons/" + fn))
+			try (InputStream is = IconManager.class.getResourceAsStream(fn))
 			{
 				if (is == null)
 					return null;
@@ -56,7 +56,7 @@ public class IconManager
 	@SuppressWarnings("unused")
 	private static Icon loadBinaryFolderIcon()
 	{
-		try (InputStream is = ClassLoader.getSystemResourceAsStream("aletheia/gui/icons/folder_binary.png"))
+		try (InputStream is = IconManager.class.getResourceAsStream("folder_binary.png"))
 		{
 			return new ImageIcon(ImageIO.read(is));
 		}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -33,8 +33,8 @@ import aletheia.persistence.entities.authority.EncryptedPrivateSignatoryEntity;
 import aletheia.protocol.Protocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.security.AESCipherProtocol;
-import aletheia.protocol.security.PrivateKeyProtocol;
+import aletheia.security.protocol.AESCipherProtocol;
+import aletheia.security.protocol.PrivateKeyProtocol;
 import aletheia.security.utilities.SecurityUtilities;
 
 public class EncryptedPrivateSignatory extends PrivateSignatory

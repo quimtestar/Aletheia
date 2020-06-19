@@ -21,8 +21,8 @@ package aletheia.persistence.berkeleydb.proxies.security;
 
 import com.sleepycat.persist.model.Persistent;
 
-import aletheia.model.security.MessageDigestData;
 import aletheia.persistence.berkeleydb.proxies.AletheiaPersistentProxy;
+import aletheia.security.model.MessageDigestData;
 
 @Persistent(version = 0, proxyFor = MessageDigestData.class)
 public class MessageDigestDataProxy implements AletheiaPersistentProxy<MessageDigestData>

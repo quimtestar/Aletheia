@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2018 Quim Testar
+ * Copyright (c) 2018, 2020 Quim Testar
  * 
  * This file is part of the Aletheia Proof Assistant.
  * 
@@ -22,7 +22,7 @@ package aletheia.parser.term.semantic;
 import java.util.List;
 
 import aletheia.model.term.Term;
-import aletheia.model.term.UnprojectedCastTypeTerm.UnprojectedCastTypeException;
+import aletheia.model.term.UnprojectedCastTypeTerm;
 import aletheia.parser.term.TermParser.Globals;
 import aletheia.parser.term.TermParser.ProductionTokenPayloadReducer;
 import aletheia.parsergenerator.parser.Production;
@@ -45,7 +45,7 @@ public class A__opencur_T_closecur_TokenReducer extends ProductionTokenPayloadRe
 		{
 			return ((Term) NonTerminalToken.getPayloadFromTokenList(reducees, 1)).castToUnprojectedType();
 		}
-		catch (UnprojectedCastTypeException e)
+		catch (UnprojectedCastTypeTerm.UnprojectedCastTypeException e)
 		{
 			throw new SemanticException(reducees.get(1), e);
 		}

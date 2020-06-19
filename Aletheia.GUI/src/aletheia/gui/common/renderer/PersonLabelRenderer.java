@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -29,8 +29,8 @@ import javax.swing.JLabel;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-import aletheia.gui.app.FontManager;
 import aletheia.gui.common.PopupManager;
+import aletheia.gui.fonts.FontManager;
 import aletheia.gui.person.PersonInfoJPanel;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.PrivatePerson;

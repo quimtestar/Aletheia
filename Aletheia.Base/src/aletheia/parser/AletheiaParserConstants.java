@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2017, 2019 Quim Testar
+ * Copyright (c) 2017, 2020 Quim Testar
  * 
  * This file is part of the Aletheia Proof Assistant.
  * 
@@ -21,14 +21,14 @@ package aletheia.parser;
 
 public final class AletheiaParserConstants
 {
-	public final static String lexerPath = "aletheia/parser/aletheia.lex";
-	public final static String automatonSetPath = "aletheia/parser/aletheia.ast";
+	public final static String lexerPath = "/aletheia/parser/aletheia.lex";
+	public final static String automatonSetPath = "/aletheia/parser/aletheia.ast";
 
-	public final static String termGrammarPath = "aletheia/parser/term/term.gra";
-	public final static String termTransitionTablePath = "aletheia/parser/term/term.ttb";
+	public final static String termGrammarPath = "/aletheia/parser/term/term.gra";
+	public final static String termTransitionTablePath = "/aletheia/parser/term/term.ttb";
 
-	public final static String parameterIdentificationGrammarPath = "aletheia/parser/parameteridentification/parameterIdentification.gra";
-	public final static String parameterIdentificationTransitionTablePath = "aletheia/parser/parameteridentification/parameterIdentification.ttb";
+	public final static String parameterIdentificationGrammarPath = "/aletheia/parser/parameteridentification/parameterIdentification.gra";
+	public final static String parameterIdentificationTransitionTablePath = "/aletheia/parser/parameteridentification/parameterIdentification.ttb";
 
 	private AletheiaParserConstants()
 	{

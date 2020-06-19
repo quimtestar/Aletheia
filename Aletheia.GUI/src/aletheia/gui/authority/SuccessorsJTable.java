@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -46,13 +46,13 @@ import javax.swing.event.TableModelEvent;
 import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 
-import aletheia.gui.app.FontManager;
 import aletheia.gui.authority.SuccessorsTableModel.SuccessorEntryData;
 import aletheia.gui.common.renderer.AbstractRenderer;
 import aletheia.gui.common.renderer.BoldTextLabelRenderer;
 import aletheia.gui.common.renderer.DateLabelRenderer;
 import aletheia.gui.common.renderer.PersonLabelRenderer;
 import aletheia.gui.common.renderer.TextLabelRenderer;
+import aletheia.gui.fonts.FontManager;
 import aletheia.model.authority.DelegateTreeRootNode;
 import aletheia.model.authority.Person;
 import aletheia.persistence.PersistenceManager;

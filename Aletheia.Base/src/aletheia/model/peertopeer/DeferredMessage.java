@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -25,12 +25,12 @@ import java.util.Date;
 import java.util.UUID;
 
 import aletheia.model.peertopeer.deferredmessagecontent.DeferredMessageContent;
+import aletheia.model.peertopeer.deferredmessagecontent.protocol.DeferredMessageContentProtocol;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.collections.peertopeer.NodeDeferredMessagesMap;
 import aletheia.persistence.entities.peertopeer.DeferredMessageEntity;
 import aletheia.protocol.Exportable;
-import aletheia.protocol.peertopeer.deferredmessagecontent.DeferredMessageContentProtocol;
 import aletheia.protocol.primitive.DateProtocol;
 import aletheia.protocol.primitive.UUIDProtocol;
 import aletheia.security.messagedigester.BufferedMessageDigester;

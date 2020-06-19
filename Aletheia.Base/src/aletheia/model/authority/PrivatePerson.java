@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -23,11 +23,11 @@ import java.security.InvalidKeyException;
 import java.util.Date;
 import java.util.UUID;
 
-import aletheia.model.security.SignatureData;
-import aletheia.persistence.PersistenceListenerManager.Listeners;
+import aletheia.persistence.PersistenceListenerManager;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.entities.authority.PrivatePersonEntity;
+import aletheia.security.model.SignatureData;
 import aletheia.security.signerverifier.Signer;
 
 public class PrivatePerson extends Person
@@ -50,7 +50,7 @@ public class PrivatePerson extends Person
 		PrivatePerson person = new PrivatePerson(persistenceManager, signatory.getUuid(), nick);
 		person.updateOrphanSince(transaction);
 		person.persistenceUpdate(transaction);
-		Listeners<AddStateListener> listeners = persistenceManager.getListenerManager().getPersonAddStateListeners();
+		PersistenceListenerManager.Listeners<AddStateListener> listeners = persistenceManager.getListenerManager().getPersonAddStateListeners();
 		synchronized (listeners)
 		{
 			for (AddStateListener l : listeners)

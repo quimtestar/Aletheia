@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -26,7 +26,7 @@ import java.security.PublicKey;
 import java.security.Signature;
 import java.security.SignatureException;
 
-import aletheia.model.security.SignatureData;
+import aletheia.security.model.SignatureData;
 
 public class BufferedVerifier extends BufferedSignerOrVerifier implements Verifier
 {

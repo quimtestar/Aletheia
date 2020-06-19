@@ -32,9 +32,9 @@ import com.sleepycat.persist.model.SecondaryKey;
 
 import aletheia.model.identifier.Namespace;
 import aletheia.model.identifier.NodeNamespace.InvalidNameException;
-import aletheia.model.security.SignatureData;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.entities.authority.DelegateAuthorizerEntity;
+import aletheia.security.model.SignatureData;
 
 @Entity(version = 3)
 public class BerkeleyDBDelegateAuthorizerEntity implements DelegateAuthorizerEntity

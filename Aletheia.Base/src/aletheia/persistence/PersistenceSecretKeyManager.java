@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -46,7 +46,7 @@ import aletheia.model.misc.PersistenceSecretKeySingleton;
 import aletheia.model.misc.PersistenceSecretKeySingleton.PersistenceSecretKeySingletonCollisionException;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.primitive.ByteArrayProtocol;
-import aletheia.protocol.security.AESCipherProtocol;
+import aletheia.security.protocol.AESCipherProtocol;
 
 public class PersistenceSecretKeyManager
 {

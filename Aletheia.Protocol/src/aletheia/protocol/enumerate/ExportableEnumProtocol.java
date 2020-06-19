@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -27,7 +27,6 @@ import java.util.Map;
 import aletheia.protocol.Protocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.enumerate.ExportableEnumCodeMapFactory.DuplicateCodeException;
 
 @ProtocolInfo(availableVersions = 0)
 public class ExportableEnumProtocol<C, E extends ExportableEnum<C, ?>> extends Protocol<E>
@@ -47,7 +46,7 @@ public class ExportableEnumProtocol<C, E extends ExportableEnum<C, ?>> extends P
 		{
 			this.codeMap = exportableEnumCodeMapFactory.codeMap(enumClass, enumVersion);
 		}
-		catch (DuplicateCodeException e)
+		catch (ExportableEnumCodeMapFactory.DuplicateCodeException e)
 		{
 			throw new RuntimeException(e);
 		}

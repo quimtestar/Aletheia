@@ -43,7 +43,6 @@ import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTree
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateTreeSubNodeEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBEncryptedPrivateSignatoryEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPackedSignatureRequestEntity;
-import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPackedSignatureRequestEntity.ContextPackingDateSecondaryKeyData;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPersonEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPlainPrivateSignatoryEntity;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBPrivatePersonEntity;
@@ -107,8 +106,8 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 {
 	private static final Logger logger = LoggerManager.instance.logger();
 
-	private static final int storeVersion = 26;
-	private static final int minimalStoreVersion = 25;
+	private static final int storeVersion = 27;
+	private static final int minimalStoreVersion = 27;
 
 	private static final Collection<Class<?>> registerClasses = Arrays.<Class<?>> asList(
 	// @formatter:off
@@ -591,7 +590,7 @@ public class BerkeleyDBAletheiaEntityStore extends BerkeleyDBAletheiaAbstractEnt
 		return unpackedSignatureRequestEntityStatementListSecondaryIndex().subIndex(contextUuidKey);
 	}
 
-	public SecondaryIndex<ContextPackingDateSecondaryKeyData, UUIDKey, BerkeleyDBPackedSignatureRequestEntity> packedSignatureRequestEntityContextPackingDateSecondaryIndex()
+	public SecondaryIndex<BerkeleyDBPackedSignatureRequestEntity.ContextPackingDateSecondaryKeyData, UUIDKey, BerkeleyDBPackedSignatureRequestEntity> packedSignatureRequestEntityContextPackingDateSecondaryIndex()
 			throws DatabaseException
 	{
 		return getSubclassIndex(signatureRequestEntityPrimaryIndex(), BerkeleyDBPackedSignatureRequestEntity.class,

@@ -140,7 +140,7 @@ public class LexerParser extends Parser
 					C__CHAR_HYPHEN_CHAR_TokenReducer.class);
 	//@formatter:on
 
-	private static class AutomatonTag
+	public static class AutomatonTag
 	{
 		public final DeterministicAutomaton automaton;
 		public final TaggedTerminalSymbol tag;

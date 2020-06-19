@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
-    Copyright (c) 2019 Quim Testar.
+    Copyright (c) 2019, 2020 Quim Testar.
    
     This file is part of the Aletheia Proof Assistant.
    
@@ -21,19 +21,35 @@
 <project basedir="." default="build" name="Aletheia.GUI.Fonts">
     <property environment="env"/>
     <property name="Aletheia.GUI.location" value="../Aletheia.GUI"/>
-    <property name="Aletheia.Test.location" value="../Aletheia.Test"/>
+    <property name="Aletheia.Testing.location" value="../Aletheia.Testing"/>
+    <property name="Aletheia.Version.location" value="../Aletheia.Version"/>
+    <property name="Aletheia.log4j.location" value="../Aletheia.log4j"/>
     <property name="debug" value="true"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="11"/>
     <property name="source" value="11"/>
+    <path id="Log4j Library.userclasspath">
+        <pathelement location="${Aletheia.log4j.location}/log4j-api-2.12.0.jar"/>
+        <pathelement location="${Aletheia.log4j.location}/log4j-core-2.12.0.jar"/>
+    </path>
+    <path id="Aletheia.Version.classpath">
+        <pathelement location="${Aletheia.Version.location}/bin"/>
+    </path>
+    <path id="Aletheia.log4j.classpath">
+        <pathelement location="${Aletheia.log4j.location}/bin"/>
+        <path refid="Log4j Library.userclasspath"/>
+        <path refid="Aletheia.Version.classpath"/>
+    </path>
     <path id="Aletheia.GUI.Fonts.classpath">
         <pathelement location="bin"/>
+        <path refid="Aletheia.log4j.classpath"/>
     </path>
     <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
                 <exclude name="**/*.launch"/>
+                <exclude name="**/*.xtend"/>
                 <exclude name="**/*.java"/>
             </fileset>
         </copy>
@@ -41,9 +57,23 @@
     <target name="clean">
         <delete dir="bin"/>
     </target>
-    <target depends="clean" name="cleanall"/>
+    <target depends="clean" name="cleanall">
+        <ant antfile="build.xml" dir="${Aletheia.Version.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.log4j.location}" inheritAll="false" target="clean"/>
+    </target>
     <target depends="build-subprojects,build-project" name="build"/>
-    <target name="build-subprojects"/>
+    <target name="build-subprojects">
+        <ant antfile="build.xml" dir="${Aletheia.Version.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${Aletheia.log4j.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+    </target>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="${debug}" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
@@ -53,8 +83,16 @@
     </target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects">
         <ant antfile="build.xml" dir="${Aletheia.GUI.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Aletheia.GUI.location}" inheritAll="false" target="build"/>
-        <ant antfile="build.xml" dir="${Aletheia.Test.location}" inheritAll="false" target="clean"/>
-        <ant antfile="build.xml" dir="${Aletheia.Test.location}" inheritAll="false" target="build"/>
+        <ant antfile="build.xml" dir="${Aletheia.GUI.location}" inheritAll="false" target="build">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${Aletheia.Testing.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.Testing.location}" inheritAll="false" target="build">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
     </target>
 </project>

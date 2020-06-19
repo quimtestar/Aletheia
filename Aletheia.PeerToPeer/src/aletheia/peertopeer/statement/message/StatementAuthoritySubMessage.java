@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -32,19 +32,19 @@ import aletheia.model.authority.StatementAuthority;
 import aletheia.model.authority.StatementAuthoritySignature;
 import aletheia.model.identifier.Identifier;
 import aletheia.model.identifier.Namespace;
-import aletheia.model.security.SignatureData;
+import aletheia.model.identifier.protocol.NamespaceProtocol;
 import aletheia.persistence.Transaction;
 import aletheia.protocol.Exportable;
 import aletheia.protocol.ExportableProtocol;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
 import aletheia.protocol.collection.CollectionProtocol;
-import aletheia.protocol.namespace.NamespaceProtocol;
 import aletheia.protocol.primitive.BooleanProtocol;
 import aletheia.protocol.primitive.DateProtocol;
 import aletheia.protocol.primitive.NullableProtocol;
 import aletheia.protocol.primitive.UUIDProtocol;
-import aletheia.protocol.security.SignatureDataProtocol;
+import aletheia.security.model.SignatureData;
+import aletheia.security.protocol.SignatureDataProtocol;
 import aletheia.utilities.collections.CloseableCollection;
 import aletheia.utilities.collections.TrivialCloseableCollection;
 

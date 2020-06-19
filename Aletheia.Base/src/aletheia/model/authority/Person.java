@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2015 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -26,7 +26,6 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.UUID;
 
-import aletheia.model.security.SignatureData;
 import aletheia.persistence.PersistenceListener;
 import aletheia.persistence.PersistenceListenerManager.Listeners;
 import aletheia.persistence.PersistenceManager;
@@ -39,6 +38,7 @@ import aletheia.protocol.Exportable;
 import aletheia.protocol.primitive.DateProtocol;
 import aletheia.protocol.primitive.NullableProtocol;
 import aletheia.protocol.primitive.StringProtocol;
+import aletheia.security.model.SignatureData;
 import aletheia.security.signerverifier.Verifier;
 
 public class Person implements Exportable

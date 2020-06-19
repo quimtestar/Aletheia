@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -959,7 +959,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 					if (closest.routerSetNeighbour())
 						break;
 				}
-				catch (CancelledCommandException e)
+				catch (LoopSubPhase.CancelledCommandException e)
 				{
 				}
 				Thread.sleep(closestConnectRetryTime);

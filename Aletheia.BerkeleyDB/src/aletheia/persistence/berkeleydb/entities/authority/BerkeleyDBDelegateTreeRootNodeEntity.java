@@ -35,9 +35,9 @@ import com.sleepycat.persist.model.Relationship;
 import com.sleepycat.persist.model.SecondaryKey;
 
 import aletheia.model.identifier.RootNamespace;
-import aletheia.model.security.SignatureData;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.entities.authority.DelegateTreeRootNodeEntity;
+import aletheia.security.model.SignatureData;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionList;
 import aletheia.utilities.collections.BijectionSet;

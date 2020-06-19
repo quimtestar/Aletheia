@@ -28,15 +28,14 @@ import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
 import aletheia.persistence.berkeleydb.BerkeleyDBTransaction;
 import aletheia.persistence.berkeleydb.entities.UUIDKey;
 import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateAuthorizerEntity;
-import aletheia.persistence.berkeleydb.entities.authority.BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData;
 import aletheia.persistence.collections.authority.DelegateAuthorizerSetByDelegate;
 
 public class BerkeleyDBDelegateAuthorizerSetByDelegate extends BerkeleyDBAbstractDelegateAuthorizerSet implements DelegateAuthorizerSetByDelegate
 {
 	private final Person delegate;
 	private final UUIDKey delegateUuidKey;
-	private final SecondaryIndex<UUIDKey, PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> secondaryIndex;
-	private final EntityIndex<PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> subIndex;
+	private final SecondaryIndex<UUIDKey, BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> secondaryIndex;
+	private final EntityIndex<BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> subIndex;
 
 	public BerkeleyDBDelegateAuthorizerSetByDelegate(BerkeleyDBPersistenceManager persistenceManager, BerkeleyDBTransaction transaction, Person delegate)
 	{
@@ -54,7 +53,7 @@ public class BerkeleyDBDelegateAuthorizerSetByDelegate extends BerkeleyDBAbstrac
 	}
 
 	@Override
-	protected EntityIndex<PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> index()
+	protected EntityIndex<BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData, BerkeleyDBDelegateAuthorizerEntity> index()
 	{
 		return subIndex;
 	}

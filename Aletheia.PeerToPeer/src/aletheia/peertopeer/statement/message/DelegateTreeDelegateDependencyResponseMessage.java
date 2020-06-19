@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2020 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.UUID;
 
 import aletheia.model.authority.Person;
+import aletheia.model.authority.protocol.PersonProtocol;
 import aletheia.peertopeer.base.message.AbstractUUIDPersistentInfoMessage;
 import aletheia.peertopeer.base.message.MessageCode;
 import aletheia.peertopeer.base.message.MessageSubProtocolInfo;
@@ -34,7 +35,6 @@ import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.protocol.ProtocolException;
 import aletheia.protocol.ProtocolInfo;
-import aletheia.protocol.authority.PersonProtocol;
 
 @MessageSubProtocolInfo(subProtocolClass = DelegateTreeDelegateDependencyResponseMessage.SubProtocol.class)
 public class DelegateTreeDelegateDependencyResponseMessage extends DelegateTreeDependencyResponseMessage<Person>
