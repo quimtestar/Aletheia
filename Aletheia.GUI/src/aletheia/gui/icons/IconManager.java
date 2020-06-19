@@ -56,7 +56,7 @@ public class IconManager
 	@SuppressWarnings("unused")
 	private static Icon loadBinaryFolderIcon()
 	{
-		try (InputStream is = ClassLoader.getSystemResourceAsStream("aletheia/gui/icons/folder_binary.png"))
+		try (InputStream is = IconManager.class.getResourceAsStream("folder_binary.png"))
 		{
 			return new ImageIcon(ImageIO.read(is));
 		}
