@@ -86,14 +86,24 @@ public class ReplacementTest0000 extends TransactionalBerkeleyDBPersistenceManag
 		{
 			Map<String, String> stringMap = new HashMap<>();
 
-			stringMap.put("Prop.True.th", "Prop.True.def.new");
+			stringMap.put("Real.exponentiation.Rational.old", "Real.exponentiation.Rational");
+			stringMap.put("Real.exponentiation.Rational.old.def", "Real.exponentiation.Rational.def");
+			stringMap.put("Real.exponentiation.Rational.old.th.Real", "Real.exponentiation.Rational.th.Real");
+			stringMap.put("Real.exponentiation.Rational.old.th.one", "Real.exponentiation.Rational.th.one");
+			stringMap.put("Real.exponentiation.Rational.old.th.one.lft", "Real.exponentiation.Rational.th.one.lft");
+			stringMap.put("Real.exponentiation.Rational.old.th.increasing", null);
 
-			Context choiceCtx = persistenceManager.getContext(transaction, UUID.fromString("75130b32-91fa-5da5-af6c-744cb4463f64"));
+			Context choiceCtx = persistenceManager.getContext(transaction, UUID.fromString("42cc8199-8159-5567-b65c-db023f95eaa3"));
 			for (Map.Entry<String, String> e : stringMap.entrySet())
 			{
 				Statement k = choiceCtx.identifierToStatement(transaction).get(Identifier.parse(e.getKey()));
-				Statement v = choiceCtx.identifierToStatement(transaction).get(Identifier.parse(e.getValue()));
-				statementMap.put(k, v);
+				if (e.getValue() != null)
+				{
+					Statement v = choiceCtx.identifierToStatement(transaction).get(Identifier.parse(e.getValue()));
+					statementMap.put(k, v);
+				}
+				else
+					statementMap.put(k, null);
 			}
 		}
 
