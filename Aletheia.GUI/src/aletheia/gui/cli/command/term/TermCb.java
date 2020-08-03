@@ -60,12 +60,13 @@ public class TermCb extends TransactionalCommand
 		{
 			checkMinParameters(split);
 			Term term;
-			ParameterIdentification parameterIdentification = null;
+			ParameterIdentification parameterIdentification;
 			if (split.size() < 1)
 			{
 				if (from.getActiveContext() == null)
 					throw new CommandParseException(new NotActiveContextException());
 				term = from.getActiveContext().getConsequent();
+				parameterIdentification = from.getActiveContext().consequentParameterIdentification(transaction);
 			}
 			else
 			{
