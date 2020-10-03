@@ -293,9 +293,9 @@ public class StatementAuthority implements Exportable
 		return persistenceManager.getStatement(transaction, getStatementUuid());
 	}
 
-	public StatementAuthority getContextAuthority(Transaction transaction)
+	public ContextAuthority getContextAuthority(Transaction transaction)
 	{
-		return persistenceManager.getStatementAuthority(transaction, getContextUuid());
+		return persistenceManager.getContextAuthority(transaction, getContextUuid());
 	}
 
 	public Context getContext(Transaction transaction)

@@ -117,7 +117,7 @@ public class RootContextAuthority extends ContextAuthority
 	}
 
 	@Override
-	public StatementAuthority getContextAuthority(Transaction transaction)
+	public ContextAuthority getContextAuthority(Transaction transaction)
 	{
 		throw new UnsupportedOperationException();
 	}
