@@ -36,8 +36,10 @@ import aletheia.model.statement.Specialization;
 import aletheia.model.statement.Specialization.BadInstanceException;
 import aletheia.model.statement.Statement;
 import aletheia.model.statement.UnfoldingContext;
+import aletheia.model.term.FunctionTerm;
 import aletheia.model.term.IdentifiableVariableTerm;
 import aletheia.model.term.Term;
+import aletheia.model.term.Term.ReplaceTypeException;
 import aletheia.model.term.VariableTerm;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceManager;
@@ -85,12 +87,16 @@ public class ReplacementTest0002 extends TransactionalBerkeleyDBPersistenceManag
 		{
 			Map<String, String> stringMap = new HashMap<>();
 
-			stringMap.put("Real.Function.Continuous.th.constant.tmp", "Real.Function.Continuous.th.constant");
+			stringMap.put("Real.Function.Local", "Real.Function.Local.new");
+			stringMap.put("Real.Function.Local.def", "Real.Function.Local.new.def.old");
+			stringMap.put("Real.Function.Local.def.inv", "Real.Function.Local.new.def.inv.old");
 
 			Context choiceCtx = persistenceManager.getContext(transaction, UUID.fromString("42cc8199-8159-5567-b65c-db023f95eaa3"));
 			for (Map.Entry<String, String> e : stringMap.entrySet())
 			{
 				Statement k = choiceCtx.identifierToStatement(transaction).get(Identifier.parse(e.getKey()));
+				if (k == null)
+					throw new Exception(e.toString());
 				if (e.getValue() != null)
 				{
 					Statement v = choiceCtx.identifierToStatement(transaction).get(Identifier.parse(e.getValue()));
@@ -187,8 +193,15 @@ public class ReplacementTest0002 extends TransactionalBerkeleyDBPersistenceManag
 				Identifier newId = oldSt.unidentify(transaction);
 				if (newId != null)
 				{
-					Identifier oldId = new Identifier(newId, "old_test0011");
-					oldSt.identify(transaction, oldId);
+					Identifier oldId = new Identifier(newId, "old_ReplacementTest0002");
+					try
+					{
+						oldSt.identify(transaction, oldId);
+					}
+					catch (Exception e)
+					{
+						throw e;
+					}
 				}
 
 				Statement newSt = null;
@@ -227,10 +240,14 @@ public class ReplacementTest0002 extends TransactionalBerkeleyDBPersistenceManag
 					}
 					catch (BadInstanceException e)
 					{
-						if (newGeneral.getTerm().equals(oldSt.getTerm().replace(variableMap)))
+						if (subsumed(newGeneral.getTerm(), oldSt.getTerm().replace(variableMap)))
 						{
 							newSt = newGeneral;
 							newSt.unidentify(transaction);
+						}
+						else
+						{
+							throw e;
 						}
 					}
 					catch (Exception e)
@@ -251,6 +268,28 @@ public class ReplacementTest0002 extends TransactionalBerkeleyDBPersistenceManag
 		}
 		System.out.println("done!");
 
+	}
+
+	private boolean subsumed(Term a, Term b) throws ReplaceTypeException
+	{
+		if (a.equals(b))
+			return true;
+		else if (b instanceof FunctionTerm)
+		{
+			FunctionTerm fb = (FunctionTerm) b;
+			if (a instanceof FunctionTerm)
+			{
+				FunctionTerm fa = (FunctionTerm) a;
+				if (!fa.domain().equals(fb.domain()))
+					return subsumed(a, fb.getBody());
+				else
+					return subsumed(fa.getBody(), fb.getBody().replace(fb.getParameter(), fa.getParameter()));
+			}
+			else
+				return subsumed(a, fb.getBody());
+		}
+		else
+			return false;
 	}
 
 }
