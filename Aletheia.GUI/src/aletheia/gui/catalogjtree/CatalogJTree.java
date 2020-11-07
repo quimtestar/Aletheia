@@ -384,6 +384,7 @@ public class CatalogJTree extends PersistentJTree
 
 	public void close() throws InterruptedException
 	{
+		cancelEditing();
 		getModel().shutdown();
 	}
 

@@ -1210,6 +1210,7 @@ public class ContextJTree extends PersistentJTree
 
 	public void close() throws InterruptedException
 	{
+		cancelEditing();
 		if (memoryUsageMonitor != null)
 			memoryUsageMonitor.shutdown();
 		getModel().shutdown();
