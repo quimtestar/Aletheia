@@ -117,19 +117,24 @@ public class ContextJTree extends PersistentJTree
 
 		public ContextJTreeNodeRenderer getNodeRenderer(ContextJTreeNode node)
 		{
-			try
+			if (getPersistenceManager().isOpen())
 			{
-				synchronized (getTreeLock())
+				try
 				{
-					return node.renderer(ContextJTree.this);
+					synchronized (getTreeLock())
+					{
+						return node.renderer(ContextJTree.this);
+					}
+				}
+				catch (PersistenceLockTimeoutException e)
+				{
+					logger.trace("Couldn't build renderer for node: " + this, e);
+					getModel().nodeChanged(node);
+					return new EmptyContextJTreeNodeRenderer(ContextJTree.this);
 				}
 			}
-			catch (PersistenceLockTimeoutException e)
-			{
-				logger.trace("Couldn't build renderer for node: " + this, e);
-				getModel().nodeChanged(node);
+			else
 				return new EmptyContextJTreeNodeRenderer(ContextJTree.this);
-			}
 		}
 
 	}

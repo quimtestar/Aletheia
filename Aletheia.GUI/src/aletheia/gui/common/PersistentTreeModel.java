@@ -37,6 +37,7 @@ import aletheia.log4j.LoggerManager;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.exceptions.PersistenceLockTimeoutException;
+import aletheia.persistence.exceptions.PersistenceManagerClosedException;
 
 public abstract class PersistentTreeModel implements TreeModel
 {
@@ -75,7 +76,8 @@ public abstract class PersistentTreeModel implements TreeModel
 		return persistenceManager;
 	}
 
-	public Transaction beginTransaction()
+	//XXX: Ad hoc checked exception here to make sure every instance of PersistenceManager closed is controlled?
+	public Transaction beginTransaction() throws PersistenceManagerClosedException
 	{
 		return getPersistenceManager().beginTransaction(transactionTimeOut);
 	}

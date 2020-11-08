@@ -92,23 +92,28 @@ public abstract class SignatureRequestTreeNode implements TreeNode
 
 	protected synchronized List<? extends SignatureRequestTreeNode> childNodeList()
 	{
-		List<? extends SignatureRequestTreeNode> childNodeList = null;
-		if (childNodeListRef != null)
-			childNodeList = childNodeListRef.get();
-		if (childNodeList == null)
+		if (getPersistenceManager().isOpen())
 		{
-			Transaction transaction = getModel().beginTransaction();
-			try
+			List<? extends SignatureRequestTreeNode> childNodeList = null;
+			if (childNodeListRef != null)
+				childNodeList = childNodeListRef.get();
+			if (childNodeList == null)
 			{
-				childNodeList = new BufferedList<>(childNodeCollection(transaction));
+				Transaction transaction = getModel().beginTransaction();
+				try
+				{
+					childNodeList = new BufferedList<>(childNodeCollection(transaction));
+				}
+				finally
+				{
+					transaction.abort();
+				}
+				childNodeListRef = new SoftReference<>(childNodeList);
 			}
-			finally
-			{
-				transaction.abort();
-			}
-			childNodeListRef = new SoftReference<>(childNodeList);
+			return childNodeList;
 		}
-		return childNodeList;
+		else
+			return Collections.emptyList();
 	}
 
 	@Override
