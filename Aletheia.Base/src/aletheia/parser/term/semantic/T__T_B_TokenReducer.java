@@ -19,8 +19,10 @@
  ******************************************************************************/
 package aletheia.parser.term.semantic;
 
+import java.util.Iterator;
 import java.util.List;
 
+import aletheia.model.term.ParameterVariableTerm;
 import aletheia.model.term.Term;
 import aletheia.model.term.Term.ComposeTypeException;
 import aletheia.parser.term.TermParser.Globals;
@@ -45,7 +47,21 @@ public class T__T_B_TokenReducer extends ProductionTokenPayloadReducer<Term>
 		Term tail = NonTerminalToken.getPayloadFromTokenList(reducees, 1);
 		try
 		{
-			return term.compose(tail);
+			Term composed = term.compose(tail);
+			Iterator<ParameterVariableTerm> i0 = term.parameters().iterator();
+			if (i0.hasNext())
+			{
+				i0.next();
+				for (ParameterVariableTerm p : composed.parameters())
+				{
+					if (!i0.hasNext())
+						break;
+					ParameterVariableTerm p0 = i0.next();
+					if (!globals.getParameterIdentifiers().containsKey(p))
+						globals.getParameterIdentifiers().put(p, globals.getParameterIdentifiers().get(p0));
+				}
+			}
+			return composed;
 		}
 		catch (ComposeTypeException e)
 		{
