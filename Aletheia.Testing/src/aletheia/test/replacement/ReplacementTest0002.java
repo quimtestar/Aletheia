@@ -88,8 +88,8 @@ public class ReplacementTest0002 extends TransactionalBerkeleyDBPersistenceManag
 			Map<String, String> stringMap = new HashMap<>();
 
 			stringMap.put("Real.Function.Local", "Real.Function.Local.new");
-			stringMap.put("Real.Function.Local.def", "Real.Function.Local.new.def.old");
-			stringMap.put("Real.Function.Local.def.inv", "Real.Function.Local.new.def.inv.old");
+			stringMap.put("Real.Function.Local.def", "Real.Function.Local.new.th.legacy");
+			stringMap.put("Real.Function.Local.def.inv", "Real.Function.Local.new.th.legacy.inv");
 
 			Context choiceCtx = persistenceManager.getContext(transaction, UUID.fromString("42cc8199-8159-5567-b65c-db023f95eaa3"));
 			for (Map.Entry<String, String> e : stringMap.entrySet())
@@ -244,6 +244,21 @@ public class ReplacementTest0002 extends TransactionalBerkeleyDBPersistenceManag
 						{
 							newSt = newGeneral;
 							newSt.unidentify(transaction);
+						}
+						else if (subsumed(oldGeneral.getTerm().replace(variableMap), newGeneral.getTerm()))
+						{
+							Term domain = newGeneral.getTerm().domain();
+							Statement instanceProof_ = newCtx.suitableForInstanceProofStatementByTerm(transaction, domain, false);
+							if (instanceProof_ == null)
+							{
+								instanceProof_ = newCtx.openSubContext(transaction, domain);
+								if (newId != null)
+									instanceProof_.identify(transaction, new Identifier(newId, "lc"));
+							}
+							oldSt = oldGeneral;
+							newSt = newCtx.specialize(transaction, newGeneral, instanceProof_.getVariable(), instanceProof_);
+							newId = new Identifier(newId, "lr");
+							stack.push(oldUuid);
 						}
 						else
 						{
