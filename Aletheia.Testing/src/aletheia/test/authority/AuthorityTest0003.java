@@ -21,7 +21,10 @@ package aletheia.test.authority;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.StreamSupport;
 
 import aletheia.gui.app.AletheiaCliConsole;
 import aletheia.gui.cli.command.TransactionalCommand;
@@ -33,6 +36,7 @@ import aletheia.model.authority.ContextAuthority;
 import aletheia.model.authority.PrivatePerson;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.identifier.Namespace;
+import aletheia.model.statement.Assumption;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
@@ -88,6 +92,22 @@ public class AuthorityTest0003 extends TransactionalBerkeleyDBPersistenceManager
 				if (prefix.isPrefixOf(statement.getIdentifier()) && statement.isProved() && !statement.isSignedProof(transaction))
 				{
 					System.out.println(statement.statementPathString(transaction));
+					if (statement instanceof Context)
+						if (StreamSupport.stream(((Context) statement).descendentStatements(transaction).spliterator(), false)
+								.filter(st -> !st.isValidSignature(transaction)).findAny().isEmpty())
+							continue;
+					Set<Statement> useless = statement instanceof Context ? ((Context) statement).uselessDescendents(transaction) : Collections.emptySet();
+					if (useless.stream().filter(st -> !((st instanceof Assumption) && (!ctx.equals(st.getContext(transaction))))).findAny().isPresent())
+					{
+						System.out.println("      -> useless statements!");
+						continue;
+					}
+					Context hc = statement.highestContext(transaction);
+					if (!ctx.equals(hc))
+					{
+						System.out.println("      -> higher context!");
+						continue;
+					}
 					StatementAuthority stAuth = statement.getAuthority(transaction);
 					if (statement instanceof Context)
 						runTransactionalCommand(new AuthRec(AletheiaCliConsole.cliConsole(persistenceManager), transaction, quimtestar, (Context) statement));
