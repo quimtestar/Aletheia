@@ -557,7 +557,7 @@ public class CliJPanel extends JPanel implements CommandSource
 				if ((length > 0) && (offset - multiLinePrompt.length() - 1 >= 0))
 				{
 					String s = document.getText(offset - multiLinePrompt.length() - 1, multiLinePrompt.length() + 2);
-					int i = s.indexOf('\n');
+					int i = s.indexOf('\n' + multiLinePrompt);
 					if (i >= 0)
 					{
 						offset -= (multiLinePrompt.length() + 1) - i;
@@ -567,7 +567,7 @@ public class CliJPanel extends JPanel implements CommandSource
 				if (length > 0)
 				{
 					String s = document.getText(offset + length - multiLinePrompt.length() - 1, multiLinePrompt.length() + 1);
-					int i = s.indexOf('\n');
+					int i = s.indexOf('\n' + multiLinePrompt);
 					if (i >= 0)
 						length += i + 1;
 					if (offset + length > document.getLength())
