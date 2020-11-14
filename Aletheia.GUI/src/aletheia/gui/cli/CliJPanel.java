@@ -2734,7 +2734,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		try
 		{
 			String command = getCommand().substring(0, textPane.getCaretPosition() - minimalCaretPosition);
-			completionSet = Command.completionSet(this, command);
+			completionSet = Command.completionSet(this, replaceMultiLinePromptWithSpaces(command));
 		}
 		catch (Exception e)
 		{
