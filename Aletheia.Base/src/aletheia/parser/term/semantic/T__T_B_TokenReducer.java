@@ -48,17 +48,20 @@ public class T__T_B_TokenReducer extends ProductionTokenPayloadReducer<Term>
 		try
 		{
 			Term composed = term.compose(tail);
-			Iterator<ParameterVariableTerm> i0 = term.parameters().iterator();
-			if (i0.hasNext())
+			if (globals.getParameterIdentifiers() != null)
 			{
-				i0.next();
-				for (ParameterVariableTerm p : composed.parameters())
+				Iterator<ParameterVariableTerm> i0 = term.parameters().iterator();
+				if (i0.hasNext())
 				{
-					if (!i0.hasNext())
-						break;
-					ParameterVariableTerm p0 = i0.next();
-					if (!globals.getParameterIdentifiers().containsKey(p))
-						globals.getParameterIdentifiers().put(p, globals.getParameterIdentifiers().get(p0));
+					i0.next();
+					for (ParameterVariableTerm p : composed.parameters())
+					{
+						if (!i0.hasNext())
+							break;
+						ParameterVariableTerm p0 = i0.next();
+						if (!globals.getParameterIdentifiers().containsKey(p))
+							globals.getParameterIdentifiers().put(p, globals.getParameterIdentifiers().get(p0));
+					}
 				}
 			}
 			return composed;
