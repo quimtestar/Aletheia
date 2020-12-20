@@ -105,6 +105,7 @@ aletheia.gui.cli.command.statement.Match
 aletheia.gui.cli.command.statement.Search
 aletheia.gui.cli.command.statement.LastId
 aletheia.gui.cli.command.statement.Useless
+aletheia.gui.cli.command.statement.DeleteUseless
 aletheia.gui.cli.command.statement.Undelete
 aletheia.gui.cli.command.statement.Unproved
 aletheia.gui.cli.command.statement.Unused
