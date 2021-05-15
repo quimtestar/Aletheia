@@ -87,9 +87,9 @@ public class ReplacementTest0002 extends TransactionalBerkeleyDBPersistenceManag
 		{
 			Map<String, String> stringMap = new HashMap<>();
 
-			stringMap.put("Real.Function.Local", "Real.Function.Local.new");
-			stringMap.put("Real.Function.Local.def", "Real.Function.Local.new.th.legacy");
-			stringMap.put("Real.Function.Local.def.inv", "Real.Function.Local.new.th.legacy.inv");
+			stringMap.put("Real.integral.riemann.Exists.Equal", "Real.integral.riemann.new.Exists.Equal");
+			stringMap.put("Real.integral.riemann.Exists.Equal.def", "Real.integral.riemann.new.Exists.Equal.def.old");
+			stringMap.put("Real.integral.riemann.Exists.Equal.def.inv", "Real.integral.riemann.new.Exists.Equal.def.inv.old");
 
 			Context choiceCtx = persistenceManager.getContext(transaction, UUID.fromString("42cc8199-8159-5567-b65c-db023f95eaa3"));
 			for (Map.Entry<String, String> e : stringMap.entrySet())

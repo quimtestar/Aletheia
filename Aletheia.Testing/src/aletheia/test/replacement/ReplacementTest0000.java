@@ -86,17 +86,12 @@ public class ReplacementTest0000 extends TransactionalBerkeleyDBPersistenceManag
 		{
 			Map<String, String> stringMap = new HashMap<>();
 
-			stringMap.put("Real.limit.Exists", "Real.limit.Exists.new");
-			stringMap.put("Real.limit.Exists.def", null);
-			stringMap.put("Real.limit.Exists.def.inv", null);
-			stringMap.put("Real.limit", "Real.limit.new");
-			stringMap.put("Real.limit.def", null);
-
-			stringMap.put("Real.limit.Exists.th.Equal", "Real.limit.Exists.new.th.Equal.tmp");
-			stringMap.put("Real.limit.Exists.th.constant", "Real.limit.Exists.new.th.constant");
-			stringMap.put("Real.limit.th.Real", "Real.limit.new.th.Real");
-			stringMap.put("Real.limit.th.epsilon_delta.inv", "Real.limit.new.th.epsilon_delta.inv.tmp");
-			stringMap.put("Real.limit.th.Equal", "Real.limit.new.th.Equal.tmp");
+			stringMap.put("Set.bUnion.disjoint", "Set.bCoproduct");
+			stringMap.put("Set.bUnion.disjoint.def", "Set.bCoproduct.def");
+			stringMap.put("Set.bUnion.disjoint.injection.lft", "Set.bCoproduct.injection.lft");
+			stringMap.put("Set.bUnion.disjoint.injection.lft.def", "Set.bCoproduct.injection.lft.def");
+			stringMap.put("Set.bUnion.disjoint.injection.rgt", "Set.bCoproduct.injection.rgt");
+			stringMap.put("Set.bUnion.disjoint.injection.rgt.def", "Set.bCoproduct.injection.rgt.def");
 
 			Context choiceCtx = persistenceManager.getContext(transaction, UUID.fromString("42cc8199-8159-5567-b65c-db023f95eaa3"));
 			for (Map.Entry<String, String> e : stringMap.entrySet())
@@ -202,7 +197,7 @@ public class ReplacementTest0000 extends TransactionalBerkeleyDBPersistenceManag
 				Identifier newId = oldSt.unidentify(transaction);
 				if (newId != null)
 				{
-					Identifier oldId = new Identifier(newId, "old_test0011");
+					Identifier oldId = new Identifier(newId, "old_ReplacementTest0000");
 					oldSt.identify(transaction, oldId);
 				}
 
