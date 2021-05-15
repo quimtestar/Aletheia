@@ -38,6 +38,7 @@ import java.util.SortedSet;
 import java.util.Stack;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.Logger;
 
@@ -95,6 +96,7 @@ import aletheia.utilities.collections.CloseableCollection;
 import aletheia.utilities.collections.CloseableIterator;
 import aletheia.utilities.collections.CloseableSet;
 import aletheia.utilities.collections.CombinedCollection;
+import aletheia.utilities.collections.CombinedIterable;
 import aletheia.utilities.collections.Filter;
 import aletheia.utilities.collections.FilteredCloseableCollection;
 import aletheia.utilities.collections.FilteredCloseableSet;
@@ -586,6 +588,82 @@ public abstract class Statement implements Exportable
 	protected void checkProved(Transaction transaction)
 	{
 		checkProved(transaction, true);
+	}
+
+	/**
+	 * Checks if any of the statements is proved by iteratively checking
+	 * dependents and solvers and ignoring any statement true valued proved
+	 * status flag.
+	 */
+	protected static boolean checkProvedIgnoringTrueProvedFlag(Transaction transaction, Collection<Statement> statements, int maxTreeSize)
+	{
+		return checkProvedIgnoringTrueProvedFlagUuids(transaction, statements.stream().map(Statement::getUuid).collect(Collectors.toList()), maxTreeSize);
+	}
+
+	/**
+	 * Checks if any of the statementUuids identifies a statement that is proved
+	 * by iteratively checking dependents and solvers and ignoring any statement
+	 * true valued proved status flag.
+	 */
+	protected static boolean checkProvedIgnoringTrueProvedFlagUuids(Transaction transaction, Collection<UUID> statementUuids, int maxTreeSize)
+	{
+		PersistenceManager persistenceManager = transaction.getPersistenceManager();
+		Stack<UUID> stack = new Stack<>();
+		Map<UUID, Set<UUID>> dependencies = new HashMap<>();
+		Map<UUID, Set<UUID>> solvers = new HashMap<>();
+		Map<UUID, Set<UUID>> dependents = new HashMap<>();
+		stack.addAll(statementUuids);
+		while (!stack.isEmpty())
+		{
+			UUID uuid = stack.pop();
+			if (!dependencies.containsKey(uuid))
+			{
+				if (dependencies.size() >= maxTreeSize)
+					return false;
+				Statement st = persistenceManager.getStatement(transaction, uuid);
+				if (st.isProved())
+				{
+					dependencies.put(uuid, st.getUuidDependencies());
+					stack.addAll(st.getUuidDependencies());
+					Iterable<UUID> revertIterable = st.getUuidDependencies();
+					if (st instanceof Context)
+					{
+						Set<UUID> sols = ((Context) st).solvers(transaction).stream().map(Statement::getUuid).collect(Collectors.toSet());
+						solvers.put(uuid, sols);
+						stack.addAll(sols);
+						revertIterable = new CombinedIterable<>(sols, revertIterable);
+					}
+					for (UUID d : revertIterable)
+					{
+						Set<UUID> s = dependents.get(d);
+						if (s == null)
+						{
+							s = new HashSet<>();
+							dependents.put(d, s);
+						}
+						s.add(uuid);
+					}
+				}
+			}
+		}
+		stack.addAll(dependencies.keySet());
+		Set<UUID> proved = new HashSet<>();
+		while (!stack.isEmpty())
+		{
+			UUID uuid = stack.pop();
+			if (!proved.contains(uuid) && proved.containsAll(dependencies.get(uuid)))
+			{
+				Set<UUID> sols = solvers.get(uuid);
+				if (sols == null || !Collections.disjoint(proved, sols))
+				{
+					if (statementUuids.contains(uuid))
+						return true;
+					proved.add(uuid);
+					stack.addAll(dependents.getOrDefault(uuid, Collections.emptySet()));
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -1738,60 +1816,6 @@ public abstract class Statement implements Exportable
 	public boolean isDescendent(Transaction transaction, Statement st)
 	{
 		return equals(st);
-	}
-
-	/**
-	 * A statement is "safely" proved when:
-	 * 
-	 * *) All its dependents are safely proved.
-	 * 
-	 * *) If a context, at least one of its solvers is a safely proved
-	 * descendant.
-	 * 
-	 * (Warning: This function might return some false negatives according to
-	 * the previous definition but no false positives)
-	 * 
-	 */
-	protected boolean checkSafelyProved(Transaction transaction)
-	{
-		Set<UUID> visited = new HashSet<>();
-		Stack<Statement> stack = new Stack<>();
-		stack.push(this);
-		while (!stack.isEmpty())
-		{
-			Statement st = stack.pop();
-			if (!visited.contains(st.getUuid()))
-			{
-				visited.add(st.getUuid());
-				if (st instanceof Context)
-				{
-					Context ctx = (Context) st;
-					boolean solver = false;
-					CloseableIterator<Statement> iterator = ctx.solvers(transaction).iterator();
-					try
-					{
-						while (iterator.hasNext())
-						{
-							Statement sol = iterator.next();
-							if (!ctx.equals(sol) && ctx.isDescendent(transaction, sol))
-							{
-								stack.push(sol);
-								solver = true;
-								break;
-							}
-						}
-					}
-					finally
-					{
-						iterator.close();
-					}
-					if (!solver)
-						return false;
-				}
-				stack.addAll(st.dependencies(transaction));
-			}
-		}
-		return true;
 	}
 
 	public static class UndeleteStatementException extends StatementException

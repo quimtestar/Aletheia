@@ -1188,38 +1188,15 @@ public class Context extends Statement
 	/**
 	 * Returns the set of descendant contexts of a context that match the given
 	 * consequent to propagate the resetting of the proved status. If the size
-	 * of that set is found too big (>=100) we first look for a safe alternative
+	 * of that set is found too big (>=64) we first look for a safe alternative
 	 * in the same context that might satisfy all that subcontexts and if so, no
 	 * resetting will be necessary so the empty set is returned.
 	 */
 	private static DescendantContextsByConsequent safelyProvedDescendantContextsToResetByTerm(Transaction transaction, Context context, Term term)
 	{
 		DescendantContextsByConsequent descendants = context.descendantContextsByConsequent(transaction, term);
-		if (!descendants.smaller(100))
-		{
-			boolean safe = false;
-			CloseableIterator<Statement> iterator = context.statementsByTerm(transaction).get(term).iterator();
-			try
-			{
-				while (iterator.hasNext())
-				{
-					Statement alt = iterator.next();
-					if (alt.checkSafelyProved(transaction))
-					{
-						safe = true;
-						break;
-					}
-				}
-			}
-			finally
-			{
-				iterator.close();
-			}
-			if (safe)
-				return new DescendantContextsByConsequent.Empty(transaction, context);
-			else
-				return descendants;
-		}
+		if (!descendants.smaller(64) && Statement.checkProvedIgnoringTrueProvedFlag(transaction, context.statementsByTerm(transaction).get(term), 8192))
+			return new DescendantContextsByConsequent.Empty(transaction, context);
 		else
 			return descendants;
 	}
