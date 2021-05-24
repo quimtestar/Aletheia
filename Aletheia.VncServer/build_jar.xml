@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    Copyright (c) 2019, 2021 Quim Testar.
+   
+    This file is part of the Aletheia Proof Assistant.
+   
+    The Aletheia Proof Assistant is free software: you can redistribute it and/or
+    modify it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the License,
+    or (at your option) any later version.
+   
+    The Aletheia Proof Assistant is distributed in the hope that it will be
+    useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
+    General Public License for more details.
+   
+    You should have received a copy of the GNU Affero General Public License
+    along with the Aletheia Proof Assistant. If not, see
+    <http://www.gnu.org/licenses/>.
+ -->
+<project basedir="." default="jar">
+    <import file="build.xml"/>
+    <target depends="build" name="jar">
+        <jar destfile="aletheia.vncserver.jar" filesetmanifest="mergewithoutmain">
+            <manifest>
+                <attribute name="Main-Class" value="aletheia.vncserver.VncServer"/>
+                <attribute name="Class-Path" value="."/>
+            </manifest>
+            <fileset dir="${Aletheia.GUI.location}/bin"/>
+            <fileset dir="${Aletheia.log4j.location}/bin"/>
+            <fileset dir="${Aletheia.Version.location}/bin"/>
+            <fileset dir="${Aletheia.Utilities.location}/bin"/>
+            <fileset dir="${Aletheia.Base.location}/bin"/>
+            <fileset dir="${Aletheia.BerkeleyDB.location}/bin"/>
+            <fileset dir="${Aletheia.GUI.Fonts.location}/bin"/>
+            <fileset dir="${Aletheia.Protocol.location}/bin"/>
+            <fileset dir="${Aletheia.PeerToPeer.location}/bin"/>
+            <fileset dir="${Aletheia.Security.location}/bin"/>
+            <fileset dir="${Aletheia.ProofFinder.location}/bin"/>
+            <fileset dir="${Aletheia.ParserGenerator.location}/bin"/>
+            <fileset dir="bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-api-2.12.0.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${Aletheia.log4j.location}/log4j-core-2.12.0.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="${Aletheia.BerkeleyDB.location}/je-7.5.11.jar"/>
+        </jar>
+    </target>
+</project>
+

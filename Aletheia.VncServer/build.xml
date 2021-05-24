@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    Copyright (c) 2019, 2021 Quim Testar.
+   
+    This file is part of the Aletheia Proof Assistant.
+   
+    The Aletheia Proof Assistant is free software: you can redistribute it and/or
+    modify it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the License,
+    or (at your option) any later version.
+   
+    The Aletheia Proof Assistant is distributed in the hope that it will be
+    useful, but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU Affero
+    General Public License for more details.
+   
+    You should have received a copy of the GNU Affero General Public License
+    along with the Aletheia Proof Assistant. If not, see
+    <http://www.gnu.org/licenses/>.
+ -->
+<project basedir="." default="build" name="Aletheia.VncServer">
+	<property environment="env"/>
+    <property name="Aletheia.Version.location" value="../Aletheia.Version"/>
+    <property name="Aletheia.log4j.location" value="../Aletheia.log4j"/>
+    <property name="Aletheia.Utilities.location" value="../Aletheia.Utilities"/>
+    <property name="Aletheia.Protocol.location" value="../Aletheia.Protocol"/>
+    <property name="Aletheia.Security.location" value="../Aletheia.Security"/>
+    <property name="Aletheia.ParserGenerator.location" value="../Aletheia.ParserGenerator"/>
+    <property name="Aletheia.GUI.Fonts.location" value="../Aletheia.GUI.Fonts"/>
+    <property name="Aletheia.Base.location" value="../Aletheia.Base"/>
+    <property name="Aletheia.ProofFinder.location" value="../Aletheia.ProofFinder"/>
+    <property name="Aletheia.PdfExport.location" value="../Aletheia.PdfExport"/>
+    <property name="Aletheia.BerkeleyDB.location" value="../Aletheia.BerkeleyDB"/>
+    <property name="Aletheia.PeerToPeer.location" value="../Aletheia.PeerToPeer"/>
+    <property name="Aletheia.GUI.location" value="../Aletheia.GUI"/>
+    <property name="debug" value="true"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="11"/>
+    <property name="source" value="11"/>
+    <path id="Log4j Library.userclasspath">
+        <pathelement location="${Aletheia.log4j.location}/log4j-api-2.12.0.jar"/>
+        <pathelement location="${Aletheia.log4j.location}/log4j-core-2.12.0.jar"/>
+    </path>
+    <path id="Aletheia.Version.classpath">
+        <pathelement location="${Aletheia.Version.location}/bin"/>
+    </path>
+    <path id="Aletheia.log4j.classpath">
+        <pathelement location="${Aletheia.log4j.location}/bin"/>
+        <path refid="Log4j Library.userclasspath"/>
+        <path refid="Aletheia.Version.classpath"/>
+    </path>
+    <path id="Aletheia.Utilities.classpath">
+        <pathelement location="${Aletheia.Utilities.location}/bin"/>
+        <path refid="Aletheia.log4j.classpath"/>
+    </path>
+    <path id="Aletheia.ParserGenerator.classpath">
+        <pathelement location="${Aletheia.ParserGenerator.location}/bin"/>
+        <path refid="Aletheia.Utilities.classpath"/>
+    </path>
+    <path id="Aletheia.Protocol.classpath">
+        <pathelement location="${Aletheia.Protocol.location}/bin"/>
+        <path refid="Aletheia.Utilities.classpath"/>
+    </path>
+    <path id="Aletheia.Security.classpath">
+        <pathelement location="${Aletheia.Security.location}/bin"/>
+        <path refid="Aletheia.Utilities.classpath"/>
+        <path refid="Aletheia.Protocol.classpath"/>
+    </path>
+    <path id="Aletheia.Base.classpath">
+        <pathelement location="${Aletheia.Base.location}/bin"/>
+        <path refid="Aletheia.ParserGenerator.classpath"/>
+        <path refid="Aletheia.log4j.classpath"/>
+        <path refid="Aletheia.Utilities.classpath"/>
+        <path refid="Aletheia.Security.classpath"/>
+        <path refid="Aletheia.Protocol.classpath"/>
+    </path>
+    <path id="Berkeley DB Library.userclasspath">
+        <pathelement location="${Aletheia.BerkeleyDB.location}/je-7.5.11.jar"/>
+    </path>
+    <path id="Aletheia.BerkeleyDB.classpath">
+        <pathelement location="${Aletheia.BerkeleyDB.location}/bin"/>
+        <path refid="Aletheia.Base.classpath"/>
+        <path refid="Aletheia.log4j.classpath"/>
+        <path refid="Aletheia.Utilities.classpath"/>
+        <path refid="Aletheia.Security.classpath"/>
+        <path refid="Aletheia.Protocol.classpath"/>
+        <path refid="Berkeley DB Library.userclasspath"/>
+        <path refid="Aletheia.Version.classpath"/>
+    </path>
+    <path id="ItextPdf Library.userclasspath">
+        <pathelement location="${Aletheia.PdfExport.location}/itextpdf-5.5.13.1.jar"/>
+    </path>
+    <path id="Aletheia.PdfExport.classpath">
+        <pathelement location="${Aletheia.PdfExport.location}/bin"/>
+        <path refid="ItextPdf Library.userclasspath"/>
+        <path refid="Aletheia.Base.classpath"/>
+        <path refid="Aletheia.Utilities.classpath"/>
+    </path>
+    <path id="Aletheia.ProofFinder.classpath">
+        <pathelement location="${Aletheia.ProofFinder.location}/bin"/>
+        <path refid="Aletheia.Base.classpath"/>
+        <path refid="Aletheia.Utilities.classpath"/>
+        <path refid="Aletheia.log4j.classpath"/>
+    </path>
+    <path id="Aletheia.PeerToPeer.classpath">
+        <pathelement location="${Aletheia.PeerToPeer.location}/bin"/>
+        <path refid="Aletheia.Base.classpath"/>
+        <path refid="Aletheia.Utilities.classpath"/>
+        <path refid="Aletheia.log4j.classpath"/>
+        <path refid="Aletheia.Security.classpath"/>
+        <path refid="Aletheia.BerkeleyDB.classpath"/>
+        <path refid="Aletheia.Protocol.classpath"/>
+        <path refid="Aletheia.Version.classpath"/>
+    </path>
+    <path id="Aletheia.GUI.Fonts.classpath">
+        <pathelement location="${Aletheia.GUI.Fonts.location}/bin"/>
+        <path refid="Aletheia.log4j.classpath"/>
+    </path>
+    <path id="Aletheia.GUI.classpath">
+        <pathelement location="${Aletheia.GUI.location}/bin"/>
+        <path refid="Aletheia.Base.classpath"/>
+        <path refid="Aletheia.log4j.classpath"/>
+        <path refid="Aletheia.Utilities.classpath"/>
+        <path refid="Aletheia.ParserGenerator.classpath"/>
+        <path refid="Aletheia.BerkeleyDB.classpath"/>
+        <path refid="Aletheia.PdfExport.classpath"/>
+        <path refid="Aletheia.ProofFinder.classpath"/>
+        <path refid="Aletheia.Security.classpath"/>
+        <path refid="Aletheia.PeerToPeer.classpath"/>
+        <path refid="Aletheia.GUI.Fonts.classpath"/>
+        <path refid="Aletheia.Protocol.classpath"/>
+        <path refid="Aletheia.Version.classpath"/>
+    </path>
+    <path id="Aletheia.VncServer.classpath">
+        <pathelement location="bin"/>
+        <path refid="Aletheia.GUI.classpath"/>
+    </path>
+    <path id="run.VncServer.classpath">
+        <path refid="Aletheia.VncServer.classpath"/>
+        <path refid="Aletheia.GUI.classpath"/>
+        <path refid="Aletheia.Base.classpath"/>
+        <path refid="Aletheia.ParserGenerator.classpath"/>
+        <path refid="Aletheia.Utilities.classpath"/>
+        <path refid="Aletheia.log4j.classpath"/>
+        <path refid="Log4j Library.userclasspath"/>
+        <path refid="Aletheia.Version.classpath"/>
+        <path refid="Aletheia.Security.classpath"/>
+        <path refid="Aletheia.Protocol.classpath"/>
+        <path refid="Aletheia.BerkeleyDB.classpath"/>
+        <path refid="Berkeley DB Library.userclasspath"/>
+        <path refid="Aletheia.PdfExport.classpath"/>
+        <path refid="ItextPdf Library.userclasspath"/>
+        <path refid="Aletheia.ProofFinder.classpath"/>
+        <path refid="Aletheia.PeerToPeer.classpath"/>
+        <path refid="Aletheia.GUI.Fonts.classpath"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.xtend"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall">
+        <ant antfile="build.xml" dir="${Aletheia.Version.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.log4j.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.Utilities.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.Protocol.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.Security.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.ParserGenerator.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.GUI.Fonts.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.Base.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.ProofFinder.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.PdfExport.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.BerkeleyDB.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.PeerToPeer.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${Aletheia.GUI.location}" inheritAll="false" target="clean"/>
+    </target>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects">
+        <ant antfile="build.xml" dir="${Aletheia.Version.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${Aletheia.log4j.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${Aletheia.Utilities.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${Aletheia.Protocol.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${Aletheia.Security.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${Aletheia.ParserGenerator.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${Aletheia.GUI.Fonts.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${Aletheia.Base.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${Aletheia.ProofFinder.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${Aletheia.PdfExport.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${Aletheia.BerkeleyDB.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${Aletheia.PeerToPeer.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        <ant antfile="build.xml" dir="${Aletheia.GUI.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+    </target>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="Aletheia.VncServer.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target name="VncServer">
+        <java classname="aletheia.vncserver.VncServer" failonerror="true" fork="yes">
+            <classpath refid="run.VncServer.classpath"/>
+        </java>
+    </target>
+</project>
