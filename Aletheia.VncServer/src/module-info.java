@@ -20,4 +20,5 @@
 module Aletheia.VncServer
 {
 	requires java.desktop;
+	requires Aletheia.Base;
 }

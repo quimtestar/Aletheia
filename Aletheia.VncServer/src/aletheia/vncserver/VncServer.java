@@ -31,6 +31,8 @@ import java.net.SocketTimeoutException;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import aletheia.common.AletheiaConstants;
+
 public class VncServer implements Runnable
 {
 	static class MyProperties extends Properties
@@ -133,7 +135,7 @@ public class VncServer implements Runnable
 	public VncServer() throws IOException
 	{
 		this.serverSocket = new ServerSocket(listenPort);
-		this.vncProcessBuilder = new ProcessBuilder("Xvnc", display, "-desktop", "mlJMonitor", "-rfbport", Integer.toString(vncPort), "-localhost", "-geometry",
+		this.vncProcessBuilder = new ProcessBuilder("Xvnc", display, "-desktop", AletheiaConstants.TITLE, "-rfbport", Integer.toString(vncPort), "-localhost", "-geometry",
 				geometry, "-rfbauth", System.getProperty("user.home") + "/.vnc/passwd");
 		this.vncProcessBuilder.redirectOutput(Redirect.INHERIT);
 		this.vncProcessBuilder.redirectError(Redirect.INHERIT);
