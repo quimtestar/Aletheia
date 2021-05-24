@@ -79,11 +79,13 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 		private static final String font_size = "aletheia.font_size";
 		private static final String active_context_uuid = "aletheia.active_context_uuid";
 		private static final String tab_placement = "aletheia.simple.tab_placement";
+		private static final String antialiasing = "aletheia.simple.antialiasing";
 
 		private static final boolean default_read_only = true;
 		private static final int default_cache_percent = 0;
 		private static final int default_font_size = 16;
 		private static final String default_tab_placement = "left";
+		private static final boolean default_antialiasing = false;
 
 		private static final Properties defaults;
 
@@ -94,6 +96,7 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 			defaults.setProperty(cache_percent, Integer.toString(default_cache_percent));
 			defaults.setProperty(font_size, Integer.toString(default_font_size));
 			defaults.setProperty(tab_placement, default_tab_placement);
+			defaults.setProperty(antialiasing, Boolean.toString(default_antialiasing));
 		}
 
 		private static String resolveTemplate(String template)
@@ -220,9 +223,20 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 			}
 		}
 
+		public boolean isAntialiasing()
+		{
+			return Boolean.parseBoolean(getProperty(antialiasing));
+		}
+
 	}
 
 	private static final MyProperties properties = new MyProperties();
+
+	static
+	{
+		if (properties.isAntialiasing())
+			System.getProperties().setProperty("awt.useSystemAAFontSettings", "on");
+	}
 
 	private final PersistenceManager persistenceManager;
 	private final AletheiaJPanel aletheiaJPanel;
