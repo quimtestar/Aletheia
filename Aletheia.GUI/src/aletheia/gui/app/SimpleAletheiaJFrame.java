@@ -78,10 +78,12 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 		private static final String cache_percent = "aletheia.cache_percent";
 		private static final String font_size = "aletheia.font_size";
 		private static final String active_context_uuid = "aletheia.active_context_uuid";
+		private static final String tab_placement = "aletheia.simple.tab_placement";
 
 		private static final boolean default_read_only = true;
 		private static final int default_cache_percent = 0;
 		private static final int default_font_size = 16;
+		private static final String default_tab_placement = "left";
 
 		private static final Properties defaults;
 
@@ -91,6 +93,7 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 			defaults.setProperty(read_only, Boolean.toString(default_read_only));
 			defaults.setProperty(cache_percent, Integer.toString(default_cache_percent));
 			defaults.setProperty(font_size, Integer.toString(default_font_size));
+			defaults.setProperty(tab_placement, default_tab_placement);
 		}
 
 		private static String resolveTemplate(String template)
@@ -202,6 +205,21 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 			}
 		}
 
+		public int getTabPlacement()
+		{
+			switch (getProperty(tab_placement))
+			{
+			case "right":
+				return SwingConstants.RIGHT;
+			case "top":
+				return SwingConstants.TOP;
+			case "bottom":
+				return SwingConstants.BOTTOM;
+			default:
+				return SwingConstants.LEFT;
+			}
+		}
+
 	}
 
 	private static final MyProperties properties = new MyProperties();
@@ -232,7 +250,7 @@ public class SimpleAletheiaJFrame extends MainAletheiaJFrame
 			this.aletheiaJPanel.setExpandBySelection(true);
 			if (aletheiaGUI.getPanel() == Panel.TABBED)
 			{
-				this.aletheiaJTabbedPane = new JTabbedPane(SwingConstants.LEFT);
+				this.aletheiaJTabbedPane = new JTabbedPane(properties.getTabPlacement());
 				this.aletheiaJTabbedPane.setFont(new FontManager(24).expandFont());
 				this.aletheiaJTabbedPane.addTab("\u2042", aletheiaJPanel.getCliJPanel().getCatalogJTreeDraggableJScrollPane());
 				this.aletheiaJTabbedPane.addTab("\u22a2", aletheiaJPanel.getContextJTreeJPanel().getContextJTreeDraggableJScrollPane());
