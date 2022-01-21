@@ -1042,7 +1042,7 @@ public class StatementAuthority implements Exportable
 	private static DescendantContextsByConsequent safelySignedProofDescendantContextsToResetByTerm(Transaction transaction, Context context, Term term)
 	{
 		DescendantContextsByConsequent descendants = context.descendantContextsByConsequent(transaction, term);
-		if (!descendants.smaller(100))
+		if (!descendants.smaller(70))
 		{
 			boolean safe = false;
 			CloseableIterator<Statement> iterator = context.statementsByTerm(transaction).get(term).iterator();
@@ -1078,8 +1078,9 @@ public class StatementAuthority implements Exportable
 	 * 
 	 * *) All its dependents safely have a signed proof.
 	 * 
-	 * *) If a context, at least one of its solvers is a descendant and safely
-	 * have a signed proof.
+	 * *) If a context, at least one of its solvers is a strict descendant and
+	 * safely have a signed proof or is out of the initial considered
+	 * statement's context.
 	 * 
 	 * (Warning: This function might return some false negatives according to
 	 * the previous definition but no false positives)
@@ -1087,6 +1088,7 @@ public class StatementAuthority implements Exportable
 	 */
 	private static boolean checkSafelySignedProof(Statement statement, Transaction transaction)
 	{
+		Context context = statement.getContext(transaction);
 		Set<UUID> visited = new HashSet<>();
 		Stack<Statement> stack = new Stack<>();
 		stack.push(statement);
@@ -1099,32 +1101,35 @@ public class StatementAuthority implements Exportable
 				StatementAuthority stAuth = st.getAuthority(transaction);
 				if (stAuth == null || !stAuth.isSignedProof())
 					return false;
-				if (st instanceof Context)
+				if (context.isDescendent(transaction, st))
 				{
-					Context ctx = (Context) st;
-					boolean solver = false;
-					CloseableIterator<Statement> iterator = ctx.solvers(transaction).iterator();
-					try
+					if (st instanceof Context)
 					{
-						while (iterator.hasNext())
+						Context ctx = (Context) st;
+						boolean solver = false;
+						CloseableIterator<Statement> iterator = ctx.solvers(transaction).iterator();
+						try
 						{
-							Statement sol = iterator.next();
-							if (!ctx.equals(sol) && ctx.isDescendent(transaction, sol))
+							while (iterator.hasNext())
 							{
-								stack.push(sol);
-								solver = true;
-								break;
+								Statement sol = iterator.next();
+								if ((!ctx.equals(sol) && ctx.isDescendent(transaction, sol)) || !context.isDescendent(transaction, sol))
+								{
+									stack.push(sol);
+									solver = true;
+									break;
+								}
 							}
 						}
+						finally
+						{
+							iterator.close();
+						}
+						if (!solver)
+							return false;
 					}
-					finally
-					{
-						iterator.close();
-					}
-					if (!solver)
-						return false;
+					stack.addAll(st.dependencies(transaction));
 				}
-				stack.addAll(st.dependencies(transaction));
 			}
 		}
 		return true;
