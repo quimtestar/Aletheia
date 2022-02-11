@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2020 Quim Testar.
+ * Copyright (c) 2014, 2022 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -1598,7 +1598,8 @@ public class CliJPanel extends JPanel implements CommandSource
 		}
 		catch (BadLocationException e)
 		{
-			throw new Error(e);
+			logger.error("Exception caught manipulating the CLI document", e);
+			return "";
 		}
 	}
 
