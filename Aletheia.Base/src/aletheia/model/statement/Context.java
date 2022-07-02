@@ -1124,6 +1124,7 @@ public class Context extends Statement
 		getPersistenceManager().deleteStatement(transaction, statement);
 		if (proved)
 		{
+			logger.trace("Deleted proved statement: resetting dependents");
 			Set<UUID> reseted = new HashSet<>();
 			for (Context ctx : safelyProvedDescendantContextsToResetByTerm(transaction, this, statement.getTerm()))
 				ctx.resetProvedDependents(transaction, reseted);
@@ -1196,7 +1197,10 @@ public class Context extends Statement
 	{
 		DescendantContextsByConsequent descendants = context.descendantContextsByConsequent(transaction, term);
 		if (!descendants.smaller(64) && Statement.checkProvedIgnoringTrueProvedFlag(transaction, context.statementsByTerm(transaction).get(term), 8192))
+		{
+			logger.trace("All descendent matching contexts checked to be alternatively proved");
 			return new DescendantContextsByConsequent.Empty(transaction, context);
+		}
 		else
 			return descendants;
 	}
