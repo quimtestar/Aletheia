@@ -1121,6 +1121,8 @@ public class Context extends Statement
 		}
 
 		boolean proved = statement.isProved();
+		if (proved != statement.proved(transaction))
+			logger.warn("Proved status flag is not up-to-date. This might be a bug. Fix it, please.");		// TODO: delete this indicator when the bug is happily located and fixed.
 		getPersistenceManager().deleteStatement(transaction, statement);
 		if (proved)
 		{
