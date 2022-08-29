@@ -93,6 +93,7 @@ import javax.swing.text.StyledEditorKit;
 import javax.swing.text.View;
 import javax.swing.text.ViewFactory;
 import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoManager;
 
 import org.apache.logging.log4j.Logger;
 
@@ -410,6 +411,28 @@ public class CliJPanel extends JPanel implements CommandSource
 					{
 						logger.error(e1.getMessage(), e1);
 					}
+				break;
+			}
+			case KeyEvent.VK_Z:
+			{
+				if (lineEditMode())
+				{
+					if (e.getModifiersEx() == InputEvent.CTRL_DOWN_MASK && undoManager.canUndo())
+						undoManager.undo();
+					else if (e.getModifiersEx() == (InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK) && undoManager.canRedo())
+						undoManager.redo();
+				}
+				break;
+			}
+			case KeyEvent.VK_Y:
+			{
+				if (lineEditMode())
+				{
+					if (e.getModifiersEx() == InputEvent.CTRL_DOWN_MASK && undoManager.canRedo())
+						undoManager.redo();
+					else if (e.getModifiersEx() == (InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK) && undoManager.canUndo())
+						undoManager.undo();
+				}
 				break;
 			}
 			}
@@ -1168,6 +1191,7 @@ public class CliJPanel extends JPanel implements CommandSource
 	private final AletheiaJPanel aletheiaJPanel;
 	private final CliController controller;
 	private final DefaultStyledDocument document;
+	private final UndoManager undoManager;
 	private final JTextPane textPane;
 	private final JScrollPane scrollTextPane;
 	private final FocusBorderManager textPaneFocusBorderManager;
@@ -1209,6 +1233,8 @@ public class CliJPanel extends JPanel implements CommandSource
 		document.setDocumentFilter(new MyDocumentFilter());
 		document.addUndoableEditListener(new MyUndoableEditListener());
 		document.putProperty(DefaultEditorKit.EndOfLineStringProperty, "\n");
+		undoManager = new UndoManager();
+		document.addUndoableEditListener(undoManager);
 		textPane = new JTextPane();
 		textPane.setEditorKit(new MyEditorKit());
 		textPane.setDocument(document);
@@ -1454,6 +1480,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		}
 		if (attributeSet != defaultAttributeSet)
 			textPane.setCharacterAttributes(defaultAttributeSet, true);
+		undoManager.discardAllEdits();
 	}
 
 	private synchronized void moveCaretToMinimal()
@@ -1555,6 +1582,11 @@ public class CliJPanel extends JPanel implements CommandSource
 		if (promptWhenDone)
 			this.promptWhenDone = command;
 		controller.command(command);
+	}
+
+	private boolean lineEditMode()
+	{
+		return promptWhenDone == null;
 	}
 
 	public synchronized void updateFontSize()
@@ -2729,7 +2761,7 @@ public class CliJPanel extends JPanel implements CommandSource
 
 	private synchronized void completion() throws InterruptedException
 	{
-		if (promptWhenDone != null)
+		if (!lineEditMode())
 			return;
 		AbstractCommandFactory.CompletionSet completionSet = null;
 		try
