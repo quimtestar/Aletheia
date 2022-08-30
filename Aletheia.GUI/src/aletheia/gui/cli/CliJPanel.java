@@ -1191,7 +1191,7 @@ public class CliJPanel extends JPanel implements CommandSource
 	private final AletheiaJPanel aletheiaJPanel;
 	private final CliController controller;
 	private final DefaultStyledDocument document;
-	private final UndoManager undoManager;
+	private final MyUndoManager undoManager;
 	private final JTextPane textPane;
 	private final JScrollPane scrollTextPane;
 	private final FocusBorderManager textPaneFocusBorderManager;
@@ -1233,7 +1233,7 @@ public class CliJPanel extends JPanel implements CommandSource
 		document.setDocumentFilter(new MyDocumentFilter());
 		document.addUndoableEditListener(new MyUndoableEditListener());
 		document.putProperty(DefaultEditorKit.EndOfLineStringProperty, "\n");
-		undoManager = new UndoManager();
+		undoManager = new MyUndoManager();
 		document.addUndoableEditListener(undoManager);
 		textPane = new JTextPane();
 		textPane.setEditorKit(new MyEditorKit());
@@ -1666,15 +1666,31 @@ public class CliJPanel extends JPanel implements CommandSource
 
 			public void activate()
 			{
-				document.setCharacterAttributes(begin, end - begin, attributes, false);
+				try
+				{
+					undoManager.setEnabled(false);
+					document.setCharacterAttributes(begin, end - begin, attributes, false);
+				}
+				finally
+				{
+					undoManager.setEnabled(true);
+				}
 			}
 
 			public void deactivate()
 			{
-				document.setCharacterAttributes(begin, end - begin, oldAttributes, true);
-				int pos = textPane.getCaretPosition();
-				if (pos == end)
-					textPane.setCharacterAttributes(oldAttributes, true);
+				try
+				{
+					undoManager.setEnabled(false);
+					document.setCharacterAttributes(begin, end - begin, oldAttributes, true);
+					int pos = textPane.getCaretPosition();
+					if (pos == end)
+						textPane.setCharacterAttributes(oldAttributes, true);
+				}
+				finally
+				{
+					undoManager.setEnabled(true);
+				}
 			}
 
 		}
@@ -1685,31 +1701,28 @@ public class CliJPanel extends JPanel implements CommandSource
 		private final Color WARNING_COLOR = Color.CYAN.darker().darker();
 		private final Color ERROR_COLOR = Color.RED;
 
-		private final SimpleAttributeSet okAS;
-		private final SimpleAttributeSet warningAS;
-		private final SimpleAttributeSet errorAS;
+		public class HighLightAttributeSet extends SimpleAttributeSet
+		{
+			private static final long serialVersionUID = 7431299236720590205L;
+
+			public HighLightAttributeSet(Color color, boolean bold, boolean underline)
+			{
+				StyleConstants.setForeground(this, color);
+				StyleConstants.setBold(this, bold);
+				StyleConstants.setUnderline(this, underline);
+			}
+		}
+
+		private final HighLightAttributeSet okAS;
+		private final HighLightAttributeSet warningAS;
+		private final HighLightAttributeSet errorAS;
 		private final Set<HighLight> highLights;
 
 		public BracketHighLightManager()
 		{
-			this.okAS = new SimpleAttributeSet();
-			this.warningAS = new SimpleAttributeSet();
-			this.errorAS = new SimpleAttributeSet();
-			StyleConstants.setForeground(this.okAS, OK_COLOR);
-			StyleConstants.setForeground(this.warningAS, WARNING_COLOR);
-			StyleConstants.setForeground(this.errorAS, ERROR_COLOR);
-			if (BOLD)
-			{
-				StyleConstants.setBold(this.okAS, true);
-				StyleConstants.setBold(this.warningAS, true);
-				StyleConstants.setBold(this.errorAS, true);
-			}
-			if (UNDERLINE)
-			{
-				StyleConstants.setUnderline(this.okAS, true);
-				StyleConstants.setUnderline(this.warningAS, true);
-				StyleConstants.setUnderline(this.errorAS, true);
-			}
+			this.okAS = new HighLightAttributeSet(OK_COLOR, BOLD, UNDERLINE);
+			this.warningAS = new HighLightAttributeSet(WARNING_COLOR, BOLD, UNDERLINE);
+			this.errorAS = new HighLightAttributeSet(ERROR_COLOR, BOLD, UNDERLINE);
 			this.highLights = new HashSet<>();
 		}
 
@@ -2865,6 +2878,26 @@ public class CliJPanel extends JPanel implements CommandSource
 	public void setExpandBySelection(boolean expandBySelection)
 	{
 		getCatalogJTree().setExpandBySelection(expandBySelection);
+	}
+
+	private class MyUndoManager extends UndoManager
+	{
+		private static final long serialVersionUID = -6758059355767385750L;
+
+		private boolean enabled = true;
+
+		public void setEnabled(boolean enabled)
+		{
+			this.enabled = enabled;
+		}
+
+		@Override
+		public void undoableEditHappened(UndoableEditEvent e)
+		{
+			if (this.enabled)
+				super.undoableEditHappened(e);
+		}
+
 	}
 
 }
