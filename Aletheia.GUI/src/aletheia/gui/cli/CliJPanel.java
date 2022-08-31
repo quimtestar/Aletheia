@@ -1650,7 +1650,6 @@ public class CliJPanel extends JPanel implements CommandSource
 		private class HighLight
 		{
 			public final AttributeSet attributes;
-			public final AttributeSet oldAttributes;
 
 			public int begin;
 			public int end;
@@ -1659,7 +1658,6 @@ public class CliJPanel extends JPanel implements CommandSource
 			{
 				super();
 				this.attributes = attributes;
-				this.oldAttributes = document.getCharacterElement(begin).getAttributes().copyAttributes();
 				this.begin = begin;
 				this.end = end;
 			}
@@ -1682,10 +1680,10 @@ public class CliJPanel extends JPanel implements CommandSource
 				try
 				{
 					undoManager.setEnabled(false);
-					document.setCharacterAttributes(begin, end - begin, oldAttributes, true);
+					document.setCharacterAttributes(begin, end - begin, defaultAttributeSet, true);
 					int pos = textPane.getCaretPosition();
 					if (pos == end)
-						textPane.setCharacterAttributes(oldAttributes, true);
+						textPane.setCharacterAttributes(defaultAttributeSet, true);
 				}
 				finally
 				{
