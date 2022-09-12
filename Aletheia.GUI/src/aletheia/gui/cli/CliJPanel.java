@@ -311,6 +311,7 @@ public class CliJPanel extends JPanel implements CommandSource
 						document.remove(minimalCaretPosition, document.getLength() - minimalCaretPosition);
 						insertCommandStringToDocument(commandHistory.decrease());
 						moveCaretToEnd();
+						undoManager.discardAllEdits();
 					}
 					catch (BadLocationException ex)
 					{
@@ -332,6 +333,7 @@ public class CliJPanel extends JPanel implements CommandSource
 						document.remove(minimalCaretPosition, document.getLength() - minimalCaretPosition);
 						insertCommandStringToDocument(commandHistory.increase());
 						moveCaretToEnd();
+						undoManager.discardAllEdits();
 					}
 					catch (BadLocationException ex)
 					{
