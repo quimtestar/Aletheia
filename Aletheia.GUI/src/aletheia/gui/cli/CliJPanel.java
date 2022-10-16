@@ -998,9 +998,9 @@ public class CliJPanel extends JPanel implements CommandSource
 									r.maximum = Integer.MAX_VALUE;
 									r.alignment = 0.5f;
 								}
-								catch (Error e)
+								catch (Error | IllegalArgumentException e)
 								{
-									logger.error(e, e);
+									logger.error("Error caught", e);
 								}
 								return r;
 							}
