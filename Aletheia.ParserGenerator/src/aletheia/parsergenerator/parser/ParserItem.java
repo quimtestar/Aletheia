@@ -214,9 +214,7 @@ public class ParserItem implements Serializable
 	{
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		ParserItem other = (ParserItem) obj;
 		if (followerMap == null)
@@ -349,9 +347,7 @@ public class ParserItem implements Serializable
 			if (!e.getValue().isEmpty())
 			{
 				Set<TerminalSymbol> set = other.followerMap.get(e.getKey());
-				if (set == null)
-					return false;
-				if (!set.containsAll(e.getValue()))
+				if ((set == null) || !set.containsAll(e.getValue()))
 					return false;
 			}
 		}

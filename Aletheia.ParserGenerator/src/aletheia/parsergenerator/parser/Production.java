@@ -115,9 +115,7 @@ public class Production implements Serializable
 	{
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Production other = (Production) obj;
 		if (left == null)

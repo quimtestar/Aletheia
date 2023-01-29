@@ -56,13 +56,7 @@ public class BerkeleyDBPersistenceAletheiaPreferences extends PersistenceAlethei
 			if (!(persistenceManager instanceof BerkeleyDBPersistenceManager))
 				return false;
 			BerkeleyDBPersistenceManager berkeleyDBPersistenceManager = (BerkeleyDBPersistenceManager) persistenceManager;
-			if (getDbFile() == null)
-				return false;
-			if (!getDbFile().equals(berkeleyDBPersistenceManager.getDbFile()))
-				return false;
-			if (isReadOnly() != berkeleyDBPersistenceManager.isReadOnly())
-				return false;
-			if (getCachePercent() != berkeleyDBPersistenceManager.getCachePercent())
+			if ((getDbFile() == null) || !getDbFile().equals(berkeleyDBPersistenceManager.getDbFile()) || (isReadOnly() != berkeleyDBPersistenceManager.isReadOnly()) || (getCachePercent() != berkeleyDBPersistenceManager.getCachePercent()))
 				return false;
 			return true;
 		}

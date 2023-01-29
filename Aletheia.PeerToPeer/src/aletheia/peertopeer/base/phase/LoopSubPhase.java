@@ -141,9 +141,7 @@ public abstract class LoopSubPhase<T extends LoopDialogType<?>> extends SubPhase
 		{
 			if (this == obj)
 				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
+			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			@SuppressWarnings("unchecked")
 			Command<?> other = (Command<?>) obj;
@@ -347,9 +345,7 @@ public abstract class LoopSubPhase<T extends LoopDialogType<?>> extends SubPhase
 			{
 				if (getDataIn().available() <= 0)
 					selector.select();
-				if (!loopPhaseIterationPassive())
-					break;
-				if (!loopPhaseIterationActive())
+				if (!loopPhaseIterationPassive() || !loopPhaseIterationActive())
 					break;
 			}
 		}

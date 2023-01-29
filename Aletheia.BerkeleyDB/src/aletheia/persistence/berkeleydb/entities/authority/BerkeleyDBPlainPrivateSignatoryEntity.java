@@ -59,9 +59,7 @@ public class BerkeleyDBPlainPrivateSignatoryEntity extends BerkeleyDBPrivateSign
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!super.equals(obj) || (getClass() != obj.getClass()))
 			return false;
 		BerkeleyDBPlainPrivateSignatoryEntity other = (BerkeleyDBPlainPrivateSignatoryEntity) obj;
 		if (privateKeyCapsule == null)

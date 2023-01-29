@@ -55,9 +55,7 @@ public class Capsule<T>
 	{
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Capsule<?> other = (Capsule<?>) obj;
 		if (object == null)

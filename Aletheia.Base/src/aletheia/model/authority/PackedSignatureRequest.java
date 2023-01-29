@@ -193,11 +193,7 @@ public class PackedSignatureRequest extends SignatureRequest
 	public boolean unpackable(Transaction transaction)
 	{
 		RootContextAuthority rootContextAuthority = getPersistenceManager().getRootContextAuthorityBySignatureUuid(transaction, getRootContextSignatureUuid());
-		if (rootContextAuthority == null)
-			return false;
-		if (getContextUuidPath().isEmpty())
-			return false;
-		if (!rootContextAuthority.getStatementUuid().equals(getContextUuidPath().get(0)))
+		if ((rootContextAuthority == null) || getContextUuidPath().isEmpty() || !rootContextAuthority.getStatementUuid().equals(getContextUuidPath().get(0)))
 			return false;
 		UUID ctxUuid = null;
 		for (UUID uuid : getContextUuidPath())
@@ -210,9 +206,7 @@ public class PackedSignatureRequest extends SignatureRequest
 			else
 			{
 				Context ctx = getPersistenceManager().getContext(transaction, uuid);
-				if (ctx == null)
-					return false;
-				if (!ctxUuid.equals(ctx.getContextUuid()))
+				if ((ctx == null) || !ctxUuid.equals(ctx.getContextUuid()))
 					return false;
 			}
 			ctxUuid = uuid;

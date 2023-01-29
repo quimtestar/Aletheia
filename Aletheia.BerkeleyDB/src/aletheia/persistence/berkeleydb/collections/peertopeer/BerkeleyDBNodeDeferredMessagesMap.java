@@ -148,9 +148,7 @@ public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID
 		UUID nodeUuid = (UUID) key;
 		PrimaryKeyData primaryKeyData = new BerkeleyDBNodeDeferredMessageEntity.PrimaryKeyData(nodeUuid, deferredMessageUuid);
 		BerkeleyDBNodeDeferredMessageEntity entity = transaction.get(index, primaryKeyData);
-		if (entity == null)
-			return null;
-		if (!transaction.delete(index, primaryKeyData))
+		if ((entity == null) || !transaction.delete(index, primaryKeyData))
 			return null;
 		return new NodeDeferredMessage(persistenceManager, entity);
 	}
@@ -298,9 +296,7 @@ public class BerkeleyDBNodeDeferredMessagesMap extends AbstractCloseableMap<UUID
 					@SuppressWarnings("unchecked")
 					Entry<UUID, NodeDeferredMessage> e = (Entry<UUID, NodeDeferredMessage>) o;
 					NodeDeferredMessage nodeDeferredMessage = BerkeleyDBNodeDeferredMessagesMap.this.get(e.getKey());
-					if (nodeDeferredMessage == null)
-						return false;
-					if (!nodeDeferredMessage.equals(e.getValue()))
+					if ((nodeDeferredMessage == null) || !nodeDeferredMessage.equals(e.getValue()))
 						return false;
 					return true;
 

@@ -340,9 +340,7 @@ public class SignatureRequestTreeModel extends PersistentTreeModel
 		{
 			if (this == obj)
 				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
+			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			return true;
 		}
@@ -372,9 +370,7 @@ public class SignatureRequestTreeModel extends PersistentTreeModel
 		{
 			if (this == obj)
 				return true;
-			if (!super.equals(obj))
-				return false;
-			if (getClass() != obj.getClass())
+			if (!super.equals(obj) || (getClass() != obj.getClass()))
 				return false;
 			ContextCacheKey other = (ContextCacheKey) obj;
 			if (!contextUuid.equals(other.contextUuid))
@@ -408,9 +404,7 @@ public class SignatureRequestTreeModel extends PersistentTreeModel
 		{
 			if (this == obj)
 				return true;
-			if (!super.equals(obj))
-				return false;
-			if (getClass() != obj.getClass())
+			if (!super.equals(obj) || (getClass() != obj.getClass()))
 				return false;
 			RequestCacheKey other = (RequestCacheKey) obj;
 			if (!requestUuid.equals(other.requestUuid))
@@ -447,9 +441,7 @@ public class SignatureRequestTreeModel extends PersistentTreeModel
 		{
 			if (this == obj)
 				return true;
-			if (!super.equals(obj))
-				return false;
-			if (getClass() != obj.getClass())
+			if (!super.equals(obj) || (getClass() != obj.getClass()))
 				return false;
 			StatementCacheKey other = (StatementCacheKey) obj;
 			if (!requestUuid.equals(other.requestUuid))

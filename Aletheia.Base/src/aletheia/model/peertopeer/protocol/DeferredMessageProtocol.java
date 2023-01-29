@@ -78,11 +78,7 @@ public class DeferredMessageProtocol extends PersistentExportableProtocol<Deferr
 		}
 		else
 		{
-			if (!recipientUuid.equals(old.getRecipientUuid()))
-				throw new ProtocolException();
-			if (!date.equals(old.getDate()))
-				throw new ProtocolException();
-			if (!content.equals(old.getContent()))
+			if (!recipientUuid.equals(old.getRecipientUuid()) || !date.equals(old.getDate()) || !content.equals(old.getContent()))
 				throw new ProtocolException();
 			return old;
 		}

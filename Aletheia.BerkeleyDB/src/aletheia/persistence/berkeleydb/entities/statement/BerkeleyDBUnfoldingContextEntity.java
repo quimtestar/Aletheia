@@ -64,9 +64,7 @@ public class BerkeleyDBUnfoldingContextEntity extends BerkeleyDBContextEntity im
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!super.equals(obj) || (getClass() != obj.getClass()))
 			return false;
 		BerkeleyDBUnfoldingContextEntity other = (BerkeleyDBUnfoldingContextEntity) obj;
 		if (uuidKeyDeclaration == null)

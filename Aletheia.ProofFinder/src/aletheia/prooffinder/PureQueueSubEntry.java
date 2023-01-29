@@ -85,9 +85,7 @@ public abstract class PureQueueSubEntry extends QueueSubEntry
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (!(obj instanceof PureQueueSubEntry))
+		if (!super.equals(obj) || !(obj instanceof PureQueueSubEntry))
 			return false;
 		return true;
 	}

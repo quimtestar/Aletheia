@@ -88,11 +88,8 @@ public class MiscUtilities
 			return null;
 
 		// return text if len is zero or less
-		if (len <= 0)
-			return text;
-
 		// return text if less than length
-		if (text.length() <= len)
+		if ((len <= 0) || (text.length() <= len))
 			return text;
 
 		char[] chars = text.toCharArray();
@@ -318,9 +315,7 @@ public class MiscUtilities
 	 */
 	public static boolean bitAt(UUID uuid, int i)
 	{
-		if (i < 0)
-			throw new IndexOutOfBoundsException();
-		if (i > uuidBitLength)
+		if ((i < 0) || (i > uuidBitLength))
 			throw new IndexOutOfBoundsException();
 		if (i < Long.SIZE)
 			return bitAt(uuid.getMostSignificantBits(), i);

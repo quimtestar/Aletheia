@@ -87,9 +87,7 @@ public class ProjectedCastTypeTerm extends ProjectionCastTypeTerm
 	@Override
 	protected boolean equals(Term term, Map<ParameterVariableTerm, ParameterVariableTerm> parameterMap)
 	{
-		if (!super.equals(term, parameterMap))
-			return false;
-		if (!(term instanceof ProjectedCastTypeTerm))
+		if (!super.equals(term, parameterMap) || !(term instanceof ProjectedCastTypeTerm))
 			return false;
 		return true;
 	}

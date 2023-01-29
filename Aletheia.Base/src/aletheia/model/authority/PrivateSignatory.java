@@ -146,14 +146,10 @@ public abstract class PrivateSignatory extends Signatory
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!super.equals(obj) || (getClass() != obj.getClass()))
 			return false;
 		PrivateSignatory other = (PrivateSignatory) obj;
-		if (getSignatureAlgorithm() != other.getSignatureAlgorithm())
-			return false;
-		if (getPrivateKey() != other.getPrivateKey())
+		if ((getSignatureAlgorithm() != other.getSignatureAlgorithm()) || (getPrivateKey() != other.getPrivateKey()))
 			return false;
 		return true;
 	}

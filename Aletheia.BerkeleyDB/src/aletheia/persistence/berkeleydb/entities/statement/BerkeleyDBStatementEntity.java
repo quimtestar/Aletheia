@@ -108,9 +108,7 @@ public abstract class BerkeleyDBStatementEntity implements StatementEntity
 		{
 			if (this == obj)
 				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
+			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			UUIDKeyTermHash other = (UUIDKeyTermHash) obj;
 			if (leastSigBits != other.leastSigBits)
@@ -264,9 +262,7 @@ public abstract class BerkeleyDBStatementEntity implements StatementEntity
 		{
 			if (this == obj)
 				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
+			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			UUIDContextIdentifier other = (UUIDContextIdentifier) obj;
 			if (leastSigBits != other.leastSigBits)
@@ -469,9 +465,7 @@ public abstract class BerkeleyDBStatementEntity implements StatementEntity
 		{
 			if (this == obj)
 				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
+			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			LocalSortKey other = (LocalSortKey) obj;
 			if (uuidContextleastSigBits != other.uuidContextleastSigBits)
@@ -625,9 +619,7 @@ public abstract class BerkeleyDBStatementEntity implements StatementEntity
 	{
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		BerkeleyDBStatementEntity other = (BerkeleyDBStatementEntity) obj;
 		if (dependencyLevel != other.dependencyLevel)

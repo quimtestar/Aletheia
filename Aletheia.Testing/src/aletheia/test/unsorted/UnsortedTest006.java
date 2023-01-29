@@ -88,7 +88,7 @@ public class UnsortedTest006 extends Test
 			}
 		}
 		System.out.println("B:");
-		for (String s :new BufferedList<> (list))
+		for (String s : new BufferedList<>(list))
 		{
 			System.out.println(s);
 			if (s.equals("adeu"))

@@ -135,8 +135,8 @@ public class VncServer implements Runnable
 	public VncServer() throws IOException
 	{
 		this.serverSocket = new ServerSocket(listenPort);
-		this.vncProcessBuilder = new ProcessBuilder("Xvnc", display, "-desktop", AletheiaConstants.TITLE, "-rfbport", Integer.toString(vncPort), "-localhost", "-geometry",
-				geometry, "-rfbauth", System.getProperty("user.home") + "/.vnc/passwd");
+		this.vncProcessBuilder = new ProcessBuilder("Xvnc", display, "-desktop", AletheiaConstants.TITLE, "-rfbport", Integer.toString(vncPort), "-localhost",
+				"-geometry", geometry, "-rfbauth", System.getProperty("user.home") + "/.vnc/passwd");
 		this.vncProcessBuilder.redirectOutput(Redirect.INHERIT);
 		this.vncProcessBuilder.redirectError(Redirect.INHERIT);
 

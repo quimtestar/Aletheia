@@ -36,9 +36,7 @@ public class PublicKeyCapsule extends Capsule<PublicKey>
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!super.equals(obj) || (getClass() != obj.getClass()))
 			return false;
 		return true;
 	}

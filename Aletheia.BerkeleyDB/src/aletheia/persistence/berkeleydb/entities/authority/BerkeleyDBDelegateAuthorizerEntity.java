@@ -143,9 +143,7 @@ public class BerkeleyDBDelegateAuthorizerEntity implements DelegateAuthorizerEnt
 		{
 			if (this == obj)
 				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
+			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			PrimaryKeyData other = (PrimaryKeyData) obj;
 			if (statementUuidLeastSigBits != other.statementUuidLeastSigBits)
@@ -295,9 +293,7 @@ public class BerkeleyDBDelegateAuthorizerEntity implements DelegateAuthorizerEnt
 		{
 			if (this == obj)
 				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
+			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			StatementAuthorizerKeyData other = (StatementAuthorizerKeyData) obj;
 			if (authorizerUuidLeastSigBits != other.authorizerUuidLeastSigBits)
@@ -485,9 +481,7 @@ public class BerkeleyDBDelegateAuthorizerEntity implements DelegateAuthorizerEnt
 	{
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		BerkeleyDBDelegateAuthorizerEntity other = (BerkeleyDBDelegateAuthorizerEntity) obj;
 		if (authorizerUuidKey == null)

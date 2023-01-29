@@ -117,7 +117,7 @@ public abstract class RootPhase extends Phase
 	private synchronized void setSubRootPhase(SubRootPhase subRootPhase) throws InterruptedException
 	{
 		this.subRootPhase = subRootPhase;
-		if (shutdown == true)
+		if (shutdown)
 			subRootPhase.shutdown(shutdownFast);
 		notifyAll();
 	}

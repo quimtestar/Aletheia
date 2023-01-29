@@ -199,9 +199,7 @@ public abstract class BerkeleyDBGenericDelegateAuthorizerByAuthorizerMap<K> exte
 	@Override
 	public DelegateAuthorizer get(Object key)
 	{
-		if (!containsKey(key))
-			return null;
-		if (!(key instanceof Signatory))
+		if (!containsKey(key) || !(key instanceof Signatory))
 			return null;
 		Signatory signatory = (Signatory) key;
 		K key_ = uuidToKey(signatory.getUuid());

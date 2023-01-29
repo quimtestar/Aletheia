@@ -63,12 +63,7 @@ public abstract class AletheiaJFrame extends JFrame
 					if (p instanceof MyJSplitPane)
 					{
 						MyJSplitPane s = (MyJSplitPane) p;
-						if (p_ == s.getLeftComponent() && s.isCollapsedLeft())
-						{
-							collapsed = true;
-							break;
-						}
-						if (p_ == s.getRightComponent() && s.isCollapsedRight())
+						if ((p_ == s.getLeftComponent() && s.isCollapsedLeft()) || (p_ == s.getRightComponent() && s.isCollapsedRight()))
 						{
 							collapsed = true;
 							break;

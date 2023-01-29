@@ -1489,9 +1489,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 			@Override
 			public boolean hasNext()
 			{
-				if (!super.hasNext())
-					return false;
-				if (!checkHighEndpoint())
+				if (!super.hasNext() || !checkHighEndpoint())
 					return false;
 				return true;
 			}
@@ -1512,9 +1510,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 			@Override
 			public boolean hasPrevious()
 			{
-				if (!super.hasPrevious())
-					return false;
-				if (!checkLowEndpoint())
+				if (!super.hasPrevious() || !checkLowEndpoint())
 					return false;
 				return true;
 			}
@@ -2422,9 +2418,7 @@ public class BTreeCountedSortedMap<K, V> implements CountedSortedMap<K, V>
 
 		private boolean keyInInterval(Object key)
 		{
-			if (!keyAboveFromKey(key))
-				return false;
-			if (!keyUnderToKey(key))
+			if (!keyAboveFromKey(key) || !keyUnderToKey(key))
 				return false;
 			return true;
 		}

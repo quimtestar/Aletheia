@@ -103,9 +103,7 @@ public class NonBlockingSocketChannelInputStream extends InputStream implements 
 				if (timeout > 0 && remaining <= 0)
 					throw new TimeoutException();
 				selector.select(remaining);
-				if (interrupted)
-					throw new InterruptedException();
-				if (Thread.interrupted())
+				if (interrupted || Thread.interrupted())
 					throw new InterruptedException();
 				if (timeout > 0)
 					time0 = System.nanoTime() / 1000 / 1000;

@@ -66,9 +66,7 @@ public abstract class BerkeleyDBPrivateSignatoryEntity extends BerkeleyDBSignato
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!super.equals(obj) || (getClass() != obj.getClass()))
 			return false;
 		BerkeleyDBPrivateSignatoryEntity other = (BerkeleyDBPrivateSignatoryEntity) obj;
 		if (mark != other.mark)

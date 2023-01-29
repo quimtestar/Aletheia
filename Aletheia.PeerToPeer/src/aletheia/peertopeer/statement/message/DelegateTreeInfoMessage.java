@@ -206,9 +206,7 @@ public class DelegateTreeInfoMessage extends AbstractUUIDInfoMessage<DelegateTre
 					{
 						DelegateTreeSubNode delegateTreeSubNode = iterator.next();
 						DelegateTreeSubNodeInfo subNodeInfo = subNodes.get(delegateTreeSubNode.getPrefix().getName());
-						if (subNodeInfo == null)
-							return false;
-						if (!subNodeInfo.fullyUpdated(persistenceManager, transaction, delegateTreeSubNode))
+						if ((subNodeInfo == null) || !subNodeInfo.fullyUpdated(persistenceManager, transaction, delegateTreeSubNode))
 							return false;
 					}
 				}

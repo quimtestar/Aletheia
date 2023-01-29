@@ -136,9 +136,7 @@ public class CumulationSet
 		{
 			if (this == obj)
 				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
+			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			Cumulation<?> other = (Cumulation<?>) obj;
 			if (type != other.type)
@@ -250,9 +248,7 @@ public class CumulationSet
 			{
 				if (this == obj)
 					return true;
-				if (obj == null)
-					return false;
-				if (getClass() != obj.getClass())
+				if ((obj == null) || (getClass() != obj.getClass()))
 					return false;
 				Value<?> other = (Value<?>) obj;
 				if (cumulation == null)
@@ -441,9 +437,7 @@ public class CumulationSet
 			{
 				if (this == obj)
 					return true;
-				if (!super.equals(obj))
-					return false;
-				if (getClass() != obj.getClass())
+				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				Value<?> other = (Value<?>) obj;
 				if (count != other.count)
@@ -633,9 +627,7 @@ public class CumulationSet
 		{
 			if (this == obj)
 				return true;
-			if (!super.equals(obj))
-				return false;
-			if (getClass() != obj.getClass())
+			if (!super.equals(obj) || (getClass() != obj.getClass()))
 				return false;
 			ApproximateCountCumulation other = (ApproximateCountCumulation) obj;
 			if (Float.floatToIntBits(tolerance) != Float.floatToIntBits(other.tolerance))

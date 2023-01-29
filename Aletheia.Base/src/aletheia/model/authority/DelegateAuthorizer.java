@@ -191,9 +191,7 @@ public class DelegateAuthorizer implements Exportable
 					return false;
 				Context ctx = (Context) ctx_;
 				Statement st = sas.getStatement(transaction);
-				if (!getPrefix().isPrefixOf(st.identifier(transaction)))
-					return false;
-				if (!ctx.isDescendent(transaction, st))
+				if (!getPrefix().isPrefixOf(st.identifier(transaction)) || !ctx.isDescendent(transaction, st))
 					return false;
 				return true;
 			}

@@ -95,9 +95,7 @@ public class BerkeleyDBDeclarationEntity extends BerkeleyDBStatementEntity imple
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!super.equals(obj) || (getClass() != obj.getClass()))
 			return false;
 		BerkeleyDBDeclarationEntity other = (BerkeleyDBDeclarationEntity) obj;
 		if (value == null)

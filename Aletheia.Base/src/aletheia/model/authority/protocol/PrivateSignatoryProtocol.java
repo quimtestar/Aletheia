@@ -69,9 +69,7 @@ public class PrivateSignatoryProtocol extends AbstractSignatoryProtocol<PrivateS
 		else
 		{
 			PrivateSignatory privateSignatory = (PrivateSignatory) old;
-			if (!privateSignatory.getSignatureAlgorithm().equals(signatureAlgorithm))
-				throw new ProtocolException();
-			if (!privateSignatory.getPrivateKey().equals(privateKey))
+			if (!privateSignatory.getSignatureAlgorithm().equals(signatureAlgorithm) || !privateSignatory.getPrivateKey().equals(privateKey))
 				throw new ProtocolException();
 			return privateSignatory;
 		}

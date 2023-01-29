@@ -84,9 +84,7 @@ public class BerkeleyDBAssumptionEntity extends BerkeleyDBStatementEntity implem
 		{
 			if (this == obj)
 				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
+			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			UUIDKeyOrder other = (UUIDKeyOrder) obj;
 			if (leastSigBits != other.leastSigBits)
@@ -144,9 +142,7 @@ public class BerkeleyDBAssumptionEntity extends BerkeleyDBStatementEntity implem
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!super.equals(obj) || (getClass() != obj.getClass()))
 			return false;
 		BerkeleyDBAssumptionEntity other = (BerkeleyDBAssumptionEntity) obj;
 		if (uuidKeyOrder == null)

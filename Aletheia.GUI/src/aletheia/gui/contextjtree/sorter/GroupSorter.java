@@ -96,9 +96,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!super.equals(obj) || (getClass() != obj.getClass()))
 			return false;
 		GroupSorter<? extends Statement> other = (GroupSorter<?>) obj;
 		if (prefix == null)
@@ -339,9 +337,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 		SortedStatements<S> set = sortedStatements(transaction);
 		if (!set.contains(statement))
 			return null;
-		if (set.smaller(minGroupingSize + 1))
-			return statementSorter(statement);
-		if (statement instanceof Assumption || statement.getIdentifier() == null)
+		if (set.smaller(minGroupingSize + 1) || statement instanceof Assumption || statement.getIdentifier() == null)
 			return statementSorter(statement);
 		return getByStatementByPrefix(transaction, statement);
 	}
@@ -352,9 +348,7 @@ public abstract class GroupSorter<S extends Statement> extends Sorter
 		SortedStatements<S> set = sortedStatements(transaction);
 		if (!set.contains(statement))
 			return null;
-		if (set.smaller(minGroupingSize + 1))
-			return statementSorter(statement);
-		if (statement instanceof Assumption || statement.getIdentifier() == null)
+		if (set.smaller(minGroupingSize + 1) || statement instanceof Assumption || statement.getIdentifier() == null)
 			return statementSorter(statement);
 		GroupSorter<S> groupSorter = this;
 		while (true)

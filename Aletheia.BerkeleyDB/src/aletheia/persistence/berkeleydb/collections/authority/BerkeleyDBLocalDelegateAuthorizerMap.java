@@ -119,9 +119,7 @@ public class BerkeleyDBLocalDelegateAuthorizerMap extends AbstractCloseableMap<P
 	@Override
 	public boolean containsKey(Object key)
 	{
-		if (key == null)
-			return false;
-		if (!(key instanceof Person))
+		if ((key == null) || !(key instanceof Person))
 			return false;
 		Person person = (Person) key;
 		BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData pk = new BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData(delegateTreeNode.getStatementUuid(),
@@ -132,9 +130,7 @@ public class BerkeleyDBLocalDelegateAuthorizerMap extends AbstractCloseableMap<P
 	@Override
 	public DelegateAuthorizer get(Object key)
 	{
-		if (key == null)
-			return null;
-		if (!(key instanceof Person))
+		if ((key == null) || !(key instanceof Person))
 			return null;
 		Person person = (Person) key;
 		BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData pk = new BerkeleyDBDelegateAuthorizerEntity.PrimaryKeyData(delegateTreeNode.getStatementUuid(),

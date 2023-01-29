@@ -303,9 +303,7 @@ public class BerkeleyDBLocalDelegateTreeSubNodeMap extends AbstractCloseableMap<
 	@Override
 	public boolean containsKey(Object key)
 	{
-		if (key == null)
-			return false;
-		if (!(key instanceof Namespace))
+		if ((key == null) || !(key instanceof Namespace))
 			return false;
 		Namespace prefix = (Namespace) key;
 		if (prefix.compareTo(from) < 0)
@@ -319,9 +317,7 @@ public class BerkeleyDBLocalDelegateTreeSubNodeMap extends AbstractCloseableMap<
 	@Override
 	public DelegateTreeSubNode get(Object key)
 	{
-		if (key == null)
-			return null;
-		if (!(key instanceof Namespace))
+		if ((key == null) || !(key instanceof Namespace))
 			return null;
 		Namespace prefix = (Namespace) key;
 		if (prefix.compareTo(from) < 0)

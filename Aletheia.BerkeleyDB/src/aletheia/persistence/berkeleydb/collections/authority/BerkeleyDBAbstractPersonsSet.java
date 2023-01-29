@@ -137,9 +137,7 @@ public abstract class BerkeleyDBAbstractPersonsSet<K> extends AbstractCloseableS
 			return false;
 		Person person = (Person) o;
 		K key = personKey(person);
-		if (key == null)
-			return false;
-		if (!keyInInterval(key))
+		if ((key == null) || !keyInInterval(key))
 			return false;
 		return transaction.contains(index.subIndex(key), new UUIDKey(person.getUuid()));
 	}

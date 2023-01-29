@@ -414,9 +414,7 @@ public class BerkeleyDBDelegateTreeRootNodeEntity extends BerkeleyDBDelegateTree
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!super.equals(obj) || (getClass() != obj.getClass()))
 			return false;
 		BerkeleyDBDelegateTreeRootNodeEntity other = (BerkeleyDBDelegateTreeRootNodeEntity) obj;
 		if (signatureData == null)

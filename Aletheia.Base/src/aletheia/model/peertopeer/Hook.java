@@ -192,14 +192,10 @@ public class Hook implements Exportable
 	{
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Hook other = (Hook) obj;
-		if (!getUuid().equals(other.getUuid()))
-			return false;
-		if (!getInetSocketAddress().equals(other.getInetSocketAddress()))
+		if (!getUuid().equals(other.getUuid()) || !getInetSocketAddress().equals(other.getInetSocketAddress()))
 			return false;
 		return true;
 	}

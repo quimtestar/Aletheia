@@ -100,9 +100,7 @@ public class NonBlockingSocketChannelOutputStream extends OutputStream implement
 					if (timeout > 0 && remaining <= 0)
 						throw new TimeoutException();
 					selector.select(remaining);
-					if (interrupted)
-						throw new InterruptedException();
-					if (Thread.interrupted())
+					if (interrupted || Thread.interrupted())
 						throw new InterruptedException();
 					if (selector.selectedKeys().contains(selectionKey))
 						break;

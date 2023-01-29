@@ -101,9 +101,7 @@ public class PersonResource extends AbstractPersonResource
 			{
 				if (this == obj)
 					return true;
-				if (obj == null)
-					return false;
-				if (getClass() != obj.getClass())
+				if ((obj == null) || (getClass() != obj.getClass()))
 					return false;
 				return true;
 			}
@@ -304,9 +302,7 @@ public class PersonResource extends AbstractPersonResource
 			{
 				if (this == obj)
 					return true;
-				if (!super.equals(obj))
-					return false;
-				if (getClass() != obj.getClass())
+				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				SignedPersonInfo other = (SignedPersonInfo) obj;
 				if (email == null)
@@ -416,9 +412,7 @@ public class PersonResource extends AbstractPersonResource
 		{
 			if (this == obj)
 				return true;
-			if (!super.equals(obj))
-				return false;
-			if (getClass() != obj.getClass())
+			if (!super.equals(obj) || (getClass() != obj.getClass()))
 				return false;
 			Metadata other = (Metadata) obj;
 			if (personInfo == null)

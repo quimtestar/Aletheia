@@ -60,9 +60,7 @@ public class DeleteDelegateAuthorizer extends TransactionalCommand
 		delegateAuthorizer.delete(getTransaction());
 		while (node != null && !(node instanceof DelegateTreeRootNode))
 		{
-			if (!node.localDelegateAuthorizerMap(getTransaction()).isEmpty())
-				break;
-			if (!node.localDelegateTreeSubNodeMap(getTransaction()).isEmpty())
+			if (!node.localDelegateAuthorizerMap(getTransaction()).isEmpty() || !node.localDelegateTreeSubNodeMap(getTransaction()).isEmpty())
 				break;
 			DelegateTreeNode node_ = null;
 			if (node instanceof DelegateTreeSubNode)

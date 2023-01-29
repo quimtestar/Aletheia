@@ -101,9 +101,7 @@ public class ImpureQueueSubEntry extends QueueSubEntry
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (!(obj instanceof ImpureQueueSubEntry))
+		if (!super.equals(obj) || !(obj instanceof ImpureQueueSubEntry))
 			return false;
 		ImpureQueueSubEntry other = (ImpureQueueSubEntry) obj;
 		if (candidate == null)

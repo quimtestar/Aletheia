@@ -134,9 +134,7 @@ public class LocalRouterSet implements RouterSet
 		{
 			if (this == obj)
 				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
+			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			LocalRouter other = (LocalRouter) obj;
 			if (!getOuterType().equals(other.getOuterType()))
@@ -324,9 +322,7 @@ public class LocalRouterSet implements RouterSet
 
 	private synchronized void setNeighbour(int i, NetworkPhase neighbour) throws NeighbourCollisionException, BookedNeighbourPositionException
 	{
-		if (i < 0)
-			throw new IllegalArgumentException();
-		if (neighbour == null)
+		if ((i < 0) || (neighbour == null))
 			throw new IllegalArgumentException();
 		if (i >= neighbours.size())
 		{

@@ -230,9 +230,7 @@ public class CompositionTerm extends SimpleTerm
 		if (!(term instanceof CompositionTerm))
 			return false;
 		CompositionTerm compositionTerm = (CompositionTerm) term;
-		if (!head.equals(compositionTerm.head, parameterMap))
-			return false;
-		if (!tail.equals(compositionTerm.tail, parameterMap))
+		if (!head.equals(compositionTerm.head, parameterMap) || !tail.equals(compositionTerm.tail, parameterMap))
 			return false;
 		return true;
 	}

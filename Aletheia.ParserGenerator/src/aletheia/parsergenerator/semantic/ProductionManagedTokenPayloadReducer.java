@@ -99,9 +99,7 @@ public class ProductionManagedTokenPayloadReducer<G, P> extends TokenPayloadRedu
 		{
 			if (this == obj)
 				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
+			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			AssociatedProductionKey other = (AssociatedProductionKey) obj;
 			if (left == null)

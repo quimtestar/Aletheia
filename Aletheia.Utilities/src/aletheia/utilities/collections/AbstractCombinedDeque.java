@@ -147,9 +147,7 @@ public abstract class AbstractCombinedDeque<E> extends AbstractCombinedQueue<E> 
 	@Override
 	public boolean removeFirstOccurrence(Object o)
 	{
-		if (getFront().removeFirstOccurrence(o))
-			return true;
-		if (getBack().removeFirstOccurrence(o))
+		if (getFront().removeFirstOccurrence(o) || getBack().removeFirstOccurrence(o))
 			return true;
 		return false;
 	}
@@ -157,9 +155,7 @@ public abstract class AbstractCombinedDeque<E> extends AbstractCombinedQueue<E> 
 	@Override
 	public boolean removeLastOccurrence(Object o)
 	{
-		if (getBack().removeLastOccurrence(o))
-			return true;
-		if (getFront().removeLastOccurrence(o))
+		if (getBack().removeLastOccurrence(o) || getFront().removeLastOccurrence(o))
 			return true;
 		return false;
 	}

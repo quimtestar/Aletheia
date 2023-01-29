@@ -207,9 +207,7 @@ public abstract class QueueSubEntry implements Comparable<QueueSubEntry>
 	{
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof QueueSubEntry))
+		if ((obj == null) || !(obj instanceof QueueSubEntry))
 			return false;
 		QueueSubEntry other = (QueueSubEntry) obj;
 		if (hashCoded && other.hashCoded && hashCode != other.hashCode)

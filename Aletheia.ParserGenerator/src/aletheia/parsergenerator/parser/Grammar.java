@@ -361,9 +361,7 @@ public class Grammar implements Serializable
 	{
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Grammar other = (Grammar) obj;
 		if (productions == null)

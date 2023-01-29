@@ -1333,9 +1333,7 @@ public abstract class Statement implements Exportable
 	{
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Statement other = (Statement) obj;
 		return getVariable().equals(other.getVariable());

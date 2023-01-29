@@ -54,9 +54,7 @@ public class ActualContextSignatureRequestTreeNode extends ContextSignatureReque
 
 	public ActualContextSignatureRequestTreeNode actualContextNode(Transaction transaction, Context context)
 	{
-		if (!this.context.localStatements(transaction).containsKey(context.getVariable()))
-			return null;
-		if (!hasRequests(transaction, context))
+		if (!this.context.localStatements(transaction).containsKey(context.getVariable()) || !hasRequests(transaction, context))
 			return null;
 		return makeActualContextNode(context);
 	}
@@ -88,9 +86,7 @@ public class ActualContextSignatureRequestTreeNode extends ContextSignatureReque
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!super.equals(obj) || (getClass() != obj.getClass()))
 			return false;
 		ActualContextSignatureRequestTreeNode other = (ActualContextSignatureRequestTreeNode) obj;
 		if (context == null)

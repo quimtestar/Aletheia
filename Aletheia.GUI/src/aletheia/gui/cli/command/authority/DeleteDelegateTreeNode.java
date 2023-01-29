@@ -56,9 +56,7 @@ public class DeleteDelegateTreeNode extends TransactionalCommand
 		node = node_;
 		while (node != null)
 		{
-			if (!node.localDelegateAuthorizerMap(getTransaction()).isEmpty())
-				break;
-			if (!node.localDelegateTreeSubNodeMap(getTransaction()).isEmpty())
+			if (!node.localDelegateAuthorizerMap(getTransaction()).isEmpty() || !node.localDelegateTreeSubNodeMap(getTransaction()).isEmpty())
 				break;
 			DelegateTreeNode node__ = null;
 			if (node instanceof DelegateTreeSubNode)

@@ -131,9 +131,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 			{
 				if (this == obj)
 					return true;
-				if (!super.equals(obj))
-					return false;
-				if (getClass() != obj.getClass())
+				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				BeltConnectCommand other = (BeltConnectCommand) obj;
 				if (!getOuterType().equals(other.getOuterType()))
@@ -192,9 +190,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 			{
 				if (this == obj)
 					return true;
-				if (!super.equals(obj))
-					return false;
-				if (getClass() != obj.getClass())
+				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				BeltDisconnectCommand other = (BeltDisconnectCommand) obj;
 				if (!getOuterType().equals(other.getOuterType()))
@@ -256,9 +252,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 			{
 				if (this == obj)
 					return true;
-				if (!super.equals(obj))
-					return false;
-				if (getClass() != obj.getClass())
+				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				ComplementingInvitationCommand other = (ComplementingInvitationCommand) obj;
 				if (!getOuterType().equals(other.getOuterType()))
@@ -327,9 +321,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 			{
 				if (this == obj)
 					return true;
-				if (!super.equals(obj))
-					return false;
-				if (getClass() != obj.getClass())
+				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				RouterSetCommand other = (RouterSetCommand) obj;
 				if (!getOuterType().equals(other.getOuterType()))
@@ -406,9 +398,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 			{
 				if (this == obj)
 					return true;
-				if (!super.equals(obj))
-					return false;
-				if (getClass() != obj.getClass())
+				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				PropagateDeferredMessagesCommand other = (PropagateDeferredMessagesCommand) obj;
 				if (!getOuterType().equals(other.getOuterType()))
@@ -468,9 +458,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 			{
 				if (this == obj)
 					return true;
-				if (!super.equals(obj))
-					return false;
-				if (getClass() != obj.getClass())
+				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				DeferredMessageQueueCommand other = (DeferredMessageQueueCommand) obj;
 				if (!getOuterType().equals(other.getOuterType()))
@@ -532,9 +520,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 			{
 				if (this == obj)
 					return true;
-				if (!super.equals(obj))
-					return false;
-				if (getClass() != obj.getClass())
+				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				PropagateDeferredMessageRemovalCommand other = (PropagateDeferredMessageRemovalCommand) obj;
 				if (!getOuterType().equals(other.getOuterType()))
@@ -668,9 +654,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 			{
 				if (this == obj)
 					return true;
-				if (!super.equals(obj))
-					return false;
-				if (getClass() != obj.getClass())
+				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				RemoveCumulationValueCommand<?> other = (RemoveCumulationValueCommand<?>) obj;
 				if (!getOuterType().equals(other.getOuterType()))
@@ -722,9 +706,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 			{
 				if (this == obj)
 					return true;
-				if (!super.equals(obj))
-					return false;
-				if (getClass() != obj.getClass())
+				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				RemoveRouterCumulationValueCommand other = (RemoveRouterCumulationValueCommand) obj;
 				if (!getOuterType().equals(other.getOuterType()))
@@ -781,9 +763,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 			{
 				if (this == obj)
 					return true;
-				if (!super.equals(obj))
-					return false;
-				if (getClass() != obj.getClass())
+				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				RequestRouterCumulationValueCommand other = (RequestRouterCumulationValueCommand) obj;
 				if (!getOuterType().equals(other.getOuterType()))

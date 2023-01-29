@@ -61,9 +61,7 @@ public class TaggedTerminalSymbol extends TerminalSymbol implements TaggedSymbol
 	{
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		TaggedTerminalSymbol other = (TaggedTerminalSymbol) obj;
 		if (tag == null)

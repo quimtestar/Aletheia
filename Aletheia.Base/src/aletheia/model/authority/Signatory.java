@@ -101,14 +101,10 @@ public class Signatory implements Exportable
 	{
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Signatory other = (Signatory) obj;
-		if (!getUuid().equals(other.getUuid()))
-			return false;
-		if (!getPublicKey().equals(other.getPublicKey()))
+		if (!getUuid().equals(other.getUuid()) || !getPublicKey().equals(other.getPublicKey()))
 			return false;
 		return true;
 	}

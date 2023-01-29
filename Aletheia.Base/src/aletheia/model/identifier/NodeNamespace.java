@@ -215,9 +215,7 @@ public class NodeNamespace extends Namespace
 	{
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (!(obj instanceof NodeNamespace))
+		if ((obj == null) || !(obj instanceof NodeNamespace))
 			return false;
 		NodeNamespace other = (NodeNamespace) obj;
 		if (name == null)

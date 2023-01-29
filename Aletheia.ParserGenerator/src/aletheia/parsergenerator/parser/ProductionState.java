@@ -122,9 +122,7 @@ public class ProductionState implements Serializable
 	{
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		ProductionState other = (ProductionState) obj;
 		if (position != other.position)

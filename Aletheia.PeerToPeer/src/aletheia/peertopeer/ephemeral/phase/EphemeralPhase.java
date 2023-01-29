@@ -118,9 +118,7 @@ public class EphemeralPhase extends SubRootPhase
 			{
 				if (this == obj)
 					return true;
-				if (!super.equals(obj))
-					return false;
-				if (getClass() != obj.getClass())
+				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				ObtainRootContextsCommand other = (ObtainRootContextsCommand) obj;
 				if (!getOuterType().equals(other.getOuterType()))
@@ -172,9 +170,7 @@ public class EphemeralPhase extends SubRootPhase
 			{
 				if (this == obj)
 					return true;
-				if (!super.equals(obj))
-					return false;
-				if (getClass() != obj.getClass())
+				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				ObtainRootContextsCommand other = (ObtainRootContextsCommand) obj;
 				if (!getOuterType().equals(other.getOuterType()))
@@ -241,9 +237,7 @@ public class EphemeralPhase extends SubRootPhase
 			{
 				if (this == obj)
 					return true;
-				if (!super.equals(obj))
-					return false;
-				if (getClass() != obj.getClass())
+				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				SendSignatureRequestCommand other = (SendSignatureRequestCommand) obj;
 				if (!getOuterType().equals(other.getOuterType()))
@@ -318,9 +312,7 @@ public class EphemeralPhase extends SubRootPhase
 			{
 				if (this == obj)
 					return true;
-				if (!super.equals(obj))
-					return false;
-				if (getClass() != obj.getClass())
+				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				SendDeferredMessageCommand other = (SendDeferredMessageCommand) obj;
 				if (!getOuterType().equals(other.getOuterType()))
@@ -379,9 +371,7 @@ public class EphemeralPhase extends SubRootPhase
 			{
 				if (this == obj)
 					return true;
-				if (!super.equals(obj))
-					return false;
-				if (getClass() != obj.getClass())
+				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				TransmitDeferredMessagesCommand other = (TransmitDeferredMessagesCommand) obj;
 				if (!getOuterType().equals(other.getOuterType()))
@@ -433,9 +423,7 @@ public class EphemeralPhase extends SubRootPhase
 			{
 				if (this == obj)
 					return true;
-				if (!super.equals(obj))
-					return false;
-				if (getClass() != obj.getClass())
+				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				PersonsCommand other = (PersonsCommand) obj;
 				if (!getOuterType().equals(other.getOuterType()))

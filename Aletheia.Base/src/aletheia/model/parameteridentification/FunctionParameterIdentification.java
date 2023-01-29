@@ -97,9 +97,7 @@ public class FunctionParameterIdentification extends ParameterIdentification
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!super.equals(obj) || (getClass() != obj.getClass()))
 			return false;
 		FunctionParameterIdentification other = (FunctionParameterIdentification) obj;
 		if (body == null)

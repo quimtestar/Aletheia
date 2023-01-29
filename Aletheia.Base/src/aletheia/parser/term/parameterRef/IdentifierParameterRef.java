@@ -50,9 +50,7 @@ public class IdentifierParameterRef extends ParameterRef
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!super.equals(obj) || (getClass() != obj.getClass()))
 			return false;
 		IdentifierParameterRef other = (IdentifierParameterRef) obj;
 		if (identifier == null)

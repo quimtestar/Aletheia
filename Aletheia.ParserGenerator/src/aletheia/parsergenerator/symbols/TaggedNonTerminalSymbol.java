@@ -61,9 +61,7 @@ public class TaggedNonTerminalSymbol extends NonTerminalSymbol implements Tagged
 	{
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		TaggedNonTerminalSymbol other = (TaggedNonTerminalSymbol) obj;
 		if (tag == null)

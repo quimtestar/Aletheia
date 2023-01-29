@@ -99,14 +99,10 @@ public class FoldingCastTypeTerm extends CastTypeTerm
 	{
 		if (this == term)
 			return true;
-		if (!(term instanceof FoldingCastTypeTerm))
-			return false;
-		if (!super.equals(term, parameterMap))
+		if (!(term instanceof FoldingCastTypeTerm) || !super.equals(term, parameterMap))
 			return false;
 		FoldingCastTypeTerm castTypeTerm = (FoldingCastTypeTerm) term;
-		if (!variable.equals(castTypeTerm.variable))
-			return false;
-		if (!value.equals(castTypeTerm.value))
+		if (!variable.equals(castTypeTerm.variable) || !value.equals(castTypeTerm.value))
 			return false;
 		return true;
 	}

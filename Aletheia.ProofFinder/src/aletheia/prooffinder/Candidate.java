@@ -178,9 +178,7 @@ public abstract class Candidate
 
 	protected void assignVar(VariableTerm var, Term assign)
 	{
-		if (assignMap.put(var, assign) != null)
-			throw new RuntimeException();
-		if (!unassignedVarSet.remove(var))
+		if ((assignMap.put(var, assign) != null) || !unassignedVarSet.remove(var))
 			throw new RuntimeException();
 		for (VariableTerm v : antecedentDependentMap.get(var))
 		{

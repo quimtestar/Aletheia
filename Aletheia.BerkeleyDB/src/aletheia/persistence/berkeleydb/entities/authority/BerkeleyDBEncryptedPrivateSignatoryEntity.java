@@ -70,9 +70,7 @@ public class BerkeleyDBEncryptedPrivateSignatoryEntity extends BerkeleyDBPrivate
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!super.equals(obj) || (getClass() != obj.getClass()))
 			return false;
 		BerkeleyDBEncryptedPrivateSignatoryEntity other = (BerkeleyDBEncryptedPrivateSignatoryEntity) obj;
 		if (!Arrays.equals(bytes, other.bytes))

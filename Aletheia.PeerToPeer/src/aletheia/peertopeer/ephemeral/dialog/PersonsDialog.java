@@ -103,9 +103,7 @@ public abstract class PersonsDialog extends EphemeralDialog
 			{
 				UUID uuid = e.getKey();
 				Person person = getPersistenceManager().getPerson(getTransaction(), uuid);
-				if (person == null)
-					return true;
-				if (!person.isSigned())
+				if ((person == null) || !person.isSigned())
 					return true;
 				PersonInfo info = e.getValue();
 				if (person.getSignatureDate().compareTo(info.getSignatureDate()) < 0)

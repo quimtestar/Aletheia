@@ -65,9 +65,7 @@ public abstract class StatementProofDialog extends StatementDialog
 			{
 				if (this == obj)
 					return true;
-				if (obj == null)
-					return false;
-				if (getClass() != obj.getClass())
+				if ((obj == null) || (getClass() != obj.getClass()))
 					return false;
 				return true;
 			}
@@ -145,9 +143,7 @@ public abstract class StatementProofDialog extends StatementDialog
 			{
 				if (this == obj)
 					return true;
-				if (!super.equals(obj))
-					return false;
-				if (getClass() != obj.getClass())
+				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				SetSubscriptionDependencies other = (SetSubscriptionDependencies) obj;
 				if (set == null)
@@ -222,9 +218,7 @@ public abstract class StatementProofDialog extends StatementDialog
 		{
 			if (this == obj)
 				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
+			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			StatementStackEntry other = (StatementStackEntry) obj;
 			if (statementUuid == null)

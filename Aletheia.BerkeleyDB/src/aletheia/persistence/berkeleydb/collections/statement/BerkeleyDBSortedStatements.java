@@ -368,9 +368,7 @@ public abstract class BerkeleyDBSortedStatements<S extends Statement> extends Ab
 		dsk.setUuidKeyContext(to.getUuidKeyContext());
 		dsk.setAssumptionOrder(Integer.MAX_VALUE);
 		dsk.setIdentifier(identifier);
-		if (from.compareTo(dsk) > 0)
-			return null;
-		if (to.compareTo(dsk) < 0)
+		if ((from.compareTo(dsk) > 0) || (to.compareTo(dsk) < 0))
 			return null;
 		return dsk;
 	}

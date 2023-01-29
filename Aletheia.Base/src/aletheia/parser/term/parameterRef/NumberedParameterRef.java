@@ -48,9 +48,7 @@ public class NumberedParameterRef extends ParameterRef
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!super.equals(obj) || (getClass() != obj.getClass()))
 			return false;
 		NumberedParameterRef other = (NumberedParameterRef) obj;
 		if (atParam == null)

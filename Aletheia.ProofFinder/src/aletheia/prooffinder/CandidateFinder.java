@@ -79,9 +79,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 		{
 			if (this == obj)
 				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
+			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			PureCandidatesCacheMapKey other = (PureCandidatesCacheMapKey) obj;
 			if (!getOuterType().equals(other.getOuterType()))
@@ -147,9 +145,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 		{
 			if (this == obj)
 				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
+			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			ImpureCandidatesCacheMapKey other = (ImpureCandidatesCacheMapKey) obj;
 			if (!getOuterType().equals(other.getOuterType()))

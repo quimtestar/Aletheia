@@ -511,9 +511,7 @@ public class Specialization extends Statement
 	@Override
 	protected boolean calcProved(Transaction transaction)
 	{
-		if (!super.calcProved(transaction))
-			return false;
-		if (!getGeneral(transaction).isProved())
+		if (!super.calcProved(transaction) || !getGeneral(transaction).isProved())
 			return false;
 		for (VariableTerm var : getInstance().freeVariables())
 		{

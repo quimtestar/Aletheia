@@ -77,9 +77,7 @@ public class UnprojectedCastTypeTerm extends ProjectionCastTypeTerm
 	@Override
 	protected boolean equals(Term term, Map<ParameterVariableTerm, ParameterVariableTerm> parameterMap)
 	{
-		if (!super.equals(term, parameterMap))
-			return false;
-		if (!(term instanceof UnprojectedCastTypeTerm))
+		if (!super.equals(term, parameterMap) || !(term instanceof UnprojectedCastTypeTerm))
 			return false;
 		return true;
 	}

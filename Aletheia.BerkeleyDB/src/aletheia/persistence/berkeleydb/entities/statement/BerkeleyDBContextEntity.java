@@ -127,9 +127,7 @@ public class BerkeleyDBContextEntity extends BerkeleyDBStatementEntity implement
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!super.equals(obj) || (getClass() != obj.getClass()))
 			return false;
 		BerkeleyDBContextEntity other = (BerkeleyDBContextEntity) obj;
 		if (consequent == null)

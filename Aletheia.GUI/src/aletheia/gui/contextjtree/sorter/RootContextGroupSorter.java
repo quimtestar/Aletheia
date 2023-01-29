@@ -54,9 +54,7 @@ public class RootContextGroupSorter extends GroupSorter<RootContext>
 		if (getPrefix() == null)
 			return null;
 		GenericRootContextsMap rcMap = persistenceManager.identifierToRootContexts(transaction).get(getPrefix());
-		if (rcMap == null)
-			return null;
-		if (rcMap.size() != 1)
+		if ((rcMap == null) || (rcMap.size() != 1))
 			return null;
 		return MiscUtilities.firstFromCloseableIterable(rcMap.values());
 	}

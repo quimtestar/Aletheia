@@ -345,9 +345,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 
 	private boolean duplicateSuccessorUuid(Transaction transaction, UUID successorUuid)
 	{
-		if (successorUuids().contains(successorUuid))
-			return true;
-		if (getAuthor(transaction).getUuid().equals(successorUuid))
+		if (successorUuids().contains(successorUuid) || getAuthor(transaction).getUuid().equals(successorUuid))
 			return true;
 		return false;
 	}

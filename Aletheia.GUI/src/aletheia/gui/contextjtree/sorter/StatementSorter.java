@@ -93,9 +93,7 @@ public class StatementSorter extends Sorter
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!super.equals(obj) || (getClass() != obj.getClass()))
 			return false;
 		StatementSorter other = (StatementSorter) obj;
 		if (statement == null)

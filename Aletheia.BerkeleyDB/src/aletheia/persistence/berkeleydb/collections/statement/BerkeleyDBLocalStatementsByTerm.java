@@ -100,9 +100,7 @@ public class BerkeleyDBLocalStatementsByTerm extends AbstractCloseableMap<Term, 
 			if (!(o instanceof Statement))
 				return false;
 			Statement statement = (Statement) o;
-			if (!statement.getTerm().equals(term))
-				return false;
-			if (!persistenceManager.localStatements(transaction, context).containsKey(statement.getVariable()))
+			if (!statement.getTerm().equals(term) || !persistenceManager.localStatements(transaction, context).containsKey(statement.getVariable()))
 				return false;
 			return true;
 		}

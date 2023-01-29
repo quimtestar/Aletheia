@@ -118,9 +118,7 @@ public abstract class Resource implements Exportable
 	{
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		Resource other = (Resource) obj;
 		if (type != other.type)
@@ -251,9 +249,7 @@ public abstract class Resource implements Exportable
 		{
 			if (this == obj)
 				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
+			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			Metadata other = (Metadata) obj;
 			if (resource == null)

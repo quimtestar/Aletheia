@@ -78,9 +78,7 @@ public class BerkeleyDBSignatoryEntity implements SignatoryEntity
 	{
 		if (this == obj)
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
+		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		BerkeleyDBSignatoryEntity other = (BerkeleyDBSignatoryEntity) obj;
 		if (publicKeyCapsule == null)

@@ -83,9 +83,7 @@ public class CompositionParameterIdentification extends ParameterIdentification
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!super.equals(obj) || (getClass() != obj.getClass()))
 			return false;
 		CompositionParameterIdentification other = (CompositionParameterIdentification) obj;
 		if (head == null)

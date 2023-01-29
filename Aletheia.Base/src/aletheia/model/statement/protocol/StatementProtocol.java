@@ -417,11 +417,8 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 			if (!(old instanceof Specialization))
 				throw new ProtocolException();
 			specialization = (Specialization) old;
-			if (!specialization.getGeneral(getTransaction()).equals(general))
-				throw new ProtocolException();
-			if (!specialization.getInstance().equals(instance))
-				throw new ProtocolException();
-			if (!specialization.getInstanceProof(getTransaction()).equals(instanceProof))
+			if (!specialization.getGeneral(getTransaction()).equals(general) || !specialization.getInstance().equals(instance)
+					|| !specialization.getInstanceProof(getTransaction()).equals(instanceProof))
 				throw new ProtocolException();
 		}
 		try
@@ -540,9 +537,7 @@ public class StatementProtocol extends PersistentExportableProtocol<Statement>
 			if (!(old instanceof UnfoldingContext))
 				throw new ProtocolException();
 			unf = (UnfoldingContext) old;
-			if (!unf.getTerm().equals(term))
-				throw new ProtocolException();
-			if (!unf.getDeclaration(getTransaction()).equals(declaration))
+			if (!unf.getTerm().equals(term) || !unf.getDeclaration(getTransaction()).equals(declaration))
 				throw new ProtocolException();
 		}
 		try

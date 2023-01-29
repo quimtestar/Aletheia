@@ -132,9 +132,7 @@ public class BerkeleyDBRootContextEntity extends BerkeleyDBContextEntity impleme
 		{
 			if (this == obj)
 				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
+			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			IdentifierKey other = (IdentifierKey) obj;
 			if (strIdentifier == null)
@@ -184,9 +182,7 @@ public class BerkeleyDBRootContextEntity extends BerkeleyDBContextEntity impleme
 	{
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
+		if (!super.equals(obj) || (getClass() != obj.getClass()))
 			return false;
 		BerkeleyDBRootContextEntity other = (BerkeleyDBRootContextEntity) obj;
 		if (identifierKey == null)

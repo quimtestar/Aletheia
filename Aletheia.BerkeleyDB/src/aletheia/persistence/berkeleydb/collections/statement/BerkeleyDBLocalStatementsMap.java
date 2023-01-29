@@ -65,9 +65,7 @@ public class BerkeleyDBLocalStatementsMap extends BerkeleyDBStatementsMap implem
 	public Statement get(Object key)
 	{
 		Statement statement = super.get(key);
-		if (statement == null)
-			return null;
-		if (!((BerkeleyDBStatementEntity) context.getEntity()).getUuidKey().equals(((BerkeleyDBStatementEntity) statement.getEntity()).getUuidKeyContext()))
+		if ((statement == null) || !((BerkeleyDBStatementEntity) context.getEntity()).getUuidKey().equals(((BerkeleyDBStatementEntity) statement.getEntity()).getUuidKeyContext()))
 			return null;
 		return statement;
 	}

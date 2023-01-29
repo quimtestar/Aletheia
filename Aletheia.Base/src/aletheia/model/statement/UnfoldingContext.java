@@ -232,9 +232,7 @@ public class UnfoldingContext extends Context
 	@Override
 	protected boolean calcProved(Transaction transaction)
 	{
-		if (!super.calcProved(transaction))
-			return false;
-		if (!getDeclaration(transaction).isProved())
+		if (!super.calcProved(transaction) || !getDeclaration(transaction).isProved())
 			return false;
 		return true;
 	}
