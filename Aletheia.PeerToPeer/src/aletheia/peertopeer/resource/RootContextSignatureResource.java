@@ -103,9 +103,7 @@ public class RootContextSignatureResource extends Resource
 			if (!super.equals(obj) || (getClass() != obj.getClass()))
 				return false;
 			Metadata other = (Metadata) obj;
-			if (provided != other.provided)
-				return false;
-			if (subscribed != other.subscribed)
+			if ((provided != other.provided) || (subscribed != other.subscribed))
 				return false;
 			return true;
 		}

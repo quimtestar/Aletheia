@@ -132,9 +132,7 @@ public class BerkeleyDBPackedSignatureRequestEntity extends BerkeleyDBSignatureR
 			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			ContextPackingDateSecondaryKeyData other = (ContextPackingDateSecondaryKeyData) obj;
-			if (contextUuidLeastSigBits != other.contextUuidLeastSigBits)
-				return false;
-			if (contextUuidMostSigBits != other.contextUuidMostSigBits)
+			if ((contextUuidLeastSigBits != other.contextUuidLeastSigBits) || (contextUuidMostSigBits != other.contextUuidMostSigBits))
 				return false;
 			if (packingDate == null)
 			{

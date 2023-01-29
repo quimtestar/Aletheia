@@ -121,9 +121,7 @@ public abstract class BerkeleyDBDelegateTreeNodeEntity implements DelegateTreeNo
 			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			PrimaryKeyData other = (PrimaryKeyData) obj;
-			if (contextUuidLeastSigBits != other.contextUuidLeastSigBits)
-				return false;
-			if (contextUuidMostSigBits != other.contextUuidMostSigBits)
+			if ((contextUuidLeastSigBits != other.contextUuidLeastSigBits) || (contextUuidMostSigBits != other.contextUuidMostSigBits))
 				return false;
 			if (prefixString == null)
 			{

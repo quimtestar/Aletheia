@@ -306,9 +306,7 @@ public class BerkeleyDBLocalDelegateTreeSubNodeMap extends AbstractCloseableMap<
 		if ((key == null) || !(key instanceof Namespace))
 			return false;
 		Namespace prefix = (Namespace) key;
-		if (prefix.compareTo(from) < 0)
-			return false;
-		if (prefix.compareTo(to) >= 0)
+		if ((prefix.compareTo(from) < 0) || (prefix.compareTo(to) >= 0))
 			return false;
 		BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData pk = new BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData(parent.getStatementUuid(), prefix);
 		return transaction.contains(index, pk);
@@ -320,9 +318,7 @@ public class BerkeleyDBLocalDelegateTreeSubNodeMap extends AbstractCloseableMap<
 		if ((key == null) || !(key instanceof Namespace))
 			return null;
 		Namespace prefix = (Namespace) key;
-		if (prefix.compareTo(from) < 0)
-			return null;
-		if (prefix.compareTo(to) >= 0)
+		if ((prefix.compareTo(from) < 0) || (prefix.compareTo(to) >= 0))
 			return null;
 		BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData pk = new BerkeleyDBDelegateTreeNodeEntity.PrimaryKeyData(parent.getStatementUuid(), prefix);
 		BerkeleyDBDelegateTreeNodeEntity entity = transaction.get(index, pk);

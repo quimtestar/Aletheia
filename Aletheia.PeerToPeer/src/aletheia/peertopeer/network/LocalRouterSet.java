@@ -137,9 +137,7 @@ public class LocalRouterSet implements RouterSet
 			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			LocalRouter other = (LocalRouter) obj;
-			if (!getOuterType().equals(other.getOuterType()))
-				return false;
-			if (distance != other.distance)
+			if (!getOuterType().equals(other.getOuterType()) || (distance != other.distance))
 				return false;
 			if (neighbours == null)
 			{

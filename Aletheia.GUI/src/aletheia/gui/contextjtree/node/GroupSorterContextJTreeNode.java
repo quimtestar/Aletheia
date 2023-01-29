@@ -103,7 +103,8 @@ public abstract class GroupSorterContextJTreeNode<S extends Statement> extends S
 				return false;
 			StatementSorter sorter = (StatementSorter) sorterList.get(index);
 			Statement statement_ = sorter.getStatement();
-			if (((statement_.getIdentifier() == null) != (statement.getIdentifier() == null)) || (statement_.getIdentifier() != null && !statement_.getIdentifier().equals(statement.getIdentifier())))
+			if (((statement_.getIdentifier() == null) != (statement.getIdentifier() == null))
+					|| (statement_.getIdentifier() != null && !statement_.getIdentifier().equals(statement.getIdentifier())))
 				return false;
 			return true;
 		}

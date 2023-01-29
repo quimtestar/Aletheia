@@ -111,11 +111,7 @@ public abstract class BerkeleyDBStatementEntity implements StatementEntity
 			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			UUIDKeyTermHash other = (UUIDKeyTermHash) obj;
-			if (leastSigBits != other.leastSigBits)
-				return false;
-			if (mostSigBits != other.mostSigBits)
-				return false;
-			if (termHash != other.termHash)
+			if ((leastSigBits != other.leastSigBits) || (mostSigBits != other.mostSigBits) || (termHash != other.termHash))
 				return false;
 			return true;
 		}
@@ -265,9 +261,7 @@ public abstract class BerkeleyDBStatementEntity implements StatementEntity
 			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			UUIDContextIdentifier other = (UUIDContextIdentifier) obj;
-			if (leastSigBits != other.leastSigBits)
-				return false;
-			if (mostSigBits != other.mostSigBits)
+			if ((leastSigBits != other.leastSigBits) || (mostSigBits != other.mostSigBits))
 				return false;
 			if (strIdentifier == null)
 			{
@@ -468,9 +462,7 @@ public abstract class BerkeleyDBStatementEntity implements StatementEntity
 			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			LocalSortKey other = (LocalSortKey) obj;
-			if (uuidContextleastSigBits != other.uuidContextleastSigBits)
-				return false;
-			if (uuidContextmostSigBits != other.uuidContextmostSigBits)
+			if ((uuidContextleastSigBits != other.uuidContextleastSigBits) || (uuidContextmostSigBits != other.uuidContextmostSigBits))
 				return false;
 			if (strIdentifier == null)
 			{

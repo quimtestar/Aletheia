@@ -592,7 +592,8 @@ public abstract class AbstractPersonTableModel implements TableModel
 
 	private static boolean personFieldsEquals(Person p1, Person p2)
 	{
-		if (!nullableStringEquals(p1.getNick(), p2.getNick()) || !nullableStringEquals(p1.getName(), p2.getName()) || !nullableStringEquals(p1.getEmail(), p2.getEmail()) || !nullableDateEquals(p1.getOrphanSince(), p2.getOrphanSince()))
+		if (!nullableStringEquals(p1.getNick(), p2.getNick()) || !nullableStringEquals(p1.getName(), p2.getName())
+				|| !nullableStringEquals(p1.getEmail(), p2.getEmail()) || !nullableDateEquals(p1.getOrphanSince(), p2.getOrphanSince()))
 			return false;
 		return true;
 	}

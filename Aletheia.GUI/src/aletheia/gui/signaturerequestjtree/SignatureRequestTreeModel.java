@@ -444,9 +444,7 @@ public class SignatureRequestTreeModel extends PersistentTreeModel
 			if (!super.equals(obj) || (getClass() != obj.getClass()))
 				return false;
 			StatementCacheKey other = (StatementCacheKey) obj;
-			if (!requestUuid.equals(other.requestUuid))
-				return false;
-			if (!statementUuid.equals(other.statementUuid))
+			if (!requestUuid.equals(other.requestUuid) || !statementUuid.equals(other.statementUuid))
 				return false;
 			return true;
 		}

@@ -110,9 +110,7 @@ public class StatementProofResource extends Resource
 			if (!super.equals(obj) || (getClass() != obj.getClass()))
 				return false;
 			Metadata other = (Metadata) obj;
-			if (signedProof != other.signedProof)
-				return false;
-			if (subscribed != other.subscribed)
+			if ((signedProof != other.signedProof) || (subscribed != other.subscribed))
 				return false;
 			return true;
 		}

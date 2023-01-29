@@ -181,9 +181,7 @@ public abstract class BerkeleyDBSignatureRequestEntity implements SignatureReque
 			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			ContextCreationDateSecondaryKeyData other = (ContextCreationDateSecondaryKeyData) obj;
-			if (contextUuidLeastSigBits != other.contextUuidLeastSigBits)
-				return false;
-			if (contextUuidMostSigBits != other.contextUuidMostSigBits)
+			if ((contextUuidLeastSigBits != other.contextUuidLeastSigBits) || (contextUuidMostSigBits != other.contextUuidMostSigBits))
 				return false;
 			if (creationDate == null)
 			{
@@ -342,13 +340,7 @@ public abstract class BerkeleyDBSignatureRequestEntity implements SignatureReque
 			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			ContextSubContextSecondaryKeyData other = (ContextSubContextSecondaryKeyData) obj;
-			if (contextUuidLeastSigBits != other.contextUuidLeastSigBits)
-				return false;
-			if (contextUuidMostSigBits != other.contextUuidMostSigBits)
-				return false;
-			if (subContextUuidLeastSigBits != other.subContextUuidLeastSigBits)
-				return false;
-			if (subContextUuidMostSigBits != other.subContextUuidMostSigBits)
+			if ((contextUuidLeastSigBits != other.contextUuidLeastSigBits) || (contextUuidMostSigBits != other.contextUuidMostSigBits) || (subContextUuidLeastSigBits != other.subContextUuidLeastSigBits) || (subContextUuidMostSigBits != other.subContextUuidMostSigBits))
 				return false;
 			return true;
 		}

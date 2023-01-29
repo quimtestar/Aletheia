@@ -87,11 +87,7 @@ public class BerkeleyDBAssumptionEntity extends BerkeleyDBStatementEntity implem
 			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			UUIDKeyOrder other = (UUIDKeyOrder) obj;
-			if (leastSigBits != other.leastSigBits)
-				return false;
-			if (mostSigBits != other.mostSigBits)
-				return false;
-			if (order != other.order)
+			if ((leastSigBits != other.leastSigBits) || (mostSigBits != other.mostSigBits) || (order != other.order))
 				return false;
 			return true;
 		}

@@ -84,9 +84,7 @@ public class UUIDKey implements Comparable<UUIDKey>
 		if ((obj == null) || (getClass() != obj.getClass()))
 			return false;
 		UUIDKey other = (UUIDKey) obj;
-		if (leastSigBits != other.leastSigBits)
-			return false;
-		if (mostSigBits != other.mostSigBits)
+		if ((leastSigBits != other.leastSigBits) || (mostSigBits != other.mostSigBits))
 			return false;
 		return true;
 	}

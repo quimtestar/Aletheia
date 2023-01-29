@@ -146,13 +146,7 @@ public class BerkeleyDBDelegateAuthorizerEntity implements DelegateAuthorizerEnt
 			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			PrimaryKeyData other = (PrimaryKeyData) obj;
-			if (statementUuidLeastSigBits != other.statementUuidLeastSigBits)
-				return false;
-			if (statementUuidMostSigBits != other.statementUuidMostSigBits)
-				return false;
-			if (delegateUuidLeastSigBits != other.delegateUuidLeastSigBits)
-				return false;
-			if (delegateUuidMostSigBits != other.delegateUuidMostSigBits)
+			if ((statementUuidLeastSigBits != other.statementUuidLeastSigBits) || (statementUuidMostSigBits != other.statementUuidMostSigBits) || (delegateUuidLeastSigBits != other.delegateUuidLeastSigBits) || (delegateUuidMostSigBits != other.delegateUuidMostSigBits))
 				return false;
 			if (prefixString == null)
 			{
@@ -296,13 +290,7 @@ public class BerkeleyDBDelegateAuthorizerEntity implements DelegateAuthorizerEnt
 			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			StatementAuthorizerKeyData other = (StatementAuthorizerKeyData) obj;
-			if (authorizerUuidLeastSigBits != other.authorizerUuidLeastSigBits)
-				return false;
-			if (authorizerUuidMostSigBits != other.authorizerUuidMostSigBits)
-				return false;
-			if (statementUuidLeastSigBits != other.statementUuidLeastSigBits)
-				return false;
-			if (statementUuidMostSigBits != other.statementUuidMostSigBits)
+			if ((authorizerUuidLeastSigBits != other.authorizerUuidLeastSigBits) || (authorizerUuidMostSigBits != other.authorizerUuidMostSigBits) || (statementUuidLeastSigBits != other.statementUuidLeastSigBits) || (statementUuidMostSigBits != other.statementUuidMostSigBits))
 				return false;
 			if (prefixString == null)
 			{

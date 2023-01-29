@@ -461,9 +461,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				DeferredMessageQueueCommand other = (DeferredMessageQueueCommand) obj;
-				if (!getOuterType().equals(other.getOuterType()))
-					return false;
-				if (distance != other.distance)
+				if (!getOuterType().equals(other.getOuterType()) || (distance != other.distance))
 					return false;
 				if (recipientUuid == null)
 				{
@@ -709,9 +707,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				RemoveRouterCumulationValueCommand other = (RemoveRouterCumulationValueCommand) obj;
-				if (!getOuterType().equals(other.getOuterType()))
-					return false;
-				if (index != other.index)
+				if (!getOuterType().equals(other.getOuterType()) || (index != other.index))
 					return false;
 				return true;
 			}
@@ -766,9 +762,7 @@ public class LoopNetworkPhase extends NetworkSubPhase
 				if (!super.equals(obj) || (getClass() != obj.getClass()))
 					return false;
 				RequestRouterCumulationValueCommand other = (RequestRouterCumulationValueCommand) obj;
-				if (!getOuterType().equals(other.getOuterType()))
-					return false;
-				if (index != other.index)
+				if (!getOuterType().equals(other.getOuterType()) || (index != other.index))
 					return false;
 				return true;
 			}

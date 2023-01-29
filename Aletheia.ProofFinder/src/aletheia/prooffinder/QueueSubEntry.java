@@ -210,9 +210,7 @@ public abstract class QueueSubEntry implements Comparable<QueueSubEntry>
 		if ((obj == null) || !(obj instanceof QueueSubEntry))
 			return false;
 		QueueSubEntry other = (QueueSubEntry) obj;
-		if (hashCoded && other.hashCoded && hashCode != other.hashCode)
-			return false;
-		if (!context.equals(other.context))
+		if ((hashCoded && other.hashCoded && hashCode != other.hashCode) || !context.equals(other.context))
 			return false;
 		if (virtualStatements().size() != other.virtualStatements().size())
 			return false;

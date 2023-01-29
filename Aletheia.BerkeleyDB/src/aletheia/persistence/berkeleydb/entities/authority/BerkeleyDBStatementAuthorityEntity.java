@@ -113,11 +113,7 @@ public class BerkeleyDBStatementAuthorityEntity implements StatementAuthorityEnt
 			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			ContextFlagSecondaryKeyData other = (ContextFlagSecondaryKeyData) obj;
-			if (contextUuidLeastSigBits != other.contextUuidLeastSigBits)
-				return false;
-			if (contextUuidMostSigBits != other.contextUuidMostSigBits)
-				return false;
-			if (flag != other.flag)
+			if ((contextUuidLeastSigBits != other.contextUuidLeastSigBits) || (contextUuidMostSigBits != other.contextUuidMostSigBits) || (flag != other.flag))
 				return false;
 			return true;
 		}
