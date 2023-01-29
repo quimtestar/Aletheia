@@ -33,8 +33,8 @@
     <property name="Aletheia.PeerToPeer.location" value="../Aletheia.PeerToPeer"/>
     <property name="Aletheia.GUI.location" value="../Aletheia.GUI"/>
     <property name="debuglevel" value="source,lines,vars"/>
-    <property name="target" value="11"/>
-    <property name="source" value="11"/>
+    <property name="target" value="17"/>
+    <property name="source" value="17"/>
     <path id="Log4j Library.userclasspath">
         <pathelement location="${Aletheia.log4j.location}/log4j-api-2.12.0.jar"/>
             <pathelement location="${Aletheia.log4j.location}/log4j-core-2.12.0.jar"/>
