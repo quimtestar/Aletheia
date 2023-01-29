@@ -118,7 +118,8 @@ public class BerkeleyDBContextLocalEntity extends BerkeleyDBStatementLocalEntity
 			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			ContextSubscribeStatementsSecondaryKeyData other = (ContextSubscribeStatementsSecondaryKeyData) obj;
-			if ((contextUuidLeastSigBits != other.contextUuidLeastSigBits) || (contextUuidMostSigBits != other.contextUuidMostSigBits) || (subscribeStatements != other.subscribeStatements))
+			if ((contextUuidLeastSigBits != other.contextUuidLeastSigBits) || (contextUuidMostSigBits != other.contextUuidMostSigBits)
+					|| (subscribeStatements != other.subscribeStatements))
 				return false;
 			return true;
 		}

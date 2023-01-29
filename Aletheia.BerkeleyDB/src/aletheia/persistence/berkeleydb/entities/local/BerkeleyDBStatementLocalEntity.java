@@ -132,7 +132,8 @@ public class BerkeleyDBStatementLocalEntity implements StatementLocalEntity
 			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			ContextSubscribeProofSecondaryKeyData other = (ContextSubscribeProofSecondaryKeyData) obj;
-			if ((contextUuidLeastSigBits != other.contextUuidLeastSigBits) || (contextUuidMostSigBits != other.contextUuidMostSigBits) || (subscribeProof != other.subscribeProof))
+			if ((contextUuidLeastSigBits != other.contextUuidLeastSigBits) || (contextUuidMostSigBits != other.contextUuidMostSigBits)
+					|| (subscribeProof != other.subscribeProof))
 				return false;
 			return true;
 		}

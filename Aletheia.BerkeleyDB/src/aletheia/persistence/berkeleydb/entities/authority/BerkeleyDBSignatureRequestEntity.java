@@ -340,7 +340,8 @@ public abstract class BerkeleyDBSignatureRequestEntity implements SignatureReque
 			if ((obj == null) || (getClass() != obj.getClass()))
 				return false;
 			ContextSubContextSecondaryKeyData other = (ContextSubContextSecondaryKeyData) obj;
-			if ((contextUuidLeastSigBits != other.contextUuidLeastSigBits) || (contextUuidMostSigBits != other.contextUuidMostSigBits) || (subContextUuidLeastSigBits != other.subContextUuidLeastSigBits) || (subContextUuidMostSigBits != other.subContextUuidMostSigBits))
+			if ((contextUuidLeastSigBits != other.contextUuidLeastSigBits) || (contextUuidMostSigBits != other.contextUuidMostSigBits)
+					|| (subContextUuidLeastSigBits != other.subContextUuidLeastSigBits) || (subContextUuidMostSigBits != other.subContextUuidMostSigBits))
 				return false;
 			return true;
 		}
