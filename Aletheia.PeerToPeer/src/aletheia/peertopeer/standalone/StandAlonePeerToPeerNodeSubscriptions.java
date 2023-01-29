@@ -176,8 +176,7 @@ public class StandAlonePeerToPeerNodeSubscriptions
 		ConfigurationTree configurationTree = new ConfigurationTree();
 		if (configurationFileName != null)
 		{
-			CloseableIterator<String> iterator = new StreamAsStringIterable(new FileInputStream(configurationFileName)).iterator();
-			try
+			try (CloseableIterator<String> iterator = new StreamAsStringIterable(new FileInputStream(configurationFileName)).iterator())
 			{
 				Stack<ConfigurationTreeNode> stack = new Stack<>();
 				while (iterator.hasNext())
@@ -236,10 +235,6 @@ public class StandAlonePeerToPeerNodeSubscriptions
 							stack.push(new CommentedOutConfigurationTreeNode(sp));
 					}
 				}
-			}
-			finally
-			{
-				iterator.close();
 			}
 		}
 		return configurationTree;

@@ -47,6 +47,7 @@ import aletheia.protocol.primitive.StringProtocol;
 import aletheia.protocol.primitive.UUIDProtocol;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCollection;
+import aletheia.utilities.collections.CloseableIterator;
 
 @ProtocolInfo(availableVersions = 0)
 public abstract class DelegateTreeNodeProtocol<D extends DelegateTreeNode> extends PersistentExportableProtocol<D>
@@ -203,20 +204,24 @@ public abstract class DelegateTreeNodeProtocol<D extends DelegateTreeNode> exten
 				throw new ProtocolException();
 			names.add(((NodeNamespace) e.getKey()).getName());
 		}
-		for (Namespace ns : delegateTreeNode.localDelegateTreeSubNodeMap(getTransaction()).keySet())
+		try (CloseableIterator<Namespace> iterator = delegateTreeNode.localDelegateTreeSubNodeMap(getTransaction()).keySet().iterator())
 		{
-			if (!(ns instanceof NodeNamespace))
-				throw new ProtocolException();
-			String name = ((NodeNamespace) ns).getName();
-			if (!names.contains(name))
-				try
-				{
-					delegateTreeNode.deleteSubNodeNoSign(getTransaction(), name);
-				}
-				catch (InvalidNameException e)
-				{
-					throw new ProtocolException(e);
-				}
+			while (iterator.hasNext())
+			{
+				Namespace ns = iterator.next();
+				if (!(ns instanceof NodeNamespace))
+					throw new ProtocolException();
+				String name = ((NodeNamespace) ns).getName();
+				if (!names.contains(name))
+					try
+					{
+						delegateTreeNode.deleteSubNodeNoSign(getTransaction(), name);
+					}
+					catch (InvalidNameException e)
+					{
+						throw new ProtocolException(e);
+					}
+			}
 		}
 		try
 		{

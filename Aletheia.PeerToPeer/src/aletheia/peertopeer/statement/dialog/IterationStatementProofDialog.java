@@ -60,6 +60,7 @@ import aletheia.peertopeer.statement.message.PersonResponseMessage;
 import aletheia.peertopeer.statement.message.StatementRequestMessage;
 import aletheia.peertopeer.statement.message.StatementRequisiteMessage;
 import aletheia.peertopeer.statement.message.StatementResponseMessage;
+import aletheia.persistence.Transaction;
 import aletheia.protocol.ProtocolException;
 import aletheia.utilities.collections.Bijection;
 import aletheia.utilities.collections.BijectionCollection;
@@ -174,12 +175,13 @@ public class IterationStatementProofDialog extends StatementProofDialog
 
 	private boolean filterDelegateTreeInfoMessageContextUuid(DelegateTreeInfoMessage delegateTreeInfoMessage, UUID contextUuid)
 	{
+		Transaction transaction = getTransaction();
 		Set<UUID> filteredContextUuids = new DifferenceSet<>(delegateTreeInfoMessage.getMap().keySet(),
-				delegateTreeInfoMessage.filterFullyUpdatedMap(getPersistenceManager(), getTransaction()).keySet());
-		Context context = getPersistenceManager().getContext(getTransaction(), contextUuid);
+				delegateTreeInfoMessage.filterFullyUpdatedMap(getPersistenceManager(), transaction).keySet());
+		Context context = getPersistenceManager().getContext(transaction, contextUuid);
 		if (context == null)
 			return false;
-		for (Context ctx : new ReverseList<>(context.statementPath(getTransaction())))
+		for (Context ctx : new ReverseList<>(context.statementPath(transaction)))
 			if (filteredContextUuids.contains(ctx.getUuid()))
 				return false;
 		return true;
@@ -219,9 +221,7 @@ public class IterationStatementProofDialog extends StatementProofDialog
 				if (st == null)
 					return true;
 				StatementAuthority stAuth = st.getAuthority(getTransaction());
-				if (stAuth == null)
-					return true;
-				if (!stAuth.isValidSignature())
+				if ((stAuth == null) || !stAuth.isValidSignature())
 					return true;
 				return false;
 			}

@@ -92,8 +92,14 @@ public class NewSpecialization extends NewStatement
 			if (instanceProof_ == null)
 				instanceProof_ = ctx.suitableForInstanceProofStatementByTerm(getTransaction(), provedInstance.parameterIdentifidedInstance.getTerm().getType());
 			if (instanceProof_ == null)
+			{
+				/* XXX Avoiding a weird warning: Resource leak: '<unassigned Closeable value>' is not closed at this location.
 				throw new Exception(
 						"Value proof missing for type: " + provedInstance.parameterIdentifidedInstance.getTerm().getType().toString(getTransaction(), ctx));
+				*/
+				String msg = "Value proof missing for type: " + provedInstance.parameterIdentifidedInstance.getTerm().getType().toString(getTransaction(), ctx);
+				throw new Exception(msg);
+			}
 
 			Specialization specialization = ctx.specialize(getTransaction(), statement, provedInstance.parameterIdentifidedInstance.getTerm(), instanceProof_);
 			specialization.updateInstanceParameterIdentification(getTransaction(), provedInstance.parameterIdentifidedInstance.getParameterIdentification());
