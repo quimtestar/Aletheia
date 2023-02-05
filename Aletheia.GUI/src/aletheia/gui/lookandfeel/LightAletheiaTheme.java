@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -16,24 +16,10 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with the Aletheia Proof Assistant. If not, see
  * <http://www.gnu.org/licenses/>.
- ******************************************************************************/
+ *******************************************************************************/
 package aletheia.gui.lookandfeel;
 
-import javax.swing.UIDefaults;
-import javax.swing.plaf.metal.MetalLookAndFeel;
-
-public class MyLookAndFeel extends MetalLookAndFeel
+class LightAletheiaTheme extends AletheiaTheme
 {
-	private static final long serialVersionUID = 1398088013985281002L;
-
-	public MyLookAndFeel()
-	{
-	}
-
-	@Override
-	protected void initClassDefaults(UIDefaults table)
-	{
-		super.initClassDefaults(table);
-	}
 
 }

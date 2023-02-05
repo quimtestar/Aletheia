@@ -19,15 +19,20 @@
  ******************************************************************************/
 package aletheia.gui.preferences;
 
+import aletheia.gui.lookandfeel.AletheiaLookAndFeel;
 import aletheia.preferences.NodeAletheiaPreferences;
 
 public class AppearanceAletheiaPreferences extends NodeAletheiaPreferences
 {
 	private final static String NODE_PATH = "appearance";
 
+	private final static String THEME = "theme";
+
 	private final static String FONT_SIZE = "font_size";
 
 	private final static String COMPACTATION_THRESHOLD = "compactation_threshold";
+
+	private final static AletheiaLookAndFeel.Theme defaultTheme = AletheiaLookAndFeel.Theme.Light;
 
 	private final static int defaultFontSize = 14;
 
@@ -39,6 +44,16 @@ public class AppearanceAletheiaPreferences extends NodeAletheiaPreferences
 	{
 		super(guiAletheiaPreferences, NODE_PATH);
 		this.aletheiaJFrameBoundsPreferences = new AletheiaJFrameBoundsPreferences(this);
+	}
+
+	public AletheiaLookAndFeel.Theme getTheme()
+	{
+		return AletheiaLookAndFeel.Theme.valueOf(getPreferences().get(THEME, defaultTheme.name()));
+	}
+
+	public void setTheme(AletheiaLookAndFeel.Theme theme)
+	{
+		getPreferences().put(THEME, theme.name());
 	}
 
 	public int getFontSize()

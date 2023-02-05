@@ -24,9 +24,12 @@ import java.awt.Container;
 import java.awt.FocusTraversalPolicy;
 import java.awt.HeadlessException;
 import java.awt.Window;
+import java.util.Collection;
+import java.util.Collections;
 
 import javax.swing.JFrame;
 
+import aletheia.gui.lookandfeel.AletheiaLookAndFeel;
 import aletheia.model.statement.Context;
 import aletheia.model.statement.Statement;
 import aletheia.utilities.gui.MyJSplitPane;
@@ -144,6 +147,16 @@ public abstract class AletheiaJFrame extends JFrame
 	public void resetedGui()
 	{
 
+	}
+
+	protected Collection<AletheiaJFrame> frameCollection()
+	{
+		return Collections.singleton(this);
+	}
+
+	public void changeLookAndFeelTheme(AletheiaLookAndFeel.Theme theme)
+	{
+		AletheiaLookAndFeel.changeTheme(theme, frameCollection());
 	}
 
 }

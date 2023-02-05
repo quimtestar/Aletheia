@@ -56,6 +56,8 @@ import aletheia.persistence.gui.PersistenceGUIFactory.EncapsulatedCreatePersiste
 import aletheia.persistence.gui.PersistenceGUIFactory.RedialogCreatePersistenceManagerException;
 import aletheia.utilities.AsynchronousInvoker;
 import aletheia.utilities.MiscUtilities;
+import aletheia.utilities.collections.AdaptedCollection;
+import aletheia.utilities.collections.CombinedCollection;
 
 public class DesktopAletheiaJFrame extends MainAletheiaJFrame
 {
@@ -651,6 +653,12 @@ public class DesktopAletheiaJFrame extends MainAletheiaJFrame
 	{
 		updateContentPane(true);
 		updateServerStatus(true);
+	}
+
+	@Override
+	protected Collection<AletheiaJFrame> frameCollection()
+	{
+		return new CombinedCollection<>(super.frameCollection(), new AdaptedCollection<>(extraFrames));
 	}
 
 }

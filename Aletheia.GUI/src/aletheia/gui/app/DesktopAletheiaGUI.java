@@ -27,7 +27,6 @@ import java.util.Properties;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -35,7 +34,7 @@ import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.app.splash.AbstractSplashStartupProgressListener;
 import aletheia.gui.icons.IconManager;
-import aletheia.gui.lookandfeel.MyLookAndFeel;
+import aletheia.gui.lookandfeel.AletheiaLookAndFeel;
 import aletheia.gui.preferences.GUIAletheiaPreferences;
 import aletheia.gui.preferences.PersistenceClass;
 import aletheia.log4j.LoggerManager;
@@ -200,8 +199,7 @@ public class DesktopAletheiaGUI extends AletheiaGUI
 		Properties props = System.getProperties();
 		props.setProperty("awt.useSystemAAFontSettings", "on");
 		LoggerManager.instance.setUncaughtExceptionHandler();
-		LookAndFeel laf = new MyLookAndFeel();
-		UIManager.setLookAndFeel(laf);
+		UIManager.setLookAndFeel(new AletheiaLookAndFeel());
 		DesktopAletheiaGUI aletheiaGUI = new DesktopAletheiaGUI(globalSwitches);
 		aletheiaGUI.run();
 	}

@@ -30,6 +30,7 @@ public class ConfigurationMenu extends AletheiaJMenu
 	private static final long serialVersionUID = 5598459073059823214L;
 
 	private final PreferencesAction preferencesAction;
+	private final RestartAction restartAction;
 	private final ExitAction exitAction;
 
 	public ConfigurationMenu(AletheiaJMenuBar aletheiaJMenuBar)
@@ -37,6 +38,8 @@ public class ConfigurationMenu extends AletheiaJMenu
 		super(aletheiaJMenuBar, "Configuration", KeyEvent.VK_C);
 		this.preferencesAction = new PreferencesAction(this);
 		this.add(new AletheiaMenuItem(preferencesAction));
+		this.restartAction = new RestartAction(this);
+		this.add(new AletheiaMenuItem(restartAction));
 		this.exitAction = new ExitAction(this);
 		this.add(new AletheiaMenuItem(exitAction));
 	}
@@ -46,9 +49,15 @@ public class ConfigurationMenu extends AletheiaJMenu
 		return preferencesAction;
 	}
 
+	public RestartAction getRestartAction()
+	{
+		return restartAction;
+	}
+
 	public ExitAction getExitAction()
 	{
 		return exitAction;
+
 	}
 
 }

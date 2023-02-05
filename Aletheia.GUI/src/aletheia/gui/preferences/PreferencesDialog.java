@@ -57,6 +57,7 @@ import javax.swing.SwingConstants;
 import org.apache.logging.log4j.Logger;
 
 import aletheia.gui.app.DesktopAletheiaJFrame;
+import aletheia.gui.lookandfeel.AletheiaLookAndFeel;
 import aletheia.log4j.LoggerManager;
 import aletheia.persistence.gui.PersistencePreferencesJPanel;
 import aletheia.utilities.AsynchronousInvoker;
@@ -301,6 +302,30 @@ public class PreferencesDialog extends JDialog
 	private final JTextField p2pSurrogateAddressTextField;
 	private final JSpinner p2pSurrogatePortSpinner;
 
+	/* XXX
+	private static class ThemeComboBoxItem
+	{
+		private final String label;
+		
+		private ThemeComboBoxItem(String label)
+		{
+			this.label = label;
+		}
+		
+		public String toString()
+		{
+			return label;
+		}
+		
+		//@formatter:off
+		private static final ThemeComboBoxItem[] values=new ThemeComboBoxItem[]{
+			new ThemeComboBoxItem("\u2600 Light"),
+			new ThemeComboBoxItem("\u263e Dark"),
+		};
+	}
+	*/
+	
+	private final JComboBox<AletheiaLookAndFeel.Theme> themeComboBox;
 	private final JSpinner fontSizeSpinner;
 	private final JSlider compactationThresholdSlider;
 
@@ -485,6 +510,25 @@ public class PreferencesDialog extends JDialog
 			gbc.gridy = gridy;
 			gbc.insets = formFieldInsets;
 			gbc.anchor = GridBagConstraints.WEST;
+			formPanel.add(new JLabel("Theme"), gbc);
+		}
+		this.themeComboBox = new JComboBox<>(AletheiaLookAndFeel.Theme.values());
+		this.themeComboBox.setSelectedItem(preferences.appearance().getTheme());
+		{
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.gridx = 1;
+			gbc.gridy = gridy;
+			gbc.insets = formFieldInsets;
+			gbc.anchor = GridBagConstraints.WEST;
+			formPanel.add(themeComboBox, gbc);
+		}
+		gridy++;
+		{
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.gridx = 0;
+			gbc.gridy = gridy;
+			gbc.insets = formFieldInsets;
+			gbc.anchor = GridBagConstraints.WEST;
 			formPanel.add(new JLabel("Font size"), gbc);
 		}
 		SpinnerNumberModel fontSizeModel = new SpinnerNumberModel(6, 6, 96, 1);
@@ -599,6 +643,9 @@ public class PreferencesDialog extends JDialog
 					if (peerToPeerNodeGender == PeerToPeerNodeGender.MALE && p2pSurrogateAddress.isEmpty())
 						throw new Exception("Must select a P2P surrogate address");
 					preferences.peerToPeerNode().malePeerToPeerNode().setP2pSurrogatePort((int) p2pSurrogatePortSpinner.getValue());
+					AletheiaLookAndFeel.Theme theme = (AletheiaLookAndFeel.Theme) themeComboBox.getSelectedItem();
+					aletheiaJFrame.changeLookAndFeelTheme(theme);
+					preferences.appearance().setTheme(theme);
 					int fontSize = (Integer) fontSizeSpinner.getValue();
 					preferences.appearance().setFontSize(fontSize);
 					int oldFontSize = aletheiaJFrame.getFontManager().getFontSize();
