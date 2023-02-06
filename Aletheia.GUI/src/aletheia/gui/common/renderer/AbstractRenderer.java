@@ -41,6 +41,7 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import aletheia.gui.fonts.FontManager;
+import aletheia.gui.lookandfeel.AletheiaLookAndFeel;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.utilities.MiscUtilities;
@@ -55,17 +56,14 @@ public abstract class AbstractRenderer extends JPanel
 	private static final Color darkOrange = Color.orange.darker().darker();
 	private static final Color darkGray = new Color(0x606060);
 	private static final Color darkCyan = new Color(0x008080);
-	private static final Color darkPurple = new Color(0x800080);
 	@SuppressWarnings("unused")
 	private static final Color darkBlue = Color.blue.darker().darker();
-	private static final Color defaultColor = Color.black;
 	private static final Color provenLabelColor = darkGreen;
 	private static final Color unprovenLabelColor = darkOrange;
 	private static final Color tickColor = Color.green;
 	private static final Color questionMarkColor = Color.red;
 	private static final Color xMarkColor = Color.red;
 	private static final Color turnstileColor = Color.orange;
-	private static final Color activeContextColor = darkPurple;
 	private static final Color notValidSignatureSymbolColor = darkGray;
 	private static final Color validSignatureSymbolColor = darkGray;
 	private static final Color signedDependenciesSymbolColor = darkGray;
@@ -75,13 +73,6 @@ public abstract class AbstractRenderer extends JPanel
 	private static final Color groupSorterColor = Color.blue;
 	private static final Border emptyBorder = BorderFactory.createEmptyBorder(1, 1, 1, 1);
 	private static final Color focusBorderColor = Color.blue;
-	private static final Color defaultNormalBackgroundColor = Color.white;
-	private static final Color defaultSelectedBackgroundColor = Color.lightGray;
-
-	protected static Color getDefaultColor()
-	{
-		return defaultColor;
-	}
 
 	protected static Color getProvenLabelColor()
 	{
@@ -108,11 +99,6 @@ public abstract class AbstractRenderer extends JPanel
 		return turnstileColor;
 	}
 
-	protected static Color getActiveContextColor()
-	{
-		return activeContextColor;
-	}
-
 	protected interface EditableComponent
 	{
 		public void cancelEditing();
@@ -132,12 +118,18 @@ public abstract class AbstractRenderer extends JPanel
 
 	private Font activeFont;
 
-	private Color normalBackgroundColor = defaultNormalBackgroundColor;
-	private Color selectedBackgroundColor = defaultSelectedBackgroundColor;
+	// TODO: A global color manager needed here?
+	private Color defaultColor;
+	private Color activeContextColor;
+	private Color defaultNormalBackgroundColor;
+	private Color normalBackgroundColor;
+	private Color defaultSelectedBackgroundColor;
+	private Color selectedBackgroundColor;
 
 	public AbstractRenderer(FontManager fontManager, boolean withBorder)
 	{
 		super();
+		initializeColors();
 		this.fontManager = fontManager;
 		this.editableComponents = new HashSet<>();
 		this.withBorder = withBorder;
@@ -151,6 +143,33 @@ public abstract class AbstractRenderer extends JPanel
 		setBackground(defaultNormalBackgroundColor);
 		if (withBorder)
 			setBorder(emptyBorder);
+	}
+
+	private void initializeColors()
+	{
+		defaultColor = AletheiaLookAndFeel.theme().getUserTextColor();
+		activeContextColor = AletheiaLookAndFeel.theme().getActiveContext();
+		defaultNormalBackgroundColor = AletheiaLookAndFeel.theme().getWindowBackground();
+		normalBackgroundColor = defaultNormalBackgroundColor;
+		defaultSelectedBackgroundColor = AletheiaLookAndFeel.theme().getSelectedBackground();
+		selectedBackgroundColor = defaultSelectedBackgroundColor;
+	}
+
+	protected Color getDefaultColor()
+	{
+		return defaultColor;
+	}
+
+	protected Color getActiveContextColor()
+	{
+		return activeContextColor;
+	}
+
+	@Override
+	public void updateUI()
+	{
+		initializeColors();
+		super.updateUI();
 	}
 
 	public AbstractRenderer(FontManager fontManager)

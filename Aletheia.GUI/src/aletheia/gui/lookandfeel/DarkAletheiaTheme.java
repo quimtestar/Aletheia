@@ -23,11 +23,32 @@ import javax.swing.plaf.ColorUIResource;
 
 class DarkAletheiaTheme extends AletheiaTheme
 {
+	private static final ColorUIResource background = new ColorUIResource(64, 64, 64);
+	private static final ColorUIResource text = new ColorUIResource(224, 224, 224);
+	private static final ColorUIResource selectedBackground = new ColorUIResource(0, 0, 0);
+	protected static final ColorUIResource activeContext = lightPurple;
 
 	@Override
 	public ColorUIResource getWindowBackground()
 	{
-		return new ColorUIResource(255, 128, 128);
+		return background;
 	}
 
+	@Override
+	public ColorUIResource getUserTextColor()
+	{
+		return text;
+	}
+
+	@Override
+	public ColorUIResource getSelectedBackground()
+	{
+		return selectedBackground;
+	}
+
+	@Override
+	public ColorUIResource getActiveContext()
+	{
+		return activeContext;
+	}
 }

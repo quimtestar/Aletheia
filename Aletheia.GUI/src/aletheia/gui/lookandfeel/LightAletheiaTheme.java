@@ -19,7 +19,25 @@
  *******************************************************************************/
 package aletheia.gui.lookandfeel;
 
+import java.awt.Color;
+
+import javax.swing.plaf.ColorUIResource;
+
 class LightAletheiaTheme extends AletheiaTheme
 {
+	private static final ColorUIResource selectedBackground = new ColorUIResource(Color.lightGray);
+	private static final ColorUIResource activeContext = darkPurple;
+
+	@Override
+	public ColorUIResource getSelectedBackground()
+	{
+		return selectedBackground;
+	}
+
+	@Override
+	public ColorUIResource getActiveContext()
+	{
+		return activeContext;
+	}
 
 }

@@ -39,7 +39,6 @@ public class PersonLabelRenderer extends AbstractRenderer
 {
 	private static final long serialVersionUID = -6400156605798606875L;
 
-	private static final Color defaultColor = AbstractRenderer.getDefaultColor();
 	private static final Color privateColor = AbstractRenderer.getPrivatePersonColor();
 
 	private class Listener implements MouseListener
@@ -84,7 +83,7 @@ public class PersonLabelRenderer extends AbstractRenderer
 	{
 		super(fontManager);
 		this.person = person;
-		this.color = person instanceof PrivatePerson ? privateColor : defaultColor;
+		this.color = person instanceof PrivatePerson ? privateColor : getDefaultColor();
 		this.personLabel = addPersonReference(person, color);
 		this.listener = new Listener();
 		this.personLabel.addMouseListener(listener);

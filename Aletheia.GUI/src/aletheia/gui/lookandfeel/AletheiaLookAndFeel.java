@@ -83,9 +83,16 @@ public class AletheiaLookAndFeel extends MetalLookAndFeel
 		return changeTheme(theme, Arrays.asList(components));
 	}
 
-	private static void setCurrentTheme(AletheiaTheme theme)
+	public static AletheiaTheme theme()
 	{
-		MetalLookAndFeel.setCurrentTheme(theme);
+		try
+		{
+			return (AletheiaTheme) MetalLookAndFeel.getCurrentTheme();
+		}
+		catch (ClassCastException e)
+		{
+			return null;
+		}
 	}
 
 	private AletheiaLookAndFeel(Theme theme)

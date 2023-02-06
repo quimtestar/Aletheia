@@ -19,6 +19,8 @@
  ******************************************************************************/
 package aletheia.gui.common;
 
+import java.util.Optional;
+
 import javax.swing.JTree;
 
 import aletheia.gui.fonts.FontManager;
@@ -54,8 +56,14 @@ public class PersistentJTree extends JTree
 
 	public void updateFontSize()
 	{
-		getModel().cleanRenderers();
 		updateUI();
+	}
+
+	@Override
+	public void updateUI()
+	{
+		Optional.ofNullable(getModel()).ifPresent(PersistentTreeModel::cleanRenderers);
+		super.updateUI();
 	}
 
 }

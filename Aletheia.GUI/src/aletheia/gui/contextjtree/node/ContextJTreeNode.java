@@ -19,8 +19,10 @@
  ******************************************************************************/
 package aletheia.gui.contextjtree.node;
 
+import java.lang.ref.Reference;
 import java.lang.ref.SoftReference;
 import java.util.Enumeration;
+import java.util.Optional;
 import java.util.Stack;
 
 import javax.swing.tree.TreeNode;
@@ -104,11 +106,8 @@ public abstract class ContextJTreeNode implements TreeNode
 
 	public synchronized void cleanRenderer()
 	{
-		if (rendererRef != null)
-		{
-			rendererRef.clear();
-			rendererRef = null;
-		}
+		Optional.ofNullable(rendererRef).ifPresent(Reference::clear);
+		rendererRef = null;
 	}
 
 	public synchronized ContextJTreeNodeRenderer renderer(ContextJTree contextJTree)
@@ -133,10 +132,7 @@ public abstract class ContextJTreeNode implements TreeNode
 
 	protected synchronized ContextJTreeNodeRenderer getRenderer()
 	{
-		if (rendererRef != null)
-			return rendererRef.get();
-		else
-			return null;
+		return Optional.ofNullable(rendererRef).map(Reference::get).orElse(null);
 	}
 
 	protected abstract ContextJTreeNodeRenderer buildRenderer(ContextJTree contextJTree);

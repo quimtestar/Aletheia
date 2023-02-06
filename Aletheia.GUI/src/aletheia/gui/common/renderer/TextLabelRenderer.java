@@ -32,12 +32,12 @@ public class TextLabelRenderer extends AbstractRenderer
 	{
 		super(fontManager);
 		setActiveFont(getTextLabelFont());
-		addTextLabel(text, textColor);
+		addTextLabel(text, textColor != null ? textColor : getDefaultColor());
 	}
 
 	public TextLabelRenderer(FontManager fontManager, String text)
 	{
-		this(fontManager, text, AbstractRenderer.getDefaultColor());
+		this(fontManager, text, null);
 	}
 
 	protected Font getTextLabelFont()

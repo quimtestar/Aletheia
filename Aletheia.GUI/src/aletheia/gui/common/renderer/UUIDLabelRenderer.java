@@ -38,7 +38,7 @@ public class UUIDLabelRenderer extends AbstractRenderer
 	public UUIDLabelRenderer(FontManager fontManager, UUID uuid)
 	{
 		super(fontManager);
-		addUUIDLabel(uuid, AbstractRenderer.getDefaultColor());
+		addUUIDLabel(uuid, getDefaultColor());
 	}
 
 }
