@@ -302,29 +302,6 @@ public class PreferencesDialog extends JDialog
 	private final JTextField p2pSurrogateAddressTextField;
 	private final JSpinner p2pSurrogatePortSpinner;
 
-	/* XXX
-	private static class ThemeComboBoxItem
-	{
-		private final String label;
-		
-		private ThemeComboBoxItem(String label)
-		{
-			this.label = label;
-		}
-		
-		public String toString()
-		{
-			return label;
-		}
-		
-		//@formatter:off
-		private static final ThemeComboBoxItem[] values=new ThemeComboBoxItem[]{
-			new ThemeComboBoxItem("\u2600 Light"),
-			new ThemeComboBoxItem("\u263e Dark"),
-		};
-	}
-	*/
-	
 	private final JComboBox<AletheiaLookAndFeel.Theme> themeComboBox;
 	private final JSpinner fontSizeSpinner;
 	private final JSlider compactationThresholdSlider;

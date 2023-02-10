@@ -58,7 +58,6 @@ public abstract class AbstractRenderer extends JPanel
 	private static final Color darkCyan = new Color(0x008080);
 	@SuppressWarnings("unused")
 	private static final Color darkBlue = Color.blue.darker().darker();
-	private static final Color provenLabelColor = darkGreen;
 	private static final Color unprovenLabelColor = darkOrange;
 	private static final Color tickColor = Color.green;
 	private static final Color questionMarkColor = Color.red;
@@ -70,14 +69,8 @@ public abstract class AbstractRenderer extends JPanel
 	private static final Color signedProofSymbolColor = darkGray;
 	private static final Color subscribeSymbolColor = darkCyan;
 	private static final Color privatePersonColor = darkGreen;
-	private static final Color groupSorterColor = Color.blue;
 	private static final Border emptyBorder = BorderFactory.createEmptyBorder(1, 1, 1, 1);
 	private static final Color focusBorderColor = Color.blue;
-
-	protected static Color getProvenLabelColor()
-	{
-		return provenLabelColor;
-	}
 
 	protected static Color getUnprovenLabelColor()
 	{
@@ -87,11 +80,6 @@ public abstract class AbstractRenderer extends JPanel
 	protected static Color getPrivatePersonColor()
 	{
 		return privatePersonColor;
-	}
-
-	protected static Color getGroupSorterColor()
-	{
-		return groupSorterColor;
 	}
 
 	protected static Color getTurnstileColor()
@@ -125,6 +113,8 @@ public abstract class AbstractRenderer extends JPanel
 	private Color normalBackgroundColor;
 	private Color defaultSelectedBackgroundColor;
 	private Color selectedBackgroundColor;
+	private Color groupSorterColor;
+	private Color provenLabelColor;
 
 	public AbstractRenderer(FontManager fontManager, boolean withBorder)
 	{
@@ -153,6 +143,8 @@ public abstract class AbstractRenderer extends JPanel
 		normalBackgroundColor = defaultNormalBackgroundColor;
 		defaultSelectedBackgroundColor = AletheiaLookAndFeel.theme().getSelectedBackground();
 		selectedBackgroundColor = defaultSelectedBackgroundColor;
+		groupSorterColor = AletheiaLookAndFeel.theme().getGroupSorter();
+		provenLabelColor = AletheiaLookAndFeel.theme().getProvenLabel();
 	}
 
 	protected Color getDefaultColor()
@@ -163,6 +155,16 @@ public abstract class AbstractRenderer extends JPanel
 	protected Color getActiveContextColor()
 	{
 		return activeContextColor;
+	}
+
+	protected Color getGroupSorterColor()
+	{
+		return groupSorterColor;
+	}
+
+	protected Color getProvenLabelColor()
+	{
+		return provenLabelColor;
 	}
 
 	@Override
@@ -283,7 +285,7 @@ public abstract class AbstractRenderer extends JPanel
 	{
 		JLabel label = new JLabel(text);
 		label.setFont(font);
-		label.setForeground(color);
+		label.setForeground(color); //XXX this should be made dynamic to enable theme changes
 		add(label);
 		return label;
 	}

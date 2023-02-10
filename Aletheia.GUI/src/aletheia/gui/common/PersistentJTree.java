@@ -62,7 +62,7 @@ public class PersistentJTree extends JTree
 	@Override
 	public void updateUI()
 	{
-		Optional.ofNullable(getModel()).ifPresent(PersistentTreeModel::cleanRenderers);
+		Optional.ofNullable(getModel()).ifPresent(PersistentTreeModel::cleanRenderers); // XXX this might not be necessary
 		super.updateUI();
 	}
 

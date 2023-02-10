@@ -19,6 +19,8 @@
  *******************************************************************************/
 package aletheia.gui.lookandfeel;
 
+import java.awt.Color;
+
 import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.metal.OceanTheme;
 
@@ -26,9 +28,15 @@ public abstract class AletheiaTheme extends OceanTheme
 {
 	protected static final ColorUIResource darkPurple = new ColorUIResource(0x800080);
 	protected static final ColorUIResource lightPurple = new ColorUIResource(0xff40ff);
+	protected static final ColorUIResource darkGreen = new ColorUIResource(Color.green.darker().darker());
+	protected static final ColorUIResource lightGreen = new ColorUIResource(128, 255, 128);
 
 	public abstract ColorUIResource getSelectedBackground();
 
 	public abstract ColorUIResource getActiveContext();
+
+	public abstract ColorUIResource getGroupSorter();
+
+	public abstract ColorUIResource getProvenLabel();
 
 }

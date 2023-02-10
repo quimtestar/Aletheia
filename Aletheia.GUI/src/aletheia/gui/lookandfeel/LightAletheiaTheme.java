@@ -27,6 +27,8 @@ class LightAletheiaTheme extends AletheiaTheme
 {
 	private static final ColorUIResource selectedBackground = new ColorUIResource(Color.lightGray);
 	private static final ColorUIResource activeContext = darkPurple;
+	private static final ColorUIResource groupSorter = new ColorUIResource(Color.blue);
+	private static final ColorUIResource provenLabel = darkGreen;
 
 	@Override
 	public ColorUIResource getSelectedBackground()
@@ -38,6 +40,18 @@ class LightAletheiaTheme extends AletheiaTheme
 	public ColorUIResource getActiveContext()
 	{
 		return activeContext;
+	}
+
+	@Override
+	public ColorUIResource getGroupSorter()
+	{
+		return groupSorter;
+	}
+
+	@Override
+	public ColorUIResource getProvenLabel()
+	{
+		return provenLabel;
 	}
 
 }

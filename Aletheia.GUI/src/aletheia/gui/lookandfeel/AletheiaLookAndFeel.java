@@ -61,7 +61,6 @@ public class AletheiaLookAndFeel extends MetalLookAndFeel
 			return false;
 		else
 		{
-			setCurrentTheme(theme.aletheiaTheme);
 			try
 			{
 				UIManager.setLookAndFeel(new AletheiaLookAndFeel(theme));
