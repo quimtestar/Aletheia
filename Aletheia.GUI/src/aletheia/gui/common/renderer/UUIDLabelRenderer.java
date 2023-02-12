@@ -19,26 +19,26 @@
  ******************************************************************************/
 package aletheia.gui.common.renderer;
 
-import java.awt.Color;
 import java.util.UUID;
 
 import aletheia.gui.fonts.FontManager;
+import aletheia.gui.lookandfeel.AletheiaTheme;
 
 public class UUIDLabelRenderer extends AbstractRenderer
 {
 
 	private static final long serialVersionUID = 3107760025659849180L;
 
-	public UUIDLabelRenderer(FontManager fontManager, UUID uuid, Color color)
+	public UUIDLabelRenderer(FontManager fontManager, UUID uuid, AletheiaTheme.Key colorKey)
 	{
 		super(fontManager);
-		addUUIDLabel(uuid, color);
+		addUUIDLabel(uuid, colorKey);
 	}
 
 	public UUIDLabelRenderer(FontManager fontManager, UUID uuid)
 	{
 		super(fontManager);
-		addUUIDLabel(uuid, getDefaultColor());
+		addUUIDLabel(uuid, AletheiaTheme.Key.default_);
 	}
 
 }

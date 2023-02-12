@@ -19,11 +19,11 @@
  ******************************************************************************/
 package aletheia.gui.signaturerequestjtree;
 
-import java.awt.Color;
 import java.awt.event.KeyEvent;
 
 import org.apache.logging.log4j.Logger;
 
+import aletheia.gui.lookandfeel.AletheiaTheme;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.SignatureRequest;
 
@@ -86,10 +86,10 @@ public class RequestSignatureRequestTreeNodeRenderer extends SignatureRequestTre
 		return getNode().getSignatureRequest();
 	}
 
-	protected void addSignatureRequestLabels(Color color)
+	protected void addSignatureRequestLabels(AletheiaTheme.Key colorKey)
 	{
-		addUUIDLabel(getSignatureRequest().getUuid(), color);
+		addUUIDLabel(getSignatureRequest().getUuid(), colorKey);
 		addSpaceLabel();
-		addDateLabel(getSignatureRequest().getCreationDate(), color);
+		addDateLabel(getSignatureRequest().getCreationDate(), colorKey);
 	}
 }

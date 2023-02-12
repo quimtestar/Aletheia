@@ -19,18 +19,18 @@
  ******************************************************************************/
 package aletheia.gui.common.renderer;
 
-import java.awt.Color;
 import java.awt.Font;
 
 import aletheia.gui.fonts.FontManager;
+import aletheia.gui.lookandfeel.AletheiaTheme;
 
 public class BoldTextLabelRenderer extends TextLabelRenderer
 {
 	private static final long serialVersionUID = 7583320639386442047L;
 
-	public BoldTextLabelRenderer(FontManager fontManager, String text, Color textColor)
+	public BoldTextLabelRenderer(FontManager fontManager, String text, AletheiaTheme.Key textColorKey)
 	{
-		super(fontManager, text, textColor);
+		super(fontManager, text, textColorKey);
 	}
 
 	public BoldTextLabelRenderer(FontManager fontManager, String text)

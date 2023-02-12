@@ -42,6 +42,7 @@ import javax.swing.border.LineBorder;
 
 import aletheia.gui.fonts.FontManager;
 import aletheia.gui.lookandfeel.AletheiaLookAndFeel;
+import aletheia.gui.lookandfeel.AletheiaTheme;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.utilities.MiscUtilities;
@@ -50,27 +51,43 @@ public abstract class AbstractRenderer extends JPanel
 {
 	private static final long serialVersionUID = -9049293577574541041L;
 
-	@SuppressWarnings("unused")
-	private static final Color darkRed = Color.red.darker().darker();
 	private static final Color darkGreen = Color.green.darker().darker();
 	private static final Color darkOrange = Color.orange.darker().darker();
-	private static final Color darkGray = new Color(0x606060);
-	private static final Color darkCyan = new Color(0x008080);
-	@SuppressWarnings("unused")
-	private static final Color darkBlue = Color.blue.darker().darker();
 	private static final Color unprovenLabelColor = darkOrange;
-	private static final Color tickColor = Color.green;
-	private static final Color questionMarkColor = Color.red;
-	private static final Color xMarkColor = Color.red;
 	private static final Color turnstileColor = Color.orange;
-	private static final Color notValidSignatureSymbolColor = darkGray;
-	private static final Color validSignatureSymbolColor = darkGray;
-	private static final Color signedDependenciesSymbolColor = darkGray;
-	private static final Color signedProofSymbolColor = darkGray;
-	private static final Color subscribeSymbolColor = darkCyan;
 	private static final Color privatePersonColor = darkGreen;
 	private static final Border emptyBorder = BorderFactory.createEmptyBorder(1, 1, 1, 1);
 	private static final Color focusBorderColor = Color.blue;
+
+	protected static AletheiaTheme theme()
+	{
+		return AletheiaLookAndFeel.theme();
+	}
+
+	protected static Color getColor(AletheiaTheme.Key key)
+	{
+		return theme().get(key);
+	}
+
+	protected static Color getDefaultNormalBackgroundColor()
+	{
+		return theme().getNormalBackground();
+	}
+
+	protected static Color getDefaultSelectedBackgroundColor()
+	{
+		return theme().getSelectedBackground();
+	}
+
+	protected static Color getDefaultColor()
+	{
+		return theme().getDefault();
+	}
+
+	protected static Color getProvenLabelColor()
+	{
+		return theme().getProvenLabel();
+	}
 
 	protected static Color getUnprovenLabelColor()
 	{
@@ -82,9 +99,19 @@ public abstract class AbstractRenderer extends JPanel
 		return privatePersonColor;
 	}
 
+	protected static Color getGroupSorterColor()
+	{
+		return theme().getGroupSorter();
+	}
+
 	protected static Color getTurnstileColor()
 	{
 		return turnstileColor;
+	}
+
+	protected static Color getActiveContextColor()
+	{
+		return theme().getActiveContext();
 	}
 
 	protected interface EditableComponent
@@ -106,20 +133,12 @@ public abstract class AbstractRenderer extends JPanel
 
 	private Font activeFont;
 
-	// TODO: A global color manager needed here?
-	private Color defaultColor;
-	private Color activeContextColor;
-	private Color defaultNormalBackgroundColor;
-	private Color normalBackgroundColor;
-	private Color defaultSelectedBackgroundColor;
-	private Color selectedBackgroundColor;
-	private Color groupSorterColor;
-	private Color provenLabelColor;
+	private Color normalBackgroundColor = getDefaultNormalBackgroundColor();
+	private Color selectedBackgroundColor = getDefaultSelectedBackgroundColor();
 
 	public AbstractRenderer(FontManager fontManager, boolean withBorder)
 	{
 		super();
-		initializeColors();
 		this.fontManager = fontManager;
 		this.editableComponents = new HashSet<>();
 		this.withBorder = withBorder;
@@ -130,48 +149,9 @@ public abstract class AbstractRenderer extends JPanel
 		layout.setHgap(0);
 		layout.setVgap(0);
 		setLayout(layout);
-		setBackground(defaultNormalBackgroundColor);
+		setBackground(getNormalBackgroundColor());
 		if (withBorder)
 			setBorder(emptyBorder);
-	}
-
-	private void initializeColors()
-	{
-		defaultColor = AletheiaLookAndFeel.theme().getUserTextColor();
-		activeContextColor = AletheiaLookAndFeel.theme().getActiveContext();
-		defaultNormalBackgroundColor = AletheiaLookAndFeel.theme().getWindowBackground();
-		normalBackgroundColor = defaultNormalBackgroundColor;
-		defaultSelectedBackgroundColor = AletheiaLookAndFeel.theme().getSelectedBackground();
-		selectedBackgroundColor = defaultSelectedBackgroundColor;
-		groupSorterColor = AletheiaLookAndFeel.theme().getGroupSorter();
-		provenLabelColor = AletheiaLookAndFeel.theme().getProvenLabel();
-	}
-
-	protected Color getDefaultColor()
-	{
-		return defaultColor;
-	}
-
-	protected Color getActiveContextColor()
-	{
-		return activeContextColor;
-	}
-
-	protected Color getGroupSorterColor()
-	{
-		return groupSorterColor;
-	}
-
-	protected Color getProvenLabelColor()
-	{
-		return provenLabelColor;
-	}
-
-	@Override
-	public void updateUI()
-	{
-		initializeColors();
-		super.updateUI();
 	}
 
 	public AbstractRenderer(FontManager fontManager)
@@ -281,28 +261,39 @@ public abstract class AbstractRenderer extends JPanel
 		super.setLayout(mgr);
 	}
 
-	private JLabel addTextLabel(String text, Font font, Color color)
+	private JLabel addTextLabel(String text, Font font, AletheiaTheme.Key colorKey)
 	{
-		JLabel label = new JLabel(text);
+		JLabel label = new JLabel(text)
+		{
+			private static final long serialVersionUID = 2952752479616538516L;
+
+			@Override
+			public void updateUI()
+			{
+				super.updateUI();
+				setFont(font);
+				setForeground(getColor(colorKey));
+			}
+		};
 		label.setFont(font);
-		label.setForeground(color); //XXX this should be made dynamic to enable theme changes
+		label.setForeground(getColor(colorKey));
 		add(label);
 		return label;
 	}
 
 	protected JLabel addTextLabel(String text)
 	{
-		return addTextLabel(text, getActiveFont(), defaultColor);
+		return addTextLabel(text, getActiveFont(), AletheiaTheme.Key.default_);
 	}
 
 	protected JLabel addTextLabel(String text, Font font)
 	{
-		return addTextLabel(text, font, defaultColor);
+		return addTextLabel(text, font, AletheiaTheme.Key.default_);
 	}
 
-	protected JLabel addTextLabel(String text, Color color)
+	protected JLabel addTextLabel(String text, AletheiaTheme.Key colorKey)
 	{
-		return addTextLabel(text, getActiveFont(), color);
+		return addTextLabel(text, getActiveFont(), colorKey);
 	}
 
 	protected JLabel addTauTermLabel()
@@ -362,7 +353,7 @@ public abstract class AbstractRenderer extends JPanel
 
 	protected JLabel addTurnstileLabel()
 	{
-		return addTextLabel("\u22a2", turnstileColor);
+		return addTextLabel("\u22a2", AletheiaTheme.Key.turnstile);
 	}
 
 	protected JLabel addSpaceLabel(int l)
@@ -380,42 +371,42 @@ public abstract class AbstractRenderer extends JPanel
 
 	protected JLabel addOpenSquareBracket()
 	{
-		return addOpenSquareBracket(defaultColor);
+		return addOpenSquareBracket(AletheiaTheme.Key.default_);
 	}
 
-	protected JLabel addOpenSquareBracket(Color color)
+	protected JLabel addOpenSquareBracket(AletheiaTheme.Key colorKey)
 	{
-		return addTextLabel("[", color);
+		return addTextLabel("[", colorKey);
 	}
 
 	protected JLabel addCloseSquareBracket()
 	{
-		return addCloseSquareBracket(defaultColor);
+		return addCloseSquareBracket(AletheiaTheme.Key.default_);
 	}
 
-	protected JLabel addCloseSquareBracket(Color color)
+	protected JLabel addCloseSquareBracket(AletheiaTheme.Key colorKey)
 	{
-		return addTextLabel("]", color);
+		return addTextLabel("]", colorKey);
 	}
 
 	protected JLabel addOpenCurlyBracket()
 	{
-		return addOpenCurlyBracket(defaultColor);
+		return addOpenCurlyBracket(AletheiaTheme.Key.default_);
 	}
 
-	protected JLabel addOpenCurlyBracket(Color color)
+	protected JLabel addOpenCurlyBracket(AletheiaTheme.Key colorKey)
 	{
-		return addTextLabel("{", color);
+		return addTextLabel("{", colorKey);
 	}
 
 	protected JLabel addCloseCurlyBracket()
 	{
-		return addCloseCurlyBracket(defaultColor);
+		return addCloseCurlyBracket(AletheiaTheme.Key.default_);
 	}
 
-	protected JLabel addCloseCurlyBracket(Color color)
+	protected JLabel addCloseCurlyBracket(AletheiaTheme.Key colorKey)
 	{
-		return addTextLabel("}", color);
+		return addTextLabel("}", colorKey);
 	}
 
 	protected JLabel addReverseArrowLabel()
@@ -460,17 +451,17 @@ public abstract class AbstractRenderer extends JPanel
 
 	protected JLabel addTickLabel()
 	{
-		return addTextLabel("\u2713", tickColor);
+		return addTextLabel("\u2713", AletheiaTheme.Key.tick);
 	}
 
 	protected JLabel addXMarkLabel()
 	{
-		return addTextLabel("\u2715", xMarkColor);
+		return addTextLabel("\u2715", AletheiaTheme.Key.xMark);
 	}
 
 	protected JLabel addQuestionMarkLabel()
 	{
-		return addTextLabel("?", getBoldFont(), questionMarkColor);
+		return addTextLabel("?", getBoldFont(), AletheiaTheme.Key.questionMark);
 	}
 
 	protected JLabel addCommaLabel()
@@ -485,22 +476,22 @@ public abstract class AbstractRenderer extends JPanel
 
 	protected JLabel addNotValidSignatureSymbolLabel()
 	{
-		return addTextLabel("\u25cb", notValidSignatureSymbolColor);
+		return addTextLabel("\u25cb", AletheiaTheme.Key.notValidSignatureSymbol);
 	}
 
 	protected JLabel addValidSignatureSymbolLabel()
 	{
-		return addTextLabel("\u25d4", validSignatureSymbolColor);
+		return addTextLabel("\u25d4", AletheiaTheme.Key.validSignatureSymbol);
 	}
 
 	protected JLabel addSignedDependenciesSymbolLabel()
 	{
-		return addTextLabel("\u25d1", signedDependenciesSymbolColor);
+		return addTextLabel("\u25d1", AletheiaTheme.Key.signedDependenciesSymbol);
 	}
 
 	protected JLabel addSignedProofSymbolLabel()
 	{
-		return addTextLabel("\u25cf", signedProofSymbolColor);
+		return addTextLabel("\u25cf", AletheiaTheme.Key.signedProofSymbol);
 	}
 
 	protected JLabel addSignatureStatusSymbolLabel(StatementAuthority.SignatureStatus status)
@@ -522,72 +513,72 @@ public abstract class AbstractRenderer extends JPanel
 
 	protected JLabel addSubscribeStatementsSymbolLabel()
 	{
-		return addTextLabel("\u2690", subscribeSymbolColor);
+		return addTextLabel("\u2690", AletheiaTheme.Key.subscribeSymbol);
 	}
 
 	protected JLabel addSubscribeProofSymbolLabel()
 	{
-		return addTextLabel("\u2691", subscribeSymbolColor);
+		return addTextLabel("\u2691", AletheiaTheme.Key.subscribeSymbol);
 	}
 
 	protected JLabel addAsterismLabel()
 	{
-		return addAsterismLabel(defaultColor);
+		return addAsterismLabel(AletheiaTheme.Key.default_);
 	}
 
-	protected JLabel addAsterismLabel(Color color)
+	protected JLabel addAsterismLabel(AletheiaTheme.Key colorKey)
 	{
-		return addTextLabel("\u2042", fontManager.expandFont(), color);
+		return addTextLabel("\u2042", fontManager.expandFont(), colorKey);
 	}
 
 	protected JLabel addEnvelopeLabel()
 	{
-		return addEnvelopeLabel(defaultColor);
+		return addEnvelopeLabel(AletheiaTheme.Key.default_);
 	}
 
-	protected JLabel addEnvelopeLabel(Color color)
+	protected JLabel addEnvelopeLabel(AletheiaTheme.Key colorKey)
 	{
-		return addTextLabel("\u2709", color);
+		return addTextLabel("\u2709", colorKey);
 	}
 
 	protected JLabel addOpenBoxLabel()
 	{
-		return addOpenBoxLabel(defaultColor);
+		return addOpenBoxLabel(AletheiaTheme.Key.default_);
 	}
 
-	protected JLabel addOpenBoxLabel(Color color)
+	protected JLabel addOpenBoxLabel(AletheiaTheme.Key colorKey)
 	{
-		return addTextLabel("\u25a1", color);
+		return addTextLabel("\u25a1", colorKey);
 	}
 
 	protected JLabel addClosedBoxLabel()
 	{
-		return addClosedBoxLabel(defaultColor);
+		return addClosedBoxLabel(AletheiaTheme.Key.default_);
 	}
 
-	protected JLabel addClosedBoxLabel(Color color)
+	protected JLabel addClosedBoxLabel(AletheiaTheme.Key colorKey)
 	{
-		return addTextLabel("\u25a3", color);
+		return addTextLabel("\u25a3", colorKey);
 	}
 
-	protected JLabel addExpandedGroupSorterLabel(Color color)
+	protected JLabel addExpandedGroupSorterLabel(AletheiaTheme.Key colorKey)
 	{
-		return addTextLabel("\u21b3", color);
+		return addTextLabel("\u21b3", colorKey);
 	}
 
 	protected JLabel addExpandedGroupSorterLabel()
 	{
-		return addExpandedGroupSorterLabel(getGroupSorterColor());
+		return addExpandedGroupSorterLabel(AletheiaTheme.Key.groupSorter);
 	}
 
-	protected JLabel addCollapsedGroupSorterLabel(Color color)
+	protected JLabel addCollapsedGroupSorterLabel(AletheiaTheme.Key colorKey)
 	{
-		return addTextLabel("\u2192", color);
+		return addTextLabel("\u2192", colorKey);
 	}
 
 	protected JLabel addCollapsedGroupSorterLabel()
 	{
-		return addCollapsedGroupSorterLabel(getGroupSorterColor());
+		return addCollapsedGroupSorterLabel(AletheiaTheme.Key.groupSorter);
 	}
 
 	public void setSelected(boolean selected)
@@ -652,42 +643,42 @@ public abstract class AbstractRenderer extends JPanel
 
 	protected JLabel addUUIDLabel(UUID uuid)
 	{
-		return addUUIDLabel(uuid, defaultColor);
+		return addUUIDLabel(uuid, AletheiaTheme.Key.default_);
 	}
 
-	protected JLabel addUUIDLabel(UUID uuid, Color color)
+	protected JLabel addUUIDLabel(UUID uuid, AletheiaTheme.Key colorKey)
 	{
-		return addTextLabel(uuid.toString(), color);
+		return addTextLabel(uuid.toString(), colorKey);
 	}
 
-	protected JLabel addPersonReference(Person person, Color color)
+	protected JLabel addPersonReference(Person person, AletheiaTheme.Key colorKey)
 	{
-		return addTextLabel(person.getNick(), color);
+		return addTextLabel(person.getNick(), colorKey);
 	}
 
 	protected JLabel addPersonReference(Person person)
 	{
-		return addPersonReference(person, defaultColor);
+		return addPersonReference(person, AletheiaTheme.Key.default_);
 	}
 
 	protected JLabel addDateLabel(Date date)
 	{
-		return addDateLabel(date, defaultColor);
+		return addDateLabel(date, AletheiaTheme.Key.default_);
 	}
 
-	protected JLabel addDateLabel(Date date, Color color)
+	protected JLabel addDateLabel(Date date, AletheiaTheme.Key colorKey)
 	{
-		return addTextLabel(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date), color);
+		return addTextLabel(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date), colorKey);
 	}
 
 	protected JLabel addTrueLabel()
 	{
-		return addTextLabel("\u2713", Color.green.darker().darker());
+		return addTextLabel("\u2713", AletheiaTheme.Key.true_);
 	}
 
 	protected JLabel addFalseLabel()
 	{
-		return addTextLabel("\u2715", Color.red);
+		return addTextLabel("\u2715", AletheiaTheme.Key.false_);
 	}
 
 	protected JLabel addBooleanLabel(boolean bool)
@@ -698,14 +689,14 @@ public abstract class AbstractRenderer extends JPanel
 			return addFalseLabel();
 	}
 
-	protected JLabel addByteSize(int size, Color color)
+	protected JLabel addByteSize(int size, AletheiaTheme.Key colorKey)
 	{
-		return addTextLabel(MiscUtilities.byteSizeToString(size), color);
+		return addTextLabel(MiscUtilities.byteSizeToString(size), colorKey);
 	}
 
 	protected JLabel addByteSize(int size)
 	{
-		return addByteSize(size, defaultColor);
+		return addByteSize(size, AletheiaTheme.Key.default_);
 	}
 
 }

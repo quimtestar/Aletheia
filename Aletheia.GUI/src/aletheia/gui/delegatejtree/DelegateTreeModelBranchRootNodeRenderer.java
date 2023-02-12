@@ -19,7 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.delegatejtree;
 
-import java.awt.Color;
+import aletheia.gui.lookandfeel.AletheiaTheme;
 
 public class DelegateTreeModelBranchRootNodeRenderer extends DelegateTreeModelBranchNodeRenderer
 {
@@ -29,7 +29,7 @@ public class DelegateTreeModelBranchRootNodeRenderer extends DelegateTreeModelBr
 	public DelegateTreeModelBranchRootNodeRenderer(DelegateTreeJTree delegateTreeJTree, DelegateTreeModelBranchRootNode delegateTreeModelNode)
 	{
 		super(delegateTreeJTree, delegateTreeModelNode);
-		addAsterismLabel(Color.blue);
+		addAsterismLabel(AletheiaTheme.Key.delegateTree);
 	}
 
 	@Override

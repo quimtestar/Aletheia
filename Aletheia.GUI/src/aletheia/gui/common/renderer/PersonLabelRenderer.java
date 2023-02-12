@@ -31,6 +31,7 @@ import javax.swing.event.AncestorListener;
 
 import aletheia.gui.common.PopupManager;
 import aletheia.gui.fonts.FontManager;
+import aletheia.gui.lookandfeel.AletheiaTheme;
 import aletheia.gui.person.PersonInfoJPanel;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.PrivatePerson;
@@ -38,8 +39,6 @@ import aletheia.model.authority.PrivatePerson;
 public class PersonLabelRenderer extends AbstractRenderer
 {
 	private static final long serialVersionUID = -6400156605798606875L;
-
-	private static final Color privateColor = AbstractRenderer.getPrivatePersonColor();
 
 	private class Listener implements MouseListener
 	{
@@ -73,7 +72,7 @@ public class PersonLabelRenderer extends AbstractRenderer
 	}
 
 	private final Person person;
-	private final Color color;
+	private final AletheiaTheme.Key colorKey;
 	private final JLabel personLabel;
 	private final Listener listener;
 	private final PersonInfoJPanel personInfoJPanel;
@@ -83,11 +82,11 @@ public class PersonLabelRenderer extends AbstractRenderer
 	{
 		super(fontManager);
 		this.person = person;
-		this.color = person instanceof PrivatePerson ? privateColor : getDefaultColor();
-		this.personLabel = addPersonReference(person, color);
+		this.colorKey = person instanceof PrivatePerson ? AletheiaTheme.Key.private_ : AletheiaTheme.Key.default_;
+		this.personLabel = addPersonReference(person, colorKey);
 		this.listener = new Listener();
 		this.personLabel.addMouseListener(listener);
-		this.personInfoJPanel = new PersonInfoJPanel(person, fontManager, color);
+		this.personInfoJPanel = new PersonInfoJPanel(person, fontManager, colorKey);
 		this.personInfoJPanel.setBorder(BorderFactory.createLineBorder(Color.black));
 		this.popupManager = new PopupManager(this, personInfoJPanel);
 		addAncestorListener(new AncestorListener()

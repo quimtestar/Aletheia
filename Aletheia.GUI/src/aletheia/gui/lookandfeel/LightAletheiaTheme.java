@@ -25,33 +25,17 @@ import javax.swing.plaf.ColorUIResource;
 
 class LightAletheiaTheme extends AletheiaTheme
 {
-	private static final ColorUIResource selectedBackground = new ColorUIResource(Color.lightGray);
-	private static final ColorUIResource activeContext = darkPurple;
-	private static final ColorUIResource groupSorter = new ColorUIResource(Color.blue);
-	private static final ColorUIResource provenLabel = darkGreen;
+	static LightAletheiaTheme instance = new LightAletheiaTheme();
 
-	@Override
-	public ColorUIResource getSelectedBackground()
+	private LightAletheiaTheme()
 	{
-		return selectedBackground;
-	}
-
-	@Override
-	public ColorUIResource getActiveContext()
-	{
-		return activeContext;
-	}
-
-	@Override
-	public ColorUIResource getGroupSorter()
-	{
-		return groupSorter;
-	}
-
-	@Override
-	public ColorUIResource getProvenLabel()
-	{
-		return provenLabel;
+		put(Key.default_, super.getUserTextColor());
+		put(Key.normalBackground, super.getWindowBackground());
+		put(Key.selectedBackground, new ColorUIResource(Color.lightGray));
+		put(Key.activeContext, darkPurple);
+		put(Key.groupSorter, new ColorUIResource(Color.blue));
+		put(Key.provenLabel, darkGreen);
+		assertAllKeysDefined();
 	}
 
 }

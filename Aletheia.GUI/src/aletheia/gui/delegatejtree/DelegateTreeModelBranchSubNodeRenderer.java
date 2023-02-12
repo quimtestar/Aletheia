@@ -19,8 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.delegatejtree;
 
-import java.awt.Color;
-
+import aletheia.gui.lookandfeel.AletheiaTheme;
 import aletheia.model.authority.DelegateTreeSubNode;
 
 public class DelegateTreeModelBranchSubNodeRenderer extends DelegateTreeModelBranchNodeRenderer
@@ -32,7 +31,7 @@ public class DelegateTreeModelBranchSubNodeRenderer extends DelegateTreeModelBra
 	{
 		super(delegateTreeJTree, delegateTreeModelNode);
 		DelegateTreeSubNode delegateTreeSubNode = delegateTreeModelNode.getDelegateTreeNode();
-		addTextLabel(delegateTreeSubNode.getPrefix().getName(), Color.blue);
+		addTextLabel(delegateTreeSubNode.getPrefix().getName(), AletheiaTheme.Key.delegateTree);
 		setToolTipText(delegateTreeSubNode.getPrefix().qualifiedName());
 	}
 

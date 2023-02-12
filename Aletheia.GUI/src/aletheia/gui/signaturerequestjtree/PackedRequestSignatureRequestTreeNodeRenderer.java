@@ -19,8 +19,7 @@
  ******************************************************************************/
 package aletheia.gui.signaturerequestjtree;
 
-import java.awt.Color;
-
+import aletheia.gui.lookandfeel.AletheiaTheme;
 import aletheia.model.authority.PackedSignatureRequest;
 import aletheia.persistence.Transaction;
 
@@ -28,14 +27,12 @@ public class PackedRequestSignatureRequestTreeNodeRenderer extends RequestSignat
 {
 	private static final long serialVersionUID = 3122901078574068484L;
 
-	private final static Color defaultColor = Color.red.darker();
-
 	public PackedRequestSignatureRequestTreeNodeRenderer(SignatureRequestJTree signatureRequestJTree, PackedRequestSignatureRequestTreeNode node)
 	{
 		super(signatureRequestJTree, node);
-		addClosedBoxLabel(defaultColor);
+		addClosedBoxLabel(AletheiaTheme.Key.packedSignetureRequest);
 		addSpaceLabel();
-		addSignatureRequestLabels(defaultColor);
+		addSignatureRequestLabels(AletheiaTheme.Key.packedSignetureRequest);
 		Transaction transaction = beginTransaction();
 		try
 		{
@@ -43,13 +40,13 @@ public class PackedRequestSignatureRequestTreeNodeRenderer extends RequestSignat
 			if (packedSignatureRequest != null)
 			{
 				addSpaceLabel();
-				addOpenSquareBracket(defaultColor);
+				addOpenSquareBracket(AletheiaTheme.Key.packedSignetureRequest);
 				addSpaceLabel();
-				addDateLabel(packedSignatureRequest.getPackingDate(), defaultColor);
+				addDateLabel(packedSignatureRequest.getPackingDate(), AletheiaTheme.Key.packedSignetureRequest);
 				addSpaceLabel();
-				addByteSize(packedSignatureRequest.getData().length, defaultColor);
+				addByteSize(packedSignatureRequest.getData().length, AletheiaTheme.Key.packedSignetureRequest);
 				addSpaceLabel();
-				addCloseSquareBracket(defaultColor);
+				addCloseSquareBracket(AletheiaTheme.Key.packedSignetureRequest);
 			}
 		}
 		finally

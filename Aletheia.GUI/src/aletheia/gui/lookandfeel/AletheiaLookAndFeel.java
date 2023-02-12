@@ -36,8 +36,11 @@ public class AletheiaLookAndFeel extends MetalLookAndFeel
 
 	public static enum Theme
 	{
-
-		Light(new LightAletheiaTheme(), "\u2600 Light"), Dark(new DarkAletheiaTheme(), "\u263e Dark"),;
+		//@formatter:off
+		Light(LightAletheiaTheme.instance, "\u2600 Light"),
+		Dark(DarkAletheiaTheme.instance, "\u263e Dark"),
+		;
+		//@formatter:one
 
 		private final AletheiaTheme aletheiaTheme;
 		private final String label;

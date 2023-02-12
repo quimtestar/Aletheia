@@ -19,20 +19,20 @@
  ******************************************************************************/
 package aletheia.gui.common.renderer;
 
-import java.awt.Color;
 import java.awt.Font;
 
 import aletheia.gui.fonts.FontManager;
+import aletheia.gui.lookandfeel.AletheiaTheme;
 
 public class TextLabelRenderer extends AbstractRenderer
 {
 	private static final long serialVersionUID = -7907428778408871348L;
 
-	public TextLabelRenderer(FontManager fontManager, String text, Color textColor)
+	public TextLabelRenderer(FontManager fontManager, String text, AletheiaTheme.Key textColorKey)
 	{
 		super(fontManager);
 		setActiveFont(getTextLabelFont());
-		addTextLabel(text, textColor != null ? textColor : getDefaultColor());
+		addTextLabel(text, textColorKey != null ? textColorKey : AletheiaTheme.Key.default_);
 	}
 
 	public TextLabelRenderer(FontManager fontManager, String text)

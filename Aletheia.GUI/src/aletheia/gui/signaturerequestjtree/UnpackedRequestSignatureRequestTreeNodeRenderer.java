@@ -19,21 +19,19 @@
  ******************************************************************************/
 package aletheia.gui.signaturerequestjtree;
 
-import java.awt.Color;
-
+import aletheia.gui.lookandfeel.AletheiaTheme;
 import aletheia.model.authority.UnpackedSignatureRequest;
 
 public class UnpackedRequestSignatureRequestTreeNodeRenderer extends RequestSignatureRequestTreeNodeRenderer
 {
 	private static final long serialVersionUID = -4298224728936519579L;
-	private final static Color defaultColor = Color.blue;
 
 	public UnpackedRequestSignatureRequestTreeNodeRenderer(SignatureRequestJTree signatureRequestJTree, UnpackedRequestSignatureRequestTreeNode node)
 	{
 		super(signatureRequestJTree, node);
-		addOpenBoxLabel(defaultColor);
+		addOpenBoxLabel(AletheiaTheme.Key.unpackedSignetureRequest);
 		addSpaceLabel();
-		addSignatureRequestLabels(defaultColor);
+		addSignatureRequestLabels(AletheiaTheme.Key.unpackedSignetureRequest);
 	}
 
 	@Override

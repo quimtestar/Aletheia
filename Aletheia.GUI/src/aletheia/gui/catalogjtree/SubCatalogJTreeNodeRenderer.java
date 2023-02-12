@@ -19,11 +19,11 @@
  ******************************************************************************/
 package aletheia.gui.catalogjtree;
 
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import aletheia.gui.lookandfeel.AletheiaTheme;
 import aletheia.model.catalog.SubCatalog;
 import aletheia.model.statement.Statement;
 import aletheia.persistence.Transaction;
@@ -89,8 +89,8 @@ public class SubCatalogJTreeNodeRenderer extends CatalogJTreeNodeRenderer
 				else
 					this.addQuestionMarkLabel();
 				this.addSpaceLabel();
-				Color labelColor = statement.isProved() ? getProvenLabelColor() : getUnprovenLabelColor();
-				this.addTextLabel(String.format("%-10s", catalog.name()), labelColor);
+				AletheiaTheme.Key labelColorKey = statement.isProved() ? AletheiaTheme.Key.provenLabel : AletheiaTheme.Key.unprovenLabel;
+				this.addTextLabel(String.format("%-10s", catalog.name()), labelColorKey);
 				this.addColonLabel();
 				this.addSpaceLabel();
 				this.addTerm(transaction, statement);
