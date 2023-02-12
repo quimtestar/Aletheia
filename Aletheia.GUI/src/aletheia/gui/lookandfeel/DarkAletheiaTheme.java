@@ -47,6 +47,12 @@ class DarkAletheiaTheme extends AletheiaTheme
 	}
 
 	@Override
+	protected ColorUIResource getPrimary3()
+	{
+		return new ColorUIResource(0x505a64);
+	}
+
+	@Override
 	public void addCustomEntriesToTable(UIDefaults table)
 	{
 		super.addCustomEntriesToTable(table);
