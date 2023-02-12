@@ -16,6 +16,6 @@
     <stringAttribute key="org.eclipse.jdt.launching.MODULE_NAME" value="Aletheia.GUI"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="-nosplash"/>
     <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Aletheia.GUI"/>
-    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Daletheia.gui.cli.commands=aletheia.gui.cli.commands.txt"/>
+    <stringAttribute key="org.eclipse.jdt.launching.VM_ARGUMENTS" value="-Daletheia.gui.cli.commands=aletheia.gui.cli.commands.txt -ea"/>
     <stringAttribute key="org.eclipse.jdt.launching.WORKING_DIRECTORY" value="${workspace_loc:Aletheia.Testing}"/>
 </launchConfiguration>
