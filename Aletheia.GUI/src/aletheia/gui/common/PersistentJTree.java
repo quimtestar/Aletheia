@@ -54,8 +54,14 @@ public class PersistentJTree extends JTree
 		return fontManager;
 	}
 
+	private void cleanRenderers()
+	{
+		Optional.ofNullable(getModel()).ifPresent(PersistentTreeModel::cleanRenderers);
+	}
+
 	public void updateFontSize()
 	{
+		cleanRenderers();
 		updateUI();
 	}
 
@@ -63,7 +69,7 @@ public class PersistentJTree extends JTree
 	public void updateUI()
 	{
 		super.updateUI();
-		Optional.ofNullable(getModel()).ifPresent(PersistentTreeModel::cleanRenderers);
+		cleanRenderers();
 	}
 
 }
