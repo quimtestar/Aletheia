@@ -82,7 +82,7 @@ public class PersonLabelRenderer extends AbstractRenderer
 	{
 		super(fontManager);
 		this.person = person;
-		this.colorKey = person instanceof PrivatePerson ? AletheiaTheme.Key.private_ : AletheiaTheme.Key.default_;
+		this.colorKey = person instanceof PrivatePerson ? AletheiaTheme.Key.privatePerson : AletheiaTheme.Key.default_;
 		this.personLabel = addPersonReference(person, colorKey);
 		this.listener = new Listener();
 		this.personLabel.addMouseListener(listener);

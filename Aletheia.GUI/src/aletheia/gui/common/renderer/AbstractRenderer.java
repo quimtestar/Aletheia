@@ -51,11 +51,6 @@ public abstract class AbstractRenderer extends JPanel
 {
 	private static final long serialVersionUID = -9049293577574541041L;
 
-	private static final Color darkGreen = Color.green.darker().darker();
-	private static final Color darkOrange = Color.orange.darker().darker();
-	private static final Color unprovenLabelColor = darkOrange;
-	private static final Color turnstileColor = Color.orange;
-	private static final Color privatePersonColor = darkGreen;
 	private static final Border emptyBorder = BorderFactory.createEmptyBorder(1, 1, 1, 1);
 	private static final Color focusBorderColor = Color.blue;
 
@@ -91,12 +86,12 @@ public abstract class AbstractRenderer extends JPanel
 
 	protected static Color getUnprovenLabelColor()
 	{
-		return unprovenLabelColor;
+		return theme().getUnprovenLabel();
 	}
 
 	protected static Color getPrivatePersonColor()
 	{
-		return privatePersonColor;
+		return theme().getPrivatePerson();
 	}
 
 	protected static Color getGroupSorterColor()
@@ -106,7 +101,7 @@ public abstract class AbstractRenderer extends JPanel
 
 	protected static Color getTurnstileColor()
 	{
-		return turnstileColor;
+		return theme().getTurnstile();
 	}
 
 	protected static Color getActiveContextColor()

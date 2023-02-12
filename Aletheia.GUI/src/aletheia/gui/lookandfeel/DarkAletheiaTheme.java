@@ -28,11 +28,17 @@ class DarkAletheiaTheme extends AletheiaTheme
 	private DarkAletheiaTheme()
 	{
 		put(Key.default_, new ColorUIResource(224, 224, 224));
-		put(Key.normalBackground, new ColorUIResource(64, 64, 64));
-		put(Key.selectedBackground, new ColorUIResource(0, 0, 0));
+		put(Key.normalBackground, new ColorUIResource(0x202020));
+		put(Key.selectedBackground, black);
 		put(Key.activeContext, lightPurple);
-		put(Key.groupSorter, new ColorUIResource(128, 128, 255));
+		put(Key.groupSorter, new ColorUIResource(0x8080ff));
 		put(Key.provenLabel, lightGreen);
-		assertAllKeysDefined();
+		put(Key.unprovenLabel, lightOrange);
+		put(Key.notValidSignatureSymbol, lightGray);
+		put(Key.validSignatureSymbol, lightGray);
+		put(Key.signedDependenciesSymbol, lightGray);
+		put(Key.signedProofSymbol, lightGray);
+		put(Key.subscribeSymbol, lightCyan);
 	}
+
 }

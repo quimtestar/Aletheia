@@ -19,23 +19,7 @@
  *******************************************************************************/
 package aletheia.gui.lookandfeel;
 
-import java.awt.Color;
-
-import javax.swing.plaf.ColorUIResource;
-
 class LightAletheiaTheme extends AletheiaTheme
 {
 	static LightAletheiaTheme instance = new LightAletheiaTheme();
-
-	private LightAletheiaTheme()
-	{
-		put(Key.default_, super.getUserTextColor());
-		put(Key.normalBackground, super.getWindowBackground());
-		put(Key.selectedBackground, new ColorUIResource(Color.lightGray));
-		put(Key.activeContext, darkPurple);
-		put(Key.groupSorter, new ColorUIResource(Color.blue));
-		put(Key.provenLabel, darkGreen);
-		assertAllKeysDefined();
-	}
-
 }

@@ -52,7 +52,7 @@ public abstract class AletheiaTheme extends OceanTheme
 		subscribeSymbol,
 		true_,
 		false_,
-		private_,
+		privatePerson,
 		delegateTree,
 		packedSignetureRequest,
 		unpackedSignetureRequest,
@@ -72,12 +72,22 @@ public abstract class AletheiaTheme extends OceanTheme
 	protected static final ColorUIResource darkCyan = new ColorUIResource(0x008080);
 	protected static final ColorUIResource blue = new ColorUIResource(Color.blue);
 	protected static final ColorUIResource darkRed = new ColorUIResource(Color.red.darker().darker());
+	protected static final ColorUIResource white = new ColorUIResource(Color.white);
+	protected static final ColorUIResource lightOrange = new ColorUIResource(Color.orange.brighter().brighter());
+	protected static final ColorUIResource lightGray = new ColorUIResource(0xc0c0c0);
+	protected static final ColorUIResource lightCyan = new ColorUIResource(0x80c0c0);
 
 	private final Map<Key, ColorUIResource> colorMap;
 
 	protected AletheiaTheme()
 	{
 		this.colorMap = new EnumMap<>(Key.class);
+		put(Key.default_, super.getUserTextColor());
+		put(Key.normalBackground, super.getWindowBackground());
+		put(Key.selectedBackground, new ColorUIResource(Color.lightGray));
+		put(Key.activeContext, darkPurple);
+		put(Key.groupSorter, new ColorUIResource(Color.blue));
+		put(Key.provenLabel, darkGreen);
 		put(Key.unprovenLabel, darkOrange);
 		put(Key.turnstile, orange);
 		put(Key.tick, green);
@@ -90,10 +100,11 @@ public abstract class AletheiaTheme extends OceanTheme
 		put(Key.subscribeSymbol, darkCyan);
 		put(Key.true_, darkGreen);
 		put(Key.false_, red);
-		put(Key.private_, darkGreen);
+		put(Key.privatePerson, darkGreen);
 		put(Key.delegateTree, blue);
 		put(Key.packedSignetureRequest, darkRed);
 		put(Key.unpackedSignetureRequest, blue);
+		assertAllKeysDefined();
 	}
 
 	protected void assertAllKeysDefined()
@@ -142,6 +153,21 @@ public abstract class AletheiaTheme extends OceanTheme
 	{
 		return get(Key.provenLabel);
 	}
+
+	public ColorUIResource getUnprovenLabel()
+	{
+		return get(Key.unprovenLabel);
+	};
+
+	public ColorUIResource getPrivatePerson()
+	{
+		return get(Key.privatePerson);
+	};
+
+	public ColorUIResource getTurnstile()
+	{
+		return get(Key.turnstile);
+	};
 
 	@Override
 	public ColorUIResource getUserTextColor()
