@@ -19,7 +19,12 @@
  *******************************************************************************/
 package aletheia.gui.lookandfeel;
 
+import java.util.Optional;
+
+import javax.swing.UIDefaults;
 import javax.swing.plaf.ColorUIResource;
+
+import aletheia.gui.icons.IconManager;
 
 class DarkAletheiaTheme extends AletheiaTheme
 {
@@ -39,6 +44,18 @@ class DarkAletheiaTheme extends AletheiaTheme
 		put(Key.signedDependenciesSymbol, lightGray);
 		put(Key.signedProofSymbol, lightGray);
 		put(Key.subscribeSymbol, lightCyan);
+	}
+
+	@Override
+	public void addCustomEntriesToTable(UIDefaults table)
+	{
+		super.addCustomEntriesToTable(table);
+		Optional.ofNullable(IconManager.instance.darkTreeCollapsedIcon).ifPresent(icon -> {
+			table.put("Tree.collapsedIcon", icon);
+		});
+		Optional.ofNullable(IconManager.instance.darkTreeExpandedIcon).ifPresent(icon -> {
+			table.put("Tree.expandedIcon", icon);
+		});
 	}
 
 }

@@ -22,55 +22,47 @@ package aletheia.gui.icons;
 import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 public class IconManager
 {
-	public final List<Image> aletheiaIconList;
-
-	private static List<Image> loadIcons()
+	private Image readImage(String fn)
 	{
-		return Stream.of("aletheia_plain_16.png", "aletheia_plain_32.png", "aletheia_plain_64.png", "aletheia_plain_128.png").map(fn -> {
-			try (InputStream is = IconManager.class.getResourceAsStream(fn))
-			{
-				if (is == null)
-					return null;
-				else
-					return ImageIO.read(is);
-			}
-			catch (IOException e)
-			{
-				return null;
-			}
-		}).filter(Objects::nonNull).collect(Collectors.toList());
-	}
-
-	@SuppressWarnings("unused")
-	private static Icon loadBinaryFolderIcon()
-	{
-		try (InputStream is = IconManager.class.getResourceAsStream("folder_binary.png"))
+		try (InputStream is = IconManager.class.getResourceAsStream(fn))
 		{
-			return new ImageIcon(ImageIO.read(is));
+			if (is == null)
+				return null;
+			else
+				return ImageIO.read(is);
 		}
 		catch (IOException e)
 		{
 			return null;
 		}
+
 	}
 
-	private IconManager()
+	private ImageIcon readIcon(String fn)
 	{
-		super();
-		aletheiaIconList = Collections.unmodifiableList(loadIcons());
+		return Optional.ofNullable(readImage(fn)).map(ImageIcon::new).orElse(null);
 	}
+
+	private List<Image> loadAletheiaIcons()
+	{
+		return Stream.of("aletheia_plain_16.png", "aletheia_plain_32.png", "aletheia_plain_64.png", "aletheia_plain_128.png").map(this::readImage)
+				.filter(Objects::nonNull).collect(Collectors.toList());
+	}
+
+	public final List<Image> aletheiaIconList = loadAletheiaIcons();
+	public final ImageIcon darkTreeCollapsedIcon = readIcon("darkTreeCollapsedIcon.png");
+	public final ImageIcon darkTreeExpandedIcon = readIcon("darkTreeExpandedIcon.png");
 
 	public static final IconManager instance = new IconManager();
 
