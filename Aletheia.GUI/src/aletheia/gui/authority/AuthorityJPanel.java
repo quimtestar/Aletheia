@@ -21,7 +21,6 @@ package aletheia.gui.authority;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -35,6 +34,7 @@ import aletheia.gui.contextjtree.ContextJTreeJPanel;
 import aletheia.gui.contextjtree.sorter.GroupSorter;
 import aletheia.gui.delegatejtree.DelegateTreeJTree;
 import aletheia.gui.fonts.FontManager;
+import aletheia.gui.lookandfeel.AletheiaLookAndFeel;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.authority.StatementAuthoritySignature;
 import aletheia.model.statement.Context;
@@ -182,15 +182,15 @@ public class AuthorityJPanel extends JPanel
 	{
 		super(new CardLayout());
 		this.emptyPanel = new JPanel();
-		this.emptyPanel.setBackground(Color.white);
+		this.emptyPanel.setBackground(AletheiaLookAndFeel.theme().getWindowBackground());
 		add(this.emptyPanel, emptyComponentName);
 		this.contentPanel = new JPanel(new BorderLayout());
-		this.contentPanel.setBackground(Color.white);
+		this.contentPanel.setBackground(AletheiaLookAndFeel.theme().getWindowBackground());
 		add(this.contentPanel, contentComponentName);
 		this.contextJTreeJPanel = contextJTreeJPanel;
 		this.listener = new Listener();
 		this.headerJScrollPane = new JScrollPane();
-		this.headerJScrollPane.getViewport().setBackground(Color.white);
+		this.headerJScrollPane.getViewport().setBackground(AletheiaLookAndFeel.theme().getWindowBackground());
 		this.authoritySignatureTableJScrollPane = new JScrollPane();
 		this.delegateTreeJScrollPane = new JScrollPane();
 		this.jSplitPane1 = new MyJSplitPane(JSplitPane.HORIZONTAL_SPLIT, authoritySignatureTableJScrollPane, delegateTreeJScrollPane);

@@ -52,7 +52,6 @@ public abstract class AbstractRenderer extends JPanel
 	private static final long serialVersionUID = -9049293577574541041L;
 
 	private static final Border emptyBorder = BorderFactory.createEmptyBorder(1, 1, 1, 1);
-	private static final Color focusBorderColor = Color.blue;
 
 	protected static AletheiaTheme theme()
 	{
@@ -579,19 +578,19 @@ public abstract class AbstractRenderer extends JPanel
 	public void setSelected(boolean selected)
 	{
 		if (selected)
-			setBackground(selectedBackgroundColor);
+			setBackground(getSelectedBackgroundColor());
 		else
-			setBackground(normalBackgroundColor);
+			setBackground(getNormalBackgroundColor());
 	}
 
-	protected void setBorderColor(Color color)
+	protected void setBorderColorKey(AletheiaTheme.Key colorKey)
 	{
 		if (withBorder)
 		{
-			if (color == null)
+			if (colorKey == null)
 				setBorder(emptyBorder);
 			else
-				setBorder(BorderFactory.createLineBorder(color, 1));
+				setBorder(BorderFactory.createLineBorder(getColor(colorKey), 1));
 		}
 	}
 
@@ -619,9 +618,9 @@ public abstract class AbstractRenderer extends JPanel
 	protected void updateBorderColor()
 	{
 		if (hasFocus)
-			setBorderColor(focusBorderColor);
+			setBorderColorKey(AletheiaTheme.Key.focusBorder);
 		else
-			setBorderColor(null);
+			setBorderColorKey(null);
 	}
 
 	public void cancelEditing()

@@ -56,6 +56,8 @@ public abstract class AletheiaTheme extends OceanTheme
 		delegateTree,
 		packedSignetureRequest,
 		unpackedSignetureRequest,
+		focusBorder,
+		tableBackground,
 		//@formatter:on
 	}
 
@@ -76,6 +78,7 @@ public abstract class AletheiaTheme extends OceanTheme
 	protected static final ColorUIResource lightOrange = new ColorUIResource(Color.orange.brighter().brighter());
 	protected static final ColorUIResource lightGray = new ColorUIResource(0xc0c0c0);
 	protected static final ColorUIResource lightCyan = new ColorUIResource(0x80c0c0);
+	protected static final ColorUIResource darkBlue = new ColorUIResource(Color.blue.darker());
 
 	private final Map<Key, ColorUIResource> colorMap;
 
@@ -86,7 +89,7 @@ public abstract class AletheiaTheme extends OceanTheme
 		put(Key.normalBackground, super.getWindowBackground());
 		put(Key.selectedBackground, new ColorUIResource(Color.lightGray));
 		put(Key.activeContext, darkPurple);
-		put(Key.groupSorter, new ColorUIResource(Color.blue));
+		put(Key.groupSorter, blue);
 		put(Key.provenLabel, darkGreen);
 		put(Key.unprovenLabel, darkOrange);
 		put(Key.turnstile, orange);
@@ -104,6 +107,8 @@ public abstract class AletheiaTheme extends OceanTheme
 		put(Key.delegateTree, blue);
 		put(Key.packedSignetureRequest, darkRed);
 		put(Key.unpackedSignetureRequest, blue);
+		put(Key.focusBorder, blue);
+		put(Key.tableBackground, new ColorUIResource(0xeeeeee));
 		assertAllKeysDefined();
 	}
 
@@ -162,12 +167,17 @@ public abstract class AletheiaTheme extends OceanTheme
 	public ColorUIResource getPrivatePerson()
 	{
 		return get(Key.privatePerson);
-	};
+	}
 
 	public ColorUIResource getTurnstile()
 	{
 		return get(Key.turnstile);
-	};
+	}
+
+	public ColorUIResource getTableBackground()
+	{
+		return get(Key.tableBackground);
+	}
 
 	@Override
 	public ColorUIResource getUserTextColor()

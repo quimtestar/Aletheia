@@ -19,7 +19,6 @@
  ******************************************************************************/
 package aletheia.gui.authority;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -70,6 +69,7 @@ import aletheia.gui.common.renderer.TextLabelRenderer;
 import aletheia.gui.contextjtree.ContextJTree;
 import aletheia.gui.contextjtree.ContextJTreeJPanel;
 import aletheia.gui.fonts.FontManager;
+import aletheia.gui.lookandfeel.AletheiaLookAndFeel;
 import aletheia.model.authority.Person;
 import aletheia.model.authority.Signatory;
 import aletheia.model.authority.StatementAuthoritySignature;
@@ -326,7 +326,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 		protected AbstractRenderer buildRenderer(String value)
 		{
 			TextLabelRenderer r = new BoldTextLabelRenderer(getFontManager(), value.toString());
-			r.setBackground(new Color(0xeeeeee));
+			r.setBackground(AletheiaLookAndFeel.theme().getTableBackground());
 			return r;
 		}
 

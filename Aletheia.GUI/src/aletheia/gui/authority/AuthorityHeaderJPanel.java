@@ -19,7 +19,6 @@
  ******************************************************************************/
 package aletheia.gui.authority;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -39,6 +38,7 @@ import aletheia.gui.common.renderer.DateLabelRenderer;
 import aletheia.gui.common.renderer.PersonLabelRenderer;
 import aletheia.gui.common.renderer.SignatureStatusLabelRenderer;
 import aletheia.gui.fonts.FontManager;
+import aletheia.gui.lookandfeel.AletheiaLookAndFeel;
 import aletheia.model.authority.DelegateTreeRootNode;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.statement.Context;
@@ -87,7 +87,7 @@ public class AuthorityHeaderJPanel extends JPanel implements Scrollable
 		this.statementAuthority = statementAuthority;
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		setLayout(gridBagLayout);
-		setBackground(Color.white);
+		setBackground(AletheiaLookAndFeel.theme().getWindowBackground());
 		Transaction transaction = getPersistenceManager().beginTransaction(transactionTimeOut);
 		try
 		{
@@ -153,6 +153,7 @@ public class AuthorityHeaderJPanel extends JPanel implements Scrollable
 					gbc.anchor = GridBagConstraints.WEST;
 					gbc.fill = GridBagConstraints.BOTH;
 					JScrollPane depPane = new JScrollPane(this.dependenciesListJTable);
+					depPane.getViewport().setBackground(AletheiaLookAndFeel.theme().getTableBackground());
 					add(depPane, gbc);
 					this.dependenciesListFocusBorderManager = new FocusBorderManager(depPane, dependenciesListJTable);
 				}
@@ -169,6 +170,7 @@ public class AuthorityHeaderJPanel extends JPanel implements Scrollable
 						gbc.anchor = GridBagConstraints.WEST;
 						gbc.fill = GridBagConstraints.BOTH;
 						JScrollPane solPane = new JScrollPane(this.solverListJTable);
+						solPane.getViewport().setBackground(AletheiaLookAndFeel.theme().getTableBackground());
 						add(solPane, gbc);
 						this.solverListFocusBorderManager = new FocusBorderManager(solPane, solverListJTable);
 					}
@@ -204,6 +206,7 @@ public class AuthorityHeaderJPanel extends JPanel implements Scrollable
 						gbc.anchor = GridBagConstraints.WEST;
 						gbc.fill = GridBagConstraints.BOTH;
 						JScrollPane sucPane = new JScrollPane(this.successorListJTable);
+						sucPane.getViewport().setBackground(AletheiaLookAndFeel.theme().getTableBackground());
 						add(sucPane, gbc);
 						this.successorListFocusBorderManager = new FocusBorderManager(sucPane, successorListJTable);
 					}

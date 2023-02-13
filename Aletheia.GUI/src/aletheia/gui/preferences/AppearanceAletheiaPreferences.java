@@ -48,7 +48,14 @@ public class AppearanceAletheiaPreferences extends NodeAletheiaPreferences
 
 	public AletheiaLookAndFeel.Theme getTheme()
 	{
-		return AletheiaLookAndFeel.Theme.valueOf(getPreferences().get(THEME, defaultTheme.name()));
+		try
+		{
+			return AletheiaLookAndFeel.Theme.valueOf(getPreferences().get(THEME, defaultTheme.name()));
+		}
+		catch (IllegalArgumentException e)
+		{
+			return defaultTheme;
+		}
 	}
 
 	public void setTheme(AletheiaLookAndFeel.Theme theme)

@@ -44,12 +44,24 @@ class DarkAletheiaTheme extends AletheiaTheme
 		put(Key.signedDependenciesSymbol, lightGray);
 		put(Key.signedProofSymbol, lightGray);
 		put(Key.subscribeSymbol, lightCyan);
+		put(Key.focusBorder, darkBlue);
+		put(Key.tableBackground, new ColorUIResource(0x333333));
 	}
 
+	/**
+	 * Tree branch lines and some other stuff (parts of the folder icon, ...)
+	 */
 	@Override
 	protected ColorUIResource getPrimary3()
 	{
 		return new ColorUIResource(0x505a64);
+	}
+
+	// XXX check this
+	@Override
+	public ColorUIResource getControl()
+	{
+		return new ColorUIResource(0x333333);
 	}
 
 	@Override

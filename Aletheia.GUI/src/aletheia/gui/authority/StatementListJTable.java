@@ -19,7 +19,6 @@
  ******************************************************************************/
 package aletheia.gui.authority;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -56,6 +55,7 @@ import aletheia.gui.common.renderer.AbstractRenderer;
 import aletheia.gui.common.renderer.BoldTextLabelRenderer;
 import aletheia.gui.common.renderer.TextLabelRenderer;
 import aletheia.gui.fonts.FontManager;
+import aletheia.gui.lookandfeel.AletheiaLookAndFeel;
 import aletheia.model.authority.StatementAuthority;
 import aletheia.model.statement.Statement;
 import aletheia.model.term.VariableTerm;
@@ -361,7 +361,7 @@ public class StatementListJTable extends JTable
 			if (renderer == null)
 			{
 				TextLabelRenderer r = new BoldTextLabelRenderer(getFontManager(), text);
-				r.setBackground(new Color(0xeeeeee));
+				r.setBackground(AletheiaLookAndFeel.theme().getTableBackground());
 				renderer = new MyCellRendererComponent(r, myCellRendererComponentLayout());
 				Border border = BorderFactory.createMatteBorder(0, 0, 1, 1, getGridColor());
 				renderer.setBorder(border);
