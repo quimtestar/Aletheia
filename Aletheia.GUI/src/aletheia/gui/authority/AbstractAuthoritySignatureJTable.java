@@ -519,6 +519,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 	protected AbstractAuthoritySignatureJTable(AuthorityJPanel authorityJPanel, AbstractAuthoritySignatureTableModel model)
 	{
 		super(model);
+		this.setBackground(AletheiaLookAndFeel.theme().getWindowBackground());
 		this.setDragEnabled(true);
 		this.setTransferHandler(new MyTransferHandler());
 		this.authorityJPanel = authorityJPanel;

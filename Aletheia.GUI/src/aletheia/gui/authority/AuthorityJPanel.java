@@ -21,6 +21,8 @@ package aletheia.gui.authority;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -192,6 +194,7 @@ public class AuthorityJPanel extends JPanel
 		this.headerJScrollPane = new JScrollPane();
 		this.headerJScrollPane.getViewport().setBackground(AletheiaLookAndFeel.theme().getWindowBackground());
 		this.authoritySignatureTableJScrollPane = new JScrollPane();
+		this.authoritySignatureTableJScrollPane.getViewport().setBackground(AletheiaLookAndFeel.theme().getWindowBackground());
 		this.delegateTreeJScrollPane = new JScrollPane();
 		this.jSplitPane1 = new MyJSplitPane(JSplitPane.HORIZONTAL_SPLIT, authoritySignatureTableJScrollPane, delegateTreeJScrollPane);
 		this.jSplitPane1.setDividerLocationOrCollapseWhenValid(1d);
@@ -407,7 +410,7 @@ public class AuthorityJPanel extends JPanel
 		}
 		else
 			showEmpty();
-		updateUI();
+		//updateUI();
 	}
 
 	public synchronized void updateFontSize()
@@ -427,6 +430,15 @@ public class AuthorityJPanel extends JPanel
 	public void updatedContextJTree(ContextJTree contextJTree)
 	{
 		contextJTree.addSelectionListener(listener);
+	}
+
+	@Override
+	public void updateUI()
+	{
+		Stream.of(emptyPanel, contentPanel, headerJScrollPane, authoritySignatureTableJScrollPane).filter(Objects::nonNull)
+				.forEach(c -> c.setBackground(AletheiaLookAndFeel.theme().getWindowBackground()));
+		setStatementAuthority(statement, statementAuthority);
+		super.updateUI();
 	}
 
 }
