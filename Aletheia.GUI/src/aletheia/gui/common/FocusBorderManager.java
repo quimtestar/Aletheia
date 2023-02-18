@@ -19,7 +19,6 @@
  ******************************************************************************/
 package aletheia.gui.common;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Insets;
 import java.awt.event.FocusEvent;
@@ -28,6 +27,8 @@ import java.awt.event.FocusListener;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.border.Border;
+
+import aletheia.gui.lookandfeel.AletheiaLookAndFeel;
 
 public class FocusBorderManager
 {
@@ -64,12 +65,13 @@ public class FocusBorderManager
 		{
 			this.notFocusedBorder = oldBorder;
 			Insets insets = oldBorder.getBorderInsets(borderable);
-			this.focusedBorder = BorderFactory.createMatteBorder(insets.top, insets.left, insets.bottom, insets.right, Color.blue);
+			this.focusedBorder = BorderFactory.createMatteBorder(insets.top, insets.left, insets.bottom, insets.right,
+					AletheiaLookAndFeel.theme().getFocusBorder());
 		}
 		else
 		{
 			this.notFocusedBorder = BorderFactory.createEmptyBorder(1, 1, 1, 1);
-			this.focusedBorder = BorderFactory.createLineBorder(Color.blue, 1);
+			this.focusedBorder = BorderFactory.createLineBorder(AletheiaLookAndFeel.theme().getFocusBorder(), 1);
 		}
 		boolean focused = false;
 		for (Component f : focusables)

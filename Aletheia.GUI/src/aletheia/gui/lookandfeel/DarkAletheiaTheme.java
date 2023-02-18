@@ -36,7 +36,7 @@ class DarkAletheiaTheme extends AletheiaTheme
 		put(Key.normalBackground, new ColorUIResource(0x202020));
 		put(Key.selectedBackground, black);
 		put(Key.activeContext, lightPurple);
-		put(Key.groupSorter, new ColorUIResource(0x8080ff));
+		put(Key.groupSorter, lightBlue);
 		put(Key.provenLabel, lightGreen);
 		put(Key.unprovenLabel, lightOrange);
 		put(Key.notValidSignatureSymbol, lightGray);
@@ -44,8 +44,11 @@ class DarkAletheiaTheme extends AletheiaTheme
 		put(Key.signedDependenciesSymbol, lightGray);
 		put(Key.signedProofSymbol, lightGray);
 		put(Key.subscribeSymbol, lightCyan);
-		put(Key.focusBorder, darkBlue);
+		put(Key.focusBorder, lightBlue);
 		put(Key.tableBackground, new ColorUIResource(0x333333));
+		put(Key.delegateTree, lightBlue);
+		put(Key.privatePerson, lightGreen);
+		put(Key.true_, green);
 	}
 
 	/**
@@ -57,11 +60,34 @@ class DarkAletheiaTheme extends AletheiaTheme
 		return new ColorUIResource(0x505a64);
 	}
 
-	// XXX check this
 	@Override
 	public ColorUIResource getControl()
 	{
 		return new ColorUIResource(0x333333);
+	}
+
+	@Override
+	protected ColorUIResource getPrimary1()
+	{
+		return new ColorUIResource(0xb0caff);
+	}
+
+	@Override
+	public ColorUIResource getControlHighlight()
+	{
+		return getBlack();
+	}
+
+	@Override
+	protected ColorUIResource getSecondary1()
+	{
+		return new ColorUIResource(0x515c66);
+	}
+
+	@Override
+	public ColorUIResource getControlDarkShadow()
+	{
+		return super.getControlDarkShadow();
 	}
 
 	@Override

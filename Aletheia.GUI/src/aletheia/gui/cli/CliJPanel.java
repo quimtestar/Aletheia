@@ -119,6 +119,7 @@ import aletheia.gui.common.datatransfer.TermDataFlavor;
 import aletheia.gui.common.datatransfer.TermParameterIdentificationDataFlavor;
 import aletheia.gui.common.datatransfer.UUIDDataFlavor;
 import aletheia.gui.fonts.FontManager;
+import aletheia.gui.lookandfeel.AletheiaLookAndFeel;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.UnpackedSignatureRequest;
 import aletheia.model.identifier.Identifier;
@@ -813,10 +814,16 @@ public class CliJPanel extends JPanel implements CommandSource
 		public ActiveContextJLabel()
 		{
 			super();
-			setForeground(new Color(0x400040));
 			setContext(null);
 			setOpaque(true);
 			addComponentListener(new MyComponentListener());
+		}
+
+		@Override
+		public void updateUI()
+		{
+			super.updateUI();
+			setForeground(AletheiaLookAndFeel.theme().getActiveContext());
 		}
 
 		@SuppressWarnings("unused")

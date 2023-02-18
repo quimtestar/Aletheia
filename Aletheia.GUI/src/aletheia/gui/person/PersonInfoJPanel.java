@@ -19,7 +19,6 @@
  ******************************************************************************/
 package aletheia.gui.person;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -30,6 +29,7 @@ import aletheia.gui.common.renderer.BoldTextLabelRenderer;
 import aletheia.gui.common.renderer.TextLabelRenderer;
 import aletheia.gui.common.renderer.UUIDLabelRenderer;
 import aletheia.gui.fonts.FontManager;
+import aletheia.gui.lookandfeel.AletheiaLookAndFeel;
 import aletheia.gui.lookandfeel.AletheiaTheme;
 import aletheia.model.authority.Person;
 
@@ -41,10 +41,10 @@ public class PersonInfoJPanel extends JPanel
 	public PersonInfoJPanel(Person person, FontManager fontManager, AletheiaTheme.Key textColorKey)
 	{
 		super();
+		setBackground(AletheiaLookAndFeel.theme().getWindowBackground());
 		this.person = person;
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		setLayout(gridBagLayout);
-		setBackground(Color.white);
 		Insets insets = new Insets(0, 0, 0, 10);
 		{
 			GridBagConstraints gbc = new GridBagConstraints();

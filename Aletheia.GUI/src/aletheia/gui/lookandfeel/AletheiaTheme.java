@@ -63,7 +63,7 @@ public abstract class AletheiaTheme extends OceanTheme
 
 	protected static final ColorUIResource black = new ColorUIResource(Color.black);
 	protected static final ColorUIResource darkPurple = new ColorUIResource(0x800080);
-	protected static final ColorUIResource lightPurple = new ColorUIResource(0xff40ff);
+	protected static final ColorUIResource lightPurple = new ColorUIResource(0xff60ff);
 	protected static final ColorUIResource darkGreen = new ColorUIResource(Color.green.darker().darker());
 	protected static final ColorUIResource lightGreen = new ColorUIResource(128, 255, 128);
 	protected static final ColorUIResource darkOrange = new ColorUIResource(Color.orange.darker().darker());
@@ -79,6 +79,7 @@ public abstract class AletheiaTheme extends OceanTheme
 	protected static final ColorUIResource lightGray = new ColorUIResource(0xc0c0c0);
 	protected static final ColorUIResource lightCyan = new ColorUIResource(0x80c0c0);
 	protected static final ColorUIResource darkBlue = new ColorUIResource(Color.blue.darker());
+	protected static final ColorUIResource lightBlue = new ColorUIResource(0x8080ff);
 
 	private final Map<Key, ColorUIResource> colorMap;
 
@@ -101,7 +102,7 @@ public abstract class AletheiaTheme extends OceanTheme
 		put(Key.signedDependenciesSymbol, darkGray);
 		put(Key.signedProofSymbol, darkGray);
 		put(Key.subscribeSymbol, darkCyan);
-		put(Key.true_, darkGreen);
+		put(Key.true_, green);
 		put(Key.false_, red);
 		put(Key.privatePerson, darkGreen);
 		put(Key.delegateTree, blue);
@@ -177,6 +178,11 @@ public abstract class AletheiaTheme extends OceanTheme
 	public ColorUIResource getTableBackground()
 	{
 		return get(Key.tableBackground);
+	}
+
+	public ColorUIResource getFocusBorder()
+	{
+		return get(Key.focusBorder);
 	}
 
 	@Override
