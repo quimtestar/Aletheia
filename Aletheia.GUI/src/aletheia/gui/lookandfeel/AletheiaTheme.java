@@ -192,9 +192,39 @@ public abstract class AletheiaTheme extends OceanTheme
 	}
 
 	@Override
+	public ColorUIResource getControlTextColor()
+	{
+		return getDefault();
+	}
+
+	@Override
+	public ColorUIResource getSystemTextColor()
+	{
+		return getDefault();
+	}
+
+	@Override
 	public ColorUIResource getWindowBackground()
 	{
 		return getNormalBackground();
+	}
+
+	@Override
+	public ColorUIResource getMenuForeground()
+	{
+		return getDefault();
+	}
+
+	@Override
+	public ColorUIResource getMenuBackground()
+	{
+		return getNormalBackground();
+	}
+
+	@Override
+	public ColorUIResource getMenuSelectedForeground()
+	{
+		return getDefault();
 	}
 
 }

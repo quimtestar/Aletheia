@@ -19,7 +19,9 @@
  *******************************************************************************/
 package aletheia.gui.lookandfeel;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import javax.swing.UIDefaults;
 import javax.swing.plaf.ColorUIResource;
@@ -85,9 +87,21 @@ class DarkAletheiaTheme extends AletheiaTheme
 	}
 
 	@Override
-	public ColorUIResource getControlDarkShadow()
+	protected ColorUIResource getSecondary2()
 	{
-		return super.getControlDarkShadow();
+		return new ColorUIResource(0x14171a);
+	}
+
+	@Override
+	protected ColorUIResource getPrimary2()
+	{
+		return new ColorUIResource(0x384f66);
+	}
+
+	@Override
+	public ColorUIResource getControlInfo()
+	{
+		return getWhite();
 	}
 
 	@Override
@@ -100,6 +114,10 @@ class DarkAletheiaTheme extends AletheiaTheme
 		Optional.ofNullable(IconManager.instance.darkTreeExpandedIcon).ifPresent(icon -> {
 			table.put("Tree.expandedIcon", icon);
 		});
+		Stream.of("Button.gradient", "CheckBox.gradient", "CheckBoxMenuItem.gradient", "InternalFrame.activeTitleGradient", "RadioButtonMenuItem.gradient",
+				"ScrollBar.gradient", "ToggleButton.gradient")
+				.forEach(k -> table.put(k, List.of(Float.valueOf(.3f), Float.valueOf(0f), new ColorUIResource(0x0c0c0d), getBlack(), getSecondary2())));
+		table.put("MenuBar.gradient", List.of(Float.valueOf(1f), Float.valueOf(0f), getBlack(), new ColorUIResource(0x262626), new ColorUIResource(0x262626)));
 	}
 
 }
