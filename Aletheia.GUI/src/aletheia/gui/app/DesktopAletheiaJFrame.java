@@ -21,6 +21,7 @@ package aletheia.gui.app;
 
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Window;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
@@ -659,6 +660,15 @@ public class DesktopAletheiaJFrame extends MainAletheiaJFrame
 	protected Collection<AletheiaJFrame> frameCollection()
 	{
 		return new CombinedCollection<>(super.frameCollection(), new AdaptedCollection<>(extraFrames));
+	}
+
+	@Override
+	protected Collection<? extends Window> windowCollection()
+	{
+		if (personsDialog == null)
+			return frameCollection();
+		else
+			return new CombinedCollection<>(new AdaptedCollection<>(frameCollection()), Collections.singleton(personsDialog));
 	}
 
 }

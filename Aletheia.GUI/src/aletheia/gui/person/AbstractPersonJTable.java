@@ -53,6 +53,7 @@ import aletheia.gui.common.renderer.EmptyRenderer;
 import aletheia.gui.common.renderer.TextLabelRenderer;
 import aletheia.gui.common.renderer.UUIDLabelRenderer;
 import aletheia.gui.fonts.FontManager;
+import aletheia.gui.lookandfeel.AletheiaLookAndFeel;
 import aletheia.gui.person.AbstractPersonTableModel.AddedPersonTableModelEvent;
 import aletheia.gui.person.AbstractPersonTableModel.PersonTableModelEvent;
 import aletheia.log4j.LoggerManager;
@@ -205,7 +206,7 @@ public abstract class AbstractPersonJTable extends JTable
 		protected AbstractRenderer buildRenderer(String value)
 		{
 			TextLabelRenderer r = new BoldTextLabelRenderer(getFontManager(), value.toString());
-			r.setBackground(new Color(0xeeeeee));
+			r.setBackground(AletheiaLookAndFeel.theme().getNormalBackground());
 			return r;
 		}
 

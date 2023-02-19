@@ -154,9 +154,14 @@ public abstract class AletheiaJFrame extends JFrame
 		return Collections.singleton(this);
 	}
 
+	protected Collection<? extends Window> windowCollection()
+	{
+		return frameCollection();
+	}
+
 	public void changeLookAndFeelTheme(AletheiaLookAndFeel.Theme theme)
 	{
-		AletheiaLookAndFeel.changeTheme(theme, frameCollection());
+		AletheiaLookAndFeel.changeTheme(theme, windowCollection());
 	}
 
 }

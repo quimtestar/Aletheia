@@ -1,10 +1,12 @@
 package aletheia.gui.lookandfeel;
 
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.swing.UIDefaults;
 import javax.swing.plaf.ColorUIResource;
 
 import org.apache.logging.log4j.Logger;
@@ -15,13 +17,14 @@ import aletheia.log4j.LoggerManager;
  * This class is just for debugging purposes.
  */
 @Deprecated
-public class DebuggingMaskAletheiaTheme extends AletheiaTheme
+public class DebuggingAletheiaTheme extends AletheiaTheme
 {
 	private static final Logger logger = LoggerManager.instance.logger();
+	static DebuggingAletheiaTheme instance = new DebuggingAletheiaTheme();
 
 	private final Map<String, ColorUIResource> colors;
 
-	public DebuggingMaskAletheiaTheme()
+	public DebuggingAletheiaTheme()
 	{
 		super();
 		this.colors = new HashMap<>();
@@ -46,12 +49,28 @@ public class DebuggingMaskAletheiaTheme extends AletheiaTheme
 		ColorUIResource color = Optional.ofNullable(colors).map(m -> m.get(method)).orElse(null);
 		if (color == null)
 		{
-			color = Optional.of(callingMethodName()).map(String::hashCode).map(DebuggingMaskAletheiaTheme::hashToColor).orElse(black);
+			color = Optional.of(callingMethodName()).map(String::hashCode).map(DebuggingAletheiaTheme::hashToColor).orElse(black);
 			if (colors != null)
 				colors.put(method, color);
 			logger.info("{} -> {}", method, String.format("%06x", color.getRGB() & 0xffffff));
 		}
 		return color;
+	}
+
+	@Override
+	public void addCustomEntriesToTable(UIDefaults table)
+	{
+		super.addCustomEntriesToTable(table);
+		table.keySet().stream().filter(String.class::isInstance).sorted().forEach(k -> {
+			try
+			{
+				Color c = (Color) table.get(k);
+				logger.info("{}: {}", k, String.format("%06x", c.getRGB() & 0xffffff));
+			}
+			catch (Exception e)
+			{
+			}
+		});
 	}
 
 	@Override

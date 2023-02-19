@@ -105,6 +105,12 @@ class DarkAletheiaTheme extends AletheiaTheme
 	}
 
 	@Override
+	protected ColorUIResource getSecondary3()
+	{
+		return new ColorUIResource(0x333333);
+	}
+
+	@Override
 	public void addCustomEntriesToTable(UIDefaults table)
 	{
 		super.addCustomEntriesToTable(table);
@@ -118,6 +124,9 @@ class DarkAletheiaTheme extends AletheiaTheme
 				"ScrollBar.gradient", "ToggleButton.gradient")
 				.forEach(k -> table.put(k, List.of(Float.valueOf(.3f), Float.valueOf(0f), new ColorUIResource(0x0c0c0d), getBlack(), getSecondary2())));
 		table.put("MenuBar.gradient", List.of(Float.valueOf(1f), Float.valueOf(0f), getBlack(), new ColorUIResource(0x262626), new ColorUIResource(0x262626)));
+		table.put("TabbedPane.selected", getPrimary2());
+		table.put("TabbedPane.contentAreaColor", getPrimary2());
+		table.put("TabbedPane.unselectedBackground", getNormalBackground());
 	}
 
 }

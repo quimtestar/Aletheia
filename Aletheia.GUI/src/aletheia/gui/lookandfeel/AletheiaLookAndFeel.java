@@ -39,6 +39,7 @@ public class AletheiaLookAndFeel extends MetalLookAndFeel
 		//@formatter:off
 		Light(LightAletheiaTheme.instance, "\u2600 Light"),
 		Dark(DarkAletheiaTheme.instance, "\u263e Dark"),
+		//Debug(DebuggingAletheiaTheme.instance, "\u267f Debug"),
 		;
 		//@formatter:one
 
