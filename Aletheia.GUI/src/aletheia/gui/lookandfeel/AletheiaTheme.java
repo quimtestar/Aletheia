@@ -58,6 +58,10 @@ public abstract class AletheiaTheme extends OceanTheme
 		unpackedSignetureRequest,
 		focusBorder,
 		tableBackground,
+		bracketHighlightOk,
+		bracketHighlightWarning,
+		bracketHighlightError,
+		commandLineError,
 		//@formatter:on
 	}
 
@@ -80,6 +84,8 @@ public abstract class AletheiaTheme extends OceanTheme
 	protected static final ColorUIResource lightCyan = new ColorUIResource(0x80c0c0);
 	protected static final ColorUIResource darkBlue = new ColorUIResource(Color.blue.darker());
 	protected static final ColorUIResource lightBlue = new ColorUIResource(0x8080ff);
+	protected static final ColorUIResource lightRed = new ColorUIResource(0xff4040);
+	protected static final ColorUIResource cyan = new ColorUIResource(Color.cyan);
 
 	private final Map<Key, ColorUIResource> colorMap;
 
@@ -110,6 +116,10 @@ public abstract class AletheiaTheme extends OceanTheme
 		put(Key.unpackedSignetureRequest, blue);
 		put(Key.focusBorder, blue);
 		put(Key.tableBackground, new ColorUIResource(0xeeeeee));
+		put(Key.bracketHighlightOk, blue);
+		put(Key.bracketHighlightWarning, darkCyan);
+		put(Key.bracketHighlightError, red);
+		put(Key.commandLineError, red);
 		assertAllKeysDefined();
 	}
 
@@ -183,6 +193,26 @@ public abstract class AletheiaTheme extends OceanTheme
 	public ColorUIResource getFocusBorder()
 	{
 		return get(Key.focusBorder);
+	}
+
+	public ColorUIResource getBracketHighlightOk()
+	{
+		return get(Key.bracketHighlightOk);
+	}
+
+	public ColorUIResource getBracketHighlightWarning()
+	{
+		return get(Key.bracketHighlightWarning);
+	}
+
+	public ColorUIResource getBracketHighlightError()
+	{
+		return get(Key.bracketHighlightError);
+	}
+
+	public ColorUIResource getCommandLineError()
+	{
+		return get(Key.commandLineError);
 	}
 
 	@Override

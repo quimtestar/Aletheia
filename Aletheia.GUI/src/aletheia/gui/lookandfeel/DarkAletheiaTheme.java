@@ -32,9 +32,16 @@ class DarkAletheiaTheme extends AletheiaTheme
 {
 	static DarkAletheiaTheme instance = new DarkAletheiaTheme();
 
+	private static ColorUIResource primary1 = new ColorUIResource(0xb0caff);
+	private static ColorUIResource primary2 = new ColorUIResource(0x384f66);
+	private static ColorUIResource primary3 = new ColorUIResource(0x505a64);
+	private static ColorUIResource secondary1 = new ColorUIResource(0x515c66);
+	private static ColorUIResource secondary2 = new ColorUIResource(0x14171a);
+	private static ColorUIResource secondary3 = new ColorUIResource(0x333333);
+
 	private DarkAletheiaTheme()
 	{
-		put(Key.default_, new ColorUIResource(224, 224, 224));
+		put(Key.default_, new ColorUIResource(0xe0e0e0));
 		put(Key.normalBackground, new ColorUIResource(0x202020));
 		put(Key.selectedBackground, black);
 		put(Key.activeContext, lightPurple);
@@ -51,27 +58,46 @@ class DarkAletheiaTheme extends AletheiaTheme
 		put(Key.delegateTree, lightBlue);
 		put(Key.privatePerson, lightGreen);
 		put(Key.true_, green);
-	}
-
-	/**
-	 * Tree branch lines and some other stuff (parts of the folder icon, ...)
-	 */
-	@Override
-	protected ColorUIResource getPrimary3()
-	{
-		return new ColorUIResource(0x505a64);
-	}
-
-	@Override
-	public ColorUIResource getControl()
-	{
-		return new ColorUIResource(0x333333);
+		put(Key.bracketHighlightOk, lightBlue);
+		put(Key.bracketHighlightWarning, cyan);
+		put(Key.bracketHighlightError, lightRed);
+		put(Key.commandLineError, lightRed);
 	}
 
 	@Override
 	protected ColorUIResource getPrimary1()
 	{
-		return new ColorUIResource(0xb0caff);
+		return primary1;
+	}
+
+	@Override
+	protected ColorUIResource getPrimary2()
+	{
+		return primary2;
+	}
+
+	@Override
+	protected ColorUIResource getPrimary3()
+	{
+		return primary3;
+	}
+
+	@Override
+	protected ColorUIResource getSecondary1()
+	{
+		return secondary1;
+	}
+
+	@Override
+	protected ColorUIResource getSecondary2()
+	{
+		return secondary2;
+	}
+
+	@Override
+	protected ColorUIResource getSecondary3()
+	{
+		return secondary3;
 	}
 
 	@Override
@@ -81,33 +107,9 @@ class DarkAletheiaTheme extends AletheiaTheme
 	}
 
 	@Override
-	protected ColorUIResource getSecondary1()
-	{
-		return new ColorUIResource(0x515c66);
-	}
-
-	@Override
-	protected ColorUIResource getSecondary2()
-	{
-		return new ColorUIResource(0x14171a);
-	}
-
-	@Override
-	protected ColorUIResource getPrimary2()
-	{
-		return new ColorUIResource(0x384f66);
-	}
-
-	@Override
 	public ColorUIResource getControlInfo()
 	{
 		return getWhite();
-	}
-
-	@Override
-	protected ColorUIResource getSecondary3()
-	{
-		return new ColorUIResource(0x333333);
 	}
 
 	@Override

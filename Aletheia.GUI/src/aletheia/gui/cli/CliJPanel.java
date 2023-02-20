@@ -120,6 +120,7 @@ import aletheia.gui.common.datatransfer.TermParameterIdentificationDataFlavor;
 import aletheia.gui.common.datatransfer.UUIDDataFlavor;
 import aletheia.gui.fonts.FontManager;
 import aletheia.gui.lookandfeel.AletheiaLookAndFeel;
+import aletheia.gui.lookandfeel.AletheiaTheme;
 import aletheia.log4j.LoggerManager;
 import aletheia.model.authority.UnpackedSignatureRequest;
 import aletheia.model.identifier.Identifier;
@@ -155,7 +156,7 @@ public class CliJPanel extends JPanel implements CommandSource
 
 	static
 	{
-		StyleConstants.setForeground((MutableAttributeSet) errAttributeSet, Color.red);
+		StyleConstants.setForeground((MutableAttributeSet) errAttributeSet, AletheiaLookAndFeel.theme().getCommandLineError());
 	}
 
 	private static final AttributeSet errBAttributeSet = new SimpleAttributeSet(errAttributeSet);
@@ -1704,17 +1705,14 @@ public class CliJPanel extends JPanel implements CommandSource
 
 		private final static boolean BOLD = false;
 		private final static boolean UNDERLINE = true;
-		private final Color OK_COLOR = Color.BLUE;
-		private final Color WARNING_COLOR = Color.CYAN.darker().darker();
-		private final Color ERROR_COLOR = Color.RED;
 
 		public class HighLightAttributeSet extends SimpleAttributeSet
 		{
 			private static final long serialVersionUID = 7431299236720590205L;
 
-			public HighLightAttributeSet(Color color, boolean bold, boolean underline)
+			public HighLightAttributeSet(AletheiaTheme.Key colorKey, boolean bold, boolean underline)
 			{
-				StyleConstants.setForeground(this, color);
+				StyleConstants.setForeground(this, AletheiaLookAndFeel.theme().get(colorKey));
 				StyleConstants.setBold(this, bold);
 				StyleConstants.setUnderline(this, underline);
 			}
@@ -1727,9 +1725,9 @@ public class CliJPanel extends JPanel implements CommandSource
 
 		public BracketHighLightManager()
 		{
-			this.okAS = new HighLightAttributeSet(OK_COLOR, BOLD, UNDERLINE);
-			this.warningAS = new HighLightAttributeSet(WARNING_COLOR, BOLD, UNDERLINE);
-			this.errorAS = new HighLightAttributeSet(ERROR_COLOR, BOLD, UNDERLINE);
+			this.okAS = new HighLightAttributeSet(AletheiaTheme.Key.bracketHighlightOk, BOLD, UNDERLINE);
+			this.warningAS = new HighLightAttributeSet(AletheiaTheme.Key.bracketHighlightWarning, BOLD, UNDERLINE);
+			this.errorAS = new HighLightAttributeSet(AletheiaTheme.Key.bracketHighlightError, BOLD, UNDERLINE);
 			this.highLights = new HashSet<>();
 		}
 
@@ -2907,4 +2905,10 @@ public class CliJPanel extends JPanel implements CommandSource
 
 	}
 
+	@Override
+	public void updateUI()
+	{
+		StyleConstants.setForeground((MutableAttributeSet) errAttributeSet, AletheiaLookAndFeel.theme().getCommandLineError());
+		super.updateUI();
+	}
 }
