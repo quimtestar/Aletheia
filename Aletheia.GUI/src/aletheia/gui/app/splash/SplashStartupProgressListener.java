@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2019, 2020 Quim Testar.
+ * Copyright (c) 2019, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -118,6 +118,7 @@ public class SplashStartupProgressListener extends AbstractSplashStartupProgress
 			label.setBorder(
 					BorderFactory.createCompoundBorder(BorderFactory.createLineBorder(Color.BLACK, 1, false), BorderFactory.createEmptyBorder(2, 5, 2, 5)));
 			label.setOpaque(true);
+			label.setForeground(Color.DARK_GRAY);
 			label.setBackground(Color.WHITE);
 			panel.add(label);
 			panel.add(new Box.Filler(new Dimension(0, 3), new Dimension(0, 3), new Dimension(0, 3)));
