@@ -69,7 +69,7 @@ public abstract class AletheiaTheme extends OceanTheme
 	protected static final ColorUIResource darkPurple = new ColorUIResource(0x800080);
 	protected static final ColorUIResource lightPurple = new ColorUIResource(0xff60ff);
 	protected static final ColorUIResource darkGreen = new ColorUIResource(Color.green.darker().darker());
-	protected static final ColorUIResource lightGreen = new ColorUIResource(128, 255, 128);
+	protected static final ColorUIResource lightGreen = new ColorUIResource(128, 192, 128);
 	protected static final ColorUIResource darkOrange = new ColorUIResource(Color.orange.darker().darker());
 	protected static final ColorUIResource orange = new ColorUIResource(Color.orange);
 	protected static final ColorUIResource green = new ColorUIResource(Color.green);
