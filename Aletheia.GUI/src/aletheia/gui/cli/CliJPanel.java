@@ -623,7 +623,14 @@ public class CliJPanel extends JPanel implements CommandSource
 			if (length > 0)
 				attrs = defaultAttributeSet;
 			OffsetLength ol = offsetLength(offset, length);
-			super.replace(fb, ol.offset, ol.length, text, attrs);
+			try
+			{
+				super.replace(fb, ol.offset, ol.length, text, attrs);
+			}
+			catch (IllegalArgumentException e)
+			{
+				logger.warn("Exception caught", e);
+			}
 		}
 
 		@Override
