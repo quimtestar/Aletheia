@@ -19,5 +19,5 @@ permalink: /
 
 #### Misc
 * [An import file for the tutorial](https://www.dropbox.com/s/tqbq2l2lfnmlkc9/tutorial.ale?dl=1).
-* [Full import file for the ctx.Prop catalog](https://www.dropbox.com/s/s9bi6t65g4r5pso/ctx.Prop.ale?dl=1).
+* [Full import file for the ctx.Prop catalog](https://www.dropbox.com/scl/fi/6igtnp17q0m14ij4z4rqb/ctx.Prop.ale?rlkey=3i6g9eqito1szg5bsrl87rg4i&dl=1).
 * [Video demos playlist](https://www.youtube.com/playlist?list=PLYFNMXa8kbndNcC8WUvA5tlvPNshH9Z6P).
