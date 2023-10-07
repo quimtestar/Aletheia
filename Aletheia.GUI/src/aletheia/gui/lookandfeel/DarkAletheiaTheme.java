@@ -42,6 +42,7 @@ class DarkAletheiaTheme extends AletheiaTheme
 	private DarkAletheiaTheme()
 	{
 		put(Key.default_, new ColorUIResource(0xa0a0a0));
+		put(Key.disabled, new ColorUIResource(0x404040));
 		put(Key.normalBackground, new ColorUIResource(0x202020));
 		put(Key.selectedBackground, black);
 		put(Key.activeContext, lightPurple);

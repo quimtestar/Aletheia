@@ -35,6 +35,7 @@ public abstract class AletheiaTheme extends OceanTheme
 	{
 		//@formatter:off
 		default_,
+		disabled,
 		normalBackground,
 		selectedBackground,
 		activeContext,
@@ -93,6 +94,7 @@ public abstract class AletheiaTheme extends OceanTheme
 	{
 		this.colorMap = new EnumMap<>(Key.class);
 		put(Key.default_, super.getUserTextColor());
+		put(Key.disabled, new ColorUIResource(0x999999));
 		put(Key.normalBackground, super.getWindowBackground());
 		put(Key.selectedBackground, new ColorUIResource(Color.lightGray));
 		put(Key.activeContext, darkPurple);
@@ -143,6 +145,11 @@ public abstract class AletheiaTheme extends OceanTheme
 	public ColorUIResource getDefault()
 	{
 		return get(Key.default_);
+	}
+
+	public ColorUIResource getDisabled()
+	{
+		return get(Key.disabled);
 	}
 
 	public ColorUIResource getNormalBackground()
@@ -255,6 +262,12 @@ public abstract class AletheiaTheme extends OceanTheme
 	public ColorUIResource getMenuSelectedForeground()
 	{
 		return getDefault();
+	}
+
+	@Override
+	public ColorUIResource getMenuDisabledForeground()
+	{
+		return getDisabled();
 	}
 
 }
