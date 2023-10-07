@@ -29,7 +29,7 @@ import aletheia.utilities.collections.AbstractCloseableList;
 import aletheia.utilities.collections.BufferedList;
 import aletheia.utilities.collections.CloseableIterator;
 
-public class UnsortedTest006 extends Test
+public class UnsortedTest0006 extends Test
 {
 
 	class CloseableList<E> extends AbstractCloseableList<E>
