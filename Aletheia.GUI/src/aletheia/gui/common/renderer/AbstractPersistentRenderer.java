@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2020 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -67,8 +67,6 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 {
 	private final static long serialVersionUID = 3606688660803252832L;
 
-	private final static Color activeLabelColor = Color.red;
-
 	private final PersistenceManager persistenceManager;
 
 	private final boolean clickableVariableReferences;
@@ -123,7 +121,7 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 			@Override
 			public void mouseEntered(MouseEvent e)
 			{
-				setForeground(activeLabelColor);
+				setForeground(theme().getActiveLabel());
 				propagateEvent(e);
 			}
 

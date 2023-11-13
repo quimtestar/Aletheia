@@ -42,6 +42,7 @@ public abstract class AletheiaTheme extends OceanTheme
 		groupSorter,
 		provenLabel,
 		unprovenLabel,
+		activeLabel,
 		turnstile,
 		tick,
 		xMark,
@@ -101,6 +102,7 @@ public abstract class AletheiaTheme extends OceanTheme
 		put(Key.groupSorter, blue);
 		put(Key.provenLabel, darkGreen);
 		put(Key.unprovenLabel, darkOrange);
+		put(Key.activeLabel, red);
 		put(Key.turnstile, orange);
 		put(Key.tick, green);
 		put(Key.xMark, red);
@@ -180,6 +182,11 @@ public abstract class AletheiaTheme extends OceanTheme
 	public ColorUIResource getUnprovenLabel()
 	{
 		return get(Key.unprovenLabel);
+	};
+
+	public ColorUIResource getActiveLabel()
+	{
+		return get(Key.activeLabel);
 	};
 
 	public ColorUIResource getPrivatePerson()
