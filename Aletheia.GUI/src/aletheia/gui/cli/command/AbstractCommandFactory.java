@@ -578,7 +578,7 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 				try
 				{
 					initiator = new Identifier(namespace, queried);
-					terminator = new Identifier(namespace, queried + "zzz");
+					terminator = new Identifier(namespace, queried + "zzz");  //TODO this is just an approximation that should be fixed: partial identifiers that end with more than 3 zs can't be completed.  
 				}
 				catch (InvalidNameException e)
 				{
