@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -36,25 +36,32 @@ public abstract class NamespaceExtreme extends Identifier
 	/**
 	 * @param namespace
 	 *            The name space this extreme belongs to.
+	 * @param prefix
+	 *            The prefix of this name space subset.
 	 * @param mark
 	 *            A special string serving as a name for extremes. It will
 	 *            depend on the actual extreme we are creating. See the
 	 *            sub-classes
 	 * @throws InvalidNameException
 	 */
-	protected NamespaceExtreme(Namespace namespace, String mark) throws InvalidNameException
+	protected NamespaceExtreme(Namespace namespace, String prefix, String mark) throws InvalidNameException
 	{
-		super(namespace, mark);
+		super(namespace, prefix + mark);
 	}
 
 	@Override
-	public NamespaceExtreme initiator()
+	protected void validateName()
+	{
+	}
+
+	@Override
+	public NamespaceExtreme initiator(String prefix)
 	{
 		return this;
 	}
 
 	@Override
-	public NamespaceExtreme terminator()
+	public NamespaceExtreme terminator(String prefix)
 	{
 		return this;
 	}

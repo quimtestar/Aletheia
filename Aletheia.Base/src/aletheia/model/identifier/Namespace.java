@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -131,17 +131,20 @@ public abstract class Namespace implements Comparable<Namespace>, Serializable, 
 			return RootNamespace.instance;
 		Namespace namespace = RootNamespace.instance;
 		for (String name : fullName.split("\\."))
-		{
-			if (namespace instanceof Identifier)
-				throw new InvalidNameException(fullName);
-			if (name.equals(NamespaceInitiator.mark))
-				namespace = namespace.initiator();
-			else if (name.equals(NamespaceTerminator.mark))
-				namespace = namespace.terminator();
-			else
-				namespace = new NodeNamespace(namespace, name);
-		}
+			namespace = new NodeNamespace(namespace, name);
 		return namespace;
+	}
+
+	public NamespaceExtreme initiator(String prefix)
+	{
+		try
+		{
+			return new NamespaceInitiator(this, prefix);
+		}
+		catch (InvalidNameException e)
+		{
+			throw new Error(e);
+		}
 	}
 
 	/**
@@ -155,9 +158,14 @@ public abstract class Namespace implements Comparable<Namespace>, Serializable, 
 	 */
 	public NamespaceExtreme initiator()
 	{
+		return initiator("");
+	}
+
+	public NamespaceExtreme terminator(String prefix)
+	{
 		try
 		{
-			return new NamespaceInitiator(this);
+			return new NamespaceTerminator(this, prefix);
 		}
 		catch (InvalidNameException e)
 		{
@@ -176,14 +184,7 @@ public abstract class Namespace implements Comparable<Namespace>, Serializable, 
 	 */
 	public NamespaceExtreme terminator()
 	{
-		try
-		{
-			return new NamespaceTerminator(this);
-		}
-		catch (InvalidNameException e)
-		{
-			throw new Error(e);
-		}
+		return terminator("");
 	}
 
 	/**

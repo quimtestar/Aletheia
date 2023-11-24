@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -108,13 +108,11 @@ public class Identifier extends NodeNamespace implements Exportable
 	{
 		int idx = fullName.lastIndexOf('.');
 		Namespace namespace = idx < 0 ? RootNamespace.instance : Namespace.parse(fullName.substring(0, idx));
-		if (namespace instanceof Identifier)
-			throw new InvalidNameException(fullName);
 		String name = fullName.substring(idx + 1);
-		if (name.equals(NamespaceInitiator.mark))
-			return namespace.initiator();
-		else if (name.equals(NamespaceTerminator.mark))
-			return namespace.terminator();
+		if (name.endsWith(NamespaceInitiator.mark))
+			return new NamespaceInitiator(namespace, name.substring(0, name.length() - NamespaceInitiator.mark.length()));
+		else if (name.endsWith(NamespaceTerminator.mark))
+			return new NamespaceTerminator(namespace, name.substring(0, name.length() - NamespaceTerminator.mark.length()));
 		else
 			return new Identifier(namespace, name);
 	}

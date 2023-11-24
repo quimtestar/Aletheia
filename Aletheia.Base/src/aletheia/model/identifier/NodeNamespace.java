@@ -82,22 +82,14 @@ public class NodeNamespace extends Namespace
 	{
 		super();
 		this.parent = parent;
-		if (this instanceof NamespaceInitiator)
-		{
-			if (!name.equals(NamespaceInitiator.mark))
-				throw new InvalidNameException(name);
-		}
-		else if (this instanceof NamespaceTerminator)
-		{
-			if (!name.equals(NamespaceTerminator.mark))
-				throw new InvalidNameException(name);
-		}
-		else
-		{
-			if (!validName(name))
-				throw new InvalidNameException(name);
-		}
 		this.name = name;
+		validateName();
+	}
+
+	protected void validateName() throws InvalidNameException
+	{
+		if (!validName(name))
+			throw new InvalidNameException(name);
 	}
 
 	@Override
@@ -298,7 +290,9 @@ public class NodeNamespace extends Namespace
 			}
 			if (!i2.hasNext())
 				return +1;
-			int c = i1.next().compareTo(i2.next());
+			String s1 = i1.next().replaceFirst("!$", "");
+			String s2 = i2.next().replaceFirst("!$", "");
+			int c = s1.compareTo(s2);
 			if (c != 0)
 				return c;
 		}

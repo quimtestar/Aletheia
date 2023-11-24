@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2020 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -566,25 +566,8 @@ public abstract class AbstractCommandFactory<C extends Command, E>
 				return null;
 			}
 			String queried = nameMatcher.group(3);
-			Identifier initiator;
-			Identifier terminator;
-			if (queried.isEmpty())
-			{
-				initiator = namespace.initiator();
-				terminator = namespace.terminator();
-			}
-			else
-			{
-				try
-				{
-					initiator = new Identifier(namespace, queried);
-					terminator = new Identifier(namespace, queried + "zzz");  //TODO this is just an approximation that should be fixed: partial identifiers that end with more than 3 zs can't be completed.  
-				}
-				catch (InvalidNameException e)
-				{
-					return null;
-				}
-			}
+			NamespaceExtreme initiator = namespace.initiator(queried);
+			NamespaceExtreme terminator = namespace.terminator(queried);
 			CloseableSortedMap<Identifier, ?> identifierMap;
 			if (context == null)
 				identifierMap = from.getPersistenceManager().identifierToRootContexts(transaction).subMap(initiator, terminator);

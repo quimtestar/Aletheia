@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -26,17 +26,11 @@ public class NamespaceTerminator extends NamespaceExtreme
 {
 	private static final long serialVersionUID = -7409248011701915817L;
 
-	/**
-	 * The name of a initiator (the mark) will always be the string "~". This
-	 * string is lexicographically greater than any other valid name, making it
-	 * consistent with the sorting rules specified in
-	 * {@link aletheia.model.identifier}.
-	 */
 	public static final String mark = "~";
 
-	protected NamespaceTerminator(Namespace namespace) throws InvalidNameException
+	protected NamespaceTerminator(Namespace namespace, String prefix) throws InvalidNameException
 	{
-		super(namespace, mark);
+		super(namespace, prefix, mark);
 	}
 
 }
