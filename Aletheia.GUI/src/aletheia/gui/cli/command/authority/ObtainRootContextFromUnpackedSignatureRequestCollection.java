@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2020 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -82,7 +82,7 @@ public class ObtainRootContextFromUnpackedSignatureRequestCollection extends Tra
 	{
 		PeerToPeerNode peerToPeerNode = getPeerToPeerNode();
 		CloseableIterator<UUID> iterator = new UniqueCloseableIterable<>(
-				new FilteredCloseableCollection<>(new NotNullFilter<UUID>(), new BijectionCloseableCollection<>(new Bijection<PackedSignatureRequest, UUID>()
+				new FilteredCloseableCollection<>(new NotNullFilter<>(), new BijectionCloseableCollection<>(new Bijection<PackedSignatureRequest, UUID>()
 				{
 
 					@Override

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -161,7 +161,7 @@ public abstract class DelegateTreeModelBranchNode extends DelegateTreeModelNode
 
 	private List<DelegateTreeModelNode> getChildList()
 	{
-		return new CombinedList<>(new AdaptedList<DelegateTreeModelNode>(getBranchSubNodeList()), new AdaptedList<DelegateTreeModelNode>(getLeafNodeList()));
+		return new CombinedList<>(new AdaptedList<>(getBranchSubNodeList()), new AdaptedList<>(getLeafNodeList()));
 	}
 
 	@Override

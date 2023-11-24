@@ -282,8 +282,7 @@ public class BerkeleyDBDelegateTreeRootNodeEntity extends BerkeleyDBDelegateTree
 	{
 		public SuccessorEntryEntitiesView(List<BerkeleyDBSuccessorEntryEntity> successorEntryEntities, Set<UUIDKey> successorUuidKeys)
 		{
-			super(new CastBijection<BerkeleyDBSuccessorEntryEntity, SuccessorEntryEntity>(),
-					new BerkeleyDBSuccessorEntryEntitiesView(successorEntryEntities, successorUuidKeys));
+			super(new CastBijection<>(), new BerkeleyDBSuccessorEntryEntitiesView(successorEntryEntities, successorUuidKeys));
 		}
 
 	}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -71,15 +71,13 @@ public class StatementProofSubscriptionLoopDialogClient extends StatementProofSu
 		if (pendingSubscribedProofRootContextLocals != null)
 		{
 			subscribedProofStatementLocals.addAll(pendingSubscribedProofRootContextLocals);
-			subscribedUuids
-					.addAll(new BijectionCollection<>(statementLocalUuidBijection, new AdaptedSet<StatementLocal>(pendingSubscribedProofRootContextLocals)));
+			subscribedUuids.addAll(new BijectionCollection<>(statementLocalUuidBijection, new AdaptedSet<>(pendingSubscribedProofRootContextLocals)));
 		}
 		Set<UUID> unsubscribedUuids = new HashSet<>();
 		Set<RootContextLocal> pendingUnsubscribedProofRootContextLocals = pendingStatementLocalChanges.dumpPendingUnsubscribedProofRootContextLocals();
 		if (pendingUnsubscribedProofRootContextLocals != null)
 		{
-			unsubscribedUuids
-					.addAll(new BijectionCollection<>(statementLocalUuidBijection, new AdaptedSet<StatementLocal>(pendingUnsubscribedProofRootContextLocals)));
+			unsubscribedUuids.addAll(new BijectionCollection<>(statementLocalUuidBijection, new AdaptedSet<>(pendingUnsubscribedProofRootContextLocals)));
 		}
 		Set<UUID> contextUuids = remoteSubscription.rootContextUuids();
 		while (!contextUuids.isEmpty())

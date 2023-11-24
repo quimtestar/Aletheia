@@ -88,8 +88,8 @@ public abstract class ContextSignatureRequestTreeNode extends SignatureRequestTr
 	@Override
 	protected Collection<SignatureRequestTreeNode> childNodeCollection(Transaction transaction)
 	{
-		return new CombinedCollection<>(new AdaptedCollection<SignatureRequestTreeNode>(childContextNodeCollection(transaction)),
-				new AdaptedCollection<SignatureRequestTreeNode>(childSignatureRequestNodeCollection(transaction)));
+		return new CombinedCollection<>(new AdaptedCollection<>(childContextNodeCollection(transaction)),
+				new AdaptedCollection<>(childSignatureRequestNodeCollection(transaction)));
 	}
 
 	@Override

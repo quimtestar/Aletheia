@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -33,7 +33,7 @@ public class WeakHashSet<E> extends DummyMapSet<E>
 {
 	public WeakHashSet()
 	{
-		super(new WeakHashMap<E, Dummy>());
+		super(new WeakHashMap<>());
 	}
 
 }

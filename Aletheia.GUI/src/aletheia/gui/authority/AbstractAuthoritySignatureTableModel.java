@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -142,7 +142,7 @@ public abstract class AbstractAuthoritySignatureTableModel implements TableModel
 		this.persistenceManager = persistenceManager;
 		this.statement = statement;
 		this.statementAuthority = statementAuthority;
-		this.listeners = Collections.synchronizedSet(new HashSet<TableModelListener>());
+		this.listeners = Collections.synchronizedSet(new HashSet<>());
 	}
 
 	protected PersistenceManager getPersistenceManager()

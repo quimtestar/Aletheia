@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -59,7 +59,7 @@ public abstract class CatalogTreeNode implements TreeNode
 
 		protected ModifiableChildrenData()
 		{
-			super(new ArrayList<SubCatalogTreeNode>(), new HashMap<NodeNamespace, SubCatalogTreeNode>());
+			super(new ArrayList<>(), new HashMap<>());
 		}
 
 		public void add(SubCatalogTreeNode node)

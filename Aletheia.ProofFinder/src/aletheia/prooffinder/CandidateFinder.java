@@ -273,8 +273,7 @@ public class CandidateFinder implements StatementCacheTree.Listener
 
 		Collection<VirtualStatementCandidate> virtualStatementCandidates = virtualStatementCandidatesFor(virtualStatements, target);
 
-		return new CombinedCollection<>(new AdaptedCollection<PureCandidate>(virtualStatementCandidates),
-				new AdaptedCollection<PureCandidate>(statementCandidates));
+		return new CombinedCollection<>(new AdaptedCollection<>(virtualStatementCandidates), new AdaptedCollection<>(statementCandidates));
 	}
 
 	private Term assignImpure(VariableTerm variable, Term target, Term term)

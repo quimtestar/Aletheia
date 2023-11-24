@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2017 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -121,7 +121,7 @@ public class Belt
 
 	public synchronized Collection<NetworkPhase> neighbourCollection()
 	{
-		return new FilteredCollection<>(new NotNullFilter<NetworkPhase>(), Arrays.asList(left, right));
+		return new FilteredCollection<>(new NotNullFilter<>(), Arrays.asList(left, right));
 	}
 
 	public synchronized boolean isComplete()

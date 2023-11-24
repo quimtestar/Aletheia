@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2022 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -2075,7 +2075,7 @@ public class Context extends Statement
 
 	public CloseableSet<StatementAuthority> descendantContextAuthoritiesByConsequent(final Transaction transaction, Term consequent)
 	{
-		return new FilteredCloseableSet<>(new NotNullFilter<StatementAuthority>(), new BijectionCloseableSet<>(new Bijection<Context, StatementAuthority>()
+		return new FilteredCloseableSet<>(new NotNullFilter<>(), new BijectionCloseableSet<>(new Bijection<Context, StatementAuthority>()
 		{
 			@Override
 			public StatementAuthority forward(Context context)
@@ -2133,7 +2133,7 @@ public class Context extends Statement
 	@Override
 	public List<? extends Context> statementPath(Transaction transaction, Context from)
 	{
-		return new BijectionList<>(new CastBijection<Statement, Context>(), new AdaptedList<>(super.statementPath(transaction, from)));
+		return new BijectionList<>(new CastBijection<>(), new AdaptedList<>(super.statementPath(transaction, from)));
 	}
 
 	public UnpackedSignatureRequestSetByContextPath unpackedSignatureRequestSetByPath(Transaction transaction)

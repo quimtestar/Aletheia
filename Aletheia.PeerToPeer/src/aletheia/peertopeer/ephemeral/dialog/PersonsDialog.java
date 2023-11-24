@@ -122,7 +122,7 @@ public abstract class PersonsDialog extends EphemeralDialog
 
 	protected Collection<Person> dialogatePersonResponseSend(PersonRequestMessage personRequestMessage) throws IOException, InterruptedException
 	{
-		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<Person>(), new BijectionCollection<>(new Bijection<UUID, Person>()
+		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<>(), new BijectionCollection<>(new Bijection<UUID, Person>()
 		{
 
 			@Override

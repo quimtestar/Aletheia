@@ -355,7 +355,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 
 		protected MyTableCellEditor(MyTableCellRenderer<T> renderer)
 		{
-			this.listeners = Collections.synchronizedSet(new HashSet<CellEditorListener>());
+			this.listeners = Collections.synchronizedSet(new HashSet<>());
 			this.renderer = renderer;
 			this.myCellRendererComponent = null;
 		}
@@ -471,7 +471,7 @@ public abstract class AbstractAuthoritySignatureJTable extends JTable
 						{
 							throw new UnsupportedOperationException();
 						}
-					}, new ArrayAsList<Integer>(getSelectedRows())));
+					}, new ArrayAsList<>(getSelectedRows())));
 				}
 				catch (InterruptedException e)
 				{

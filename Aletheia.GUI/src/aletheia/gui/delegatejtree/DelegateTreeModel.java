@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -221,7 +221,7 @@ public class DelegateTreeModel extends PersistentTreeModel
 		this.stateListener = new StateListener();
 		statementAuthority.addStateListener(stateListener);
 		this.virtualRootTreeNode = new VirtualRootTreeNode();
-		this.delegateTreeModelListeners = Collections.synchronizedSet(new HashSet<DelegateTreeJTree.TreeModelListener>());
+		this.delegateTreeModelListeners = Collections.synchronizedSet(new HashSet<>());
 		this.delegateTreeRootNodeRef = null;
 	}
 

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -157,7 +157,7 @@ public class UnpackedSignatureRequest extends SignatureRequest
 
 	public Set<StatementAuthority> statementAuthorities(final Transaction transaction)
 	{
-		return new FilteredSet<>(new NotNullFilter<StatementAuthority>(), new BijectionSet<>(new Bijection<UUID, StatementAuthority>()
+		return new FilteredSet<>(new NotNullFilter<>(), new BijectionSet<>(new Bijection<UUID, StatementAuthority>()
 		{
 
 			@Override
@@ -323,7 +323,7 @@ public class UnpackedSignatureRequest extends SignatureRequest
 			{
 				throw new UnsupportedOperationException();
 			}
-		}, new AdaptedList<Statement>(context.statementPath(transaction)));
+		}, new AdaptedList<>(context.statementPath(transaction)));
 	}
 
 	public PackedBuilder packedBuilder(Transaction transaction, DataOutput dataOutput) throws IOException

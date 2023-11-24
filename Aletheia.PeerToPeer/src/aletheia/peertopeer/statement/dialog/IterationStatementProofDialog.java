@@ -123,8 +123,7 @@ public class IterationStatementProofDialog extends StatementProofDialog
 
 	private void dialogateContextDescendentsDependenciesRequestSend(Collection<Context> contexts) throws IOException, InterruptedException
 	{
-		Collection<UUID> uuids = new BijectionCollection<>(new ComposedBijection<>(getStatementUuidBijection(), new CastBijection<Context, Statement>()),
-				contexts);
+		Collection<UUID> uuids = new BijectionCollection<>(new ComposedBijection<>(getStatementUuidBijection(), new CastBijection<>()), contexts);
 		sendMessage(new ContextProofRequestMessage(uuids));
 	}
 
@@ -252,7 +251,7 @@ public class IterationStatementProofDialog extends StatementProofDialog
 
 	private void dialogatePersonResponseSend(PersonRequestMessage personRequestMessage) throws IOException, InterruptedException
 	{
-		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<Person>(), new BijectionCollection<>(new Bijection<UUID, Person>()
+		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<>(), new BijectionCollection<>(new Bijection<UUID, Person>()
 		{
 
 			@Override

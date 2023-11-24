@@ -1523,7 +1523,7 @@ public abstract class Statement implements Exportable
 
 	public CloseableSet<StatementAuthority> dependentAuthorities(final Transaction transaction)
 	{
-		return new FilteredCloseableSet<>(new NotNullFilter<StatementAuthority>(), new BijectionCloseableSet<>(new Bijection<Statement, StatementAuthority>()
+		return new FilteredCloseableSet<>(new NotNullFilter<>(), new BijectionCloseableSet<>(new Bijection<Statement, StatementAuthority>()
 		{
 			@Override
 			public StatementAuthority forward(Statement statement)
@@ -1950,7 +1950,7 @@ public abstract class Statement implements Exportable
 
 		};
 
-		return new FilteredCloseableCollection<>(new NotNullFilter<Match>(), new BijectionCloseableCollection<>(bijection, statements));
+		return new FilteredCloseableCollection<>(new NotNullFilter<>(), new BijectionCloseableCollection<>(bijection, statements));
 	}
 
 	protected Map<Statement, Term> descendentProofTerms(Transaction transaction, Aborter aborter) throws AbortException

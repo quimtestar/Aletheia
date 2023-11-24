@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2016, 2020 Quim Testar.
+ * Copyright (c) 2016, 2023 Quim Testar.
  * 
  * This file is part of the Aletheia Proof Assistant.
  * 
@@ -63,7 +63,7 @@ public class Graph
 	{
 		final Map<Node, Set<Node>> successors = new HashMap<>();
 		for (Node n : nodes)
-			successors.put(n, new HashSet<Node>());
+			successors.put(n, new HashSet<>());
 		for (Edge e : edges)
 		{
 			Set<Node> suc = successors.get(e.getFrom());
@@ -117,7 +117,7 @@ public class Graph
 							if (deque.isEmpty())
 							{
 								if (!pendingNodes.isEmpty())
-									deque.offer(new DequeEntry(MiscUtilities.firstFromIterable(pendingNodes), new ArrayList<Node>()));
+									deque.offer(new DequeEntry(MiscUtilities.firstFromIterable(pendingNodes), new ArrayList<>()));
 								else
 									return null;
 							}

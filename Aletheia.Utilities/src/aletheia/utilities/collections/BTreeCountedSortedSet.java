@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -37,25 +37,25 @@ public class BTreeCountedSortedSet<E> extends DummyMapCountedSortedSet<E>
 
 	public BTreeCountedSortedSet(int order, Comparator<? super E> comparator, Collection<? extends E> init)
 	{
-		super(new BTreeCountedSortedMap<E, Dummy>(order, comparator));
+		super(new BTreeCountedSortedMap<>(order, comparator));
 		addAll(init);
 	}
 
 	public BTreeCountedSortedSet(Comparator<? super E> comparator, Collection<? extends E> init)
 	{
-		super(new BTreeCountedSortedMap<E, Dummy>(comparator));
+		super(new BTreeCountedSortedMap<>(comparator));
 		addAll(init);
 	}
 
 	public BTreeCountedSortedSet(int order, Collection<? extends E> init)
 	{
-		super(new BTreeCountedSortedMap<E, Dummy>(order));
+		super(new BTreeCountedSortedMap<>(order));
 		addAll(init);
 	}
 
 	public BTreeCountedSortedSet(Collection<? extends E> init)
 	{
-		super(new BTreeCountedSortedMap<E, Dummy>());
+		super(new BTreeCountedSortedMap<>());
 		addAll(init);
 	}
 
@@ -71,22 +71,22 @@ public class BTreeCountedSortedSet<E> extends DummyMapCountedSortedSet<E>
 
 	public BTreeCountedSortedSet(int order, Comparator<? super E> comparator)
 	{
-		super(new BTreeCountedSortedMap<E, Dummy>(order, comparator));
+		super(new BTreeCountedSortedMap<>(order, comparator));
 	}
 
 	public BTreeCountedSortedSet(Comparator<? super E> comparator)
 	{
-		super(new BTreeCountedSortedMap<E, Dummy>(comparator));
+		super(new BTreeCountedSortedMap<>(comparator));
 	}
 
 	public BTreeCountedSortedSet(int order)
 	{
-		super(new BTreeCountedSortedMap<E, Dummy>(order));
+		super(new BTreeCountedSortedMap<>(order));
 	}
 
 	public BTreeCountedSortedSet()
 	{
-		super(new BTreeCountedSortedMap<E, Dummy>());
+		super(new BTreeCountedSortedMap<>());
 	}
 
 	@Override

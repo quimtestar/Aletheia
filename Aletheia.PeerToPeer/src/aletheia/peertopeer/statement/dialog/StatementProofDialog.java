@@ -257,7 +257,7 @@ public abstract class StatementProofDialog extends StatementDialog
 
 	public StatementProofDialog(Phase phase)
 	{
-		this(phase, new Stack<StatementStackEntry>(), false, false);
+		this(phase, new Stack<>(), false, false);
 	}
 
 	protected StatementUuidBijection getStatementUuidBijection()

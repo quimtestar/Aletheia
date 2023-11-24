@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2018, 2020 Quim Testar
+ * Copyright (c) 2018, 2023 Quim Testar
  * 
  * This file is part of the Aletheia Proof Assistant.
  * 
@@ -26,7 +26,6 @@ import java.io.IOException;
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 
-import aletheia.model.statement.Statement;
 import aletheia.persistence.PersistenceManager;
 import aletheia.persistence.Transaction;
 import aletheia.persistence.berkeleydb.BerkeleyDBPersistenceConfiguration;
@@ -70,8 +69,8 @@ public class ProtocolTest0001 extends TransactionalBerkeleyDBPersistenceManagerT
 			}
 		};
 		importer.start();
-		persistenceManager.export(new DataOutputStream(pos), transaction, new AdaptedCollection<Statement>(persistenceManager.sortedRootContexts(transaction)),
-				true, false);
+		persistenceManager.export(new DataOutputStream(pos), transaction, new AdaptedCollection<>(persistenceManager.sortedRootContexts(transaction)), true,
+				false);
 		pos.close();
 		importer.join();
 		pis.close();

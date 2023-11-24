@@ -294,8 +294,7 @@ public abstract class SignatureRequestTreeNode implements TreeNode
 				return node.getContext();
 			}
 		}, new StatementComparator(transaction)));
-		return new CombinedCollection<>(new AdaptedCollection<ContextSignatureRequestTreeNode>(actualContextNodes),
-				new AdaptedCollection<ContextSignatureRequestTreeNode>(virtualContextNodes));
+		return new CombinedCollection<>(new AdaptedCollection<>(actualContextNodes), new AdaptedCollection<>(virtualContextNodes));
 
 	}
 

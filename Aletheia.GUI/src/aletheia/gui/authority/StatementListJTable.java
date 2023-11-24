@@ -265,7 +265,7 @@ public class StatementListJTable extends JTable
 		public MyTableCellEditor(MyTableCellRenderer myTableCellRenderer)
 		{
 			this.myTableCellRenderer = myTableCellRenderer;
-			this.listeners = Collections.synchronizedSet(new HashSet<CellEditorListener>());
+			this.listeners = Collections.synchronizedSet(new HashSet<>());
 			this.myCellRendererComponent = null;
 		}
 

@@ -99,7 +99,7 @@ public abstract class Candidate
 						}
 					}
 					antecedentMap.put(v, t.replace(replaces));
-					antecedentDependentMap_.put(v, new HashSet<VariableTerm>());
+					antecedentDependentMap_.put(v, new HashSet<>());
 				}
 				antecedentDependentMap = new HashMap<>();
 				for (VariableTerm v : antecedentDependentMapKeys)

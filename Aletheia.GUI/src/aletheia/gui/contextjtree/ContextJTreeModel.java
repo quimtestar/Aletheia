@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2020 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -89,7 +89,7 @@ public class ContextJTreeModel extends PersistentTreeModel
 	{
 		super(persistenceManager);
 		this.nodeMap = new SorterTreeNodeMap(this);
-		this.contextJTreeListeners = Collections.synchronizedSet(new HashSet<ContextJTree.TreeModelListener>());
+		this.contextJTreeListeners = Collections.synchronizedSet(new HashSet<>());
 		this.statementListener = new StatementListener();
 		persistenceManager.getListenerManager().getRootContextTopStateListeners().add(statementListener);
 		persistenceManager.getListenerManager().getRootContextLocalStateListeners().add(statementListener);

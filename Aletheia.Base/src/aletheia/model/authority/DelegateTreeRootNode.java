@@ -733,7 +733,7 @@ public class DelegateTreeRootNode extends DelegateTreeNode
 	public CloseableIterable<DelegateTreeNode> delegateTreeNodesRecursive(final Transaction transaction)
 	{
 		return new CombinedCloseableIterable<>(new TrivialCloseableIterable<>(Collections.<DelegateTreeNode> singleton(this)),
-				new AdaptedCloseableIterable<DelegateTreeNode>(delegateTreeSubNodesRecursive(transaction)));
+				new AdaptedCloseableIterable<>(delegateTreeSubNodesRecursive(transaction)));
 	}
 
 	public CloseableIterable<DelegateAuthorizer> delegateAuthorizersRecursive(final Transaction transaction)

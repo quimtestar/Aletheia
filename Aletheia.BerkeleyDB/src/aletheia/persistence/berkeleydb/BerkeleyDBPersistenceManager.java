@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2020 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -427,7 +427,7 @@ public class BerkeleyDBPersistenceManager extends PersistenceManager
 		this.entityStore = initializationData.entityStore;
 		this.temporaryEntityStore = initializationData.temporaryEntityStore;
 
-		this.openedTransactionsMap = Collections.synchronizedMap(new HashMap<Long, BerkeleyDBTransaction>());
+		this.openedTransactionsMap = Collections.synchronizedMap(new HashMap<>());
 		this.defaultTransactionConfig = new TransactionConfig();
 		this.defaultTransactionConfig.setReadCommitted(true);
 		this.dirtyTransactionConfig = new TransactionConfig();

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2020 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -50,7 +50,7 @@ public abstract class PersistentTreeModel implements TreeModel
 	public PersistentTreeModel(PersistenceManager persistenceManager)
 	{
 		this.persistenceManager = persistenceManager;
-		this.listeners = Collections.synchronizedCollection(new ArrayList<TreeModelListener>());
+		this.listeners = Collections.synchronizedCollection(new ArrayList<>());
 	}
 
 	protected Collection<TreeModelListener> getListeners()

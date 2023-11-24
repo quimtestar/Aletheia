@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -53,7 +53,7 @@ public class StatementCacheTree implements ContextWatcher.Listener, CacheWithCle
 		this.persistenceManager = persistenceManager;
 		this.contextWatcher = contextWatcher;
 		this.localStatementsCacheMap = new WeakCacheWithCleanerMap<>();
-		this.listeners = Collections.synchronizedSet(new HashSet<Listener>());
+		this.listeners = Collections.synchronizedSet(new HashSet<>());
 		this.contextWatcher.addListener(this);
 		this.localStatementsCacheMap.addListener(this);
 	}
@@ -86,7 +86,7 @@ public class StatementCacheTree implements ContextWatcher.Listener, CacheWithCle
 			Transaction transaction = persistenceManager.beginTransaction();
 			try
 			{
-				set = Collections.synchronizedSet(new HashSet<Statement>());
+				set = Collections.synchronizedSet(new HashSet<>());
 				for (Statement st : ctx.localStatements(transaction).values())
 				{
 					if (st.isProved())

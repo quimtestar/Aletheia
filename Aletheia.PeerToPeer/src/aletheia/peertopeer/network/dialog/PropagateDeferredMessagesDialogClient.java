@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -55,7 +55,7 @@ public class PropagateDeferredMessagesDialogClient extends PropagateDeferredMess
 			map.put(deferredMessage.getUuid(), deferredMessage);
 		sendMessage(new DeferredMessageInfoMessage(map.keySet()));
 		DeferredMessageRequestMessage deferredMessageRequestMessage = recvMessage(DeferredMessageRequestMessage.class);
-		Collection<DeferredMessage> deferredMessages = new FilteredCollection<>(new NotNullFilter<DeferredMessage>(),
+		Collection<DeferredMessage> deferredMessages = new FilteredCollection<>(new NotNullFilter<>(),
 				new BijectionCollection<>(new Bijection<UUID, DeferredMessage>()
 				{
 					@Override

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -152,7 +152,7 @@ public class ExportableEnumCodeMapFactory
 			codeMap = Collections.<Object, ExportableEnum<?, ?>> unmodifiableMap(codeMap_);
 			versionCodeMap.put(enumVersion, codeMap);
 		}
-		return new BijectionMap<>(new CastBijection<ExportableEnum<?, ?>, E>(), new BijectionKeyMap<>(new CastBijection<Object, C>(), codeMap));
+		return new BijectionMap<>(new CastBijection<>(), new BijectionKeyMap<>(new CastBijection<>(), codeMap));
 	}
 
 }

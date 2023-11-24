@@ -2810,7 +2810,7 @@ public class CliJPanel extends JPanel implements CommandSource
 					List<Integer> widths_ = new ArrayList<>();
 					for (int i = 0; i < n; i++)
 					{
-						columns_.add(new ArrayList<String>());
+						columns_.add(new ArrayList<>());
 						widths_.add(0);
 					}
 					int columnSize = (completionSet.size() - 1) / n + 1;

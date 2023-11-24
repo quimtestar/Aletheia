@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -100,7 +100,7 @@ public class ContextWatcher implements StateListener
 	{
 		this.watching = new HashSet<>();
 		this.statementMap = new HashMap<>();
-		this.listeners = Collections.synchronizedSet(new HashSet<Listener>());
+		this.listeners = Collections.synchronizedSet(new HashSet<>());
 		this.queue = new LinkedBlockingQueue<>();
 		this.queueProcessorThread = null;
 		this.halt = false;

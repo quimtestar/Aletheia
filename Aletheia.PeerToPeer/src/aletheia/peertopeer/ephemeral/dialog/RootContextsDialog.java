@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2020 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -57,8 +57,7 @@ public abstract class RootContextsDialog extends EphemeralDialog
 
 	protected void dialogateRootContextStatementSignaturesResponse(Collection<UUID> signatureUuids) throws IOException, InterruptedException
 	{
-		Collection<RootContextStatementSignaturesResponseMessage.Entry> rootContextAuthorities = new FilteredCollection<>(
-				new NotNullFilter<RootContextStatementSignaturesResponseMessage.Entry>(),
+		Collection<RootContextStatementSignaturesResponseMessage.Entry> rootContextAuthorities = new FilteredCollection<>(new NotNullFilter<>(),
 				new BijectionCollection<>(new Bijection<UUID, RootContextStatementSignaturesResponseMessage.Entry>()
 				{
 					final RootContextAuthorityBySignatureUuid rootContextAuthorityBySignatureUuid = getPersistenceManager()
@@ -138,7 +137,7 @@ public abstract class RootContextsDialog extends EphemeralDialog
 
 	protected void dialogatePersonResponse(PersonRequestMessage personRequestMessage) throws IOException, ProtocolException, InterruptedException
 	{
-		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<Person>(), new BijectionCollection<>(new Bijection<UUID, Person>()
+		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<>(), new BijectionCollection<>(new Bijection<UUID, Person>()
 		{
 
 			@Override

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -122,7 +122,7 @@ public class ProofFinder
 		this.candidateFinder = new CandidateFinder(persistenceManager, contextWatcher);
 		this.contextQueueMap = new HashMap<>();
 		this.totalSize = 0;
-		this.listeners = Collections.synchronizedSet(new HashSet<Listener>());
+		this.listeners = Collections.synchronizedSet(new HashSet<>());
 		this.proofFinderThread = null;
 		this.throttle = 1.0f;
 		this.maxTotalSize = 5000;

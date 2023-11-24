@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -99,7 +99,7 @@ public class SuccessorsTableModel implements TableModel
 		this.persistenceManager = persistenceManager;
 		this.delegateTreeRootNode = delegateTreeRootNode;
 		this.stateListener = new StateListener();
-		this.listeners = Collections.synchronizedSet(new HashSet<TableModelListener>());
+		this.listeners = Collections.synchronizedSet(new HashSet<>());
 
 		final Transaction transaction = persistenceManager.beginTransaction();
 		try

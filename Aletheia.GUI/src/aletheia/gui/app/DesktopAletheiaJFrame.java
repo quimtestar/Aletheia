@@ -213,7 +213,7 @@ public class DesktopAletheiaJFrame extends MainAletheiaJFrame
 		this.windowListener = new MyWindowListener();
 		this.addWindowListener(windowListener);
 		this.exitLock = new ExitLock(ExitState.OPENED);
-		this.extraFrames = Collections.synchronizedSet(new HashSet<ExtraJFrame>());
+		this.extraFrames = Collections.synchronizedSet(new HashSet<>());
 		updateContentPane(true);
 		updateServerStatus(true);
 	}

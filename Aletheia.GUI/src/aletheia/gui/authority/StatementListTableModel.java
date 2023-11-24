@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2018 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -85,7 +85,7 @@ public class StatementListTableModel implements TableModel
 	{
 		this.name = name;
 		this.statementList = statementList;
-		this.listeners = Collections.synchronizedSet(new HashSet<TableModelListener>());
+		this.listeners = Collections.synchronizedSet(new HashSet<>());
 		this.stateListener = new StateListener();
 		for (Statement st : statementList)
 		{

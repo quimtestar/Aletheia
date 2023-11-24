@@ -160,7 +160,7 @@ public abstract class AbstractRenderer extends JPanel
 
 	protected void pushComponentList()
 	{
-		stack.push(new ArrayList<Component>());
+		stack.push(new ArrayList<>());
 	}
 
 	protected List<Component> popComponentList()

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2020 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -116,7 +116,7 @@ public class TermProtocol extends PersistentExportableProtocol<Term>
 	@Override
 	public Term recv(DataInput in) throws IOException, ProtocolException
 	{
-		return recv(in, new Stack<VariableTerm>());
+		return recv(in, new Stack<>());
 	}
 
 	private void send(DataOutput out, Term.ParameterNumerator parameterNumerator, Term term) throws IOException

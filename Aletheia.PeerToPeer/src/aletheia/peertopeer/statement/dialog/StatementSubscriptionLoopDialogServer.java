@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2016 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -27,7 +27,6 @@ import java.util.UUID;
 
 import aletheia.model.local.ContextLocal;
 import aletheia.model.statement.Context;
-import aletheia.model.statement.Statement;
 import aletheia.peertopeer.base.phase.Phase;
 import aletheia.peertopeer.statement.message.StatementsSubscribeConfirmationMessage;
 import aletheia.peertopeer.statement.message.StatementsSubscribeMessage;
@@ -63,7 +62,7 @@ public class StatementSubscriptionLoopDialogServer extends StatementSubscription
 			if (context != null)
 				getRemoteSubscription().removeContext(getTransaction(), context);
 		}
-		Collection<UUID> subscribeUuids = new BijectionCollection<>(getStatementUuidBijection(), new AdaptedCollection<Statement>(subscribe));
+		Collection<UUID> subscribeUuids = new BijectionCollection<>(getStatementUuidBijection(), new AdaptedCollection<>(subscribe));
 		sendMessage(new StatementsSubscribeConfirmationMessage(subscribeUuids));
 		return subscribe;
 	}

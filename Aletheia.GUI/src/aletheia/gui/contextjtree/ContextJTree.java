@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2020 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -517,7 +517,7 @@ public class ContextJTree extends PersistentJTree
 		this.addMouseListener(listener);
 		this.selectionModel.addTreeSelectionListener(listener);
 		this.setEditable(true);
-		this.selectionListeners = Collections.synchronizedSet(new HashSet<SelectionListener>());
+		this.selectionListeners = Collections.synchronizedSet(new HashSet<>());
 		this.setRootVisible(false);
 		this.setShowsRootHandles(true);
 		this.addTreeExpansionListener(new MyTreeExpansionListener());

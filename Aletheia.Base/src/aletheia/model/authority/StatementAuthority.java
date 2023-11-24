@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2022 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -1015,7 +1015,7 @@ public class StatementAuthority implements Exportable
 	private static CloseableSet<StatementAuthority> safelySignedProofDescendantContextAuthoritiesToResetByTerm(Transaction transaction, Context context,
 			Term term)
 	{
-		return new FilteredCloseableSet<>(new NotNullFilter<StatementAuthority>(), new BijectionCloseableSet<>(new Bijection<Context, StatementAuthority>()
+		return new FilteredCloseableSet<>(new NotNullFilter<>(), new BijectionCloseableSet<>(new Bijection<Context, StatementAuthority>()
 		{
 			@Override
 			public StatementAuthority forward(Context context)

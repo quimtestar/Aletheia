@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2020 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -213,7 +213,7 @@ public abstract class PeerToPeerNode
 		{
 			this.subRootPhasesMap = new EnumMap<>(SubRootPhaseType.class);
 			for (SubRootPhaseType type : SubRootPhaseType.values())
-				subRootPhasesMap.put(type, new HashSet<SubRootPhase>());
+				subRootPhasesMap.put(type, new HashSet<>());
 		}
 
 		public synchronized <P extends SubRootPhase> boolean addSubRootPhase(P subRootPhase)
@@ -228,12 +228,12 @@ public abstract class PeerToPeerNode
 
 		private synchronized <P extends SubRootPhase> Collection<P> getSubRootPhases(SubRootPhaseType type)
 		{
-			return new BijectionCollection<>(new CastBijection<SubRootPhase, P>(), subRootPhasesMap.get(type));
+			return new BijectionCollection<>(new CastBijection<>(), subRootPhasesMap.get(type));
 		}
 
 		public synchronized <P extends SubRootPhase> Collection<P> subRootPhases(SubRootPhaseType type)
 		{
-			return new BufferedList<>(new BijectionCollection<>(new CastBijection<SubRootPhase, P>(), subRootPhasesMap.get(type)));
+			return new BufferedList<>(new BijectionCollection<>(new CastBijection<>(), subRootPhasesMap.get(type)));
 		}
 
 		public synchronized <P extends SubRootPhase> Collection<P> subRootPhases(Class<P> subRootPhaseClass)
@@ -1701,7 +1701,7 @@ public abstract class PeerToPeerNode
 	public PeerToPeerNode(PersistenceManager persistenceManager)
 	{
 		this.persistenceManager = persistenceManager;
-		this.listeners = Collections.synchronizedCollection(new LinkedHashSet<Listener>());
+		this.listeners = Collections.synchronizedCollection(new LinkedHashSet<>());
 		this.connectionManager = new ConnectionManager();
 		this.subRootPhaseManager = new SubRootPhaseManager();
 		this.persistentConnectionLock = new PeerToPeerConnectionLock();

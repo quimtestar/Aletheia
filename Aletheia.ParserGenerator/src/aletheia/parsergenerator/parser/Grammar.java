@@ -111,7 +111,7 @@ public class Grammar implements Serializable
 	 */
 	public Collection<Production> productions()
 	{
-		return new UnionCollection<>(new AdaptedCollection<Collection<Production>>(productions.values()));
+		return new UnionCollection<>(new AdaptedCollection<>(productions.values()));
 	}
 
 	/**
@@ -192,7 +192,7 @@ public class Grammar implements Serializable
 	{
 		firstSymbols.clear();
 		for (NonTerminalSymbol s : productions.keySet())
-			firstSymbols.put(s, new HashSet<TerminalSymbol>());
+			firstSymbols.put(s, new HashSet<>());
 		while (true)
 		{
 			boolean add = false;
@@ -258,7 +258,7 @@ public class Grammar implements Serializable
 		nextSymbols.clear();
 		for (NonTerminalSymbol s : productions.keySet())
 		{
-			nextSymbols.put(s, new HashSet<TerminalSymbol>());
+			nextSymbols.put(s, new HashSet<>());
 			if (s.equals(startSymbol))
 				nextSymbols.get(s).add(EndTerminalSymbol.instance);
 		}
@@ -411,7 +411,7 @@ public class Grammar implements Serializable
 			{
 				return output;
 			}
-		}, new DifferenceSet<>(getSymbols(), new AdaptedSet<Symbol>(nonTerminalSymbols())));
+		}, new DifferenceSet<>(getSymbols(), new AdaptedSet<>(nonTerminalSymbols())));
 	}
 
 	public void trace(PrintStream out)

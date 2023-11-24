@@ -451,7 +451,7 @@ public abstract class AbstractPersonTableModel implements TableModel
 		this.persistenceManager = persistenceManager;
 		this.personStateListener = makePersonStateListener();
 		this.persistenceManager.getListenerManager().getPersonAddStateListeners().add(this.personStateListener);
-		this.listeners = Collections.synchronizedSet(new HashSet<TableModelListener>());
+		this.listeners = Collections.synchronizedSet(new HashSet<>());
 		this.personDataRef = null;
 	}
 

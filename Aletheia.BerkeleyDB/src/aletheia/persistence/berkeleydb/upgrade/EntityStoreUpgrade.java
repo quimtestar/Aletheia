@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2020 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -554,7 +554,7 @@ public abstract class EntityStoreUpgrade
 		protected Object partialConvertRawObject(EntityModel model, RawObject rawObject) throws ClassNotFoundException, NoSuchMethodException,
 				SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 		{
-			return partialConvertRawObject(model, rawObject, new IdentityHashMap<RawObject, Object>());
+			return partialConvertRawObject(model, rawObject, new IdentityHashMap<>());
 		}
 
 		protected Object partialConvertRawObjectIfException(EntityModel model, RawObject rawObject) throws ClassNotFoundException, InstantiationException,

@@ -233,7 +233,7 @@ public abstract class AbstractPersonJTable extends JTable
 
 		protected MyTableCellEditor()
 		{
-			this.listeners = Collections.synchronizedSet(new HashSet<CellEditorListener>());
+			this.listeners = Collections.synchronizedSet(new HashSet<>());
 			addKeyListener(new KeyListener()
 			{
 
@@ -524,7 +524,7 @@ public abstract class AbstractPersonJTable extends JTable
 			{
 				throw new UnsupportedOperationException();
 			}
-		}, new ArrayAsList<Integer>(rows));
+		}, new ArrayAsList<>(rows));
 
 		class DeleteException extends Exception
 		{

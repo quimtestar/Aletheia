@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2020 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -40,9 +40,9 @@ public class BerkeleyDBPersistenceLockTimeoutException extends PersistenceLockTi
 
 	private static Collection<Transaction> transactions(final BerkeleyDBPersistenceManager persistenceManager, long[] ids)
 	{
-		return new FilteredCollection<>(new NotNullFilter<Transaction>(),
+		return new FilteredCollection<>(new NotNullFilter<>(),
 
-				new AdaptedCollection<Transaction>(new BijectionCollection<>(new Bijection<Long, BerkeleyDBTransaction>()
+				new AdaptedCollection<>(new BijectionCollection<>(new Bijection<Long, BerkeleyDBTransaction>()
 				{
 
 					@Override
@@ -56,7 +56,7 @@ public class BerkeleyDBPersistenceLockTimeoutException extends PersistenceLockTi
 					{
 						return transaction.getDbTransactionId();
 					}
-				}, new ArrayAsList<Long>(ids))));
+				}, new ArrayAsList<>(ids))));
 	}
 
 	public BerkeleyDBPersistenceLockTimeoutException(BerkeleyDBPersistenceManager persistenceManager, LockTimeoutException cause)

@@ -221,7 +221,7 @@ public class SuccessorsJTable extends JTable
 		public MyTableCellEditor(MyTableCellRenderer<T> myTableCellRenderer)
 		{
 			this.myTableCellRenderer = myTableCellRenderer;
-			this.listeners = Collections.synchronizedSet(new HashSet<CellEditorListener>());
+			this.listeners = Collections.synchronizedSet(new HashSet<>());
 			this.myCellRendererComponent = null;
 		}
 

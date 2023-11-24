@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2020 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -271,7 +271,7 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 
 	private PersonResponseMessage dialogatePersonResponse(PersonRequestMessage personRequestMessage) throws IOException, ProtocolException, InterruptedException
 	{
-		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<Person>(), new BijectionCollection<>(new Bijection<UUID, Person>()
+		Collection<Person> persons = new FilteredCollection<>(new NotNullFilter<>(), new BijectionCollection<>(new Bijection<UUID, Person>()
 		{
 
 			@Override
@@ -466,8 +466,8 @@ public abstract class StatementSubscriptionDialog extends StatementDialog
 		}
 		while (!uuids.isEmpty())
 		{
-			contexts = new FilteredCollection<>(new NotNullFilter<Context>(), new BijectionCollection<>(
-					new ComposedBijection<>(new CastBijection<Statement, Context>(), new InverseBijection<>(statementUuidBijection)), uuids));
+			contexts = new FilteredCollection<>(new NotNullFilter<>(),
+					new BijectionCollection<>(new ComposedBijection<>(new CastBijection<>(), new InverseBijection<>(statementUuidBijection)), uuids));
 
 			DelegateTreeInfoMessage delegateTreeInfoMessage = dialogateDelegateTreeInfo(contexts);
 			DelegateTreeSuccessorDependencyRequestMessage delegateTreeSuccessorDependencyRequestMessage = dialogateDelegateTreeSuccessorDependencyRequest(

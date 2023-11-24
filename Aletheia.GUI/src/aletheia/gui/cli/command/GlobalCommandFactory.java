@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2020 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -131,35 +131,34 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 			logger.warn("Couldn't load commands from: " + commandsListResourceName);
 			return new EmptyCloseableCollection<>();
 		}
-		return new FilteredCloseableIterable<>(new NotNullFilter<Class<? extends Command>>(),
-				new BijectionCloseableIterable<>(new Bijection<String, Class<? extends Command>>()
+		return new FilteredCloseableIterable<>(new NotNullFilter<>(), new BijectionCloseableIterable<>(new Bijection<String, Class<? extends Command>>()
+		{
+
+			@SuppressWarnings("unchecked")
+			@Override
+			public Class<? extends Command> forward(String input)
+			{
+				try
 				{
+					String s = input.replaceAll("#.*", "").trim();
+					if (s.isEmpty())
+						return null;
+					else
+						return (Class<? extends Command>) classLoader.loadClass(s);
+				}
+				catch (ClassNotFoundException e)
+				{
+					logger.warn("Loading commands", e);
+					return null;
+				}
+			}
 
-					@SuppressWarnings("unchecked")
-					@Override
-					public Class<? extends Command> forward(String input)
-					{
-						try
-						{
-							String s = input.replaceAll("#.*", "").trim();
-							if (s.isEmpty())
-								return null;
-							else
-								return (Class<? extends Command>) classLoader.loadClass(s);
-						}
-						catch (ClassNotFoundException e)
-						{
-							logger.warn("Loading commands", e);
-							return null;
-						}
-					}
-
-					@Override
-					public String backward(Class<? extends Command> output)
-					{
-						throw new UnsupportedOperationException();
-					}
-				}, new StreamAsStringIterable(stream)));
+			@Override
+			public String backward(Class<? extends Command> output)
+			{
+				throw new UnsupportedOperationException();
+			}
+		}, new StreamAsStringIterable(stream)));
 	}
 
 	private static final String staticTaggedCommandsResourceName = "aletheia/gui/cli/command/staticTaggedCommands.txt";
@@ -291,8 +290,7 @@ public class GlobalCommandFactory extends AbstractVoidCommandFactory<Command>
 			}
 		}, dynamicTaggedFactoryEntries);
 
-		this.taggedFactories = new CombinedSortedMap<>(new AdaptedSortedMap<String, AbstractVoidCommandFactory<? extends Command>>(dynamicTaggedFactories),
-				staticTaggedFactories);
+		this.taggedFactories = new CombinedSortedMap<>(new AdaptedSortedMap<>(dynamicTaggedFactories), staticTaggedFactories);
 	}
 
 	@Override

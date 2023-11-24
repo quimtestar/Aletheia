@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2020 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -61,7 +61,7 @@ public class BerkeleyDBTransaction extends Transaction
 			this.defaultCursorConfig.setReadCommitted(config.getReadCommitted());
 			this.defaultCursorConfig.setReadUncommitted(config.getReadUncommitted());
 			this.timeOut = timeOut;
-			this.openedCursors = Collections.synchronizedMap(new HashMap<EntityCursor<?>, List<StackTraceElement>>());
+			this.openedCursors = Collections.synchronizedMap(new HashMap<>());
 		}
 		catch (DatabaseException e)
 		{

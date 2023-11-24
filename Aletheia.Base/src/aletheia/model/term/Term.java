@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2019 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -174,7 +174,7 @@ public abstract class Term implements Serializable, Exportable
 
 	public final Term replace(Collection<Replace> replaces) throws ReplaceTypeException
 	{
-		return replace(new LinkedList<>(replaces), new HashSet<VariableTerm>());
+		return replace(new LinkedList<>(replaces), new HashSet<>());
 	}
 
 	/**
@@ -238,7 +238,7 @@ public abstract class Term implements Serializable, Exportable
 			return true;
 		if (!(obj instanceof Term))
 			return false;
-		return equals((Term) obj, new HashMap<ParameterVariableTerm, ParameterVariableTerm>());
+		return equals((Term) obj, new HashMap<>());
 	}
 
 	protected abstract boolean equals(Term term, Map<ParameterVariableTerm, ParameterVariableTerm> parameterMap);
@@ -284,7 +284,7 @@ public abstract class Term implements Serializable, Exportable
 	public Set<VariableTerm> freeVariables()
 	{
 		Set<VariableTerm> freeVars = new HashSet<>();
-		freeVariables(freeVars, new HashSet<VariableTerm>());
+		freeVariables(freeVars, new HashSet<>());
 		return freeVars;
 	}
 
@@ -298,7 +298,7 @@ public abstract class Term implements Serializable, Exportable
 	 */
 	public Set<IdentifiableVariableTerm> freeIdentifiableVariables()
 	{
-		return new BijectionSet<>(new CastBijection<VariableTerm, IdentifiableVariableTerm>(), freeVariables());
+		return new BijectionSet<>(new CastBijection<>(), freeVariables());
 	}
 
 	protected abstract class StringAppender

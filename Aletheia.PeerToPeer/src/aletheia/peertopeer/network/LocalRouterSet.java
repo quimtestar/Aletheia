@@ -464,7 +464,7 @@ public class LocalRouterSet implements RouterSet
 	public synchronized Collection<NetworkPhase> neighbourCollection(int i)
 	{
 		if (i >= 0 && i < neighbours.size())
-			return new FilteredCollection<>(new NotNullFilter<NetworkPhase>(),
+			return new FilteredCollection<>(new NotNullFilter<>(),
 					new BijectionCollection<>(NeighbourEntry.bijection, neighbours.subList(i, neighbours.size())));
 		else
 			return Collections.emptyList();
