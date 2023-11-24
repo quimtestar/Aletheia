@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2014, 2020 Quim Testar.
+ * Copyright (c) 2014, 2023 Quim Testar.
  *
  * This file is part of the Aletheia Proof Assistant.
  *
@@ -169,7 +169,7 @@ public abstract class NewStatement extends TransactionalCommand
 			case 0:
 				return null;
 			case 1:
-				return new CompletionSet("", taggedFactories.keySet(), " ");
+				return identifierCompletionSet(from, split);
 			case 2:
 				String prefix = split.get(1);
 				return new CompletionSet(prefix, taggedFactories.subMap(prefix, prefix.concat(String.valueOf(Character.MAX_VALUE))).keySet(), " ");
