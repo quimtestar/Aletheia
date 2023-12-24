@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2018, 2021 Quim Testar
+ * Copyright (c) 2018, 2023 Quim Testar
  * 
  * This file is part of the Aletheia Proof Assistant.
  * 
@@ -87,9 +87,68 @@ public class ReplacementTest0002 extends TransactionalBerkeleyDBPersistenceManag
 		{
 			Map<String, String> stringMap = new HashMap<>();
 
-			stringMap.put("Real.integral.riemann.Exists.Equal", "Real.integral.riemann.new.Exists.Equal");
-			stringMap.put("Real.integral.riemann.Exists.Equal.def", "Real.integral.riemann.new.Exists.Equal.def.old");
-			stringMap.put("Real.integral.riemann.Exists.Equal.def.inv", "Real.integral.riemann.new.Exists.Equal.def.inv.old");
+			stringMap.put("Real.Sequence.Convergent.old", "Real.Sequence.Convergent");
+			stringMap.put("Real.Sequence.Convergent.old.def", "Real.Sequence.Convergent.def.bad");
+			stringMap.put("Real.Sequence.Convergent.old.th", "Real.Sequence.Convergent.th");
+			stringMap.put("Real.Sequence.Convergent.old.th.absolute", "Real.Sequence.Convergent.th.absolute");
+			stringMap.put("Real.Sequence.Convergent.old.th.constant", "Real.Sequence.Convergent.th.constant");
+			stringMap.put("Real.Sequence.Convergent.old.th.displace", "Real.Sequence.Convergent.th.displace");
+			stringMap.put("Real.Sequence.Convergent.old.th.displace.inv", "Real.Sequence.Convergent.th.displace.inv");
+			stringMap.put("Real.Sequence.Convergent.old.th.harmonic", "Real.Sequence.Convergent.th.harmonic");
+			stringMap.put("Real.Sequence.Convergent.old.th.identical", "Real.Sequence.Convergent.th.identical");
+			stringMap.put("Real.Sequence.Convergent.old.th.identical.tail", "Real.Sequence.Convergent.th.identical.tail");
+			stringMap.put("Real.Sequence.Convergent.old.th.increasing.bounded", "Real.Sequence.Convergent.th.increasing.bounded");
+			stringMap.put("Real.Sequence.Convergent.old.th.inv", "Real.Sequence.Convergent.th.inv");
+			stringMap.put("Real.Sequence.Convergent.old.th.inverse", "Real.Sequence.Convergent.th.inverse");
+			stringMap.put("Real.Sequence.Convergent.old.th.inverse.unbounded", "Real.Sequence.Convergent.th.inverse.unbounded");
+			stringMap.put("Real.Sequence.Convergent.old.th.inverse", "Real.Sequence.Convergent.th.inverse");
+			stringMap.put("Real.Sequence.Convergent.old.th.opposite", "Real.Sequence.Convergent.th.opposite");
+			stringMap.put("Real.Sequence.Convergent.old.th.product", "Real.Sequence.Convergent.th.product");
+			stringMap.put("Real.Sequence.Convergent.old.th.sum", "Real.Sequence.Convergent.th.sum");
+			stringMap.put("Real.Sequence.Convergent.old.th.summation", "Real.Sequence.Convergent.th.summation");
+
+			stringMap.put("Real.Sequence.limit.old", "Real.Sequence.limit");
+			stringMap.put("Real.Sequence.limit.old.th.Equal.alt", "Real.Sequence.limit.th.Equal.alt");
+			stringMap.put("Real.Sequence.limit.old.th.LesserOrEqual", "Real.Sequence.limit.th.LesserOrEqual");
+			stringMap.put("Real.Sequence.limit.old.th.Real", "Real.Sequence.limit.th.Real");
+			stringMap.put("Real.Sequence.limit.old.th.absolute", "Real.Sequence.limit.th.absolute");
+			stringMap.put("Real.Sequence.limit.old.th.bounds", "Real.Sequence.limit.th.bounds.bad");
+			stringMap.put("Real.Sequence.limit.old.th.bounds.lft", "Real.Sequence.limit.th.bounds.bad.lft");
+			stringMap.put("Real.Sequence.limit.old.th.bounds.rgt", "Real.Sequence.limit.th.bounds.bad.rgt");
+			stringMap.put("Real.Sequence.limit.old.th.constant", "Real.Sequence.limit.th.constant");
+			stringMap.put("Real.Sequence.limit.old.th.displace", "Real.Sequence.limit.th.displace");
+			stringMap.put("Real.Sequence.limit.old.th.harmonic", "Real.Sequence.limit.th.harmonic");
+			stringMap.put("Real.Sequence.limit.old.th.identical", "Real.Sequence.limit.th.identical");
+			stringMap.put("Real.Sequence.limit.old.th.identical.tail", "Real.Sequence.limit.th.identical.tail");
+			stringMap.put("Real.Sequence.limit.old.th.increasing.Convergent.bounded", "Real.Sequence.limit.th.increasing.Convergent.bounded.bad");
+			stringMap.put("Real.Sequence.limit.old.th.increasing.bounded.greater", "Real.Sequence.limit.th.increasing.bounded.greater.bad");
+			stringMap.put("Real.Sequence.limit.old.th.increasing.bounded.smaller", "Real.Sequence.limit.th.increasing.bounded.smaller.bad");
+			stringMap.put("Real.Sequence.limit.old.th.inferior", "Real.Sequence.limit.th.inferior.bad");
+			stringMap.put("Real.Sequence.limit.old.th.infinity.Exists.Equal.floor", "Real.Sequence.limit.th.infinity.Exists.Equal.floor");
+			stringMap.put("Real.Sequence.limit.old.th.inverse", "Real.Sequence.limit.th.inverse");
+			stringMap.put("Real.Sequence.limit.old.th.inverse.unbounded", "Real.Sequence.limit.th.inverse.unbounded");
+			stringMap.put("Real.Sequence.limit.old.th.opposite", "Real.Sequence.limit.th.opposite");
+			stringMap.put("Real.Sequence.limit.old.th.product", "Real.Sequence.limit.th.product");
+			stringMap.put("Real.Sequence.limit.old.th.sum", "Real.Sequence.limit.th.sum");
+			stringMap.put("Real.Sequence.limit.old.th.summation", "Real.Sequence.limit.th.summation");
+			stringMap.put("Real.Sequence.limit.old.th.superior", "Real.Sequence.limit.th.superior");
+
+			stringMap.put("Real.Sequence.Convergent.old.th.limit.Equal", "Real.Sequence.Convergent.th.limit.Equal");
+			stringMap.put("Real.Sequence.Convergent.old.th.limit.Equal.absolute", "Real.Sequence.Convergent.th.limit.Equal.absolute");
+			stringMap.put("Real.Sequence.Convergent.old.th.limit.Equal.constant", "Real.Sequence.Convergent.th.limit.Equal.constant");
+			stringMap.put("Real.Sequence.Convergent.old.th.limit.Equal.displace", "Real.Sequence.Convergent.th.limit.Equal.displace");
+			stringMap.put("Real.Sequence.Convergent.old.th.limit.Equal.displace.inv", "Real.Sequence.Convergent.th.limit.Equal.displace.inv");
+			stringMap.put("Real.Sequence.Convergent.old.th.limit.Equal.displace.lft", "Real.Sequence.Convergent.th.limit.Equal.displace.lft");
+			stringMap.put("Real.Sequence.Convergent.old.th.limit.Equal.harmonic", "Real.Sequence.Convergent.th.limit.Equal.harmonic");
+			stringMap.put("Real.Sequence.Convergent.old.th.limit.Equal.identical", "Real.Sequence.Convergent.th.limit.Equal.identical");
+			stringMap.put("Real.Sequence.Convergent.old.th.limit.Equal.identical.tail", "Real.Sequence.Convergent.th.limit.Equal.identical.tail");
+			stringMap.put("Real.Sequence.Convergent.old.th.limit.Equal.inverse", "Real.Sequence.Convergent.th.limit.Equal.inverse");
+			stringMap.put("Real.Sequence.Convergent.old.th.limit.Equal.inverse.unbounded", "Real.Sequence.Convergent.th.limit.Equal.inverse.unbounded");
+			stringMap.put("Real.Sequence.Convergent.old.th.limit.Equal.opposite", "Real.Sequence.Convergent.th.limit.Equal.opposite");
+			stringMap.put("Real.Sequence.Convergent.old.th.limit.Equal.product", "Real.Sequence.Convergent.th.limit.Equal.product");
+			stringMap.put("Real.Sequence.Convergent.old.th.limit.Equal.rev", "Real.Sequence.Convergent.th.limit.Equal.rev");
+			stringMap.put("Real.Sequence.Convergent.old.th.limit.Equal.sum", "Real.Sequence.Convergent.th.limit.Equal.sum");
+			stringMap.put("Real.Sequence.Convergent.old.th.limit.Equal.summation", "Real.Sequence.Convergent.th.limit.Equal.summation");
 
 			Context choiceCtx = persistenceManager.getContext(transaction, UUID.fromString("42cc8199-8159-5567-b65c-db023f95eaa3"));
 			for (Map.Entry<String, String> e : stringMap.entrySet())
@@ -100,6 +159,8 @@ public class ReplacementTest0002 extends TransactionalBerkeleyDBPersistenceManag
 				if (e.getValue() != null)
 				{
 					Statement v = choiceCtx.identifierToStatement(transaction).get(Identifier.parse(e.getValue()));
+					if (v == null)
+						throw new Exception(e.toString());
 					statementMap.put(k, v);
 				}
 				else
