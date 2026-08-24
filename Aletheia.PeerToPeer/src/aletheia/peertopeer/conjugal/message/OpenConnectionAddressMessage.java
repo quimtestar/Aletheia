@@ -56,17 +56,20 @@ public class OpenConnectionAddressMessage extends NonPersistentMessage
 	{
 		private final NullableProtocol<InetAddress> nullableInetAdressProtocol = new NullableProtocol<>(0, new InetAddressProtocol(0));
 
+		@Deprecated
 		public SubProtocol(int requiredVersion, MessageCode messageCode)
 		{
 			super(requiredVersion, messageCode);
 		}
 
+		@Deprecated
 		@Override
 		public void send(DataOutput out, OpenConnectionAddressMessage m) throws IOException
 		{
 			nullableInetAdressProtocol.send(out, m.getAddress());
 		}
 
+		@Deprecated
 		@Override
 		public OpenConnectionAddressMessage recv(DataInput in) throws IOException, ProtocolException
 		{
@@ -74,6 +77,7 @@ public class OpenConnectionAddressMessage extends NonPersistentMessage
 			return new OpenConnectionAddressMessage(address);
 		}
 
+		@Deprecated
 		@Override
 		public void skip(DataInput in) throws IOException, ProtocolException
 		{

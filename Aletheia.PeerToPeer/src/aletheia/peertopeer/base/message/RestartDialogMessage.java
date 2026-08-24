@@ -36,23 +36,27 @@ public class RestartDialogMessage extends NonPersistentMessage
 	public static class SubProtocol extends NonPersistentMessage.SubProtocol<RestartDialogMessage>
 	{
 
+		@Deprecated
 		public SubProtocol(int requiredVersion, MessageCode messageCode)
 		{
 			super(0, messageCode);
 			checkVersionAvailability(SubProtocol.class, requiredVersion);
 		}
 
+		@Deprecated
 		@Override
 		public void send(DataOutput out, RestartDialogMessage t) throws IOException
 		{
 		}
 
+		@Deprecated
 		@Override
 		public RestartDialogMessage recv(DataInput in) throws IOException, ProtocolException
 		{
 			return new RestartDialogMessage();
 		}
 
+		@Deprecated
 		@Override
 		public void skip(DataInput in)
 		{

@@ -55,6 +55,7 @@ public class DummyDeferredMessageContent extends DeferredMessageContent
 	{
 		private final ByteArrayProtocol byteArrayProtocol;
 
+		@Deprecated
 		public SubProtocol(int requiredVersion, DeferredMessageContentCode code)
 		{
 			super(0, code);
@@ -62,12 +63,14 @@ public class DummyDeferredMessageContent extends DeferredMessageContent
 			this.byteArrayProtocol = new ByteArrayProtocol(0);
 		}
 
+		@Deprecated
 		@Override
 		public void send(DataOutput out, DummyDeferredMessageContent m) throws IOException
 		{
 			byteArrayProtocol.send(out, m.payload);
 		}
 
+		@Deprecated
 		@Override
 		public DummyDeferredMessageContent recv(DataInput in) throws IOException, ProtocolException
 		{
@@ -75,6 +78,7 @@ public class DummyDeferredMessageContent extends DeferredMessageContent
 			return new DummyDeferredMessageContent(payload);
 		}
 
+		@Deprecated
 		@Override
 		public void skip(DataInput in) throws IOException, ProtocolException
 		{
