@@ -36,23 +36,27 @@ public class ProtocolErrorMessage extends NonPersistentMessage
 	public static class SubProtocol extends NonPersistentMessage.SubProtocol<ProtocolErrorMessage>
 	{
 
+		@Deprecated
 		public SubProtocol(int requiredVersion, MessageCode messageCode)
 		{
 			super(0, messageCode);
 			checkVersionAvailability(SubProtocol.class, requiredVersion);
 		}
 
+		@Deprecated
 		@Override
 		public void send(DataOutput out, ProtocolErrorMessage t) throws IOException
 		{
 		}
 
+		@Deprecated
 		@Override
 		public ProtocolErrorMessage recv(DataInput in) throws IOException, ProtocolException
 		{
 			return new ProtocolErrorMessage();
 		}
 
+		@Deprecated
 		@Override
 		public void skip(DataInput in)
 		{
