@@ -434,7 +434,7 @@ public abstract class AbstractPersistentRenderer extends AbstractRenderer
 			}
 			if (!first)
 			{
-				addCommaLabel();
+				addSemicolonLabel();
 				addSpaceLabel();
 			}
 			pushComponentList();

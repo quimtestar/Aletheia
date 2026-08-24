@@ -463,6 +463,11 @@ public abstract class AbstractRenderer extends JPanel
 		return addTextLabel(",");
 	}
 
+	protected JLabel addSemicolonLabel()
+	{
+		return addTextLabel(";");
+	}
+
 	protected JLabel addProjectionTermLabel()
 	{
 		return addTextLabel("*");
