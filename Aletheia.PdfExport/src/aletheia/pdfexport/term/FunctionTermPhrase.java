@@ -65,7 +65,7 @@ public class FunctionTermPhrase extends TermPhrase
 				bodyParameterIdentification = ((FunctionParameterIdentification) parameterIdentification).getBody();
 			}
 			if (!first)
-				addSimpleChunk(new SimpleChunk(", "));
+				addSimpleChunk(new SimpleChunk("; "));
 			TermPhrase parameterTypePhrase = termPhrase(persistenceManager, transaction, variableToIdentifier, parameterNumerator,
 					domainParameterIdentification, totalParameterToIdentifier, parameter.getType());
 			if (body.isFreeVariable(parameter))
