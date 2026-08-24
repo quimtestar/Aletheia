@@ -31,6 +31,7 @@ import aletheia.protocol.ProtocolInfo;
 public class RestartDialogMessage extends NonPersistentMessage
 {
 
+	@Deprecated
 	@ProtocolInfo(availableVersions = 0)
 	public static class SubProtocol extends NonPersistentMessage.SubProtocol<RestartDialogMessage>
 	{

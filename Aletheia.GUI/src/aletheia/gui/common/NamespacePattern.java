@@ -153,7 +153,7 @@ public abstract class NamespacePattern
 			if (prefix instanceof NodeNamespace)
 				return ((NodeNamespace) prefix).asIdentifier();
 			else if (prefix instanceof RootNamespace)
-				return ((RootNamespace) prefix).initiator();
+				return prefix.initiator();
 			else
 				throw new Error();
 		}

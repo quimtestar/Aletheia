@@ -38,16 +38,19 @@ public class OpenConnectionAddressMessage extends NonPersistentMessage
 {
 	private final InetAddress address;
 
+	@Deprecated
 	public OpenConnectionAddressMessage(InetAddress address)
 	{
 		this.address = address;
 	}
 
+	@Deprecated
 	public InetAddress getAddress()
 	{
 		return address;
 	}
 
+	@Deprecated
 	@ProtocolInfo(availableVersions = 0)
 	public static class SubProtocol extends NonPersistentMessage.SubProtocol<OpenConnectionAddressMessage>
 	{

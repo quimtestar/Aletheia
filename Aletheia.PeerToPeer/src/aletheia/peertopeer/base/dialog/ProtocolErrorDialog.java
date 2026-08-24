@@ -29,11 +29,13 @@ import aletheia.utilities.io.NonBlockingSocketChannelStream.TimeoutException;
 @Deprecated
 public class ProtocolErrorDialog extends NonPersistentDialog
 {
+	@Deprecated
 	public ProtocolErrorDialog(Phase phase)
 	{
 		super(phase);
 	}
 
+	@Deprecated
 	@Override
 	protected void dialogate() throws IOException, ProtocolException, InterruptedException, TimeoutException
 	{

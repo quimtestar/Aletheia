@@ -27,6 +27,7 @@ public class DummyDeferredMessageContentProxy extends DeferredMessageContentProx
 {
 	private byte[] payload;
 
+	@Deprecated
 	@Override
 	public void initializeProxy(aletheia.model.peertopeer.deferredmessagecontent.DummyDeferredMessageContent deferredMessageContent)
 	{
@@ -34,6 +35,7 @@ public class DummyDeferredMessageContentProxy extends DeferredMessageContentProx
 		this.payload = deferredMessageContent.getPayload();
 	}
 
+	@Deprecated
 	@Override
 	public aletheia.model.peertopeer.deferredmessagecontent.DummyDeferredMessageContent convertProxy() throws ProxyConversionException
 	{

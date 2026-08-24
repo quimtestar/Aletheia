@@ -24,6 +24,7 @@ import aletheia.peertopeer.base.phase.Phase;
 @Deprecated
 public abstract class SendSignatureRequestDialog extends StatementDialog
 {
+	@Deprecated
 	public SendSignatureRequestDialog(Phase phase)
 	{
 		super(phase);

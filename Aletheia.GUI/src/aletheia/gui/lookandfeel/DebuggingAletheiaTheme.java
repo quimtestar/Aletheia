@@ -39,10 +39,12 @@ import aletheia.log4j.LoggerManager;
 public class DebuggingAletheiaTheme extends AletheiaTheme
 {
 	private static final Logger logger = LoggerManager.instance.logger();
+	@Deprecated
 	static DebuggingAletheiaTheme instance = new DebuggingAletheiaTheme();
 
 	private final Map<String, ColorUIResource> colors;
 
+	@Deprecated
 	public DebuggingAletheiaTheme()
 	{
 		super();
@@ -76,6 +78,7 @@ public class DebuggingAletheiaTheme extends AletheiaTheme
 		return color;
 	}
 
+	@Deprecated
 	@Override
 	public void addCustomEntriesToTable(UIDefaults table)
 	{
@@ -92,240 +95,280 @@ public class DebuggingAletheiaTheme extends AletheiaTheme
 		});
 	}
 
+	@Deprecated
 	@Override
 	protected ColorUIResource getPrimary1()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	protected ColorUIResource getPrimary2()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	protected ColorUIResource getPrimary3()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	protected ColorUIResource getSecondary1()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	protected ColorUIResource getSecondary2()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	protected ColorUIResource getSecondary3()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	protected ColorUIResource getBlack()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getDesktopColor()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getInactiveControlTextColor()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getControlTextColor()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getMenuDisabledForeground()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	protected ColorUIResource getWhite()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getFocusColor()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getControl()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getControlShadow()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getControlDarkShadow()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getControlInfo()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getControlHighlight()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getControlDisabled()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getPrimaryControl()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getPrimaryControlShadow()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getPrimaryControlDarkShadow()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getPrimaryControlInfo()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getPrimaryControlHighlight()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getSystemTextColor()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getInactiveSystemTextColor()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getTextHighlightColor()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getHighlightedTextColor()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getWindowTitleBackground()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getWindowTitleForeground()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getWindowTitleInactiveBackground()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getWindowTitleInactiveForeground()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getMenuBackground()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getMenuForeground()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getMenuSelectedBackground()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getMenuSelectedForeground()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getSeparatorBackground()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getSeparatorForeground()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getAcceleratorForeground()
 	{
 		return color();
 	}
 
+	@Deprecated
 	@Override
 	public ColorUIResource getAcceleratorSelectedForeground()
 	{
