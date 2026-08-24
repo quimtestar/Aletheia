@@ -207,7 +207,7 @@ public class FunctionTerm extends Term
 		{
 			if (!first)
 			{
-				stringAppender.append(", ");
+				stringAppender.append("; ");
 				stringAppender.closeSub();
 				stringAppender.openSub();
 			}
