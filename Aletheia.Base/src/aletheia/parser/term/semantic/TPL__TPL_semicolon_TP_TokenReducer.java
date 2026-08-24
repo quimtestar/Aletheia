@@ -19,13 +19,32 @@
  ******************************************************************************/
 package aletheia.parser.term.semantic;
 
-import aletheia.parser.term.TermParser.Globals;
-import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
-import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.NullProductionTokenPayloadReducer;
+import java.util.List;
 
-@AssociatedProduction(left = "SCo", right =
-{ "semicolon" })
-public class SCo__semicolon_TokenReducer extends NullProductionTokenPayloadReducer<Globals>
+import aletheia.parser.term.TermParser.Globals;
+import aletheia.parser.term.TermParser.ProductionTokenPayloadReducer;
+import aletheia.parser.term.parameterRef.TypedParameterRef;
+import aletheia.parser.term.parameterRef.TypedParameterRefList;
+import aletheia.parsergenerator.parser.Production;
+import aletheia.parsergenerator.semantic.ProductionManagedTokenPayloadReducer.AssociatedProduction;
+import aletheia.parsergenerator.semantic.SemanticException;
+import aletheia.parsergenerator.symbols.Symbol;
+import aletheia.parsergenerator.tokens.NonTerminalToken;
+import aletheia.parsergenerator.tokens.Token;
+
+@AssociatedProduction(left = "TPL", right =
+{ "TPL", "semicolon", "TP" })
+public class TPL__TPL_semicolon_TP_TokenReducer extends ProductionTokenPayloadReducer<TypedParameterRefList>
 {
+
+	@Override
+	public TypedParameterRefList reduce(Globals globals, List<Token<? extends Symbol>> antecedents, Production production,
+			List<Token<? extends Symbol>> reducees) throws SemanticException
+	{
+		TypedParameterRefList typedParameterRefList = NonTerminalToken.getPayloadFromTokenList(reducees, 0);
+		TypedParameterRef typedParameterRef = NonTerminalToken.getPayloadFromTokenList(reducees, 2);
+		typedParameterRefList.addTypedParameterRef(typedParameterRef);
+		return typedParameterRefList;
+	}
 
 }

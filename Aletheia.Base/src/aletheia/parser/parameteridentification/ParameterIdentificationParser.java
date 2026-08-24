@@ -33,7 +33,7 @@ import aletheia.parser.parameteridentification.semantic.F__openfun_M_arrow_Ts_cl
 import aletheia.parser.parameteridentification.semantic.F__openfun_M_closefun_TokenReducer;
 import aletheia.parser.parameteridentification.semantic.I__I_dot_id_TokenReducer;
 import aletheia.parser.parameteridentification.semantic.I__id_TokenReducer;
-import aletheia.parser.parameteridentification.semantic.M__M_comma_P_TokenReducer;
+import aletheia.parser.parameteridentification.semantic.M__M_semicolon_P_TokenReducer;
 import aletheia.parser.parameteridentification.semantic.M__P_TokenReducer;
 import aletheia.parser.parameteridentification.semantic.P__I_TokenReducer;
 import aletheia.parser.parameteridentification.semantic.P__I_colon_T_TokenReducer;
@@ -92,7 +92,7 @@ public class ParameterIdentificationParser extends Parser
 					F__openfun_M_arrow_Ts_closefun_TokenReducer.class,
 					F__openfun_M_closefun_TokenReducer.class,
 					
-					M__M_comma_P_TokenReducer.class,
+					M__M_semicolon_P_TokenReducer.class,
 					M__P_TokenReducer.class,
 
 					P__I_TokenReducer.class,

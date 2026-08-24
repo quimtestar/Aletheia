@@ -31,8 +31,8 @@ import aletheia.parsergenerator.tokens.NonTerminalToken;
 import aletheia.parsergenerator.tokens.Token;
 
 @AssociatedProduction(left = "M", right =
-{ "M", "comma", "P" })
-public class M__M_comma_P_TokenReducer extends ProductionTokenPayloadReducer<ParameterWithTypeList>
+{ "M", "semicolon", "P" })
+public class M__M_semicolon_P_TokenReducer extends ProductionTokenPayloadReducer<ParameterWithTypeList>
 {
 
 	@Override

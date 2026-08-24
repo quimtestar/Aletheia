@@ -34,8 +34,8 @@
 'Tau'															: tau;				# "Tau" is the reserved word for the primitive.
 '&'																: ampersand;		# Begins a reference.
 '\^'															: caret;			# Refers to the instance of a specialization statement. 
-'\,'															: comma;			# Parameter list separator in functions
-';'																: semicolon;		# Term component number operator.
+'\,'															: comma;			# Term component number operator.
+';'																: semicolon;		# Parameter list separator in functions.
 '\|\-'															: turnstile;		# "|-" symbol to refer to the consequent of a context.
 '%'																: percent;			# Parameter's type operator.
 '\#'															: sharp;			# Type operator.

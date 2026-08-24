@@ -32,7 +32,7 @@ Tk -> openpar T closepar;
 F -> openfun M arrow Ts closefun;
 F -> openfun M closefun;
 
-M -> M comma P;
+M -> M semicolon P;
 M -> P;
 
 P -> I;

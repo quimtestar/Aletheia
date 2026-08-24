@@ -82,7 +82,7 @@ import aletheia.parser.term.semantic.Rt__ampersand_TokenReducer;
 import aletheia.parser.term.semantic.Rt__ampersand_bang_TokenReducer;
 import aletheia.parser.term.semantic.Rt__ampersand_caret_TokenReducer;
 import aletheia.parser.term.semantic.SCo___TokenReducer;
-import aletheia.parser.term.semantic.SCo__semicolon_TokenReducer;
+import aletheia.parser.term.semantic.SCo__comma_TokenReducer;
 import aletheia.parser.term.semantic.S__I_TokenReducer;
 import aletheia.parser.term.semantic.S__hexref_TokenReducer;
 import aletheia.parser.term.semantic.Sc__Sc_S_bar_TokenReducer;
@@ -95,7 +95,7 @@ import aletheia.parser.term.semantic.St__S_TokenReducer;
 import aletheia.parser.term.semantic.St__turnstile_TokenReducer;
 import aletheia.parser.term.semantic.Sts__St_TokenReducer;
 import aletheia.parser.term.semantic.Sts__Uuid_TokenReducer;
-import aletheia.parser.term.semantic.TPL__TPL_comma_TP_TokenReducer;
+import aletheia.parser.term.semantic.TPL__TPL_semicolon_TP_TokenReducer;
 import aletheia.parser.term.semantic.TPL__TP_TokenReducer;
 import aletheia.parser.term.semantic.TPL___TokenReducer;
 import aletheia.parser.term.semantic.TP__P_assignment_T_TokenReducer;
@@ -315,7 +315,7 @@ public class TermParser extends Parser
 					A__opencur_T_closecur_TokenReducer.class,
 					A__openpar_T_colon_T_pipe_T_leftarrow_I_closepar_TokenReducer.class,
 
-					SCo__semicolon_TokenReducer.class,
+					SCo__comma_TokenReducer.class,
 					SCo___TokenReducer.class,
 					
 					M___TokenReducer.class,
@@ -324,7 +324,7 @@ public class TermParser extends Parser
 					F__openfun_TPL_arrow_T_closefun_TokenReducer.class,
 					TPL___TokenReducer.class,
 					TPL__TP_TokenReducer.class,
-					TPL__TPL_comma_TP_TokenReducer.class,
+					TPL__TPL_semicolon_TP_TokenReducer.class,
 					TP__P_colon_T_TokenReducer.class,
 					TP__T_TokenReducer.class,
 					TP__P_assignment_T_TokenReducer.class,

@@ -56,8 +56,8 @@ A -> opensq T closesq;			# Projected cast type: a term between square brackets.
 A -> opencur T closecur;		# Unfojected cast type: a term between curly brackets.
 A -> openpar T colon T pipe T leftarrow I closepar;		# Folding cast type. 
 
-# Optional semicolon to separate 'n[-]' operators. 							
-SCo -> semicolon;
+# Optional comma to separate 'n[-]' operators. 							
+SCo -> comma;
 SCo -> ;
 
 # An hyphen or nothing for the ',n[-]' operator.
@@ -67,7 +67,7 @@ M -> ;
 F -> openfun TPL arrow T closefun;		# A function term : "<parameter:type -> body>".
 TPL -> ;
 TPL -> TP;
-TPL -> TPL comma TP;
+TPL -> TPL semicolon TP;
 TP -> P colon T;
 TP -> T;
 TP -> P assignment T; 
