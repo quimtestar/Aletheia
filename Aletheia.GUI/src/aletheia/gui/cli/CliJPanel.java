@@ -1659,7 +1659,7 @@ public class CliJPanel extends JPanel implements CommandSource
 
 	private enum BHLMTokenType
 	{
-		OpenQuote, CloseQuote, OpenPar, ClosePar, OpenFun, CloseFun, Comma, Arrow, Default, Blank, Out, Star
+		OpenQuote, CloseQuote, OpenPar, ClosePar, OpenFun, CloseFun, Semicolon, Arrow, Default, Blank, Out, Star
 	};
 
 	private class BracketHighLightManager
@@ -1873,8 +1873,8 @@ public class CliJPanel extends JPanel implements CommandSource
 							return new Token(BHLMTokenType.Arrow, offset, pos - 1, position);
 						else
 							return new Token(BHLMTokenType.CloseFun, offset, pos, position);
-					case ',':
-						return new Token(BHLMTokenType.Comma, offset, pos, position);
+					case ';':
+						return new Token(BHLMTokenType.Semicolon, offset, pos, position);
 					case '*':
 						return new Token(BHLMTokenType.Star, offset, pos, position);
 					case ' ':
@@ -1967,7 +1967,7 @@ public class CliJPanel extends JPanel implements CommandSource
 					case Arrow:
 						a--;
 						break;
-					case Comma:
+					case Semicolon:
 						break;
 					case Star:
 						break;
@@ -2012,7 +2012,7 @@ public class CliJPanel extends JPanel implements CommandSource
 					case Arrow:
 						a--;
 						break;
-					case Comma:
+					case Semicolon:
 						break;
 					case Star:
 						break;
@@ -2057,7 +2057,7 @@ public class CliJPanel extends JPanel implements CommandSource
 					case Arrow:
 						a--;
 						break;
-					case Comma:
+					case Semicolon:
 						break;
 					case Star:
 						break;
@@ -2102,7 +2102,7 @@ public class CliJPanel extends JPanel implements CommandSource
 					case Arrow:
 						a--;
 						break;
-					case Comma:
+					case Semicolon:
 						break;
 					case Star:
 						break;
@@ -2155,7 +2155,7 @@ public class CliJPanel extends JPanel implements CommandSource
 								break loop;
 						}
 						break;
-					case Comma:
+					case Semicolon:
 						if ((f == 1) && tarrow == null)
 							commas.add(token);
 						break;
@@ -2226,7 +2226,7 @@ public class CliJPanel extends JPanel implements CommandSource
 								break loop;
 						}
 						break;
-					case Comma:
+					case Semicolon:
 						if ((f == 1) && tarrow != null)
 							commas.add(token);
 						break;
@@ -2280,7 +2280,7 @@ public class CliJPanel extends JPanel implements CommandSource
 					case Arrow:
 						a--;
 						break;
-					case Comma:
+					case Semicolon:
 						break;
 					case Star:
 						break;
@@ -2332,7 +2332,7 @@ public class CliJPanel extends JPanel implements CommandSource
 						case Arrow:
 							a--;
 							break;
-						case Comma:
+						case Semicolon:
 							if (f == 1)
 								commas.add(token);
 							break;
@@ -2359,7 +2359,7 @@ public class CliJPanel extends JPanel implements CommandSource
 				}
 				break;
 			}
-			case Comma:
+			case Semicolon:
 			{
 				int p = 0;
 				int f = 1;
@@ -2394,7 +2394,7 @@ public class CliJPanel extends JPanel implements CommandSource
 								break loop;
 						}
 						break;
-					case Comma:
+					case Semicolon:
 						if ((f == 1) && tarrow == null)
 							commas.add(token);
 						break;
@@ -2437,7 +2437,7 @@ public class CliJPanel extends JPanel implements CommandSource
 					case Arrow:
 						a--;
 						break;
-					case Comma:
+					case Semicolon:
 						if (f == 1)
 							commas.add(token);
 						break;
@@ -2508,7 +2508,7 @@ public class CliJPanel extends JPanel implements CommandSource
 									break loop;
 							}
 							break;
-						case Comma:
+						case Semicolon:
 							if ((f == 1) && tarrow != null)
 								commas.add(token);
 							break;
