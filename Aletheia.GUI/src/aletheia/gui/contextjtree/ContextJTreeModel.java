@@ -1446,7 +1446,6 @@ public class ContextJTreeModel extends PersistentTreeModel
 							{
 								if (n instanceof GroupSorterContextJTreeNode && !(n instanceof StatementContextJTreeNode))
 								{
-									@SuppressWarnings("unchecked")
 									GroupSorterContextJTreeNode<? extends Statement> n_ = (GroupSorterContextJTreeNode<? extends Statement>) n;
 									if (n_.getSorter().getPrefix().isPrefixOf(id))
 									{

@@ -379,6 +379,7 @@ public abstract class AletheiaCliConsole implements CommandSource
 
 		private PrintStream out_;
 
+		@SuppressWarnings("resource")
 		private SystemConsole(PersistenceManager persistenceManager, Console console)
 		{
 			super(persistenceManager);
