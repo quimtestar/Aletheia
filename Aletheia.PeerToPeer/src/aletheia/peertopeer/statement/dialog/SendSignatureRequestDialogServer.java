@@ -31,11 +31,13 @@ import aletheia.utilities.io.NonBlockingSocketChannelStream.TimeoutException;
 public class SendSignatureRequestDialogServer extends SendSignatureRequestDialog
 {
 
+	@Deprecated
 	public SendSignatureRequestDialogServer(Phase phase)
 	{
 		super(phase);
 	}
 
+	@Deprecated
 	@Override
 	protected void dialogate() throws IOException, ProtocolException, InterruptedException, TimeoutException
 	{

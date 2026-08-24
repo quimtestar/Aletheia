@@ -278,7 +278,6 @@ public class ContextJTree extends PersistentJTree
 						Sorter sorter = getSelectedSorter();
 						if (sorter instanceof GroupSorter)
 						{
-							@SuppressWarnings("unchecked")
 							GroupSorter<? extends Statement> groupSorter = (GroupSorter<? extends Statement>) sorter;
 							try
 							{

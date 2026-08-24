@@ -37,16 +37,19 @@ public class DummyDeferredMessageContent extends DeferredMessageContent
 
 	private final byte[] payload;
 
+	@Deprecated
 	public DummyDeferredMessageContent(byte[] payload)
 	{
 		this.payload = payload.clone();
 	}
 
+	@Deprecated
 	public byte[] getPayload()
 	{
 		return payload.clone();
 	}
 
+	@Deprecated
 	@ProtocolInfo(availableVersions = 0)
 	public static class SubProtocol extends DeferredMessageContent.SubProtocol<DummyDeferredMessageContent>
 	{

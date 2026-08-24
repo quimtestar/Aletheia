@@ -34,6 +34,7 @@ public class SendSignatureRequestDialogClient extends SendSignatureRequestDialog
 	private final SignatureRequest signatureRequest;
 	private boolean received;
 
+	@Deprecated
 	public SendSignatureRequestDialogClient(Phase phase, SignatureRequest signatureRequest)
 	{
 		super(phase);
@@ -41,11 +42,13 @@ public class SendSignatureRequestDialogClient extends SendSignatureRequestDialog
 		this.received = false;
 	}
 
+	@Deprecated
 	public boolean isReceived()
 	{
 		return received;
 	}
 
+	@Deprecated
 	@Override
 	protected void dialogate() throws IOException, ProtocolException, InterruptedException, TimeoutException
 	{
