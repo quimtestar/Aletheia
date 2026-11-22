@@ -1471,7 +1471,7 @@ public class CliJPanel extends JPanel implements CommandSource
 			document.insertString(offset, s, attributeSet);
 			inserting = false;
 		}
-		catch (BadLocationException e)
+		catch (BadLocationException | IndexOutOfBoundsException e)
 		{
 			logger.error(String.format("Could not insert string \"%s\" to CLI document at position %d", s, offset), e);
 		}
