@@ -627,7 +627,7 @@ public class CliJPanel extends JPanel implements CommandSource
 			{
 				super.replace(fb, ol.offset, ol.length, text, attrs);
 			}
-			catch (IllegalArgumentException e)
+			catch (IllegalArgumentException | ArrayIndexOutOfBoundsException e)
 			{
 				logger.warn("Exception caught", e);
 			}
